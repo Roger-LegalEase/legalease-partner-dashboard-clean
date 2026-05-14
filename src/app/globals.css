@@ -1,0 +1,501 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f8fa;
+  --panel: #ffffff;
+  --ink: #172033;
+  --muted: #5e6878;
+  --line: #d9dee8;
+  --accent: #17665a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.button {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  align-items: center;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 16px 28px;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 16px;
+}
+
+.brand {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 32px 24px;
+}
+
+.layout-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.sidebar {
+  border-right: 1px solid var(--line);
+  color: var(--muted);
+  padding-right: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.home-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);
+}
+
+.home-summary {
+  min-height: 220px;
+}
+
+.wilma-widget {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.wilma-widget__header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.wilma-widget h1 {
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.wilma-eyebrow {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.wilma-badge {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 10px;
+}
+
+.wilma-badge--likely_eligible {
+  background: #e8f5ef;
+  border-color: #b7ddcd;
+  color: #0f5f42;
+}
+
+.wilma-badge--manual_review,
+.wilma-badge--needs_information {
+  background: #fff7e8;
+  border-color: #edd5a7;
+  color: #7a5414;
+}
+
+.wilma-controls {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(160px, 220px);
+}
+
+.wilma-controls label,
+.wilma-compose,
+.wilma-email-gate {
+  display: grid;
+  gap: 6px;
+}
+
+.wilma-controls span,
+.wilma-email-gate span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.wilma-controls input,
+.wilma-controls select,
+.wilma-compose input,
+.wilma-email-gate input[type="email"] {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font: inherit;
+  min-height: 42px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.wilma-messages {
+  background: #f9fafc;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  max-height: 320px;
+  min-height: 220px;
+  overflow: auto;
+  padding: 12px;
+}
+
+.wilma-message {
+  border-radius: 8px;
+  line-height: 1.45;
+  max-width: 82%;
+  padding: 10px 12px;
+}
+
+.wilma-message--assistant {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  justify-self: start;
+}
+
+.wilma-message--user {
+  background: var(--accent);
+  color: #ffffff;
+  justify-self: end;
+}
+
+.admin-wilma {
+  display: grid;
+  gap: 20px;
+}
+
+.admin-wilma__header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.admin-wilma__header h1,
+.admin-wilma__details h2,
+.admin-wilma__details h3 {
+  margin-top: 0;
+}
+
+.admin-wilma__count {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 10px;
+}
+
+.admin-wilma__filters {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(160px, 1fr) 90px minmax(180px, 240px) auto;
+  margin: 18px 0;
+}
+
+.admin-wilma__filters input,
+.admin-wilma__filters select {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  min-height: 40px;
+  padding: 9px 10px;
+}
+
+.admin-wilma__grid {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+}
+
+.admin-wilma__sessions {
+  overflow-x: auto;
+}
+
+.admin-wilma__sessions table {
+  min-width: 760px;
+}
+
+.admin-wilma__sessions td a {
+  display: grid;
+  gap: 4px;
+}
+
+.admin-wilma__sessions td span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.admin-wilma__row--selected {
+  background: #eef6f4;
+}
+
+.admin-wilma__details {
+  border-left: 1px solid var(--line);
+  display: grid;
+  gap: 18px;
+  padding-left: 18px;
+}
+
+.admin-wilma__details section {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.admin-wilma__details section:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.admin-wilma__meta {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.admin-wilma__meta div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.admin-wilma__meta dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.admin-wilma__meta dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-wilma__codes {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-wilma__codes li {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+}
+
+.admin-wilma__codes span {
+  color: var(--muted);
+}
+
+.admin-wilma__transcript {
+  display: grid;
+  gap: 10px;
+  max-height: 380px;
+  overflow: auto;
+}
+
+.admin-wilma__message {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.admin-wilma__message--assistant {
+  background: #ffffff;
+}
+
+.admin-wilma__message--user {
+  background: #f5f8fb;
+}
+
+.admin-wilma__message p {
+  margin: 6px 0;
+  white-space: pre-wrap;
+}
+
+.admin-wilma__message span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.admin-wilma pre {
+  background: #0f1720;
+  border-radius: 8px;
+  color: #eef5f8;
+  margin: 0;
+  max-height: 360px;
+  overflow: auto;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.wilma-result {
+  align-items: start;
+  background: #eef7f4;
+  border: 1px solid #c8e4da;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+}
+
+.wilma-result span {
+  color: var(--muted);
+}
+
+.wilma-email-gate {
+  background: #fffaf0;
+  border: 1px solid #ead6a6;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.wilma-consent {
+  align-items: flex-start;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 18px minmax(0, 1fr);
+}
+
+.wilma-consent input {
+  margin: 3px 0 0;
+}
+
+.wilma-email-gate button {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.wilma-compose {
+  grid-template-columns: minmax(0, 1fr) 88px;
+}
+
+.wilma-compose button,
+.wilma-cta {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.wilma-compose button:disabled,
+.wilma-cta:disabled,
+.wilma-email-gate button:disabled {
+  background: #a7b0bd;
+  cursor: not-allowed;
+}
+
+.wilma-cta {
+  font-size: 16px;
+  width: 100%;
+}
+
+.wilma-error {
+  color: #9b1c1c;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-grid,
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wilma-controls,
+  .wilma-compose {
+    grid-template-columns: 1fr;
+  }
+
+  .wilma-message {
+    max-width: 92%;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 16px;
+  }
+}

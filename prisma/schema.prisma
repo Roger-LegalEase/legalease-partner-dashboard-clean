@@ -1,0 +1,392 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum ShieldCaseStatus {
+  DRAFT
+  IN_REVIEW
+  ACTION_REQUIRED
+  SUBMITTED
+  CLOSED
+}
+
+enum ProductOrderStatus {
+  PENDING
+  PAID
+  PAYMENT_FAILED
+  CANCELED
+}
+
+enum SubscriptionEntitlementStatus {
+  INCOMPLETE
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  UNPAID
+  CANCELED
+}
+
+enum MonitoringEnrollmentStatus {
+  ACTIVE
+  CANCELED
+  REVOKED
+}
+
+model User {
+  id                   String                    @id @default(cuid())
+  email                String                    @unique
+  name                 String?
+  role                 UserRole                  @default(CUSTOMER)
+  leadConsent          Boolean                   @default(false)
+  leadConsentAt        DateTime?
+  leadSource           String?
+  monitoringConsent    Boolean                   @default(false)
+  monitoringConsentAt  DateTime?
+  stripeCustomerId     String?                   @unique
+  cases                ShieldCase[]
+  auditEvents          AuditEvent[]
+  productOrders        ProductOrder[]
+  entitlements         SubscriptionEntitlement[]
+  providerCandidates   ProviderCandidate[]
+  monitoringEnrollments MonitoringEnrollment[]
+  wilmaChatSessions    WilmaChatSession[]
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+}
+
+model ShieldCase {
+  id                  String               @id @default(cuid())
+  ownerId             String
+  owner               User                 @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  status              ShieldCaseStatus     @default(DRAFT)
+  productKey          String
+  displayName         String
+  notes               String?
+  adminNotes          AdminCaseNote[]
+  operationState      CaseOperationState?
+  notices             CaseNotice[]
+  providerReports     ProviderReport[]
+  providerCandidates  ProviderCandidate[]
+  providerInvitations ProviderInvitation[]
+  monitoringEnrollments MonitoringEnrollment[]
+  monitoringAlerts    MonitoringAlert[]
+  wilmaChatSessions   WilmaChatSession[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@index([ownerId])
+  @@index([status])
+}
+
+model ProviderEvent {
+  id              String   @id @default(cuid())
+  provider        String
+  providerEventId String   @unique
+  type            String
+  payload         Json
+  processedAt     DateTime @default(now())
+  createdAt       DateTime @default(now())
+}
+
+model ProductOrder {
+  id                      String             @id @default(cuid())
+  userId                  String?
+  user                    User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  email                   String?
+  productKey              String
+  status                  ProductOrderStatus @default(PENDING)
+  amountCents             Int
+  currency                String             @default("usd")
+  stripeCustomerId        String?
+  stripeCheckoutSessionId String?            @unique
+  stripePaymentIntentId   String?            @unique
+  paidAt                  DateTime?
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([email])
+  @@index([stripeCustomerId])
+}
+
+model SubscriptionEntitlement {
+  id                   String                        @id @default(cuid())
+  userId               String?
+  user                 User?                         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  email                String?
+  productKey           String
+  status               SubscriptionEntitlementStatus @default(INCOMPLETE)
+  stripeCustomerId     String
+  stripeSubscriptionId String                        @unique
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean                       @default(false)
+  createdAt            DateTime                      @default(now())
+  updatedAt            DateTime                      @updatedAt
+
+  @@index([userId])
+  @@index([email])
+  @@index([stripeCustomerId])
+  @@index([status])
+}
+
+model ProviderCandidate {
+  id                  String               @id @default(cuid())
+  provider            String
+  providerCandidateId String               @unique
+  customId            String               @unique
+  email               String
+  userId              String?
+  user                User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  caseId              String?
+  case                ShieldCase?          @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  invitations         ProviderInvitation[]
+  reports             ProviderReport[]
+  monitoringEnrollments MonitoringEnrollment[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@index([provider])
+  @@index([email])
+  @@index([userId])
+  @@index([caseId])
+}
+
+model ProviderInvitation {
+  id                   String            @id @default(cuid())
+  provider             String
+  providerInvitationId String            @unique
+  providerCandidateId  String
+  candidate            ProviderCandidate @relation(fields: [providerCandidateId], references: [id], onDelete: Cascade)
+  caseId               String?
+  case                 ShieldCase?       @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  packageSlug          String
+  invitationUrl        String
+  status               String
+  expiresAt            DateTime?
+  completedAt          DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  @@index([provider])
+  @@index([providerCandidateId])
+  @@index([caseId])
+  @@index([status])
+}
+
+model ProviderReport {
+  id                  String             @id @default(cuid())
+  provider            String
+  providerReportId    String             @unique
+  providerCandidateId String?
+  candidate           ProviderCandidate? @relation(fields: [providerCandidateId], references: [id], onDelete: SetNull)
+  caseId              String?
+  case                ShieldCase?        @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  status              String
+  result              String?
+  adjudication        String?
+  assessment          String?
+  summary             Json
+  reportSummary       ReportSummary?
+  metadata            Json
+  completedAt         DateTime?
+  canceledAt          DateTime?
+  suspendedAt         DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@index([provider])
+  @@index([providerCandidateId])
+  @@index([caseId])
+  @@index([status])
+}
+
+model ReportSummary {
+  id                   String         @id @default(cuid())
+  providerReportId     String         @unique
+  providerReport       ProviderReport @relation(fields: [providerReportId], references: [id], onDelete: Cascade)
+  plainEnglishSummary  String
+  whatWasFound         Json
+  possibleImpact       Json
+  possibleErrors       Json
+  expungementReadiness Json
+  recommendedNextSteps Json
+  customerQuestions    Json
+  disclaimers          Json
+  confidence           String
+  model                String
+  rawOutput            Json
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@index([confidence])
+}
+
+model MonitoringEnrollment {
+  id                        String                     @id @default(cuid())
+  userId                    String
+  user                      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  caseId                    String?
+  case                      ShieldCase?                @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  providerCandidateId       String
+  candidate                 ProviderCandidate          @relation(fields: [providerCandidateId], references: [id], onDelete: Cascade)
+  status                    MonitoringEnrollmentStatus @default(ACTIVE)
+  consentType               String
+  provider                  String
+  providerContinuousCheckId String?                    @unique
+  enrolledAt                DateTime                   @default(now())
+  canceledAt                DateTime?
+  revokedAt                 DateTime?
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+
+  @@index([userId])
+  @@index([caseId])
+  @@index([providerCandidateId])
+  @@index([status])
+}
+
+model MonitoringAlert {
+  id                        String   @id @default(cuid())
+  userId                    String?
+  caseId                    String?
+  case                      ShieldCase? @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  provider                  String
+  providerAlertId           String   @unique
+  providerCandidateId       String?
+  providerContinuousCheckId String?
+  reportId                  String?
+  alertType                 String
+  title                     String
+  message                   String
+  metadata                  Json
+  createdAt                 DateTime @default(now())
+
+  @@index([userId])
+  @@index([caseId])
+  @@index([providerCandidateId])
+  @@index([providerContinuousCheckId])
+  @@index([createdAt])
+}
+
+model AdminCaseNote {
+  id            String     @id @default(cuid())
+  caseId        String
+  case          ShieldCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  authorUserId  String?
+  authorEmail   String?
+  body          String
+  createdAt     DateTime   @default(now())
+
+  @@index([caseId])
+  @@index([authorUserId])
+  @@index([createdAt])
+}
+
+model CaseOperationState {
+  id                         String     @id @default(cuid())
+  caseId                     String     @unique
+  case                       ShieldCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  manualReviewNeeded         Boolean    @default(false)
+  manualReviewReason         String?
+  manualReviewResolutionNote String?
+  manualReviewFlaggedAt      DateTime?
+  manualReviewFlaggedById    String?
+  manualReviewFlaggedByEmail String?
+  manualReviewResolvedAt     DateTime?
+  manualReviewResolvedById   String?
+  manualReviewResolvedByEmail String?
+  anonymizationStatus        String     @default("none")
+  anonymizationReason        String?
+  anonymizationRequestedAt   DateTime?
+  anonymizationRequestedById String?
+  anonymizationRequestedByEmail String?
+  anonymizationCompletedAt   DateTime?
+  anonymizationCompletedById String?
+  anonymizationCompletedByEmail String?
+  displayState               Json?
+  createdAt                  DateTime   @default(now())
+  updatedAt                  DateTime   @updatedAt
+
+  @@index([manualReviewNeeded])
+  @@index([anonymizationStatus])
+  @@index([updatedAt])
+}
+
+model CaseNotice {
+  id        String     @id @default(cuid())
+  caseId    String
+  case      ShieldCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  audience  String
+  severity  String
+  title     String
+  message   String
+  metadata  Json
+  createdAt DateTime   @default(now())
+
+  @@index([caseId])
+  @@index([audience])
+  @@index([severity])
+}
+
+model AuditEvent {
+  id          String   @id @default(cuid())
+  actorUserId String?
+  actor       User?    @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  actorEmail  String?
+  action      String
+  targetType  String
+  targetId    String?
+  metadata    Json
+  createdAt   DateTime @default(now())
+
+  @@index([actorUserId])
+  @@index([action])
+  @@index([targetType, targetId])
+}
+
+model WilmaChatSession {
+  id                    String             @id @default(cuid())
+  userId                String
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  caseId                String?
+  case                  ShieldCase?        @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  leadEmail             String?
+  decisionId            String?            @unique
+  facts                 Json
+  decision              Json?
+  documentPrepHandoffAt DateTime?
+  lastMessageAt         DateTime?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  messages              WilmaChatMessage[]
+
+  @@index([userId])
+  @@index([caseId])
+  @@index([leadEmail])
+  @@index([updatedAt])
+}
+
+model WilmaChatMessage {
+  id        String           @id @default(cuid())
+  sessionId String
+  session   WilmaChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userId    String
+  role      String
+  content   String
+  metadata  Json?
+  createdAt DateTime         @default(now())
+
+  @@index([sessionId])
+  @@index([userId])
+  @@index([createdAt])
+}
