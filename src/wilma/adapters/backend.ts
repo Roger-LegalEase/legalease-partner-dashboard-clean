@@ -504,7 +504,7 @@ export function createBackendWilmaChatAdapter(
     },
 
     async getSessionUsage({ sessionId }) {
-      const userMessageCount = await (db.wilmaChatMessage as { count(args: unknown): Promise<number> }).count({
+      const userMessageCount = await (db.wilmaChatMessage as unknown as { count(args: unknown): Promise<number> }).count({
         where: { sessionId, role: "user" }
       });
       const session = await db.wilmaChatSession.findUnique({
@@ -530,7 +530,7 @@ export function createBackendWilmaChatAdapter(
     },
 
     async countSessionsByEmailSince({ email, since }) {
-      return (db.wilmaChatSession as { count(args: unknown): Promise<number> }).count({
+      return (db.wilmaChatSession as unknown as { count(args: unknown): Promise<number> }).count({
         where: {
           leadEmail: email,
           createdAt: { gte: since }
