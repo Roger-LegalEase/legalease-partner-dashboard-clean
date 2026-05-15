@@ -60,8 +60,12 @@ async function verifyStripePaymentSuccess(request: Request): Promise<WilmaPaidCh
     throw new Error("Missing Stripe signature. Wilma payment success must come from a verified payment webhook.");
   }
 
-  const [{ stripe }, { env }] = await Promise.all([import("@/lib/billing/stripe"), import("@/lib/env")]);
-  const stripeEvent = stripe.webhooks.constructEvent(payload, signature, env.STRIPE_WEBHOOK_SECRET);
+  const [{ getStripe }, { env }] = await Promise.all([import("@/lib/billing/stripe"), import("@/lib/env")]);
+  if (!env.STRIPE_WEBHOOK_SECRET) {
+    throw new Error("STRIPE_WEBHOOK_SECRET is required for Stripe webhook verification.");
+  }
+
+  const stripeEvent = getStripe().webhooks.constructEvent(payload, signature, env.STRIPE_WEBHOOK_SECRET);
 
   if (stripeEvent.type !== "checkout.session.completed") {
     return {

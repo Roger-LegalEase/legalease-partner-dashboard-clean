@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/billing/stripe";
+import { getStripe } from "@/lib/billing/stripe";
 import { processStripeWebhookEvent, type BillingDatabase } from "@/lib/billing/webhooks";
 import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
@@ -15,7 +15,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const event = stripe.webhooks.constructEvent(payload, signature, env.STRIPE_WEBHOOK_SECRET);
+    if (!env.STRIPE_WEBHOOK_SECRET) {
+      throw new Error("STRIPE_WEBHOOK_SECRET is required for Stripe webhook verification.");
+    }
+
+    const event = getStripe().webhooks.constructEvent(payload, signature, env.STRIPE_WEBHOOK_SECRET);
     const result = await processStripeWebhookEvent(event, prisma as unknown as BillingDatabase);
     return NextResponse.json(result, { status: 202 });
   } catch (error) {

@@ -17,11 +17,16 @@ export function isMonitoringPlanKey(value: string): value is MonitoringPlanKey {
 }
 
 export function getMonitoringPriceId(planKey: MonitoringPlanKey, configEnv: Env = env): string {
-  const priceIds: Record<MonitoringPlanKey, string> = {
+  const priceIds: Record<MonitoringPlanKey, string | undefined> = {
     monitoring_monthly: configEnv.STRIPE_PRICE_MONITORING_LITE_MONTHLY,
     monitoring_annual: configEnv.STRIPE_PRICE_MONITORING_LITE_ANNUAL,
     monitoring_plus_monthly: configEnv.STRIPE_PRICE_MONITORING_PLUS_MONTHLY
   };
 
-  return priceIds[planKey];
+  const priceId = priceIds[planKey];
+  if (!priceId) {
+    throw new Error(`Stripe price is not configured for ${planKey}.`);
+  }
+
+  return priceId;
 }

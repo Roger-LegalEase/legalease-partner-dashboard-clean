@@ -8,7 +8,11 @@ export type PublicEnv = z.infer<typeof publicEnvSchema>;
 
 export function normalizePublicEnv(input: Record<string, string | undefined>): Record<string, string | undefined> {
   return {
-    NEXT_PUBLIC_APP_URL: input.NEXT_PUBLIC_APP_URL ?? input.APP_BASE_URL
+    NEXT_PUBLIC_APP_URL:
+      input.NEXT_PUBLIC_APP_URL ??
+      input.APP_BASE_URL ??
+      normalizeVercelUrl(input.VERCEL_URL) ??
+      "http://localhost:3000"
   };
 }
 
@@ -24,3 +28,11 @@ export function parsePublicEnv(input: Record<string, string | undefined>): Publi
 }
 
 export const publicEnv = parsePublicEnv(process.env);
+
+function normalizeVercelUrl(value: string | undefined): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  return value.startsWith("http://") || value.startsWith("https://") ? value : `https://${value}`;
+}

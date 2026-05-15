@@ -3,35 +3,36 @@ import { z } from "zod";
 import { normalizePublicEnv, publicEnvSchema } from "@/lib/public-env";
 
 const priceCents = z.coerce.number().int().positive().max(1_000_000);
+const optionalNonEmpty = z.string().min(1).optional();
 
 export const envSchema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    DATABASE_URL: z.string().url().startsWith("postgresql://"),
+    DATABASE_URL: z.string().url().startsWith("postgresql://").optional(),
     APP_BASE_URL: z.string().url(),
     ...publicEnvSchema.shape,
     NEXTAUTH_SECRET: z.string().optional(),
     DEV_AUTH_EMAIL: z.string().email().optional(),
     DEV_AUTH_ROLE: z.enum(["CUSTOMER", "ADMIN"]).default("CUSTOMER"),
-    RECORDSHIELD_BASIC_PRICE_CENTS: priceCents,
-    RECORDSHIELD_FAMILY_PRICE_CENTS: priceCents,
-    RECORDSHIELD_BUSINESS_PRICE_CENTS: priceCents,
-    STRIPE_SECRET_KEY: z.string().min(1),
-    STRIPE_WEBHOOK_SECRET: z.string().min(1),
-    STRIPE_PRICE_RECORD_CHECK: z.string().min(1),
-    STRIPE_PRICE_MONITORING_LITE_MONTHLY: z.string().min(1),
-    STRIPE_PRICE_MONITORING_LITE_ANNUAL: z.string().min(1),
-    STRIPE_PRICE_MONITORING_PLUS_MONTHLY: z.string().min(1),
-    STRIPE_PRICE_MONITORING_MONTHLY: z.string().min(1),
-    STRIPE_PRICE_MONITORING_ANNUAL: z.string().min(1),
-    CHECKR_API_KEY: z.string().min(1),
-    CHECKR_WEBHOOK_SECRET: z.string().min(1),
+    RECORDSHIELD_BASIC_PRICE_CENTS: priceCents.default(19_900),
+    RECORDSHIELD_FAMILY_PRICE_CENTS: priceCents.default(29_900),
+    RECORDSHIELD_BUSINESS_PRICE_CENTS: priceCents.default(49_900),
+    STRIPE_SECRET_KEY: optionalNonEmpty,
+    STRIPE_WEBHOOK_SECRET: optionalNonEmpty,
+    STRIPE_PRICE_RECORD_CHECK: optionalNonEmpty,
+    STRIPE_PRICE_MONITORING_LITE_MONTHLY: optionalNonEmpty,
+    STRIPE_PRICE_MONITORING_LITE_ANNUAL: optionalNonEmpty,
+    STRIPE_PRICE_MONITORING_PLUS_MONTHLY: optionalNonEmpty,
+    STRIPE_PRICE_MONITORING_MONTHLY: optionalNonEmpty,
+    STRIPE_PRICE_MONITORING_ANNUAL: optionalNonEmpty,
+    CHECKR_API_KEY: optionalNonEmpty,
+    CHECKR_WEBHOOK_SECRET: optionalNonEmpty,
     CHECKR_BASE_URL: z.string().url().default("https://api.checkr.com/v1"),
-    CHECKR_PACKAGE_SLUG: z.string().min(1),
+    CHECKR_PACKAGE_SLUG: optionalNonEmpty,
     CHECKR_NODE_CUSTOM_ID: z.string().optional(),
     CHECKR_WORK_LOCATION_COUNTRY: z.string().length(2).default("US"),
-    CHECKR_WORK_LOCATION_STATE: z.string().min(2),
-    CHECKR_WORK_LOCATION_CITY: z.string().min(1),
+    CHECKR_WORK_LOCATION_STATE: optionalNonEmpty,
+    CHECKR_WORK_LOCATION_CITY: optionalNonEmpty,
     OPENAI_API_KEY: z.string().min(1).optional(),
     OPENAI_MODEL: z.string().min(1).default("gpt-4o-mini"),
     OPENAI_REPORT_SUMMARY_MODEL: z.string().min(1).default("gpt-5.2"),
@@ -62,50 +63,22 @@ export const envSchema = z
 	    AI_SUMMARY_ENABLED: z.enum(["true", "false"]).default("true"),
 	    ADMIN_RETRY_ENABLED: z.enum(["true", "false"]).default("true"),
 	    DATA_DELETION_REQUEST_ENABLED: z.enum(["true", "false"]).default("true")
-	  })
-  .superRefine((value, context) => {
-    if (value.NODE_ENV !== "production") {
-      return;
-    }
-
-    const requiredProductionKeys: Array<keyof typeof value> = [
-      "DATABASE_URL",
-      "APP_BASE_URL",
-      "NEXTAUTH_SECRET",
-      "STRIPE_SECRET_KEY",
-      "STRIPE_WEBHOOK_SECRET",
-      "STRIPE_PRICE_RECORD_CHECK",
-      "STRIPE_PRICE_MONITORING_LITE_MONTHLY",
-      "STRIPE_PRICE_MONITORING_LITE_ANNUAL",
-      "STRIPE_PRICE_MONITORING_PLUS_MONTHLY",
-      "CHECKR_API_KEY",
-      "CHECKR_WEBHOOK_SECRET",
-      "OPENAI_API_KEY",
-      "BOT_PROTECTION_SECRET",
-      "ERROR_MONITORING_DSN",
-      "PRODUCTION_ALERT_WEBHOOK_URL"
-    ];
-
-    for (const key of requiredProductionKeys) {
-      if (!value[key]) {
-        context.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: [key],
-          message: "Required in production."
-        });
-      }
-    }
-  });
+	  });
 
 export type Env = z.infer<typeof envSchema>;
 
 export function normalizeEnv(input: Record<string, string | undefined>): Record<string, string | undefined> {
-  const isProduction = input.NODE_ENV === "production";
+  const normalizedPublicEnv = normalizePublicEnv(input);
+  const appBaseUrl =
+    input.APP_BASE_URL ??
+    input.NEXT_PUBLIC_APP_URL ??
+    normalizedPublicEnv.NEXT_PUBLIC_APP_URL ??
+    "http://localhost:3000";
 
   return {
     ...input,
-    ...normalizePublicEnv(input),
-    APP_BASE_URL: input.APP_BASE_URL ?? (isProduction ? undefined : input.NEXT_PUBLIC_APP_URL),
+    ...normalizedPublicEnv,
+    APP_BASE_URL: appBaseUrl,
     STRIPE_PRICE_MONITORING_LITE_MONTHLY:
       input.STRIPE_PRICE_MONITORING_LITE_MONTHLY ?? input.STRIPE_PRICE_MONITORING_MONTHLY,
     STRIPE_PRICE_MONITORING_LITE_ANNUAL:
@@ -118,7 +91,7 @@ export function normalizeEnv(input: Record<string, string | undefined>): Record<
 	      input.STRIPE_PRICE_MONITORING_LITE_ANNUAL,
 	    CHECKR_WEBHOOK_SECRET:
 	      input.CHECKR_WEBHOOK_SECRET ??
-	      (isProduction ? undefined : input.CHECKR_API_KEY),
+	      (input.NODE_ENV === "production" ? undefined : input.CHECKR_API_KEY),
 	    RATE_LIMIT_REDIS_REST_URL:
 	      input.RATE_LIMIT_REDIS_REST_URL ??
 	      input.UPSTASH_REDIS_REST_URL ??
@@ -140,7 +113,31 @@ export function parseEnv(input: Record<string, string | undefined>): Env {
 }
 
 export function assertProductionEnv(input: Record<string, string | undefined> = process.env): Env {
-  return parseEnv({ ...input, NODE_ENV: "production" });
+  const parsed = parseEnv({ ...input, NODE_ENV: "production" });
+  const requiredProductionKeys: Array<keyof Env> = [
+    "DATABASE_URL",
+    "APP_BASE_URL",
+    "NEXTAUTH_SECRET",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "STRIPE_PRICE_RECORD_CHECK",
+    "STRIPE_PRICE_MONITORING_LITE_MONTHLY",
+    "STRIPE_PRICE_MONITORING_LITE_ANNUAL",
+    "STRIPE_PRICE_MONITORING_PLUS_MONTHLY",
+    "CHECKR_API_KEY",
+    "CHECKR_WEBHOOK_SECRET",
+    "OPENAI_API_KEY",
+    "BOT_PROTECTION_SECRET",
+    "ERROR_MONITORING_DSN",
+    "PRODUCTION_ALERT_WEBHOOK_URL"
+  ];
+  const missing = requiredProductionKeys.filter((key) => !parsed[key]);
+
+  if (missing.length > 0) {
+    throw new Error(`Invalid environment variables: ${missing.map((key) => `${key}: Required in production.`).join("; ")}`);
+  }
+
+  return parsed;
 }
 
 export const env = parseEnv(process.env);

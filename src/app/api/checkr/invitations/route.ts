@@ -81,6 +81,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A paid RecordShield case is required." }, { status: 402 });
   }
 
+  if (!env.CHECKR_PACKAGE_SLUG) {
+    return NextResponse.json({ error: "Checkr invitations are not configured." }, { status: 503 });
+  }
+
   const customId = createLegalEaseCandidateCustomId(shieldCase.id);
   const existingCandidate = await prisma.providerCandidate.findUnique({
     where: { customId }

@@ -14,6 +14,10 @@ export async function POST(request: Request) {
   const signature = request.headers.get("x-checkr-signature");
   const payload = await request.text();
 
+  if (!env.CHECKR_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: "Checkr webhook verification is not configured." }, { status: 503 });
+  }
+
   if (!signature || !verifyCheckrSignature(payload, signature, env.CHECKR_WEBHOOK_SECRET)) {
     const rateLimit = await checkRateLimit({
       key: rateLimitKey(request, "webhook:checkr:invalid-signature"),

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { parseEnv } from "@/lib/env";
 import { parsePublicEnv } from "@/lib/public-env";
 
@@ -58,4 +58,47 @@ describe("parseEnv", () => {
     });
     expect(parsePublicEnv(validEnv)).not.toHaveProperty("STRIPE_SECRET_KEY");
   });
+
+  it("falls back public app URL to VERCEL_URL", () => {
+    expect(parsePublicEnv({ VERCEL_URL: "recordshield-staging.vercel.app" })).toEqual({
+      NEXT_PUBLIC_APP_URL: "https://recordshield-staging.vercel.app"
+    });
+  });
+
+  it("falls back APP_BASE_URL to NEXT_PUBLIC_APP_URL, then VERCEL_URL, then localhost", () => {
+    expect(parseEnv({ NEXT_PUBLIC_APP_URL: "https://public.example.com" }).APP_BASE_URL).toBe(
+      "https://public.example.com"
+    );
+    expect(parseEnv({ VERCEL_URL: "recordshield-staging.vercel.app" }).APP_BASE_URL).toBe(
+      "https://recordshield-staging.vercel.app"
+    );
+    expect(parseEnv({}).APP_BASE_URL).toBe("http://localhost:3000");
+  });
+
+  it("uses build-safe price cent defaults", () => {
+    expect(parseEnv({})).toMatchObject({
+      RECORDSHIELD_BASIC_PRICE_CENTS: 19900,
+      RECORDSHIELD_FAMILY_PRICE_CENTS: 29900,
+      RECORDSHIELD_BUSINESS_PRICE_CENTS: 49900
+    });
+  });
+
+  it("imports analytics without provider or database environment variables", async () => {
+    const originalEnv = process.env;
+    vi.resetModules();
+    process.env = {
+      NODE_ENV: "production",
+      VERCEL_URL: "recordshield-staging.vercel.app"
+    };
+
+    try {
+      await expect(import("@/lib/analytics")).resolves.toHaveProperty("trackAnalyticsEvent");
+    } finally {
+      process.env = originalEnv;
+    }
+  });
+});
+
+afterEach(() => {
+  vi.resetModules();
 });

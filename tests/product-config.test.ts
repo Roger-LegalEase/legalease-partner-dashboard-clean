@@ -35,4 +35,12 @@ describe("createProductConfig", () => {
     expect(config.family.formattedPrice).toBe("$99");
     expect(config.business.formattedPrice).toBe("$199");
   });
+
+  it("uses default price cents when build env omits product pricing", () => {
+    const config = createProductConfig(parseEnv({ NEXT_PUBLIC_APP_URL: "http://localhost:3000" }));
+
+    expect(config.basic.priceCents).toBe(19900);
+    expect(config.family.priceCents).toBe(29900);
+    expect(config.business.priceCents).toBe(49900);
+  });
 });

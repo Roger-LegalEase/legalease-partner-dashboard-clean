@@ -7,7 +7,7 @@ import {
   type MonitoringPlanKey,
   recordCheckProductKey
 } from "@/lib/billing/products";
-import { stripe } from "@/lib/billing/stripe";
+import { getStripe } from "@/lib/billing/stripe";
 import { prisma } from "@/lib/prisma";
 
 const recordCheckAmountCents = 19_900;
@@ -50,7 +50,8 @@ export async function createRecordCheckCheckoutSession(
   dependencies: CheckoutServiceDependencies = {}
 ): Promise<CheckoutSession> {
   const configEnv = dependencies.configEnv ?? env;
-  const stripeClient = dependencies.stripeClient ?? stripe;
+  assertCheckoutEnv(configEnv, ["STRIPE_PRICE_RECORD_CHECK"]);
+  const stripeClient = dependencies.stripeClient ?? getStripe();
 
   return stripeClient.checkout.sessions.create({
     mode: "payment",
@@ -82,7 +83,8 @@ export async function createDocumentPrepCheckoutSession(
   dependencies: CheckoutServiceDependencies = {}
 ): Promise<CheckoutSession> {
   const configEnv = dependencies.configEnv ?? env;
-  const stripeClient = dependencies.stripeClient ?? stripe;
+  assertCheckoutEnv(configEnv, ["STRIPE_PRICE_RECORD_CHECK"]);
+  const stripeClient = dependencies.stripeClient ?? getStripe();
 
   return stripeClient.checkout.sessions.create({
     mode: "payment",
@@ -112,7 +114,12 @@ export async function createMonitoringCheckoutSession(
   dependencies: CheckoutServiceDependencies = {}
 ): Promise<CheckoutSession> {
   const configEnv = dependencies.configEnv ?? env;
-  const stripeClient = dependencies.stripeClient ?? stripe;
+  assertCheckoutEnv(configEnv, [
+    "STRIPE_PRICE_MONITORING_LITE_MONTHLY",
+    "STRIPE_PRICE_MONITORING_LITE_ANNUAL",
+    "STRIPE_PRICE_MONITORING_PLUS_MONTHLY"
+  ]);
+  const stripeClient = dependencies.stripeClient ?? getStripe();
 
   return stripeClient.checkout.sessions.create({
     mode: "subscription",
@@ -145,7 +152,7 @@ export async function createBillingPortalSession(
   dependencies: CheckoutServiceDependencies = {}
 ): Promise<CheckoutSession | null> {
   const configEnv = dependencies.configEnv ?? env;
-  const stripeClient = dependencies.stripeClient ?? stripe;
+  const stripeClient = dependencies.stripeClient ?? getStripe();
   const db = dependencies.db ?? prisma;
   const dbUser = await db.user.findUnique({
     where: { email: user.email },
@@ -160,4 +167,11 @@ export async function createBillingPortalSession(
     customer: dbUser.stripeCustomerId,
     return_url: `${configEnv.APP_BASE_URL}/dashboard`
   });
+}
+
+function assertCheckoutEnv(configEnv: Env, keys: Array<keyof Env>): void {
+  const missing = keys.filter((key) => !configEnv[key]);
+  if (missing.length > 0) {
+    throw new Error(`Stripe checkout is not configured: missing ${missing.join(", ")}.`);
+  }
 }

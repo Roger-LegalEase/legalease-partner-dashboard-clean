@@ -91,6 +91,10 @@ export function buildCreateInvitationRequest(
   input: CheckrInvitationInput,
   configEnv: Env = env
 ): CheckrRequest {
+  if (!input.packageSlug && !configEnv.CHECKR_PACKAGE_SLUG) {
+    throw new Error("CHECKR_PACKAGE_SLUG is required to create Checkr invitations.");
+  }
+
   return {
     path: "/invitations",
     method: "POST",
@@ -132,6 +136,10 @@ export function createLegalEaseCandidateCustomId(caseId: string): string {
 }
 
 function defaultWorkLocation(configEnv: Env): CheckrWorkLocation {
+  if (!configEnv.CHECKR_WORK_LOCATION_STATE || !configEnv.CHECKR_WORK_LOCATION_CITY) {
+    throw new Error("CHECKR_WORK_LOCATION_STATE and CHECKR_WORK_LOCATION_CITY are required for Checkr actions.");
+  }
+
   return {
     country: configEnv.CHECKR_WORK_LOCATION_COUNTRY,
     state: configEnv.CHECKR_WORK_LOCATION_STATE,
@@ -140,6 +148,10 @@ function defaultWorkLocation(configEnv: Env): CheckrWorkLocation {
 }
 
 async function checkrFetch<T>(request: CheckrRequest): Promise<T> {
+  if (!env.CHECKR_API_KEY) {
+    throw new Error("CHECKR_API_KEY is required for Checkr runtime actions.");
+  }
+
   const response = await fetch(`${env.CHECKR_BASE_URL}${request.path}`, {
     method: request.method,
     headers: {
