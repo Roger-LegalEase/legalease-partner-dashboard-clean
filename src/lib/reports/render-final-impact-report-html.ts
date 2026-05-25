@@ -7,7 +7,7 @@ import type {
   FinalImpactTableRow
 } from "@/lib/reports/partner-final-impact-report-data";
 
-const templatePath = path.join(process.cwd(), "lib", "reports", "templates", "legalese-final-impact-report.html");
+const templatePath = path.join(process.cwd(), "src", "lib", "reports", "templates", "legalese-final-impact-report.html");
 
 export async function renderFinalImpactReportHtml(report: FinalImpactReportData, narrative: FinalImpactReportNarrative) {
   const template = await readFile(templatePath, "utf8");

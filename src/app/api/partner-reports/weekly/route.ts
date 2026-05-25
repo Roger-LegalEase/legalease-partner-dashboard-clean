@@ -44,7 +44,8 @@ export async function POST(request: Request) {
         "cache-control": "no-store"
       }
     });
-  } catch {
+  } catch (error) {
+    console.error("Weekly report generation failed:", error);
     return NextResponse.json({ error: reportErrorMessage }, { status: 500 });
   }
 }

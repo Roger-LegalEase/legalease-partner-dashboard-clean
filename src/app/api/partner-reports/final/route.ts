@@ -42,7 +42,8 @@ export async function POST(request: Request) {
         "cache-control": "no-store"
       }
     });
-  } catch {
+  } catch (error) {
+    console.error("Final impact report generation failed:", error);
     return NextResponse.json({ error: "Could not generate final impact report." }, { status: 500 });
   }
 }

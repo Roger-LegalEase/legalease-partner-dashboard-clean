@@ -3,7 +3,7 @@ import path from "node:path";
 import type { WeeklyReportNarrative } from "@/lib/reports/generate-weekly-report-narrative";
 import type { PartnerWeeklyReportData } from "@/lib/reports/partner-weekly-report-data";
 
-const templatePath = path.join(process.cwd(), "lib", "reports", "templates", "legalese-weekly-report.html");
+const templatePath = path.join(process.cwd(), "src", "lib", "reports", "templates", "legalese-weekly-report.html");
 
 export async function renderWeeklyReportHtml(report: PartnerWeeklyReportData, narrative: WeeklyReportNarrative) {
   const template = await readFile(templatePath, "utf8");
