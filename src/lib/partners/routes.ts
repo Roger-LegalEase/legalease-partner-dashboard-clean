@@ -48,6 +48,10 @@ export function internalAdminActionApi() {
   return "/api/internal/partners/admin-action";
 }
 
+export function internalSupabaseCheck() {
+  return "/internal/partners/supabase-check";
+}
+
 export function weeklyReportApi() {
   return "/api/partner-reports/weekly";
 }

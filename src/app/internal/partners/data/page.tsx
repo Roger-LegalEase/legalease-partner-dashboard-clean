@@ -9,7 +9,8 @@ import {
   internalAdmin,
   internalAdminDetail,
   internalProvisioning,
-  internalProvisioningDetail
+  internalProvisioningDetail,
+  internalSupabaseCheck
 } from "@/lib/partners/routes";
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 
@@ -92,6 +93,9 @@ export default async function InternalPartnerDataPage() {
             <div className="grid gap-2 text-sm font-semibold text-navy">
               <p>Setup guide: docs/supabase-partner-setup.md</p>
               <p>Checklist: docs/supabase-partner-setup-checklist.md</p>
+              <Link href={internalSupabaseCheck()} className="text-teal hover:text-navy">
+                Live Supabase Check
+              </Link>
             </div>
           </div>
 
@@ -103,6 +107,7 @@ export default async function InternalPartnerDataPage() {
             <SetupItem label="Env check command" value="npm run partners:check-supabase-env" />
             <SetupItem label="Readiness command" value="npm run partners:verify-supabase-readiness" />
             <SetupItem label="Live read command" value="npm run partners:verify-supabase-live-read" />
+            <SetupItem label="Live check route" value={internalSupabaseCheck()} />
           </div>
 
           <div className="mt-5 grid gap-2 md:grid-cols-3">
