@@ -159,3 +159,25 @@ npm run build
 Open `/internal/partners/data` and confirm the repository mode, Supabase configured status, data source label, partner count, and seeded partner slugs.
 
 Stripe is still not connected. CRM integration, email sending, production auth, and RLS policy hardening remain later phases.
+
+## Phase 10: Live Supabase Connection Verification
+
+Phase 10 adds a read-only live verification layer for confirming that Partner Journey OS records are available from Supabase after the schema, seed data, and environment variables are configured.
+
+- New route: `/internal/partners/supabase-check`
+- New doc: `docs/supabase-live-verification.md`
+- New script: `npm run partners:verify-supabase-required-partners`
+- Expected live result: repository mode is `supabase`, partner count is at least `3`, and `demo-partner`, `we-must-vote`, and `fulton-county` are found.
+
+Verification commands:
+
+```bash
+npm run partners:check-supabase-env
+npm run partners:verify-supabase-readiness
+npm run partners:verify-supabase-live-read
+npm run partners:verify-supabase-required-partners
+```
+
+Do not commit real Supabase keys. Do not print the service role key in docs, code, screenshots, or public pages. `SUPABASE_SERVICE_ROLE_KEY` remains server-only.
+
+Stripe is still not connected.
