@@ -109,9 +109,9 @@ export function getActivationReadiness(slug: string): ActivationReadiness | unde
     },
     {
       id: "mock_only",
-      label: "Admin writes are mock-only in Phase 7",
+      label: "Admin writes are write-ready in Phase 8",
       state: "mock_only",
-      detail: "Persistent admin writes will be enabled in the Supabase write phase."
+      detail: "Persistent admin writes run only when Supabase partner data is enabled and configured."
     }
   ];
 

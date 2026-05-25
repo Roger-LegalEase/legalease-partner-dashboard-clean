@@ -10,9 +10,12 @@ import type {
   PartnerProvisioningStatus,
   PartnerQualificationStatus,
   PartnerRecord,
+  PartnerWriteResult,
   ProgramTier,
   RecordClearingNeed
 } from "./types";
+
+type PartnerEventPayload = Record<string, string | number | boolean | null>;
 
 export type PartnerRepositoryMode = "local_seeded" | "local_fallback" | "supabase";
 
@@ -119,12 +122,296 @@ export async function getPartnerMetricsBySlug(slug: string): Promise<PartnerMetr
   return (await getPartnerRecordBySlug(slug))?.metrics;
 }
 
+export async function updatePartnerPaymentStatus(
+  slug: string,
+  paymentStatus: PartnerPaymentStatus
+): Promise<PartnerWriteResult> {
+  return updatePartnerRecordField(slug, "payment_status", paymentStatus, "update_partner_payment_status");
+}
+
+export async function updatePartnerQualificationStatus(
+  slug: string,
+  qualificationStatus: PartnerQualificationStatus
+): Promise<PartnerWriteResult> {
+  return updatePartnerRecordField(slug, "qualification_status", qualificationStatus, "update_partner_qualification_status");
+}
+
+export async function updatePartnerProvisioningStatus(
+  slug: string,
+  provisioningStatus: PartnerProvisioningStatus
+): Promise<PartnerWriteResult> {
+  return updatePartnerRecordField(slug, "provisioning_status", provisioningStatus, "update_partner_provisioning_status");
+}
+
+export async function updatePartnerAssetStatus(
+  slug: string,
+  assetKey: PartnerAssetKey,
+  status: PartnerAssetStatus
+): Promise<PartnerWriteResult> {
+  const readiness = await getWriteReadiness(slug, "update_partner_asset_status");
+  if (!readiness.ready) {
+    return readiness.result;
+  }
+
+  const partner = readiness.partner;
+  if (!partner.assets[assetKey]) {
+    return writeFailure(slug, "update_partner_asset_status", readiness.mode, `Unknown asset key: ${assetKey}.`);
+  }
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return localFallbackResult(slug, "update_partner_asset_status");
+    }
+
+    const { error } = await supabase
+      .from("partner_assets")
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq("partner_slug", slug)
+      .eq("asset_key", assetKey);
+
+    if (error) {
+      return writeFailure(slug, "update_partner_asset_status", "supabase", "Supabase asset status update failed.", error.message);
+    }
+
+    return supabaseSuccess(slug, "update_partner_asset_status");
+  } catch (error) {
+    return writeFailure(slug, "update_partner_asset_status", "supabase", "Supabase asset status update failed.", getErrorMessage(error));
+  }
+}
+
+export async function addPartnerEvent(
+  slug: string,
+  eventType: string,
+  eventLabel: string,
+  eventPayload: PartnerEventPayload = {}
+): Promise<PartnerWriteResult> {
+  const readiness = await getWriteReadiness(slug, "add_partner_event");
+  if (!readiness.ready) {
+    return readiness.result;
+  }
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return localFallbackResult(slug, "add_partner_event");
+    }
+
+    const { error } = await supabase.from("partner_events").insert({
+      partner_slug: slug,
+      event_type: eventType,
+      event_label: eventLabel,
+      event_payload: eventPayload
+    });
+
+    if (error) {
+      return writeFailure(slug, "add_partner_event", "supabase", "Supabase partner event insert failed.", error.message);
+    }
+
+    return supabaseSuccess(slug, "add_partner_event");
+  } catch (error) {
+    return writeFailure(slug, "add_partner_event", "supabase", "Supabase partner event insert failed.", getErrorMessage(error));
+  }
+}
+
+export async function addPartnerInternalNote(
+  slug: string,
+  note: string,
+  author = "LegalEase internal admin"
+): Promise<PartnerWriteResult> {
+  return addPartnerEvent(slug, "internal_note", "Internal note", {
+    note,
+    author,
+    source: "admin_action"
+  });
+}
+
+export async function activatePartner(slug: string): Promise<PartnerWriteResult> {
+  return updatePartnerProvisioningStatus(slug, "active");
+}
+
+export async function pausePartner(slug: string): Promise<PartnerWriteResult> {
+  return updatePartnerProvisioningStatus(slug, "paused");
+}
+
 function isSupabasePartnerDataEnabled(): boolean {
   return process.env.ENABLE_SUPABASE_PARTNER_DATA === "true";
 }
 
 async function shouldReadSupabase(): Promise<boolean> {
   return (await getPartnerRepositoryMode()) === "supabase";
+}
+
+type WriteReadiness =
+  | {
+      ready: true;
+      mode: "supabase";
+      partner: PartnerRecord;
+    }
+  | {
+      ready: false;
+      result: PartnerWriteResult;
+      mode: PartnerRepositoryMode;
+    };
+
+async function getWriteReadiness(slug: string, action: string): Promise<WriteReadiness> {
+  const mode = await getPartnerRepositoryMode();
+  const partner = await getPartnerRecordBySlug(slug);
+
+  if (!partner) {
+    return {
+      ready: false,
+      mode,
+      result: writeFailure(slug, action, mode, `Partner ${slug} was not found.`)
+    };
+  }
+
+  if (mode === "local_seeded") {
+    return {
+      ready: false,
+      mode,
+      result: localSeededResult(slug, action)
+    };
+  }
+
+  if (mode === "local_fallback") {
+    return {
+      ready: false,
+      mode,
+      result: localFallbackResult(slug, action)
+    };
+  }
+
+  const supabasePartnerExists = await partnerExistsInSupabase(slug);
+  if (supabasePartnerExists !== true) {
+    return {
+      ready: false,
+      mode,
+      result: writeFailure(
+        slug,
+        action,
+        mode,
+        supabasePartnerExists === false ? `Partner ${slug} was not found.` : "Unable to verify partner before Supabase write.",
+        supabasePartnerExists === false ? undefined : supabasePartnerExists
+      )
+    };
+  }
+
+  return {
+    ready: true,
+    mode,
+    partner
+  };
+}
+
+async function partnerExistsInSupabase(slug: string): Promise<true | false | string> {
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return "Supabase is not configured.";
+    }
+
+    const { data, error } = await supabase
+      .from("partner_records")
+      .select("partner_slug")
+      .eq("partner_slug", slug)
+      .maybeSingle();
+
+    if (error) {
+      return error.message;
+    }
+
+    return Boolean(data);
+  } catch (error) {
+    return getErrorMessage(error);
+  }
+}
+
+async function updatePartnerRecordField(
+  slug: string,
+  column: "payment_status" | "qualification_status" | "provisioning_status",
+  value: string,
+  action: string
+): Promise<PartnerWriteResult> {
+  const readiness = await getWriteReadiness(slug, action);
+  if (!readiness.ready) {
+    return readiness.result;
+  }
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return localFallbackResult(slug, action);
+    }
+
+    const { error } = await supabase
+      .from("partner_records")
+      .update({ [column]: value, updated_at: new Date().toISOString() })
+      .eq("partner_slug", slug);
+
+    if (error) {
+      return writeFailure(slug, action, "supabase", "Supabase partner record update failed.", error.message);
+    }
+
+    return supabaseSuccess(slug, action);
+  } catch (error) {
+    return writeFailure(slug, action, "supabase", "Supabase partner record update failed.", getErrorMessage(error));
+  }
+}
+
+function localSeededResult(slug: string, action: string): PartnerWriteResult {
+  return {
+    success: true,
+    persisted: false,
+    mode: "local_seeded",
+    partnerSlug: slug,
+    action,
+    message: "Supabase partner data is disabled. Mock action accepted but not persisted."
+  };
+}
+
+function localFallbackResult(slug: string, action: string): PartnerWriteResult {
+  return {
+    success: true,
+    persisted: false,
+    mode: "local_fallback",
+    partnerSlug: slug,
+    action,
+    message: "Supabase is not configured. Mock action accepted but not persisted."
+  };
+}
+
+function supabaseSuccess(slug: string, action: string): PartnerWriteResult {
+  return {
+    success: true,
+    persisted: true,
+    mode: "supabase",
+    partnerSlug: slug,
+    action,
+    message: "Partner record updated."
+  };
+}
+
+function writeFailure(
+  slug: string,
+  action: string,
+  mode: PartnerRepositoryMode,
+  message: string,
+  error?: string
+): PartnerWriteResult {
+  return {
+    success: false,
+    persisted: false,
+    mode,
+    partnerSlug: slug,
+    action,
+    message,
+    error
+  };
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "Unknown Supabase write error.";
 }
 
 function mapPartnerRecordRow(

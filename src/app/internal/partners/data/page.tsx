@@ -29,7 +29,7 @@ export default async function InternalPartnerDataPage() {
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Partner Data Layer</h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-grayWilma-700">
-              Read-only diagnostic view for the local seeded partner data service boundary.
+              Diagnostic view for the partner data service boundary and Supabase write readiness.
             </p>
           </div>
           <Card className="rounded-md p-5">
@@ -45,6 +45,35 @@ export default async function InternalPartnerDataPage() {
               <Badge tone="blue">Supabase-ready service boundary</Badge>
             </div>
           </Card>
+        </section>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h2 className="text-lg font-black text-navy">Write mode status</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
+                Admin writes are enabled only when ENABLE_SUPABASE_PARTNER_DATA=true and Supabase credentials are
+                configured. Otherwise admin actions return safe fallback responses and do not persist.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link href={internalAdmin()} className="text-sm font-semibold text-teal hover:text-navy">
+                Admin route
+              </Link>
+              <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
+                Provisioning route
+              </Link>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-3">
+            <Badge tone={repositoryMode === "supabase" ? "teal" : "blue"}>Repository mode: {repositoryMode}</Badge>
+            <Badge tone={isSupabaseConfigured() ? "teal" : "neutral"}>
+              Supabase configured: {isSupabaseConfigured() ? "yes" : "no"}
+            </Badge>
+            <Badge tone={supabasePartnerDataEnabled ? "teal" : "neutral"}>
+              Supabase partner data enabled: {supabasePartnerDataEnabled ? "yes" : "no"}
+            </Badge>
+          </div>
         </section>
 
         <section className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -51,7 +51,7 @@ export default async function InternalPartnerAdminDetailPage({
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_0.82fr]">
           <Card className="rounded-md p-6">
-            <Badge tone="orange">Internal LegalEase admin. Mock-only actions.</Badge>
+            <Badge tone="orange">Internal LegalEase admin. Write-ready actions.</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy">{record.partnerName}</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">{record.programGoal}</p>
             <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -79,7 +79,7 @@ export default async function InternalPartnerAdminDetailPage({
         </section>
 
         <div className="mt-8">
-          <AdminActionPanel partnerSlug={record.partnerSlug} />
+          <AdminActionPanel partnerSlug={record.partnerSlug} assets={assets} />
         </div>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-3">
@@ -97,8 +97,8 @@ export default async function InternalPartnerAdminDetailPage({
             title="Payment status"
             lines={[
               `Status: ${getPaymentStatusLabel(record.paymentStatus)}`,
-              "Stripe is not enabled in Phase 7.",
-              "Manual/demo payment marking is mock-only."
+              "Stripe is not enabled in Phase 8.",
+              "Manual/demo payment marking records demo_paid only."
             ]}
           />
           <OperationalSection
@@ -116,9 +116,9 @@ export default async function InternalPartnerAdminDetailPage({
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black text-navy">Asset activation</h2>
-              <p className="mt-2 text-sm text-grayWilma-700">Current partner assets and mock activation controls.</p>
+              <p className="mt-2 text-sm text-grayWilma-700">Current partner assets and write-ready activation controls.</p>
             </div>
-            <Badge tone="orange">Mock-only</Badge>
+            <Badge tone="orange">Write-ready</Badge>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {assets.map((asset) => (
@@ -163,8 +163,8 @@ export default async function InternalPartnerAdminDetailPage({
           <Card className="rounded-md p-6">
             <h2 className="text-lg font-black text-navy">Admin notes</h2>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              No persistent internal notes are stored in Phase 7. Notes submitted above are sent to the mock API response
-              path only and are not written to local data, browser storage, or Supabase.
+              Internal notes are routed through the server-side write layer. They persist only when Supabase partner data
+              is enabled and configured; fallback mode never writes to local data or browser storage.
             </p>
           </Card>
           <Card className="rounded-md p-6">
@@ -172,7 +172,7 @@ export default async function InternalPartnerAdminDetailPage({
             <div className="mt-4 grid gap-2 text-sm font-semibold text-grayWilma-800">
               <p>Auth and role checks before production access.</p>
               <p>Supabase write mutations with server-side service role handling only.</p>
-              <p>Audit trail persistence for admin actions and internal notes.</p>
+              <p>Audit trail persistence for admin actions and internal notes when Supabase is configured.</p>
               <p>Stripe payment source of truth in a later phase.</p>
             </div>
           </Card>
@@ -252,7 +252,7 @@ function AssetAdminCard({ asset }: { asset: PartnerAsset }) {
         {asset.route ? <p><span className="font-bold text-navy">Route:</span> {asset.route}</p> : null}
       </div>
       <p className="mt-4 text-xs font-semibold text-grayWilma-600">
-        Asset readiness changes are submitted through the mock action panel and do not persist in Phase 7.
+        Asset readiness changes are submitted through the write-ready action panel and persist only in Supabase mode.
       </p>
     </Card>
   );

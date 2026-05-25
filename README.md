@@ -57,7 +57,7 @@ ENABLE_SUPABASE_PARTNER_DATA=false
 
 ## Partner Admin Activation Layer
 
-Phase 7 adds an internal LegalEase admin activation workflow for manually reviewing partner records before Stripe, CRM, email sending, full auth, and Supabase writes are enabled.
+Phase 7 added an internal LegalEase admin activation workflow for manually reviewing partner records before Stripe, CRM, email sending, full auth, and durable Supabase writes are enabled.
 
 - Admin command center: `/internal/partners/admin`
 - Partner admin detail: `/internal/partners/admin/[partnerSlug]`
@@ -65,10 +65,26 @@ Phase 7 adds an internal LegalEase admin activation workflow for manually review
 - Existing provisioning detail pages link to the admin activation detail route.
 - The data diagnostic page links to both admin activation and provisioning views.
 
-Admin actions are mock-only in this phase. They validate action names and partner slugs, return `persisted: false`, and do not write to local seeded data, browser storage, Supabase, Stripe, CRM, or email systems. Persistent admin writes are reserved for the future Supabase write phase. Payment source-of-truth behavior is reserved for the future Stripe phase.
+Admin actions validate action names, partner slugs, required asset keys, and required note text. Phase 8 routes supported actions through the Supabase Partner Write Layer, while Stripe payment source-of-truth behavior remains reserved for the future Stripe phase.
 
 Test the mock action registry with:
 
 ```bash
 npm run partners:test-admin-actions
+```
+
+## Supabase Partner Write Layer
+
+Phase 8 makes internal admin actions write-ready through server-side partner repository functions.
+
+- If Supabase partner data is disabled, admin actions return safe fallback responses with `persisted: false`.
+- If Supabase partner data is enabled and configured, writes go through the server-side repository only.
+- Payment complete records `demo_paid` until Stripe is added in a later phase.
+- `SUPABASE_SERVICE_ROLE_KEY` must remain server-side and must never be exposed to browser code.
+- Stripe, CRM integration, email sending, production auth, and RLS policy hardening remain later phases.
+
+Test the write layer smoke checks with:
+
+```bash
+npm run partners:test-write-layer
 ```
