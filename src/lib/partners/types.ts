@@ -75,6 +75,16 @@ export type PartnerEvent = {
   createdAt: string;
 };
 
+export type PartnerWriteResult = {
+  success: boolean;
+  persisted: boolean;
+  mode: "local_seeded" | "local_fallback" | "supabase";
+  message: string;
+  partnerSlug?: string;
+  action?: string;
+  error?: string;
+};
+
 export type PartnerRecord = {
   partnerId: string;
   partnerSlug: string;

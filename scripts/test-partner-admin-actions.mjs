@@ -32,7 +32,7 @@ try {
   }
 
   assert(!isSupportedPartnerAdminAction("send_real_email"), "Action validator accepted unsupported action.");
-  console.log(`Partner admin action registry check passed for ${requiredActions.length} mock actions.`);
+  console.log(`Partner admin action registry check passed for ${requiredActions.length} admin actions.`);
 } catch (error) {
   console.error(error instanceof Error ? error.message : "Partner admin action registry check failed.");
   process.exit(1);
