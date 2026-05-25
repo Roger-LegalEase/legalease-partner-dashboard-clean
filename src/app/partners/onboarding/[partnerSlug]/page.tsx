@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CheckCircle2, CircleDashed, ExternalLink, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getMockPartner, isMockPaid } from "@/lib/partner-program-data";
+import { getMockPartner, getPartnerRoutes, isMockPaid } from "@/lib/partner-program-data";
 import { ReportDownloadButton } from "./ReportDownloadButton";
 
 const setupSections = [
@@ -28,6 +28,7 @@ export default async function PartnerOnboardingPage({
   const resolvedSearchParams = await searchParams;
   const partner = getMockPartner(partnerSlug);
   const paid = isMockPaid(resolvedSearchParams);
+  const routes = getPartnerRoutes(partner.slug);
 
   if (!paid) {
     return (
@@ -92,9 +93,27 @@ export default async function PartnerOnboardingPage({
           ))}
         </section>
 
+        <section className="mt-8 grid gap-4 lg:grid-cols-3">
+          <HubCard
+            title="Launch Kit"
+            body="Preview partner announcement copy, email copy, social copy, staff talking points, intake link, and reporting schedule."
+            href={routes.launchKit}
+          />
+          <HubCard
+            title="Email Sequence"
+            body="Review the partner-facing onboarding, launch prep, weekly reporting, and final impact report email previews."
+            href={routes.emailSequence}
+          />
+          <HubCard
+            title="Internal provisioning status"
+            body="LegalEase operations view for asset status, owners, next actions, and launch readiness. Internal only."
+            href={routes.internalProvisioning}
+          />
+        </section>
+
         <section className="mt-8 grid gap-3 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm md:grid-cols-2 lg:grid-cols-4">
-          <ActionLink href={`/p/${partner.slug}?paid=true`} label="View co-branded page" />
-          <ActionLink href="/dashboard/partners" label="View dashboard" />
+          <ActionLink href={routes.coBrandedPage} label="View co-branded page" />
+          <ActionLink href={routes.dashboard} label="View dashboard" />
           <ReportDownloadButton
             endpoint="/api/partner-reports/weekly"
             filename="legalease-weekly-report.pdf"
@@ -140,6 +159,30 @@ function LockedState({
         </Link>
       </Card>
     </div>
+  );
+}
+
+function HubCard({
+  title,
+  body,
+  href
+}: {
+  title: string;
+  body: string;
+  href: string;
+}) {
+  return (
+    <Card className="rounded-md p-5">
+      <h2 className="text-lg font-black text-navy">{title}</h2>
+      <p className="mt-2 text-sm leading-6 text-grayWilma-700">{body}</p>
+      <Link
+        href={href}
+        className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-grayWilma-200 bg-[#f7f8f6] px-4 py-2 text-sm font-semibold text-navy transition hover:border-teal hover:bg-teal/10"
+      >
+        Open
+        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+      </Link>
+    </Card>
   );
 }
 
