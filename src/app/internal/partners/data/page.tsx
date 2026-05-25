@@ -5,7 +5,12 @@ import {
   getAllPartnerRecords,
   getPartnerRepositoryMode
 } from "@/lib/partners/partner-repository";
-import { internalProvisioning, internalProvisioningDetail } from "@/lib/partners/routes";
+import {
+  internalAdmin,
+  internalAdminDetail,
+  internalProvisioning,
+  internalProvisioningDetail
+} from "@/lib/partners/routes";
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 
 export default async function InternalPartnerDataPage() {
@@ -56,19 +61,34 @@ export default async function InternalPartnerDataPage() {
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-lg font-black text-navy">Partner slugs</h2>
-            <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
-              View provisioning
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link href={internalAdmin()} className="text-sm font-semibold text-teal hover:text-navy">
+                View admin activation
+              </Link>
+              <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
+                View provisioning
+              </Link>
+            </div>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {partners.map((partner) => (
-              <Link
-                key={partner.partnerSlug}
-                href={internalProvisioningDetail(partner.partnerSlug)}
-                className="rounded-md border border-grayWilma-200 bg-[#f7f8f6] px-3 py-3 text-sm font-semibold text-navy transition hover:border-teal hover:bg-teal/10"
-              >
-                {partner.partnerSlug}
-              </Link>
+              <div key={partner.partnerSlug} className="rounded-md border border-grayWilma-200 bg-[#f7f8f6] px-3 py-3">
+                <p className="text-sm font-black text-navy">{partner.partnerSlug}</p>
+                <div className="mt-2 flex flex-wrap gap-3">
+                  <Link
+                    href={internalAdminDetail(partner.partnerSlug)}
+                    className="text-xs font-semibold text-teal hover:text-navy"
+                  >
+                    Admin
+                  </Link>
+                  <Link
+                    href={internalProvisioningDetail(partner.partnerSlug)}
+                    className="text-xs font-semibold text-teal hover:text-navy"
+                  >
+                    Provisioning
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </section>

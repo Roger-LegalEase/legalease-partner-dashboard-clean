@@ -36,6 +36,18 @@ export function internalProvisioningDetail(slug: string) {
   return `/internal/partners/provisioning/${slug}`;
 }
 
+export function internalAdmin() {
+  return "/internal/partners/admin";
+}
+
+export function internalAdminDetail(slug: string) {
+  return `/internal/partners/admin/${slug}`;
+}
+
+export function internalAdminActionApi() {
+  return "/api/internal/partners/admin-action";
+}
+
 export function weeklyReportApi() {
   return "/api/partner-reports/weekly";
 }
@@ -52,6 +64,7 @@ export function partnerUrlSet(slug: string, options: PartnerUrlOptions = {}) {
     dashboard: partnerDashboard(),
     launchKit: partnerLaunchKit(slug, options.paid),
     emailSequence: partnerEmailSequence(slug, options.paid),
-    internalProvisioning: internalProvisioningDetail(slug)
+    internalProvisioning: internalProvisioningDetail(slug),
+    internalAdmin: internalAdminDetail(slug)
   };
 }

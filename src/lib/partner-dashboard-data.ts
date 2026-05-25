@@ -5,7 +5,13 @@ export type Partner = {
   states: string[];
 };
 
-export type ProductId = "recordshield" | "expungement_ai" | "startapart" | "claimcoach";
+export type ProductId =
+  | "wilma_intake"
+  | "recordshield"
+  | "expungement_ai"
+  | "partner_dashboard"
+  | "weekly_reports"
+  | "final_impact_report";
 
 export type PartnerReferral = {
   id: string;
@@ -76,8 +82,9 @@ export type ProductStart = {
   id: ProductId;
   name: string;
   starts?: number;
+  metricLabel?: string;
   description: string;
-  status: "active" | "coming_soon" | "pipeline";
+  status: "active" | "scheduled";
 };
 
 export type StateBreakdown = {
@@ -198,10 +205,42 @@ export const eligibilityBreakdown: EligibilitySegment[] = [
 ];
 
 export const productStarts: ProductStart[] = [
+  {
+    id: "wilma_intake",
+    name: "Wilma Intake",
+    metricLabel: "924 intake starts",
+    description: "Guided eligibility and intake workflow",
+    status: "active"
+  },
   { id: "recordshield", name: "RecordShield", starts: 312, description: "Personal record check and review workflow", status: "active" },
-  { id: "expungement_ai", name: "Expungement.ai", starts: 176, description: "Expungement packet preparation workflow", status: "active" },
-  { id: "startapart", name: "StartApart", description: "Guided no-fault divorce paperwork workflow", status: "coming_soon" },
-  { id: "claimcoach", name: "ClaimCoach", description: "Claim preparation and document workflow", status: "pipeline" }
+  {
+    id: "expungement_ai",
+    name: "Expungement.ai",
+    starts: 176,
+    description: "Expungement, sealing, record restriction, and Clean Slate routing workflow",
+    status: "active"
+  },
+  {
+    id: "partner_dashboard",
+    name: "Partner Dashboard",
+    metricLabel: "Active",
+    description: "Partner-facing implementation and reporting dashboard",
+    status: "active"
+  },
+  {
+    id: "weekly_reports",
+    name: "Weekly Reports",
+    metricLabel: "Scheduled",
+    description: "Recurring implementation reporting",
+    status: "scheduled"
+  },
+  {
+    id: "final_impact_report",
+    name: "Final Impact Report",
+    metricLabel: "Scheduled",
+    description: "End-of-program outcome and impact report",
+    status: "scheduled"
+  }
 ];
 
 export const stateBreakdown: StateBreakdown[] = [

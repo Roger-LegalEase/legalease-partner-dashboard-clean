@@ -54,3 +54,21 @@ ENABLE_SUPABASE_PARTNER_DATA=false
 ```
 
 `NEXT_PUBLIC_SUPABASE_URL` is safe for browser exposure. `SUPABASE_SERVICE_ROLE_KEY` is server-only and must never be exposed to client components. Set `ENABLE_SUPABASE_PARTNER_DATA=true` only when server-side Supabase reads should be attempted; otherwise the app stays on local seeded data.
+
+## Partner Admin Activation Layer
+
+Phase 7 adds an internal LegalEase admin activation workflow for manually reviewing partner records before Stripe, CRM, email sending, full auth, and Supabase writes are enabled.
+
+- Admin command center: `/internal/partners/admin`
+- Partner admin detail: `/internal/partners/admin/[partnerSlug]`
+- Mock action API: `/api/internal/partners/admin-action`
+- Existing provisioning detail pages link to the admin activation detail route.
+- The data diagnostic page links to both admin activation and provisioning views.
+
+Admin actions are mock-only in this phase. They validate action names and partner slugs, return `persisted: false`, and do not write to local seeded data, browser storage, Supabase, Stripe, CRM, or email systems. Persistent admin writes are reserved for the future Supabase write phase. Payment source-of-truth behavior is reserved for the future Stripe phase.
+
+Test the mock action registry with:
+
+```bash
+npm run partners:test-admin-actions
+```
