@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, ExternalLink, Settings2 } from "lucide-react";
+import { CalendarDays, ExternalLink, ShieldCheck, Settings2 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -11,7 +11,7 @@ import {
   getProvisioningStatusLabel,
   getQualificationStatusLabel
 } from "@/lib/partners/partner-service";
-import { internalProvisioning } from "@/lib/partners/routes";
+import { internalAdminDetail, internalProvisioning } from "@/lib/partners/routes";
 import type { PartnerAsset, PartnerAssetStatus } from "@/lib/partners/types";
 
 const timeline = [
@@ -48,9 +48,18 @@ export default async function InternalPartnerProvisioningDetailPage({
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
-          Back to provisioning records
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
+            Back to provisioning records
+          </Link>
+          <Link
+            href={internalAdminDetail(record.partnerSlug)}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+            Open Admin Activation
+          </Link>
+        </div>
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_0.85fr]">
           <Card className="rounded-md p-6">

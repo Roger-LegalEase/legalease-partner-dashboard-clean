@@ -183,7 +183,7 @@ export default function PartnerDashboardPage() {
             <Badge tone="blue">Operating layer</Badge>
             <h1 className="mt-3 text-3xl font-black tracking-normal text-navy md:text-4xl">Partner Dashboard</h1>
             <p className="mt-2 max-w-3xl text-base leading-7 text-grayWilma-600">
-              Track referrals, screenings, filings, and outcomes across LegalEase products.
+              Track referrals, screenings, filings, reporting, and outcomes across the Record-Clearing Access Program.
             </p>
             <p className="mt-4 max-w-4xl text-sm leading-6 text-grayWilma-800">
               LegalEase gives partners visibility into the full service delivery pipeline — from referral and screening through packet completion, filing readiness, and outcomes where available.
@@ -427,7 +427,7 @@ function ProductStartsPanel() {
     <Card className="rounded-md p-5">
       <SectionHeading
         title="Product Starts"
-        description="LegalEase product-suite movement from screening into guided workflows."
+        description="Record-clearing access movement from intake into review, routing, filings, and reporting."
       />
       <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
         {productStarts.map((product) => (
@@ -438,7 +438,7 @@ function ProductStartsPanel() {
                 <p className="mt-1 text-sm text-grayWilma-600">{product.description}</p>
               </div>
               <Badge tone={product.status === "active" ? "teal" : "neutral"}>
-                {product.status === "active" ? `${product.starts?.toLocaleString()} starts` : product.status === "coming_soon" ? "Coming soon" : "Pipeline"}
+                {product.metricLabel ?? `${product.starts?.toLocaleString()} starts`}
               </Badge>
             </div>
           </div>

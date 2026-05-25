@@ -66,6 +66,15 @@ export type PartnerMetrics = {
   outcomesAvailable: number;
 };
 
+export type PartnerEvent = {
+  id: string;
+  partnerSlug: string;
+  eventType: string;
+  eventLabel: string;
+  eventPayload: Record<string, string | number | boolean | null>;
+  createdAt: string;
+};
+
 export type PartnerRecord = {
   partnerId: string;
   partnerSlug: string;
