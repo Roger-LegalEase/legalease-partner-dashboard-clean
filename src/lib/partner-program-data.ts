@@ -34,6 +34,55 @@ export type Partner = {
   };
 };
 
+export type PartnerProvisioningStatus =
+  | "request_received"
+  | "qualified"
+  | "payment_pending"
+  | "payment_complete"
+  | "provisioning"
+  | "active"
+  | "paused";
+
+export type PartnerAssetStatus = "locked" | "pending" | "generating" | "ready" | "active";
+
+export type PartnerPaymentStatus = "pending" | "complete" | "failed" | "refunded";
+
+export type PartnerAssetKey =
+  | "partnerLandingPage"
+  | "onboardingHub"
+  | "wilmaIntake"
+  | "recordShieldAccess"
+  | "expungementRouting"
+  | "dashboard"
+  | "launchKit"
+  | "emailSequence"
+  | "weeklyReports"
+  | "finalImpactReport";
+
+export type PartnerProvisioningAsset = {
+  key: PartnerAssetKey;
+  label: string;
+  description: string;
+  status: PartnerAssetStatus;
+  route?: string;
+  owner: string;
+  nextAction: string;
+};
+
+export type PartnerProvisioningRecord = {
+  partnerId: string;
+  partnerSlug: string;
+  partnerName: string;
+  programTier: ProgramTierId;
+  provisioningStatus: PartnerProvisioningStatus;
+  paymentStatus: PartnerPaymentStatus;
+  assignedOwner: string;
+  launchDateTarget: string;
+  region: string;
+  recordClearingNeeds: string[];
+  assets: Record<PartnerAssetKey, PartnerProvisioningAsset>;
+};
+
 export const programTiers: ProgramTier[] = [
   {
     id: "starter",
@@ -105,6 +154,113 @@ export const demoPartner: Partner = {
   }
 };
 
+export const partnerComplianceCopy =
+  "LegalEase does not provide legal advice and does not guarantee eligibility, filing approval, court acceptance, or record-clearing outcomes. Program workflows support intake, routing, document preparation, and reporting based on jurisdiction, user-provided facts, and partner-approved scope.";
+
+export const demoPartnerProvisioningRecord: PartnerProvisioningRecord = {
+  partnerId: demoPartner.id,
+  partnerSlug: demoPartner.slug,
+  partnerName: demoPartner.name,
+  programTier: demoPartner.selectedTierId,
+  provisioningStatus: "provisioning",
+  paymentStatus: "complete",
+  assignedOwner: "LegalEase Partner Operations",
+  launchDateTarget: "2026-06-15",
+  region: demoPartner.regionServed,
+  recordClearingNeeds: ["Expungement", "Sealing", "Record restriction", "Clean Slate awareness"],
+  assets: {
+    partnerLandingPage: {
+      key: "partnerLandingPage",
+      label: "Co-branded partner page",
+      description: "Public partner access page for community members entering the record-clearing access flow.",
+      status: "ready",
+      route: `/p/${demoPartner.slug}?paid=true`,
+      owner: "Partner Operations",
+      nextAction: "Review co-branding language and activate for launch."
+    },
+    onboardingHub: {
+      key: "onboardingHub",
+      label: "Onboarding hub",
+      description: "Paid partner workspace for setup status, launch resources, reports, and activation links.",
+      status: "active",
+      route: `/partners/onboarding/${demoPartner.slug}?paid=true`,
+      owner: "Implementation Lead",
+      nextAction: "Confirm partner stakeholders have reviewed setup milestones."
+    },
+    wilmaIntake: {
+      key: "wilmaIntake",
+      label: "Wilma intake",
+      description: "Guided intake path for record-clearing participants by geography and support need.",
+      status: "generating",
+      owner: "Product Operations",
+      nextAction: "Finalize intake scope and jurisdiction-specific question set."
+    },
+    recordShieldAccess: {
+      key: "recordShieldAccess",
+      label: "RecordShield access",
+      description: "Structured support layer for document preparation workflows and court-ready support.",
+      status: "pending",
+      owner: "Legal Operations",
+      nextAction: "Map support boundaries and partner-approved escalation paths."
+    },
+    expungementRouting: {
+      key: "expungementRouting",
+      label: "Expungement.ai routing",
+      description: "Routing configuration based on record-clearing need, jurisdiction, and program scope.",
+      status: "generating",
+      owner: "Product Operations",
+      nextAction: "Validate routing rules for mixed and unknown record-clearing needs."
+    },
+    dashboard: {
+      key: "dashboard",
+      label: "Partner dashboard",
+      description: "Operational dashboard for referrals, intake activity, routing, bottlenecks, and reports.",
+      status: "ready",
+      route: "/dashboard/partners",
+      owner: "Data Operations",
+      nextAction: "Activate partner-specific filters after launch kickoff."
+    },
+    launchKit: {
+      key: "launchKit",
+      label: "Launch kit",
+      description: "Partner announcement copy, email copy, social copy, staff talking points, and reporting schedule.",
+      status: "ready",
+      route: `/partners/onboarding/${demoPartner.slug}/launch-kit?paid=true`,
+      owner: "Partner Marketing",
+      nextAction: "Send launch kit to partner communications lead."
+    },
+    emailSequence: {
+      key: "emailSequence",
+      label: "Email sequence",
+      description: "Partner-facing onboarding and reporting email sequence preview for program launch.",
+      status: "ready",
+      route: `/partners/onboarding/${demoPartner.slug}/email-sequence?paid=true`,
+      owner: "Partner Marketing",
+      nextAction: "Confirm list segmentation and partner approval."
+    },
+    weeklyReports: {
+      key: "weeklyReports",
+      label: "Weekly reports",
+      description: "Weekly implementation reporting package for activity, routing, and progress signals.",
+      status: "active",
+      route: "/api/partner-reports/weekly",
+      owner: "Data Operations",
+      nextAction: "Generate first weekly report after launch week closes."
+    },
+    finalImpactReport: {
+      key: "finalImpactReport",
+      label: "Final impact report",
+      description: "Final 90-day impact report covering participation, support, outcomes, and recommendations.",
+      status: "pending",
+      route: "/api/partner-reports/final",
+      owner: "Data Operations",
+      nextAction: "Schedule final reporting review near end of implementation window."
+    }
+  }
+};
+
+export const partnerProvisioningRecords: PartnerProvisioningRecord[] = [demoPartnerProvisioningRecord];
+
 export function getProgramTier(tierId: ProgramTierId): ProgramTier {
   return programTiers.find((tier) => tier.id === tierId) ?? programTiers[1];
 }
@@ -123,4 +279,50 @@ export function getMockPartner(identifier: string): Partner {
 
 export function isMockPaid(searchParams: Record<string, string | string[] | undefined>): boolean {
   return searchParams.paid === "true";
+}
+
+export function getPartnerProvisioningRecord(identifier: string): PartnerProvisioningRecord {
+  return (
+    partnerProvisioningRecords.find(
+      (record) => record.partnerId === identifier || record.partnerSlug === identifier
+    ) ?? demoPartnerProvisioningRecord
+  );
+}
+
+export function getProvisioningStatusLabel(status: PartnerProvisioningStatus): string {
+  const labels: Record<PartnerProvisioningStatus, string> = {
+    request_received: "Request received",
+    qualified: "Qualified",
+    payment_pending: "Payment pending",
+    payment_complete: "Payment complete",
+    provisioning: "Provisioning",
+    active: "Active",
+    paused: "Paused"
+  };
+
+  return labels[status];
+}
+
+export function getAssetStatusLabel(status: PartnerAssetStatus): string {
+  const labels: Record<PartnerAssetStatus, string> = {
+    locked: "Locked",
+    pending: "Pending",
+    generating: "Generating",
+    ready: "Ready",
+    active: "Active"
+  };
+
+  return labels[status];
+}
+
+export function getPartnerRoutes(partnerSlug: string) {
+  return {
+    checkout: `/partners/checkout/${partnerSlug}`,
+    onboarding: `/partners/onboarding/${partnerSlug}?paid=true`,
+    coBrandedPage: `/p/${partnerSlug}?paid=true`,
+    dashboard: "/dashboard/partners",
+    launchKit: `/partners/onboarding/${partnerSlug}/launch-kit?paid=true`,
+    emailSequence: `/partners/onboarding/${partnerSlug}/email-sequence?paid=true`,
+    internalProvisioning: `/internal/partners/provisioning/${partnerSlug}`
+  };
 }
