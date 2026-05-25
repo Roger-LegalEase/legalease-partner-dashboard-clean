@@ -3,7 +3,9 @@ import type { ReactNode } from "react";
 import { ArrowRight, ClipboardCheck, LockKeyhole, ShieldCheck, UsersRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getMockPartner, isMockPaid } from "@/lib/partner-program-data";
+import { canAccessPartnerPage, getPartnerBySlug } from "@/lib/partners/partner-service";
+import { partnerCheckout } from "@/lib/partners/routes";
+import { partnerComplianceCopy } from "@/lib/partners/types";
 
 export default async function CoBrandedPartnerPage({
   params,
@@ -13,8 +15,13 @@ export default async function CoBrandedPartnerPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { partnerSlug } = await params;
-  const partner = getMockPartner(partnerSlug);
-  const paid = isMockPaid(await searchParams);
+  const partner = getPartnerBySlug(partnerSlug);
+
+  if (!partner) {
+    return <PartnerNotFound />;
+  }
+
+  const paid = canAccessPartnerPage(partner.partnerSlug, await searchParams);
 
   if (!paid) {
     return (
@@ -27,7 +34,7 @@ export default async function CoBrandedPartnerPage({
               The co-branded Record-Clearing Access Program page is locked until the demo payment state is present.
             </p>
             <Link
-              href={`/partners/checkout/${partner.id}`}
+              href={partnerCheckout(partner.partnerId)}
               className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
             >
               Return to Demo Checkout
@@ -45,7 +52,7 @@ export default async function CoBrandedPartnerPage({
           <div>
             <Badge tone="teal">Record-Clearing Access Program</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy md:text-5xl">
-              In partnership with {partner.name}
+              In partnership with {partner.partnerName}
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-grayWilma-700">
               This access page helps community members begin record-clearing intake for expungement, sealing,
@@ -100,7 +107,7 @@ export default async function CoBrandedPartnerPage({
           <InfoCard
             icon={<UsersRound className="h-5 w-5 text-teal" aria-hidden="true" />}
             title="Partner support"
-            body={`${partner.name} helps connect community members to this program and may review participation or referral needs under the program model.`}
+            body={`${partner.partnerName} helps connect community members to this program and may review participation or referral needs under the program model.`}
           />
         </section>
 
@@ -123,9 +130,7 @@ export default async function CoBrandedPartnerPage({
           <Card className="rounded-md p-6">
             <h2 className="text-2xl font-black text-navy">What this does not guarantee</h2>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              LegalEase does not provide legal advice and does not guarantee eligibility, filing approval, court
-              acceptance, or record-clearing outcomes. This access page helps collect information, route users, and
-              support preparation based on available program scope and jurisdiction-specific requirements.
+              {partnerComplianceCopy}
             </p>
           </Card>
         </section>
@@ -134,6 +139,27 @@ export default async function CoBrandedPartnerPage({
           Privacy and compliance note: information collected through live intake should be handled according to
           applicable partner agreements, program scope, jurisdiction requirements, and LegalEase privacy controls.
         </section>
+      </div>
+    </main>
+  );
+}
+
+function PartnerNotFound() {
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
+        <Card className="w-full rounded-md p-6 text-center">
+          <h1 className="text-3xl font-black text-navy">Partner not found</h1>
+          <p className="mt-3 text-sm leading-6 text-grayWilma-700">
+            This access page does not match an active LegalEase partner record.
+          </p>
+          <Link
+            href="/partners"
+            className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            Back to Partner Program
+          </Link>
+        </Card>
       </div>
     </main>
   );

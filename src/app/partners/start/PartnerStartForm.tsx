@@ -3,7 +3,7 @@
 import type { FormEvent, InputHTMLAttributes, SelectHTMLAttributes } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import { programTiers } from "@/lib/partner-program-data";
+import { programTiers } from "@/lib/partners/types";
 
 const organizationTypes = [
   "Nonprofit",

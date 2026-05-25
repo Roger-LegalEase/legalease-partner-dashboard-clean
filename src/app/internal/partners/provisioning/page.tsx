@@ -4,17 +4,20 @@ import { ArrowRight, Building2, CheckCircle2, CreditCard, Settings2 } from "luci
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  getAllPartners,
   getProgramTier,
-  getProvisioningStatusLabel,
-  partnerProvisioningRecords,
-  type PartnerProvisioningRecord
-} from "@/lib/partner-program-data";
+  getPaymentStatusLabel,
+  getProvisioningStatusLabel
+} from "@/lib/partners/partner-service";
+import { internalProvisioningDetail } from "@/lib/partners/routes";
+import type { PartnerRecord } from "@/lib/partners/types";
 
 export default function InternalPartnerProvisioningPage() {
-  const totalPartners = partnerProvisioningRecords.length;
-  const paymentComplete = partnerProvisioningRecords.filter((record) => record.paymentStatus === "complete").length;
-  const inProvisioning = partnerProvisioningRecords.filter((record) => record.provisioningStatus === "provisioning").length;
-  const active = partnerProvisioningRecords.filter((record) => record.provisioningStatus === "active").length;
+  const partners = getAllPartners();
+  const totalPartners = partners.length;
+  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid" || record.paymentStatus === "demo_paid").length;
+  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning").length;
+  const active = partners.filter((record) => record.provisioningStatus === "active").length;
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -48,7 +51,7 @@ export default function InternalPartnerProvisioningPage() {
             <h2 className="text-lg font-black text-navy">Provisioning records</h2>
           </div>
           <div className="divide-y divide-grayWilma-200">
-            {partnerProvisioningRecords.map((record) => (
+            {partners.map((record) => (
               <ProvisioningRow key={record.partnerId} record={record} />
             ))}
           </div>
@@ -78,7 +81,7 @@ function SummaryCard({
   );
 }
 
-function ProvisioningRow({ record }: { record: PartnerProvisioningRecord }) {
+function ProvisioningRow({ record }: { record: PartnerRecord }) {
   const tier = getProgramTier(record.programTier);
   const nextAsset = Object.values(record.assets).find((asset) => asset.status !== "active");
 
@@ -90,7 +93,9 @@ function ProvisioningRow({ record }: { record: PartnerProvisioningRecord }) {
       </div>
       <p className="text-sm font-semibold text-grayWilma-800">{tier.name}</p>
       <p className="text-sm text-grayWilma-700">{record.region}</p>
-      <Badge tone={record.paymentStatus === "complete" ? "teal" : "orange"}>{record.paymentStatus}</Badge>
+      <Badge tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"}>
+        {getPaymentStatusLabel(record.paymentStatus)}
+      </Badge>
       <Badge tone={record.provisioningStatus === "active" ? "teal" : "blue"}>
         {getProvisioningStatusLabel(record.provisioningStatus)}
       </Badge>
@@ -98,7 +103,7 @@ function ProvisioningRow({ record }: { record: PartnerProvisioningRecord }) {
       <p className="text-sm text-grayWilma-700">{record.assignedOwner}</p>
       <p className="text-sm leading-6 text-grayWilma-700">{nextAsset?.nextAction ?? "Monitor active program."}</p>
       <Link
-        href={`/internal/partners/provisioning/${record.partnerSlug}`}
+        href={internalProvisioningDetail(record.partnerSlug)}
         className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-navy px-3 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
       >
         Detail

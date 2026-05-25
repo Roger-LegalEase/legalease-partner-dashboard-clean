@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
   getAssetStatusLabel,
-  getPartnerProvisioningRecord,
+  getPartnerBySlug,
+  getPaymentStatusLabel,
   getProgramTier,
   getProvisioningStatusLabel,
-  type PartnerAssetStatus,
-  type PartnerProvisioningAsset
-} from "@/lib/partner-program-data";
+  getQualificationStatusLabel
+} from "@/lib/partners/partner-service";
+import { internalProvisioning } from "@/lib/partners/routes";
+import type { PartnerAsset, PartnerAssetStatus } from "@/lib/partners/types";
 
 const timeline = [
   "Partner request received and qualification notes captured.",
@@ -34,14 +36,19 @@ export default async function InternalPartnerProvisioningDetailPage({
   params: Promise<{ partnerSlug: string }>;
 }) {
   const { partnerSlug } = await params;
-  const record = getPartnerProvisioningRecord(partnerSlug);
+  const record = getPartnerBySlug(partnerSlug);
+
+  if (!record) {
+    return <PartnerNotFound />;
+  }
+
   const tier = getProgramTier(record.programTier);
   const assets = Object.values(record.assets);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <Link href="/internal/partners/provisioning" className="text-sm font-semibold text-teal hover:text-navy">
+        <Link href={internalProvisioning()} className="text-sm font-semibold text-teal hover:text-navy">
           Back to provisioning records
         </Link>
 
@@ -63,9 +70,13 @@ export default async function InternalPartnerProvisioningDetailPage({
           <Card className="rounded-md p-6">
             <h2 className="text-lg font-black text-navy">Payment and qualification status</h2>
             <div className="mt-4 grid gap-3">
-              <StatusLine label="Payment" value={record.paymentStatus} tone={record.paymentStatus === "complete" ? "teal" : "orange"} />
+              <StatusLine
+                label="Payment"
+                value={getPaymentStatusLabel(record.paymentStatus)}
+                tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"}
+              />
               <StatusLine label="Provisioning" value={getProvisioningStatusLabel(record.provisioningStatus)} tone="blue" />
-              <StatusLine label="Qualification" value="Qualified for implementation" tone="teal" />
+              <StatusLine label="Qualification" value={getQualificationStatusLabel(record.qualificationStatus)} tone="teal" />
             </div>
           </Card>
         </section>
@@ -154,7 +165,7 @@ function StatusLine({
   );
 }
 
-function AssetCard({ asset }: { asset: PartnerProvisioningAsset }) {
+function AssetCard({ asset }: { asset: PartnerAsset }) {
   return (
     <Card className="rounded-md p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -188,6 +199,27 @@ function AssetCard({ asset }: { asset: PartnerProvisioningAsset }) {
       </div>
       <p className="mt-3 text-xs font-semibold text-grayWilma-600">Mock action only. State changes are not persisted.</p>
     </Card>
+  );
+}
+
+function PartnerNotFound() {
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
+        <Card className="w-full rounded-md p-6 text-center">
+          <h1 className="text-3xl font-black text-navy">Partner not found</h1>
+          <p className="mt-3 text-sm leading-6 text-grayWilma-700">
+            This provisioning record does not exist in the local seeded data layer.
+          </p>
+          <Link
+            href="/partners"
+            className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            Back to Partner Program
+          </Link>
+        </Card>
+      </div>
+    </main>
   );
 }
 

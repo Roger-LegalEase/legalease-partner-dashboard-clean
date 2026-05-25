@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Mail, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getMockPartner, isMockPaid, partnerComplianceCopy } from "@/lib/partner-program-data";
+import { canAccessOnboarding, getPartnerBySlug } from "@/lib/partners/partner-service";
+import { partnerCheckout, partnerOnboarding } from "@/lib/partners/routes";
+import { partnerComplianceCopy } from "@/lib/partners/types";
 
 const emails = [
   {
@@ -51,8 +53,13 @@ export default async function EmailSequencePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { partnerSlug } = await params;
-  const partner = getMockPartner(partnerSlug);
-  const paid = isMockPaid(await searchParams);
+  const partner = getPartnerBySlug(partnerSlug);
+
+  if (!partner) {
+    return <PartnerNotFound />;
+  }
+
+  const paid = canAccessOnboarding(partner.partnerSlug, await searchParams);
 
   if (!paid) {
     return (
@@ -60,7 +67,7 @@ export default async function EmailSequencePage({
         <LockedState
           title="Email sequence locked"
           body="Complete the demo payment step to unlock the partner onboarding email sequence preview."
-          href={`/partners/checkout/${partner.id}`}
+          href={partnerCheckout(partner.partnerId)}
         />
       </main>
     );
@@ -69,13 +76,13 @@ export default async function EmailSequencePage({
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Link href={`/partners/onboarding/${partner.slug}?paid=true`} className="text-sm font-semibold text-teal hover:text-navy">
+        <Link href={partnerOnboarding(partner.partnerSlug, true)} className="text-sm font-semibold text-teal hover:text-navy">
           Back to onboarding hub
         </Link>
 
         <section className="mt-6">
           <Badge tone="teal">Email Sequence</Badge>
-          <h1 className="mt-4 text-4xl font-black leading-tight text-navy">{partner.name} onboarding email sequence</h1>
+          <h1 className="mt-4 text-4xl font-black leading-tight text-navy">{partner.partnerName} onboarding email sequence</h1>
           <p className="mt-4 max-w-3xl text-sm leading-6 text-grayWilma-700">
             Partner-facing preview of onboarding, launch, weekly reporting, and final impact report emails. This route
             does not send email or connect to a CRM.
@@ -101,6 +108,27 @@ export default async function EmailSequencePage({
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 text-xs leading-5 text-grayWilma-600 shadow-sm">
           {partnerComplianceCopy}
         </section>
+      </div>
+    </main>
+  );
+}
+
+function PartnerNotFound() {
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
+        <Card className="w-full rounded-md p-6 text-center">
+          <h1 className="text-3xl font-black text-navy">Partner not found</h1>
+          <p className="mt-3 text-sm leading-6 text-grayWilma-700">
+            This email sequence link does not match a seeded LegalEase partner record.
+          </p>
+          <Link
+            href="/partners"
+            className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            Back to Partner Program
+          </Link>
+        </Card>
       </div>
     </main>
   );
