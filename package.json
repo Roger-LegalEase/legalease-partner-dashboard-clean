@@ -7,10 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "partners:check-seed-sql": "node scripts/check-partner-seed-sql.mjs",
+    "partners:check-supabase-env": "node scripts/check-supabase-partner-env.mjs",
     "partners:export-seed-sql": "node scripts/export-partner-seed-sql.mjs",
     "partners:test-admin-actions": "node scripts/test-partner-admin-actions.mjs",
     "partners:test-repository": "node scripts/test-partner-repository.mjs",
-    "partners:test-write-layer": "node scripts/test-partner-write-layer.mjs"
+    "partners:test-write-layer": "node scripts/test-partner-write-layer.mjs",
+    "partners:verify-supabase-live-read": "node scripts/verify-supabase-live-read.mjs",
+    "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
