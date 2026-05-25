@@ -2,38 +2,25 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        navy: "#0B1220",
-        wilmaBlue: "#0E4F8A",
-        teal: "#0F8B8D",
-        orange: "#FF4D1D",
-        cream: "#F6F1E8",
-        grayWilma: {
-          100: "#F2EDE4",
-          200: "#E0D9CE",
-          300: "#C8BFB3",
-          400: "#A09889",
-          600: "#5C5550",
-          800: "#2E2926"
-        },
-        danger: "#D63B1A",
-        success: "#1A8A74"
+        navy: "#0F1F5C",
+        "navy-mid": "#1B2B80",
+        orange: "#E83A0A",
+        teal: "#00A99D",
+        cream: "#F7F3EA",
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
-        display: ["Fraunces", "Georgia", "Cambria", "Times New Roman", "serif"]
+        sans: ["Inter", "Arial", "sans-serif"],
       },
-      boxShadow: {
-        soft: "0 18px 50px rgba(11, 18, 32, 0.10)"
-      }
-    }
+    },
   },
-  plugins: []
+  plugins: [],
 };
 
 export default config;
