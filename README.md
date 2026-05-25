@@ -34,3 +34,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Partner Journey OS Data Layer
+
+The Partner Journey OS uses local seeded partner data by default so local development and `npm run build` do not require Supabase credentials.
+
+- Local seeded data lives in `src/lib/partners/seed-partners.ts`.
+- The Supabase-ready repository boundary lives in `src/lib/partners/partner-repository.ts`.
+- The Supabase persistence schema lives in `supabase/partner-journey-os.sql`.
+- Demo seed SQL can be exported with `npm run partners:export-seed-sql`.
+- Repository fallback can be checked with `npm run partners:test-repository`.
+
+Environment variables:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+ENABLE_SUPABASE_PARTNER_DATA=false
+```
+
+`NEXT_PUBLIC_SUPABASE_URL` is safe for browser exposure. `SUPABASE_SERVICE_ROLE_KEY` is server-only and must never be exposed to client components. Set `ENABLE_SUPABASE_PARTNER_DATA=true` only when server-side Supabase reads should be attempted; otherwise the app stays on local seeded data.

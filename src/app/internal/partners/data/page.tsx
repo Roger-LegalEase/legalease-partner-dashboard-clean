@@ -2,18 +2,19 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
-  getActivePartners,
-  getAllPartners,
-  getPaidPartners,
-  getProvisioningPartners
-} from "@/lib/partners/partner-service";
+  getAllPartnerRecords,
+  getPartnerRepositoryMode
+} from "@/lib/partners/partner-repository";
 import { internalProvisioning, internalProvisioningDetail } from "@/lib/partners/routes";
+import { isSupabaseConfigured } from "@/lib/supabase/server";
 
-export default function InternalPartnerDataPage() {
-  const partners = getAllPartners();
-  const paidPartners = getPaidPartners();
-  const activePartners = getActivePartners();
-  const provisioningPartners = getProvisioningPartners();
+export default async function InternalPartnerDataPage() {
+  const partners = await getAllPartnerRecords();
+  const repositoryMode = await getPartnerRepositoryMode();
+  const paidPartners = partners.filter((partner) => partner.paymentStatus === "paid" || partner.paymentStatus === "demo_paid");
+  const activePartners = partners.filter((partner) => partner.provisioningStatus === "active");
+  const provisioningPartners = partners.filter((partner) => partner.provisioningStatus === "provisioning");
+  const supabasePartnerDataEnabled = process.env.ENABLE_SUPABASE_PARTNER_DATA === "true";
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -29,7 +30,13 @@ export default function InternalPartnerDataPage() {
           <Card className="rounded-md p-5">
             <p className="text-sm font-black text-navy">Data source</p>
             <div className="mt-4 grid gap-2">
-              <Badge tone="teal">Local seeded data</Badge>
+              <Badge tone={repositoryMode === "supabase" ? "teal" : "blue"}>Repository mode: {repositoryMode}</Badge>
+              <Badge tone={isSupabaseConfigured() ? "teal" : "neutral"}>
+                Supabase configured: {isSupabaseConfigured() ? "yes" : "no"}
+              </Badge>
+              <Badge tone={supabasePartnerDataEnabled ? "teal" : "neutral"}>
+                Supabase partner data enabled: {supabasePartnerDataEnabled ? "yes" : "no"}
+              </Badge>
               <Badge tone="blue">Supabase-ready service boundary</Badge>
             </div>
           </Card>
@@ -40,6 +47,10 @@ export default function InternalPartnerDataPage() {
           <MetricCard label="Paid/demo-paid partners" value={paidPartners.length} />
           <MetricCard label="Active partners" value={activePartners.length} />
           <MetricCard label="In provisioning partners" value={provisioningPartners.length} />
+        </section>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 text-sm leading-6 text-grayWilma-700 shadow-sm">
+          This page verifies the partner data service boundary. It does not expose secrets.
         </section>
 
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm">

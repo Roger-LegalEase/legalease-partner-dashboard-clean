@@ -1,0 +1,85 @@
+-- Partner Journey OS persistence schema.
+-- This schema prepares LegalEase partner records, assets, metrics, and events
+-- for Supabase-backed persistence while the application keeps local seeded
+-- data as the default development/build source.
+
+create table if not exists partner_records (
+  id uuid primary key default gen_random_uuid(),
+  partner_id text unique not null,
+  partner_slug text unique not null,
+  partner_name text not null,
+  contact_name text,
+  contact_email text,
+  website text,
+  organization_type text,
+  region text,
+  state text,
+  estimated_users_90_days integer,
+  record_clearing_needs text[] default '{}',
+  program_goal text,
+  program_tier text not null,
+  payment_status text not null default 'not_started',
+  qualification_status text not null default 'request_received',
+  provisioning_status text not null default 'request_received',
+  assigned_owner text,
+  launch_date_target date,
+  compliance_notes text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+comment on table partner_records is
+  'Partner Journey OS canonical partner records for LegalEase partner persistence.';
+
+create table if not exists partner_assets (
+  id uuid primary key default gen_random_uuid(),
+  partner_slug text not null references partner_records(partner_slug) on delete cascade,
+  asset_key text not null,
+  label text not null,
+  description text,
+  status text not null default 'locked',
+  route text,
+  owner text,
+  next_action text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique(partner_slug, asset_key)
+);
+
+comment on table partner_assets is
+  'Partner Journey OS generated and provisioned assets for each partner.';
+
+create table if not exists partner_metrics (
+  id uuid primary key default gen_random_uuid(),
+  partner_slug text unique not null references partner_records(partner_slug) on delete cascade,
+  referrals integer default 0,
+  screenings integer default 0,
+  likely_eligible integer default 0,
+  product_starts integer default 0,
+  packets_ready integer default 0,
+  filings integer default 0,
+  outcomes_available integer default 0,
+  updated_at timestamptz default now()
+);
+
+comment on table partner_metrics is
+  'Partner Journey OS aggregate partner metrics used by diagnostics and future reporting.';
+
+create table if not exists partner_events (
+  id uuid primary key default gen_random_uuid(),
+  partner_slug text not null references partner_records(partner_slug) on delete cascade,
+  event_type text not null,
+  event_label text not null,
+  event_payload jsonb default '{}'::jsonb,
+  created_at timestamptz default now()
+);
+
+comment on table partner_events is
+  'Partner Journey OS event timeline for future partner provisioning and lifecycle activity.';
+
+create index if not exists partner_records_partner_slug_idx on partner_records(partner_slug);
+create index if not exists partner_records_payment_status_idx on partner_records(payment_status);
+create index if not exists partner_records_provisioning_status_idx on partner_records(provisioning_status);
+create index if not exists partner_assets_partner_slug_idx on partner_assets(partner_slug);
+create index if not exists partner_events_partner_slug_idx on partner_events(partner_slug);
+create index if not exists partner_events_created_at_idx on partner_events(created_at);
