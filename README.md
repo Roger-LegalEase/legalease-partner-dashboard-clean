@@ -88,3 +88,74 @@ Test the write layer smoke checks with:
 ```bash
 npm run partners:test-write-layer
 ```
+
+## Phase 9: Supabase Setup + Seed Deployment
+
+Phase 9 adds the operator-facing setup layer for creating the Partner Journey OS Supabase database, loading demo seed data, configuring environment variables, and verifying that the app can read from Supabase. It does not require live Supabase credentials for local checks, lint, or build.
+
+What this phase adds:
+
+- Non-developer Supabase setup guide and checklist.
+- Local env diagnostics that never print secret values.
+- Seed SQL validation for required Partner Journey OS demo records.
+- Readiness verification for required files and expected repository mode.
+- Optional live Supabase read verification when credentials are configured.
+- Internal data page setup links and command references at `/internal/partners/data`.
+
+Docs added:
+
+- `docs/supabase-partner-setup.md`
+- `docs/supabase-partner-setup-checklist.md`
+
+Scripts added:
+
+- `npm run partners:check-supabase-env`
+- `npm run partners:check-seed-sql`
+- `npm run partners:verify-supabase-readiness`
+- `npm run partners:verify-supabase-live-read`
+
+Required env vars for Supabase mode:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+ENABLE_SUPABASE_PARTNER_DATA=true
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never expose it in browser code, public pages, screenshots, client components, or GitHub.
+
+Exact setup command list:
+
+```bash
+npm install
+npm run partners:check-supabase-env
+npm run partners:check-seed-sql
+npm run partners:verify-supabase-readiness
+npm run dev
+```
+
+After the Supabase project is created, run these SQL files in the Supabase SQL Editor:
+
+```text
+supabase/partner-journey-os.sql
+supabase/partner-seed-demo.sql
+```
+
+Exact verification command list:
+
+```bash
+npm run partners:check-supabase-env
+npm run partners:check-seed-sql
+npm run partners:verify-supabase-readiness
+npm run partners:verify-supabase-live-read
+npm run partners:test-write-layer
+npm run partners:test-admin-actions
+npm run partners:test-repository
+npm run partners:export-seed-sql
+npm run lint
+npm run build
+```
+
+Open `/internal/partners/data` and confirm the repository mode, Supabase configured status, data source label, partner count, and seeded partner slugs.
+
+Stripe is still not connected. CRM integration, email sending, production auth, and RLS policy hardening remain later phases.

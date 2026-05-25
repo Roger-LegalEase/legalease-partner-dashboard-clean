@@ -20,6 +20,8 @@ export default async function InternalPartnerDataPage() {
   const activePartners = partners.filter((partner) => partner.provisioningStatus === "active");
   const provisioningPartners = partners.filter((partner) => partner.provisioningStatus === "provisioning");
   const supabasePartnerDataEnabled = process.env.ENABLE_SUPABASE_PARTNER_DATA === "true";
+  const supabaseConfigured = isSupabaseConfigured();
+  const dataSourceLabel = repositoryMode === "supabase" ? "Supabase partner database" : "Local seeded fallback";
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -36,12 +38,14 @@ export default async function InternalPartnerDataPage() {
             <p className="text-sm font-black text-navy">Data source</p>
             <div className="mt-4 grid gap-2">
               <Badge tone={repositoryMode === "supabase" ? "teal" : "blue"}>Repository mode: {repositoryMode}</Badge>
-              <Badge tone={isSupabaseConfigured() ? "teal" : "neutral"}>
-                Supabase configured: {isSupabaseConfigured() ? "yes" : "no"}
+              <Badge tone={supabaseConfigured ? "teal" : "neutral"}>
+                Supabase configured: {supabaseConfigured ? "yes" : "no"}
               </Badge>
               <Badge tone={supabasePartnerDataEnabled ? "teal" : "neutral"}>
                 Supabase partner data enabled: {supabasePartnerDataEnabled ? "yes" : "no"}
               </Badge>
+              <Badge tone="blue">Data source: {dataSourceLabel}</Badge>
+              <Badge tone="neutral">Partner count: {partners.length}</Badge>
               <Badge tone="blue">Supabase-ready service boundary</Badge>
             </div>
           </Card>
@@ -67,12 +71,50 @@ export default async function InternalPartnerDataPage() {
           </div>
           <div className="mt-4 grid gap-2 md:grid-cols-3">
             <Badge tone={repositoryMode === "supabase" ? "teal" : "blue"}>Repository mode: {repositoryMode}</Badge>
-            <Badge tone={isSupabaseConfigured() ? "teal" : "neutral"}>
-              Supabase configured: {isSupabaseConfigured() ? "yes" : "no"}
+            <Badge tone={supabaseConfigured ? "teal" : "neutral"}>
+              Supabase configured: {supabaseConfigured ? "yes" : "no"}
             </Badge>
             <Badge tone={supabasePartnerDataEnabled ? "teal" : "neutral"}>
               Supabase partner data enabled: {supabasePartnerDataEnabled ? "yes" : "no"}
             </Badge>
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h2 className="text-lg font-black text-navy">Supabase Setup</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
+                Operator checklist for creating the database, loading demo seed data, and confirming server-side reads
+                without exposing Supabase secrets.
+              </p>
+            </div>
+            <div className="grid gap-2 text-sm font-semibold text-navy">
+              <p>Setup guide: docs/supabase-partner-setup.md</p>
+              <p>Checklist: docs/supabase-partner-setup-checklist.md</p>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            <SetupItem label="Schema file" value="supabase/partner-journey-os.sql" />
+            <SetupItem label="Seed file" value="supabase/partner-seed-demo.sql" />
+            <SetupItem label="Setup guide" value="docs/supabase-partner-setup.md" />
+            <SetupItem label="Checklist" value="docs/supabase-partner-setup-checklist.md" />
+            <SetupItem label="Env check command" value="npm run partners:check-supabase-env" />
+            <SetupItem label="Readiness command" value="npm run partners:verify-supabase-readiness" />
+            <SetupItem label="Live read command" value="npm run partners:verify-supabase-live-read" />
+          </div>
+
+          <div className="mt-5 grid gap-2 md:grid-cols-3">
+            <Badge tone={repositoryMode === "supabase" ? "teal" : "blue"}>Current repository mode: {repositoryMode}</Badge>
+            <Badge tone={supabasePartnerDataEnabled ? "teal" : "neutral"}>
+              Supabase enabled: {supabasePartnerDataEnabled ? "yes" : "no"}
+            </Badge>
+            <Badge tone={supabaseConfigured ? "teal" : "neutral"}>
+              Supabase configured: {supabaseConfigured ? "yes" : "no"}
+            </Badge>
+            <Badge tone="blue">Data source label: {dataSourceLabel}</Badge>
+            <Badge tone="neutral">Partner count: {partners.length}</Badge>
           </div>
         </section>
 
@@ -132,5 +174,14 @@ function MetricCard({ label, value }: { label: string; value: number }) {
       <p className="text-3xl font-black text-navy">{value}</p>
       <p className="mt-3 text-sm font-semibold text-grayWilma-700">{label}</p>
     </Card>
+  );
+}
+
+function SetupItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md border border-grayWilma-200 bg-[#f7f8f6] px-3 py-3">
+      <p className="text-xs font-black uppercase text-grayWilma-600">{label}</p>
+      <p className="mt-2 break-words text-sm font-semibold text-navy">{value}</p>
+    </div>
   );
 }
