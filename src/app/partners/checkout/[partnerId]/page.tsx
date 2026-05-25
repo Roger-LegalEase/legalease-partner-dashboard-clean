@@ -2,7 +2,8 @@ import Link from "next/link";
 import { CheckCircle2, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getMockPartner, getProgramTier } from "@/lib/partner-program-data";
+import { getPartnerById, getProgramTier } from "@/lib/partners/partner-service";
+import { partnerOnboarding } from "@/lib/partners/routes";
 
 const unlocks = [
   "Co-branded partner page",
@@ -20,8 +21,13 @@ export default async function PartnerCheckoutPage({
   params: Promise<{ partnerId: string }>;
 }) {
   const { partnerId } = await params;
-  const partner = getMockPartner(partnerId);
-  const tier = getProgramTier(partner.selectedTierId);
+  const partner = getPartnerById(partnerId);
+
+  if (!partner) {
+    return <PartnerNotFound />;
+  }
+
+  const tier = getProgramTier(partner.programTier);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -35,7 +41,7 @@ export default async function PartnerCheckoutPage({
             <Badge tone="orange">Demo payment gate</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Complete demo payment to unlock onboarding.</h1>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-              This page models the payment step for {partner.name}. It does not create a Stripe session, charge a card,
+              This page models the payment step for {partner.partnerName}. It does not create a Stripe session, charge a card,
               or store payment state.
             </p>
 
@@ -48,7 +54,7 @@ export default async function PartnerCheckoutPage({
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href={`/partners/onboarding/${partner.slug}?paid=true`}
+                href={partnerOnboarding(partner.partnerSlug, true)}
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
               >
                 Complete Demo Payment
@@ -78,6 +84,27 @@ export default async function PartnerCheckoutPage({
             </div>
           </Card>
         </section>
+      </div>
+    </main>
+  );
+}
+
+function PartnerNotFound() {
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
+        <Card className="w-full rounded-md p-6 text-center">
+          <h1 className="text-3xl font-black text-navy">Partner not found</h1>
+          <p className="mt-3 text-sm leading-6 text-grayWilma-700">
+            This checkout link does not match a seeded LegalEase partner record.
+          </p>
+          <Link
+            href="/partners"
+            className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            Back to Partner Program
+          </Link>
+        </Card>
       </div>
     </main>
   );

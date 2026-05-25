@@ -2,7 +2,14 @@ import Link from "next/link";
 import { CheckCircle2, CircleDashed, ExternalLink, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getMockPartner, getPartnerRoutes, isMockPaid } from "@/lib/partner-program-data";
+import {
+  canAccessOnboarding,
+  getPartnerBySlug,
+  getPartnerRoutes,
+  getPaymentStatusLabel,
+  getProvisioningStatusLabel
+} from "@/lib/partners/partner-service";
+import { partnerCheckout } from "@/lib/partners/routes";
 import { ReportDownloadButton } from "./ReportDownloadButton";
 
 const setupSections = [
@@ -26,9 +33,14 @@ export default async function PartnerOnboardingPage({
 }) {
   const { partnerSlug } = await params;
   const resolvedSearchParams = await searchParams;
-  const partner = getMockPartner(partnerSlug);
-  const paid = isMockPaid(resolvedSearchParams);
-  const routes = getPartnerRoutes(partner.slug);
+  const partner = getPartnerBySlug(partnerSlug);
+
+  if (!partner) {
+    return <PartnerNotFound />;
+  }
+
+  const paid = canAccessOnboarding(partner.partnerSlug, resolvedSearchParams);
+  const routes = getPartnerRoutes(partner.partnerSlug);
 
   if (!paid) {
     return (
@@ -36,7 +48,7 @@ export default async function PartnerOnboardingPage({
         <LockedState
           title="Onboarding hub locked"
           body="Complete the demo payment step to activate the Record-Clearing Access Program onboarding hub."
-          href={`/partners/checkout/${partner.id}`}
+          href={partnerCheckout(partner.partnerId)}
           label="Return to Demo Checkout"
         />
       </main>
@@ -44,12 +56,12 @@ export default async function PartnerOnboardingPage({
   }
 
   const statuses = [
-    ["Payment", partner.activationStatuses.payment],
-    ["Partner Profile", partner.activationStatuses.partnerProfile],
-    ["Co-Branded Page", partner.activationStatuses.coBrandedPage],
-    ["Dashboard", partner.activationStatuses.dashboard],
-    ["Launch Kit", partner.activationStatuses.launchKit],
-    ["Reports", partner.activationStatuses.reports]
+    ["Payment", getPaymentStatusLabel(partner.paymentStatus)],
+    ["Qualification", partner.qualificationStatus === "qualified" ? "Qualified" : "In Review"],
+    ["Provisioning", getProvisioningStatusLabel(partner.provisioningStatus)],
+    ["Co-Branded Page", partner.assets.partnerLandingPage.status],
+    ["Dashboard", partner.assets.dashboard.status],
+    ["Launch Kit", partner.assets.launchKit.status]
   ];
 
   return (
@@ -60,7 +72,7 @@ export default async function PartnerOnboardingPage({
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Welcome to the Record-Clearing Access Program.</h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-grayWilma-700">
-              {partner.name} is now in setup for co-branded access, Wilma intake, RecordShield support,
+              {partner.partnerName} is now in setup for co-branded access, Wilma intake, RecordShield support,
               Expungement.ai routing, dashboard activation, launch materials, and implementation reporting.
             </p>
           </div>
@@ -70,7 +82,7 @@ export default async function PartnerOnboardingPage({
               {statuses.map(([label, status]) => (
                 <div key={label} className="flex items-center justify-between gap-3 rounded-md bg-[#f7f8f6] px-3 py-2">
                   <span className="text-sm font-semibold text-grayWilma-700">{label}</span>
-                  <Badge tone={status === "Complete" ? "teal" : "blue"}>{status}</Badge>
+                  <Badge tone={status === "Paid" || status === "Demo paid" || status === "Qualified" ? "teal" : "blue"}>{status}</Badge>
                 </div>
               ))}
             </div>
@@ -118,17 +130,38 @@ export default async function PartnerOnboardingPage({
             endpoint="/api/partner-reports/weekly"
             filename="legalease-weekly-report.pdf"
             label="Generate weekly report"
-            partnerId={partner.id}
-            partnerName={partner.name}
+            partnerId={partner.partnerId}
+            partnerName={partner.partnerName}
           />
           <ReportDownloadButton
             endpoint="/api/partner-reports/final"
             filename="legalease-final-impact-report.pdf"
             label="Generate final report"
-            partnerId={partner.id}
-            partnerName={partner.name}
+            partnerId={partner.partnerId}
+            partnerName={partner.partnerName}
           />
         </section>
+      </div>
+    </main>
+  );
+}
+
+function PartnerNotFound() {
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+      <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
+        <Card className="w-full rounded-md p-6 text-center">
+          <h1 className="text-3xl font-black text-navy">Partner not found</h1>
+          <p className="mt-3 text-sm leading-6 text-grayWilma-700">
+            This onboarding link does not match a seeded LegalEase partner record.
+          </p>
+          <Link
+            href="/partners"
+            className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+          >
+            Back to Partner Program
+          </Link>
+        </Card>
       </div>
     </main>
   );
