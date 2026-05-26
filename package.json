@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/test-partner-repository.mjs && node scripts/test-partner-admin-actions.mjs && node scripts/test-partner-write-layer.mjs",
     "partners:check-seed-sql": "node scripts/check-partner-seed-sql.mjs",
     "partners:check-supabase-env": "node scripts/check-supabase-partner-env.mjs",
     "partners:export-seed-sql": "node scripts/export-partner-seed-sql.mjs",
@@ -15,6 +17,8 @@
     "partners:test-write-layer": "node scripts/test-partner-write-layer.mjs",
     "partners:verify-supabase-live-read": "node scripts/verify-supabase-live-read.mjs",
     "partners:verify-supabase-required-partners": "node scripts/verify-supabase-required-partners.mjs",
+    "partners:verify-supabase-admin-write": "node scripts/verify-supabase-admin-write.mjs",
+    "partners:verify-production-readiness": "node scripts/verify-production-readiness.mjs",
     "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs"
   },
   "dependencies": {

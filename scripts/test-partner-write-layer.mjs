@@ -7,7 +7,8 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const requiredFiles = [
   "src/lib/partners/partner-repository.ts",
   "src/app/api/internal/partners/admin-action/route.ts",
-  "src/lib/partners/admin-actions.ts"
+  "src/lib/partners/admin-actions.ts",
+  "src/lib/partners/admin-action-runner.ts"
 ];
 
 const requiredActions = [
@@ -40,7 +41,8 @@ try {
   const adminActionsSource = readSource("src/lib/partners/admin-actions.ts");
   const repositorySource = readSource("src/lib/partners/partner-repository.ts");
   const routeSource = readSource("src/app/api/internal/partners/admin-action/route.ts");
-  const combinedSource = `${adminActionsSource}\n${repositorySource}\n${routeSource}`;
+  const runnerSource = readSource("src/lib/partners/admin-action-runner.ts");
+  const combinedSource = `${adminActionsSource}\n${repositorySource}\n${routeSource}\n${runnerSource}`;
 
   for (const action of requiredActions) {
     assert(combinedSource.includes(action), `Missing required admin action: ${action}`);
