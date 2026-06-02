@@ -17,9 +17,9 @@ import { isSupabaseConfigured } from "@/lib/supabase/server";
 export default async function InternalPartnerDataPage() {
   const partners = await getAllPartnerRecords();
   const repositoryMode = await getPartnerRepositoryMode();
-  const paidPartners = partners.filter((partner) => partner.paymentStatus === "paid" || partner.paymentStatus === "demo_paid");
-  const activePartners = partners.filter((partner) => partner.provisioningStatus === "active");
-  const provisioningPartners = partners.filter((partner) => partner.provisioningStatus === "provisioning");
+  const paidPartners = partners.filter((partner) => partner.paymentStatus === "paid");
+  const activePartners = partners.filter((partner) => partner.provisioningStatus === "provisioned");
+  const provisioningPartners = partners.filter((partner) => partner.provisioningStatus === "provisioning_in_progress");
   const supabasePartnerDataEnabled = process.env.ENABLE_SUPABASE_PARTNER_DATA === "true";
   const supabaseConfigured = isSupabaseConfigured();
   const dataSourceLabel = repositoryMode === "supabase" ? "Supabase partner database" : "Local seeded fallback";

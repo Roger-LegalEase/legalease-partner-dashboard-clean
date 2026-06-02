@@ -16,9 +16,9 @@ import type { PartnerRecord } from "@/lib/partners/types";
 export default async function InternalPartnerAdminPage() {
   const partners = await getAllPartnerRecords();
   const qualifiedPartners = partners.filter((record) => record.qualificationStatus === "qualified").length;
-  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid" || record.paymentStatus === "demo_paid").length;
-  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning").length;
-  const activePartners = partners.filter((record) => record.provisioningStatus === "active").length;
+  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;
+  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning_in_progress").length;
+  const activePartners = partners.filter((record) => record.provisioningStatus === "provisioned").length;
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -113,10 +113,10 @@ function PartnerAdminRow({ record }: { record: PartnerRecord }) {
       <Badge tone={record.qualificationStatus === "qualified" ? "teal" : "orange"}>
         {getQualificationStatusLabel(record.qualificationStatus)}
       </Badge>
-      <Badge tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"}>
+      <Badge tone={record.paymentStatus === "paid" ? "teal" : "orange"}>
         {getPaymentStatusLabel(record.paymentStatus)}
       </Badge>
-      <Badge tone={record.provisioningStatus === "active" ? "teal" : "blue"}>
+      <Badge tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"}>
         {getProvisioningStatusLabel(record.provisioningStatus)}
       </Badge>
       <p className="text-sm font-semibold text-grayWilma-800">

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Copy, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { canAccessOnboarding, getPartnerBySlug } from "@/lib/partners/partner-service";
+import { canAccessOnboarding, getPaymentGateMessage, getPartnerBySlug } from "@/lib/partners/partner-service";
 import {
   partnerComplianceCopy
 } from "@/lib/partners/types";
@@ -44,11 +44,13 @@ export default async function LaunchKitPage({
   const paid = canAccessOnboarding(partner.partnerSlug, await searchParams);
 
   if (!paid) {
+    const gateMessage = getPaymentGateMessage(partner);
+
     return (
       <main className="min-h-screen bg-[#f7f8f6] text-navy">
         <LockedState
           title="Launch kit locked"
-          body="Complete the demo payment step to unlock the partner launch kit preview."
+          body={gateMessage.body}
           href={partnerCheckout(partner.partnerId)}
         />
       </main>
@@ -58,7 +60,7 @@ export default async function LaunchKitPage({
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Link href={partnerOnboarding(partner.partnerSlug, true)} className="text-sm font-semibold text-teal hover:text-navy">
+        <Link href={partnerOnboarding(partner.partnerSlug)} className="text-sm font-semibold text-teal hover:text-navy">
           Back to onboarding hub
         </Link>
 
@@ -94,7 +96,7 @@ export default async function LaunchKitPage({
               Share this access page when the partner launch is approved:
             </p>
             <Link
-              href={partnerPublicPage(partner.partnerSlug, true)}
+              href={partnerPublicPage(partner.partnerSlug)}
               className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
             >
               Open partner access page
@@ -153,7 +155,7 @@ function LockedState({ title, body, href }: { title: string; body: string; href:
           href={href}
           className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
         >
-          Return to Demo Checkout
+          Go to checkout
         </Link>
       </Card>
     </div>

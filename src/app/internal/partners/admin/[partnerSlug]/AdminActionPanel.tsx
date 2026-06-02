@@ -82,7 +82,7 @@ export function AdminActionPanel({ partnerSlug, assets }: { partnerSlug: string;
             fallback mode and does not persist.
           </p>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-grayWilma-800">
-            Stripe is not connected yet. Mark Payment Complete records demo_paid only.
+            Mark Payment Complete records paid state for internal operations only. Stripe Checkout payment IDs are recorded by webhook confirmation.
           </p>
         </div>
         <span className="inline-flex rounded-full border border-orange/30 bg-white px-3 py-1 text-xs font-black text-orange">

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowRight, ClipboardCheck, LockKeyhole, ShieldCheck, UsersRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { canAccessPartnerPage, getPartnerBySlug } from "@/lib/partners/partner-service";
+import { canAccessPartnerPage, getPaymentGateMessage, getPartnerBySlug } from "@/lib/partners/partner-service";
 import { partnerCheckout } from "@/lib/partners/routes";
 import { partnerComplianceCopy } from "@/lib/partners/types";
 
@@ -24,6 +24,8 @@ export default async function CoBrandedPartnerPage({
   const paid = canAccessPartnerPage(partner.partnerSlug, await searchParams);
 
   if (!paid) {
+    const gateMessage = getPaymentGateMessage(partner);
+
     return (
       <main className="min-h-screen bg-[#f7f8f6] text-navy">
         <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
@@ -31,13 +33,13 @@ export default async function CoBrandedPartnerPage({
             <LockKeyhole className="mx-auto h-10 w-10 text-orange" aria-hidden="true" />
             <h1 className="mt-4 text-3xl font-black text-navy">This partner access page has not been activated yet.</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              The co-branded Record-Clearing Access Program page is locked until the demo payment state is present.
+              {gateMessage.body}
             </p>
             <Link
               href={partnerCheckout(partner.partnerId)}
               className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
             >
-              Return to Demo Checkout
+              Go to checkout
             </Link>
           </Card>
         </div>

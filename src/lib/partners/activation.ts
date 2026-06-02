@@ -27,7 +27,7 @@ const readinessAssetKeys = [
 const seedEventTypes = [
   "request_received",
   "qualification_review_started",
-  "demo_payment_recorded",
+  "payment_confirmed",
   "provisioning_started",
   "asset_generated",
   "partner_activated"
@@ -36,7 +36,7 @@ const seedEventTypes = [
 const seedEventLabels: Record<(typeof seedEventTypes)[number], string> = {
   request_received: "Request received",
   qualification_review_started: "Qualification review started",
-  demo_payment_recorded: "Demo payment recorded",
+  payment_confirmed: "Payment confirmed",
   provisioning_started: "Provisioning started",
   asset_generated: "Activation asset generated",
   partner_activated: "Partner activated"
@@ -88,8 +88,8 @@ export function getActivationReadiness(slug: string): ActivationReadiness | unde
     },
     {
       id: "payment",
-      label: "Payment is complete or demo-paid",
-      state: partner.paymentStatus === "demo_paid" || partner.paymentStatus === "paid" ? "ready" : "needs_attention",
+      label: "Payment is confirmed",
+      state: partner.paymentStatus === "paid" || partner.paymentStatus === "demo_paid" ? "ready" : "needs_attention",
       detail: partner.paymentStatus
     },
     ...readinessAssetKeys.map((assetKey) => {
@@ -123,16 +123,16 @@ export function getActivationReadiness(slug: string): ActivationReadiness | unde
 }
 
 function eventAppliesToPartner(eventType: string, partner: PartnerRecord) {
-  if (eventType === "demo_payment_recorded") {
+  if (eventType === "payment_confirmed") {
     return partner.paymentStatus === "demo_paid" || partner.paymentStatus === "paid";
   }
 
   if (eventType === "provisioning_started" || eventType === "asset_generated") {
-    return ["provisioning", "active"].includes(partner.provisioningStatus);
+    return ["provisioning_in_progress", "provisioned", "provisioning", "active"].includes(partner.provisioningStatus);
   }
 
   if (eventType === "partner_activated") {
-    return partner.provisioningStatus === "active";
+    return partner.provisioningStatus === "provisioned" || partner.provisioningStatus === "active";
   }
 
   return true;

@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { CheckCircle2, LockKeyhole } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerById, getProgramTier } from "@/lib/partners/partner-service";
-import { partnerOnboarding } from "@/lib/partners/routes";
+import type { PartnerPackageId } from "@/lib/partners/packages";
+import { PartnerCheckoutButton } from "./PartnerCheckoutButton";
 
 const unlocks = [
   "Co-branded partner page",
@@ -28,6 +29,7 @@ export default async function PartnerCheckoutPage({
   }
 
   const tier = getProgramTier(partner.programTier);
+  const packageId = packageIdForTier(partner.programTier);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -39,10 +41,10 @@ export default async function PartnerCheckoutPage({
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_0.85fr]">
           <Card className="rounded-md p-6">
             <Badge tone="orange">Demo payment gate</Badge>
-            <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Complete demo payment to unlock onboarding.</h1>
+            <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Complete payment to unlock onboarding.</h1>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-              This page models the payment step for {partner.partnerName}. It does not create a Stripe session, charge a card,
-              or store payment state.
+              This page creates a Stripe Checkout Session for {partner.partnerName}. Provisioning opens only after
+              Stripe sends verified payment confirmation to LegalEase.
             </p>
 
             <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-5">
@@ -53,14 +55,8 @@ export default async function PartnerCheckoutPage({
             </div>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href={partnerOnboarding(partner.partnerSlug, true)}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
-              >
-                Complete Demo Payment
-                <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-              </Link>
-              <p className="text-xs leading-5 text-grayWilma-600">Mock unlock uses the URL query param paid=true.</p>
+              <PartnerCheckoutButton packageId={packageId} partnerId={partner.partnerId} partnerSlug={partner.partnerSlug} />
+              <p className="text-xs leading-5 text-grayWilma-600">URL query params do not unlock provisioning.</p>
             </div>
           </Card>
 
@@ -87,6 +83,18 @@ export default async function PartnerCheckoutPage({
       </div>
     </main>
   );
+}
+
+function packageIdForTier(tier: string): PartnerPackageId {
+  if (tier === "starter") {
+    return "starter-access-program";
+  }
+
+  if (tier === "strategic") {
+    return "county-access-program";
+  }
+
+  return "community-access-program";
 }
 
 function PartnerNotFound() {

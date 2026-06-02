@@ -33,9 +33,17 @@ type PartnerRecordRow = {
   record_clearing_needs: string[] | null;
   program_goal: string | null;
   program_tier: string;
+  selected_package_id: string | null;
+  selected_package_name: string | null;
   payment_status: string;
   qualification_status: string;
   provisioning_status: string;
+  stripe_checkout_session_id: string | null;
+  stripe_customer_id: string | null;
+  stripe_payment_intent_id: string | null;
+  paid_at: string | null;
+  payment_amount: number | null;
+  payment_currency: string | null;
   assigned_owner: string | null;
   launch_date_target: string | null;
   compliance_notes: string | null;
@@ -127,6 +135,66 @@ export async function updatePartnerPaymentStatus(
   paymentStatus: PartnerPaymentStatus
 ): Promise<PartnerWriteResult> {
   return updatePartnerRecordField(slug, "payment_status", paymentStatus, "update_partner_payment_status");
+}
+
+export async function markPartnerCheckoutStarted({
+  slug,
+  selectedPackageId,
+  selectedPackageName
+}: {
+  slug: string;
+  selectedPackageId: string;
+  selectedPackageName: string;
+}): Promise<PartnerWriteResult> {
+  return updatePartnerRecordFields(
+    slug,
+    {
+      selected_package_id: selectedPackageId,
+      selected_package_name: selectedPackageName,
+      payment_status: "checkout_started",
+      provisioning_status: "blocked_payment_required"
+    },
+    "mark_partner_checkout_started"
+  );
+}
+
+export async function activatePaidPartnerProvisioning({
+  slug,
+  selectedPackageId,
+  selectedPackageName,
+  stripeCheckoutSessionId,
+  stripeCustomerId,
+  stripePaymentIntentId,
+  paidAt,
+  paymentAmount,
+  paymentCurrency
+}: {
+  slug: string;
+  selectedPackageId: string;
+  selectedPackageName: string;
+  stripeCheckoutSessionId: string;
+  stripeCustomerId?: string;
+  stripePaymentIntentId?: string;
+  paidAt: string;
+  paymentAmount?: number;
+  paymentCurrency?: string;
+}): Promise<PartnerWriteResult> {
+  return updatePartnerRecordFields(
+    slug,
+    {
+      selected_package_id: selectedPackageId,
+      selected_package_name: selectedPackageName,
+      stripe_checkout_session_id: stripeCheckoutSessionId,
+      stripe_customer_id: stripeCustomerId ?? null,
+      stripe_payment_intent_id: stripePaymentIntentId ?? null,
+      paid_at: paidAt,
+      payment_amount: paymentAmount ?? null,
+      payment_currency: paymentCurrency ?? null,
+      payment_status: "paid",
+      provisioning_status: "ready_for_onboarding"
+    },
+    "activate_paid_partner_provisioning"
+  );
 }
 
 export async function updatePartnerQualificationStatus(
@@ -227,7 +295,7 @@ export async function addPartnerInternalNote(
 }
 
 export async function activatePartner(slug: string): Promise<PartnerWriteResult> {
-  return updatePartnerProvisioningStatus(slug, "active");
+  return updatePartnerProvisioningStatus(slug, "provisioned");
 }
 
 export async function pausePartner(slug: string): Promise<PartnerWriteResult> {
@@ -333,6 +401,14 @@ async function updatePartnerRecordField(
   value: string,
   action: string
 ): Promise<PartnerWriteResult> {
+  return updatePartnerRecordFields(slug, { [column]: value }, action);
+}
+
+async function updatePartnerRecordFields(
+  slug: string,
+  values: Record<string, string | number | null>,
+  action: string
+): Promise<PartnerWriteResult> {
   const readiness = await getWriteReadiness(slug, action);
   if (!readiness.ready) {
     return readiness.result;
@@ -346,7 +422,7 @@ async function updatePartnerRecordField(
 
     const { error } = await supabase
       .from("partner_records")
-      .update({ [column]: value, updated_at: new Date().toISOString() })
+      .update({ ...values, updated_at: new Date().toISOString() })
       .eq("partner_slug", slug);
 
     if (error) {
@@ -437,9 +513,17 @@ function mapPartnerRecordRow(
     recordClearingNeeds: (row.record_clearing_needs ?? []) as RecordClearingNeed[],
     programGoal: row.program_goal ?? "",
     programTier: row.program_tier as ProgramTier,
+    selectedPackageId: row.selected_package_id ?? seedPartner?.selectedPackageId,
+    selectedPackageName: row.selected_package_name ?? seedPartner?.selectedPackageName,
     paymentStatus: row.payment_status as PartnerPaymentStatus,
     qualificationStatus: row.qualification_status as PartnerQualificationStatus,
     provisioningStatus: row.provisioning_status as PartnerProvisioningStatus,
+    stripeCheckoutSessionId: row.stripe_checkout_session_id ?? seedPartner?.stripeCheckoutSessionId,
+    stripeCustomerId: row.stripe_customer_id ?? seedPartner?.stripeCustomerId,
+    stripePaymentIntentId: row.stripe_payment_intent_id ?? seedPartner?.stripePaymentIntentId,
+    paidAt: row.paid_at ?? seedPartner?.paidAt,
+    paymentAmount: row.payment_amount ?? seedPartner?.paymentAmount,
+    paymentCurrency: row.payment_currency ?? seedPartner?.paymentCurrency,
     assignedOwner: row.assigned_owner ?? "",
     launchDateTarget: row.launch_date_target ?? "",
     createdAt: row.created_at ?? "",

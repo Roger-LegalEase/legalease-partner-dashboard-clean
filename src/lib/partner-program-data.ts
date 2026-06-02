@@ -49,8 +49,6 @@ export {
   getProvisioningPartners,
   getProvisioningStatusLabel,
   getQualificationStatusLabel,
-  isDemoPaid,
-  isDemoPaid as isMockPaid,
   isPartnerActive,
   isPartnerPaid
 } from "@/lib/partners/partner-service";
@@ -106,7 +104,7 @@ function toLegacyPartner(partner: typeof seedPartners[number]): Partner {
     regionServed: partner.region,
     selectedTierId: partner.programTier,
     activationStatuses: {
-      payment: partner.paymentStatus === "paid" || partner.paymentStatus === "demo_paid" ? "Complete" : "Pending Activation",
+      payment: partner.paymentStatus === "paid" ? "Complete" : "Pending Activation",
       partnerProfile: partner.qualificationStatus === "qualified" ? "In Setup" : "Pending Activation",
       coBrandedPage: partner.assets.partnerLandingPage.status === "active" ? "Complete" : "Draft Ready",
       dashboard: partner.assets.dashboard.status === "active" ? "Complete" : "Pending Activation",

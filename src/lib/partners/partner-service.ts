@@ -30,7 +30,7 @@ export function getPartnerById(partnerId: string): PartnerRecord | undefined {
 }
 
 export function getActivePartners(): PartnerRecord[] {
-  return seedPartners.filter((partner) => partner.provisioningStatus === "active");
+  return seedPartners.filter((partner) => isProvisionedStatus(partner.provisioningStatus));
 }
 
 export function getPaidPartners(): PartnerRecord[] {
@@ -38,7 +38,7 @@ export function getPaidPartners(): PartnerRecord[] {
 }
 
 export function getProvisioningPartners(): PartnerRecord[] {
-  return seedPartners.filter((partner) => partner.provisioningStatus === "provisioning");
+  return seedPartners.filter((partner) => partner.provisioningStatus === "provisioning_in_progress" || partner.provisioningStatus === "provisioning");
 }
 
 export function getPartnerAssets(slug: string): PartnerAsset[] {
@@ -56,19 +56,32 @@ export function isPartnerPaid(slug: string): boolean {
 }
 
 export function isPartnerActive(slug: string): boolean {
-  return getPartnerBySlug(slug)?.provisioningStatus === "active";
-}
-
-export function isDemoPaid(searchParams: SearchParamsRecord): boolean {
-  return searchParams.paid === "true";
+  const status = getPartnerBySlug(slug)?.provisioningStatus;
+  return status ? isProvisionedStatus(status) : false;
 }
 
 export function canAccessPartnerPage(slug: string, searchParams: SearchParamsRecord): boolean {
-  return isDemoPaid(searchParams) || isPartnerPaid(slug) || isPartnerActive(slug);
+  void searchParams;
+  return isPartnerPaid(slug) || isPartnerActive(slug);
 }
 
 export function canAccessOnboarding(slug: string, searchParams: SearchParamsRecord): boolean {
-  return isDemoPaid(searchParams) || isPartnerPaid(slug);
+  void searchParams;
+  return isPartnerPaid(slug);
+}
+
+export function getPaymentGateMessage(partner: PartnerRecord): { title: string; body: string } {
+  if (partner.paymentStatus === "checkout_started") {
+    return {
+      title: "Payment confirmation pending",
+      body: "Stripe Checkout has started. Provisioning opens after LegalEase receives Stripe webhook confirmation."
+    };
+  }
+
+  return {
+    title: "Payment required",
+    body: "Complete payment before LegalEase opens onboarding and provisioning for this partner."
+  };
 }
 
 export function getPartnerAccessUrl(slug: string, options: PartnerUrlOptions = {}): string {
@@ -93,6 +106,8 @@ export function getProgramTier(tier: ProgramTier) {
 
 export function getPaymentStatusLabel(status: PartnerPaymentStatus): string {
   const labels: Record<PartnerPaymentStatus, string> = {
+    unpaid: "Unpaid",
+    checkout_started: "Payment pending",
     not_started: "Not started",
     pending: "Pending",
     demo_paid: "Demo paid",
@@ -106,6 +121,11 @@ export function getPaymentStatusLabel(status: PartnerPaymentStatus): string {
 
 export function getProvisioningStatusLabel(status: PartnerRecord["provisioningStatus"]): string {
   const labels: Record<PartnerRecord["provisioningStatus"], string> = {
+    blocked_payment_required: "Payment required",
+    ready_for_onboarding: "Ready for onboarding",
+    onboarding_started: "Onboarding started",
+    provisioning_in_progress: "Provisioning in progress",
+    provisioned: "Provisioned",
     request_received: "Request received",
     qualified: "Qualified",
     payment_pending: "Payment pending",
@@ -144,11 +164,11 @@ export function getAssetStatusLabel(status: PartnerAsset["status"]): string {
 export function getPartnerRoutes(slug: string) {
   return {
     checkout: getPartnerCheckoutUrl(slug),
-    onboarding: getPartnerOnboardingUrl(slug, { paid: true }),
-    coBrandedPage: getPartnerAccessUrl(slug, { paid: true }),
+    onboarding: getPartnerOnboardingUrl(slug),
+    coBrandedPage: getPartnerAccessUrl(slug),
     dashboard: "/dashboard/partners",
-    launchKit: `/partners/onboarding/${slug}/launch-kit?paid=true`,
-    emailSequence: `/partners/onboarding/${slug}/email-sequence?paid=true`,
+    launchKit: `/partners/onboarding/${slug}/launch-kit`,
+    emailSequence: `/partners/onboarding/${slug}/email-sequence`,
     internalProvisioning: getInternalProvisioningUrl(slug),
     weeklyReport: weeklyReportApi(),
     finalReport: finalReportApi()
@@ -157,4 +177,8 @@ export function getPartnerRoutes(slug: string) {
 
 function isPaidStatus(status: PartnerPaymentStatus) {
   return status === "demo_paid" || status === "paid";
+}
+
+function isProvisionedStatus(status: PartnerRecord["provisioningStatus"]) {
+  return status === "provisioned" || status === "active";
 }

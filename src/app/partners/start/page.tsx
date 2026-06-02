@@ -25,7 +25,7 @@ export default function PartnerStartPage() {
                 <p className="font-black text-navy">Provisioning starts after confirmation</p>
                 <p className="mt-1 leading-6">
                   Checkout creates a Stripe test-mode payment session. The app waits for confirmed payment before paid
-                  provisioning activation is introduced.
+                  provisioning opens.
                 </p>
               </div>
             </div>

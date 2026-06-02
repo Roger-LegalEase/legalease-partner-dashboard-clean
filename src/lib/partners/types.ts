@@ -1,10 +1,23 @@
 export type ProgramTier = "starter" | "implementation" | "strategic";
 
-export type PartnerPaymentStatus = "not_started" | "pending" | "demo_paid" | "paid" | "failed" | "refunded";
+export type PartnerPaymentStatus =
+  | "unpaid"
+  | "checkout_started"
+  | "paid"
+  | "failed"
+  | "refunded"
+  | "not_started"
+  | "pending"
+  | "demo_paid";
 
 export type PartnerQualificationStatus = "request_received" | "under_review" | "qualified" | "declined";
 
 export type PartnerProvisioningStatus =
+  | "blocked_payment_required"
+  | "ready_for_onboarding"
+  | "onboarding_started"
+  | "provisioning_in_progress"
+  | "provisioned"
   | "request_received"
   | "qualified"
   | "payment_pending"
@@ -99,9 +112,17 @@ export type PartnerRecord = {
   recordClearingNeeds: RecordClearingNeed[];
   programGoal: string;
   programTier: ProgramTier;
+  selectedPackageId?: string;
+  selectedPackageName?: string;
   paymentStatus: PartnerPaymentStatus;
   qualificationStatus: PartnerQualificationStatus;
   provisioningStatus: PartnerProvisioningStatus;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  stripePaymentIntentId?: string;
+  paidAt?: string;
+  paymentAmount?: number;
+  paymentCurrency?: string;
   assignedOwner: string;
   launchDateTarget: string;
   createdAt: string;

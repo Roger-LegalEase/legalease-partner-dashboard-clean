@@ -18,9 +18,17 @@ create table if not exists partner_records (
   record_clearing_needs text[] default '{}',
   program_goal text,
   program_tier text not null,
-  payment_status text not null default 'not_started',
+  selected_package_id text,
+  selected_package_name text,
+  payment_status text not null default 'unpaid',
   qualification_status text not null default 'request_received',
-  provisioning_status text not null default 'request_received',
+  provisioning_status text not null default 'blocked_payment_required',
+  stripe_checkout_session_id text,
+  stripe_customer_id text,
+  stripe_payment_intent_id text,
+  paid_at timestamptz,
+  payment_amount integer,
+  payment_currency text,
   assigned_owner text,
   launch_date_target date,
   compliance_notes text,
@@ -30,6 +38,16 @@ create table if not exists partner_records (
 
 comment on table partner_records is
   'Partner Journey OS canonical partner records for LegalEase partner persistence.';
+
+alter table partner_records
+  add column if not exists selected_package_id text,
+  add column if not exists selected_package_name text,
+  add column if not exists stripe_checkout_session_id text,
+  add column if not exists stripe_customer_id text,
+  add column if not exists stripe_payment_intent_id text,
+  add column if not exists paid_at timestamptz,
+  add column if not exists payment_amount integer,
+  add column if not exists payment_currency text;
 
 create table if not exists partner_assets (
   id uuid primary key default gen_random_uuid(),

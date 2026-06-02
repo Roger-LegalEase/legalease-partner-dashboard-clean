@@ -1,15 +1,13 @@
 import type { PartnerUrlOptions } from "./types";
 
-function withPaid(path: string, paid?: boolean) {
-  return paid ? `${path}?paid=true` : path;
-}
-
 export function partnerPublicPage(slug: string, paid?: boolean) {
-  return withPaid(`/p/${slug}`, paid);
+  void paid;
+  return `/p/${slug}`;
 }
 
 export function partnerOnboarding(slug: string, paid?: boolean) {
-  return withPaid(`/partners/onboarding/${slug}`, paid);
+  void paid;
+  return `/partners/onboarding/${slug}`;
 }
 
 export function partnerCheckout(partnerId: string) {
@@ -17,11 +15,13 @@ export function partnerCheckout(partnerId: string) {
 }
 
 export function partnerLaunchKit(slug: string, paid?: boolean) {
-  return withPaid(`/partners/onboarding/${slug}/launch-kit`, paid);
+  void paid;
+  return `/partners/onboarding/${slug}/launch-kit`;
 }
 
 export function partnerEmailSequence(slug: string, paid?: boolean) {
-  return withPaid(`/partners/onboarding/${slug}/email-sequence`, paid);
+  void paid;
+  return `/partners/onboarding/${slug}/email-sequence`;
 }
 
 export function partnerDashboard(slug?: string) {

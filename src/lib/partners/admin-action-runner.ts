@@ -35,11 +35,11 @@ export async function runPartnerAdminAction({
 
   if (action === "mark_payment_complete") {
     const steps = [
-      () => updatePartnerPaymentStatus(partnerSlug, "demo_paid"),
-      ...(["active", "paused"].includes(currentProvisioningStatus)
+      () => updatePartnerPaymentStatus(partnerSlug, "paid"),
+      ...(["provisioned", "active", "paused"].includes(currentProvisioningStatus)
         ? []
-        : [() => updatePartnerProvisioningStatus(partnerSlug, "payment_complete" as const)]),
-      () => addPartnerEvent(partnerSlug, "demo_payment_recorded", "Demo payment recorded", { source: "admin_action" })
+        : [() => updatePartnerProvisioningStatus(partnerSlug, "ready_for_onboarding" as const)]),
+      () => addPartnerEvent(partnerSlug, "payment_confirmed", "Payment confirmed", { source: "admin_action" })
     ];
 
     return runSteps(action, partnerSlug, steps);
@@ -47,7 +47,7 @@ export async function runPartnerAdminAction({
 
   if (action === "move_to_provisioning") {
     return runSteps(action, partnerSlug, [
-      () => updatePartnerProvisioningStatus(partnerSlug, "provisioning"),
+      () => updatePartnerProvisioningStatus(partnerSlug, "provisioning_in_progress"),
       () => addPartnerEvent(partnerSlug, "provisioning_started", "Provisioning started", { source: "admin_action" })
     ]);
   }

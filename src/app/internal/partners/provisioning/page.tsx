@@ -15,9 +15,9 @@ import type { PartnerRecord } from "@/lib/partners/types";
 export default function InternalPartnerProvisioningPage() {
   const partners = getAllPartners();
   const totalPartners = partners.length;
-  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid" || record.paymentStatus === "demo_paid").length;
-  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning").length;
-  const active = partners.filter((record) => record.provisioningStatus === "active").length;
+  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;
+  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning_in_progress").length;
+  const active = partners.filter((record) => record.provisioningStatus === "provisioned").length;
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -93,10 +93,10 @@ function ProvisioningRow({ record }: { record: PartnerRecord }) {
       </div>
       <p className="text-sm font-semibold text-grayWilma-800">{tier.name}</p>
       <p className="text-sm text-grayWilma-700">{record.region}</p>
-      <Badge tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"}>
+      <Badge tone={record.paymentStatus === "paid" ? "teal" : "orange"}>
         {getPaymentStatusLabel(record.paymentStatus)}
       </Badge>
-      <Badge tone={record.provisioningStatus === "active" ? "teal" : "blue"}>
+      <Badge tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"}>
         {getProvisioningStatusLabel(record.provisioningStatus)}
       </Badge>
       <p className="text-sm text-grayWilma-700">{record.launchDateTarget}</p>

@@ -70,8 +70,8 @@ export default async function InternalPartnerAdminDetailPage({
             <h2 className="text-lg font-black text-navy">Current activation state</h2>
             <div className="mt-4 grid gap-3">
               <StatusLine label="Qualification" value={getQualificationStatusLabel(record.qualificationStatus)} tone={record.qualificationStatus === "qualified" ? "teal" : "orange"} />
-              <StatusLine label="Payment" value={getPaymentStatusLabel(record.paymentStatus)} tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"} />
-              <StatusLine label="Provisioning" value={getProvisioningStatusLabel(record.provisioningStatus)} tone={record.provisioningStatus === "active" ? "teal" : "blue"} />
+              <StatusLine label="Payment" value={getPaymentStatusLabel(record.paymentStatus)} tone={record.paymentStatus === "paid" ? "teal" : "orange"} />
+              <StatusLine label="Provisioning" value={getProvisioningStatusLabel(record.provisioningStatus)} tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"} />
               <StatusLine label="Launch readiness" value={readiness?.ready ? "Ready" : "Needs attention"} tone={readiness?.ready ? "teal" : "orange"} />
             </div>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">{record.complianceNotes}</p>
@@ -98,7 +98,7 @@ export default async function InternalPartnerAdminDetailPage({
             lines={[
               `Status: ${getPaymentStatusLabel(record.paymentStatus)}`,
               "Stripe is not enabled in Phase 8.",
-              "Manual/demo payment marking records demo_paid only."
+              "Stripe payment identifiers are recorded only by verified webhook confirmation."
             ]}
           />
           <OperationalSection

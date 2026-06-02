@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
   canAccessOnboarding,
+  getPaymentGateMessage,
   getPartnerBySlug,
   getPartnerRoutes,
   getPaymentStatusLabel,
@@ -43,13 +44,15 @@ export default async function PartnerOnboardingPage({
   const routes = getPartnerRoutes(partner.partnerSlug);
 
   if (!paid) {
+    const gateMessage = getPaymentGateMessage(partner);
+
     return (
       <main className="min-h-screen bg-[#f7f8f6] text-navy">
         <LockedState
-          title="Onboarding hub locked"
-          body="Complete the demo payment step to activate the Record-Clearing Access Program onboarding hub."
+          title={gateMessage.title}
+          body={gateMessage.body}
           href={partnerCheckout(partner.partnerId)}
-          label="Return to Demo Checkout"
+          label="Go to checkout"
         />
       </main>
     );
@@ -67,7 +70,11 @@ export default async function PartnerOnboardingPage({
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <Badge tone="teal">Paid onboarding</Badge>
+        <Badge tone={partner.provisioningStatus === "provisioned" || partner.provisioningStatus === "active" ? "teal" : "blue"}>
+          {partner.provisioningStatus === "provisioned" || partner.provisioningStatus === "active"
+            ? "Active partner journey"
+            : "Paid onboarding"}
+        </Badge>
         <section className="mt-4 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Welcome to the Record-Clearing Access Program.</h1>

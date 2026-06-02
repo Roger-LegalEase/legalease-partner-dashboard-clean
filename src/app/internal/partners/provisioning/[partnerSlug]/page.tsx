@@ -82,7 +82,7 @@ export default async function InternalPartnerProvisioningDetailPage({
               <StatusLine
                 label="Payment"
                 value={getPaymentStatusLabel(record.paymentStatus)}
-                tone={record.paymentStatus === "paid" || record.paymentStatus === "demo_paid" ? "teal" : "orange"}
+                tone={record.paymentStatus === "paid" ? "teal" : "orange"}
               />
               <StatusLine label="Provisioning" value={getProvisioningStatusLabel(record.provisioningStatus)} tone="blue" />
               <StatusLine label="Qualification" value={getQualificationStatusLabel(record.qualificationStatus)} tone="teal" />

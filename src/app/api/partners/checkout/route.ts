@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { getPartnerPackage } from "@/lib/partners/packages";
+import {
+  getPartnerRecordById,
+  getPartnerRecordBySlug,
+  markPartnerCheckoutStarted
+} from "@/lib/partners/partner-repository";
 import { getStripeServerClient } from "@/lib/stripe/server";
 
 export const runtime = "nodejs";
@@ -40,6 +45,17 @@ export async function POST(request: Request) {
   }
 
   try {
+    const partner = partnerSlug
+      ? await getPartnerRecordBySlug(partnerSlug)
+      : partnerId
+        ? await getPartnerRecordById(partnerId)
+        : undefined;
+    const resolvedPartnerSlug = partner?.partnerSlug ?? partnerSlug;
+    const resolvedPartnerId = partner?.partnerId ?? partnerId;
+    const successUrl = `${appUrl}/partners/checkout/success?session_id={CHECKOUT_SESSION_ID}${
+      resolvedPartnerSlug ? `&partner_slug=${encodeURIComponent(resolvedPartnerSlug)}` : ""
+    }`;
+
     const stripe = getStripeServerClient();
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -49,12 +65,13 @@ export async function POST(request: Request) {
           quantity: 1
         }
       ],
-      success_url: `${appUrl}/partners/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: successUrl,
       cancel_url: `${appUrl}/partners/start`,
       metadata: {
         packageId: partnerPackage.id,
-        ...(partnerId ? { partnerId } : {}),
-        ...(partnerSlug ? { partnerSlug } : {}),
+        packageName: partnerPackage.name,
+        ...(resolvedPartnerId ? { partnerId: resolvedPartnerId } : {}),
+        ...(resolvedPartnerSlug ? { partnerSlug: resolvedPartnerSlug } : {}),
         product: "legalease-partner-journey-os",
         program: "record-clearing-access-program"
       }
@@ -62,6 +79,24 @@ export async function POST(request: Request) {
 
     if (!session.url) {
       return NextResponse.json({ error: "Stripe did not return a checkout URL." }, { status: 502 });
+    }
+
+    if (partner) {
+      const writeResult = await markPartnerCheckoutStarted({
+        slug: partner.partnerSlug,
+        selectedPackageId: partnerPackage.id,
+        selectedPackageName: partnerPackage.name
+      });
+
+      if (!writeResult.success) {
+        console.info("Partner checkout_started update skipped", {
+          partnerSlug: partner.partnerSlug,
+          packageId: partnerPackage.id,
+          mode: writeResult.mode,
+          persisted: writeResult.persisted,
+          message: writeResult.message
+        });
+      }
     }
 
     return NextResponse.json({ url: session.url });

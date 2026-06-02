@@ -8,7 +8,7 @@ Phase 12 adds the Stripe Checkout foundation for paid partner provisioning readi
 - Partner package definitions for the Record-Clearing Access Program:
   - Starter Access Program
   - Community Access Program
-  - County Access Program
+  - Full Access Program
 - A package selection flow on `/partners/start`.
 - `POST /api/partners/checkout` to create a Stripe Checkout Session in payment mode.
 - `/partners/checkout/success` as the Stripe return page.

@@ -34,9 +34,9 @@ export const partnerPackages: PartnerPackage[] = [
   },
   {
     id: "county-access-program",
-    name: "County Access Program",
+    name: "Full Access Program",
     description: "A county-scale record-clearing access program with implementation reporting through closeout.",
-    priceLabel: "County implementation investment",
+    priceLabel: "Full Access implementation investment",
     stripePriceEnvVar: "STRIPE_PRICE_COUNTY_ACCESS_PROGRAM",
     includedComponents: [
       "Wilma Intake",
