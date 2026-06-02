@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, CheckCircle2, ClipboardCheck, ExternalLink, FileText, Mail, ShieldCheck } from "lucide-react";
+import { CalendarDays, CheckCircle2, ClipboardCheck, ExternalLink, FileText, Mail, MessageSquareText, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
@@ -16,6 +16,7 @@ import { getPartnerEmailDeliveryRecords, getPartnerRecordBySlug } from "@/lib/pa
 import { getNeedLabels } from "@/lib/partners/seed-partners";
 import { internalAdmin, internalAdminEmails, internalProvisioningDetail } from "@/lib/partners/routes";
 import type { PartnerAsset, PartnerEvent } from "@/lib/partners/types";
+import { getPartnerIntakeActivitySummary } from "@/lib/rcap-intake/repository";
 import { AdminActionPanel } from "./AdminActionPanel";
 
 export default async function InternalPartnerAdminDetailPage({
@@ -36,6 +37,7 @@ export default async function InternalPartnerAdminDetailPage({
   const readiness = getActivationReadiness(record.partnerSlug);
   const emailConfig = getPartnerEmailDeliveryConfig();
   const emailHistory = await getPartnerEmailDeliveryRecords(record.partnerSlug);
+  const intakeActivity = await getPartnerIntakeActivitySummary(record.partnerSlug);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -88,6 +90,40 @@ export default async function InternalPartnerAdminDetailPage({
         <div className="mt-8">
           <AdminActionPanel partnerSlug={record.partnerSlug} assets={assets} />
         </div>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <MessageSquareText className="mt-1 h-5 w-5 text-teal" aria-hidden="true" />
+            <div>
+              <h2 className="text-lg font-black text-navy">RCAP Wilma intake activity</h2>
+              <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+                Aggregate intake foundation metrics for this partner. Participant details stay out of the admin summary.
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <Meta label="Total sessions" value={intakeActivity.totalSessions.toLocaleString()} />
+            <Meta label="Completed sessions" value={intakeActivity.completedSessions.toLocaleString()} />
+            <Meta label="Needs review" value={intakeActivity.needsReviewSessions.toLocaleString()} />
+            <Meta
+              label="Latest intake"
+              value={
+                intakeActivity.latestIntakeDate
+                  ? new Date(intakeActivity.latestIntakeDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                  : "No sessions yet"
+              }
+            />
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-3">
+            {Object.entries(intakeActivity.pathwaySummaryCounts).length > 0 ? (
+              Object.entries(intakeActivity.pathwaySummaryCounts).map(([signal, count]) => (
+                <Meta key={signal} label={signal.replaceAll("_", " ")} value={count.toLocaleString()} />
+              ))
+            ) : (
+              <p className="text-sm font-semibold text-grayWilma-600">No pathway summaries have been generated yet.</p>
+            )}
+          </div>
+        </section>
 
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
