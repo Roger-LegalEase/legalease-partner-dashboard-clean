@@ -38,6 +38,8 @@ import {
   type RecentActivity,
   type StateBreakdown
 } from "@/lib/partner-dashboard-data";
+import { seedPartners } from "@/lib/partners/seed-partners";
+import { getOnboardingStatusLabel, getPaymentStatusLabel, getProvisioningStatusLabel } from "@/lib/partners/partner-service";
 import { cn } from "@/lib/utils";
 
 const kpiIcons = [
@@ -207,6 +209,28 @@ export default function PartnerDashboardPage() {
         </section>
 
         <KpiSummary />
+
+        <section className="grid gap-4 lg:grid-cols-3">
+          {seedPartners.map((partner) => (
+            <Card key={partner.partnerSlug} className="rounded-md p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-lg font-black text-navy">{partner.organizationName ?? partner.partnerName}</h2>
+                  <p className="mt-1 text-xs font-semibold text-grayWilma-600">{partner.serviceArea ?? partner.region}</p>
+                </div>
+                <Badge tone={partner.onboardingStatus === "submitted" || partner.onboardingStatus === "approved" ? "teal" : "blue"}>
+                  {getOnboardingStatusLabel(partner.onboardingStatus)}
+                </Badge>
+              </div>
+              <div className="mt-4 grid gap-2 text-sm text-grayWilma-700">
+                <p><span className="font-bold text-navy">Payment:</span> {getPaymentStatusLabel(partner.paymentStatus)}</p>
+                <p><span className="font-bold text-navy">Provisioning:</span> {getProvisioningStatusLabel(partner.provisioningStatus)}</p>
+                <p><span className="font-bold text-navy">Primary contact:</span> {partner.primaryContactName ?? partner.contactName}</p>
+                <p><span className="font-bold text-navy">Expected launch:</span> {partner.expectedLaunchDate ?? partner.launchDateTarget}</p>
+              </div>
+            </Card>
+          ))}
+        </section>
 
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
           <LifecycleFunnel />

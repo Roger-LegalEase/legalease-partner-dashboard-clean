@@ -67,7 +67,8 @@ export function canAccessPartnerPage(slug: string, searchParams: SearchParamsRec
 
 export function canAccessOnboarding(slug: string, searchParams: SearchParamsRecord): boolean {
   void searchParams;
-  return isPartnerPaid(slug);
+  const partner = getPartnerBySlug(slug);
+  return partner ? partner.paymentStatus === "paid" : false;
 }
 
 export function getPaymentGateMessage(partner: PartnerRecord): { title: string; body: string } {
@@ -136,6 +137,18 @@ export function getProvisioningStatusLabel(status: PartnerRecord["provisioningSt
   };
 
   return labels[status];
+}
+
+export function getOnboardingStatusLabel(status: PartnerRecord["onboardingStatus"]): string {
+  const labels: Record<NonNullable<PartnerRecord["onboardingStatus"]>, string> = {
+    not_started: "Not started",
+    in_progress: "In progress",
+    submitted: "Submitted",
+    needs_review: "Needs review",
+    approved: "Approved"
+  };
+
+  return labels[status ?? "not_started"];
 }
 
 export function getQualificationStatusLabel(status: PartnerRecord["qualificationStatus"]): string {

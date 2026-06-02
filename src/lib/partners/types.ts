@@ -26,6 +26,8 @@ export type PartnerProvisioningStatus =
   | "active"
   | "paused";
 
+export type PartnerOnboardingStatus = "not_started" | "in_progress" | "submitted" | "needs_review" | "approved";
+
 export type PartnerAssetStatus = "locked" | "pending" | "generating" | "ready" | "active";
 
 export type RecordClearingNeed =
@@ -104,8 +106,29 @@ export type PartnerRecord = {
   partnerName: string;
   contactName: string;
   contactEmail: string;
+  organizationName?: string;
+  legalName?: string;
+  primaryContactName?: string;
+  primaryContactTitle?: string;
+  primaryContactEmail?: string;
+  primaryContactPhone?: string;
   website: string;
   organizationType: PartnerOrganizationType;
+  programName?: string;
+  programDescription?: string;
+  targetState?: string;
+  targetCounty?: string;
+  targetCity?: string;
+  serviceArea?: string;
+  expectedMonthlyParticipants?: number;
+  expectedLaunchDate?: string;
+  referralSources?: string;
+  audienceDescription?: string;
+  brandingNotes?: string;
+  logoUrl?: string;
+  onboardingStatus?: PartnerOnboardingStatus;
+  onboardingStartedAt?: string;
+  onboardingCompletedAt?: string;
   region: string;
   state: string;
   estimatedUsers90Days: number;

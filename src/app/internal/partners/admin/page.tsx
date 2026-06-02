@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import {
   getPaymentStatusLabel,
   getProgramTier,
+  getOnboardingStatusLabel,
   getProvisioningStatusLabel,
   getQualificationStatusLabel
 } from "@/lib/partners/partner-service";
@@ -55,14 +56,14 @@ export default async function InternalPartnerAdminPage() {
             <h2 className="text-lg font-black text-navy">Partner activation records</h2>
             <p className="mt-1 text-sm text-grayWilma-700">Manual operations queue for pre-Stripe partner activation.</p>
           </div>
-          <div className="hidden border-b border-grayWilma-200 bg-[#f7f8f6] px-5 py-3 text-xs font-black uppercase tracking-wide text-grayWilma-600 lg:grid lg:grid-cols-[1.25fr_0.78fr_0.85fr_0.85fr_0.85fr_0.9fr_0.65fr_0.75fr_0.85fr_0.7fr] lg:items-center">
+          <div className="hidden border-b border-grayWilma-200 bg-[#f7f8f6] px-5 py-3 text-xs font-black uppercase tracking-wide text-grayWilma-600 lg:grid lg:grid-cols-[1.2fr_0.75fr_0.9fr_0.8fr_0.8fr_0.9fr_0.85fr_0.8fr_0.85fr_0.7fr] lg:items-center">
             <span>Partner</span>
             <span>Tier</span>
             <span>Region</span>
             <span>Qualification</span>
             <span>Payment</span>
             <span>Provisioning</span>
-            <span>Assets</span>
+            <span>Onboarding</span>
             <span>Launch</span>
             <span>Owner</span>
             <span>Actions</span>
@@ -100,16 +101,15 @@ function SummaryCard({
 
 function PartnerAdminRow({ record }: { record: PartnerRecord }) {
   const tier = getProgramTier(record.programTier);
-  const activeAssets = Object.values(record.assets).filter((asset) => asset.status === "active").length;
 
   return (
-    <div className="grid gap-4 px-5 py-5 lg:grid-cols-[1.25fr_0.78fr_0.85fr_0.85fr_0.85fr_0.9fr_0.65fr_0.75fr_0.85fr_0.7fr] lg:items-center">
+    <div className="grid gap-4 px-5 py-5 lg:grid-cols-[1.2fr_0.75fr_0.9fr_0.8fr_0.8fr_0.9fr_0.85fr_0.8fr_0.85fr_0.7fr] lg:items-center">
       <div>
-        <p className="font-black text-navy">{record.partnerName}</p>
+        <p className="font-black text-navy">{record.organizationName ?? record.partnerName}</p>
         <p className="mt-1 text-xs text-grayWilma-600">{record.partnerSlug}</p>
       </div>
       <p className="text-sm font-semibold text-grayWilma-800">{tier.name}</p>
-      <p className="text-sm text-grayWilma-700">{record.region}</p>
+      <p className="text-sm text-grayWilma-700">{record.serviceArea ?? record.region}</p>
       <Badge tone={record.qualificationStatus === "qualified" ? "teal" : "orange"}>
         {getQualificationStatusLabel(record.qualificationStatus)}
       </Badge>
@@ -119,10 +119,10 @@ function PartnerAdminRow({ record }: { record: PartnerRecord }) {
       <Badge tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"}>
         {getProvisioningStatusLabel(record.provisioningStatus)}
       </Badge>
-      <p className="text-sm font-semibold text-grayWilma-800">
-        {activeAssets}/{Object.values(record.assets).length}
-      </p>
-      <p className="text-sm text-grayWilma-700">{record.launchDateTarget}</p>
+      <Badge tone={record.onboardingStatus === "submitted" || record.onboardingStatus === "approved" ? "teal" : "blue"}>
+        {getOnboardingStatusLabel(record.onboardingStatus)}
+      </Badge>
+      <p className="text-sm text-grayWilma-700">{record.expectedLaunchDate ?? record.launchDateTarget}</p>
       <p className="text-sm text-grayWilma-700">{record.assignedOwner}</p>
       <Link
         href={internalAdminDetail(record.partnerSlug)}

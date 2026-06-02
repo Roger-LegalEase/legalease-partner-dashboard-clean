@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import { ArrowRight, ClipboardCheck, LockKeyhole, ShieldCheck, UsersRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { canAccessPartnerPage, getPaymentGateMessage, getPartnerBySlug } from "@/lib/partners/partner-service";
+import { getPaymentGateMessage } from "@/lib/partners/partner-service";
+import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerCheckout } from "@/lib/partners/routes";
 import { partnerComplianceCopy } from "@/lib/partners/types";
 
@@ -15,13 +16,14 @@ export default async function CoBrandedPartnerPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { partnerSlug } = await params;
-  const partner = getPartnerBySlug(partnerSlug);
+  const partner = await getPartnerRecordBySlug(partnerSlug);
 
   if (!partner) {
     return <PartnerNotFound />;
   }
 
-  const paid = canAccessPartnerPage(partner.partnerSlug, await searchParams);
+  void (await searchParams);
+  const paid = partner.paymentStatus === "paid" || partner.provisioningStatus === "provisioned" || partner.provisioningStatus === "active";
 
   if (!paid) {
     const gateMessage = getPaymentGateMessage(partner);
@@ -54,11 +56,14 @@ export default async function CoBrandedPartnerPage({
           <div>
             <Badge tone="teal">Record-Clearing Access Program</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy md:text-5xl">
-              In partnership with {partner.partnerName}
+              {partner.programName ?? `${partner.organizationName ?? partner.partnerName} Record-Clearing Access Program`}
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-grayWilma-700">
-              This access page helps community members begin record-clearing intake for expungement, sealing,
-              record restriction, or Clean Slate support where available under program scope.
+              {partner.programDescription ??
+                "This access page helps community members begin record-clearing intake for expungement, sealing, record restriction, or Clean Slate support where available under program scope."}
+            </p>
+            <p className="mt-3 text-sm font-semibold text-grayWilma-700">
+              Service area: {partner.serviceArea ?? partner.region}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -80,8 +85,8 @@ export default async function CoBrandedPartnerPage({
           <Card className="rounded-md p-6">
             <p className="text-sm font-black text-navy">Partner support</p>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              LegalEase coordinates intake, screening, routing, document support, and implementation reporting with
-              the partner organization.
+              LegalEase coordinates intake, screening, routing, document support, and implementation reporting with{" "}
+              {partner.organizationName ?? partner.partnerName}.
             </p>
             <div className="mt-5 grid gap-3">
               {["Wilma intake", "Expungement.ai routing", "Court-ready support"].map((item) => (
@@ -109,7 +114,7 @@ export default async function CoBrandedPartnerPage({
           <InfoCard
             icon={<UsersRound className="h-5 w-5 text-teal" aria-hidden="true" />}
             title="Partner support"
-            body={`${partner.partnerName} helps connect community members to this program and may review participation or referral needs under the program model.`}
+            body={`${partner.organizationName ?? partner.partnerName} helps connect community members to this program and may review participation or referral needs under the program model.`}
           />
         </section>
 

@@ -10,8 +10,29 @@ create table if not exists partner_records (
   partner_name text not null,
   contact_name text,
   contact_email text,
+  organization_name text,
+  legal_name text,
+  primary_contact_name text,
+  primary_contact_title text,
+  primary_contact_email text,
+  primary_contact_phone text,
   website text,
   organization_type text,
+  program_name text,
+  program_description text,
+  target_state text,
+  target_county text,
+  target_city text,
+  service_area text,
+  expected_monthly_participants integer,
+  expected_launch_date date,
+  referral_sources text,
+  audience_description text,
+  branding_notes text,
+  logo_url text,
+  onboarding_status text not null default 'not_started',
+  onboarding_started_at timestamptz,
+  onboarding_completed_at timestamptz,
   region text,
   state text,
   estimated_users_90_days integer,
@@ -47,7 +68,28 @@ alter table partner_records
   add column if not exists stripe_payment_intent_id text,
   add column if not exists paid_at timestamptz,
   add column if not exists payment_amount integer,
-  add column if not exists payment_currency text;
+  add column if not exists payment_currency text,
+  add column if not exists organization_name text,
+  add column if not exists legal_name text,
+  add column if not exists primary_contact_name text,
+  add column if not exists primary_contact_title text,
+  add column if not exists primary_contact_email text,
+  add column if not exists primary_contact_phone text,
+  add column if not exists program_name text,
+  add column if not exists program_description text,
+  add column if not exists target_state text,
+  add column if not exists target_county text,
+  add column if not exists target_city text,
+  add column if not exists service_area text,
+  add column if not exists expected_monthly_participants integer,
+  add column if not exists expected_launch_date date,
+  add column if not exists referral_sources text,
+  add column if not exists audience_description text,
+  add column if not exists branding_notes text,
+  add column if not exists logo_url text,
+  add column if not exists onboarding_status text not null default 'not_started',
+  add column if not exists onboarding_started_at timestamptz,
+  add column if not exists onboarding_completed_at timestamptz;
 
 create table if not exists partner_assets (
   id uuid primary key default gen_random_uuid(),
@@ -98,6 +140,7 @@ comment on table partner_events is
 create index if not exists partner_records_partner_slug_idx on partner_records(partner_slug);
 create index if not exists partner_records_payment_status_idx on partner_records(payment_status);
 create index if not exists partner_records_provisioning_status_idx on partner_records(provisioning_status);
+create index if not exists partner_records_onboarding_status_idx on partner_records(onboarding_status);
 create index if not exists partner_assets_partner_slug_idx on partner_assets(partner_slug);
 create index if not exists partner_events_partner_slug_idx on partner_events(partner_slug);
 create index if not exists partner_events_created_at_idx on partner_events(created_at);

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { getActivationReadiness, getPartnerEvents } from "@/lib/partners/activation";
 import {
   getAssetStatusLabel,
+  getOnboardingStatusLabel,
   getPaymentStatusLabel,
   getProgramTier,
   getProvisioningStatusLabel,
@@ -56,12 +57,14 @@ export default async function InternalPartnerAdminDetailPage({
             <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">{record.programGoal}</p>
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               <Meta label="Contact" value={`${record.contactName} · ${record.contactEmail}`} />
+              <Meta label="Primary contact" value={`${record.primaryContactName ?? record.contactName} · ${record.primaryContactEmail ?? record.contactEmail}`} />
               <Meta label="Organization type" value={record.organizationType.replaceAll("_", " ")} />
-              <Meta label="Region/state" value={`${record.region}, ${record.state}`} />
+              <Meta label="Target geography" value={`${record.serviceArea ?? record.region}, ${record.targetState ?? record.state}`} />
               <Meta label="Estimated 90-day users" value={record.estimatedUsers90Days.toLocaleString()} />
+              <Meta label="Monthly participants" value={(record.expectedMonthlyParticipants ?? 0).toLocaleString()} />
               <Meta label="Program tier" value={tier.name} />
               <Meta label="Assigned owner" value={record.assignedOwner} />
-              <Meta label="Launch target" value={record.launchDateTarget} />
+              <Meta label="Launch target" value={record.expectedLaunchDate ?? record.launchDateTarget} />
               <Meta label="Record-clearing needs" value={getNeedLabels(record.recordClearingNeeds).join(", ")} />
             </div>
           </Card>
@@ -72,6 +75,7 @@ export default async function InternalPartnerAdminDetailPage({
               <StatusLine label="Qualification" value={getQualificationStatusLabel(record.qualificationStatus)} tone={record.qualificationStatus === "qualified" ? "teal" : "orange"} />
               <StatusLine label="Payment" value={getPaymentStatusLabel(record.paymentStatus)} tone={record.paymentStatus === "paid" ? "teal" : "orange"} />
               <StatusLine label="Provisioning" value={getProvisioningStatusLabel(record.provisioningStatus)} tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"} />
+              <StatusLine label="Onboarding" value={getOnboardingStatusLabel(record.onboardingStatus)} tone={record.onboardingStatus === "submitted" || record.onboardingStatus === "approved" ? "teal" : "blue"} />
               <StatusLine label="Launch readiness" value={readiness?.ready ? "Ready" : "Needs attention"} tone={readiness?.ready ? "teal" : "orange"} />
             </div>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">{record.complianceNotes}</p>
@@ -81,6 +85,23 @@ export default async function InternalPartnerAdminDetailPage({
         <div className="mt-8">
           <AdminActionPanel partnerSlug={record.partnerSlug} assets={assets} />
         </div>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-black text-navy">Onboarding submission</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <Meta label="Organization name" value={record.organizationName ?? record.partnerName} />
+            <Meta label="Program name" value={record.programName ?? "Not provided"} />
+            <Meta label="Primary contact title" value={record.primaryContactTitle ?? "Not provided"} />
+            <Meta label="Target county" value={record.targetCounty ?? "Not provided"} />
+            <Meta label="Target city" value={record.targetCity ?? "Not provided"} />
+            <Meta label="Expected launch" value={record.expectedLaunchDate ?? record.launchDateTarget} />
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            <ReviewNote label="Audience" value={record.audienceDescription} />
+            <ReviewNote label="Referral sources" value={record.referralSources} />
+            <ReviewNote label="Branding notes" value={record.brandingNotes} />
+          </div>
+        </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-3">
           <OperationalSection
@@ -97,7 +118,7 @@ export default async function InternalPartnerAdminDetailPage({
             title="Payment status"
             lines={[
               `Status: ${getPaymentStatusLabel(record.paymentStatus)}`,
-              "Stripe is not enabled in Phase 8.",
+              "Stripe-confirmed payment opens onboarding.",
               "Stripe payment identifiers are recorded only by verified webhook confirmation."
             ]}
           />
@@ -233,6 +254,15 @@ function OperationalSection({ icon, title, lines }: { icon: React.ReactNode; tit
         ))}
       </div>
     </Card>
+  );
+}
+
+function ReviewNote({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="rounded-md bg-[#f7f8f6] px-3 py-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-grayWilma-600">{label}</p>
+      <p className="mt-2 text-sm leading-6 text-grayWilma-700">{value || "Not provided"}</p>
+    </div>
   );
 }
 

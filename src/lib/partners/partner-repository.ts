@@ -1,4 +1,5 @@
 import { getSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import type { PartnerOnboardingInput } from "./onboarding";
 import { seedPartners } from "./seed-partners";
 import type {
   PartnerAsset,
@@ -25,8 +26,29 @@ type PartnerRecordRow = {
   partner_name: string;
   contact_name: string | null;
   contact_email: string | null;
+  organization_name: string | null;
+  legal_name: string | null;
+  primary_contact_name: string | null;
+  primary_contact_title: string | null;
+  primary_contact_email: string | null;
+  primary_contact_phone: string | null;
   website: string | null;
   organization_type: string | null;
+  program_name: string | null;
+  program_description: string | null;
+  target_state: string | null;
+  target_county: string | null;
+  target_city: string | null;
+  service_area: string | null;
+  expected_monthly_participants: number | null;
+  expected_launch_date: string | null;
+  referral_sources: string | null;
+  audience_description: string | null;
+  branding_notes: string | null;
+  logo_url: string | null;
+  onboarding_status: string | null;
+  onboarding_started_at: string | null;
+  onboarding_completed_at: string | null;
   region: string | null;
   state: string | null;
   estimated_users_90_days: number | null;
@@ -209,6 +231,64 @@ export async function updatePartnerProvisioningStatus(
   provisioningStatus: PartnerProvisioningStatus
 ): Promise<PartnerWriteResult> {
   return updatePartnerRecordField(slug, "provisioning_status", provisioningStatus, "update_partner_provisioning_status");
+}
+
+export async function savePartnerOnboardingProfile({
+  input,
+  onboardingStatus
+}: {
+  input: PartnerOnboardingInput;
+  onboardingStatus: "in_progress" | "submitted";
+}): Promise<PartnerWriteResult> {
+  const readiness = await getWriteReadiness(input.partnerSlug, "save_partner_onboarding_profile");
+  if (!readiness.ready) {
+    return readiness.result;
+  }
+
+  if (readiness.partner.paymentStatus !== "paid") {
+    return writeFailure(
+      input.partnerSlug,
+      "save_partner_onboarding_profile",
+      readiness.mode,
+      "Payment is required before onboarding can be submitted."
+    );
+  }
+
+  const now = new Date().toISOString();
+  const updates: Record<string, string | number | null> = {
+    organization_name: nullableString(input.organizationName),
+    legal_name: nullableString(input.legalName),
+    primary_contact_name: nullableString(input.primaryContactName),
+    primary_contact_title: nullableString(input.primaryContactTitle),
+    primary_contact_email: nullableString(input.primaryContactEmail),
+    primary_contact_phone: nullableString(input.primaryContactPhone),
+    website: nullableString(input.website),
+    organization_type: nullableString(input.organizationType),
+    program_name: nullableString(input.programName),
+    program_description: nullableString(input.programDescription),
+    target_state: nullableString(input.targetState),
+    target_county: nullableString(input.targetCounty),
+    target_city: nullableString(input.targetCity),
+    service_area: nullableString(input.serviceArea),
+    expected_monthly_participants: input.expectedMonthlyParticipants ?? null,
+    expected_launch_date: nullableString(input.expectedLaunchDate),
+    referral_sources: nullableString(input.referralSources),
+    audience_description: nullableString(input.audienceDescription),
+    branding_notes: nullableString(input.brandingNotes),
+    logo_url: nullableString(input.logoUrl),
+    onboarding_status: onboardingStatus,
+    onboarding_started_at: readiness.partner.onboardingStartedAt ?? now,
+    onboarding_completed_at: onboardingStatus === "submitted" ? now : readiness.partner.onboardingCompletedAt ?? null,
+    partner_name: input.organizationName || readiness.partner.partnerName,
+    contact_name: input.primaryContactName || readiness.partner.contactName,
+    contact_email: input.primaryContactEmail || readiness.partner.contactEmail,
+    region: input.serviceArea || input.targetCounty || readiness.partner.region,
+    state: input.targetState || readiness.partner.state,
+    program_goal: input.programDescription || readiness.partner.programGoal,
+    launch_date_target: input.expectedLaunchDate || readiness.partner.launchDateTarget
+  };
+
+  return updatePartnerRecordFields(input.partnerSlug, updates, "save_partner_onboarding_profile");
 }
 
 export async function updatePartnerAssetStatus(
@@ -490,6 +570,10 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Unknown Supabase write error.";
 }
 
+function nullableString(value: string | undefined): string | null {
+  return value?.trim() ? value.trim() : null;
+}
+
 function mapPartnerRecordRow(
   row: PartnerRecordRow,
   assetRows: PartnerAssetRow[] | null,
@@ -505,8 +589,29 @@ function mapPartnerRecordRow(
     partnerName: row.partner_name,
     contactName: row.contact_name ?? "",
     contactEmail: row.contact_email ?? "",
+    organizationName: row.organization_name ?? row.partner_name ?? seedPartner?.organizationName,
+    legalName: row.legal_name ?? seedPartner?.legalName,
+    primaryContactName: row.primary_contact_name ?? row.contact_name ?? seedPartner?.primaryContactName,
+    primaryContactTitle: row.primary_contact_title ?? seedPartner?.primaryContactTitle,
+    primaryContactEmail: row.primary_contact_email ?? row.contact_email ?? seedPartner?.primaryContactEmail,
+    primaryContactPhone: row.primary_contact_phone ?? seedPartner?.primaryContactPhone,
     website: row.website ?? "",
     organizationType: (row.organization_type ?? "other") as PartnerOrganizationType,
+    programName: row.program_name ?? seedPartner?.programName,
+    programDescription: row.program_description ?? row.program_goal ?? seedPartner?.programDescription,
+    targetState: row.target_state ?? row.state ?? seedPartner?.targetState,
+    targetCounty: row.target_county ?? seedPartner?.targetCounty,
+    targetCity: row.target_city ?? seedPartner?.targetCity,
+    serviceArea: row.service_area ?? row.region ?? seedPartner?.serviceArea,
+    expectedMonthlyParticipants: row.expected_monthly_participants ?? seedPartner?.expectedMonthlyParticipants,
+    expectedLaunchDate: row.expected_launch_date ?? row.launch_date_target ?? seedPartner?.expectedLaunchDate,
+    referralSources: row.referral_sources ?? seedPartner?.referralSources,
+    audienceDescription: row.audience_description ?? seedPartner?.audienceDescription,
+    brandingNotes: row.branding_notes ?? seedPartner?.brandingNotes,
+    logoUrl: row.logo_url ?? seedPartner?.logoUrl,
+    onboardingStatus: (row.onboarding_status ?? seedPartner?.onboardingStatus ?? "not_started") as PartnerRecord["onboardingStatus"],
+    onboardingStartedAt: row.onboarding_started_at ?? seedPartner?.onboardingStartedAt,
+    onboardingCompletedAt: row.onboarding_completed_at ?? seedPartner?.onboardingCompletedAt,
     region: row.region ?? "",
     state: row.state ?? "",
     estimatedUsers90Days: row.estimated_users_90_days ?? 0,

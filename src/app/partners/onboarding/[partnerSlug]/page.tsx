@@ -1,29 +1,18 @@
 import Link from "next/link";
-import { CheckCircle2, CircleDashed, ExternalLink, LockKeyhole } from "lucide-react";
+import { ExternalLink, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
-  canAccessOnboarding,
   getPaymentGateMessage,
-  getPartnerBySlug,
+  getOnboardingStatusLabel,
   getPartnerRoutes,
   getPaymentStatusLabel,
   getProvisioningStatusLabel
 } from "@/lib/partners/partner-service";
+import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerCheckout } from "@/lib/partners/routes";
+import { PartnerOnboardingForm } from "./PartnerOnboardingForm";
 import { ReportDownloadButton } from "./ReportDownloadButton";
-
-const setupSections = [
-  "Program setup checklist",
-  "Co-branded page setup",
-  "Wilma intake setup",
-  "RecordShield access setup",
-  "Expungement.ai routing setup",
-  "Dashboard activation",
-  "Launch kit",
-  "Weekly reporting schedule",
-  "Final impact report"
-];
 
 export default async function PartnerOnboardingPage({
   params,
@@ -34,13 +23,14 @@ export default async function PartnerOnboardingPage({
 }) {
   const { partnerSlug } = await params;
   const resolvedSearchParams = await searchParams;
-  const partner = getPartnerBySlug(partnerSlug);
+  const partner = await getPartnerRecordBySlug(partnerSlug);
 
   if (!partner) {
     return <PartnerNotFound />;
   }
 
-  const paid = canAccessOnboarding(partner.partnerSlug, resolvedSearchParams);
+  void resolvedSearchParams;
+  const paid = partner.paymentStatus === "paid";
   const routes = getPartnerRoutes(partner.partnerSlug);
 
   if (!paid) {
@@ -62,9 +52,7 @@ export default async function PartnerOnboardingPage({
     ["Payment", getPaymentStatusLabel(partner.paymentStatus)],
     ["Qualification", partner.qualificationStatus === "qualified" ? "Qualified" : "In Review"],
     ["Provisioning", getProvisioningStatusLabel(partner.provisioningStatus)],
-    ["Co-Branded Page", partner.assets.partnerLandingPage.status],
-    ["Dashboard", partner.assets.dashboard.status],
-    ["Launch Kit", partner.assets.launchKit.status]
+    ["Onboarding", getOnboardingStatusLabel(partner.onboardingStatus)]
   ];
 
   return (
@@ -80,7 +68,8 @@ export default async function PartnerOnboardingPage({
             <h1 className="text-4xl font-black leading-tight text-navy">Welcome to the Record-Clearing Access Program.</h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-grayWilma-700">
               {partner.partnerName} is now in setup for co-branded access, Wilma intake, RecordShield support,
-              Expungement.ai routing, dashboard activation, launch materials, and implementation reporting.
+              Expungement.ai routing, dashboard activation, launch materials, and implementation reporting. Complete
+              this setup profile so LegalEase can prepare the partner journey from durable partner data.
             </p>
           </div>
           <Card className="rounded-md p-5">
@@ -96,20 +85,20 @@ export default async function PartnerOnboardingPage({
           </Card>
         </section>
 
-        <section className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {setupSections.map((section, index) => (
-            <Card key={section} className="rounded-md p-5">
-              {index === 0 ? (
-                <CheckCircle2 className="h-5 w-5 text-teal" aria-hidden="true" />
-              ) : (
-                <CircleDashed className="h-5 w-5 text-wilmaBlue" aria-hidden="true" />
-              )}
-              <h2 className="mt-3 text-lg font-black text-navy">{section}</h2>
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm">
+          <div className="mb-5 flex flex-col gap-2 border-b border-grayWilma-200 pb-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-black text-navy">Partner setup profile</h2>
               <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-                Implementation workspace prepared for partner review and LegalEase setup coordination.
+                Save a draft while details are still coming together. Submit when the core organization, contact,
+                geography, and launch information is ready for LegalEase review.
               </p>
-            </Card>
-          ))}
+            </div>
+            <Badge tone={partner.onboardingStatus === "submitted" || partner.onboardingStatus === "approved" ? "teal" : "blue"}>
+              {getOnboardingStatusLabel(partner.onboardingStatus)}
+            </Badge>
+          </div>
+          <PartnerOnboardingForm partner={partner} />
         </section>
 
         <section className="mt-8 grid gap-4 lg:grid-cols-3">
