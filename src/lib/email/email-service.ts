@@ -1,3 +1,4 @@
+import { getPublicBaseUrl } from "@/lib/app-url";
 import { addPartnerEmailDeliveryRecord } from "@/lib/partners/partner-repository";
 import type { PartnerEmailStatus, PartnerEmailType, PartnerRecord } from "@/lib/partners/types";
 import { type PartnerEmailMode } from "./email-types";
@@ -44,7 +45,7 @@ export function getPartnerEmailDeliveryConfig(): PartnerEmailDeliveryConfig {
     from: process.env.PARTNER_EMAIL_FROM,
     replyTo: process.env.PARTNER_EMAIL_REPLY_TO,
     internalNotificationsEmail: process.env.INTERNAL_LEGALEASE_NOTIFICATIONS_EMAIL,
-    appUrl: normalizeAppUrl(process.env.NEXT_PUBLIC_APP_URL),
+    appUrl: getPublicBaseUrl(),
     statusLabel: liveEnabled ? "live_enabled" : enabled ? "dry_run" : "disabled"
   };
 }
@@ -215,10 +216,6 @@ async function recordDelivery({
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function normalizeAppUrl(value?: string) {
-  return (value || "http://localhost:3000").replace(/\/+$/, "");
 }
 
 async function safeJson(response: Response): Promise<Record<string, unknown> | null> {

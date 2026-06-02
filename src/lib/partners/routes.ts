@@ -5,6 +5,14 @@ export function partnerPublicPage(slug: string, paid?: boolean) {
   return `/p/${slug}`;
 }
 
+export function partnerIntake(slug: string) {
+  return `/intake/${slug}`;
+}
+
+export function partnerDocuments(slug: string) {
+  return `/documents/${slug}`;
+}
+
 export function partnerOnboarding(slug: string, paid?: boolean) {
   void paid;
   return `/partners/onboarding/${slug}`;
@@ -75,6 +83,8 @@ export function finalReportApi() {
 export function partnerUrlSet(slug: string, options: PartnerUrlOptions = {}) {
   return {
     checkout: partnerCheckout(slug),
+    intake: partnerIntake(slug),
+    documents: partnerDocuments(slug),
     onboarding: partnerOnboarding(slug, options.paid),
     coBrandedPage: partnerPublicPage(slug, options.paid),
     dashboard: partnerDashboard(),

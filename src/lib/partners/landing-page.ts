@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import type { PartnerLandingPageTemplateProps } from "@/components/partners/PartnerLandingPageTemplate";
+import { partnerIntake } from "./routes";
 import type { PartnerRecord } from "./types";
 
 const mississippiCounties = [
@@ -87,7 +88,7 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
       ? "We Must Vote and LegalEase help Mississippi residents understand what may be possible and what to do next."
       : `${organizationName} and LegalEase help residents start with plain-language screening and a practical next step.`,
     primaryCtaLabel: "Start My Free Screening",
-    primaryCtaHref: "#start",
+    primaryCtaHref: partnerIntake(partner.partnerSlug),
     secondaryCtaLabel: "See How It Works",
     secondaryCtaHref: "#how-it-works",
     trustLine: "Free to start. Plain-language guidance. Built for record-clearing access.",

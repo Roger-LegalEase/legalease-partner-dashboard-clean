@@ -6,6 +6,7 @@ import {
   partnerPublicPage,
   weeklyReportApi
 } from "@/lib/partners/routes";
+import { localAppUrl } from "@/lib/app-url";
 import type { PartnerEmailType, PartnerRecord } from "@/lib/partners/types";
 import { partnerEmailTypeLabels } from "./email-types";
 
@@ -251,8 +252,7 @@ function renderHtml(emailType: PartnerEmailType, copy: TemplateCopy, context: Re
 }
 
 function normalizeAppUrl(appUrl?: string) {
-  const fallback = "http://localhost:3000";
-  return (appUrl || fallback).replace(/\/+$/, "");
+  return (appUrl || localAppUrl).replace(/\/+$/, "");
 }
 
 function absoluteUrl(appUrl: string, route: string) {

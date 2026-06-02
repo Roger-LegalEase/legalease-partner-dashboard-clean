@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { checkoutCancelUrl, checkoutSuccessUrl } from "@/lib/app-url";
 import { getPartnerPackage } from "@/lib/partners/packages";
 import {
   getPartnerRecordById,
@@ -39,11 +40,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `${partnerPackage.stripePriceEnvVar} is not configured.` }, { status: 500 });
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-  if (!appUrl) {
-    return NextResponse.json({ error: "NEXT_PUBLIC_APP_URL is not configured." }, { status: 500 });
-  }
-
   try {
     const partner = partnerSlug
       ? await getPartnerRecordBySlug(partnerSlug)
@@ -52,9 +48,7 @@ export async function POST(request: Request) {
         : undefined;
     const resolvedPartnerSlug = partner?.partnerSlug ?? partnerSlug;
     const resolvedPartnerId = partner?.partnerId ?? partnerId;
-    const successUrl = `${appUrl}/partners/checkout/success?session_id={CHECKOUT_SESSION_ID}${
-      resolvedPartnerSlug ? `&partner_slug=${encodeURIComponent(resolvedPartnerSlug)}` : ""
-    }`;
+    const successUrl = checkoutSuccessUrl(resolvedPartnerSlug);
 
     const stripe = getStripeServerClient();
     const session = await stripe.checkout.sessions.create({
@@ -66,7 +60,7 @@ export async function POST(request: Request) {
         }
       ],
       success_url: successUrl,
-      cancel_url: `${appUrl}/partners/start`,
+      cancel_url: checkoutCancelUrl(),
       metadata: {
         packageId: partnerPackage.id,
         packageName: partnerPackage.name,
