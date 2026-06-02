@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { CalendarDays, CheckCircle2, ClipboardCheck, ExternalLink, FileText, ShieldCheck } from "lucide-react";
+import { CalendarDays, CheckCircle2, ClipboardCheck, ExternalLink, FileText, Mail, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
 import { getActivationReadiness, getPartnerEvents } from "@/lib/partners/activation";
 import {
   getAssetStatusLabel,
@@ -11,9 +12,9 @@ import {
   getProvisioningStatusLabel,
   getQualificationStatusLabel
 } from "@/lib/partners/partner-service";
-import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
+import { getPartnerEmailDeliveryRecords, getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { getNeedLabels } from "@/lib/partners/seed-partners";
-import { internalAdmin, internalProvisioningDetail } from "@/lib/partners/routes";
+import { internalAdmin, internalAdminEmails, internalProvisioningDetail } from "@/lib/partners/routes";
 import type { PartnerAsset, PartnerEvent } from "@/lib/partners/types";
 import { AdminActionPanel } from "./AdminActionPanel";
 
@@ -33,6 +34,8 @@ export default async function InternalPartnerAdminDetailPage({
   const assets = Object.values(record.assets);
   const events = getPartnerEvents(record.partnerSlug);
   const readiness = getActivationReadiness(record.partnerSlug);
+  const emailConfig = getPartnerEmailDeliveryConfig();
+  const emailHistory = await getPartnerEmailDeliveryRecords(record.partnerSlug);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -85,6 +88,33 @@ export default async function InternalPartnerAdminDetailPage({
         <div className="mt-8">
           <AdminActionPanel partnerSlug={record.partnerSlug} assets={assets} />
         </div>
+
+        <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="flex items-start gap-3">
+              <Mail className="mt-1 h-5 w-5 text-teal" aria-hidden="true" />
+              <div>
+                <h2 className="text-lg font-black text-navy">Email delivery</h2>
+                <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+                  Preview partner email templates, record dry-runs, and review delivery history. Live sending is disabled
+                  unless explicitly configured.
+                </p>
+              </div>
+            </div>
+            <Link
+              href={internalAdminEmails(record.partnerSlug)}
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100"
+            >
+              Open Email Previews
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <Meta label="Delivery mode" value={emailConfig.statusLabel.replaceAll("_", " ")} />
+            <Meta label="Provider" value={emailConfig.provider} />
+            <Meta label="Delivery records" value={emailHistory.length.toLocaleString()} />
+          </div>
+        </section>
 
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-black text-navy">Onboarding submission</h2>

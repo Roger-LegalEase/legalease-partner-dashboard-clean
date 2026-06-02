@@ -137,6 +137,27 @@ create table if not exists partner_events (
 comment on table partner_events is
   'Partner Journey OS event timeline for future partner provisioning and lifecycle activity.';
 
+create table if not exists partner_email_deliveries (
+  id uuid primary key default gen_random_uuid(),
+  partner_slug text not null references partner_records(partner_slug) on delete cascade,
+  email_type text not null,
+  recipient_email text,
+  recipient_name text,
+  subject text not null,
+  status text not null default 'draft',
+  provider text,
+  provider_message_id text,
+  preview_url text,
+  sent_at timestamptz,
+  failed_at timestamptz,
+  error_message text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+comment on table partner_email_deliveries is
+  'Partner Journey OS email preview, dry-run, skipped, failed, and sent delivery records.';
+
 create index if not exists partner_records_partner_slug_idx on partner_records(partner_slug);
 create index if not exists partner_records_payment_status_idx on partner_records(payment_status);
 create index if not exists partner_records_provisioning_status_idx on partner_records(provisioning_status);
@@ -144,3 +165,7 @@ create index if not exists partner_records_onboarding_status_idx on partner_reco
 create index if not exists partner_assets_partner_slug_idx on partner_assets(partner_slug);
 create index if not exists partner_events_partner_slug_idx on partner_events(partner_slug);
 create index if not exists partner_events_created_at_idx on partner_events(created_at);
+create index if not exists partner_email_deliveries_partner_slug_idx on partner_email_deliveries(partner_slug);
+create index if not exists partner_email_deliveries_email_type_idx on partner_email_deliveries(email_type);
+create index if not exists partner_email_deliveries_status_idx on partner_email_deliveries(status);
+create index if not exists partner_email_deliveries_created_at_idx on partner_email_deliveries(created_at);

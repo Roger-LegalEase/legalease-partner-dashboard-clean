@@ -30,6 +30,18 @@ export type PartnerOnboardingStatus = "not_started" | "in_progress" | "submitted
 
 export type PartnerAssetStatus = "locked" | "pending" | "generating" | "ready" | "active";
 
+export type PartnerEmailStatus = "draft" | "queued" | "dry_run" | "sent" | "failed" | "skipped";
+
+export type PartnerEmailType =
+  | "payment_confirmation"
+  | "onboarding_next_steps"
+  | "launch_kit_ready"
+  | "dashboard_ready"
+  | "partner_page_ready"
+  | "internal_partner_notification"
+  | "weekly_report_ready"
+  | "final_report_ready";
+
 export type RecordClearingNeed =
   | "expungement"
   | "sealing"
@@ -88,6 +100,24 @@ export type PartnerEvent = {
   eventLabel: string;
   eventPayload: Record<string, string | number | boolean | null>;
   createdAt: string;
+};
+
+export type PartnerEmailDeliveryRecord = {
+  id?: string;
+  partnerSlug: string;
+  emailType: PartnerEmailType;
+  recipientEmail: string;
+  recipientName?: string;
+  subject: string;
+  status: PartnerEmailStatus;
+  provider?: string;
+  providerMessageId?: string;
+  previewUrl?: string;
+  sentAt?: string;
+  failedAt?: string;
+  errorMessage?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type PartnerWriteResult = {

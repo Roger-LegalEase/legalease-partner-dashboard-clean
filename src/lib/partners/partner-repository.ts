@@ -5,6 +5,9 @@ import type {
   PartnerAsset,
   PartnerAssetKey,
   PartnerAssetStatus,
+  PartnerEmailDeliveryRecord,
+  PartnerEmailStatus,
+  PartnerEmailType,
   PartnerMetrics,
   PartnerOrganizationType,
   PartnerPaymentStatus,
@@ -95,6 +98,24 @@ type PartnerMetricsRow = {
   outcomes_available: number | null;
 };
 
+type PartnerEmailDeliveryRow = {
+  id: string;
+  partner_slug: string;
+  email_type: string;
+  recipient_email: string | null;
+  recipient_name: string | null;
+  subject: string;
+  status: string;
+  provider: string | null;
+  provider_message_id: string | null;
+  preview_url: string | null;
+  sent_at: string | null;
+  failed_at: string | null;
+  error_message: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
 export async function getPartnerRepositoryMode(): Promise<PartnerRepositoryMode> {
   if (!isSupabasePartnerDataEnabled()) {
     return "local_seeded";
@@ -150,6 +171,33 @@ export async function getPartnerAssetsBySlug(slug: string): Promise<PartnerAsset
 
 export async function getPartnerMetricsBySlug(slug: string): Promise<PartnerMetrics | undefined> {
   return (await getPartnerRecordBySlug(slug))?.metrics;
+}
+
+export async function getPartnerEmailDeliveryRecords(slug: string): Promise<PartnerEmailDeliveryRecord[]> {
+  if (!(await shouldReadSupabase())) {
+    return [];
+  }
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return [];
+    }
+
+    const { data, error } = await supabase
+      .from("partner_email_deliveries")
+      .select("*")
+      .eq("partner_slug", slug)
+      .order("created_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
+    }
+
+    return (data as PartnerEmailDeliveryRow[]).map(mapPartnerEmailDeliveryRow);
+  } catch {
+    return [];
+  }
 }
 
 export async function updatePartnerPaymentStatus(
@@ -372,6 +420,51 @@ export async function addPartnerInternalNote(
     author,
     source: "admin_action"
   });
+}
+
+export async function addPartnerEmailDeliveryRecord(
+  delivery: Omit<PartnerEmailDeliveryRecord, "id" | "createdAt" | "updatedAt">
+): Promise<PartnerWriteResult> {
+  const readiness = await getWriteReadiness(delivery.partnerSlug, "add_partner_email_delivery_record");
+  if (!readiness.ready) {
+    return readiness.result;
+  }
+
+  try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return localFallbackResult(delivery.partnerSlug, "add_partner_email_delivery_record");
+    }
+
+    const { error } = await supabase.from("partner_email_deliveries").insert({
+      partner_slug: delivery.partnerSlug,
+      email_type: delivery.emailType,
+      recipient_email: delivery.recipientEmail,
+      recipient_name: delivery.recipientName ?? null,
+      subject: delivery.subject,
+      status: delivery.status,
+      provider: delivery.provider ?? null,
+      provider_message_id: delivery.providerMessageId ?? null,
+      preview_url: delivery.previewUrl ?? null,
+      sent_at: delivery.sentAt ?? null,
+      failed_at: delivery.failedAt ?? null,
+      error_message: delivery.errorMessage ?? null
+    });
+
+    if (error) {
+      return writeFailure(delivery.partnerSlug, "add_partner_email_delivery_record", "supabase", "Supabase email delivery insert failed.", error.message);
+    }
+
+    return supabaseSuccess(delivery.partnerSlug, "add_partner_email_delivery_record");
+  } catch (error) {
+    return writeFailure(
+      delivery.partnerSlug,
+      "add_partner_email_delivery_record",
+      "supabase",
+      "Supabase email delivery insert failed.",
+      getErrorMessage(error)
+    );
+  }
 }
 
 export async function activatePartner(slug: string): Promise<PartnerWriteResult> {
@@ -677,5 +770,25 @@ function mapMetrics(
     packetsReady: row?.packets_ready ?? fallbackMetrics?.packetsReady ?? 0,
     filings: row?.filings ?? fallbackMetrics?.filings ?? 0,
     outcomesAvailable: row?.outcomes_available ?? fallbackMetrics?.outcomesAvailable ?? 0
+  };
+}
+
+function mapPartnerEmailDeliveryRow(row: PartnerEmailDeliveryRow): PartnerEmailDeliveryRecord {
+  return {
+    id: row.id,
+    partnerSlug: row.partner_slug,
+    emailType: row.email_type as PartnerEmailType,
+    recipientEmail: row.recipient_email ?? "",
+    recipientName: row.recipient_name ?? undefined,
+    subject: row.subject,
+    status: row.status as PartnerEmailStatus,
+    provider: row.provider ?? undefined,
+    providerMessageId: row.provider_message_id ?? undefined,
+    previewUrl: row.preview_url ?? undefined,
+    sentAt: row.sent_at ?? undefined,
+    failedAt: row.failed_at ?? undefined,
+    errorMessage: row.error_message ?? undefined,
+    createdAt: row.created_at ?? undefined,
+    updatedAt: row.updated_at ?? undefined
   };
 }

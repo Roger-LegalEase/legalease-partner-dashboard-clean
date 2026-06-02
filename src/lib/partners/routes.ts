@@ -48,6 +48,18 @@ export function internalAdminActionApi() {
   return "/api/internal/partners/admin-action";
 }
 
+export function internalAdminEmails(slug: string) {
+  return `/internal/partners/admin/${slug}/emails`;
+}
+
+export function internalAdminEmailPreview(slug: string, emailType: string) {
+  return `/internal/partners/admin/${slug}/emails/${emailType}`;
+}
+
+export function internalSendPartnerEmailApi() {
+  return "/api/internal/partners/send-email";
+}
+
 export function internalSupabaseCheck() {
   return "/internal/partners/supabase-check";
 }
@@ -69,6 +81,7 @@ export function partnerUrlSet(slug: string, options: PartnerUrlOptions = {}) {
     launchKit: partnerLaunchKit(slug, options.paid),
     emailSequence: partnerEmailSequence(slug, options.paid),
     internalProvisioning: internalProvisioningDetail(slug),
-    internalAdmin: internalAdminDetail(slug)
+    internalAdmin: internalAdminDetail(slug),
+    internalAdminEmails: internalAdminEmails(slug)
   };
 }
