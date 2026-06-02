@@ -13,6 +13,7 @@ import {
 import { getAllPartnerRecords } from "@/lib/partners/partner-repository";
 import { internalAdminDetail } from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
+import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/mississippi/repository";
 
 export default async function InternalPartnerAdminPage() {
   const partners = await getAllPartnerRecords();
@@ -20,6 +21,8 @@ export default async function InternalPartnerAdminPage() {
   const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;
   const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning_in_progress").length;
   const activePartners = partners.filter((record) => record.provisioningStatus === "provisioned").length;
+  const documentSummaries = await Promise.all(partners.map((record) => getPartnerDocumentActivitySummary(record.partnerSlug)));
+  const documentPacketsStarted = documentSummaries.reduce((total, summary) => total + summary.totalPackets, 0);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -43,12 +46,13 @@ export default async function InternalPartnerAdminPage() {
           </Card>
         </section>
 
-        <section className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <section className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-6">
           <SummaryCard icon={<Building2 className="h-5 w-5" />} label="Total partners" value={partners.length} />
           <SummaryCard icon={<ShieldCheck className="h-5 w-5" />} label="Qualified partners" value={qualifiedPartners} />
           <SummaryCard icon={<CreditCard className="h-5 w-5" />} label="Payment complete/demo-paid" value={paymentComplete} />
           <SummaryCard icon={<Settings2 className="h-5 w-5" />} label="In provisioning" value={inProvisioning} />
           <SummaryCard icon={<CheckCircle2 className="h-5 w-5" />} label="Active partners" value={activePartners} />
+          <SummaryCard icon={<ShieldCheck className="h-5 w-5" />} label="MS document packets" value={documentPacketsStarted} />
         </section>
 
         <section className="mt-8 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm">

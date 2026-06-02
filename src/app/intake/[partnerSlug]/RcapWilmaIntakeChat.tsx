@@ -332,6 +332,14 @@ function FinalSummary({ summary, session }: { summary: RcapPathwaySummary; sessi
         <SummaryLine label="Recommended service" value={summary.recommendedService} />
       </div>
       <p className="mt-5 rounded-md border border-grayWilma-200 bg-white p-3 text-sm leading-6 text-grayWilma-700">{summary.disclaimer}</p>
+      {session.state?.toLowerCase() === "mississippi" || session.state?.toUpperCase() === "MS" ? (
+        <a
+          href={`/documents/${session.partnerSlug}/form?session=${session.id}`}
+          className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
+        >
+          Continue to document information form
+        </a>
+      ) : null}
       <p className="mt-3 text-xs font-semibold text-grayWilma-600">Completed session: {session.id}</p>
     </div>
   );

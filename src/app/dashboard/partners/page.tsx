@@ -242,6 +242,36 @@ export default function PartnerDashboardPage() {
           <StateBreakdownTable rows={filteredStates} />
         </section>
 
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <Card className="rounded-md p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <Badge tone="blue">Mississippi documents</Badge>
+                <h2 className="mt-3 text-xl font-black text-navy">RCAP document packet activity</h2>
+                <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+                  Mississippi-only draft packet workflow. Counts reflect preparation status, not legal eligibility or filing outcomes.
+                </p>
+              </div>
+              <FileTextIcon />
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-4">
+              <ActivityMetric label="Packets started" value="0" />
+              <ActivityMetric label="Missing information" value="0" />
+              <ActivityMetric label="Ready for review" value="0" />
+              <ActivityMetric label="Briefcase items" value="0" />
+              <ActivityMetric label="Latest packet" value="None yet" />
+            </div>
+          </Card>
+          <Card className="rounded-md p-5">
+            <p className="text-sm font-black text-navy">Pathway breakdown</p>
+            <div className="mt-4 grid gap-2 text-sm text-grayWilma-700">
+              <p>Non-conviction: 0</p>
+              <p>Misdemeanor conviction: 0</p>
+              <p>Felony conviction: 0</p>
+            </div>
+          </Card>
+        </section>
+
         <CampaignPerformanceTable rows={filteredCampaigns} />
 
         <section className="grid gap-6 xl:grid-cols-[minmax(360px,0.75fr)_minmax(0,1.25fr)]">
@@ -254,6 +284,23 @@ export default function PartnerDashboardPage() {
         </footer>
       </div>
     </main>
+  );
+}
+
+function FileTextIcon() {
+  return (
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-teal/10 text-teal">
+      <FileCheck2 className="h-5 w-5" aria-hidden="true" />
+    </span>
+  );
+}
+
+function ActivityMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md bg-[#f7f8f6] px-3 py-3">
+      <p className="text-xs font-semibold uppercase text-grayWilma-600">{label}</p>
+      <p className="mt-1 text-sm font-black text-navy">{value}</p>
+    </div>
   );
 }
 

@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getOnboardingStatusLabel, getPaymentStatusLabel, getProvisioningStatusLabel } from "@/lib/partners/partner-service";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
+import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/mississippi/repository";
 
 export default async function PartnerSpecificDashboardPlaceholder({
   params
@@ -11,6 +12,7 @@ export default async function PartnerSpecificDashboardPlaceholder({
 }) {
   const { partnerSlug } = await params;
   const partner = await getPartnerRecordBySlug(partnerSlug);
+  const documentActivity = await getPartnerDocumentActivitySummary(partnerSlug);
 
   if (!partner) {
     return (
@@ -49,6 +51,17 @@ export default async function PartnerSpecificDashboardPlaceholder({
             <StatusCard label="Primary contact" value={`${partner.primaryContactName ?? partner.contactName} · ${partner.primaryContactEmail ?? partner.contactEmail}`} />
             <StatusCard label="Target geography" value={`${partner.serviceArea ?? partner.region}, ${partner.targetState ?? partner.state}`} />
             <StatusCard label="Expected launch" value={partner.expectedLaunchDate ?? partner.launchDateTarget} />
+            <StatusCard label="MS document packets started" value={String(documentActivity.totalPackets)} />
+            <StatusCard label="MS packets missing info" value={String(documentActivity.missingInformationPackets)} />
+            <StatusCard label="MS packets ready for review" value={String(documentActivity.readyForReviewPackets)} />
+            <StatusCard label="Briefcase items" value={String(documentActivity.briefcaseItems)} />
+            <StatusCard label="Latest MS packet" value={documentActivity.latestPacketDate ?? "None yet"} />
+          </div>
+          <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4 text-left">
+            <p className="text-sm font-black text-navy">Mississippi-only document activity</p>
+            <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+              Pathway breakdown: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No packets yet"}.
+            </p>
           </div>
           <Link
             href="/dashboard/partners"
