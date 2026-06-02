@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { MississippiPetitionPacketPreview } from "@/components/rcap/documents/mississippi/MississippiPetitionPacketPreview";
+import { IllinoisDocumentPacketPreview } from "@/components/rcap/documents/illinois/IllinoisDocumentPacketPreview";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
 
@@ -36,7 +37,7 @@ export default async function MississippiDocumentPacketPage({
           Back to documents
         </Link>
         <div className="mt-6 print:mt-0">
-          <MississippiPetitionPacketPreview packet={packet} />
+          {packet.state === "IL" ? <IllinoisDocumentPacketPreview packet={packet} /> : <MississippiPetitionPacketPreview packet={packet} />}
         </div>
       </div>
     </main>

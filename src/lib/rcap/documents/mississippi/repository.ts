@@ -231,7 +231,7 @@ export async function getRcapDocumentPacket(packetId: string): Promise<RcapDocum
 }
 
 export async function getPartnerDocumentActivitySummary(partnerSlug: string) {
-  const empty = { totalPackets: 0, missingInformationPackets: 0, readyForReviewPackets: 0, latestPacketDate: undefined as string | undefined, pathwayBreakdown: {} as Record<string, number>, briefcaseItems: 0, state: "Mississippi only" };
+  const empty = { totalPackets: 0, missingInformationPackets: 0, readyForReviewPackets: 0, latestPacketDate: undefined as string | undefined, pathwayBreakdown: {} as Record<string, number>, stateBreakdown: {} as Record<string, number>, briefcaseItems: 0, state: "MS/IL" };
   if (!/^[a-zA-Z0-9_-]+$/.test(partnerSlug) || (await getPartnerRepositoryMode()) !== "supabase") {
     return empty;
   }
@@ -239,15 +239,18 @@ export async function getPartnerDocumentActivitySummary(partnerSlug: string) {
   if (!supabase) {
     return empty;
   }
-  const { data, error } = await supabase.from("rcap_document_packets").select("status,pathway,created_at").eq("partner_slug", partnerSlug).order("created_at", { ascending: false }).limit(250);
+  const { data, error } = await supabase.from("rcap_document_packets").select("status,pathway,state,created_at").eq("partner_slug", partnerSlug).order("created_at", { ascending: false }).limit(250);
   if (error || !data) {
     return empty;
   }
-  const rows = data as Array<{ status: string | null; pathway: string | null; created_at: string | null }>;
+  const rows = data as Array<{ status: string | null; pathway: string | null; state: string | null; created_at: string | null }>;
   const pathwayBreakdown: Record<string, number> = {};
+  const stateBreakdown: Record<string, number> = {};
   for (const row of rows) {
     const key = row.pathway ?? "unknown";
     pathwayBreakdown[key] = (pathwayBreakdown[key] ?? 0) + 1;
+    const stateKey = row.state ?? "unknown";
+    stateBreakdown[stateKey] = (stateBreakdown[stateKey] ?? 0) + 1;
   }
   const { count } = await supabase.from("rcap_briefcase_items").select("id", { count: "exact", head: true }).eq("partner_slug", partnerSlug);
   return {
@@ -256,8 +259,9 @@ export async function getPartnerDocumentActivitySummary(partnerSlug: string) {
     readyForReviewPackets: rows.filter((row) => row.status === "ready_for_review" || row.status === "preview_generated").length,
     latestPacketDate: rows[0]?.created_at ?? undefined,
     pathwayBreakdown,
+    stateBreakdown,
     briefcaseItems: count ?? 0,
-    state: "Mississippi only"
+    state: "MS/IL"
   };
 }
 
@@ -313,7 +317,7 @@ function mapPacketRow(row: PacketRow): RcapDocumentPacket {
     intakeSessionId: row.intake_session_id ?? undefined,
     userId: row.user_id ?? undefined,
     briefcaseId: row.briefcase_id ?? undefined,
-    state: "MS",
+    state: row.state === "IL" ? "IL" : "MS",
     county: row.county ?? undefined,
     documentType: row.document_type as RcapDocumentPacket["documentType"],
     pathway: row.pathway as RcapDocumentPacket["pathway"],

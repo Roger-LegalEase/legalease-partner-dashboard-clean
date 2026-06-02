@@ -21,9 +21,13 @@ create table if not exists rcap_intake_sessions (
   eligibility_signal text check (
     eligibility_signal is null or eligibility_signal in (
       'possible_pathway',
+      'possible_expungement_path',
+      'possible_sealing_path',
+      'needs_rap_sheet',
       'needs_more_information',
       'likely_not_available',
       'human_review_recommended',
+      'excluded_or_blocked_review_needed',
       'future_eligibility_update'
     )
   ),

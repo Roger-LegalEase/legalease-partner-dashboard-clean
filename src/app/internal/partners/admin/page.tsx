@@ -52,7 +52,7 @@ export default async function InternalPartnerAdminPage() {
           <SummaryCard icon={<CreditCard className="h-5 w-5" />} label="Payment complete/demo-paid" value={paymentComplete} />
           <SummaryCard icon={<Settings2 className="h-5 w-5" />} label="In provisioning" value={inProvisioning} />
           <SummaryCard icon={<CheckCircle2 className="h-5 w-5" />} label="Active partners" value={activePartners} />
-          <SummaryCard icon={<ShieldCheck className="h-5 w-5" />} label="MS document packets" value={documentPacketsStarted} />
+          <SummaryCard icon={<ShieldCheck className="h-5 w-5" />} label="MS/IL document packets" value={documentPacketsStarted} />
         </section>
 
         <section className="mt-8 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm">

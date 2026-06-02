@@ -1,5 +1,8 @@
 import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
 import type { MississippiDocumentType } from "@/lib/rcap/state-packs/mississippi/document-types";
+import type { IllinoisDocumentType } from "@/lib/rcap/state-packs/illinois/document-types";
+import type { IllinoisDocumentFieldKey } from "@/lib/rcap/state-packs/illinois/required-fields";
+import type { IllinoisPathway } from "@/lib/rcap/state-packs/illinois/pathways";
 import type { MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 import type { MississippiEligibilitySignal, MississippiPathway } from "@/lib/rcap/state-packs/mississippi/pathways";
 
@@ -80,10 +83,10 @@ export type RcapDocumentPacket = {
   intakeSessionId?: string;
   userId?: string;
   briefcaseId?: string;
-  state: "MS";
+  state: "MS" | "IL";
   county?: string;
-  documentType?: MississippiDocumentType;
-  pathway: MississippiPathway;
+  documentType?: MississippiDocumentType | IllinoisDocumentType;
+  pathway: MississippiPathway | IllinoisPathway;
   status: RcapDocumentPacketStatus;
   petitionerFirstName?: string;
   petitionerLastName?: string;
@@ -113,7 +116,7 @@ export type RcapDocumentPacket = {
   generatedPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
-  missingFields: MississippiDocumentFieldKey[];
+  missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey>;
   safetyDisclaimer: string;
   createdAt?: string;
   updatedAt?: string;
@@ -133,7 +136,7 @@ export type RcapBriefcaseItem = {
   status: RcapDocumentPacketStatus | "in_progress";
   state?: string;
   county?: string;
-  documentType?: MississippiDocumentType;
+  documentType?: MississippiDocumentType | IllinoisDocumentType;
   lastOpenedAt?: string;
   createdAt?: string;
   updatedAt?: string;

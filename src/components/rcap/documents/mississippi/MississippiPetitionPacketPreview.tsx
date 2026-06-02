@@ -4,7 +4,7 @@ import { FileText, Printer, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
-import { mississippiFieldLabels } from "@/lib/rcap/state-packs/mississippi/required-fields";
+import { mississippiFieldLabels, type MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 
 export function MississippiPetitionPacketPreview({ packet }: { packet: RcapDocumentPacket }) {
   return (
@@ -128,7 +128,7 @@ export function MississippiMissingFieldsPanel({ packet }: { packet: RcapDocument
       </p>
       <ul className="mt-4 grid gap-2 text-sm font-semibold text-grayWilma-800 sm:grid-cols-2">
         {packet.missingFields.map((field) => (
-          <li key={field} className="rounded-md bg-white px-3 py-2">{mississippiFieldLabels[field]}</li>
+          <li key={field} className="rounded-md bg-white px-3 py-2">{mississippiFieldLabels[field as MississippiDocumentFieldKey] ?? field}</li>
         ))}
       </ul>
     </section>

@@ -246,10 +246,10 @@ export default function PartnerDashboardPage() {
           <Card className="rounded-md p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <Badge tone="blue">Mississippi documents</Badge>
+                <Badge tone="blue">Mississippi documents / Illinois documents</Badge>
                 <h2 className="mt-3 text-xl font-black text-navy">RCAP document packet activity</h2>
                 <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-                  Mississippi-only draft packet workflow. Counts reflect preparation status, not legal eligibility or filing outcomes.
+                  Mississippi and Illinois draft packet workflow. MS document packets and Illinois document packets reflect preparation status, not legal eligibility or filing outcomes.
                 </p>
               </div>
               <FileTextIcon />
@@ -268,6 +268,9 @@ export default function PartnerDashboardPage() {
               <p>Non-conviction: 0</p>
               <p>Misdemeanor conviction: 0</p>
               <p>Felony conviction: 0</p>
+              <p>Illinois expungement: 0</p>
+              <p>Illinois sealing: 0</p>
+              <p>Illinois needs review: 0</p>
             </div>
           </Card>
         </section>

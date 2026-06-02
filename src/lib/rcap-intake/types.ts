@@ -5,9 +5,13 @@ export type RcapIntakeStatus = "started" | "in_progress" | "completed" | "abando
 
 export type RcapEligibilitySignal =
   | "possible_pathway"
+  | "possible_expungement_path"
+  | "possible_sealing_path"
+  | "needs_rap_sheet"
   | "needs_more_information"
   | "likely_not_available"
   | "human_review_recommended"
+  | "excluded_or_blocked_review_needed"
   | "future_eligibility_update";
 
 export type RcapIntakeStepId =
@@ -27,7 +31,16 @@ export type RcapRecordType =
   | "not_sure_what_shows"
   | "background_check_concern";
 
-export type RcapCaseOutcome = "dismissed" | "not_prosecuted" | "convicted" | "completed_sentence" | "not_sure";
+export type RcapCaseOutcome =
+  | "dismissed"
+  | "not_prosecuted"
+  | "convicted"
+  | "completed_sentence"
+  | "not_sure"
+  | "no_charges_filed"
+  | "not_guilty"
+  | "court_supervision"
+  | "qualified_probation";
 
 export type RcapIntakeSession = {
   id: string;

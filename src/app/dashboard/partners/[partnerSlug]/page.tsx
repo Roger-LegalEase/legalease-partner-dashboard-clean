@@ -51,16 +51,19 @@ export default async function PartnerSpecificDashboardPlaceholder({
             <StatusCard label="Primary contact" value={`${partner.primaryContactName ?? partner.contactName} · ${partner.primaryContactEmail ?? partner.contactEmail}`} />
             <StatusCard label="Target geography" value={`${partner.serviceArea ?? partner.region}, ${partner.targetState ?? partner.state}`} />
             <StatusCard label="Expected launch" value={partner.expectedLaunchDate ?? partner.launchDateTarget} />
-            <StatusCard label="MS document packets started" value={String(documentActivity.totalPackets)} />
-            <StatusCard label="MS packets missing info" value={String(documentActivity.missingInformationPackets)} />
-            <StatusCard label="MS packets ready for review" value={String(documentActivity.readyForReviewPackets)} />
+            <StatusCard label="MS/IL document packets started" value={String(documentActivity.totalPackets)} />
+            <StatusCard label="MS/IL packets missing info" value={String(documentActivity.missingInformationPackets)} />
+            <StatusCard label="MS/IL packets ready for review" value={String(documentActivity.readyForReviewPackets)} />
             <StatusCard label="Briefcase items" value={String(documentActivity.briefcaseItems)} />
             <StatusCard label="Latest MS packet" value={documentActivity.latestPacketDate ?? "None yet"} />
           </div>
           <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4 text-left">
-            <p className="text-sm font-black text-navy">Mississippi-only document activity</p>
+            <p className="text-sm font-black text-navy">Mississippi-only document activity preserved; MS/IL document activity expanded</p>
             <p className="mt-2 text-sm leading-6 text-grayWilma-700">
               Pathway breakdown: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No packets yet"}.
+            </p>
+            <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+              State breakdown: {Object.entries(documentActivity.stateBreakdown).map(([state, count]) => `${state}: ${count}`).join(", ") || "No packets yet"}.
             </p>
           </div>
           <Link

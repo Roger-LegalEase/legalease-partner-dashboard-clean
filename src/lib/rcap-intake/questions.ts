@@ -73,6 +73,30 @@ export const rcapIntakeQuestions: RcapIntakeQuestion[] = [
   }
 ];
 
+export const illinoisIntakeIntro =
+  "Illinois has two main record-clearing paths: expungement and sealing. Expungement usually applies when the case did not end in a conviction. Sealing is often used for eligible convictions and hides the record from most public searches. I’ll ask a few simple questions to see which path may be worth reviewing.";
+
+export const illinoisCaseOutcomeOptions = [
+  { label: "No charges were filed", value: "no_charges_filed" },
+  { label: "Dismissed", value: "dismissed" },
+  { label: "Not guilty / acquitted", value: "not_guilty" },
+  { label: "Court supervision", value: "court_supervision" },
+  { label: "Qualified probation", value: "qualified_probation" },
+  { label: "Conviction", value: "convicted" },
+  { label: "Not sure", value: "not_sure" }
+];
+
+export const illinoisSealingExclusionOptions = [
+  "DUI / aggravated DUI",
+  "reckless driving",
+  "domestic battery",
+  "order of protection violation",
+  "sex offense / registration issue",
+  "violent offense / serious violent felony",
+  "animal cruelty category",
+  "not sure"
+];
+
 export const rcapIntakeStepOrder = rcapIntakeQuestions.map((question) => question.id);
 
 export function getRcapIntakeQuestion(stepId: RcapIntakeStepId) {
