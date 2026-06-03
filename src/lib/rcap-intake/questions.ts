@@ -97,6 +97,19 @@ export const illinoisSealingExclusionOptions = [
   "not sure"
 ];
 
+export const pennsylvaniaIntakeIntro =
+  "Pennsylvania has three record relief paths to sort through: expungement, limited access / sealing, and Clean Slate. Expungement is narrow and usually means destruction. Sealing or limited access usually hides a record from most public searches. I’ll ask a few simple questions so the next step can be reviewed.";
+
+export const pennsylvaniaCaseOutcomeOptions = [
+  { label: "Dismissed", value: "dismissed" },
+  { label: "No charges were filed", value: "no_charges_filed" },
+  { label: "Not guilty / acquitted", value: "not_guilty" },
+  { label: "No disposition shows", value: "not_sure" },
+  { label: "Convicted", value: "convicted" },
+  { label: "Completed sentence", value: "completed_sentence" },
+  { label: "Not sure", value: "not_sure" }
+];
+
 export const rcapIntakeStepOrder = rcapIntakeQuestions.map((question) => question.id);
 
 export function getRcapIntakeQuestion(stepId: RcapIntakeStepId) {

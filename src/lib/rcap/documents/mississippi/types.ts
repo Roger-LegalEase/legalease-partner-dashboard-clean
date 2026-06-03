@@ -2,10 +2,13 @@ import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
 import type { MississippiDocumentType } from "@/lib/rcap/state-packs/mississippi/document-types";
 import type { IllinoisDocumentType } from "@/lib/rcap/state-packs/illinois/document-types";
 import type { DcDocumentType } from "@/lib/rcap/state-packs/dc/document-types";
+import type { PennsylvaniaDocumentType } from "@/lib/rcap/state-packs/pennsylvania/document-types";
 import type { IllinoisDocumentFieldKey } from "@/lib/rcap/state-packs/illinois/required-fields";
 import type { IllinoisPathway } from "@/lib/rcap/state-packs/illinois/pathways";
 import type { DcDocumentFieldKey } from "@/lib/rcap/state-packs/dc/required-fields";
 import type { DcPathway } from "@/lib/rcap/state-packs/dc/pathways";
+import type { PennsylvaniaDocumentFieldKey } from "@/lib/rcap/state-packs/pennsylvania/required-fields";
+import type { PennsylvaniaPathway } from "@/lib/rcap/state-packs/pennsylvania/pathways";
 import type { MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 import type { MississippiEligibilitySignal, MississippiPathway } from "@/lib/rcap/state-packs/mississippi/pathways";
 
@@ -86,10 +89,10 @@ export type RcapDocumentPacket = {
   intakeSessionId?: string;
   userId?: string;
   briefcaseId?: string;
-  state: "MS" | "IL" | "DC";
+  state: "MS" | "IL" | "DC" | "PA";
   county?: string;
-  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType;
-  pathway: MississippiPathway | IllinoisPathway | DcPathway;
+  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType;
+  pathway: MississippiPathway | IllinoisPathway | DcPathway | PennsylvaniaPathway;
   status: RcapDocumentPacketStatus;
   petitionerFirstName?: string;
   petitionerLastName?: string;
@@ -119,7 +122,7 @@ export type RcapDocumentPacket = {
   generatedPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
-  missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey | DcDocumentFieldKey>;
+  missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey | DcDocumentFieldKey | PennsylvaniaDocumentFieldKey>;
   safetyDisclaimer: string;
   createdAt?: string;
   updatedAt?: string;
@@ -139,7 +142,7 @@ export type RcapBriefcaseItem = {
   status: RcapDocumentPacketStatus | "in_progress";
   state?: string;
   county?: string;
-  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType;
+  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType;
   lastOpenedAt?: string;
   createdAt?: string;
   updatedAt?: string;

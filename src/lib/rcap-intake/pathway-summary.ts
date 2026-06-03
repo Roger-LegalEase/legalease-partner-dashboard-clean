@@ -2,6 +2,10 @@ import type { RcapIntakeSession, RcapPathwaySummary } from "./types";
 import { rcapIntakeDisclaimer } from "./types";
 
 export function generateRcapPathwaySummary(session: RcapIntakeSession): RcapPathwaySummary {
+  if (isPennsylvania(session.state)) {
+    return generatePennsylvaniaPathwaySummary(session);
+  }
+
   if (isDc(session.state)) {
     return generateDcPathwaySummary(session);
   }
@@ -57,6 +61,42 @@ export function generateRcapPathwaySummary(session: RcapIntakeSession): RcapPath
     pathwaySummary: "The information you shared should be reviewed by the partner program before any next step is chosen.",
     suggestedNextStep: "Ask the partner program to review the basic case details and local record-clearing options.",
     recommendedService: "Wilma Intake",
+    disclaimer: rcapIntakeDisclaimer
+  };
+}
+
+function generatePennsylvaniaPathwaySummary(session: RcapIntakeSession): RcapPathwaySummary {
+  const needsPatch = session.hasDocuments !== true || session.needsRecordCheck === true || session.caseOutcome === "not_sure" || session.recordType === "not_sure_what_shows";
+
+  if (session.caseOutcome === "convicted" || session.caseOutcome === "completed_sentence" || session.recordType === "past_conviction") {
+    return {
+      eligibilitySignal: needsPatch ? "needs_more_information" : "possible_sealing_path",
+      pathwaySummary: needsPatch
+        ? "Based on what you shared, Pennsylvania limited access or Clean Slate sealing may be worth reviewing, but a PATCH report and court docket may be needed first."
+        : "Based on what you shared, this may be a Pennsylvania limited access or Clean Slate sealing review path. A conviction is generally not called expungement unless a narrow pardon, age 70+, or similar pathway applies.",
+      suggestedNextStep: "Continue to the Pennsylvania record relief form and use PATCH plus court records to confirm the county, docket, grade, disposition, waiting period, and restitution.",
+      recommendedService: needsPatch ? "RecordShield" : "Wilma Intake",
+      disclaimer: rcapIntakeDisclaimer
+    };
+  }
+
+  if (session.caseOutcome === "dismissed" || session.caseOutcome === "not_prosecuted" || session.caseOutcome === "no_charges_filed" || session.caseOutcome === "not_guilty" || session.recordType === "charged_not_convicted" || session.recordType === "old_arrest") {
+    return {
+      eligibilitySignal: needsPatch ? "needs_more_information" : "possible_expungement_path",
+      pathwaySummary: needsPatch
+        ? "This may be a possible Pennsylvania expungement or Clean Slate path, but a PATCH report may help confirm what is actually showing."
+        : "This may be a possible Pennsylvania expungement path if the case did not end in a conviction. Clean Slate may also apply automatically, but it should be verified and not treated as already complete.",
+      suggestedNextStep: "Continue to the Pennsylvania form, gather PATCH and court details, and verify whether expungement, limited access, or Clean Slate review fits best.",
+      recommendedService: needsPatch ? "RecordShield" : "Wilma Intake",
+      disclaimer: rcapIntakeDisclaimer
+    };
+  }
+
+  return {
+    eligibilitySignal: "needs_more_information",
+    pathwaySummary: "More information may be needed before a Pennsylvania expungement, limited access, Clean Slate, or needs-review pathway can be suggested.",
+    suggestedNextStep: "A PATCH report or record review may help confirm the county, docket, grade, disposition, and whether any exclusion or restitution concern exists.",
+    recommendedService: "RecordShield",
     disclaimer: rcapIntakeDisclaimer
   };
 }
@@ -148,4 +188,9 @@ function isIllinois(state?: string) {
 function isDc(state?: string) {
   const normalized = state?.trim().toLowerCase();
   return normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
+}
+
+function isPennsylvania(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "pa" || normalized === "pennsylvania";
 }

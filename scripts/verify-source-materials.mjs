@@ -23,11 +23,19 @@ const states = [
     readme: "docs/reference/dc/README.md",
     pdf: "reference/dc/DC-Expungement-Sealing-Agent-Reference.pdf",
     html: "reference/dc/dc-motion-to-seal-expunge.html"
+  },
+  {
+    label: "Pennsylvania",
+    readme: "docs/reference/pennsylvania/README.md",
+    pdf: "reference/pennsylvania/Pennsylvania-Expungement-Sealing-Agent-Reference.pdf",
+    html: "reference/pennsylvania/pa-petition-expungement-790.html",
+    extraPdf: "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf"
   }
 ];
 
 for (const state of states) {
   assertPdf(state.label, state.pdf);
+  if (state.extraPdf) assertPdf(state.label, state.extraPdf);
   assertHtml(state.label, state.html);
   assertReadme(state);
 }
@@ -41,6 +49,7 @@ if (failures.length > 0) {
 console.log("Source materials verification passed.");
 for (const state of states) {
   console.log(`${state.label} PDF: ${state.pdf}`);
+  if (state.extraPdf) console.log(`${state.label} PDF/template: ${state.extraPdf}`);
   console.log(`${state.label} HTML/template: ${state.html}`);
 }
 
@@ -75,7 +84,7 @@ function assertReadme(state) {
     return;
   }
   const content = fs.readFileSync(absolutePath, "utf8");
-  for (const sourcePath of [state.pdf, state.html]) {
+  for (const sourcePath of [state.pdf, state.html, state.extraPdf].filter(Boolean)) {
     if (!content.includes(sourcePath)) failures.push(`${state.label} README does not include actual source path: ${sourcePath}.`);
   }
 }

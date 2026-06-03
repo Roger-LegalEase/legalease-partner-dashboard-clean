@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petition for Expungement Pursuant to Pa.R.Crim.P. 790 — Pennsylvania (AOPC)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{--ink:#1a1a1a;--paper:#dfe3df;--soft:#9aa69a;--field:#fff;--acc:#1f5135;--note:#444;--shade:#d9d9d9;--hdr:#cfcfcf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:10.5pt;line-height:1.35;padding:24px 14px;}
+  .controls{max-width:840px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 8px 22px rgba(0,0,0,.07);padding:18px 22px;border-radius:4px;}
+  .controls h3{font-family:'IBM Plex Mono',monospace;font-size:9pt;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:0 0 4px;}
+  .controls p{font-size:9.5pt;color:var(--note);margin:0 0 12px;}
+  .actions{display:flex;gap:10px;}
+  .actions button{font-family:'IBM Plex Mono',monospace;font-size:9pt;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;background:var(--acc);color:#fff;border:none;padding:8px 15px;border-radius:3px;}
+  .actions button.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);}
+
+  .sheet{max-width:840px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 10px 26px rgba(0,0,0,.08);padding:0.55in 0.6in 0.7in;position:relative;}
+  .formrev{position:absolute;bottom:0.34in;left:0.6in;font-family:'Source Serif 4',serif;font-size:8pt;font-style:italic;color:var(--note);}
+
+  /* caption */
+  .cap{display:grid;grid-template-columns:1fr 110px 1fr;gap:10px;align-items:start;margin-bottom:18px;}
+  .cap-l{font-size:9.5pt;line-height:1.7;}
+  .cap-l .ul{display:inline-block;border-bottom:1px solid var(--ink);min-width:150px;}
+  .cap-mid{display:flex;align-items:center;justify-content:center;}
+  .crest{width:74px;height:60px;border:1px solid var(--soft);border-radius:3px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:6pt;color:var(--note);line-height:1.2;}
+  .cap-r{font-size:9.5pt;line-height:1.8;text-align:left;}
+  .cap-r .center{text-align:center;}
+  .ul{border:none;border-bottom:1px solid var(--ink);font-family:'Source Serif 4',serif;font-size:10pt;padding:0 2px;background:transparent;}
+  .ul:focus{outline:none;background:#f5f0d8;}
+  .docket-line{margin-top:8px;font-size:10pt;}
+
+  .title{text-align:center;font-weight:700;font-size:12.5pt;margin:14px 0 12px;}
+  .andnow{font-size:10pt;text-align:justify;margin:0 0 14px;text-indent:32px;}
+
+  table.f{width:100%;border-collapse:collapse;margin:0;}
+  table.f td,table.f th{border:1px solid var(--ink);padding:0;vertical-align:top;}
+  .band{background:var(--hdr);text-align:center;font-weight:700;font-size:10.5pt;padding:5px;letter-spacing:.02em;}
+  .cell{padding:5px 6px;font-size:9pt;}
+  .cell .lbl{font-size:9pt;}
+  .cell input{border:none;width:100%;font-family:'Source Serif 4',serif;font-size:10pt;padding:2px;background:transparent;}
+  .cell input:focus{outline:none;background:#f5f0d8;}
+  .instr{padding:5px 6px;font-size:9pt;line-height:1.4;}
+
+  table.charges{width:100%;border-collapse:collapse;margin:0;}
+  table.charges th{background:var(--field);border:1px solid var(--ink);font-size:8pt;font-weight:700;padding:4px 3px;text-align:left;line-height:1.15;}
+  table.charges td{border:1px solid var(--ink);padding:0;}
+  table.charges td input{border:none;width:100%;font-size:9pt;padding:4px 3px;background:transparent;font-family:'Source Serif 4',serif;}
+  table.charges td input:focus{outline:none;background:#f5f0d8;}
+
+  .payrow{display:flex;align-items:center;justify-content:space-between;font-size:9.5pt;padding:6px;}
+  .ckopt{display:inline-flex;gap:6px;align-items:center;margin-left:14px;}
+  .ckopt input{width:15px;height:15px;}
+  .reasons{min-height:60px;}
+  .reasons textarea{width:100%;border:none;font-family:'Source Serif 4',serif;font-size:10pt;padding:5px 6px;background:transparent;resize:vertical;min-height:58px;line-height:1.4;}
+  .reasons textarea:focus{outline:none;background:#f5f0d8;}
+  .ckline{display:flex;gap:8px;align-items:flex-start;padding:6px;font-size:9pt;line-height:1.4;border-top:1px solid var(--ink);}
+  .ckline input[type=checkbox]{width:15px;height:15px;margin-top:1px;flex:none;}
+  .ckline .reasonblank{flex:1;border-bottom:1px solid var(--ink);min-height:14px;margin-left:6px;}
+
+  .serve{font-weight:700;font-size:9.5pt;margin:14px 0;}
+  .verify{font-size:9.5pt;text-align:justify;margin:12px 0 24px;text-indent:32px;}
+  .sigrow{display:flex;gap:40px;margin-top:36px;}
+  .sigrow .col{flex:1;}
+  .sigrow .ln{border-top:1px solid var(--ink);padding-top:4px;font-weight:700;font-size:9.5pt;}
+  .sigrow .date{flex:0 0 200px;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .controls{display:none;}
+    .sheet{box-shadow:none;border:none;margin:0;padding:0.5in;}
+    .ul:focus,.cell input:focus,table.charges td input:focus,.reasons textarea:focus{background:transparent;}
+    .addrow{display:none;}
+  }
+  @media(max-width:700px){.cap{grid-template-columns:1fr;}.crest{margin:0 auto;}.sigrow{flex-direction:column;gap:24px;}}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h3>Pennsylvania · AOPC Form · Petition for Expungement Pursuant to Pa.R.Crim.P. 790</h3>
+  <p>Faithful interactive replica of the statewide AOPC expungement petition (court cases). Fill, then Print / Save PDF. Attach a PATCH criminal history obtained within 60 days, and serve a copy on the attorney for the Commonwealth.</p>
+  <div class="actions">
+    <button class="ghost" onclick="window.print()">Print / Save PDF</button>
+    <button onclick="loadSample()">Load Sample</button>
+  </div>
+</div>
+
+<div class="sheet">
+  <!-- CAPTION -->
+  <div class="cap">
+    <div class="cap-l">
+      In the Court of Common Pleas<br>
+      County of <span class="ul"><input style="min-width:130px;" id="county"></span><br>
+      <span class="ul" style="min-width:60px;"><input id="district" style="width:60px;"></span> Judicial District
+    </div>
+    <div class="cap-mid"><div class="crest">PA<br>COAT OF<br>ARMS</div></div>
+    <div class="cap-r">
+      <div class="center">Commonwealth of Pennsylvania</div>
+      <div class="center">v</div>
+      <div class="center"><span class="ul" style="min-width:180px;"><input id="defname"></span></div>
+      <div class="docket-line">Docket No: CP-<input class="ul" id="d1" style="width:34px;">-<input class="ul" id="d2" style="width:46px;">-<input class="ul" id="d3" style="width:62px;">-20<input class="ul" id="d4" style="width:28px;"></div>
+    </div>
+  </div>
+
+  <div class="title">Petition for Expungement Pursuant to Pa.R.Crim.P. 790</div>
+  <p class="andnow">AND NOW, the petitioner avers the following and requests that this petition for expungement pursuant to Pa.R.Crim.P. 790 be granted for the reasons set forth below.</p>
+
+  <!-- PETITIONER INFORMATION -->
+  <table class="f">
+    <tr><td colspan="3" class="band">PETITIONER INFORMATION</td></tr>
+    <tr>
+      <td class="cell" style="width:42%;"><span class="lbl">Full Name:</span><input id="fullname"></td>
+      <td class="cell" style="width:29%;"><span class="lbl">DOB:</span><input id="dob"></td>
+      <td class="cell" style="width:29%;"><span class="lbl">Social Security Number:</span><input id="ssn"></td>
+    </tr>
+    <tr>
+      <td class="cell" rowspan="3" style="vertical-align:top;"><span class="lbl">Address:</span><input id="addr1"><input id="addr2" style="margin-top:14px;"></td>
+      <td class="cell" colspan="2"><span class="lbl">Alias(es):</span><input id="alias1"></td>
+    </tr>
+    <tr><td class="cell" colspan="2"><input id="alias2"></td></tr>
+    <tr><td class="cell" colspan="2"><input id="alias3"></td></tr>
+  </table>
+
+  <!-- CASE INFORMATION -->
+  <table class="f" style="border-top:none;">
+    <tr><td colspan="2" class="band">CASE INFORMATION</td></tr>
+    <tr><td colspan="2" class="instr">List name, address of the Judge of the Court of Common Pleas or Philadelphia Municipal Court who accepted the guilty plea or heard the case:</td></tr>
+    <tr>
+      <td class="cell" style="width:45%;"><span class="lbl">Judge:</span><input id="judge"></td>
+      <td class="cell"><span class="lbl">Address:</span><input id="judgeaddr"></td>
+    </tr>
+    <tr>
+      <td class="cell"><span class="lbl">Philadelphia Municipal Court or Court of Common Pleas Docket Number:</span><input id="docketnum"></td>
+      <td class="cell"><span class="lbl">Offense Tracking Number (OTN):</span><input id="otn"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="display:flex;flex-direction:column;"><span class="lbl">Name of Arresting Agency:</span><input id="agency"></td>
+      <td class="cell" style="padding:0;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="border:none;border-left:1px solid var(--ink);width:50%;padding:5px 6px;"><span class="lbl">Date of Arrest:</span><input id="arrdate"></td>
+          <td style="border:none;border-left:1px solid var(--ink);padding:5px 6px;"><span class="lbl">Date on Complaint:</span><input id="compdate"></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td colspan="2" class="instr">List name and mailing address of the affiant as shown on the complaint, if available:</td></tr>
+    <tr>
+      <td class="cell" style="width:45%;"><span class="lbl">Name of Affiant:</span><input id="affiant"></td>
+      <td class="cell"><span class="lbl">Address:</span><input id="affiantaddr"></td>
+    </tr>
+  </table>
+
+  <!-- CHARGES -->
+  <table class="f" style="border-top:none;">
+    <tr><td class="instr">List specific charges, as they appear on the charging document, to be expunged and the disposition of each charge (please attach additional sheet(s) of paper if necessary):</td></tr>
+  </table>
+  <table class="charges" id="chargeTable">
+    <thead><tr>
+      <th style="width:9%;">PA Statute (Title)</th><th style="width:9%;">Section</th><th style="width:10%;">Subsection</th>
+      <th style="width:30%;">Statute Description</th><th style="width:8%;">Counts</th><th style="width:8%;">Grade</th><th style="width:16%;">Disposition</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+  <span class="addrow" onclick="addCharge()" style="font-family:'IBM Plex Mono',monospace;font-size:8.5pt;border:1px dashed var(--acc);color:var(--acc);padding:4px 10px;cursor:pointer;border-radius:3px;display:inline-block;margin-top:4px;">+ Add charge row</span>
+
+  <!-- PAYMENT + REASONS + PATCH -->
+  <table class="f" style="margin-top:10px;">
+    <tr><td>
+      <div class="payrow">
+        <span>If the sentence imposed included a fine, costs or restitution, has the amount due been paid?</span>
+        <span>
+          <label class="ckopt"><input type="checkbox" id="paidYes" onclick="oneof('paidYes','paidNo')"> Yes</label>
+          <label class="ckopt"><input type="checkbox" id="paidNo" onclick="oneof('paidNo','paidYes')"> No</label>
+        </span>
+      </div>
+    </td></tr>
+    <tr><td class="instr" style="border-top:1px solid var(--ink);">List the reason(s) for the expungement (please attach additional sheet(s) of paper if necessary):</td></tr>
+    <tr><td class="reasons"><textarea id="reasons"></textarea></td></tr>
+    <tr><td class="ckline"><input type="checkbox" id="patchYes"><span>I have attached a copy of my Pennsylvania State Police Criminal History which I have obtained within 60 days before filing this petition.</span></td></tr>
+    <tr><td class="ckline"><input type="checkbox" id="patchNo"><span>I have not attached a copy of my Pennsylvania State Police Criminal History. State reason(s) below:<span class="reasonblank"></span></span></td></tr>
+  </table>
+
+  <div class="serve">When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.</div>
+
+  <p class="verify">I, the undersigned petitioner, avers that the facts set forth in this petition are true and correct to the best of my personal knowledge or information and belief, and are made subject to the penalties of unsworn falsification to authorities under 18 Pa.C.S § 4904.</p>
+
+  <div class="sigrow">
+    <div class="col"><input class="ul" id="sig" style="width:100%;"><div class="ln">Signature of Petitioner</div></div>
+    <div class="col date"><input class="ul" id="sigdate" style="width:100%;"><div class="ln">Date</div></div>
+  </div>
+
+  <div class="formrev">AOPC Form Updated Rev 3/09/12</div>
+</div>
+
+<script>
+  function addCharge(){
+    const tb=document.querySelector('#chargeTable tbody');
+    const tr=document.createElement('tr');
+    for(let i=0;i<7;i++){const td=document.createElement('td');const inp=document.createElement('input');td.appendChild(inp);tr.appendChild(td);}
+    tb.appendChild(tr);
+  }
+  for(let i=0;i<5;i++)addCharge();
+
+  function oneof(on,off){const o=document.getElementById(off);if(document.getElementById(on).checked)o.checked=false;}
+
+  // mirror defendant name into full name
+  document.getElementById('defname').addEventListener('input',e=>{
+    const fn=document.getElementById('fullname'); if(!fn.value||fn.dataset.auto)fn.value=e.target.value, fn.dataset.auto='1';
+  });
+
+  function loadSample(){
+    const v={county:'Allegheny',district:'5th',defname:'Andre L. Carter',
+      d1:'02',d2:'CR',d3:'0001234',d4:'22',
+      fullname:'Andre L. Carter',dob:'07/22/1992',ssn:'XXX-XX-4471',
+      addr1:'1240 Fifth Ave',addr2:'Pittsburgh, PA 15219',alias1:'Andre Carter',
+      judge:'Hon. Patricia M. Reynolds',judgeaddr:'436 Grant St, Pittsburgh, PA 15219',
+      docketnum:'CP-02-CR-0001234-2022',otn:'T 123456-7',agency:'Pittsburgh Bureau of Police',
+      arrdate:'02/02/2022',compdate:'02/02/2022',affiant:'Ofc. J. Daniels',
+      affiantaddr:'1203 Western Ave, Pittsburgh, PA 15233',
+      reasons:'The charge was nolle prossed on 06/15/2022 and did not result in a conviction. A non-conviction record is eligible for expungement under 18 Pa.C.S. 9122.',
+      sig:'Andre L. Carter',sigdate:'06/02/2026'};
+    for(const k in v){const e=document.getElementById(k);if(e)e.value=v[k];}
+    document.getElementById('paidYes').checked=true;
+    document.getElementById('patchYes').checked=true;
+    // one sample charge
+    const r=document.querySelector('#chargeTable tbody').rows[0].cells;
+    ['18','3929','(a)(1)','Retail theft','1','M2','Nolle prossed'].forEach((x,i)=>r[i].querySelector('input').value=x);
+  }
+</script>
+</body>
+</html>

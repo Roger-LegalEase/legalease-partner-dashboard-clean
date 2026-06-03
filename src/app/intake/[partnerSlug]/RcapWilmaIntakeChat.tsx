@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, ClipboardList, Loader2, MessageSquareText, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { illinoisCaseOutcomeOptions, illinoisIntakeIntro, rcapIntakeQuestions, type RcapIntakeQuestion } from "@/lib/rcap-intake/questions";
+import { illinoisCaseOutcomeOptions, illinoisIntakeIntro, pennsylvaniaCaseOutcomeOptions, pennsylvaniaIntakeIntro, rcapIntakeQuestions, type RcapIntakeQuestion } from "@/lib/rcap-intake/questions";
 import type { RcapIntakeSession, RcapPathwaySummary } from "@/lib/rcap-intake/types";
 import { rcapIntakeDisclaimer } from "@/lib/rcap-intake/types";
 
@@ -154,7 +154,11 @@ export function RcapWilmaIntakeChat({
           <p className="mt-2 text-sm leading-6 text-grayWilma-700">
             We will ask a few structured questions, save your progress, and suggest a safe next step for {partnerName}.
           </p>
-          {isIllinoisState(session?.state ?? defaultState) ? (
+          {isPennsylvaniaState(session?.state ?? defaultState) ? (
+            <p className="mt-3 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-3 text-sm leading-6 text-grayWilma-700">
+              {pennsylvaniaIntakeIntro}
+            </p>
+          ) : isIllinoisState(session?.state ?? defaultState) ? (
             <p className="mt-3 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-3 text-sm leading-6 text-grayWilma-700">
               {illinoisIntakeIntro}
             </p>
@@ -373,6 +377,43 @@ function nextDraftValue(step: RcapIntakeSession["currentStep"], session: RcapInt
 }
 
 function stateSpecificQuestion(question: RcapIntakeQuestion, session: RcapIntakeSession): RcapIntakeQuestion {
+  if (isPennsylvaniaState(session.state)) {
+    if (question.id === "case_outcome") {
+      return {
+        ...question,
+        prompt: "How did the Pennsylvania case end?",
+        helper: "This helps sort whether expungement, limited access / sealing, Clean Slate, or more information may be worth reviewing.",
+        options: pennsylvaniaCaseOutcomeOptions
+      };
+    }
+
+    if (question.id === "has_documents") {
+      return {
+        ...question,
+        prompt: "Do you already have a PATCH report or court docket information?",
+        helper: "No problem if you do not. A PATCH report may help confirm what is showing before anyone reviews next steps."
+      };
+    }
+
+    if (question.id === "needs_record_check") {
+      return {
+        ...question,
+        prompt: "Would help getting or checking your PATCH report be useful?",
+        helper: "PATCH and court records can help confirm the docket, charge, grade, disposition, timing, and restitution status."
+      };
+    }
+
+    if (question.id === "county") {
+      return {
+        ...question,
+        prompt: "What Pennsylvania county was the case heard in?",
+        helper: "Use the county for the Court of Common Pleas case if you know it. A best guess is okay for now."
+      };
+    }
+
+    return question;
+  }
+
   if (!isIllinoisState(session.state)) {
     return question;
   }
@@ -417,9 +458,14 @@ function isIllinoisState(state?: string) {
   return state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
 }
 
+function isPennsylvaniaState(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "pa" || normalized === "pennsylvania";
+}
+
 function isSupportedDocumentState(state?: string) {
   const normalized = state?.trim().toLowerCase();
-  return normalized === "mississippi" || state?.toUpperCase() === "MS" || normalized === "illinois" || state?.toUpperCase() === "IL" || normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
+  return normalized === "mississippi" || state?.toUpperCase() === "MS" || normalized === "illinois" || state?.toUpperCase() === "IL" || normalized === "pa" || normalized === "pennsylvania" || normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
 }
 
 async function postJson(url: string, body: Record<string, unknown>): Promise<ApiResponse> {
