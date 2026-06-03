@@ -27,6 +27,7 @@ export default async function RcapDocumentsPage({
   const state = partner.targetState ?? partner.state;
   const isMississippi = state?.toLowerCase() === "mississippi" || state?.toUpperCase() === "MS";
   const isIllinois = state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
+  const isDc = isDcState(state);
   const sessionId = typeof search.session === "string" ? search.session : undefined;
   const session = sessionId ? await getRcapIntakeSession(sessionId) : undefined;
   const packet = session && session.partnerSlug === partnerSlug && isMississippi ? buildPreviewPacket(session) : undefined;
@@ -42,7 +43,7 @@ export default async function RcapDocumentsPage({
         <Card className="mt-6 w-full rounded-md p-6 md:p-8 print:hidden">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div>
-              <Badge tone="blue">{isIllinois ? "Illinois RCAP document generator" : "Mississippi RCAP document generator"}</Badge>
+              <Badge tone="blue">{isDc ? "DC RCAP document generator" : isIllinois ? "Illinois RCAP document generator" : "Mississippi RCAP document generator"}</Badge>
               <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Draft document preparation for {partnerName}</h1>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-grayWilma-700">
                 I can help turn what you shared into a draft packet. This is not a final legal filing yet, and it does not guarantee eligibility or outcomes.
@@ -56,7 +57,7 @@ export default async function RcapDocumentsPage({
           <div className="mt-7 grid gap-3 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4 sm:grid-cols-2">
             <Meta label="Partner" value={partnerName} />
             <Meta label="Service area" value={serviceArea} />
-            <Meta label="Document state" value={isMississippi ? "Mississippi" : isIllinois ? "Illinois" : "Not available yet"} />
+            <Meta label="Document state" value={isMississippi ? "Mississippi" : isIllinois ? "Illinois" : isDc ? "District of Columbia" : "Not available yet"} />
           </div>
 
           <div className="mt-6 flex items-start gap-3 rounded-md border border-grayWilma-200 bg-white p-4">
@@ -66,7 +67,7 @@ export default async function RcapDocumentsPage({
             </p>
           </div>
 
-          {!isMississippi && !isIllinois ? (
+          {!isMississippi && !isIllinois && !isDc ? (
             <p className="mt-6 rounded-md border border-orange/30 bg-orange/10 p-4 text-sm leading-6 text-grayWilma-800">
               Document generation for this state is not available yet.
             </p>
@@ -134,6 +135,11 @@ function PartnerNotFound({ partnerSlug }: { partnerSlug: string }) {
       </div>
     </main>
   );
+}
+
+function isDcState(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
 }
 
 function buildPreviewPacket(session: NonNullable<Awaited<ReturnType<typeof getRcapIntakeSession>>>): RcapDocumentPacket {

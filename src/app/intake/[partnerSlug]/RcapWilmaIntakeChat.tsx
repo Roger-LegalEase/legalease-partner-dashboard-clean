@@ -338,7 +338,7 @@ function FinalSummary({ summary, session }: { summary: RcapPathwaySummary; sessi
         <SummaryLine label="Recommended service" value={summary.recommendedService} />
       </div>
       <p className="mt-5 rounded-md border border-grayWilma-200 bg-white p-3 text-sm leading-6 text-grayWilma-700">{summary.disclaimer}</p>
-      {session.state?.toLowerCase() === "mississippi" || session.state?.toUpperCase() === "MS" ? (
+      {isSupportedDocumentState(session.state) ? (
         <a
           href={`/documents/${session.partnerSlug}/form?session=${session.id}`}
           className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
@@ -415,6 +415,11 @@ function stateSpecificQuestion(question: RcapIntakeQuestion, session: RcapIntake
 
 function isIllinoisState(state?: string) {
   return state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
+}
+
+function isSupportedDocumentState(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "mississippi" || state?.toUpperCase() === "MS" || normalized === "illinois" || state?.toUpperCase() === "IL" || normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
 }
 
 async function postJson(url: string, body: Record<string, unknown>): Promise<ApiResponse> {

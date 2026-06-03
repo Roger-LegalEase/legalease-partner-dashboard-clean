@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
+import { DcMotionInformationForm } from "./DcMotionInformationForm";
 import { IllinoisPetitionInformationForm } from "./IllinoisPetitionInformationForm";
 import { MississippiPetitionInformationForm } from "./MississippiPetitionInformationForm";
 
@@ -21,6 +22,7 @@ export default async function MississippiPetitionInformationFormPage({
   const state = partner?.targetState ?? partner?.state;
   const isMississippi = state?.toLowerCase() === "mississippi" || state?.toUpperCase() === "MS";
   const isIllinois = state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
+  const isDc = isDcState(state);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -33,7 +35,7 @@ export default async function MississippiPetitionInformationFormPage({
         <section className="mt-6 grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <aside className="rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
             <Badge tone="blue">Your Briefcase</Badge>
-            <h1 className="mt-4 text-3xl font-black leading-tight text-navy">{isIllinois ? "Illinois form information" : "Mississippi petition information"}</h1>
+            <h1 className="mt-4 text-3xl font-black leading-tight text-navy">{isDc ? "DC record relief information" : isIllinois ? "Illinois form information" : "Mississippi petition information"}</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
               You can save this and come back later from your Briefcase. This prepares a draft packet, not a final legal filing.
             </p>
@@ -47,7 +49,7 @@ export default async function MississippiPetitionInformationFormPage({
 
           {!partner ? (
             <Card className="rounded-md p-6">Partner not found.</Card>
-          ) : !isMississippi && !isIllinois ? (
+          ) : !isMississippi && !isIllinois && !isDc ? (
             <Card className="rounded-md p-6">Document generation for this state is not available yet.</Card>
           ) : !session || session.partnerSlug !== partnerSlug ? (
             <Card className="rounded-md p-6">
@@ -58,6 +60,8 @@ export default async function MississippiPetitionInformationFormPage({
             </Card>
           ) : isIllinois ? (
             <IllinoisPetitionInformationForm partnerSlug={partnerSlug} session={session} />
+          ) : isDc ? (
+            <DcMotionInformationForm partnerSlug={partnerSlug} session={session} />
           ) : (
             <MississippiPetitionInformationForm partnerSlug={partnerSlug} session={session} />
           )}
@@ -65,4 +69,9 @@ export default async function MississippiPetitionInformationFormPage({
       </div>
     </main>
   );
+}
+
+function isDcState(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
 }

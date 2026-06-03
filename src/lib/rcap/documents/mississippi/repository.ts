@@ -231,7 +231,7 @@ export async function getRcapDocumentPacket(packetId: string): Promise<RcapDocum
 }
 
 export async function getPartnerDocumentActivitySummary(partnerSlug: string) {
-  const empty = { totalPackets: 0, missingInformationPackets: 0, readyForReviewPackets: 0, latestPacketDate: undefined as string | undefined, pathwayBreakdown: {} as Record<string, number>, stateBreakdown: {} as Record<string, number>, briefcaseItems: 0, state: "MS/IL" };
+  const empty = { totalPackets: 0, missingInformationPackets: 0, readyForReviewPackets: 0, latestPacketDate: undefined as string | undefined, pathwayBreakdown: {} as Record<string, number>, stateBreakdown: {} as Record<string, number>, briefcaseItems: 0, state: "MS/IL/DC" };
   if (!/^[a-zA-Z0-9_-]+$/.test(partnerSlug) || (await getPartnerRepositoryMode()) !== "supabase") {
     return empty;
   }
@@ -261,7 +261,7 @@ export async function getPartnerDocumentActivitySummary(partnerSlug: string) {
     pathwayBreakdown,
     stateBreakdown,
     briefcaseItems: count ?? 0,
-    state: "MS/IL"
+    state: "MS/IL/DC"
   };
 }
 
@@ -317,7 +317,7 @@ function mapPacketRow(row: PacketRow): RcapDocumentPacket {
     intakeSessionId: row.intake_session_id ?? undefined,
     userId: row.user_id ?? undefined,
     briefcaseId: row.briefcase_id ?? undefined,
-    state: row.state === "IL" ? "IL" : "MS",
+    state: row.state === "DC" ? "DC" : row.state === "IL" ? "IL" : "MS",
     county: row.county ?? undefined,
     documentType: row.document_type as RcapDocumentPacket["documentType"],
     pathway: row.pathway as RcapDocumentPacket["pathway"],

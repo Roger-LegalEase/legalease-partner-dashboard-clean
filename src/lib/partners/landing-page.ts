@@ -223,6 +223,8 @@ function fullStateName(value: string) {
   const states: Record<string, string> = {
     AL: "Alabama",
     GA: "Georgia",
+    IL: "Illinois",
+    DC: "District of Columbia",
     MS: "Mississippi"
   };
 

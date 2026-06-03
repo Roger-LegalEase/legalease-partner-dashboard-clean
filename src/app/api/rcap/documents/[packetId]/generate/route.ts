@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { generateSavedMississippiDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
+import { generateSavedDcDocumentPacket } from "@/lib/rcap/documents/dc/repository";
+import { generateSavedMississippiDocumentPacket, getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
 
 export async function POST(
   _request: Request,
@@ -10,7 +11,8 @@ export async function POST(
   }
 ) {
   const { packetId } = await params;
-  const result = await generateSavedMississippiDocumentPacket(packetId);
+  const packet = await getRcapDocumentPacket(packetId);
+  const result = packet?.state === "DC" ? await generateSavedDcDocumentPacket(packetId) : await generateSavedMississippiDocumentPacket(packetId);
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }

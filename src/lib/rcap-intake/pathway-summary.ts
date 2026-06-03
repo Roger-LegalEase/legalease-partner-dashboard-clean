@@ -2,6 +2,10 @@ import type { RcapIntakeSession, RcapPathwaySummary } from "./types";
 import { rcapIntakeDisclaimer } from "./types";
 
 export function generateRcapPathwaySummary(session: RcapIntakeSession): RcapPathwaySummary {
+  if (isDc(session.state)) {
+    return generateDcPathwaySummary(session);
+  }
+
   if (isIllinois(session.state)) {
     return generateIllinoisPathwaySummary(session);
   }
@@ -57,6 +61,40 @@ export function generateRcapPathwaySummary(session: RcapIntakeSession): RcapPath
   };
 }
 
+function generateDcPathwaySummary(session: RcapIntakeSession): RcapPathwaySummary {
+  const needsRecordReview = session.needsRecordCheck === true || session.caseOutcome === "not_sure" || session.recordType === "not_sure_what_shows";
+
+  if (session.caseOutcome === "convicted" || session.caseOutcome === "completed_sentence" || session.recordType === "past_conviction") {
+    return {
+      eligibilitySignal: needsRecordReview ? "human_review_recommended" : "possible_sealing_path",
+      pathwaySummary: needsRecordReview
+        ? "Based on what you shared, DC sealing may be worth reviewing, but a DC arrest record and case disposition may be needed first."
+        : "Based on what you shared, a DC sealing motion based on interests of justice may be a possible pathway to review. This does not guarantee eligibility or an outcome.",
+      suggestedNextStep: "Continue to the DC record relief form and use DC records to confirm the charge, outcome, timing, and prosecutor service.",
+      recommendedService: needsRecordReview ? "RecordShield" : "Wilma Intake",
+      disclaimer: rcapIntakeDisclaimer
+    };
+  }
+
+  if (session.caseOutcome === "dismissed" || session.caseOutcome === "not_prosecuted" || session.caseOutcome === "no_charges_filed" || session.caseOutcome === "not_guilty" || session.recordType === "charged_not_convicted" || session.recordType === "old_arrest") {
+    return {
+      eligibilitySignal: needsRecordReview ? "needs_more_information" : "future_eligibility_update",
+      pathwaySummary: "DC may have automatic sealing or a motion pathway to review. Automatic processing may be phased or scheduled and should not be treated as proof of completed record clearing.",
+      suggestedNextStep: "Continue to the DC record relief form, request the MPD arrest record and DC Superior Court disposition, and confirm whether automatic or by-motion relief is the better review path.",
+      recommendedService: needsRecordReview ? "RecordShield" : "Wilma Intake",
+      disclaimer: rcapIntakeDisclaimer
+    };
+  }
+
+  return {
+    eligibilitySignal: "needs_more_information",
+    pathwaySummary: "More information may be needed before a DC sealing, expungement, automatic relief, or needs-review pathway can be suggested.",
+    suggestedNextStep: "A record review may help confirm the DC record, case result, and whether any open charges or excluded-offense concerns exist.",
+    recommendedService: "RecordShield",
+    disclaimer: rcapIntakeDisclaimer
+  };
+}
+
 function generateIllinoisPathwaySummary(session: RcapIntakeSession): RcapPathwaySummary {
   const hasRapSheet = session.hasDocuments === true;
   const needsRapSheet = !hasRapSheet || session.needsRecordCheck === true || session.caseOutcome === "not_sure";
@@ -105,4 +143,9 @@ function generateIllinoisPathwaySummary(session: RcapIntakeSession): RcapPathway
 
 function isIllinois(state?: string) {
   return state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
+}
+
+function isDc(state?: string) {
+  const normalized = state?.trim().toLowerCase();
+  return normalized === "dc" || normalized === "d.c." || normalized === "district of columbia" || normalized === "washington, dc";
 }
