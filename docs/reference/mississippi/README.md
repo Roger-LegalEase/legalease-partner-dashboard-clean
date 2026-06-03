@@ -1,6 +1,8 @@
-Place Mississippi Phase 19 reference materials in this folder:
+# Mississippi Reference Materials
 
-- `Mississippi-Expungement-Agent-Reference.pdf`
-- `ms-expungement-petitions.html`
+Phase 19 uses the uploaded Mississippi source files:
 
-The application code does not require these files at runtime. They are source/reference materials for maintaining the Mississippi RCAP knowledge pack and petition template structure.
+- `reference/mississippi/Mississippi-Expungement-Agent-Reference.pdf`
+- `reference/mississippi/ms-expungement-petitions.html`
+
+The PDF is the Mississippi agent/training reference. The HTML file is the Mississippi petition packet template source. These files must be preserved for auditability and maintenance.

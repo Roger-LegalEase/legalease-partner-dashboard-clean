@@ -14,6 +14,8 @@ const failures = [];
 loadLocalEnv();
 
 const requiredFiles = [
+  "reference/mississippi/Mississippi-Expungement-Agent-Reference.pdf",
+  "reference/mississippi/ms-expungement-petitions.html",
   "src/lib/rcap/state-packs/mississippi/eligibility-rules.ts",
   "src/lib/rcap/state-packs/mississippi/pathways.ts",
   "src/lib/rcap/state-packs/mississippi/waiting-periods.ts",

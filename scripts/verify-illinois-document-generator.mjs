@@ -14,6 +14,8 @@ const failures = [];
 loadLocalEnv();
 
 const requiredFiles = [
+  "reference/illinois/Illinois-Expungement-Sealing-Agent-Reference.pdf",
+  "reference/illinois/il-expungement-companion-forms.html",
   "src/lib/rcap/state-packs/illinois/eligibility-rules.ts",
   "src/lib/rcap/state-packs/illinois/pathways.ts",
   "src/lib/rcap/state-packs/illinois/waiting-periods.ts",

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Illinois Expungement/Sealing — Companion Forms Suite (ATJ, rev. 06/26)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{--ink:#1a1a1a;--paper:#dfe3e7;--soft:#9aa6b0;--field:#fff;--acc:#1f4a63;--note:#444;--shade:#f1f1f1;--stop:#9a3412;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:10.5pt;line-height:1.4;padding:22px 14px;}
+  .picker{max-width:840px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 8px 22px rgba(0,0,0,.07);padding:18px 22px;border-radius:4px;}
+  .picker h3{font-family:'IBM Plex Mono',monospace;font-size:9pt;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:0 0 4px;}
+  .picker p{font-size:9.5pt;color:var(--note);margin:0 0 12px;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;}
+  .tabs button{font-family:'IBM Plex Mono',monospace;font-size:8.5pt;letter-spacing:.02em;cursor:pointer;background:transparent;color:var(--ink);border:1px solid var(--soft);padding:8px 11px;border-radius:3px;line-height:1.3;}
+  .tabs button.active{background:var(--acc);color:#fff;border-color:var(--acc);}
+  .picker .actions{margin-top:12px;display:flex;gap:10px;}
+  .picker .actions button{font-family:'IBM Plex Mono',monospace;font-size:9pt;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;background:var(--acc);color:#fff;border:none;padding:8px 15px;border-radius:3px;}
+  .picker .actions button.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);}
+
+  .form{display:none;}
+  .form.show{display:block;}
+
+  .sheet{max-width:840px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 10px 26px rgba(0,0,0,.08);padding:0.5in 0.65in 0.6in;position:relative;min-height:10.2in;}
+  .ftr{position:absolute;bottom:0.3in;left:0.65in;right:0.65in;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--note);}
+  .ftr .ital{font-style:italic;font-family:'Source Serif 4',serif;font-size:7pt;color:#555;text-align:center;flex:1;padding:0 8px;}
+  .casenum{text-align:right;font-style:italic;font-size:8.5pt;color:#555;margin-bottom:6px;}
+  .casenum input{border:none;border-bottom:1px solid var(--ink);width:180px;font-size:9pt;}
+
+  .masthead{display:flex;align-items:flex-start;gap:13px;border:1.5px solid var(--ink);padding:13px 15px;}
+  .seal{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);flex:none;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:5.5pt;text-align:center;color:#555;line-height:1.1;margin-top:2px;}
+  .mast-body{flex:1;}
+  .mast-title{font-weight:700;font-size:15.5pt;line-height:1.06;text-transform:uppercase;}
+  .mast-sub{font-size:9pt;margin:3px 0 10px;}
+  .capline{font-size:9.5pt;margin:6px 0;}
+  .capline b{font-weight:700;}
+  .ul{display:inline-block;border-bottom:1px solid var(--ink);}
+  .ul input{border:none;width:100%;font-size:9.5pt;padding:0 2px;font-family:'Source Serif 4',serif;}
+  .ul input:focus{outline:none;background:#fff7df;}
+  .caphint{font-size:7.5pt;font-style:italic;color:#555;}
+  .mast-right{flex:0 0 145px;text-align:center;}
+  .mast-right .ul{display:block;height:17px;margin-bottom:3px;}
+  .mast-right .ul input{text-align:center;}
+  .mast-right .lbl{font-weight:700;font-size:9pt;}
+  .mast-right .sub2{font-size:7.5pt;font-style:italic;color:#555;}
+  .triple{display:flex;gap:16px;margin-top:3px;}
+  .triple > div{flex:1;}
+  .triple .ul{display:block;height:17px;}
+
+  .callout{display:flex;gap:11px;border:1.5px solid var(--ink);padding:10px 13px;margin:13px 0;font-size:9pt;line-height:1.45;}
+  .callout .ic{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11pt;}
+  .callout.stop{border-color:var(--ink);}
+  .callout.stop .ic{border-radius:3px;border-color:var(--stop);color:var(--stop);font-size:6.5pt;font-family:'IBM Plex Mono',monospace;font-weight:700;}
+  .callout ul{margin:2px 0;padding-left:16px;}
+
+  .secnum{font-weight:700;margin:12px 0 5px;font-size:10pt;}
+  .secnum .n{margin-right:5px;}
+  .hint{font-size:8.5pt;font-style:italic;color:#555;margin:4px 0;line-height:1.4;}
+
+  table.cases{width:100%;border-collapse:collapse;margin:7px 0;font-size:8.5pt;}
+  table.cases th{border:1px solid var(--ink);background:var(--shade);font-size:7.5pt;padding:5px 4px;text-align:center;font-weight:700;line-height:1.2;}
+  table.cases td{border:1px solid var(--ink);padding:0;height:26px;}
+  table.cases td.rn{text-align:center;font-size:8pt;color:#555;width:22px;background:var(--shade);}
+  table.cases td input{width:100%;border:none;padding:4px;font-size:9pt;background:transparent;font-family:'Source Serif 4',serif;}
+  table.cases td input:focus{outline:none;background:#fff7df;}
+  .abbr{border:1px solid var(--ink);padding:8px 11px;margin:6px 0;font-size:8.5pt;line-height:1.7;}
+  .abbr .h{font-weight:700;display:block;margin-bottom:3px;}
+  .abbr b{font-family:'IBM Plex Mono',monospace;}
+
+  .numgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px 16px;margin:10px 0;}
+  .numgrid .ul{height:18px;}
+  .numgrid.four{grid-template-columns:repeat(4,1fr);}
+
+  .ck{display:flex;gap:9px;align-items:flex-start;margin:8px 0;font-size:9.5pt;line-height:1.45;}
+  .ck input{margin-top:3px;width:14px;height:14px;accent-color:var(--acc);flex:none;}
+  .ck .lt{font-weight:700;}
+  .ordered{font-weight:700;margin:12px 0 5px;}
+  .blanks{border-bottom:1px solid var(--ink);height:18px;margin:8px 0;}
+
+  .sign-hd{font-weight:700;font-size:12pt;border:1.5px solid var(--ink);border-bottom:0;padding:7px 11px 3px;}
+  .sign-box{border:1.5px solid var(--ink);padding:11px;font-size:9pt;line-height:1.5;}
+  .sline{display:flex;align-items:flex-end;gap:8px;margin:9px 0 2px;}
+  .sline .lab{font-size:9pt;white-space:nowrap;}
+  .sline .ul{flex:1;}
+  .entered{margin-top:16px;}
+  .entered .sline{margin-top:22px;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .picker{display:none;}
+    .form{display:block!important;}
+    .form:not(.show){display:none!important;}
+    .sheet{box-shadow:none;border:none;margin:0;padding:0.5in;page-break-after:always;min-height:auto;}
+    input:focus{background:transparent!important;}
+    .addrow{display:none;}
+  }
+  @media(max-width:700px){.masthead{flex-wrap:wrap;}.mast-right{flex-basis:100%;text-align:left;}.triple{flex-direction:column;}.numgrid,.numgrid.four{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="picker">
+  <h3>Illinois Expungement/Sealing — Companion Forms Suite (Supreme Court approved, rev. 06/26)</h3>
+  <p>These accompany the main Request (ATJ 2901.9). Pick a form; "Print all" outputs the whole selected form. Each is statewide and required to be accepted in all Illinois Circuit Courts.</p>
+  <div class="tabs">
+    <button class="active" data-f="caselist" onclick="pick('caselist')">Case List · ATJ 2902.1</button>
+    <button data-f="addexp" onclick="pick('addexp')">Add'l Arrests — Expungement · ATJ 2903.5</button>
+    <button data-f="addseal" onclick="pick('addseal')">Add'l Arrests — Sealing · ATJ 2904.5</button>
+    <button data-f="grant" onclick="pick('grant')">Order GRANTING · ATJ 2905.6</button>
+    <button data-f="deny" onclick="pick('deny')">Order DENYING · ATJ 2906.6</button>
+  </div>
+  <div class="actions">
+    <button class="ghost" onclick="window.print()">Print / Save PDF (current form)</button>
+    <button onclick="fillCommon()">Load Sample Header</button>
+  </div>
+</div>
+
+<!-- shared masthead generator via template; we hand-write each form -->
+
+<!-- =================================================== CASE LIST (ATJ 2902.1) =================================================== -->
+<div class="form show" id="caselist">
+  <div class="sheet">
+    <div class="masthead">
+      <div class="seal">IL<br>SUP.<br>CT.</div>
+      <div class="mast-body">
+        <div class="mast-title">Case List for Request to Expunge and/or Seal Criminal Records</div>
+        <div class="mast-sub">IN THE STATE OF ILLINOIS, CIRCUIT COURT</div>
+        <div class="capline"><b>COUNTY:</b> <span class="ul" style="min-width:300px;"><input class="cm-county"></span></div>
+        <div class="caphint">County Where You Are Filing the Case</div>
+        <div class="capline" style="margin-top:8px;"><b>REQUEST OF:</b> <span class="ul" style="min-width:280px;"><input class="cm-name"></span></div>
+        <div class="caphint">Your First, Middle, and Last Name</div>
+        <div class="capline" style="margin-top:8px;"><span class="ul" style="min-width:420px;"><input class="cm-aka"></span></div>
+        <div class="caphint">Other Names Used In These Cases</div>
+        <div class="triple"><div><span class="ul"><input class="cm-dob"></span><div class="caphint">Date Of Birth</div></div><div><span class="ul"><input class="cm-race"></span><div class="caphint">Race</div></div><div><span class="ul"><input class="cm-gender"></span><div class="caphint">Gender</div></div></div>
+      </div>
+      <div class="mast-right"><span class="ul"><input class="cm-newcase"></span><div class="lbl">Case Number</div><div class="sub2">(if the Circuit Clerk assigns a new number)</div></div>
+    </div>
+
+    <div class="callout"><div class="ic">i</div><div>This form <b>must be filed</b> with your <i>Request to Expunge and/or Seal Criminal Records</i> form. Enter <b>all</b> eligible arrest or case numbers on your criminal record that you included in your Request and in any <i>Additional Arrests or Cases</i> forms you used. If you have a case number, enter it; if not, enter the arrest number.</div></div>
+
+    <div class="secnum">Arrest or Case Numbers of all Eligible Criminal Offenses on your Record in this County:</div>
+    <div class="numgrid" id="clGrid"></div>
+    <span class="addrow" onclick="addBlanks('clGrid',10)" style="font-family:'IBM Plex Mono',monospace;font-size:8.5pt;border:1px dashed var(--acc);color:var(--acc);padding:4px 10px;cursor:pointer;border-radius:3px;display:inline-block;">+ Add 10 lines</span>
+
+    <div class="ck" style="margin-top:14px;"><input type="checkbox"><span>I have more arrests or case numbers included in my Request and Additional Arrests or Cases forms and I have listed them on an additional Case List form.</span></div>
+    <div class="ftr"><span>ATJ 2902.1</span><span class="ital">This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts. Forms are free at ilcourts.info/forms.</span><span>Page 1 of 1 (06/26)</span></div>
+  </div>
+</div>
+
+<!-- =================================================== ADDITIONAL — EXPUNGEMENT (ATJ 2903.5) =================================================== -->
+<div class="form" id="addexp">
+  <div class="sheet">
+    <div class="masthead">
+      <div class="seal">IL<br>SUP.<br>CT.</div>
+      <div class="mast-body">
+        <div class="mast-title">Additional Arrests or Cases for Expungement</div>
+        <div class="mast-sub">IN THE STATE OF ILLINOIS, CIRCUIT COURT</div>
+        <div class="capline"><b>COUNTY:</b> <span class="ul" style="min-width:300px;"><input class="cm-county"></span></div>
+        <div class="caphint">County Where You Are Filing the Case</div>
+        <div class="capline" style="margin-top:8px;"><b>REQUEST OF:</b> <span class="ul" style="min-width:280px;"><input class="cm-name"></span></div>
+        <div class="caphint">Your First, Middle, and Last Name</div>
+        <div class="capline" style="margin-top:8px;"><span class="ul" style="min-width:420px;"><input class="cm-aka"></span></div>
+        <div class="caphint">Other Names Used In These Cases</div>
+        <div class="triple"><div><span class="ul"><input class="cm-dob"></span><div class="caphint">Date Of Birth</div></div><div><span class="ul"><input class="cm-race"></span><div class="caphint">Race</div></div><div><span class="ul"><input class="cm-gender"></span><div class="caphint">Gender</div></div></div>
+      </div>
+      <div class="mast-right"><span class="ul"><input class="cm-newcase"></span><div class="lbl">Case Number</div><div class="sub2">(if the Circuit Clerk assigns a new number)</div></div>
+    </div>
+
+    <div class="callout"><div class="ic">i</div><div><ul>
+      <li>Enter the <b>additional</b> eligible arrests or charges on your record that you want expunged but could not fit on the <i>Request</i>. Enter all charges for each case number.</li>
+      <li>For Outcome, use the abbreviation from the Outcome Abbreviations for Expungement section below.</li>
+      <li>File this form with your <i>Request</i> and add these arrest or case numbers to the <i>Case List</i>. The <i>Case List</i> must be filed with your <i>Request</i>.</li>
+    </ul></div></div>
+
+    <table class="cases" id="addexpTable">
+      <thead><tr><th style="width:22px;"></th><th>Arrest or Case Number</th><th>Arresting Agency</th><th>Charge (list all charges for each case number)</th><th>Date of Arrest</th><th>Outcome (e.g., RV, S, P)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <span class="addrow" onclick="addCaseRow('addexpTable')" style="font-family:'IBM Plex Mono',monospace;font-size:8.5pt;border:1px dashed var(--acc);color:var(--acc);padding:4px 10px;cursor:pointer;border-radius:3px;display:inline-block;">+ Add row</span>
+    <div class="abbr"><span class="h">Outcome Abbreviations for Expungement</span>
+      <b>RV</b> Conviction Reversed or Vacated &nbsp;·&nbsp; <b>P</b> Pardon from the Governor &nbsp;·&nbsp; <b>CE</b> Certificate of Eligibility for Expungement from PRB &nbsp;·&nbsp; <b>FI</b> Found Factually Innocent &nbsp;·&nbsp; <b>RWC</b> Released Without Charge &nbsp;·&nbsp; <b>DA</b> Dismissal or Acquittal &nbsp;·&nbsp; <b>S</b> Supervision Successfully Completed &nbsp;·&nbsp; <b>QP</b> Qualified Probation Successfully Completed</div>
+
+    <div class="sign-hd">SIGN</div>
+    <div class="sign-box">
+      <div class="hint" style="margin-top:0;">If filling out online, sign by typing your name. If by hand, sign and print your name.</div>
+      <div class="sline"><span class="lab">Your Signature /s/</span><span class="ul"><input></span></div>
+      <div class="sline"><span class="lab">Print Your Name</span><span class="ul"><input></span></div>
+      <div class="sline"><span class="lab">Attorney Number (if any)</span><span class="ul" style="max-width:220px;"><input></span></div>
+    </div>
+    <div class="ftr"><span>ATJ 2903.5</span><span class="ital">This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts. Forms are free at ilcourts.info/forms.</span><span>Page 1 of 1 (06/26)</span></div>
+  </div>
+</div>
+
+<!-- =================================================== ADDITIONAL — SEALING (ATJ 2904.5) =================================================== -->
+<div class="form" id="addseal">
+  <div class="sheet">
+    <div class="masthead">
+      <div class="seal">IL<br>SUP.<br>CT.</div>
+      <div class="mast-body">
+        <div class="mast-title">Additional Arrests or Cases for Sealing</div>
+        <div class="mast-sub">IN THE STATE OF ILLINOIS, CIRCUIT COURT</div>
+        <div class="capline"><b>COUNTY:</b> <span class="ul" style="min-width:300px;"><input class="cm-county"></span></div>
+        <div class="caphint">County Where You Are Filing the Case</div>
+        <div class="capline" style="margin-top:8px;"><b>REQUEST OF:</b> <span class="ul" style="min-width:280px;"><input class="cm-name"></span></div>
+        <div class="caphint">Your First, Middle, and Last Name</div>
+        <div class="capline" style="margin-top:8px;"><span class="ul" style="min-width:420px;"><input class="cm-aka"></span></div>
+        <div class="caphint">Other Names Used In These Cases</div>
+        <div class="triple"><div><span class="ul"><input class="cm-dob"></span><div class="caphint">Date Of Birth</div></div><div><span class="ul"><input class="cm-race"></span><div class="caphint">Race</div></div><div><span class="ul"><input class="cm-gender"></span><div class="caphint">Gender</div></div></div>
+      </div>
+      <div class="mast-right"><span class="ul"><input class="cm-newcase"></span><div class="lbl">Case Number</div><div class="sub2">(if the Circuit Clerk assigns a new number)</div></div>
+    </div>
+
+    <div class="callout"><div class="ic">i</div><div><ul>
+      <li>Enter all <b>additional</b> eligible arrests, charges, and convictions you want sealed but could not fit on the <i>Request</i>. Enter all charges for each case number.</li>
+      <li>For Outcome, use the abbreviation from the Outcome Abbreviations for Sealing box.</li>
+      <li>File this form with your <i>Request</i> and add these arrest or case numbers to the <i>Case List</i>. The <i>Case List</i> must be filed at the same time you file your <i>Request</i>.</li>
+    </ul></div></div>
+
+    <table class="cases" id="addsealTable">
+      <thead><tr><th style="width:22px;"></th><th>Arrest or Case Number</th><th>Arresting Agency</th><th>Charge (list all charges for each case number)</th><th>Date of Arrest</th><th>Outcome (e.g., MC, FC, CE)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <span class="addrow" onclick="addCaseRow('addsealTable')" style="font-family:'IBM Plex Mono',monospace;font-size:8.5pt;border:1px dashed var(--acc);color:var(--acc);padding:4px 10px;cursor:pointer;border-radius:3px;display:inline-block;">+ Add row</span>
+    <div class="abbr"><span class="h">Outcome Abbreviations for Sealing</span>
+      <b>MC</b> Misdemeanor Conviction &nbsp;·&nbsp; <b>FC</b> Felony Conviction &nbsp;·&nbsp; <b>CE</b> Certificate of Eligibility for Sealing from PRB &nbsp;·&nbsp; <b>QP</b> Qualified Probation Successfully Completed</div>
+
+    <div class="sign-hd">SIGN</div>
+    <div class="sign-box">
+      <div class="hint" style="margin-top:0;">If filling out online, sign by typing your name. If by hand, sign and print your name.</div>
+      <div class="sline"><span class="lab">Your Signature /s/</span><span class="ul"><input></span></div>
+      <div class="sline"><span class="lab">Print Your Name</span><span class="ul"><input></span></div>
+      <div class="sline"><span class="lab">Attorney Number (if any)</span><span class="ul" style="max-width:220px;"><input></span></div>
+    </div>
+    <div class="ftr"><span>ATJ 2904.5</span><span class="ital">This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts. Forms are free at ilcourts.info/forms.</span><span>Page 1 of 1 (06/26)</span></div>
+  </div>
+</div>
+
+<!-- =================================================== ORDER GRANTING (ATJ 2905.6) =================================================== -->
+<div class="form" id="grant">
+  <div class="sheet">
+    <div class="masthead">
+      <div class="seal">IL<br>SUP.<br>CT.</div>
+      <div class="mast-body">
+        <div class="mast-title">Order to Expunge and/or Seal Criminal Records</div>
+        <div class="mast-sub">IN THE STATE OF ILLINOIS, CIRCUIT COURT</div>
+        <div class="capline"><b>COUNTY:</b> <span class="ul" style="min-width:300px;"><input class="cm-county"></span></div>
+        <div class="caphint">County Where You Are Filing the Case</div>
+        <div class="capline" style="margin-top:8px;"><b>REQUEST OF:</b> <span class="ul" style="min-width:280px;"><input class="cm-name"></span></div>
+        <div class="caphint">Your First, Middle, and Last Name</div>
+        <div class="capline" style="margin-top:8px;"><span class="ul" style="min-width:420px;"><input class="cm-aka"></span></div>
+        <div class="caphint">Other Names Used In These Cases</div>
+        <div class="triple"><div><span class="ul"><input class="cm-dob"></span><div class="caphint">Date Of Birth</div></div><div><span class="ul"><input class="cm-race"></span><div class="caphint">Race</div></div><div><span class="ul"><input class="cm-gender"></span><div class="caphint">Gender</div></div></div>
+      </div>
+      <div class="mast-right"><span class="ul"><input class="cm-newcase"></span><div class="lbl">Case Number</div><div class="sub2">(If the Circuit Clerk assigns a new number)</div></div>
+    </div>
+
+    <div class="secnum"><span class="n">1.</span> Arrest or Case Numbers of all Eligible Criminal Offenses for EXPUNGEMENT in this County:</div>
+    <div class="hint">Enter the arrest or case number for all cases or charges listed under Section 2 of the Request form. If you run out of space, fill out an additional Order.</div>
+    <div class="numgrid four" id="grantExpGrid"></div>
+    <div class="ck"><input type="checkbox"><span>I have attached an additional Order form.</span></div>
+
+    <div class="secnum"><span class="n">2.</span> Arrest or Case Numbers of all Eligible Criminal Offenses for SEALING in this County:</div>
+    <div class="hint">Enter the arrest or case number for all cases or charges listed under Section 13 of the Request form. If you run out of space, fill out an additional Order.</div>
+    <div class="numgrid four" id="grantSealGrid"></div>
+    <div class="ck"><input type="checkbox"><span>I have attached an additional Order form.</span></div>
+    <div class="ftr"><span>ATJ 2905.6</span><span class="ital">This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts. Forms are free at ilcourts.info/forms.</span><span>Page 1 of 2 (06/26)</span></div>
+  </div>
+
+  <div class="sheet">
+    <div class="casenum">Case Number <input class="cm-newcase"></div>
+    <div class="secnum"><span class="n">3.</span> Enter the name and contact information of the person who should receive the signed Order:</div>
+    <div class="sline"><span class="ul"><input></span></div><div class="caphint">Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Address</div>
+    <div class="sline" style="margin-top:14px;"><span class="ul"><input></span></div><div class="caphint">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telephone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Attorney Number (if any)</div>
+
+    <div class="callout stop"><div class="ic">STOP</div><div>Do <b>not</b> check the boxes below. The judge will check the correct boxes. The judge will cross out the case numbers that are denied and include them on the <i>Order Denying Request to Expunge and/or Seal Criminal Records</i>.</div></div>
+
+    <div class="ordered">IT IS ORDERED:</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> for <b>EXPUNGEMENT</b> is <b>GRANTED</b> for the records on page 1 (section 1), and within 60 days of receiving this Order:
+      <ul style="margin:5px 0;padding-left:18px;">
+        <li>The Arresting Agencies and the Clerk of the Circuit Court must expunge these records as required by law.</li>
+        <li>The Illinois State Police must expunge or impound these records as required by law.</li>
+        <li>The Illinois State Police and the Arresting Agencies must request the return of all arrest or conviction records from any agencies previously notified, as required by law.</li>
+        <li>The Illinois State Police must expunge any pardoned conviction and other arrests by sealing these records as required by law.</li>
+      </ul></span></div>
+
+    <div class="ordered">IT IS ORDERED:</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> for <b>SEALING</b> is <b>GRANTED</b> for the records on page 1 (section 2), and within 60 days of receiving this Order:
+      <ul style="margin:5px 0;padding-left:18px;">
+        <li>The Illinois State Police, the Arresting Agencies, and the Clerk of the Circuit Court must seal these records as required by law.</li>
+        <li>The Illinois State Police and the Arresting Agencies must request the return of all arrest or conviction records from any agencies previously notified, as required by law.</li>
+      </ul></span></div>
+
+    <div class="entered">
+      <div class="ordered">ENTERED:</div>
+      <div class="sline"><span class="ul"><input disabled></span><span class="lab" style="margin-left:18px;">Date</span><span class="ul" style="max-width:150px;"><input disabled></span></div>
+      <div class="caphint">Judge &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date (Month, Day, Year)</div>
+    </div>
+    <div class="ftr"><span>ATJ 2905.6</span><span class="ital"></span><span>Page 2 of 2 (06/26)</span></div>
+  </div>
+</div>
+
+<!-- =================================================== ORDER DENYING (ATJ 2906.6) =================================================== -->
+<div class="form" id="deny">
+  <div class="sheet">
+    <div class="masthead">
+      <div class="seal">IL<br>SUP.<br>CT.</div>
+      <div class="mast-body">
+        <div class="mast-title">Order Denying Request to Expunge and/or Seal Criminal Records</div>
+        <div class="mast-sub">IN THE STATE OF ILLINOIS, CIRCUIT COURT</div>
+        <div class="capline"><b>COUNTY:</b> <span class="ul" style="min-width:300px;"><input class="cm-county"></span></div>
+        <div class="caphint">County Where You Are Filing the Case</div>
+        <div class="capline" style="margin-top:8px;"><b>REQUEST OF:</b> <span class="ul" style="min-width:280px;"><input class="cm-name"></span></div>
+        <div class="caphint">Your First, Middle, and Last Name</div>
+        <div class="capline" style="margin-top:8px;"><span class="ul" style="min-width:420px;"><input class="cm-aka"></span></div>
+        <div class="caphint">Other Names Used In These Cases</div>
+        <div class="triple"><div><span class="ul"><input class="cm-dob"></span><div class="caphint">Date Of Birth</div></div><div><span class="ul"><input class="cm-race"></span><div class="caphint">Race</div></div><div><span class="ul"><input class="cm-gender"></span><div class="caphint">Gender</div></div></div>
+      </div>
+      <div class="mast-right"><span class="ul"><input class="cm-newcase"></span><div class="lbl">Case Number</div><div class="sub2">(if the Circuit Clerk assigns a new number)</div></div>
+    </div>
+
+    <div class="secnum"><span class="n">1.</span> Enter the name and contact information of the person who should receive the signed Order:</div>
+    <div class="sline"><span class="ul"><input></span></div><div class="caphint">Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Address</div>
+    <div class="sline" style="margin-top:14px;"><span class="ul"><input></span></div><div class="caphint">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telephone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Attorney Number (if any)</div>
+
+    <div class="callout stop"><div class="ic">STOP</div><div>Do <b>not</b> fill in the sections below. The judge will fill out and check the correct boxes.</div></div>
+
+    <div class="ordered">IT IS ORDERED:</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> is <b>DENIED</b> for all cases sought to be <b>expunged</b>; OR</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> is <b>DENIED</b> for the following cases:</span></div>
+    <div class="blanks"></div><div class="blanks"></div>
+    <div class="hint" style="font-style:normal;font-weight:600;">The reason your Request is denied for these cases: (check all that apply)</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your records are not legally eligible to be expunged.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>You failed to attach or present the required documents.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>The court finds that the public's interest in retaining your criminal records is greater than your interest in expunging your records.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>Other: <span class="ul" style="flex:1;min-width:240px;"><input disabled></span></span></div>
+
+    <div class="ordered">IT IS ORDERED:</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> is <b>DENIED</b> for all cases sought to be <b>sealed</b>; OR</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>Your <i>Request</i> is <b>DENIED</b> for the following cases:</span></div>
+    <div class="blanks"></div><div class="blanks"></div>
+    <div class="hint" style="font-style:normal;font-weight:600;">The reason your Request is denied for these cases: (check all that apply)</div>
+    <div class="ck"><input type="checkbox" disabled><span>Your records are not legally eligible to be sealed.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>You failed to attach or present the required documents.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>The court finds that the public's interest in retaining your criminal records is greater than your interest in sealing your records.</span></div>
+    <div class="ck"><input type="checkbox" disabled><span>Other: <span class="ul" style="flex:1;min-width:240px;"><input disabled></span></span></div>
+
+    <div class="entered">
+      <div class="ordered">ENTERED:</div>
+      <div class="sline"><span class="ul"><input disabled></span><span class="lab" style="margin-left:18px;">Date</span><span class="ul" style="max-width:150px;"><input disabled></span></div>
+      <div class="caphint">Judge &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date (Month, Day, Year)</div>
+    </div>
+    <div class="ftr"><span>ATJ 2906.6</span><span class="ital">This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts. Forms are free at ilcourts.info/forms.</span><span>Page 1 of 1 (06/26)</span></div>
+  </div>
+</div>
+
+<script>
+  function pick(id){
+    document.querySelectorAll('.form').forEach(f=>f.classList.toggle('show',f.id===id));
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.f===id));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function addBlanks(gridId,count){
+    const g=document.getElementById(gridId);
+    for(let i=0;i<count;i++){const d=document.createElement('div');d.className='ul';const inp=document.createElement('input');d.appendChild(inp);g.appendChild(d);}
+  }
+  function addCaseRow(tableId){
+    const tb=document.querySelector('#'+tableId+' tbody');
+    const n=tb.rows.length+1;const tr=document.createElement('tr');
+    const rn=document.createElement('td');rn.className='rn';rn.textContent=n;tr.appendChild(rn);
+    for(let i=0;i<5;i++){const td=document.createElement('td');const inp=document.createElement('input');td.appendChild(inp);tr.appendChild(td);}
+    tb.appendChild(tr);
+  }
+  // seed grids and tables
+  addBlanks('clGrid',70);          // Case List: ~14 rows x 5
+  addBlanks('grantExpGrid',28);    // Order granting expungement numbers (7x4)
+  addBlanks('grantSealGrid',28);
+  for(let i=0;i<7;i++){addCaseRow('addexpTable');addCaseRow('addsealTable');}
+
+  function fillCommon(){
+    const v={county:'Cook',name:'Andre L. Carter',aka:'Andre Carter',dob:'07/22/1992',race:'Black',gender:'Male',newcase:''};
+    document.querySelectorAll('.form.show .cm-county').forEach(e=>e.value=v.county);
+    document.querySelectorAll('.form.show .cm-name').forEach(e=>e.value=v.name);
+    document.querySelectorAll('.form.show .cm-aka').forEach(e=>e.value=v.aka);
+    document.querySelectorAll('.form.show .cm-dob').forEach(e=>e.value=v.dob);
+    document.querySelectorAll('.form.show .cm-race').forEach(e=>e.value=v.race);
+    document.querySelectorAll('.form.show .cm-gender').forEach(e=>e.value=v.gender);
+  }
+</script>
+</body>
+</html>
