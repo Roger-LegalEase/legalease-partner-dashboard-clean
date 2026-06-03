@@ -6,6 +6,7 @@ import { pennsylvaniaFieldLabels } from "@/lib/rcap/state-packs/pennsylvania/req
 import { pennsylvaniaPathwayLabels } from "@/lib/rcap/state-packs/pennsylvania/pathways";
 import { pennsylvaniaPlainLanguage, pennsylvaniaSafetyDisclaimer } from "@/lib/rcap/state-packs/pennsylvania/safety-language";
 import { pennsylvaniaWaitingPeriods } from "@/lib/rcap/state-packs/pennsylvania/waiting-periods";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { mapPennsylvaniaIntakeToDocumentFields } from "./field-mapper";
 import type { PennsylvaniaDocumentGenerationResult, PennsylvaniaDocumentPacketInput, PennsylvaniaMappedDocumentFields } from "./types";
 
@@ -22,7 +23,7 @@ export function generatePennsylvaniaDocumentDraft(
   const draftTitle = selectDraftTitle(fields);
   const draftPlainText = renderPlainText(draftTitle, fields);
   const countyCourtInstructions = getPennsylvaniaCountyCourtInstructions({ county: fields.county });
-  return {
+  const resultWithoutNextSteps = {
     state: "PA",
     remedyType: fields.remedyType,
     pathway: fields.pathway,
@@ -39,6 +40,17 @@ export function generatePennsylvaniaDocumentDraft(
     nextStep: status === "missing_information" ? "A PATCH report, docket, grade, restitution status, and record review may help fill in missing details before filing is considered." : "Review this draft against the PATCH report, court docket, and county instructions before any filing is considered.",
     briefcaseItemTitle: `${draftTitle} packet`,
     fields
+  } satisfies Omit<PennsylvaniaDocumentGenerationResult, "filingNextStepsPacket">;
+  return {
+    ...resultWithoutNextSteps,
+    filingNextStepsPacket: buildFilingNextStepsPacket({
+      ...resultWithoutNextSteps,
+      county: fields.county,
+      courtType: "Court of Common Pleas",
+      courtCounty: fields.county,
+      courtName: fields.county ? `${fields.county} County Court of Common Pleas` : undefined,
+      documentType: fields.documentTypes[0]
+    })
   };
 }
 

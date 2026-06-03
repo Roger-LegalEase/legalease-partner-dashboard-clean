@@ -6,6 +6,7 @@ import { dcFieldLabels } from "@/lib/rcap/state-packs/dc/required-fields";
 import { dcCautionNotes } from "@/lib/rcap/state-packs/dc/disqualifying-offenses";
 import { dcPlainLanguage, dcSafetyDisclaimer } from "@/lib/rcap/state-packs/dc/safety-language";
 import { dcWaitingPeriodNotes } from "@/lib/rcap/state-packs/dc/waiting-periods";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { mapDcIntakeToDocumentFields } from "./field-mapper";
 import type { DcDocumentGenerationResult, DcDocumentPacketInput, DcMappedDocumentFields } from "./types";
 
@@ -21,7 +22,7 @@ export function generateDcDocumentDraft(
   const draftTitle = titleFor(fields);
   const draftPlainText = renderPlainText(draftTitle, fields);
 
-  return {
+  const resultWithoutNextSteps = {
     state: "DC",
     remedyType: fields.remedyType,
     pathway: fields.pathway,
@@ -41,6 +42,17 @@ export function generateDcDocumentDraft(
     nextStep: status === "missing_information" ? "Gather the missing DC record details or request a record review before filing is considered." : "Review the DC motion packet, attach exhibits, serve the prosecutor, and file only after the packet has been checked.",
     briefcaseItemTitle: `${draftTitle} packet`,
     fields
+  } satisfies Omit<DcDocumentGenerationResult, "filingNextStepsPacket">;
+  return {
+    ...resultWithoutNextSteps,
+    filingNextStepsPacket: buildFilingNextStepsPacket({
+      ...resultWithoutNextSteps,
+      county: "District of Columbia",
+      courtType: "Superior Court",
+      courtCounty: "District of Columbia",
+      courtName: "Superior Court of the District of Columbia",
+      documentType: fields.documentTypes[0]
+    })
   };
 }
 

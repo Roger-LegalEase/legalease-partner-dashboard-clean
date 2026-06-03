@@ -1,6 +1,7 @@
 import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
 import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { generateMississippiPetitionDraft } from "./generator";
 import type { RcapDocumentPacket, MississippiDocumentPacketInput } from "./types";
 
@@ -102,6 +103,7 @@ export async function createMississippiDocumentPacket(input: MississippiDocument
     generatedPlainText: generated.draftPlainText,
     filingInstructions: generated.filingInstructions,
     countyCourtInstructions: generated.countyCourtInstructions,
+    filingNextStepsPacket: generated.filingNextStepsPacket,
     missingFields: generated.missingFields,
     safetyDisclaimer: generated.safetyDisclaimer
   };
@@ -152,6 +154,7 @@ export async function saveMississippiDocumentPacketInputs(
     generatedPlainText: generated.draftPlainText,
     filingInstructions: generated.filingInstructions,
     countyCourtInstructions: generated.countyCourtInstructions,
+    filingNextStepsPacket: generated.filingNextStepsPacket,
     missingFields: generated.missingFields,
     safetyDisclaimer: generated.safetyDisclaimer,
     needsRecordReview: generated.fields.needsRecordReview
@@ -194,6 +197,7 @@ export async function generateSavedMississippiDocumentPacket(packetId: string): 
     generatedPlainText: generated.draftPlainText,
     filingInstructions: generated.filingInstructions,
     countyCourtInstructions: generated.countyCourtInstructions,
+    filingNextStepsPacket: generated.filingNextStepsPacket,
     missingFields: generated.missingFields,
     safetyDisclaimer: generated.safetyDisclaimer,
     needsRecordReview: generated.fields.needsRecordReview
@@ -311,13 +315,13 @@ function toRow(packet: RcapDocumentPacket) {
 }
 
 function mapPacketRow(row: PacketRow): RcapDocumentPacket {
-  return {
+  const packet: Omit<RcapDocumentPacket, "filingNextStepsPacket"> = {
     id: row.id,
     partnerSlug: row.partner_slug,
     intakeSessionId: row.intake_session_id ?? undefined,
     userId: row.user_id ?? undefined,
     briefcaseId: row.briefcase_id ?? undefined,
-    state: row.state === "DC" ? "DC" : row.state === "IL" ? "IL" : "MS",
+    state: mapPacketState(row.state),
     county: row.county ?? undefined,
     documentType: row.document_type as RcapDocumentPacket["documentType"],
     pathway: row.pathway as RcapDocumentPacket["pathway"],
@@ -356,6 +360,14 @@ function mapPacketRow(row: PacketRow): RcapDocumentPacket {
     updatedAt: row.updated_at ?? undefined,
     completedAt: row.completed_at ?? undefined
   };
+  return { ...packet, filingNextStepsPacket: buildFilingNextStepsPacket(packet) };
+}
+
+function mapPacketState(state: string | null): RcapDocumentPacket["state"] {
+  if (state === "PA") return "PA";
+  if (state === "DC") return "DC";
+  if (state === "IL") return "IL";
+  return "MS";
 }
 
 function mergePacketInput(packet: RcapDocumentPacket, input: Partial<MississippiDocumentPacketInput>): MississippiDocumentPacketInput {

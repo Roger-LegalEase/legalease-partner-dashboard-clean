@@ -77,10 +77,26 @@ export type MississippiDocumentGenerationResult = {
   draftPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
+  filingNextStepsPacket: RcapFilingNextStepsPacket;
   safetyDisclaimer: string;
   nextStep: string;
   briefcaseItemTitle: string;
   fields: MississippiMappedDocumentFields;
+};
+
+export type RcapFilingNextStepsPacket = {
+  title: string;
+  plainText: string;
+  filingLocation: string;
+  filingMethod: string;
+  requiredDocuments: string[];
+  serviceAndCopies: string[];
+  feeSummary: string[];
+  courtContactOrLocationGuidance: string[];
+  afterFiling: string[];
+  trackingChecklist: string[];
+  workflowGaps: string[];
+  safetyDisclaimer: string;
 };
 
 export type RcapDocumentPacket = {
@@ -122,6 +138,7 @@ export type RcapDocumentPacket = {
   generatedPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
+  filingNextStepsPacket: RcapFilingNextStepsPacket;
   missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey | DcDocumentFieldKey | PennsylvaniaDocumentFieldKey>;
   safetyDisclaimer: string;
   createdAt?: string;

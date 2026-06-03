@@ -3,6 +3,7 @@
 import { FileText, Printer, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 import { mississippiFieldLabels, type MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 
@@ -18,7 +19,7 @@ export function MississippiPetitionPacketPreview({ packet }: { packet: RcapDocum
         <MississippiCertificateOfService packet={packet} />
         <MississippiProposedOrderPlaceholder />
       </div>
-      <MississippiFilingInstructions packet={packet} />
+      <FilingNextStepsPacketPreview packet={packet} />
     </section>
   );
 }
@@ -100,21 +101,6 @@ export function MississippiProposedOrderPlaceholder() {
         Some courts may ask for a proposed order. This placeholder is included as a reminder to check local court requirements before filing.
       </p>
       <p className="mt-6 text-sm text-grayWilma-800">Judge signature line: ________________________________</p>
-    </section>
-  );
-}
-
-export function MississippiFilingInstructions({ packet }: { packet: RcapDocumentPacket }) {
-  return (
-    <section className="rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm print:break-before-page print:shadow-none">
-      <h2 className="text-lg font-black text-navy">Mississippi Filing Notes</h2>
-      <ul className="mt-4 grid gap-2 text-sm leading-6 text-grayWilma-800">
-        {[...packet.filingInstructions, ...packet.countyCourtInstructions].map((instruction) => (
-          <li key={instruction} className="rounded-md bg-[#f7f8f6] px-3 py-2 print:bg-white">
-            {instruction}
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

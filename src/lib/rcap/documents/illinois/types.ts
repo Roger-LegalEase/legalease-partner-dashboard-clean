@@ -2,7 +2,7 @@ import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
 import type { IllinoisDocumentType } from "@/lib/rcap/state-packs/illinois/document-types";
 import type { IllinoisDocumentFieldKey } from "@/lib/rcap/state-packs/illinois/required-fields";
 import type { IllinoisEligibilitySignal, IllinoisPathway, IllinoisRemedyType } from "@/lib/rcap/state-packs/illinois/pathways";
-import type { RcapDocumentPacketStatus } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacketStatus, RcapFilingNextStepsPacket } from "@/lib/rcap/documents/mississippi/types";
 
 export type IllinoisDocumentPacketInput = {
   partnerSlug: string;
@@ -58,6 +58,7 @@ export type IllinoisDocumentGenerationResult = {
   draftPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
+  filingNextStepsPacket: RcapFilingNextStepsPacket;
   safetyDisclaimer: string;
   nextStep: string;
   briefcaseItemTitle: string;

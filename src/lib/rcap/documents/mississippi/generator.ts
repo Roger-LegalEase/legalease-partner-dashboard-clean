@@ -4,6 +4,7 @@ import { mississippiFilingInstructions } from "@/lib/rcap/state-packs/mississipp
 import { getMississippiCountyCourtInstructions } from "@/lib/rcap/state-packs/mississippi/county-court-instructions";
 import { mississippiReviewLanguage, mississippiSafetyDisclaimer } from "@/lib/rcap/state-packs/mississippi/safety-language";
 import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { mapMississippiIntakeToDocumentFields } from "./field-mapper";
 import type { MississippiDocumentGenerationResult, MississippiDocumentPacketInput } from "./types";
 
@@ -27,7 +28,7 @@ export function generateMississippiPetitionDraft(
     pathway: fields.pathway
   });
 
-  return {
+  const resultWithoutNextSteps = {
     pathway: fields.pathway,
     documentType: fields.documentType,
     eligibilitySignal: fields.eligibilitySignal,
@@ -42,6 +43,17 @@ export function generateMississippiPetitionDraft(
     nextStep,
     briefcaseItemTitle: `${draftTitle} draft`,
     fields
+  } satisfies Omit<MississippiDocumentGenerationResult, "filingNextStepsPacket">;
+  return {
+    ...resultWithoutNextSteps,
+    filingNextStepsPacket: buildFilingNextStepsPacket({
+      ...resultWithoutNextSteps,
+      state: "MS",
+      county: fields.county,
+      courtType: fields.courtType,
+      courtCounty: fields.courtCounty,
+      courtName: fields.courtName
+    })
   };
 }
 

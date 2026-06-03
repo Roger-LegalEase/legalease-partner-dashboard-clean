@@ -109,6 +109,12 @@ for (const requiredText of ["PATCH report", "within 60 days", "Court of Common P
 if (!repositorySource.includes("rcap_document_packet_inputs") || !repositorySource.includes("upsertBriefcaseItem") || !formSource.includes("Save for later")) {
   failures.push("Pennsylvania save-progress or Briefcase path is missing.");
 }
+if (!repositorySource.includes("buildFilingNextStepsPacket(packet)") || !readSource("src/lib/rcap/documents/mississippi/repository.ts").includes('if (state === "PA") return "PA"')) {
+  failures.push("Pennsylvania persisted Briefcase packet reconstruction does not preserve Pennsylvania filing next steps.");
+}
+if (!previewSource.includes("FilingNextStepsPacketPreview")) {
+  failures.push("Pennsylvania preview does not render the final Next Steps for Filing packet.");
+}
 
 if (!routeSource.includes("verifyRcapCaptchaToken")) failures.push("Pennsylvania document create route is missing CAPTCHA readiness.");
 
@@ -183,6 +189,7 @@ try {
   if (excluded.pathway !== "excluded_or_needs_review" || excluded.eligibilitySignal !== "excluded_or_blocked_review_needed") failures.push("Pennsylvania excluded-offense review route failed.");
   if (!nonConviction.draftPlainText.includes("PATCH report") || !nonConviction.draftPlainText.includes("Court of Common Pleas") || !nonConviction.draftPlainText.includes("attorney for the Commonwealth")) failures.push("Pennsylvania generated packet is missing PATCH, court, or DA service language.");
   if (!nonConviction.safetyDisclaimer.includes("not legal advice") || !nonConviction.safetyDisclaimer.includes("does not guarantee")) failures.push("Pennsylvania safety disclaimer is incomplete.");
+  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "Court of Common Pleas", "$132-$215", "30-day District Attorney response window", "Workflow gap", "not legal advice"], ["$150", "State's Attorney", "Criminal Motion Seal Team", "RAP sheet"])) failures.push("Pennsylvania final Next Steps for Filing packet is incomplete.");
   if (ms.pathway !== "non_conviction" || il.state !== "IL" || dc.state !== "DC") failures.push("Existing MS/IL/DC generators changed unexpectedly.");
 } catch (error) {
   failures.push(`Unable to execute Pennsylvania generator: ${error instanceof Error ? error.message : String(error)}.`);
@@ -220,6 +227,23 @@ console.log(`Tracked secrets found: ${trackedSecretsFound ? "yes" : "no"}`);
 
 function baseSession(overrides) {
   return { id: "00000000-0000-0000-0000-000000000000", partnerSlug: "demo-partner", status: "completed", currentStep: "completed", state: "Pennsylvania", county: "Allegheny", userFirstName: "Sample", userLastName: "Person", chargeOrCaseType: "Sample charge", hasDocuments: true, needsRecordCheck: false, legalDisclaimerAccepted: true, ...overrides };
+}
+
+function validNextStepsPacket(result, requiredText, forbiddenText = []) {
+  const packet = result.filingNextStepsPacket;
+  return Boolean(
+    packet &&
+    packet.title.includes("Next Steps for Filing") &&
+    packet.filingLocation &&
+    packet.filingMethod &&
+    packet.requiredDocuments?.length > 0 &&
+    packet.feeSummary?.length > 0 &&
+    packet.afterFiling?.length > 0 &&
+    packet.trackingChecklist?.length > 0 &&
+    packet.workflowGaps?.some((gap) => gap.includes("Workflow gap")) &&
+    requiredText.every((text) => packet.plainText.includes(text)) &&
+    forbiddenText.every((text) => !packet.plainText.includes(text))
+  );
 }
 
 function trackedSecretsAppearInTrackedFiles() {

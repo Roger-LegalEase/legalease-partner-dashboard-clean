@@ -1,6 +1,7 @@
 import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
 import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 import { generatePennsylvaniaDocumentDraft } from "./generator";
 import type { PennsylvaniaDocumentPacketInput } from "./types";
@@ -43,6 +44,7 @@ export async function createPennsylvaniaDocumentPacket(input: PennsylvaniaDocume
     generatedPlainText: generated.draftPlainText,
     filingInstructions: generated.filingInstructions,
     countyCourtInstructions: generated.countyCourtInstructions,
+    filingNextStepsPacket: generated.filingNextStepsPacket,
     missingFields: generated.missingFields,
     safetyDisclaimer: generated.safetyDisclaimer
   };
@@ -97,7 +99,7 @@ function toRow(packet: RcapDocumentPacket) {
 }
 
 function mapRow(row: PacketRow): RcapDocumentPacket {
-  return {
+  const packet: Omit<RcapDocumentPacket, "filingNextStepsPacket"> = {
     id: row.id as string,
     partnerSlug: row.partner_slug as string,
     intakeSessionId: (row.intake_session_id as string | null) ?? undefined,
@@ -129,6 +131,7 @@ function mapRow(row: PacketRow): RcapDocumentPacket {
     missingFields: row.missing_fields as RcapDocumentPacket["missingFields"],
     safetyDisclaimer: (row.safety_disclaimer as string | null) ?? ""
   };
+  return { ...packet, filingNextStepsPacket: buildFilingNextStepsPacket(packet) };
 }
 
 async function savePacketInputs(packetId: string, input: Partial<PennsylvaniaDocumentPacketInput>) {

@@ -3,6 +3,7 @@
 import { Briefcase, FileText, Printer, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 import { illinoisFieldLabels } from "@/lib/rcap/state-packs/illinois/required-fields";
 
@@ -57,14 +58,7 @@ export function IllinoisDocumentPacketPreview({ packet }: { packet: RcapDocument
         </div>
       </article>
 
-      <section className="rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm print:break-before-page print:shadow-none">
-        <h2 className="text-lg font-black text-navy">Illinois Filing Notes</h2>
-        <ul className="mt-4 grid gap-2 text-sm leading-6 text-grayWilma-800">
-          {[...packet.filingInstructions, ...packet.countyCourtInstructions].map((instruction) => (
-            <li key={instruction} className="rounded-md bg-[#f7f8f6] px-3 py-2 print:bg-white">{instruction}</li>
-          ))}
-        </ul>
-      </section>
+      <FilingNextStepsPacketPreview packet={packet} />
     </section>
   );
 }

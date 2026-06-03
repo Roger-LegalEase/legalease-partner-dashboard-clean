@@ -2,7 +2,7 @@ import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
 import type { DcDocumentType } from "@/lib/rcap/state-packs/dc/document-types";
 import type { DcDocumentFieldKey } from "@/lib/rcap/state-packs/dc/required-fields";
 import type { DcEligibilitySignal, DcPathway, DcRemedyType } from "@/lib/rcap/state-packs/dc/pathways";
-import type { RcapDocumentPacketStatus } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacketStatus, RcapFilingNextStepsPacket } from "@/lib/rcap/documents/mississippi/types";
 
 export type DcReliefTrack =
   | "automatic_expungement"
@@ -70,6 +70,7 @@ export type DcDocumentGenerationResult = {
   draftPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
+  filingNextStepsPacket: RcapFilingNextStepsPacket;
   safetyDisclaimer: string;
   nextStep: string;
   briefcaseItemTitle: string;

@@ -171,6 +171,7 @@ function buildPreviewPacket(session: NonNullable<Awaited<ReturnType<typeof getRc
     generatedPlainText: generated.draftPlainText,
     filingInstructions: generated.filingInstructions,
     countyCourtInstructions: generated.countyCourtInstructions,
+    filingNextStepsPacket: generated.filingNextStepsPacket,
     missingFields: generated.missingFields,
     safetyDisclaimer: generated.safetyDisclaimer
   };

@@ -116,7 +116,7 @@ if (/expungement\.ai|consumer-facing/i.test(generatorSource + mapperSource + rep
   failures.push("Document generator depends on Expungement.ai naming or routing.");
 }
 
-if (!previewSource.includes("print") || !previewSource.includes("Print / save PDF") || !previewSource.includes("MississippiProposedOrderPlaceholder")) {
+if (!previewSource.includes("print") || !previewSource.includes("Print / save PDF") || !previewSource.includes("MississippiProposedOrderPlaceholder") || !previewSource.includes("FilingNextStepsPacketPreview")) {
   failures.push("Document preview is not print-friendly or export-ready.");
 }
 
@@ -134,6 +134,10 @@ if (!formSource.includes("Save for later") || !formSource.includes("Generate dra
 
 if (!briefcaseSource.includes("Your Briefcase") || !migrationSource.includes("rcap_briefcase_items") || !repositorySource.includes("upsertBriefcaseItem")) {
   failures.push("Briefcase foundation is missing.");
+}
+
+if (!repositorySource.includes("buildFilingNextStepsPacket(packet)") || !repositorySource.includes('if (state === "PA") return "PA"')) {
+  failures.push("Persisted Briefcase packet reconstruction does not preserve state-specific filing next steps.");
 }
 
 if (!briefcaseSource.includes("/sign-in") || !briefcaseSource.toLowerCase().includes("production auth") || !readSource("src/lib/rcap/briefcase/auth.ts").includes("placeholder")) {
@@ -201,6 +205,9 @@ try {
   if (!nonConviction.draftPlainText.includes("[DOB TO BE ADDED BY PETITIONER IF REQUIRED]") || !Array.isArray(nonConviction.countyCourtInstructions)) {
     failures.push("Generated output is missing DOB placeholder or county/court instructions.");
   }
+  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "$150", "Workflow gap", "What to track after submission", "not legal advice"], ["State's Attorney", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215"])) {
+    failures.push("Mississippi final Next Steps for Filing packet is incomplete.");
+  }
 } catch (error) {
   failures.push(`Unable to execute Mississippi generator: ${error instanceof Error ? error.message : String(error)}.`);
 }
@@ -248,6 +255,23 @@ function baseSession(overrides) {
     legalDisclaimerAccepted: true,
     ...overrides
   };
+}
+
+function validNextStepsPacket(result, requiredText, forbiddenText = []) {
+  const packet = result.filingNextStepsPacket;
+  return Boolean(
+    packet &&
+    packet.title.includes("Next Steps for Filing") &&
+    packet.filingLocation &&
+    packet.filingMethod &&
+    packet.requiredDocuments?.length > 0 &&
+    packet.feeSummary?.length > 0 &&
+    packet.afterFiling?.length > 0 &&
+    packet.trackingChecklist?.length > 0 &&
+    packet.workflowGaps?.some((gap) => gap.includes("Workflow gap")) &&
+    requiredText.every((text) => packet.plainText.includes(text)) &&
+    forbiddenText.every((text) => !packet.plainText.includes(text))
+  );
 }
 
 function trackedSecretsAppearInTrackedFiles() {

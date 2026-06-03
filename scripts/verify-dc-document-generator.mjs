@@ -64,6 +64,9 @@ if (!dcReferenceReadme.includes("DC-Expungement-Sealing-Agent-Reference.pdf") ||
 if (!dcGeneratorSource.includes("dc-motion-to-seal-expunge.html") || !dcPreviewSource.includes("srcDoc")) {
   failures.push("DC HTML motion packet template is not used for generated packet preview.");
 }
+if (!dcPreviewSource.includes("FilingNextStepsPacketPreview")) {
+  failures.push("DC preview does not render the final Next Steps for Filing packet.");
+}
 
 if (!dcGeneratorSource.includes("October 1, 2027") || /already cleared|record is cleared|has been cleared/i.test(dcGeneratorSource + dcFormSource)) {
   failures.push("Automatic DC relief language is missing the phased processing caution or implies completed relief.");
@@ -79,6 +82,9 @@ for (const text of ["MPD rap sheet", "DC Superior Court", "Criminal Motion Seal 
 
 if (!dcRepositorySource.includes("rcap_document_packet_inputs") || !dcRepositorySource.includes("upsertBriefcaseItem") || !dcFormSource.includes("Save for later")) {
   failures.push("DC save-progress or Briefcase support is missing.");
+}
+if (!dcRepositorySource.includes("buildFilingNextStepsPacket(packet)")) {
+  failures.push("DC persisted Briefcase packet reconstruction does not preserve filing next steps.");
 }
 
 if (!dcRouteSource.includes("verifyRcapCaptchaToken")) failures.push("DC document create route is missing CAPTCHA readiness.");
@@ -154,6 +160,7 @@ try {
   if (il.state !== "IL" || il.remedyType !== "expungement") failures.push("Illinois generator behavior changed unexpectedly.");
   if (!seal.safetyDisclaimer.includes("not legal advice") || !seal.safetyDisclaimer.includes("does not guarantee")) failures.push("DC safety disclaimer is incomplete.");
   if (!seal.draftHtml.includes("Motion to Seal") || !expunge.draftHtml.includes("Motion to Expunge")) failures.push("DC HTML template did not render seal/expunge motion packet.");
+  if (!validNextStepsPacket(seal, ["Where to file:", "How to file:", "Criminal Motion Seal Team", "No statutory court filing fee", "Workflow gap", "not legal advice"], ["$150", "State's Attorney", "Court of Common Pleas", "PATCH report", "$132-$215"])) failures.push("DC final Next Steps for Filing packet is incomplete.");
 } catch (error) {
   failures.push(`Unable to execute DC generator: ${error instanceof Error ? error.message : String(error)}.`);
 }
@@ -193,6 +200,23 @@ function baseSession(overrides) {
     legalDisclaimerAccepted: true,
     ...overrides
   };
+}
+
+function validNextStepsPacket(result, requiredText, forbiddenText = []) {
+  const packet = result.filingNextStepsPacket;
+  return Boolean(
+    packet &&
+    packet.title.includes("Next Steps for Filing") &&
+    packet.filingLocation &&
+    packet.filingMethod &&
+    packet.requiredDocuments?.length > 0 &&
+    packet.feeSummary?.length > 0 &&
+    packet.afterFiling?.length > 0 &&
+    packet.trackingChecklist?.length > 0 &&
+    packet.workflowGaps?.some((gap) => gap.includes("Workflow gap")) &&
+    requiredText.every((text) => packet.plainText.includes(text)) &&
+    forbiddenText.every((text) => !packet.plainText.includes(text))
+  );
 }
 
 function readSource(relativePath) {

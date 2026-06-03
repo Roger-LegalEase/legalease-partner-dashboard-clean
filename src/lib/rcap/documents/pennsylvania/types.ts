@@ -1,5 +1,5 @@
 import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
-import type { RcapDocumentPacketStatus } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacketStatus, RcapFilingNextStepsPacket } from "@/lib/rcap/documents/mississippi/types";
 import type { PennsylvaniaDocumentType } from "@/lib/rcap/state-packs/pennsylvania/document-types";
 import type { PennsylvaniaDocumentFieldKey } from "@/lib/rcap/state-packs/pennsylvania/required-fields";
 import type { PennsylvaniaEligibilitySignal, PennsylvaniaPathway, PennsylvaniaRemedyType } from "@/lib/rcap/state-packs/pennsylvania/pathways";
@@ -85,6 +85,7 @@ export type PennsylvaniaDocumentGenerationResult = {
   draftPlainText: string;
   filingInstructions: string[];
   countyCourtInstructions: string[];
+  filingNextStepsPacket: RcapFilingNextStepsPacket;
   safetyDisclaimer: string;
   nextStep: string;
   briefcaseItemTitle: string;

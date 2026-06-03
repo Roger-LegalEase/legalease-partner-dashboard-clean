@@ -4,6 +4,7 @@ import { illinoisFilingInstructions } from "@/lib/rcap/state-packs/illinois/fili
 import { illinoisFieldLabels } from "@/lib/rcap/state-packs/illinois/required-fields";
 import { illinoisCleanSlateTransition } from "@/lib/rcap/state-packs/illinois/clean-slate-transition";
 import { illinoisPlainLanguage, illinoisSafetyDisclaimer } from "@/lib/rcap/state-packs/illinois/safety-language";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { mapIllinoisIntakeToDocumentFields } from "./field-mapper";
 import type { IllinoisDocumentGenerationResult, IllinoisDocumentPacketInput } from "./types";
 
@@ -21,7 +22,7 @@ export function generateIllinoisDocumentDraft(
     hasFeeBarrier: fields.feeWaiverRequested
   });
   const draftPlainText = renderPlainText(draftTitle, fields);
-  return {
+  const resultWithoutNextSteps = {
     state: "IL",
     remedyType: fields.remedyType,
     pathway: fields.pathway,
@@ -38,6 +39,16 @@ export function generateIllinoisDocumentDraft(
     nextStep: status === "missing_information" ? "A RAP sheet or record review may help fill in the missing details before filing is considered." : "Review this draft, verify county and circuit court instructions, and do not file until the packet has been checked.",
     briefcaseItemTitle: `${draftTitle} packet`,
     fields
+  } satisfies Omit<IllinoisDocumentGenerationResult, "filingNextStepsPacket">;
+  return {
+    ...resultWithoutNextSteps,
+    filingNextStepsPacket: buildFilingNextStepsPacket({
+      ...resultWithoutNextSteps,
+      documentType: "illinois_request_to_expungeseal_packet",
+      courtType: "Circuit Court",
+      courtCounty: fields.county,
+      county: fields.county
+    })
   };
 }
 

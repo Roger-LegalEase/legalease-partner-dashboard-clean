@@ -83,6 +83,9 @@ if (!routeSource.includes("createIllinoisDocumentPacket") || !readSource("src/ap
 if (!formSource.includes("Save for later") || !repositorySource.includes("rcap_document_packet_inputs") || !repositorySource.includes("upsertBriefcaseItem")) {
   failures.push("Illinois save-and-resume or Briefcase path is missing.");
 }
+if (!repositorySource.includes("buildFilingNextStepsPacket(packet)")) {
+  failures.push("Illinois persisted Briefcase packet reconstruction does not preserve filing next steps.");
+}
 
 if (!readSource("src/app/briefcase/page.tsx").includes("Your Briefcase") || !readSource("src/app/sign-in/page.tsx").includes("Sign in")) {
   failures.push("Briefcase/auth foundation is missing.");
@@ -116,7 +119,7 @@ if (/You are eligible|You qualify|This is ready to file|Guaranteed expungement|G
   failures.push("Unsafe eligibility or outcome guarantee language appears.");
 }
 
-if (!previewSource.includes("Print / save PDF") || !previewSource.includes("Illinois Filing Notes")) {
+if (!previewSource.includes("Print / save PDF") || !previewSource.includes("FilingNextStepsPacketPreview")) {
   failures.push("Illinois document preview is not print-friendly/export-ready.");
 }
 
@@ -152,6 +155,7 @@ try {
   if (sealing.remedyType !== "sealing" || !sealing.documentTypes.includes("illinois_additional_arrests_sealing")) failures.push("Illinois sealing generation failed.");
   if (needsReview.eligibilitySignal !== "excluded_or_blocked_review_needed") failures.push("Illinois needs-review generation failed.");
   if (!expungement.safetyDisclaimer.includes("not legal advice") || !expungement.draftPlainText.includes("[SENSITIVE IDENTIFIER TO BE ADDED BY PETITIONER IF REQUIRED]")) failures.push("Illinois output is missing safety disclaimer or sensitive placeholder.");
+  if (!validNextStepsPacket(expungement, ["Where to file:", "How to file:", "Fee waiver", "60-day window", "Workflow gap", "not legal advice"], ["$150", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215"])) failures.push("Illinois final Next Steps for Filing packet is incomplete.");
 } catch (error) {
   failures.push(`Unable to execute Illinois generator: ${error instanceof Error ? error.message : String(error)}.`);
 }
@@ -186,6 +190,23 @@ console.log("Dashboard product boundary: record-clearing only");
 
 function baseSession(overrides) {
   return { id: "00000000-0000-0000-0000-000000000000", partnerSlug: "demo-partner", status: "completed", currentStep: "completed", state: "Illinois", county: "Cook", userFirstName: "Sample", userLastName: "Person", chargeOrCaseType: "Sample charge", hasDocuments: true, needsRecordCheck: false, legalDisclaimerAccepted: true, ...overrides };
+}
+
+function validNextStepsPacket(result, requiredText, forbiddenText = []) {
+  const packet = result.filingNextStepsPacket;
+  return Boolean(
+    packet &&
+    packet.title.includes("Next Steps for Filing") &&
+    packet.filingLocation &&
+    packet.filingMethod &&
+    packet.requiredDocuments?.length > 0 &&
+    packet.feeSummary?.length > 0 &&
+    packet.afterFiling?.length > 0 &&
+    packet.trackingChecklist?.length > 0 &&
+    packet.workflowGaps?.some((gap) => gap.includes("Workflow gap")) &&
+    requiredText.every((text) => packet.plainText.includes(text)) &&
+    forbiddenText.every((text) => !packet.plainText.includes(text))
+  );
 }
 
 function trackedSecretsAppearInTrackedFiles() {
