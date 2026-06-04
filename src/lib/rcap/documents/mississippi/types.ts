@@ -3,12 +3,15 @@ import type { MississippiDocumentType } from "@/lib/rcap/state-packs/mississippi
 import type { IllinoisDocumentType } from "@/lib/rcap/state-packs/illinois/document-types";
 import type { DcDocumentType } from "@/lib/rcap/state-packs/dc/document-types";
 import type { PennsylvaniaDocumentType } from "@/lib/rcap/state-packs/pennsylvania/document-types";
+import type { TexasHarrisDocumentType } from "@/lib/rcap/state-packs/texas-harris/document-types";
 import type { IllinoisDocumentFieldKey } from "@/lib/rcap/state-packs/illinois/required-fields";
 import type { IllinoisPathway } from "@/lib/rcap/state-packs/illinois/pathways";
 import type { DcDocumentFieldKey } from "@/lib/rcap/state-packs/dc/required-fields";
 import type { DcPathway } from "@/lib/rcap/state-packs/dc/pathways";
 import type { PennsylvaniaDocumentFieldKey } from "@/lib/rcap/state-packs/pennsylvania/required-fields";
 import type { PennsylvaniaPathway } from "@/lib/rcap/state-packs/pennsylvania/pathways";
+import type { TexasHarrisDocumentFieldKey } from "@/lib/rcap/state-packs/texas-harris/required-fields";
+import type { TexasHarrisPathway } from "@/lib/rcap/state-packs/texas-harris/pathways";
 import type { MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 import type { MississippiEligibilitySignal, MississippiPathway } from "@/lib/rcap/state-packs/mississippi/pathways";
 
@@ -105,10 +108,10 @@ export type RcapDocumentPacket = {
   intakeSessionId?: string;
   userId?: string;
   briefcaseId?: string;
-  state: "MS" | "IL" | "DC" | "PA";
+  state: "MS" | "IL" | "DC" | "PA" | "TX";
   county?: string;
-  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType;
-  pathway: MississippiPathway | IllinoisPathway | DcPathway | PennsylvaniaPathway;
+  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType | TexasHarrisDocumentType;
+  pathway: MississippiPathway | IllinoisPathway | DcPathway | PennsylvaniaPathway | TexasHarrisPathway;
   status: RcapDocumentPacketStatus;
   petitionerFirstName?: string;
   petitionerLastName?: string;
@@ -139,7 +142,7 @@ export type RcapDocumentPacket = {
   filingInstructions: string[];
   countyCourtInstructions: string[];
   filingNextStepsPacket: RcapFilingNextStepsPacket;
-  missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey | DcDocumentFieldKey | PennsylvaniaDocumentFieldKey>;
+  missingFields: Array<MississippiDocumentFieldKey | IllinoisDocumentFieldKey | DcDocumentFieldKey | PennsylvaniaDocumentFieldKey | TexasHarrisDocumentFieldKey>;
   safetyDisclaimer: string;
   createdAt?: string;
   updatedAt?: string;
@@ -159,7 +162,7 @@ export type RcapBriefcaseItem = {
   status: RcapDocumentPacketStatus | "in_progress";
   state?: string;
   county?: string;
-  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType;
+  documentType?: MississippiDocumentType | IllinoisDocumentType | DcDocumentType | PennsylvaniaDocumentType | TexasHarrisDocumentType;
   lastOpenedAt?: string;
   createdAt?: string;
   updatedAt?: string;

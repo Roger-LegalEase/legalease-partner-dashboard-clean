@@ -364,6 +364,7 @@ function mapPacketRow(row: PacketRow): RcapDocumentPacket {
 }
 
 function mapPacketState(state: string | null): RcapDocumentPacket["state"] {
+  if (state === "TX") return "TX";
   if (state === "PA") return "PA";
   if (state === "DC") return "DC";
   if (state === "IL") return "IL";

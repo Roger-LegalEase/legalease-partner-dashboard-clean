@@ -19,6 +19,7 @@ export function buildFilingNextStepsPacket(packet: FilingNextStepsInput): RcapFi
   if (packet.state === "IL") return buildIllinoisNextSteps(packet);
   if (packet.state === "DC") return buildDcNextSteps(packet);
   if (packet.state === "PA") return buildPennsylvaniaNextSteps(packet);
+  if (packet.state === "TX") return buildTexasHarrisNextSteps(packet);
   const exhaustiveState: never = packet.state;
   return exhaustiveState;
 }
@@ -186,6 +187,61 @@ function buildPennsylvaniaNextSteps(packet: FilingNextStepsInput): RcapFilingNex
       "Signed order and agency processing follow-up."
     ],
     workflowGaps: gapsFrom("Pennsylvania", packet),
+    safetyDisclaimer: packet.safetyDisclaimer
+  });
+}
+
+function buildTexasHarrisNextSteps(packet: FilingNextStepsInput): RcapFilingNextStepsPacket {
+  const isClassCMunicipal = String(packet.pathway).includes("class_c") || /municipal/i.test(packet.courtType ?? "") || /1400 Lubbock/i.test(packet.courtName ?? "");
+  return packetFromSections({
+    title: "Next Steps for Filing - Harris County, Texas",
+    filingLocation: isClassCMunicipal
+      ? "Municipal Courts / 1400 Lubbock for Class C municipal matters where applicable."
+      : "Harris County District Clerk / 201 Caroline St. for district and county matters where applicable.",
+    filingMethod: "Workflow gap: the preserved Harris County source materials do not state current in-person, mail, e-filing, copy-count, or agency-specific service mechanics. Confirm those details with the clerk or current court instructions before filing.",
+    requiredDocuments: [
+      "Generated Harris County petition packet.",
+      "For expunction, use Texas Code of Criminal Procedure Chapter 55A terminology.",
+      "For nondisclosure, use Texas Government Code Chapter 411, Subchapter E-1 terminology.",
+      "Texas DPS criminal history.",
+      "Certified disposition from the arresting agency when needed.",
+      "Petitioner identifying information, arrest information, charge/offense details, disposition details, statutory route/basis, waiting-period facts, and disqualifier checks.",
+      "Verification and notary block.",
+      "Proposed order for expunction or proposed order of nondisclosure, as applicable.",
+      "Agency/notice party list."
+    ],
+    serviceAndCopies: [
+      "For nondisclosure, serve the petition on the State through the Harris County District Attorney.",
+      "For expunction, name every agency that may hold records; a missed agency may keep a copy of the record.",
+      "The Harris source form includes a verification page requiring the petitioner to swear to the petition facts before a Texas notary or other authorized officer.",
+      "Default notice-party review should include Texas Department of Public Safety, Harris County District Attorney, Harris County District Clerk, Harris County Sheriff, Houston Police Department if arresting agency, and any other agency identified from the user's DPS/criminal history or arrest paperwork.",
+      "Workflow gap: exact current service method, copy count, and agency-specific requirements must be confirmed from the clerk or current court instructions."
+    ],
+    feeSummary: [
+      "Harris County expunction filing costs are represented in this workflow as a rough $25-$300 range depending on the number of notices/agencies served.",
+      "Nondisclosure filing fee and service costs are variable. Workflow gap: verify the current Harris County amount before filing.",
+      "Texas DPS criminal history fee is variable. Workflow gap: verify the current DPS fee before the user pays.",
+      "Certified disposition or agency record fees are variable. Workflow gap: verify the current agency fee with the arresting agency or record holder.",
+      "Statement of Inability to Afford Payment of Court Costs should be surfaced as a fee-waiver option when filing costs are a barrier; confirm current Harris County acceptance instructions before filing."
+    ],
+    courtContactOrLocationGuidance: packet.countyCourtInstructions,
+    afterFiling: [
+      "Confirm expunction versus nondisclosure eligibility before filing.",
+      "Expunction may require a hearing.",
+      "Nondisclosure may be decided on the papers.",
+      "Keep a certified copy of the signed order.",
+      "Track execution by agencies after the order is signed."
+    ],
+    trackingChecklist: [
+      "Texas DPS criminal history date and source.",
+      "Certified disposition or agency record receipt.",
+      "Filed-stamped petition copy.",
+      "Proof of service or notice to agencies/respondents.",
+      "Any hearing setting or decision-on-papers notice.",
+      "Certified copy of signed order.",
+      "Agency execution follow-up after order signing."
+    ],
+    workflowGaps: gapsFrom("Harris County, Texas", packet),
     safetyDisclaimer: packet.safetyDisclaimer
   });
 }

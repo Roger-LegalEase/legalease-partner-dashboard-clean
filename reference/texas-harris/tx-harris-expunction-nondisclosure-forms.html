@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harris County, Texas — Petition for Expunction / Order of Nondisclosure</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{--ink:#181b22;--paper:#dfe2e6;--soft:#9aa3ad;--field:#fff;--acc:#1b3a5b;--acc2:#9a4318;--note:#444;--shade:#e4e8ec;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:11pt;line-height:1.5;padding:24px 14px;}
+  .controls{max-width:830px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 8px 22px rgba(0,0,0,.07);padding:18px 22px;border-radius:4px;}
+  .controls h3{font-family:'IBM Plex Mono',monospace;font-size:9pt;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:0 0 4px;}
+  .controls p{font-size:9.5pt;color:var(--note);margin:0 0 12px;}
+  .seg{display:flex;border:1px solid var(--ink);border-radius:3px;overflow:hidden;margin-bottom:12px;}
+  .seg button{flex:1;font-family:'IBM Plex Mono',monospace;font-size:9.5pt;background:transparent;color:var(--ink);border:none;border-right:1px solid var(--ink);padding:11px 8px;cursor:pointer;line-height:1.3;}
+  .seg button:last-child{border-right:none;}
+  .seg button.active{background:var(--acc);color:#fff;}
+  .ctlrow{display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+  .ctlrow label{font-family:'IBM Plex Mono',monospace;font-size:9pt;text-transform:uppercase;letter-spacing:.06em;color:var(--note);}
+  .ctlrow select{font-family:'Source Serif 4',serif;font-size:11pt;border:1px solid var(--soft);padding:4px 8px;margin-left:6px;}
+  .actions{margin-left:auto;display:flex;gap:10px;}
+  .actions button{font-family:'IBM Plex Mono',monospace;font-size:9pt;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;background:var(--acc);color:#fff;border:none;padding:8px 15px;border-radius:3px;}
+  .actions button.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);}
+
+  .sheet{max-width:830px;margin:0 auto 18px;background:var(--field);border:1px solid var(--soft);box-shadow:0 10px 26px rgba(0,0,0,.08);padding:0.85in 0.9in 0.9in;position:relative;min-height:10.5in;}
+  .pageno{position:absolute;bottom:0.42in;left:0;right:0;text-align:center;font-size:9pt;color:var(--note);}
+
+  /* Texas Ex Parte caption: cause no left, court right, with brackets */
+  .cap{margin-bottom:20px;}
+  .cap table{width:100%;border-collapse:collapse;}
+  .cap td{vertical-align:top;font-size:10.5pt;padding:2px 0;}
+  .cap .brace{width:30px;text-align:center;font-size:10pt;color:var(--note);}
+  .cap .right{text-align:right;}
+  .ul{border:none;border-bottom:1px solid var(--ink);font-family:'Source Serif 4',serif;font-size:11pt;padding:0 3px;background:transparent;}
+  .ul:focus{outline:none;background:#fdf3e2;}
+
+  .title{text-align:center;font-weight:700;font-size:12.5pt;text-transform:uppercase;margin:14px 0 16px;line-height:1.45;}
+  p.lead{text-align:justify;margin:11px 0;}
+  ol.paras{counter-reset:p;list-style:none;padding:0;margin:0;}
+  ol.paras li{counter-increment:p;position:relative;padding-left:34px;margin-bottom:13px;text-align:justify;}
+  ol.paras li::before{content:counter(p)".";position:absolute;left:6px;top:0;font-weight:700;}
+  .roman{font-weight:700;text-transform:uppercase;font-size:10.5pt;margin:16px 0 6px;text-align:center;}
+  .wherefore{text-align:justify;margin:18px 0;}
+  textarea.fill{width:100%;border:1px solid var(--soft);font-family:'Source Serif 4',serif;font-size:10.5pt;padding:6px 8px;background:transparent;min-height:50px;resize:vertical;line-height:1.5;}
+  textarea.fill:focus{outline:none;background:#fdf3e2;}
+
+  table.agencies{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.5pt;}
+  table.agencies th{background:var(--acc);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:.03em;text-transform:uppercase;padding:5px;text-align:left;font-weight:500;}
+  table.agencies td{border:1px solid var(--soft);padding:0;}
+  table.agencies td input{width:100%;border:none;padding:4px 5px;font-size:9.5pt;background:transparent;font-family:'Source Serif 4',serif;}
+  table.agencies td input:focus{outline:none;background:#fdf3e2;}
+  .addrow{font-family:'IBM Plex Mono',monospace;font-size:8.5pt;border:1px dashed var(--acc);color:var(--acc);padding:4px 10px;cursor:pointer;border-radius:3px;display:inline-block;margin-top:4px;}
+
+  .sig-block{margin-top:34px;}
+  .sig-line{border-top:1px solid var(--ink);width:300px;margin-top:42px;padding-top:4px;font-size:9pt;color:var(--note);}
+  .resp{margin-top:24px;}
+
+  .note-box{background:var(--shade);border-left:3px solid var(--acc2);padding:9px 13px;font-size:9pt;color:var(--note);margin:14px 0;font-style:italic;}
+
+  .exp-only{display:none;}.nd-only{display:none;}
+  body[data-tool="expunction"] .exp-only{display:revert;}
+  body[data-tool="expunction"] li.exp-only{display:list-item;}
+  body[data-tool="nondisclosure"] .nd-only{display:revert;}
+  body[data-tool="nondisclosure"] li.nd-only{display:list-item;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .controls{display:none;}
+    .sheet{box-shadow:none;border:none;margin:0;padding:0.9in;page-break-after:always;min-height:auto;}
+    .ul:focus,textarea.fill:focus,table.agencies td input:focus{background:transparent;}
+    textarea.fill{border:none;}.addrow{display:none;}
+  }
+  @media(max-width:700px){.sheet{padding:0.5in;}.actions{margin-left:0;width:100%;}}
+</style>
+</head>
+<body data-tool="expunction">
+
+<div class="controls">
+  <h3>Harris County, Texas · Petition for Expunction / Order of Nondisclosure</h3>
+  <p>Texas clears records two ways: expunction (Chapter 55A — erases) and nondisclosure (Gov't Code Ch. 411 — seals). Pick the tool; each builds a petition plus proposed order in the Harris County Ex Parte format.</p>
+  <div class="seg">
+    <button class="active" data-t="expunction" onclick="setTool('expunction')">Petition for EXPUNCTION<br><small>CCP Chapter 55A — erases record</small></button>
+    <button data-t="nondisclosure" onclick="setTool('nondisclosure')">Petition for ORDER OF NONDISCLOSURE<br><small>Gov't Code Ch. 411 — seals record</small></button>
+  </div>
+  <div class="ctlrow">
+    <label class="nd-only" style="display:none;">Nondisclosure section
+      <select id="ndsec" onchange="ndSec()">
+        <option value="411.0725">§ 411.0725 — deferred adjudication</option>
+        <option value="411.072">§ 411.072 — first-time low-level deferred</option>
+        <option value="411.0735">§ 411.0735 — eligible conviction</option>
+        <option value="411.0731">§ 411.0731 — first-offense DWI</option>
+      </select>
+    </label>
+    <div class="actions">
+      <button class="ghost" onclick="window.print()">Print / Save PDF</button>
+      <button onclick="loadSample()">Load Sample</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAGE 1 — PETITION ============ -->
+<div class="sheet">
+  <div class="cap">
+    <table>
+      <tr>
+        <td style="width:45%;">EX PARTE</td>
+        <td class="brace">&sect;<br>&sect;<br>&sect;</td>
+        <td class="right">IN THE <select class="ul" id="courttype" style="width:auto;"><option>DISTRICT COURT</option><option>COUNTY CRIMINAL COURT AT LAW</option><option>MUNICIPAL COURT</option></select></td>
+      </tr>
+      <tr>
+        <td><input class="ul" id="pname" style="width:90%;" placeholder="Petitioner full name"></td>
+        <td class="brace">&sect;<br>&sect;</td>
+        <td class="right">No. <input class="ul" id="court_no" style="width:60px;"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="brace">&sect;</td>
+        <td class="right">HARRIS COUNTY, TEXAS</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="padding-top:8px;">Cause No. <input class="ul" id="causeno" style="width:200px;"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="title">
+    <span class="exp-only">Petition for Expunction of Criminal Records<br><span style="font-size:9.5pt;font-weight:400;">(Code of Criminal Procedure, Chapter 55A)</span></span>
+    <span class="nd-only">Petition for an Order of Nondisclosure<br><span style="font-size:9.5pt;font-weight:400;">(Government Code Ch. 411, Subch. E-1, <span id="ndsec_title">§ 411.0725</span>)</span></span>
+  </div>
+
+  <p class="lead">TO THE HONORABLE JUDGE OF SAID COURT:</p>
+  <p class="lead">
+    <span class="exp-only">COMES NOW <input class="ul" id="pname2" style="width:55%;" placeholder="name">, Petitioner, and files this Petition for Expunction of Criminal Records pursuant to Chapter 55A of the Texas Code of Criminal Procedure, and would respectfully show the Court:</span>
+    <span class="nd-only">COMES NOW <input class="ul" id="pname2nd" style="width:55%;" placeholder="name">, Petitioner, and files this Petition for an Order of Nondisclosure of Criminal History Record Information pursuant to <span id="ndsec_body">§ 411.0725</span> of the Texas Government Code, and would respectfully show the Court:</span>
+  </p>
+
+  <ol class="paras">
+    <li>Petitioner's identifying information is: Full name <input class="ul" id="f_name" style="width:40%;">; date of birth <input class="ul" id="f_dob" style="width:120px;">; sex <input class="ul" id="f_sex" style="width:70px;">; race <input class="ul" id="f_race" style="width:90px;">; driver license no. <input class="ul" id="f_dl" style="width:120px;">; SSN <input class="ul" id="f_ssn" style="width:110px;">; address <input class="ul" id="f_addr" style="width:60%;">.</li>
+
+    <li>Petitioner was arrested on <input class="ul" id="f_arrdate" style="width:120px;"> by the <input class="ul" id="f_agency" style="width:45%;"> (arresting agency), and charged with <input class="ul" id="f_offense" style="width:45%;">, a <select class="ul" id="f_level" style="width:auto;"><option>Class C misdemeanor</option><option>Class B misdemeanor</option><option>Class A misdemeanor</option><option>felony</option></select>, under cause/case number <input class="ul" id="f_chargeno" style="width:160px;">.</li>
+
+    <!-- EXPUNCTION-specific -->
+    <li class="exp-only">The disposition of the case entitles Petitioner to expunction under Chapter 55A:
+      <select class="ul" id="exp_basis" style="width:80%;margin-top:4px;">
+        <option>Petitioner was acquitted (found not guilty) — Subch. A</option>
+        <option>The charge was dismissed or quashed for a qualifying reason (e.g., absence of probable cause, completion of pretrial intervention/veterans/mental-health diversion, void instrument)</option>
+        <option>Petitioner was arrested but no charge was filed, and the applicable waiting period has elapsed</option>
+        <option>Prosecution is barred because the limitations period has expired</option>
+        <option>Petitioner received a pardon (including pardon for actual innocence)</option>
+        <option>Class C deferred disposition was successfully completed</option>
+      </select>
+    </li>
+    <li class="exp-only">Petitioner has not been convicted of a felony in the five years preceding the arrest date; was not placed on court-ordered community supervision under Chapter 42A for the offense (except Class C); and the arrest did not arise out of a criminal episode for which Petitioner was convicted of, or remains subject to prosecution for, another offense. There are no charges pending arising out of this arrest.</li>
+    <li class="exp-only">The applicable waiting period, if any, has elapsed (arrest with no charge filed: 180 days for a Class C, 1 year for a Class A/B, 3 years for a felony); dispositions conferring immediate entitlement require no waiting period.</li>
+
+    <!-- NONDISCLOSURE-specific -->
+    <li class="nd-only">The disposition entitles Petitioner to an order of nondisclosure: <input class="ul" id="nd_disp" style="width:70%;" placeholder="e.g., successfully completed deferred adjudication; case dismissed and discharged on [date]">.</li>
+    <li class="nd-only">The offense is not excluded from nondisclosure under Government Code §§ 411.074 / 411.0735 (it is not an offense requiring sex-offender registration, murder or other homicide, family violence, stalking, or violation of a protective order), and no affirmative finding of family violence was made.</li>
+    <li class="nd-only">The applicable waiting period has elapsed: <select class="ul" id="nd_wait" style="width:auto;"><option>none (ordinary misdemeanor deferred under § 411.0725)</option><option>5 years (enumerated misdemeanor / felony deferred)</option><option>5 years (eligible conviction under § 411.0735)</option><option>2 years (first-offense DWI with interlock full term)</option><option>5 years (first-offense DWI without interlock)</option></select>; and Petitioner has not been convicted of or placed on deferred adjudication for any offense (other than a fine-only traffic offense) during the waiting period.</li>
+    <li class="nd-only">Issuance of the order of nondisclosure is in the best interest of justice.</li>
+
+    <li>The following agencies are believed to have records or files relating to the arrest and should be ordered to <span class="exp-only">expunge (destroy or return)</span><span class="nd-only">seal and withhold from public disclosure</span> them:</li>
+  </ol>
+
+  <table class="agencies" id="agencyTable">
+    <thead><tr><th style="width:55%;">Agency / entity</th><th>Address</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <span class="addrow" onclick="addAgency()">+ Add agency</span>
+
+  <div class="wherefore">
+    WHEREFORE, PREMISES CONSIDERED, Petitioner respectfully prays that the Court
+    <span class="exp-only">enter the attached Order of Expunction directing each named agency to expunge all records and files relating to the arrest pursuant to Chapter 55A,</span>
+    <span class="nd-only">enter the attached Order of Nondisclosure directing the Texas Department of Public Safety to seal the records and to notify the agencies enumerated in Government Code § 411.075(b),</span>
+    and grant such other relief to which Petitioner may be entitled.
+  </div>
+
+  <div class="resp">
+    <div>Respectfully submitted,</div>
+    <div class="sig-line">Signature of Petitioner (or counsel)</div>
+    <div style="margin-top:8px;font-size:9.5pt;">
+      <input class="ul" id="s_name" style="width:60%;" placeholder="Printed name"><br>
+      <input class="ul" id="s_addr" style="width:80%;" placeholder="Address"><br>
+      <input class="ul" id="s_phone" style="width:40%;" placeholder="Phone"> <input class="ul" id="s_bar" style="width:35%;" placeholder="State Bar No. (if attorney)">
+    </div>
+  </div>
+  <div class="pageno"><span class="exp-only">Petition for Expunction (CCP Ch. 55A)</span><span class="nd-only">Petition for Order of Nondisclosure (Gov't Code Ch. 411)</span> — Harris County, Texas — Page 1</div>
+</div>
+
+<!-- ============ PAGE 2 — VERIFICATION ============ -->
+<div class="sheet">
+  <div class="title" style="margin-top:0;">Verification</div>
+  <p class="lead">THE STATE OF TEXAS</p>
+  <p class="lead">COUNTY OF HARRIS</p>
+  <p class="lead">Before me, the undersigned authority, on this day personally appeared <input class="ul" id="v_name" style="width:45%;">, Petitioner, who being by me duly sworn, on oath stated that the facts contained in the foregoing petition are true and correct.</p>
+  <div class="sig-block">
+    <div class="sig-line">Petitioner</div>
+  </div>
+  <p class="lead" style="margin-top:30px;">SWORN TO and SUBSCRIBED before me on <span style="border-bottom:1px solid var(--ink);display:inline-block;min-width:150px;">&nbsp;</span>.</p>
+  <div class="sig-block">
+    <div class="sig-line" style="width:320px;">Notary Public, State of Texas</div>
+  </div>
+
+  <div class="note-box exp-only">Attach: the petitioner's Texas DPS criminal history and, in Harris County, a certified disposition from the arresting agency (e.g., HPD). Name every agency that may hold records; a missed agency keeps a copy of the record.</div>
+  <div class="note-box nd-only">Serve the petition on the State (Harris County District Attorney). The court may rule on the papers; on grant, DPS seals the record and notifies the agencies listed in Gov't Code § 411.075(b).</div>
+  <div class="pageno">Verification — Page 2</div>
+</div>
+
+<!-- ============ PAGE 3 — PROPOSED ORDER ============ -->
+<div class="sheet">
+  <div class="cap">
+    <table>
+      <tr><td style="width:45%;">EX PARTE</td><td class="brace">&sect;<br>&sect;<br>&sect;</td><td class="right">IN THE <input class="ul" id="o_court" style="width:150px;"></td></tr>
+      <tr><td><input class="ul" id="o_name" style="width:90%;"></td><td class="brace">&sect;<br>&sect;</td><td class="right">No. <input class="ul" id="o_no" style="width:60px;"></td></tr>
+      <tr><td></td><td class="brace">&sect;</td><td class="right">HARRIS COUNTY, TEXAS</td></tr>
+    </table>
+  </div>
+
+  <div class="title">
+    <span class="exp-only">Order of Expunction</span>
+    <span class="nd-only">Order of Nondisclosure</span>
+  </div>
+
+  <p class="lead">On this day the Court considered the Petition
+    <span class="exp-only">for Expunction of Criminal Records filed under Chapter 55A of the Code of Criminal Procedure.</span>
+    <span class="nd-only">for an Order of Nondisclosure filed under Government Code Ch. 411, Subch. E-1.</span>
+    The Court, having reviewed the petition and the applicable law, finds that Petitioner is entitled to the relief requested.</p>
+
+  <p class="lead exp-only">IT IS THEREFORE ORDERED that each agency named in the petition EXPUNGE all records and files relating to the arrest of Petitioner described above, by destroying or returning such records as required by Chapter 55A, and that the Texas Department of Public Safety give effect to this Order as provided by law.</p>
+
+  <p class="lead nd-only">IT IS THEREFORE ORDERED that the Texas Department of Public Safety SEAL and prohibit disclosure of the criminal history record information relating to the offense described above, except to the agencies and for the purposes enumerated in Government Code § 411.075(b), and that DPS notify those agencies of this Order.</p>
+
+  <p class="lead">IT IS FURTHER ORDERED that the relief granted applies to the arrest described in the petition and the agencies named therein.</p>
+
+  <div class="sig-block">
+    <div class="sig-line" style="width:320px;">Judge Presiding</div>
+    <div class="sig-line" style="width:200px;margin-top:28px;">Date Signed</div>
+  </div>
+  <div class="pageno"><span class="exp-only">Order of Expunction</span><span class="nd-only">Order of Nondisclosure</span> — Page 3</div>
+</div>
+
+<script>
+  function setTool(t){
+    document.body.dataset.tool=t;
+    document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
+    document.querySelectorAll('.nd-only label, .controls .nd-only').forEach(e=>{});
+    document.querySelector('.ctlrow .nd-only').style.display = (t==='nondisclosure') ? 'inline' : 'none';
+  }
+  function ndSec(){
+    const v=document.getElementById('ndsec').value;
+    document.getElementById('ndsec_title').textContent='\u00a7 '+v;
+    document.getElementById('ndsec_body').textContent='\u00a7 '+v;
+  }
+  function addAgency(){
+    const tb=document.querySelector('#agencyTable tbody');
+    const tr=document.createElement('tr');
+    for(let i=0;i<2;i++){const td=document.createElement('td');const inp=document.createElement('input');td.appendChild(inp);tr.appendChild(td);}
+    tb.appendChild(tr);
+  }
+  // default Harris County agencies
+  const defaultAgencies=[
+    ['Texas Department of Public Safety','P.O. Box 4143, Austin, TX 78765'],
+    ['Harris County District Attorney','500 Jefferson St, Houston, TX 77002'],
+    ['Harris County District Clerk','201 Caroline St, Houston, TX 77002'],
+    ['Houston Police Department','1200 Travis St, Houston, TX 77002'],
+    ['Harris County Sheriff','1200 Baker St, Houston, TX 77002']
+  ];
+  defaultAgencies.forEach(a=>{addAgency();const r=document.querySelector('#agencyTable tbody').lastChild.cells;r[0].querySelector('input').value=a[0];r[1].querySelector('input').value=a[1];});
+  addAgency();
+
+  // mirror name fields
+  const nameIds=['pname','pname2','pname2nd','f_name','s_name','v_name','o_name'];
+  nameIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;
+    el.addEventListener('input',()=>nameIds.forEach(o=>{const t=document.getElementById(o);if(t&&t!==el)t.value=el.value;}));});
+  // mirror cause no + court
+  ['causeno','o_no','court_no'].forEach(()=>{});
+  document.getElementById('causeno').addEventListener('input',e=>{document.getElementById('o_no').value=e.target.value;});
+  document.getElementById('courttype').addEventListener('change',e=>{document.getElementById('o_court').value=e.target.value;});
+
+  setTool('expunction'); ndSec();
+
+  function loadSample(){
+    const t=document.body.dataset.tool;
+    const common={s_addr:'1240 Main St, Houston, TX 77002',s_phone:'(713) 555-0148'};
+    if(t==='expunction'){
+      const v={...common,pname:'Andre L. Carter',causeno:'2026-EX-01234',court_no:'234',
+        f_name:'Andre L. Carter',f_dob:'07/22/1992',f_sex:'M',f_race:'Black',f_dl:'TX-12345678',
+        f_ssn:'XXX-XX-4471',f_addr:'1240 Main St, Houston, TX 77002',
+        f_arrdate:'03/02/2024',f_agency:'Houston Police Department',f_offense:'Theft',
+        f_chargeno:'1234567',s_name:'Andre L. Carter'};
+      for(const k in v){const e=document.getElementById(k);if(e){e.value=v[k];e.dispatchEvent(new Event('input'));}}
+      document.getElementById('f_level').value='Class B misdemeanor';
+      document.getElementById('exp_basis').selectedIndex=1;
+    } else {
+      const v={...common,pname:'Maria S. Delgado',causeno:'1357924',court_no:'180',
+        f_name:'Maria S. Delgado',f_dob:'02/14/1995',f_sex:'F',f_race:'Hispanic',f_dl:'TX-87654321',
+        f_ssn:'XXX-XX-9921',f_addr:'880 Westheimer Rd, Houston, TX 77006',
+        f_arrdate:'01/10/2023',f_agency:'Houston Police Department',f_offense:'Possession of marijuana',
+        f_chargeno:'1357924',nd_disp:'Successfully completed deferred adjudication; case dismissed and discharged on 05/01/2024',
+        s_name:'Maria S. Delgado'};
+      for(const k in v){const e=document.getElementById(k);if(e){e.value=v[k];e.dispatchEvent(new Event('input'));}}
+      document.getElementById('f_level').value='Class B misdemeanor';
+      document.getElementById('ndsec').value='411.0725'; ndSec();
+      document.getElementById('nd_wait').selectedIndex=0;
+    }
+  }
+</script>
+</body>
+</html>

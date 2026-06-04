@@ -8,6 +8,7 @@ import { DcMotionInformationForm } from "./DcMotionInformationForm";
 import { IllinoisPetitionInformationForm } from "./IllinoisPetitionInformationForm";
 import { MississippiPetitionInformationForm } from "./MississippiPetitionInformationForm";
 import { PennsylvaniaPetitionInformationForm } from "./PennsylvaniaPetitionInformationForm";
+import { TexasHarrisPetitionInformationForm } from "./TexasHarrisPetitionInformationForm";
 
 export default async function MississippiPetitionInformationFormPage({
   params,
@@ -25,6 +26,7 @@ export default async function MississippiPetitionInformationFormPage({
   const isIllinois = state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
   const isDc = isDcState(state);
   const isPennsylvania = isPennsylvaniaState(state);
+  const isTexasHarris = isTexasHarrisState(state, partner?.targetCounty ?? session?.county);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -37,7 +39,7 @@ export default async function MississippiPetitionInformationFormPage({
         <section className="mt-6 grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <aside className="rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
             <Badge tone="blue">Your Briefcase</Badge>
-            <h1 className="mt-4 text-3xl font-black leading-tight text-navy">{isPennsylvania ? "Pennsylvania record relief information" : isDc ? "DC record relief information" : isIllinois ? "Illinois form information" : "Mississippi petition information"}</h1>
+            <h1 className="mt-4 text-3xl font-black leading-tight text-navy">{isTexasHarris ? "Harris County Texas record relief information" : isPennsylvania ? "Pennsylvania record relief information" : isDc ? "DC record relief information" : isIllinois ? "Illinois form information" : "Mississippi petition information"}</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
               You can save this and come back later from your Briefcase. This prepares a draft packet, not a final legal filing.
             </p>
@@ -51,7 +53,7 @@ export default async function MississippiPetitionInformationFormPage({
 
           {!partner ? (
             <Card className="rounded-md p-6">Partner not found.</Card>
-          ) : !isMississippi && !isIllinois && !isDc && !isPennsylvania ? (
+          ) : !isMississippi && !isIllinois && !isDc && !isPennsylvania && !isTexasHarris ? (
             <Card className="rounded-md p-6">Document generation for this state is not available yet.</Card>
           ) : !session || session.partnerSlug !== partnerSlug ? (
             <Card className="rounded-md p-6">
@@ -60,6 +62,8 @@ export default async function MississippiPetitionInformationFormPage({
                 Start Wilma intake
               </Link>
             </Card>
+          ) : isTexasHarris ? (
+            <TexasHarrisPetitionInformationForm partnerSlug={partnerSlug} session={session} />
           ) : isPennsylvania ? (
             <PennsylvaniaPetitionInformationForm partnerSlug={partnerSlug} session={session} />
           ) : isIllinois ? (
@@ -83,4 +87,10 @@ function isDcState(state?: string) {
 function isPennsylvaniaState(state?: string) {
   const normalized = state?.trim().toLowerCase();
   return normalized === "pa" || normalized === "pennsylvania";
+}
+
+function isTexasHarrisState(state?: string, county?: string) {
+  const normalizedState = state?.trim().toLowerCase();
+  const normalizedCounty = county?.trim().toLowerCase();
+  return (normalizedState === "tx" || normalizedState === "texas") && (!normalizedCounty || normalizedCounty === "harris" || normalizedCounty === "harris county");
 }

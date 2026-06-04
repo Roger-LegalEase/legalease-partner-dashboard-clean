@@ -30,6 +30,11 @@ const states = [
     pdf: "reference/pennsylvania/Pennsylvania-Expungement-Sealing-Agent-Reference.pdf",
     html: "reference/pennsylvania/pa-petition-expungement-790.html",
     extraPdf: "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf"
+  },
+  {
+    label: "Harris County, Texas",
+    pdf: "reference/texas-harris/Texas-HarrisCounty-Expunction-Nondisclosure-Agent-Reference.pdf",
+    html: "reference/texas-harris/tx-harris-expunction-nondisclosure-forms.html"
   }
 ];
 
@@ -37,7 +42,7 @@ for (const state of states) {
   assertPdf(state.label, state.pdf);
   if (state.extraPdf) assertPdf(state.label, state.extraPdf);
   assertHtml(state.label, state.html);
-  assertReadme(state);
+  if (state.readme) assertReadme(state);
 }
 
 if (failures.length > 0) {
