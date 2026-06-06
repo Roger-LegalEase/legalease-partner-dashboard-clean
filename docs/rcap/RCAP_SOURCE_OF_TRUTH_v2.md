@@ -2,9 +2,9 @@
 
 **Record Clearing Access Program — Managed Case Journey Specification**
 
-LegalEase Partner Journey OS · Version 2.0 · Owner: Roger Roman · Status: Governing build contract
+LegalEase Partner Journey OS · Version 2.1 · Owner: Roger Roman · Status: Governing build contract
 
-Supersedes v1.0. This version folds in the eight rulings and the reconciliation punch list. Section 12 is the changelog.
+Supersedes v1.0. This version folds in the eight rulings, the reconciliation punch list, and the v2.1 Section 6.1 amendment. Section 12 is the changelog.
 
 ---
 
@@ -12,7 +12,7 @@ Supersedes v1.0. This version folds in the eight rulings and the reconciliation 
 
 The **state machine** (Section 3) is the contract. Statuses, transitions, who triggers each, what each requires. When code and prose disagree, the state machine wins. When the state machine and reality disagree, the machine gets a version bump, not a quiet workaround.
 
-The **object model** (Section 2) defines what carries state. The **narrative** (Sections 1, 4, 5) is context. The **open items** (Section 6) still need Lawrence; everything else is ruled and buildable.
+The **object model** (Section 2) defines what carries state. The **narrative** (Sections 1, 4, 5) is context. The **open items** (Section 6) identify what still needs decision authority; everything else is ruled and buildable.
 
 Core rule, stated once and never violated: **status lives on the case, not the user.** A user is a person. A case is one record in one jurisdiction. A user has one or more cases, each moving through the machine independently. The Briefcase is an aggregate view with no status of its own.
 
@@ -20,7 +20,7 @@ Core rule, stated once and never violated: **status lives on the case, not the u
 
 ## 1. Core principle
 
-RCAP is a case-journey system, not a linear form funnel. Every user may have one or more cases. Each case has its own lifecycle, packet history, review tasks, filing events, and outcome tracking. The defining experiences are uncertainty, interruption, review, and follow-up: people do not know what happened in their case, do not have their record, have more than one case, land in an unsupported state, need a human, leave and come back, file or do not, and hear from the court months later or never. The product is built around those realities.
+RCAP is a self-help-first case-journey system, not a linear form funnel. The default flow is self-represented filing: a user prepares and files a record-clearing packet without attorney representation. Every user may have one or more cases and may file pro se. Each case has its own lifecycle, packet history, review tasks, filing events, and outcome tracking. The defining experiences are uncertainty, interruption, review, and follow-up: people do not know what happened in their case, do not have their record, have more than one case, land in an unsupported state, need a human, leave and come back, file or do not, and hear from the court months later or never. The product is built around those realities.
 
 ---
 
@@ -272,7 +272,7 @@ Loop / regression / closure:
 
 ### 3.4 Legal-review-unavailable routing (ruling 1)
 
-Checked by the system at the moment a case would enter any legal-review status:
+Checked by the system at the moment an out-of-footprint case would enter any legal-review status:
 ```
 if legal_review_required and not legal_review_enabled:
     if referral_path_configured:
@@ -281,7 +281,7 @@ if legal_review_required and not legal_review_enabled:
         -> legal_review_needed_but_unavailable
            + create partner_follow_up task (case holds at this status)
 ```
-The case status stays honest ("needs legal review, none configured") while the `partner_follow_up` *task* drives non-legal next steps and referral support. `partner_follow_up` is never a case status.
+The case status stays honest ("needs legal review, none configured for this jurisdiction/scope") while the `partner_follow_up` *task* drives non-legal next steps and referral support. `partner_follow_up` is never a case status. `legal_review_needed_but_unavailable` is out-of-footprint only: it applies when legal review is required and no LegalEase contracted jurisdiction-licensed attorney is configured for that operating state/scope. Inside MS / IL / DC, `legal_review_needed_but_unavailable` should not fire because LegalEase staffs a contracted attorney in each operating state. Do not build a partner-follow-up queue expecting it to carry volume.
 
 **Launch-readiness gate (binding):** a partner/workflow cannot go `live` unless every legal-review route its risk rules can reach has one of: (1) licensed legal review configured, (2) a referral path configured, or (3) a partner follow-up path explicitly approved as non-legal support. This stops `partner_follow_up` from becoming a fake legal-review queue and stops cases piling into a queue that cannot drain.
 
@@ -313,7 +313,7 @@ One source. Briefcase timeline, partner dashboard queues, Command Center, and re
 
 Partner page `/p/[partnerSlug]` does not imply same-day clearing: "Start here to understand what information you may need, whether a possible pathway may exist, and what next step makes sense." CTA: Start with Wilma.
 
-Wilma `/intake/[partnerSlug]` carries an "I'm not sure" branch on every major question. "I'm not sure" sets `needs_record` or `needs_case_details` and produces a real next step. When Wilma detects multiple records it fires the `multiple_records_detected` intake event, which spawns one case per record (2.1) — it is not a status.
+Wilma `/intake/[partnerSlug]` carries an "I'm not sure" branch on every major question. "I'm not sure" sets `needs_record` or `needs_case_details` and produces a real next step. Wilma may provide Initial Screening / Possible Match based on configured workflow facts and risk flags; Wilma does not make a final eligibility determination, give legal advice, or decide whether the user should file. Clear no's stop the packet or refer out at intake; uncertain maybes route to the Attorney checkpoint. When Wilma detects multiple records it fires the `multiple_records_detected` intake event, which spawns one case per record (2.1) — it is not a status.
 
 Record retrieval is a first-class stage at `/records/[partnerSlug]` or `/briefcase/record-help`, user-facing status **Needs Record**. It answers: what record do I need (RAP sheet, docket, disposition, arrest record, summary), where to get it, what to look for, what to enter/upload on return, what if I don't know the county, what if I have more than one case.
 
@@ -327,15 +327,17 @@ Packet `/documents/[partnerSlug]/[packetId]` is labeled **Draft packet**. Hedgin
 
 ### 4.3 Review authority (UPL-critical)
 
-**Completeness review** (trained partner/LegalEase staff): check fields filled, documents attached, case number present, county matches workflow; request missing info; mark incomplete; route to legal review. May NOT determine eligibility, recommend filing, approve legal sufficiency, or interpret legal consequences. Status: `needs_partner_completeness_review`, exits to `ready_for_user_review`, never directly to `ready_to_file`.
+**Administrative Completeness Check** (trained partner/LegalEase staff): check fields filled, signatures present, documents attached, case number present, county matches workflow; request missing info; mark incomplete; route to legal review. May NOT determine eligibility, recommend filing, approve legal sufficiency, interpret legal consequences, tell the user whether they should file, or file for the user. Status: `needs_partner_completeness_review`, exits to `ready_for_user_review`, never directly to `ready_to_file`.
 
-**Legal review** (licensed attorney / authorized provider for the jurisdiction): review legal sufficiency, assess eligibility, approve filing recommendation, flag risk, determine packet inappropriate. Status: `needs_attorney_legal_review`, the only review that exits to `ready_to_file`.
+**Attorney checkpoint / Legal-Sufficiency Review** (LegalEase contracted jurisdiction-licensed attorney): review-and-clear, not review-and-file. The reviewer may review legal sufficiency, assess eligibility within the configured scope, flag risk, request more information, determine the packet inappropriate, or clear the packet for the user's own review and filing decision. The attorney does not file for the user and does not represent the user in court. Status: `needs_attorney_legal_review`, the only review that exits to internal status `ready_to_file`.
 
-**No attorney available** is an explicit configuration, never a hopeful default. Routed per 3.4. User-facing: this record may need a licensed professional before filing; the program does not currently have legal review available for this issue, but can show referral options or help gather information.
+**No attorney available** is an explicit out-of-footprint configuration, never a hopeful default. Routed per 3.4. User-facing: this record may need a licensed professional before filing; the program does not currently have legal review available for this jurisdiction/scope, but can show referral options or help gather information.
 
 ### 4.4 Briefcase and outcome loop
 
 Briefcase is a timeline answering "what do I need to do next?", not a document locker. Contents: saved intake, form progress, record checklist, packets, filing instructions, partner notes visible to user, next action, filing status, outcome follow-up.
+
+User-facing `ready_to_file` surfaces as **Filing Guidance**. This is procedural, self-help language: the user can review filing instructions and decide whether to file pro se. It does not mean RCAP, Wilma, partner staff, LegalEase staff, or an attorney has filed or will file for the user.
 
 Filing instructions per workflow cover where/how to file, court/agency, copies, service, notarization, fees, fee waivers, what happens after, when legal review helps.
 
@@ -349,7 +351,7 @@ Post-filing loop asks did you file, when, where, hearing date, response, granted
 
 Request pilot > onboarding > workflow assigned > launch readiness checked > public link activated > users start > partner sees blockers/review queue > partner helps users move > partner tracks filing/outcomes > weekly/final reports.
 
-Dashboard primary question: **who needs help today?** Queues: Needs Record, Needs Case Details, Needs Review (completeness vs legal split), Legal Review Unavailable / Partner Follow-up, Draft Packet, Ready to File, Outcome Follow-up. Partner staff can flag, note, request info, tell user to pull records, mark ready-to-file within their tier, refer out, close with reason.
+Dashboard primary question: **who needs help today?** Queues: Needs Record, Needs Case Details, Needs Review (Administrative Completeness Check vs Attorney checkpoint), Legal Review Unavailable / Partner Follow-up, Draft Packet, Filing Guidance, Outcome Follow-up. Partner staff can flag, note, request info, tell user to pull records, complete Administrative Completeness Check within their tier, refer out, close with reason, and route legal issues to the attorney checkpoint.
 
 Allowed modules: Wilma Intake, RecordShield, Expungement.ai, Partner Dashboard, Weekly Reports, Final Impact Report. Not StartApart or ClaimCoach.
 
@@ -369,9 +371,83 @@ Master layer tracking partners, workflows, users, cases, packets, review tasks, 
 
 ## 6. Open items (Lawrence)
 
-Structure is ruled and buildable. These two need legal authority, not product decisions, and the model is built to absorb the answers without rework:
+Structure is ruled and buildable. Section 6.1 is resolved by the v2.1 amendment. Sections 6.1b and 6.2 remain open, and the model is built to absorb the answers without rework.
 
-**6.1 Legal review authority per partner/state.** Who can perform legal review in each operating jurisdiction, what scope, what SLA, and the binding line between completeness and legal-sufficiency review. The 3.4 routing and the launch gate are wired; the per-partner `legal_review_enabled` / `legal_reviewer_license_jurisdiction` / `legal_review_scope` values are Lawrence's to set. This blocks live status for any workflow whose risk rules can reach legal review.
+**Legal authority of record for 6.1:** Lawrence Blackmon, licensed attorney (Mississippi), co-founder/CEO of LegalEase, approved the review-authority framework, attorney-checkpoint model, disqualification and escalation logic, and user-facing disclaimer copy on **2026-06-05**, with Roger Roman (COO) present. Roger Roman approved the product implementation of the attorney-checkpoint flow on the same date. Written approval captured in `RCAP_V2_1_SECTION_6_1_AMENDMENT.md`: "Reviewed and approved — Lawrence Blackmon, 2026-06-05."
+
+### 6.1 Legal review authority and self-help boundary — RESOLVED
+
+RCAP is a **self-help-first** system. The default flow is self-represented filing: a user prepares and files a record-clearing packet without attorney representation. This is grounded in the right to self-representation (28 U.S.C. § 1654) and the established space for self-help legal materials, forms, and software, provided they clearly disclaim being a substitute for attorney advice (cf. Tex. Gov't Code § 81.101; ABA Model Rule 5.5 framing of the practice-of-law line). The mantra: help people handle non-complex record-clearing matters on their own, without an attorney.
+
+The system distinguishes four layers of authority, and **only licensed legal review** may be labeled attorney-reviewed, legally sufficient, eligible, qualified, or cleared to file:
+
+| Layer | Safe label | What it means |
+|---|---|---|
+| Wilma | Initial Screening / Possible Match | User's answers may match basic criteria for a possible pathway |
+| User | Self-Represented Filing Option | User may choose to prepare and file a self-help packet |
+| Partner staff | Administrative Completeness Check | Staff may check that fields, signatures, and documents appear present |
+| Attorney | Legal-Sufficiency Review | Licensed jurisdiction attorney reviews eligibility/legal adequacy within scope |
+
+**Core rule:** the user's right to self-representation belongs to the user. It does not transfer legal decision-making authority to Wilma, LegalEase, or nonlawyer partner staff.
+
+**Attorney checkpoint, review-and-clear (not review-and-file).** When a case is flagged for attorney review, it routes to LegalEase's contracted jurisdiction-licensed attorney. The attorney **reviews and clears** the case back into the self-help flow, or determines it is not suitable for an automated self-help packet. The attorney does **not** file for the user and does not represent the user in court. The user who proceeds after clearance is still filing pro se, with an attorney checkpoint behind them. This preserves the self-representation framing end to end.
+
+Attorney review is the **edge case, not the norm.** Wilma filters obvious no's out at intake; the attorney reviews uncertain maybes; clean self-help cases keep moving without ever touching the attorney queue.
+
+#### 6.1.1 Wilma disqualification at intake (clear no's)
+
+Wilma stops the self-help packet and refers out (or routes to a hold/return-later path) when the user reports any of the following. These are filtered at intake, **not** sent to attorney review — sending clear ineligibilities to the attorney would defeat the self-help-first posture by flooding the checkpoint.
+
+| Intake condition | Action |
+|---|---|
+| Federal case | No state packet; refer out |
+| Unsupported state/jurisdiction | Refer out or waitlist (`unsupported_jurisdiction`) |
+| Pending criminal charge where the workflow requires none | Stop packet; refer or explain unavailable |
+| Current incarceration/probation/parole/supervision where completion is required | Stop packet or hold until completion (see 6.1b) |
+| Sex offense / registration-related offense where excluded | Stop packet; refer out |
+| Violent offense where excluded | Stop packet; refer out |
+| DV / weapons / DUI / other category excluded by state law | Stop packet; refer out |
+| Waiting period clearly not satisfied | Stop packet or return-later path (see 6.1b) |
+| User seeking immigration / firearm / licensing / custody advice | Refer out |
+| User wants the attorney to represent them, appear at a hearing, or argue contested issues | Refer out or route to representation inquiry |
+
+#### 6.1.2 Wilma routes to attorney checkpoint (uncertain maybes)
+
+Routes to `needs_attorney_legal_review` (LegalEase contracted attorney) when:
+
+| Intake condition | Why review is needed |
+|---|---|
+| Disposition unclear | Eligibility turns on legal meaning of the disposition |
+| Charge category unclear | Attorney must classify the offense |
+| Multiple cases or mixed outcomes | Sequencing and eligibility judgment needed |
+| User's answers conflict with uploaded records | Needs human judgment |
+| Possibly eligible but edge-case facts | Checkpoint appropriate |
+| Wilma/staff confidence low | Over-escalate rather than under-flag |
+| User asks a legal-advice question during intake | Attorney or referral needed |
+
+**Default direction under uncertainty: escalate.** Self-help-first sets the default, but the standing instruction when a case is ambiguous is to flag it, not to keep it on the self-help rail. An over-inclusive checkpoint is safe (the attorney reviews something that turns out simple); an under-inclusive one is the UPL risk (a complex case self-helps when it should not have). The escalation list errs toward flagging.
+
+#### 6.1.3 State machine mapping
+
+The disqualification and escalation logic maps onto existing v2 statuses; no new review statuses are introduced:
+
+- Clear no → `not_suitable_for_automated_packet` or `referred_out`
+- Out of footprint → `unsupported_jurisdiction` or `referred_out`
+- Uncertain maybe → `needs_attorney_legal_review` → (attorney clears) `ready_to_file` / surfaced as "Filing Guidance" → or (attorney declines) `not_suitable_for_automated_packet` → `referred_out`
+- Clean self-help → `possible_pathway` → `draft_packet_started` → `draft_packet_generated` → `ready_for_user_review`
+
+**`legal_review_needed_but_unavailable` shrinks to out-of-footprint-only.** This status and the `partner_follow_up` task fallback (ruling 1) existed for the case where review had nowhere to go. That case is now answered inside the operating footprint: LegalEase staffs a contracted attorney in each operating state, so review always has a destination. Inside MS / IL / DC, `legal_review_needed_but_unavailable` should not fire. It remains only for any future operation in a state where no attorney is contracted. Do not build a partner-follow-up queue expecting it to carry volume.
+
+### 6.1b — NEW OPEN THREAD: the "eligible later" hold state
+
+Two disqualification rows above are not true no's — they are not-yet's:
+
+- supervision/probation/parole not yet complete (eligible once complete)
+- waiting period not yet satisfied (eligible once it elapses)
+
+The current machine has no clean status for "you are not eligible today but will be on a known future date." `referred_out` is wrong (the user belongs in RCAP, just later). `not_suitable_for_automated_packet` is wrong (it may be perfectly suitable later). `needs_record` is close but describes a missing document, not a time gate. `refile_eligible_after_wait` exists but is currently scoped to post-denial refiling, not pre-filing waiting periods.
+
+**Decision owed (product, not legal):** either extend `refile_eligible_after_wait` semantics to cover pre-filing time gates, or add a dedicated `eligible_after_date` hold status carrying the target date, the reason (supervision completion vs. statutory wait), and a return-later prompt. Recommendation: a dedicated hold status, because conflating pre-filing waits with post-denial refiles will muddy reporting and the Briefcase timeline. Small, isolated, does not block the copy commit.
 
 **6.2 Outcome verification per state.** Whether court records are searchable for `court_record_check`, whether partners can confirm, whether users can upload orders, and which sources count as authoritative for funder reporting. The model already supports all sources and verification levels (Section 2, 9); Lawrence rules which are authoritative where.
 
@@ -397,7 +473,7 @@ Universal to the user, state-specific underneath. Each built from actual source 
 **20D — Partner review queue.** Completeness vs legal split, review queue statuses, legal-review-unavailable handling (3.4), launch gate.
 **20E — Command Center adapter.** Expose partner/workflow/case/packet/review/report status read-only first; track stale workflows and launch readiness.
 
-Do not build the review layer (20D) ahead of the 6.1 authority determination.
+Do not build the review layer (20D) beyond the resolved v2.1 authority boundaries until 6.1b and 6.2 are resolved where they affect workflow launch readiness.
 
 ---
 
@@ -425,9 +501,27 @@ Record retrieval: practical. "Look for the case number, court, charge, outcome, 
 Packet preview: sober, prominent. "This is a draft packet based on the information provided. Do not file it until you have reviewed the instructions carefully. If anything is missing, unclear, or incorrect, get help from the partner or a qualified legal professional before filing."
 Filing instructions: clear, careful. "Your next procedural step is to file with the court listed below. Filing does not guarantee relief. The court may request more information, schedule a hearing, deny the request, or grant only part of the request."
 
+Approved v2.1 copy, true in all operating jurisdictions and shipped where true:
+
+**Initial screening (Wilma):** "Based on your answers, this case may match initial screening criteria for a record-clearing pathway. You may continue preparing a self-help packet if you choose. This is not a final eligibility decision, legal advice, or a guarantee that a court will grant your request."
+
+**Administrative completeness (partner staff):** "Partner staff may check whether required fields, documents, and signatures appear to be present. Staff cannot determine legal eligibility, approve legal sufficiency, or tell you whether you should file."
+
+**Self-represented filing option:** "You may choose to file on your own without an attorney. Staff can help with administrative completeness, but staff cannot tell you whether you are eligible or whether you should file."
+
+**Attorney checkpoint (surfaces only on a flagged case, not standing copy):** "Before filing, this case will be reviewed by a licensed attorney in your state. The attorney will review it for legal sufficiency and either clear it for you to file on your own, or let you know it needs more than a self-help packet." Renders **only** once a case has entered `needs_attorney_legal_review` — never as a promise on every case.
+
+**Filing label:** `ready_to_file` (internal status) surfaces to the user as **"Filing Guidance"**, never a bare "Ready to File," because even an attorney-cleared case is the user choosing to file pro se, not the attorney filing for them.
+
 ---
 
-## 12. Changelog (v1.0 to v2.0)
+## 12. Changelog
+
+### v2.0 -> v2.1
+
+Open item 6.1 resolved. Adopted self-help-first model with attorney-checkpoint (review-and-clear, not review-and-file) routing to LegalEase's contracted jurisdiction-licensed attorney. Added Wilma intake disqualification logic (6.1.1) and attorney-escalation logic (6.1.2), mapped onto existing statuses (6.1.3). Shrank `legal_review_needed_but_unavailable` to out-of-footprint-only. Approved user-facing copy. Flagged new open thread 6.1b (pre-filing "eligible later" hold state — product decision, non-blocking). Legal authority: Lawrence Blackmon, 2026-06-05; written approval captured in the v2.1 amendment. 6.1a (per-jurisdiction attorney availability) is subsumed: LegalEase contracts an attorney in each operating state, so availability is answered at the LegalEase level rather than per partner.
+
+### v1.0 -> v2.0
 
 Folded in all eight rulings and the reconciliation punch list:
 
@@ -446,4 +540,4 @@ Additional reconciliation fixes from the punch list: closed the `needs_case_deta
 
 ## 13. Source-of-truth sentence
 
-RCAP is a partner-managed record-clearing journey system where each user may have multiple cases, each case moves through its own state machine, and every blocker, review task, packet, filing event, and outcome feeds the Partner Dashboard and the LegalEase Command Center — with status living on the case, review authority split between completeness and legal sufficiency, and outcome reporting always honest about its source.
+RCAP is a self-help-first, partner-managed record-clearing journey system where each user may have multiple cases, each case moves through its own state machine, and every blocker, review task, packet, filing event, and outcome feeds the Partner Dashboard and the LegalEase Command Center — with status living on the case, review authority split between Administrative Completeness Check and Attorney checkpoint, user-facing filing readiness surfaced as Filing Guidance, and outcome reporting always honest about its source.
