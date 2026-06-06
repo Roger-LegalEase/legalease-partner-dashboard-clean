@@ -8,6 +8,8 @@
 
 **Written approval:** Reviewed and approved — Lawrence Blackmon, 2026-06-05.
 
+**Dashboard copy approval:** Reviewed and approved — Lawrence Blackmon, 2026-06-06. Applies to the We Must Vote dashboard copy using Initial Screening / Possible Match, Self-Represented Filing Option, Administrative Completeness Check, Filing Guidance, and Outcome Follow-Up language.
+
 ---
 
 ## Replaces Section 6.1 in the committed spec
