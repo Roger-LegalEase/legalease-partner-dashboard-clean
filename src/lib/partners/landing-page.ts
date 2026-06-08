@@ -55,16 +55,18 @@ const mississippiCounties = [
 ];
 
 export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLandingPageTemplateProps {
-  const state = partner.partnerSlug === "we-must-vote" ? "Mississippi" : fullStateName(partner.targetState ?? partner.state);
+  const isWeMustVote = partner.partnerSlug === "we-must-vote";
+  const state = isWeMustVote ? "Mississippi" : fullStateName(partner.targetState ?? partner.state);
   const counties = countyOptionsForPartner(partner, state);
-  const organizationName = partner.organizationName ?? partner.partnerName;
-  const serviceArea = partner.serviceArea ?? partner.targetCounty ?? partner.region ?? state;
-  const programName = partner.programName ?? `${organizationName} Record-Clearing Access Program`;
+  const organizationName = isWeMustVote ? "We Must Vote" : partner.organizationName ?? partner.partnerName;
+  const serviceArea = isWeMustVote ? "Mississippi" : partner.serviceArea ?? partner.targetCounty ?? partner.region ?? state;
+  const programName = isWeMustVote ? "Mississippi Expungement Workflow" : partner.programName ?? `${organizationName} Record-Clearing Access Program`;
   const programDescription =
-    partner.programDescription ??
+    isWeMustVote
+      ? "Help Mississippi residents start a guided record review, prepare a source-backed expungement packet, and understand filing next steps."
+      : partner.programDescription ??
     partner.programGoal ??
     "Start with a free screening and get a clearer next step for record-clearing support.";
-  const isWeMustVote = partner.partnerSlug === "we-must-vote";
   const isFulton = partner.partnerSlug === "fulton-county";
   const brandColor = isWeMustVote ? "#1f3f8f" : isFulton ? "#1f5f4b" : "#18233f";
   const accentColor = isWeMustVote ? "#f4b740" : isFulton ? "#64b68a" : "#2f9e9a";
@@ -80,19 +82,19 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
     serviceArea,
     programName,
     programDescription,
-    eyebrow: `${serviceArea} record-clearing access`,
+    eyebrow: isWeMustVote ? "Mississippi expungement access" : `${serviceArea} record-clearing access`,
     landingPageHeadline: isWeMustVote
-      ? "Clear your record. Protect your future. Start with a free screening."
+      ? "Clear your Mississippi record with We Must Vote + LegalEase."
       : `Start your ${serviceArea} record-clearing screening.`,
     landingPageSubheadline: isWeMustVote
-      ? "We Must Vote and LegalEase help Mississippi residents understand what may be possible and what to do next."
+      ? "Start a guided Mississippi record review, prepare a draft expungement packet where the workflow supports it, and see filing next steps in plain English."
       : `${organizationName} and LegalEase help residents start with plain-language screening and a practical next step.`,
-    primaryCtaLabel: "Start My Free Screening",
+    primaryCtaLabel: isWeMustVote ? "Start Mississippi Record Review" : "Start My Free Screening",
     primaryCtaHref: partnerIntake(partner.partnerSlug),
-    secondaryCtaLabel: "See How It Works",
-    secondaryCtaHref: "#how-it-works",
-    trustLine: "Free to start. Plain-language guidance. Built for record-clearing access.",
-    trustChips: ["No legal advice promises", "Private screening flow", `${state} service area`],
+    secondaryCtaLabel: isWeMustVote ? "Sign In or Open Briefcase" : "See How It Works",
+    secondaryCtaHref: isWeMustVote ? "/briefcase" : "#how-it-works",
+    trustLine: isWeMustVote ? "Free to start. Mississippi-only launch workflow. Save and return from your Briefcase." : "Free to start. Plain-language guidance. Built for record-clearing access.",
+    trustChips: isWeMustVote ? ["Mississippi workflow only", "Packet PDF downloads", "Confirm before filing checklist"] : ["No legal advice promises", "Private screening flow", `${state} service area`],
     heroImageUrl: assetPath("wemustvote", "hero-record-clearing-path.png"),
     helpItems: [
       {
@@ -136,7 +138,7 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
     quoteText: isWeMustVote
       ? "Record clearing is civic access. This partnership helps people understand where to begin."
       : "A clear screening path helps residents move from uncertainty to action.",
-    quoteAttribution: isWeMustVote ? "We Must Vote Action Fund" : organizationName,
+    quoteAttribution: isWeMustVote ? "We Must Vote" : organizationName,
     comparisonColumns: [
       {
         title: `${organizationName} + LegalEase`,
@@ -157,17 +159,17 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
     howItWorksSteps: [
       {
         title: "Answer a few screening questions",
-        body: "Share basic information about location, record type, and what you know.",
+        body: isWeMustVote ? "Share Mississippi case basics and what you know about the arrest, charge, or court outcome." : "Share basic information about location, record type, and what you know.",
         imageUrl: assetPath("wemustvote", "task_checklist_and_assistant_illustration.png")
       },
       {
-        title: "Get plain-language guidance",
-        body: "LegalEase helps identify the next route based on your answers and program scope.",
+        title: isWeMustVote ? "Complete the Mississippi packet flow" : "Get plain-language guidance",
+        body: isWeMustVote ? "LegalEase uses your answers to prepare a Mississippi packet preview where the workflow supports it." : "LegalEase helps identify the next route based on your answers and program scope.",
         imageUrl: assetPath("wemustvote", "friendly_consultation_with_a_roadmap_of_guidance.png")
       },
       {
-        title: "Follow the path",
-        body: "Continue with the next step where support is available.",
+        title: isWeMustVote ? "Download and review next steps" : "Follow the path",
+        body: isWeMustVote ? "Review the filing next steps, fee summary, Confirm before filing checklist, safety disclaimer, and downloadable PDFs." : "Continue with the next step where support is available.",
         imageUrl: assetPath("wemustvote", "following_the_path_to_success.png")
       }
     ],
@@ -192,11 +194,11 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
       },
       {
         question: "What happens after screening?",
-        answer: "You receive a next step based on your location, record-clearing need, and the current program scope."
+        answer: isWeMustVote ? "If your answers fit the launch scope, you can continue into the Mississippi petition information form, generate a saved packet, review filing next steps, and download LegalEase and court filing PDFs." : "You receive a next step based on your location, record-clearing need, and the current program scope."
       }
     ],
-    finalCtaHeadline: "Ready to find your next step?",
-    finalCtaBody: `Start with a free ${serviceArea} screening through ${organizationName} and LegalEase.`,
+    finalCtaHeadline: isWeMustVote ? "Ready to start your Mississippi record review?" : "Ready to find your next step?",
+    finalCtaBody: isWeMustVote ? "Create or return to your LegalEase Briefcase as you move through the We Must Vote Mississippi workflow." : `Start with a free ${serviceArea} screening through ${organizationName} and LegalEase.`,
     finalCtaImageUrl: assetPath("wemustvote", "following_the_path_to_success.png"),
     brandColor,
     accentColor

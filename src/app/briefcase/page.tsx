@@ -17,9 +17,9 @@ export default function BriefcasePage() {
             </span>
             <div>
               <Badge tone="blue">Your Briefcase</Badge>
-              <h1 className="mt-4 text-4xl font-black text-navy">Sign in to save your progress</h1>
+              <h1 className="mt-4 text-4xl font-black text-navy">Save your record review progress</h1>
               <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-                Your Briefcase keeps your saved forms and draft packets in one place. Production auth is required before private items are shown here.
+                Your Briefcase keeps saved forms, draft packets, filing next steps, fee summaries, and downloadable PDFs in one place so you can return when you are ready.
               </p>
             </div>
           </div>
@@ -29,7 +29,7 @@ export default function BriefcasePage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-orange" aria-hidden="true" />
                 <p className="text-sm leading-6 text-grayWilma-800">
-                  Briefcase access is auth-ready but placeholder-only in this phase. Do not use a shared device without signing out once production sign-in is enabled.
+                  Sign in before using a shared device, and sign out when you are finished reviewing private record-clearing information.
                 </p>
               </div>
             </div>

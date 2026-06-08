@@ -85,6 +85,7 @@ export function PartnerLandingPageTemplate(props: PartnerLandingPageTemplateProp
             <a href="#promise" className="rounded-md px-2 py-1 hover:bg-[#f2eee5]">Promise</a>
             <a href="#how-it-works" className="rounded-md px-2 py-1 hover:bg-[#f2eee5]">How it works</a>
             <a href="#faq" className="rounded-md px-2 py-1 hover:bg-[#f2eee5]">FAQ</a>
+            <Link href="/sign-in" className="rounded-md border border-[#d8d2c7] bg-white px-2 py-1 text-[#17213a] hover:bg-[#f2eee5]">Sign in</Link>
           </nav>
         </div>
       </header>
@@ -109,6 +110,9 @@ export function PartnerLandingPageTemplate(props: PartnerLandingPageTemplateProp
               </Link>
             </div>
             <p className="mt-5 text-sm font-semibold text-[#5d6472]">{props.trustLine}</p>
+            <p className="mt-3 text-sm leading-6 text-[#5d6472]">
+              Create an account or sign in to save progress and return to your Briefcase.
+            </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {props.trustChips.map((chip) => (
                 <span key={chip} className="rounded-md border border-[#e1dacd] bg-[#fbfaf6] px-3 py-1 text-xs font-bold text-[#4f596b]">

@@ -22,9 +22,10 @@ export default async function RcapDocumentsPage({
     return <PartnerNotFound partnerSlug={partnerSlug} />;
   }
 
-  const partnerName = partner?.organizationName || partner?.partnerName || "this partner";
-  const serviceArea = partner?.serviceArea || partner?.targetCounty || partner?.region || partner?.state || "the partner service area";
-  const state = partner.targetState ?? partner.state;
+  const isWeMustVote = partnerSlug === "we-must-vote";
+  const partnerName = isWeMustVote ? "We Must Vote" : partner?.organizationName || partner?.partnerName || "this partner";
+  const serviceArea = isWeMustVote ? "Mississippi" : partner?.serviceArea || partner?.targetCounty || partner?.region || partner?.state || "the partner service area";
+  const state = isWeMustVote ? "MS" : partner.targetState ?? partner.state;
   const isMississippi = state?.toLowerCase() === "mississippi" || state?.toUpperCase() === "MS";
   const isIllinois = state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
   const isDc = isDcState(state);
@@ -44,10 +45,14 @@ export default async function RcapDocumentsPage({
         <Card className="mt-6 w-full rounded-md p-6 md:p-8 print:hidden">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div>
-              <Badge tone="blue">{isPennsylvania ? "Pennsylvania RCAP document generator" : isDc ? "DC RCAP document generator" : isIllinois ? "Illinois RCAP document generator" : "Mississippi RCAP document generator"}</Badge>
-              <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Draft document preparation for {partnerName}</h1>
+              <Badge tone="blue">{isWeMustVote ? "Mississippi Expungement Workflow" : isPennsylvania ? "Pennsylvania document workflow" : isDc ? "DC document workflow" : isIllinois ? "Illinois document workflow" : "Mississippi document workflow"}</Badge>
+              <h1 className="mt-4 text-4xl font-black leading-tight text-navy">
+                {isWeMustVote ? "Review and prepare your Mississippi packet" : `Draft document preparation for ${partnerName}`}
+              </h1>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-grayWilma-700">
-                I can help turn what you shared into a draft packet. This is not a final legal filing yet, and it does not guarantee eligibility or outcomes.
+                {isWeMustVote
+                  ? "LegalEase uses your We Must Vote record review answers to prepare a draft Mississippi packet, filing next steps, fee summary, Confirm before filing checklist, and downloadable PDFs."
+                  : "I can help turn what you shared into a draft packet. This is not a final legal filing yet, and it does not guarantee eligibility or outcomes."}
               </p>
             </div>
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-teal/10 text-teal">
@@ -70,7 +75,7 @@ export default async function RcapDocumentsPage({
 
           {!isMississippi && !isIllinois && !isDc && !isPennsylvania ? (
             <p className="mt-6 rounded-md border border-orange/30 bg-orange/10 p-4 text-sm leading-6 text-grayWilma-800">
-              Document generation for this state is not available yet.
+              This partner launch is limited to the Mississippi Expungement Workflow.
             </p>
           ) : !sessionId ? (
             <StartWithIntake partnerSlug={partnerSlug} />
@@ -83,7 +88,7 @@ export default async function RcapDocumentsPage({
               href={`/documents/${partnerSlug}/form?session=${session.id}`}
               className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
             >
-              Continue to petition information form
+              Continue to Mississippi petition form
             </Link>
           )}
         </Card>

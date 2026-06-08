@@ -37,11 +37,12 @@ export default async function RcapWilmaIntakePage({
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <aside className="rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
-            <Badge tone="blue">RCAP Wilma Intake</Badge>
+            <Badge tone="blue">{partner.partnerSlug === "we-must-vote" ? "We Must Vote + LegalEase" : "Record review intake"}</Badge>
             <h1 className="mt-4 text-3xl font-black leading-tight text-navy">{landingContext.organizationName}</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              LegalEase Record-Clearing Access Program intake for {landingContext.serviceArea}. This partner-specific
-              flow stays inside LegalEasePartner.com.
+              {partner.partnerSlug === "we-must-vote"
+                ? "Clear your Mississippi record with We Must Vote + LegalEase. Start with a guided record review, then continue to the Mississippi packet workflow when your answers fit the launch scope."
+                : `LegalEase record-clearing access intake for ${landingContext.serviceArea}.`}
             </p>
             <div className="mt-5 grid gap-3">
               <Meta label="Partner" value={landingContext.partnerName} />
@@ -57,8 +58,8 @@ export default async function RcapWilmaIntakePage({
           <RcapWilmaIntakeChat
             partnerSlug={partner.partnerSlug}
             partnerName={landingContext.organizationName}
-            defaultState={partner.targetState ?? partner.state}
-            defaultCounty={partner.targetCounty}
+            defaultState={partner.partnerSlug === "we-must-vote" ? "MS" : partner.targetState ?? partner.state}
+            defaultCounty={partner.partnerSlug === "we-must-vote" ? undefined : partner.targetCounty}
             disclaimer={rcapIntakeDisclaimer}
             initialSessionId={initialSessionId}
           />
