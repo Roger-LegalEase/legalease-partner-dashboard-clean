@@ -25,8 +25,11 @@ const requiredFiles = [
   "src/lib/rcap/documents/dc/generator.ts",
   "src/lib/rcap/documents/dc/repository.ts",
   "src/components/rcap/documents/dc/DcDocumentPacketPreview.tsx",
+  "src/components/rcap/documents/DocumentPacketActions.tsx",
   "src/app/documents/[partnerSlug]/form/DcMotionInformationForm.tsx",
   "src/app/api/rcap/documents/dc/create/route.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
   "supabase/phase-20-dc-document-generator.sql",
   "docs/PHASE_20_DC_RECORD_RELIEF_WORKFLOW.md",
   "docs/reference/dc/README.md"
@@ -48,6 +51,19 @@ const intakeSource = readSource("src/lib/rcap-intake/pathway-summary.ts") + read
 const dashboardDataSource = readSource("src/lib/partner-dashboard-data.ts");
 const msGeneratorSource = readSource("src/lib/rcap/documents/mississippi/generator.ts");
 const ilGeneratorSource = readSource("src/lib/rcap/documents/illinois/generator.ts");
+const pdfRouteSource = readSource("src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts");
+const pdfRendererSource = readSource("src/lib/rcap/documents/packet-pdf.ts");
+const pdfActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
+
+if (!pdfRouteSource.includes("renderRcapPacketPdf") || !pdfRouteSource.includes('pdfType !== "full"') || !pdfRouteSource.includes('pdfType !== "court"')) {
+  failures.push("DC packet PDF download route is missing full/court PDF support.");
+}
+if (!pdfRendererSource.includes("Full LegalEase Packet PDF") || !pdfRendererSource.includes("renderCourtTemplatePacketHtml") || !pdfRendererSource.includes("dc-motion-to-seal-expunge.html")) {
+  failures.push("DC packet PDF renderer is missing full/court packet language.");
+}
+if (!pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !dcPreviewSource.includes("DocumentPacketActions")) {
+  failures.push("DC document preview is missing PDF download actions.");
+}
 
 for (const pathway of ["automatic_expungement", "automatic_sealing", "motion_actual_innocence_expungement", "motion_interests_of_justice_sealing", "needs_review"]) {
   if (!dcMapperSource.includes(pathway) && !dcGeneratorSource.includes(pathway)) failures.push(`Missing DC pathway: ${pathway}.`);
@@ -109,6 +125,7 @@ try {
   const { generateDcDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/dc/generator.ts"));
   const { generateMississippiPetitionDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/mississippi/generator.ts"));
   const { generateIllinoisDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/illinois/generator.ts"));
+  const { renderRcapPacketPdfHtml } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/packet-pdf.ts"));
 
   const automatic = generateDcDocumentDraft(baseSession({ state: "DC", caseOutcome: "dismissed", recordType: "charged_not_convicted" }), {
     reliefTrack: "automatic_sealing",
@@ -160,9 +177,42 @@ try {
   if (il.state !== "IL" || il.remedyType !== "expungement") failures.push("Illinois generator behavior changed unexpectedly.");
   if (!seal.safetyDisclaimer.includes("not legal advice") || !seal.safetyDisclaimer.includes("does not guarantee")) failures.push("DC safety disclaimer is incomplete.");
   if (!seal.draftHtml.includes("Motion to Seal") || !expunge.draftHtml.includes("Motion to Expunge")) failures.push("DC HTML template did not render seal/expunge motion packet.");
-  if (!validNextStepsPacket(seal, ["Where to file:", "How to file:", "Criminal Motion Seal Team", "No statutory court filing fee", "Workflow gap", "not legal advice"], ["$150", "State's Attorney", "Court of Common Pleas", "PATCH report", "$132-$215"])) failures.push("DC final Next Steps for Filing packet is incomplete.");
+  if (!validNextStepsPacket(seal, ["Where to file:", "How to file:", "Criminal Motion Seal Team", "No statutory court filing fee", "Confirm before filing", "not legal advice"], ["$150", "State's Attorney", "Court of Common Pleas", "PATCH report", "$132-$215", "Workflow gap"])) failures.push("DC final Next Steps for Filing packet is incomplete.");
+  const courtPdfHtml = renderRcapPacketPdfHtml(packetFromResult(seal), "court");
+  const fullPdfHtml = renderRcapPacketPdfHtml(packetFromResult(seal), "full");
+  if (!courtPdfHtml.includes("Superior Court of the District of Columbia") || !courtPdfHtml.includes("Statement of Points and Authorities") || !courtPdfHtml.includes("Certificate of Service")) failures.push("DC court-facing PDF does not use the DC motion template.");
+  if (courtPdfHtml.includes("Full LegalEase Packet PDF") || courtPdfHtml.includes("LegalEase</span>")) failures.push("DC court-facing PDF includes LegalEase cover/marketing content.");
+  if (/ATJ 2902\.1|Pa\.R\.Crim\.P\. 790|HARRIS COUNTY, TEXAS|Miss\. Code Ann/.test(courtPdfHtml)) failures.push("Another jurisdiction template leaked into the DC court-facing PDF.");
+  if (!fullPdfHtml.includes("Full LegalEase Packet PDF") || !fullPdfHtml.includes("Statement of Points and Authorities")) failures.push("DC Full LegalEase PDF does not keep branded guidance separate from court-facing pages.");
 } catch (error) {
   failures.push(`Unable to execute DC generator: ${error instanceof Error ? error.message : String(error)}.`);
+}
+
+function packetFromResult(result) {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    partnerSlug: "demo-partner",
+    state: "DC",
+    county: "District of Columbia",
+    documentType: result.documentTypes[0],
+    pathway: result.pathway,
+    status: result.status,
+    petitionerFirstName: result.fields.petitionerFirstName,
+    petitionerLastName: result.fields.petitionerLastName,
+    causeNumber: result.fields.caseNumber,
+    charge: result.fields.charge,
+    offenseDate: result.fields.offenseDate,
+    arrestDate: result.fields.arrestDate,
+    arrestingAgency: result.fields.arrestingAgency,
+    needsRecordReview: result.fields.needsRecordReview,
+    generatedHtml: result.draftHtml,
+    generatedPlainText: result.draftPlainText,
+    filingInstructions: result.filingInstructions,
+    countyCourtInstructions: result.countyCourtInstructions,
+    filingNextStepsPacket: result.filingNextStepsPacket,
+    missingFields: result.missingFields,
+    safetyDisclaimer: result.safetyDisclaimer
+  };
 }
 
 if (failures.length > 0) {

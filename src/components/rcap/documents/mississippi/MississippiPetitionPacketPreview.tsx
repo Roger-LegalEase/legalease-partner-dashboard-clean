@@ -1,8 +1,8 @@
 "use client";
 
-import { FileText, Printer, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { DocumentPacketActions } from "@/components/rcap/documents/DocumentPacketActions";
 import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 import { mississippiFieldLabels, type MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
@@ -10,7 +10,7 @@ import { mississippiFieldLabels, type MississippiDocumentFieldKey } from "@/lib/
 export function MississippiPetitionPacketPreview({ packet }: { packet: RcapDocumentPacket }) {
   return (
     <section className="grid gap-5">
-      <MississippiPetitionControls />
+      <DocumentPacketActions packetId={packet.id} />
       <BriefcaseSaveStatus />
       {packet.missingFields.length > 0 ? <MississippiMissingFieldsPanel packet={packet} /> : null}
       <div className="rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm print:border-0 print:p-0 print:shadow-none">
@@ -28,26 +28,6 @@ export function BriefcaseSaveStatus() {
   return (
     <div className="rounded-md border border-teal/30 bg-teal/10 p-4 text-sm font-semibold text-teal print:hidden">
       Saved to your Briefcase. You can return later to review saved forms and draft packets.
-    </div>
-  );
-}
-
-export function MississippiPetitionControls() {
-  return (
-    <div className="flex flex-col gap-3 rounded-md border border-grayWilma-200 bg-white p-4 shadow-sm print:hidden sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-teal/10 text-teal">
-          <FileText className="h-5 w-5" aria-hidden="true" />
-        </span>
-        <div>
-          <p className="text-sm font-black text-navy">Draft packet preview</p>
-          <p className="mt-1 text-sm leading-6 text-grayWilma-700">Use browser print to preview or save as PDF after review.</p>
-        </div>
-      </div>
-      <Button type="button" onClick={() => globalThis.print()} className="min-h-11">
-        <Printer className="h-4 w-4" aria-hidden="true" />
-        Print / save PDF
-      </Button>
     </div>
   );
 }

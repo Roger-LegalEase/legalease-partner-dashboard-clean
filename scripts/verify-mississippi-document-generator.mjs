@@ -44,6 +44,9 @@ const requiredFiles = [
   "src/app/api/rcap/documents/[packetId]/route.ts",
   "src/app/api/rcap/documents/[packetId]/save/route.ts",
   "src/app/api/rcap/documents/[packetId]/generate/route.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
+  "src/components/rcap/documents/DocumentPacketActions.tsx",
   "src/lib/security/rcap-captcha.ts",
   "src/lib/rcap/briefcase/auth.ts",
   "supabase/phase-19-mississippi-document-generator.sql",
@@ -73,6 +76,19 @@ const dashboardSource = readSource("src/app/dashboard/partners/page.tsx") + read
 const docsSource = readSource("docs/PHASE_19_MISSISSIPPI_DOCUMENT_GENERATOR.md") + readSource("docs/state-packs/MISSISSIPPI_RCAP_KNOWLEDGE_PACK.md");
 const packagesSource = readSource("src/lib/partners/packages.ts");
 const dashboardDataSource = readSource("src/lib/partner-dashboard-data.ts");
+const pdfRouteSource = readSource("src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts");
+const pdfRendererSource = readSource("src/lib/rcap/documents/packet-pdf.ts");
+const pdfActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
+
+if (!pdfRouteSource.includes("renderRcapPacketPdf") || !pdfRouteSource.includes('pdfType !== "full"') || !pdfRouteSource.includes('pdfType !== "court"')) {
+  failures.push("Mississippi packet PDF download route is missing full/court PDF support.");
+}
+if (!pdfRendererSource.includes("Full LegalEase Packet PDF") || !pdfRendererSource.includes("renderCourtTemplatePacketHtml") || !pdfRendererSource.includes("ms-expungement-petitions.html")) {
+  failures.push("Mississippi packet PDF renderer is missing full/court packet language.");
+}
+if (!pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("DocumentPacketActions")) {
+  failures.push("Mississippi document preview is missing PDF download actions.");
+}
 
 for (const signal of ["non_conviction", "misdemeanor_conviction", "felony_conviction"]) {
   if (!mapperSource.includes(signal) && !generatorSource.includes(signal)) {
@@ -116,7 +132,7 @@ if (/expungement\.ai|consumer-facing/i.test(generatorSource + mapperSource + rep
   failures.push("Document generator depends on Expungement.ai naming or routing.");
 }
 
-if (!previewSource.includes("print") || !previewSource.includes("Print / save PDF") || !previewSource.includes("MississippiProposedOrderPlaceholder") || !previewSource.includes("FilingNextStepsPacketPreview")) {
+if (!previewSource.includes("DocumentPacketActions") || !pdfActionsSource.includes("Print") || !pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("MississippiProposedOrderPlaceholder") || !previewSource.includes("FilingNextStepsPacketPreview")) {
   failures.push("Document preview is not print-friendly or export-ready.");
 }
 
@@ -140,7 +156,7 @@ if (!repositorySource.includes("buildFilingNextStepsPacket(packet)") || !reposit
   failures.push("Persisted Briefcase packet reconstruction does not preserve state-specific filing next steps.");
 }
 
-if (!briefcaseSource.includes("/sign-in") || !briefcaseSource.toLowerCase().includes("production auth") || !readSource("src/lib/rcap/briefcase/auth.ts").includes("placeholder")) {
+if (!briefcaseSource.includes("/sign-in") || !briefcaseSource.includes("downloadable PDFs") || !readSource("src/lib/rcap/briefcase/auth.ts").includes("placeholder")) {
   failures.push("User auth foundation is missing.");
 }
 
@@ -152,7 +168,7 @@ if (!readSource("src/lib/rcap/state-packs/mississippi/county-court-instructions.
   failures.push("County/court/jurisdiction filing instructions are missing.");
 }
 
-if (!dashboardSource.includes("Mississippi-only document activity") || !dashboardSource.includes("MS document packets")) {
+if (!dashboardSource.includes("Packet and Briefcase activity") || !dashboardSource.includes("Mississippi only") || !dashboardSource.includes("saved Mississippi packets")) {
   failures.push("Partner dashboard/admin document activity is missing.");
 }
 
@@ -186,6 +202,7 @@ if (trackedSecretsFound) {
 
 try {
   const { generateMississippiPetitionDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/mississippi/generator.ts"));
+  const { renderRcapPacketPdfHtml } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/packet-pdf.ts"));
   const nonConviction = generateMississippiPetitionDraft(baseSession({ caseOutcome: "dismissed", recordType: "charged_not_convicted" }));
   const misdemeanor = generateMississippiPetitionDraft(baseSession({ caseOutcome: "completed_sentence", recordType: "past_conviction" }));
   const unclear = generateMississippiPetitionDraft(baseSession({ caseOutcome: "not_sure", recordType: "not_sure_what_shows" }));
@@ -205,11 +222,48 @@ try {
   if (!nonConviction.draftPlainText.includes("[DOB TO BE ADDED BY PETITIONER IF REQUIRED]") || !Array.isArray(nonConviction.countyCourtInstructions)) {
     failures.push("Generated output is missing DOB placeholder or county/court instructions.");
   }
-  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "$150", "Workflow gap", "What to track after submission", "not legal advice"], ["State's Attorney", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215"])) {
+  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "$150", "Confirm before filing", "What to track after submission", "not legal advice"], ["State's Attorney", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215", "Workflow gap"])) {
     failures.push("Mississippi final Next Steps for Filing packet is incomplete.");
   }
+  const courtPdfHtml = renderRcapPacketPdfHtml(packetFromResult(nonConviction), "court");
+  const fullPdfHtml = renderRcapPacketPdfHtml(packetFromResult(nonConviction), "full");
+  if (!courtPdfHtml.includes("Petition for") || !courtPdfHtml.includes("Certificate of Service") || !courtPdfHtml.includes("MISSISSIPPI")) failures.push("Mississippi court-facing PDF does not use the Mississippi petition template.");
+  if (courtPdfHtml.includes("Full LegalEase Packet PDF") || courtPdfHtml.includes("LegalEase</span>")) failures.push("Mississippi court-facing PDF includes LegalEase cover/marketing content.");
+  if (/ATJ 2902\.1|D\.C\. Code|Pa\.R\.Crim\.P\. 790|HARRIS COUNTY, TEXAS/.test(courtPdfHtml)) failures.push("Another jurisdiction template leaked into the Mississippi court-facing PDF.");
+  if (!fullPdfHtml.includes("Full LegalEase Packet PDF") || !fullPdfHtml.includes("Petition for")) failures.push("Mississippi Full LegalEase PDF does not keep branded guidance separate from court-facing pages.");
 } catch (error) {
   failures.push(`Unable to execute Mississippi generator: ${error instanceof Error ? error.message : String(error)}.`);
+}
+
+function packetFromResult(result) {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    partnerSlug: "demo-partner",
+    state: "MS",
+    county: result.fields.county,
+    documentType: result.documentType,
+    pathway: result.pathway,
+    status: result.status,
+    petitionerFirstName: result.fields.petitionerFirstName,
+    petitionerLastName: result.fields.petitionerLastName,
+    courtType: result.fields.courtType,
+    courtCounty: result.fields.courtCounty,
+    courtName: result.fields.courtName,
+    causeNumber: result.fields.causeNumber,
+    charge: result.fields.charge,
+    arrestDate: result.fields.arrestDate,
+    arrestingAgency: result.fields.arrestingAgency,
+    agencyCaseNumber: result.fields.agencyCaseNumber,
+    dispositionDate: result.fields.dispositionDate,
+    needsRecordReview: result.fields.needsRecordReview,
+    generatedHtml: result.draftHtml,
+    generatedPlainText: result.draftPlainText,
+    filingInstructions: result.filingInstructions,
+    countyCourtInstructions: result.countyCourtInstructions,
+    filingNextStepsPacket: result.filingNextStepsPacket,
+    missingFields: result.missingFields,
+    safetyDisclaimer: result.safetyDisclaimer
+  };
 }
 
 if (failures.length > 0) {

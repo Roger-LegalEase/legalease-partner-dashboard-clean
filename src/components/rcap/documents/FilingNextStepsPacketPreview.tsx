@@ -1,4 +1,5 @@
 import { ShieldCheck } from "lucide-react";
+import { userFacingWorkflowGaps } from "@/lib/rcap/documents/filing-next-steps";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 
 export function FilingNextStepsPacketPreview({ packet }: { packet: RcapDocumentPacket }) {
@@ -7,7 +8,7 @@ export function FilingNextStepsPacketPreview({ packet }: { packet: RcapDocumentP
     <section className="rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm print:break-before-page print:shadow-none">
       <h2 className="text-lg font-black text-navy">{nextSteps.title}</h2>
       <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-        These instructions are generated from the preserved LegalEase source materials for this workflow. Any missing court, county, filing-method, or exact-fee detail is marked as a workflow gap.
+        These instructions are generated from the preserved LegalEase source materials for this workflow. Any court, county, filing-method, or exact-fee detail that still needs checking is marked as confirm before filing.
       </p>
 
       <div className="mt-5 grid gap-4">
@@ -17,7 +18,7 @@ export function FilingNextStepsPacketPreview({ packet }: { packet: RcapDocumentP
         <InstructionBlock title="Court/contact/location guidance" items={nextSteps.courtContactOrLocationGuidance} />
         <InstructionBlock title="What happens after filing" items={nextSteps.afterFiling} />
         <InstructionBlock title="What to track after submission" items={nextSteps.trackingChecklist} />
-        <InstructionBlock title="Workflow gaps to resolve before filing" items={nextSteps.workflowGaps.length > 0 ? nextSteps.workflowGaps : ["No workflow gaps identified from the preserved workflow instructions."]} />
+        <InstructionBlock title="Confirm before filing" items={nextSteps.workflowGaps.length > 0 ? userFacingWorkflowGaps(nextSteps.title, nextSteps.workflowGaps) : ["No unresolved filing details were identified from the preserved workflow instructions."]} />
       </div>
 
       <div className="mt-5 flex items-start gap-3 rounded-md border border-orange/30 bg-orange/10 p-4 print:border-grayWilma-300 print:bg-white">
@@ -31,6 +32,7 @@ export function FilingNextStepsPacketPreview({ packet }: { packet: RcapDocumentP
     </section>
   );
 }
+
 
 function InstructionBlock({ title, items }: { title: string; items: string[] }) {
   return (

@@ -33,8 +33,11 @@ const requiredFiles = [
   "src/lib/rcap/documents/illinois/generator.ts",
   "src/lib/rcap/documents/illinois/repository.ts",
   "src/components/rcap/documents/illinois/IllinoisDocumentPacketPreview.tsx",
+  "src/components/rcap/documents/DocumentPacketActions.tsx",
   "src/app/documents/[partnerSlug]/form/IllinoisPetitionInformationForm.tsx",
   "src/app/api/rcap/documents/illinois/create/route.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
   "supabase/phase-19i-illinois-document-generator.sql",
   "docs/state-packs/ILLINOIS_RCAP_KNOWLEDGE_PACK.md",
   "docs/PHASE_19I_ILLINOIS_DOCUMENT_GENERATOR.md",
@@ -59,6 +62,19 @@ const docsSource = readSource("docs/PHASE_19I_ILLINOIS_DOCUMENT_GENERATOR.md") +
 const dashboardSource = readSource("src/app/dashboard/partners/page.tsx") + readSource("src/app/dashboard/partners/[partnerSlug]/page.tsx") + readSource("src/app/internal/partners/admin/page.tsx");
 const packagesSource = readSource("src/lib/partners/packages.ts");
 const dashboardDataSource = readSource("src/lib/partner-dashboard-data.ts");
+const pdfRouteSource = readSource("src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts");
+const pdfRendererSource = readSource("src/lib/rcap/documents/packet-pdf.ts");
+const pdfActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
+
+if (!pdfRouteSource.includes("renderRcapPacketPdf") || !pdfRouteSource.includes('pdfType !== "full"') || !pdfRouteSource.includes('pdfType !== "court"')) {
+  failures.push("Illinois packet PDF download route is missing full/court PDF support.");
+}
+if (!pdfRendererSource.includes("Full LegalEase Packet PDF") || !pdfRendererSource.includes("renderCourtTemplatePacketHtml") || !pdfRendererSource.includes("il-expungement-companion-forms.html")) {
+  failures.push("Illinois packet PDF renderer is missing full/court packet language.");
+}
+if (!pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("DocumentPacketActions")) {
+  failures.push("Illinois document preview is missing PDF download actions.");
+}
 
 if (!questionsSource.includes("illinoisIntakeIntro") || !questionsSource.includes("illinoisCaseOutcomeOptions") || !summarySource.includes("possible_expungement_path")) {
   failures.push("Wilma Illinois branch is missing.");
@@ -119,7 +135,7 @@ if (/You are eligible|You qualify|This is ready to file|Guaranteed expungement|G
   failures.push("Unsafe eligibility or outcome guarantee language appears.");
 }
 
-if (!previewSource.includes("Print / save PDF") || !previewSource.includes("FilingNextStepsPacketPreview")) {
+if (!previewSource.includes("DocumentPacketActions") || !pdfActionsSource.includes("Print") || !pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("FilingNextStepsPacketPreview")) {
   failures.push("Illinois document preview is not print-friendly/export-ready.");
 }
 
@@ -148,6 +164,7 @@ if (trackedSecretsFound) failures.push("Stripe, Supabase, Resend, CAPTCHA, auth,
 
 try {
   const { generateIllinoisDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/illinois/generator.ts"));
+  const { renderRcapPacketPdfHtml } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/packet-pdf.ts"));
   const expungement = generateIllinoisDocumentDraft(baseSession({ caseOutcome: "dismissed", recordType: "charged_not_convicted" }), { hasRapSheet: true });
   const sealing = generateIllinoisDocumentDraft(baseSession({ caseOutcome: "convicted", recordType: "past_conviction" }), { hasRapSheet: true, excludedOffenseSignal: false, sentenceTerminationDate: "2022" });
   const needsReview = generateIllinoisDocumentDraft(baseSession({ caseOutcome: "convicted", recordType: "past_conviction" }), { excludedOffenseSignal: true });
@@ -155,9 +172,41 @@ try {
   if (sealing.remedyType !== "sealing" || !sealing.documentTypes.includes("illinois_additional_arrests_sealing")) failures.push("Illinois sealing generation failed.");
   if (needsReview.eligibilitySignal !== "excluded_or_blocked_review_needed") failures.push("Illinois needs-review generation failed.");
   if (!expungement.safetyDisclaimer.includes("not legal advice") || !expungement.draftPlainText.includes("[SENSITIVE IDENTIFIER TO BE ADDED BY PETITIONER IF REQUIRED]")) failures.push("Illinois output is missing safety disclaimer or sensitive placeholder.");
-  if (!validNextStepsPacket(expungement, ["Where to file:", "How to file:", "Fee waiver", "60-day window", "Workflow gap", "not legal advice"], ["$150", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215"])) failures.push("Illinois final Next Steps for Filing packet is incomplete.");
+  if (!validNextStepsPacket(expungement, ["Where to file:", "How to file:", "Fee waiver", "60-day window", "Confirm before filing", "not legal advice"], ["$150", "Criminal Motion Seal Team", "Court of Common Pleas", "PATCH report", "$132-$215", "Workflow gap"])) failures.push("Illinois final Next Steps for Filing packet is incomplete.");
+  const courtPdfHtml = renderRcapPacketPdfHtml(packetFromResult(expungement), "court");
+  const fullPdfHtml = renderRcapPacketPdfHtml(packetFromResult(expungement), "full");
+  if (!courtPdfHtml.includes("Case List for Request to Expunge and/or Seal Criminal Records") || !courtPdfHtml.includes("ATJ 2902.1") || !courtPdfHtml.includes("Illinois Supreme Court")) failures.push("Illinois court-facing PDF does not use the Illinois companion form template.");
+  if (courtPdfHtml.includes("Full LegalEase Packet PDF") || courtPdfHtml.includes("LegalEase</span>")) failures.push("Illinois court-facing PDF includes LegalEase cover/marketing content.");
+  if (/D\.C\. Code|Pa\.R\.Crim\.P\. 790|HARRIS COUNTY, TEXAS|Miss\. Code Ann/.test(courtPdfHtml)) failures.push("Another jurisdiction template leaked into the Illinois court-facing PDF.");
+  if (!fullPdfHtml.includes("Full LegalEase Packet PDF") || !fullPdfHtml.includes("ATJ 2902.1")) failures.push("Illinois Full LegalEase PDF does not keep branded guidance separate from court-facing pages.");
 } catch (error) {
   failures.push(`Unable to execute Illinois generator: ${error instanceof Error ? error.message : String(error)}.`);
+}
+
+function packetFromResult(result) {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    partnerSlug: "demo-partner",
+    state: "IL",
+    county: result.fields.county,
+    documentType: result.documentTypes[0],
+    pathway: result.pathway,
+    status: result.status,
+    petitionerFirstName: result.fields.petitionerFirstName,
+    petitionerLastName: result.fields.petitionerLastName,
+    causeNumber: result.fields.caseOrArrestNumber,
+    charge: result.fields.charge,
+    arrestDate: result.fields.arrestDate,
+    arrestingAgency: result.fields.arrestingAgency,
+    needsRecordReview: result.fields.needsRecordReview,
+    generatedHtml: result.draftHtml,
+    generatedPlainText: result.draftPlainText,
+    filingInstructions: result.filingInstructions,
+    countyCourtInstructions: result.countyCourtInstructions,
+    filingNextStepsPacket: result.filingNextStepsPacket,
+    missingFields: result.missingFields,
+    safetyDisclaimer: result.safetyDisclaimer
+  };
 }
 
 if (failures.length > 0) {

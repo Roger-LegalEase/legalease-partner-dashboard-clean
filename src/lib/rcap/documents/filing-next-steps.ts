@@ -268,40 +268,90 @@ function packetFromSections(packet: Omit<RcapFilingNextStepsPacket, "plainText">
       ...packet.trackingChecklist
     ].filter((item) => /Workflow gap/i.test(item))
   ]));
+  const userFacingPacket = {
+    ...packet,
+    filingLocation: toUserFacingInstruction(packet.filingLocation),
+    filingMethod: toUserFacingInstruction(packet.filingMethod),
+    requiredDocuments: packet.requiredDocuments.map(toUserFacingInstruction),
+    serviceAndCopies: packet.serviceAndCopies.map(toUserFacingInstruction),
+    feeSummary: packet.feeSummary.map(toUserFacingInstruction),
+    courtContactOrLocationGuidance: packet.courtContactOrLocationGuidance.map(toUserFacingInstruction),
+    afterFiling: packet.afterFiling.map(toUserFacingInstruction),
+    trackingChecklist: packet.trackingChecklist.map(toUserFacingInstruction)
+  };
+  const userFacingGaps = userFacingWorkflowGaps(userFacingPacket.title, workflowGaps);
   const plainText = [
-    packet.title.toUpperCase(),
+    userFacingPacket.title.toUpperCase(),
     "",
     "1. Generated petition/form packet",
     "Review the generated petition, motion, or form packet before treating it as ready to file.",
     "",
     "2. Filing instructions / next steps packet",
-    `Where to file: ${packet.filingLocation}`,
-    `How to file: ${packet.filingMethod}`,
+    `Where to file: ${userFacingPacket.filingLocation}`,
+    `How to file: ${userFacingPacket.filingMethod}`,
     "",
     "Documents to include:",
-    ...packet.requiredDocuments.map((item) => `- ${item}`),
+    ...userFacingPacket.requiredDocuments.map((item) => `- ${item}`),
     "",
     "Copies, notarization, service, prosecutor notice, or proposed orders:",
-    ...packet.serviceAndCopies.map((item) => `- ${item}`),
+    ...userFacingPacket.serviceAndCopies.map((item) => `- ${item}`),
     "",
     "3. Fee summary",
-    ...packet.feeSummary.map((item) => `- ${item}`),
+    ...userFacingPacket.feeSummary.map((item) => `- ${item}`),
     "",
     "4. Court/contact/location guidance",
-    ...packet.courtContactOrLocationGuidance.map((item) => `- ${item}`),
+    ...userFacingPacket.courtContactOrLocationGuidance.map((item) => `- ${item}`),
     "",
     "What happens after filing:",
-    ...packet.afterFiling.map((item) => `- ${item}`),
+    ...userFacingPacket.afterFiling.map((item) => `- ${item}`),
     "",
     "What to track after submission:",
-    ...packet.trackingChecklist.map((item) => `- ${item}`),
+    ...userFacingPacket.trackingChecklist.map((item) => `- ${item}`),
     "",
-    workflowGaps.length > 0 ? "Workflow gaps to resolve before filing:" : "Workflow gaps to resolve before filing: none identified from the preserved workflow instructions.",
-    ...workflowGaps.map((item) => `- ${item}`),
+    userFacingGaps.length > 0 ? "Confirm before filing:" : "Confirm before filing: no unresolved filing details were identified from the preserved workflow instructions.",
+    ...userFacingGaps.map((item) => `- ${item}`),
     "",
     "5. LegalEase safety disclaimer",
-    packet.safetyDisclaimer
+    userFacingPacket.safetyDisclaimer
   ].join("\n");
 
-  return { ...packet, workflowGaps, plainText };
+  return { ...userFacingPacket, workflowGaps, plainText };
+}
+
+export function toUserFacingInstruction(item: string) {
+  if (!/Workflow gap/i.test(item)) return item;
+  return item
+    .replace(/Workflow gap:\s*/gi, "Confirm before filing: ")
+    .replace(/the preserved Mississippi source materials do not provide a universal in-person, mail, online, or e-filing method\. Confirm the filing method with the clerk of the court of origin\./i, "The source materials do not provide one universal filing method. Contact the clerk of the court of origin to confirm whether this packet should be filed in person, by mail, or electronically.")
+    .replace(/the preserved Illinois source materials do not provide one statewide filing method for in-person, mail, online, or e-filing\. Confirm the method with the circuit clerk\./i, "The source materials do not provide one statewide filing method. Contact the circuit clerk to confirm whether this packet should be filed in person, by mail, or electronically.")
+    .replace(/the preserved DC source materials in this workflow do not provide a single confirmed in-person, mail, online, or e-filing method\. Check current DC Superior Court filing instructions before submitting\./i, "The source materials do not provide one confirmed filing method. Check current DC Superior Court instructions to confirm whether this packet should be filed in person, by mail, or electronically.")
+    .replace(/the preserved Pennsylvania materials do not provide one statewide in-person, mail, online, or e-filing method\./i, "The source materials do not provide one statewide filing method. Contact the Clerk of Courts to confirm whether this packet should be filed in person, by mail, or electronically.")
+    .replace(/the preserved Harris County source materials do not state current in-person, mail, e-filing, copy-count, or agency-specific service mechanics\. Confirm those details with the clerk or current court instructions before filing\./i, "The source materials do not state the current filing method, copy count, or agency-specific service steps. Contact the clerk or check current court instructions before filing.")
+    .replace(/the preserved Harris County source materials do not state current filing method, copy counts, or agency-specific service mechanics\./i, "The source materials do not state the current filing method, copy counts, or agency-specific service steps.")
+    .replace(/required copy counts and notarization requirements are not stated as universal requirements in the preserved Mississippi materials\. Ask the clerk before filing\./i, "Required copy counts and notarization steps are not stated as universal requirements. Ask the clerk before filing.")
+    .replace(/required copy counts, notarization, and county cover sheets are county\/court-specific in this workflow and must be confirmed with the clerk\./i, "Required copy counts, notarization, and county cover sheets can vary by county and court. Confirm them with the clerk.")
+    .replace(/required copy counts and notarization requirements are not stated as universal requirements in the preserved DC materials\./i, "Required copy counts and notarization steps are not stated as universal requirements. Confirm them with DC Superior Court before filing.")
+    .replace(/required copy counts and notarization requirements are county\/court-specific unless stated by the current form or clerk\./i, "Required copy counts and notarization steps can vary by county and court. Confirm them with the current form or clerk.")
+    .replace(/county-specific fees and payment method are not provided in the preserved Mississippi materials\./i, "County-specific fees and payment methods are not provided in the source materials. Confirm them with the clerk.")
+    .replace(/exact county filing fees and payment method are not provided in the preserved Illinois materials\./i, "Exact county filing fees and payment methods are not provided in the source materials. Confirm them with the circuit clerk.")
+    .replace(/exact MPD record, certified copy, or payment-method costs are not fixed in the preserved DC materials\./i, "Exact MPD record, certified copy, and payment-method costs are not fixed in the source materials. Confirm current costs before paying.")
+    .replace(/exact current service method, copy count, and agency-specific requirements must be confirmed from the clerk or current court instructions\./i, "Exact current service method, copy count, and agency-specific requirements should be confirmed with the clerk or current court instructions.")
+    .replace(/verify the current Harris County amount before filing\./i, "Verify the current Harris County amount before filing.")
+    .replace(/verify the current DPS fee before the user pays\./i, "Verify the current DPS fee before paying.")
+    .replace(/verify the current agency fee with the arresting agency or record holder\./i, "Verify the current agency fee with the arresting agency or record holder.")
+    .replace(/confirm whether the user's case belongs in district court, county criminal court, justice court, or municipal court from the DPS criminal history, court record, or arrest paperwork\./i, "Confirm whether the case belongs in district court, county criminal court, justice court, or municipal court by checking the DPS criminal history, court record, or arrest paperwork.")
+    .replace(/Confirm before filing:\s*confirm/i, "Confirm before filing: Confirm");
+}
+
+export function userFacingWorkflowGaps(title: string, workflowGaps: string[]) {
+  if (/Harris County, Texas/i.test(title) && workflowGaps.length > 0) {
+    return [
+      "Whether your case belongs with the District Clerk or Municipal Courts.",
+      "Whether filing is in person, by mail, or e-filed.",
+      "How many copies are required.",
+      "The current service process for the District Attorney and agencies.",
+      "The current DPS, certified disposition, and court fees."
+    ];
+  }
+  return Array.from(new Set(workflowGaps.map(toUserFacingInstruction)));
 }

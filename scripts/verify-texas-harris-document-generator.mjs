@@ -22,6 +22,9 @@ const requiredFiles = [
   "src/lib/rcap/documents/texas-harris/generator.ts",
   "src/lib/rcap/documents/texas-harris/repository.ts",
   "src/app/api/rcap/documents/texas-harris/create/route.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
+  "src/components/rcap/documents/DocumentPacketActions.tsx",
   "src/components/rcap/documents/texas-harris/TexasHarrisDocumentPacketPreview.tsx"
 ];
 
@@ -45,6 +48,19 @@ const msGeneratorSource = readSource("src/lib/rcap/documents/mississippi/generat
 const ilGeneratorSource = readSource("src/lib/rcap/documents/illinois/generator.ts");
 const dcGeneratorSource = readSource("src/lib/rcap/documents/dc/generator.ts");
 const paGeneratorSource = readSource("src/lib/rcap/documents/pennsylvania/generator.ts");
+const pdfRouteSource = readSource("src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts");
+const pdfRendererSource = readSource("src/lib/rcap/documents/packet-pdf.ts");
+const pdfActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
+
+if (!pdfRouteSource.includes("renderRcapPacketPdf") || !pdfRouteSource.includes('pdfType !== "full"') || !pdfRouteSource.includes('pdfType !== "court"')) {
+  failures.push("Harris County Texas packet PDF download route is missing full/court PDF support.");
+}
+if (!pdfRendererSource.includes("Full LegalEase Packet PDF") || !pdfRendererSource.includes("renderCourtTemplatePacketHtml") || !pdfRendererSource.includes("tx-harris-expunction-nondisclosure-forms.html")) {
+  failures.push("Harris County Texas packet PDF renderer is missing full/court packet language.");
+}
+if (!pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("DocumentPacketActions")) {
+  failures.push("Harris County Texas document preview is missing PDF download actions.");
+}
 
 for (const pathway of [
   "expunction_acquittal_not_guilty",
@@ -103,6 +119,7 @@ for (const leaked of ["201 Caroline St.", "1400 Lubbock", "Chapter 55A", "Harris
 
 try {
   const { generateTexasHarrisDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/texas-harris/generator.ts"));
+  const { renderRcapPacketPdfHtml } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/packet-pdf.ts"));
   const expunction = generateTexasHarrisDocumentDraft(baseSession({ caseOutcome: "dismissed", recordType: "charged_not_convicted" }), {
     dispositionRoute: "dismissal_or_quashed",
     courtType: "district",
@@ -151,10 +168,43 @@ try {
   if (expunction.draftPlainText === nondisclosure.draftPlainText || !expunction.draftPlainText.includes("erase, destroy, or return") || !nondisclosure.draftPlainText.includes("remains visible to law enforcement")) failures.push("Expunction and nondisclosure packet language is not distinct.");
   if (expunction.draftPlainText.includes("repealed Chapter 55") || !expunction.draftPlainText.includes("Chapter 55A")) failures.push("Chapter 55A language is missing or repealed Chapter 55 appears in generated text.");
   if (!municipal.filingNextStepsPacket.plainText.includes("Municipal Courts / 1400 Lubbock")) failures.push("Class C municipal filing location is missing.");
-  if (!validNextStepsPacket(expunction, ["filingNextStepsPacket", "Harris County District Clerk / 201 Caroline St.", "$25-$300", "Workflow gap"])) failures.push("Harris County expunction final filing next steps packet is incomplete.");
-  if (!validNextStepsPacket(nondisclosure, ["Government Code", "Workflow gap", "Statement of Inability"])) failures.push("Harris County nondisclosure final filing next steps packet is incomplete.");
+  if (!validNextStepsPacket(expunction, ["filingNextStepsPacket", "Harris County District Clerk / 201 Caroline St.", "$25-$300", "Confirm before filing"])) failures.push("Harris County expunction final filing next steps packet is incomplete.");
+  if (!validNextStepsPacket(nondisclosure, ["Government Code", "Confirm before filing", "Statement of Inability"])) failures.push("Harris County nondisclosure final filing next steps packet is incomplete.");
+  const courtPdfHtml = renderRcapPacketPdfHtml(packetFromResult(expunction), "court");
+  const fullPdfHtml = renderRcapPacketPdfHtml(packetFromResult(expunction), "full");
+  if (!courtPdfHtml.includes("EX PARTE") || !courtPdfHtml.includes("Verification") || !courtPdfHtml.includes("Order of Expunction") || !courtPdfHtml.includes("HARRIS COUNTY, TEXAS")) failures.push("Harris County Texas court-facing PDF does not use the uploaded Ex Parte packet template.");
+  if (courtPdfHtml.includes("Full LegalEase Packet PDF") || courtPdfHtml.includes("LegalEase</span>")) failures.push("Harris County Texas court-facing PDF includes LegalEase cover/marketing content.");
+  if (/ATJ 2902\.1|D\.C\. Code § 16-806|Pa\.R\.Crim\.P\. 790|Miss\. Code Ann/.test(courtPdfHtml)) failures.push("Another jurisdiction template leaked into the Harris County Texas court-facing PDF.");
+  if (!fullPdfHtml.includes("Full LegalEase Packet PDF") || !fullPdfHtml.includes("EX PARTE")) failures.push("Harris County Texas Full LegalEase PDF does not keep branded guidance separate from court-facing pages.");
 } catch (error) {
   failures.push(`Unable to execute Harris County Texas generator: ${error instanceof Error ? error.message : String(error)}.`);
+}
+
+function packetFromResult(result) {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    partnerSlug: "demo-partner",
+    state: "TX",
+    county: "Harris",
+    documentType: result.documentTypes[0],
+    pathway: result.pathway,
+    status: result.status,
+    petitionerFirstName: result.fields.petitionerFirstName,
+    petitionerLastName: result.fields.petitionerLastName,
+    causeNumber: result.fields.caseNumber,
+    charge: result.fields.charge,
+    arrestDate: result.fields.arrestDate,
+    arrestingAgency: result.fields.arrestingAgency,
+    agencyCaseNumber: result.fields.agencyCaseNumber,
+    needsRecordReview: result.fields.needsRecordReview,
+    generatedHtml: result.draftHtml,
+    generatedPlainText: result.draftPlainText,
+    filingInstructions: result.filingInstructions,
+    countyCourtInstructions: result.countyCourtInstructions,
+    filingNextStepsPacket: result.filingNextStepsPacket,
+    missingFields: result.missingFields,
+    safetyDisclaimer: result.safetyDisclaimer
+  };
 }
 
 if (failures.length > 0) {
@@ -201,6 +251,7 @@ function validNextStepsPacket(result, requiredText) {
     packet.afterFiling?.length > 0 &&
     packet.trackingChecklist?.length > 0 &&
     packet.workflowGaps?.some((gap) => gap.includes("Workflow gap")) &&
+    !packet.plainText.includes("Workflow gap") &&
     requiredText.every((text) => text === "filingNextStepsPacket" || packet.plainText.includes(text))
   );
 }

@@ -32,8 +32,11 @@ const requiredFiles = [
   "src/lib/rcap/documents/pennsylvania/generator.ts",
   "src/lib/rcap/documents/pennsylvania/repository.ts",
   "src/components/rcap/documents/pennsylvania/PennsylvaniaDocumentPacketPreview.tsx",
+  "src/components/rcap/documents/DocumentPacketActions.tsx",
   "src/app/documents/[partnerSlug]/form/PennsylvaniaPetitionInformationForm.tsx",
   "src/app/api/rcap/documents/pennsylvania/create/route.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
   "docs/state-packs/PENNSYLVANIA_RCAP_KNOWLEDGE_PACK.md",
   "docs/PHASE_21_PENNSYLVANIA_RECORD_RELIEF_WORKFLOW.md",
   "docs/reference/pennsylvania/README.md"
@@ -58,6 +61,19 @@ const dashboardDataSource = readSource("src/lib/partner-dashboard-data.ts");
 const msGeneratorSource = readSource("src/lib/rcap/documents/mississippi/generator.ts");
 const ilGeneratorSource = readSource("src/lib/rcap/documents/illinois/generator.ts");
 const dcGeneratorSource = readSource("src/lib/rcap/documents/dc/generator.ts");
+const pdfRouteSource = readSource("src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts");
+const pdfRendererSource = readSource("src/lib/rcap/documents/packet-pdf.ts");
+const pdfActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
+
+if (!pdfRouteSource.includes("renderRcapPacketPdf") || !pdfRouteSource.includes('pdfType !== "full"') || !pdfRouteSource.includes('pdfType !== "court"')) {
+  failures.push("Pennsylvania packet PDF download route is missing full/court PDF support.");
+}
+if (!pdfRendererSource.includes("Full LegalEase Packet PDF") || !pdfRendererSource.includes("renderCourtTemplatePacketHtml") || !pdfRendererSource.includes("pa-petition-expungement-790.html")) {
+  failures.push("Pennsylvania packet PDF renderer is missing full/court packet language.");
+}
+if (!pdfActionsSource.includes("Full LegalEase PDF") || !pdfActionsSource.includes("Court Filing PDF") || !previewSource.includes("DocumentPacketActions")) {
+  failures.push("Pennsylvania document preview is missing PDF download actions.");
+}
 
 for (const sourcePath of [
   "Pennsylvania-Expungement-Sealing-Agent-Reference.pdf",
@@ -147,6 +163,7 @@ try {
   const { generateMississippiPetitionDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/mississippi/generator.ts"));
   const { generateIllinoisDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/illinois/generator.ts"));
   const { generateDcDocumentDraft } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/dc/generator.ts"));
+  const { renderRcapPacketPdfHtml } = loadTsModule(path.join(rootDir, "src/lib/rcap/documents/packet-pdf.ts"));
 
   const nonConviction = generatePennsylvaniaDocumentDraft(baseSession({ caseOutcome: "dismissed", recordType: "charged_not_convicted" }), {
     hasPatchReport: true,
@@ -189,10 +206,44 @@ try {
   if (excluded.pathway !== "excluded_or_needs_review" || excluded.eligibilitySignal !== "excluded_or_blocked_review_needed") failures.push("Pennsylvania excluded-offense review route failed.");
   if (!nonConviction.draftPlainText.includes("PATCH report") || !nonConviction.draftPlainText.includes("Court of Common Pleas") || !nonConviction.draftPlainText.includes("attorney for the Commonwealth")) failures.push("Pennsylvania generated packet is missing PATCH, court, or DA service language.");
   if (!nonConviction.safetyDisclaimer.includes("not legal advice") || !nonConviction.safetyDisclaimer.includes("does not guarantee")) failures.push("Pennsylvania safety disclaimer is incomplete.");
-  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "Court of Common Pleas", "$132-$215", "30-day District Attorney response window", "Workflow gap", "not legal advice"], ["$150", "State's Attorney", "Criminal Motion Seal Team", "RAP sheet"])) failures.push("Pennsylvania final Next Steps for Filing packet is incomplete.");
+  if (!validNextStepsPacket(nonConviction, ["Where to file:", "How to file:", "Court of Common Pleas", "$132-$215", "30-day District Attorney response window", "Confirm before filing", "not legal advice"], ["$150", "State's Attorney", "Criminal Motion Seal Team", "RAP sheet", "Workflow gap"])) failures.push("Pennsylvania final Next Steps for Filing packet is incomplete.");
+  const courtPdfHtml = renderRcapPacketPdfHtml(packetFromResult(nonConviction), "court");
+  const fullPdfHtml = renderRcapPacketPdfHtml(packetFromResult(nonConviction), "full");
+  if (!courtPdfHtml.includes("Petition for Expungement Pursuant to Pa.R.Crim.P. 790") || !courtPdfHtml.includes("PETITIONER INFORMATION") || !courtPdfHtml.includes("AOPC Form")) failures.push("Pennsylvania court-facing PDF does not use the Pa.R.Crim.P. 790 template.");
+  if (courtPdfHtml.includes("Full LegalEase Packet PDF") || courtPdfHtml.includes("LegalEase</span>")) failures.push("Pennsylvania court-facing PDF includes LegalEase cover/marketing content.");
+  if (/ATJ 2902\.1|D\.C\. Code|HARRIS COUNTY, TEXAS|Miss\. Code Ann/.test(courtPdfHtml)) failures.push("Another jurisdiction template leaked into the Pennsylvania court-facing PDF.");
+  if (!fullPdfHtml.includes("Full LegalEase Packet PDF") || !fullPdfHtml.includes("Pa.R.Crim.P. 790")) failures.push("Pennsylvania Full LegalEase PDF does not keep branded guidance separate from court-facing pages.");
   if (ms.pathway !== "non_conviction" || il.state !== "IL" || dc.state !== "DC") failures.push("Existing MS/IL/DC generators changed unexpectedly.");
 } catch (error) {
   failures.push(`Unable to execute Pennsylvania generator: ${error instanceof Error ? error.message : String(error)}.`);
+}
+
+function packetFromResult(result) {
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    partnerSlug: "demo-partner",
+    state: "PA",
+    county: result.fields.county,
+    documentType: result.documentTypes[0],
+    pathway: result.pathway,
+    status: result.status,
+    petitionerFirstName: result.fields.petitionerFirstName,
+    petitionerLastName: result.fields.petitionerLastName,
+    courtName: result.fields.judgeName,
+    causeNumber: result.fields.docketNumber,
+    charge: result.fields.charge,
+    arrestDate: result.fields.arrestDate,
+    arrestingAgency: result.fields.arrestingAgency,
+    agencyCaseNumber: result.fields.otn,
+    needsRecordReview: result.fields.needsRecordReview,
+    generatedHtml: result.draftHtml,
+    generatedPlainText: result.draftPlainText,
+    filingInstructions: result.filingInstructions,
+    countyCourtInstructions: result.countyCourtInstructions,
+    filingNextStepsPacket: result.filingNextStepsPacket,
+    missingFields: result.missingFields,
+    safetyDisclaimer: result.safetyDisclaimer
+  };
 }
 
 const envLocalTracked = isGitTracked(".env.local");

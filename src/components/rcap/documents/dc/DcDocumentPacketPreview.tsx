@@ -1,8 +1,8 @@
 "use client";
 
-import { Briefcase, FileText, Printer, ShieldCheck } from "lucide-react";
+import { Briefcase, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { DocumentPacketActions } from "@/components/rcap/documents/DocumentPacketActions";
 import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
 import { dcFieldLabels } from "@/lib/rcap/state-packs/dc/required-fields";
@@ -10,21 +10,7 @@ import { dcFieldLabels } from "@/lib/rcap/state-packs/dc/required-fields";
 export function DcDocumentPacketPreview({ packet }: { packet: RcapDocumentPacket }) {
   return (
     <section className="grid gap-5">
-      <div className="flex flex-col gap-3 rounded-md border border-grayWilma-200 bg-white p-4 shadow-sm print:hidden sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-teal/10 text-teal">
-            <FileText className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <div>
-            <p className="text-sm font-black text-navy">DC draft packet preview</p>
-            <p className="mt-1 text-sm leading-6 text-grayWilma-700">This uses the DC motion packet template. Use browser print to preview or save as PDF after review.</p>
-          </div>
-        </div>
-        <Button type="button" onClick={() => globalThis.print()} className="min-h-11">
-          <Printer className="h-4 w-4" aria-hidden="true" />
-          Print / save PDF
-        </Button>
-      </div>
+      <DocumentPacketActions packetId={packet.id} label="DC draft packet preview" />
 
       <div className="rounded-md border border-teal/30 bg-teal/10 p-4 text-sm font-semibold text-teal print:hidden">
         <Briefcase className="mr-2 inline h-4 w-4" aria-hidden="true" />
