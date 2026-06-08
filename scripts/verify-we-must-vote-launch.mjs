@@ -33,6 +33,10 @@ const dashboardSource = readSource("src/app/dashboard/partners/[partnerSlug]/pag
 const landingSource = readSource("src/lib/partners/landing-page.ts");
 const landingTemplateSource = readSource("src/components/partners/PartnerLandingPageTemplate.tsx");
 const publicRouteSource = readSource("src/app/p/[partnerSlug]/page.tsx");
+const proxySource = readSource("src/proxy.ts");
+const staticLandingPath = "public/wemustvote-landing.html";
+const staticLandingExists = fs.existsSync(path.join(rootDir, staticLandingPath));
+const staticLandingSource = staticLandingExists ? readSource(staticLandingPath) : "";
 const intakeSource = readSource("src/app/intake/[partnerSlug]/page.tsx");
 const documentsSource = readSource("src/app/documents/[partnerSlug]/page.tsx");
 const formPageSource = readSource("src/app/documents/[partnerSlug]/form/page.tsx");
@@ -45,6 +49,44 @@ const signInSource = readSource("src/app/sign-in/page.tsx");
 
 if (!publicRouteSource.includes("PartnerLandingPageTemplate") || !publicRouteSource.includes("getPartnerRecordBySlug")) {
   failures.push("We Must Vote public signup route does not use the partner landing page path.");
+}
+
+if (!staticLandingExists) {
+  failures.push("We Must Vote static landing page is missing: public/wemustvote-landing.html.");
+}
+
+for (const marker of [
+  "Find out what record-clearing options may be available to you",
+  "WE MUST VOTE",
+  "Mississippi",
+  "Start My Free Screening",
+  "/intake/we-must-vote"
+]) {
+  if (!staticLandingSource.includes(marker)) {
+    failures.push(`We Must Vote static landing page is missing marker: ${marker}.`);
+  }
+}
+
+if (!staticLandingSource.includes("No eligibility promises") && !staticLandingSource.includes("does not guarantee eligibility or legal outcomes")) {
+  failures.push("We Must Vote static landing page is missing required no-promise/no-guarantee protective copy.");
+}
+
+if (staticLandingSource.includes("/partners/wemustvote/intake")) {
+  failures.push("We Must Vote static landing page still contains the stale partner intake CTA.");
+}
+
+if (!proxySource.includes('request.nextUrl.pathname === "/p/we-must-vote"') || !proxySource.includes('NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url))')) {
+  failures.push("Proxy does not map /p/we-must-vote to the static We Must Vote landing page.");
+}
+
+if (!proxySource.includes('matcher: ["/internal/:path*", "/p/we-must-vote"]')) {
+  failures.push("Proxy matcher does not keep the We Must Vote static landing rewrite narrowly scoped.");
+}
+
+for (const broadPublicMatcher of ['"/p/:path*"', '"/p/(.*)"', "'/p/:path*'", "'/p/(.*)'"]) {
+  if (proxySource.includes(broadPublicMatcher)) {
+    failures.push(`Proxy appears to broadly match partner public pages: ${broadPublicMatcher}.`);
+  }
 }
 
 for (const signal of [
@@ -126,18 +168,6 @@ for (const futureQueue of ["Legal Review Unavailable", "Partner Follow-up", "Att
 
 if (!dashboardSource.includes("partnerPublicPage(partner.partnerSlug)") || !dashboardSource.includes("partnerIntake(partner.partnerSlug)") || !dashboardSource.includes("partnerDocuments(partner.partnerSlug)")) {
   failures.push("Partner dashboard does not display signup, intake, and document workflow links.");
-}
-
-if (!landingSource.includes("Clear your Mississippi record with We Must Vote + LegalEase.")) {
-  failures.push("We Must Vote public page does not use the required launch headline.");
-}
-
-if (!landingSource.includes("Start Mississippi Record Review") || !landingSource.includes("Mississippi workflow only")) {
-  failures.push("We Must Vote public page does not clearly route to the Mississippi-only workflow.");
-}
-
-if (!landingTemplateSource.includes("Create an account or sign in") || !landingTemplateSource.includes('href="/sign-in"')) {
-  failures.push("Public signup page does not expose account sign-in/create-account language.");
 }
 
 if (!intakeSource.includes("Clear your Mississippi record with We Must Vote + LegalEase")) {
@@ -234,7 +264,7 @@ if (failures.length > 0) {
 
 console.log("We Must Vote launch verification passed.");
 console.log("Partner dashboard route: configured");
-console.log("Public signup route: configured");
+console.log("Static public landing route: configured");
 console.log("Mississippi-only workflow access: configured");
 console.log("Briefcase packet save path: configured");
 console.log("PDF downloads and print actions: configured");

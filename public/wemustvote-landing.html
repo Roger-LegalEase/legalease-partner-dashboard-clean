@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>We Must Vote Record-Clearing Access Pilot | Powered by LegalEase</title>
+    <meta
+      name="description"
+      content="We Must Vote and LegalEase are partnering to help justice-impacted Mississippians understand possible record-clearing options and get routed to the right next step."
+    />
+    <style>
+      :root {
+        --paper: #faf8f3;
+        --soft: #f2f3f0;
+        --white: #fff;
+        --ink: #2e2e2e;
+        --muted: #686868;
+        --line: #e7e2da;
+        --navy: #0b1220;
+        --blue: #5f83dc;
+        --red: #a71348;
+        --gold: #e0ab38;
+        --green: #2f9b7c;
+        --display: Georgia, "Times New Roman", serif;
+        --body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); }
+      a { color: inherit; text-decoration: none; }
+      h1, h2, h3, p, figure, blockquote { margin-top: 0; }
+      h1, h2 { font-family: var(--display); font-weight: 700; letter-spacing: 0; text-align: center; }
+      h1 { max-width: 740px; margin: 0 auto 18px; font-size: clamp(2.2rem, 4.6vw, 3.35rem); line-height: 1.04; }
+      h2 { margin-bottom: 18px; font-size: clamp(2rem, 4vw, 2.95rem); line-height: 1.1; }
+      h3 { margin: 0 0 10px; font-size: 1rem; line-height: 1.25; }
+      .container { width: min(1040px, calc(100% - 40px)); margin: 0 auto; }
+      .wide { width: min(1120px, calc(100% - 40px)); }
+      .header { display: grid; min-height: 112px; place-items: center; padding: 24px 24px 10px; }
+      .brand { display: inline-flex; align-items: center; justify-content: center; gap: 20px; text-align: left; }
+      .wmv-logo { display: block; width: 112px; height: auto; color: var(--blue); overflow: visible; }
+      .wmv-logo text { fill: currentColor; font-family: Georgia, "Times New Roman", serif; font-weight: 900; letter-spacing: -5px; }
+      .wmv-logo .wmv-word-small { font-size: 56px; }
+      .wmv-logo .wmv-word-large { font-size: 82px; }
+      .wmv-logo .wmv-check-path { fill: none; stroke: var(--red); stroke-width: 25; stroke-linecap: square; stroke-linejoin: miter; }
+      .powered { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; color: var(--muted); font-size: .78rem; font-weight: 800; }
+      .legalease-logo-img { display: inline-block; width: clamp(138px, 16vw, 182px); height: auto; max-height: 48px; object-fit: contain; vertical-align: middle; }
+
+      .button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 28px; border: 0; border-radius: 7px; background: var(--blue); color: var(--white); box-shadow: 0 10px 18px rgba(95, 131, 220, .22); font-size: .78rem; font-weight: 900; letter-spacing: .04em; text-align: center; text-transform: uppercase; }
+      .button:focus-visible, select:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid rgba(95, 131, 220, .35); outline-offset: 3px; }
+
+      .hero { padding: 18px 0 66px; text-align: center; }
+      .eyebrow { margin-bottom: 16px; color: var(--red); font-size: .72rem; font-weight: 900; letter-spacing: .12em; }
+      .hero-subhead { max-width: 710px; margin: 0 auto 20px; color: var(--ink); font-size: 1.03rem; line-height: 1.55; }
+      .screening-panel { width: min(640px, 100%); margin: 0 auto 16px; }
+      .screening-panel label { display: block; margin-bottom: 8px; color: var(--muted); font-size: .84rem; font-weight: 800; }
+      .screening-control { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+      select { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #cfcac4; border-radius: 5px; background: var(--white); color: var(--muted); font-size: .96rem; }
+      .trust-line { margin: 12px auto 0; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+      .trust-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 14px 0 0; }
+      .trust-chips span { display: inline-flex; min-height: 30px; align-items: center; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.8); color: var(--muted); font-size: .78rem; font-weight: 800; }
+
+      .illo { display: block; color: #626262; }
+      .illo path, .illo circle, .illo rect, .illo line, .illo polyline, .illo polygon {
+        fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.6; vector-effect: non-scaling-stroke;
+      }
+      .illo text { fill: currentColor; font-family: var(--body); font-size: 13px; font-weight: 850; stroke: none; }
+      .illo .soft-fill { fill: rgba(95, 131, 220, .10); stroke: none; }
+      .illo .cream-fill { fill: rgba(250, 248, 243, .88); stroke: currentColor; }
+      .illo .paper-fill { fill: rgba(255, 255, 255, .88); stroke: currentColor; }
+      .illo .accent-blue { color: var(--blue); }
+      .illo .accent-red { color: var(--red); }
+      .illo .accent-gold { color: var(--gold); }
+      .illo .accent-green { color: var(--green); }
+      .hero-art-img { display: block; width: min(720px, 100%); height: auto; margin: 28px auto 0; object-fit: contain; }
+      .help-icon-img { display: block; width: 112px; height: 112px; object-fit: contain; margin: 0 auto 18px; filter: drop-shadow(0 10px 18px rgba(46, 46, 46, .04)); }
+      .promise-art-img { display: block; width: min(260px, 100%); height: 190px; object-fit: contain; margin: 0 auto 18px; filter: drop-shadow(0 14px 28px rgba(46, 46, 46, .05)); }
+      .comparison-icon-img { display: block; width: min(148px, 82%); height: 112px; object-fit: contain; margin: 0 auto 12px; filter: drop-shadow(0 12px 20px rgba(46, 46, 46, .05)); }
+
+      .section { padding: 78px 0; background: var(--paper); }
+      .soft { background: var(--soft); }
+      .section-heading { max-width: 680px; margin: 0 auto 46px; text-align: center; }
+      .section-heading p, .section-copy { margin: 0 auto; color: var(--ink); font-size: 1rem; line-height: 1.65; }
+      .help-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 34px; }
+      .icon-item { text-align: center; padding: 8px 10px; }
+      .icon-item h3 { margin-top: 4px; }
+      .icon-item p, .promise-card p, .step-card p { margin: 0; color: var(--ink); font-size: .92rem; line-height: 1.55; }
+      .promise-grid, .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; align-items: start; }
+      .promise-card, .step-card { text-align: center; }
+      .promise-card { padding: 8px 18px; }
+      .promise-card h3 { margin-top: 4px; }
+      .center-cta { display: grid; justify-items: center; gap: 12px; margin-top: 42px; }
+
+      .quote-card { position: relative; max-width: 960px; min-height: 220px; margin: 0 auto; padding: 66px 50px 48px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); box-shadow: 0 18px 42px rgba(46,46,46,.06); text-align: center; overflow: hidden; }
+      .quote-card::after { content: "“"; position: absolute; right: 42px; bottom: -36px; color: rgba(95, 131, 220, .11); font-family: var(--display); font-size: 14rem; line-height: 1; }
+      .quote-badge { position: absolute; top: -31px; left: calc(50% - 31px); display: grid; width: 62px; height: 62px; place-items: center; border: 3px solid var(--white); border-radius: 50%; background: var(--blue); color: var(--white); font-size: .62rem; font-weight: 950; letter-spacing: .05em; }
+      blockquote { position: relative; z-index: 1; margin: 0 auto 26px; max-width: 760px; font-family: var(--display); font-size: clamp(1.25rem, 2.3vw, 1.75rem); line-height: 1.45; }
+      figcaption { position: relative; z-index: 1; color: var(--red); font-size: .85rem; font-weight: 900; }
+
+      .comparison-grid { display: grid; grid-template-columns: 1fr 1.18fr 1fr; align-items: stretch; margin-top: 64px; }
+      .comparison-column { overflow: hidden; border: 1px solid #d6d0c7; background: #eef1f2; }
+      .comparison-column h3 { display: grid; min-height: 154px; place-items: center; align-content: center; row-gap: 6px; padding: 18px 20px 20px; margin: 0; background: #e4e9eb; font-size: .82rem; font-weight: 800; letter-spacing: .03em; text-align: center; text-transform: uppercase; }
+      .comparison-column.featured { position: relative; z-index: 1; margin: -24px 0; border-color: var(--blue); background: var(--white); box-shadow: 0 20px 50px rgba(46,46,46,.12); }
+      .comparison-column.featured h3 { min-height: 178px; background: var(--blue); color: var(--white); font-family: var(--display); font-size: 1.62rem; letter-spacing: 0; text-transform: none; }
+      .comparison-column.featured .comparison-icon-img { width: min(170px, 86%); height: 126px; filter: drop-shadow(0 14px 24px rgba(11, 18, 32, .12)); }
+      .comparison-column ul, .checklist { padding: 0; margin: 0; list-style: none; }
+      .comparison-column ul { display: grid; gap: 22px; padding: 30px 28px; }
+      .comparison-column li { display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start; font-size: .96rem; line-height: 1.45; }
+      .comparison-column li span { display: grid; width: 26px; height: 26px; place-items: center; border-radius: 50%; background: #d8e0e5; color: var(--white); font-weight: 900; }
+      .comparison-column.featured li span { background: var(--green); }
+
+      .step-card { padding: 28px 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+      .step-card span { display: grid; width: 42px; height: 42px; place-items: center; margin: 0 auto 18px; border-radius: 50%; background: rgba(95,131,220,.14); color: var(--blue); font-weight: 950; }
+      .how-section { position: relative; overflow: hidden; background: radial-gradient(circle at top left, rgba(95, 131, 220, .08), transparent 30%), var(--paper); }
+      .how-heading { max-width: 760px; }
+      .how-heading p { max-width: 680px; }
+      .how-pathway { display: grid; grid-template-columns: auto minmax(30px, 1fr) auto minmax(30px, 1fr) auto minmax(30px, 1fr) auto; align-items: center; width: min(880px, 100%); margin: 0 auto 44px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .78); box-shadow: 0 18px 42px rgba(46, 46, 46, .05); }
+      .how-pathway-item { display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; }
+      .how-pathway-item span { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--blue); color: var(--white); font-size: .78rem; font-weight: 950; }
+      .how-pathway-item p { margin: 0; color: var(--ink); font-size: .86rem; font-weight: 900; }
+      .how-pathway-line { height: 1px; margin: 0 12px; background: repeating-linear-gradient(to right, rgba(104, 104, 104, .34) 0, rgba(104, 104, 104, .34) 5px, transparent 5px, transparent 11px); }
+      .how-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(34px, 6vw, 72px); align-items: center; }
+      .how-steps { display: grid; gap: 16px; }
+      .how-step-card { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 16px; align-items: start; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255, 255, 255, .82); box-shadow: 0 12px 30px rgba(46, 46, 46, .045); }
+      .how-step-number { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: rgba(95, 131, 220, .12); color: var(--blue); font-weight: 950; }
+      .how-step-card h3 { margin: 0 0 8px; color: var(--ink); font-size: 1rem; line-height: 1.25; }
+      .how-step-card p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.55; }
+      .how-cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 8px; }
+      .how-cta-row p { max-width: 360px; margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+      .how-panel { min-width: 0; }
+      .how-panel-art { position: relative; z-index: 2; display: grid; place-items: center; margin-bottom: -18px; }
+      .how-panel-art img { display: block; width: min(460px, 100%); height: auto; object-fit: contain; filter: drop-shadow(0 18px 36px rgba(46, 46, 46, .07)); }
+      .how-panel-card { padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line); border-radius: 24px; background: radial-gradient(circle at top right, rgba(47, 155, 124, .10), transparent 32%), var(--white); box-shadow: 0 24px 60px rgba(46, 46, 46, .08); }
+      .how-panel-card h3 { margin: 0 0 16px; font-family: var(--display); font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.12; text-align: center; }
+      .how-panel-card ul { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+      .how-panel-card li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 14px; border-radius: 14px; background: rgba(250, 248, 243, .78); color: var(--ink); font-size: .95rem; line-height: 1.4; }
+      .how-panel-card li span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: var(--green); color: var(--white); font-size: .72rem; font-weight: 950; }
+      .how-panel-card > p { margin: 18px 0 0; padding-top: 16px; border-top: 1px dashed var(--line); color: var(--green); font-weight: 900; text-align: center; }
+      .two-column { display: grid; grid-template-columns: .9fr 1.1fr; gap: 62px; align-items: start; }
+      .two-column h2 { text-align: left; }
+      .missing-note { margin: 18px 0 0; color: var(--green); font-weight: 900; }
+      .checklist { display: grid; gap: 12px; }
+      .checklist li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--white); }
+      .needs-section { position: relative; overflow: hidden; }
+      .needs-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 72px); align-items: center; }
+      .needs-copy { min-width: 0; }
+      .needs-copy .eyebrow { margin-bottom: 14px; }
+      .needs-copy h2 { margin-bottom: 18px; text-align: left; }
+      .needs-copy p { max-width: 520px; margin: 0; color: var(--ink); font-size: 1.05rem; line-height: 1.65; }
+      .needs-copy .button { margin-top: 24px; }
+      .reassurance-pill { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; margin-top: 18px; padding: 10px 14px; border: 1px solid rgba(47, 155, 124, .22); border-radius: 999px; background: rgba(47, 155, 124, .08); color: var(--green); font-size: .9rem; font-weight: 900; line-height: 1.25; }
+      .reassurance-pill::before { content: "✓"; flex: 0 0 auto; display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: var(--green); color: var(--white); font-size: .75rem; font-weight: 950; }
+      .needs-card { min-width: 0; width: 100%; position: relative; padding: clamp(24px, 4vw, 36px); border: 1px solid var(--line); border-radius: 22px; background: radial-gradient(circle at top right, rgba(95, 131, 220, .10), transparent 34%), var(--white); box-shadow: 0 24px 60px rgba(46, 46, 46, .08); }
+      .needs-card-art { display: grid; place-items: center; margin: -6px auto 18px; }
+      .needs-card-art img { display: block; width: min(220px, 70%); height: auto; object-fit: contain; filter: drop-shadow(0 12px 22px rgba(46, 46, 46, .05)); }
+      .needs-card h3 { margin: 0 0 18px; color: var(--ink); font-family: var(--display); font-size: clamp(1.35rem, 2.5vw, 1.85rem); line-height: 1.12; text-align: center; }
+      .needs-list { display: grid; width: 100%; gap: 12px; padding: 0; margin: 0; list-style: none; }
+      .needs-list li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; width: 100%; min-width: 0; padding: 14px 16px; border: 1px solid rgba(231, 226, 218, .9); border-radius: 14px; background: rgba(250, 248, 243, .72); color: var(--ink); font-size: .98rem; line-height: 1.4; }
+      .needs-list li span { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 50%; background: var(--green); color: var(--white); font-size: .78rem; font-weight: 950; }
+      .needs-list li p { min-width: 0; margin: 0; color: var(--ink); font-size: .98rem; line-height: 1.4; overflow-wrap: normal; word-break: normal; white-space: normal; }
+      .needs-card-footer { margin: 18px 0 0; padding-top: 16px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .92rem; line-height: 1.5; text-align: center; }
+      .faq-section { background: radial-gradient(circle at top left, rgba(95, 131, 220, .07), transparent 34%), var(--paper); }
+      .faq-layout { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
+      .faq-support-card { position: sticky; top: 96px; padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line); border-radius: 24px; background: radial-gradient(circle at top right, rgba(47, 155, 124, .10), transparent 34%), var(--white); box-shadow: 0 24px 60px rgba(46, 46, 46, .07); }
+      .faq-support-art { display: grid; place-items: center; margin-bottom: 20px; }
+      .faq-support-art img { display: block; width: min(260px, 100%); height: auto; object-fit: contain; filter: drop-shadow(0 16px 28px rgba(46, 46, 46, .06)); }
+      .faq-support-card h2 { margin-bottom: 14px; text-align: left; font-size: clamp(1.8rem, 3vw, 2.45rem); }
+      .faq-support-card p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+      .faq-support-note { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; margin-top: 20px; padding: 14px 16px; border-radius: 16px; background: rgba(47, 155, 124, .08); color: var(--green); font-size: .92rem; font-weight: 900; line-height: 1.4; }
+      .faq-support-note span { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 50%; background: var(--green); color: var(--white); font-size: .78rem; font-weight: 950; }
+      .faq-content { min-width: 0; }
+      .faq-heading { margin-bottom: 24px; }
+      .faq-heading h2 { margin-bottom: 12px; text-align: left; }
+      .faq-heading p { max-width: 620px; margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+      .enhanced-faq { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, .84); box-shadow: 0 10px 26px rgba(46, 46, 46, .035); transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
+      .enhanced-faq:hover { border-color: rgba(95, 131, 220, .34); box-shadow: 0 14px 34px rgba(46, 46, 46, .055); transform: translateY(-1px); }
+      .enhanced-faq + .enhanced-faq { margin-top: 12px; }
+      .enhanced-faq summary { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 22px; cursor: pointer; color: var(--ink); font-size: 1rem; font-weight: 900; line-height: 1.35; list-style: none; }
+      .enhanced-faq summary::-webkit-details-marker { display: none; }
+      .enhanced-faq summary::after { content: "+"; flex: 0 0 auto; display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: rgba(95, 131, 220, .12); color: var(--blue); font-size: 1.15rem; font-weight: 950; }
+      .enhanced-faq[open] { border-color: rgba(95, 131, 220, .38); background: var(--white); }
+      .enhanced-faq[open] summary::after { content: "−"; background: var(--blue); color: var(--white); }
+      .enhanced-faq p { margin: 0; padding: 0 22px 22px; color: var(--muted); font-size: .96rem; line-height: 1.62; }
+      .final-cta { padding: 0 0 64px; background: var(--paper); text-align: left; }
+      .final-cta-card { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 60px); align-items: center; padding: clamp(34px, 6vw, 64px); border: 1px solid var(--line); border-radius: 30px; background: radial-gradient(circle at bottom right, rgba(224, 171, 56, .14), transparent 34%), radial-gradient(circle at top left, rgba(95, 131, 220, .10), transparent 36%), var(--white); box-shadow: 0 28px 70px rgba(46, 46, 46, .08); }
+      .final-cta-copy h2 { margin-bottom: 14px; text-align: left; }
+      .final-cta-copy p { max-width: 520px; margin: 0 0 22px; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
+      .final-cta-copy .trust-line { margin-top: 14px; margin-bottom: 0; color: var(--muted); font-size: .86rem; }
+      .final-cta-art { display: grid; place-items: center; }
+      .final-cta-art img { display: block; width: min(420px, 100%); height: auto; object-fit: contain; filter: drop-shadow(0 18px 36px rgba(46, 46, 46, .07)); }
+
+      @media (max-width: 900px) {
+        .help-grid { grid-template-columns: repeat(2, 1fr); }
+        .promise-grid, .steps-grid, .two-column { grid-template-columns: 1fr; }
+        .two-column h2 { text-align: center; }
+        .needs-layout { grid-template-columns: 1fr; }
+        .needs-copy { text-align: center; }
+        .needs-copy h2 { text-align: center; }
+        .needs-copy p { margin-left: auto; margin-right: auto; }
+        .needs-card { max-width: 620px; margin: 0 auto; }
+        .how-pathway { grid-template-columns: 1fr; gap: 12px; width: min(520px, 100%); border-radius: 24px; padding: 18px; }
+        .how-pathway-line { width: 1px; height: 22px; margin: 0 auto; background: repeating-linear-gradient(to bottom, rgba(104, 104, 104, .34) 0, rgba(104, 104, 104, .34) 5px, transparent 5px, transparent 11px); }
+        .how-pathway-item { justify-content: center; }
+        .how-layout { grid-template-columns: 1fr; }
+        .how-panel { max-width: 620px; margin: 0 auto; }
+        .faq-layout { grid-template-columns: 1fr; }
+        .faq-support-card { position: relative; top: auto; max-width: 680px; margin: 0 auto; text-align: center; }
+        .faq-support-card h2, .faq-heading h2 { text-align: center; }
+        .faq-heading { text-align: center; }
+        .faq-heading p { margin-left: auto; margin-right: auto; }
+        .final-cta-card { grid-template-columns: 1fr; text-align: center; }
+        .final-cta-copy h2 { text-align: center; }
+        .final-cta-copy p { margin-left: auto; margin-right: auto; }
+        .final-cta-art { order: -1; }
+        .comparison-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 34px; }
+        .comparison-column.featured { order: -1; margin: 0; }
+      }
+
+      @media (max-width: 640px) {
+        .container, .wide { width: min(100% - 28px, 1040px); }
+        .header { min-height: 96px; padding-inline: 14px; }
+        .brand { gap: 12px; }
+        .legalease-logo-img { width: 126px; max-height: 38px; }
+        .hero-art-img { width: min(100%, 520px); margin-top: 22px; }
+        .help-icon-img { width: 96px; height: 96px; margin-bottom: 14px; }
+        .promise-art-img { width: min(240px, 100%); height: 160px; }
+        .needs-card { padding: 22px 16px; border-radius: 18px; }
+        .needs-list li { grid-template-columns: 28px minmax(0, 1fr); padding: 13px 14px; }
+        .needs-card-art img { width: min(190px, 72%); }
+        .reassurance-pill { border-radius: 16px; }
+        .how-step-card { grid-template-columns: 38px minmax(0, 1fr); padding: 16px; border-radius: 16px; }
+        .how-step-number { width: 36px; height: 36px; }
+        .how-cta-row { display: grid; }
+        .how-cta-row .button { width: 100%; }
+        .how-panel-card { padding: 22px 16px; border-radius: 18px; }
+        .how-panel-art img { width: min(360px, 100%); }
+        .faq-support-card, .final-cta-card { border-radius: 22px; padding: 24px 18px; }
+        .enhanced-faq summary { padding: 18px 16px; }
+        .enhanced-faq p { padding: 0 16px 18px; }
+        .final-cta { padding-bottom: 42px; }
+        .final-cta-art img { width: min(320px, 100%); }
+        .wmv-logo { width: 86px; }
+        h1 { font-size: clamp(2rem, 10vw, 2.85rem); }
+        .screening-control { grid-template-columns: 1fr; }
+        .button { width: 100%; }
+        .section { padding: 58px 0; }
+        .help-grid { grid-template-columns: 1fr; }
+        .quote-card { min-height: auto; padding: 58px 22px 32px; }
+        .comparison-column h3, .comparison-column.featured h3 { min-height: 120px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="brand">
+        <svg class="wmv-logo" viewBox="0 0 230 190" role="img" aria-label="We Must Vote">
+          <text class="wmv-word-small" x="88" y="55">we</text>
+          <text class="wmv-word-large" x="18" y="118">must</text>
+          <text class="wmv-word-large" x="90" y="178">vote</text>
+          <path class="wmv-check-path" d="M31 135 L67 171 C95 130 133 103 186 91" />
+        </svg>
+        <span class="brand-copy">
+          <span class="powered">Powered by <img class="legalease-logo-img" src="/assets/partner-program/brand/legalease-logo.png" alt="LegalEase" /></span>
+        </span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="eyebrow">WE MUST VOTE × LEGALEASE</div>
+          <h1>Find out what record-clearing options may be available to you.</h1>
+          <p class="hero-subhead">We Must Vote and LegalEase are helping justice-impacted Mississippians take the first step toward understanding their record, possible expungement options, and available support.</p>
+          <div class="screening-panel">
+            <label for="county">Where did the arrest or charge happen?</label>
+            <div class="screening-control">
+              <select id="county">
+                <option value="">Select your Mississippi county</option>
+                <option>Adams</option>
+                <option>Alcorn</option>
+                <option>Amite</option>
+                <option>Attala</option>
+                <option>Benton</option>
+                <option>Bolivar</option>
+                <option>Calhoun</option>
+                <option>Carroll</option>
+                <option>Chickasaw</option>
+                <option>Choctaw</option>
+                <option>Claiborne</option>
+                <option>Clarke</option>
+                <option>Clay</option>
+                <option>Coahoma</option>
+                <option>Copiah</option>
+                <option>Covington</option>
+                <option>DeSoto</option>
+                <option>Forrest</option>
+                <option>Franklin</option>
+                <option>George</option>
+                <option>Greene</option>
+                <option>Grenada</option>
+                <option>Hancock</option>
+                <option>Harrison</option>
+                <option>Hinds</option>
+                <option>Holmes</option>
+                <option>Humphreys</option>
+                <option>Issaquena</option>
+                <option>Itawamba</option>
+                <option>Jackson</option>
+                <option>Jasper</option>
+                <option>Jefferson</option>
+                <option>Jefferson Davis</option>
+                <option>Jones</option>
+                <option>Kemper</option>
+                <option>Lafayette</option>
+                <option>Lamar</option>
+                <option>Lauderdale</option>
+                <option>Lawrence</option>
+                <option>Leake</option>
+                <option>Lee</option>
+                <option>Leflore</option>
+                <option>Lincoln</option>
+                <option>Lowndes</option>
+                <option>Madison</option>
+                <option>Marion</option>
+                <option>Marshall</option>
+                <option>Monroe</option>
+                <option>Montgomery</option>
+                <option>Neshoba</option>
+                <option>Newton</option>
+                <option>Noxubee</option>
+                <option>Oktibbeha</option>
+                <option>Panola</option>
+                <option>Pearl River</option>
+                <option>Perry</option>
+                <option>Pike</option>
+                <option>Pontotoc</option>
+                <option>Prentiss</option>
+                <option>Quitman</option>
+                <option>Rankin</option>
+                <option>Scott</option>
+                <option>Sharkey</option>
+                <option>Simpson</option>
+                <option>Smith</option>
+                <option>Stone</option>
+                <option>Sunflower</option>
+                <option>Tallahatchie</option>
+                <option>Tate</option>
+                <option>Tippah</option>
+                <option>Tishomingo</option>
+                <option>Tunica</option>
+                <option>Union</option>
+                <option>Walthall</option>
+                <option>Warren</option>
+                <option>Washington</option>
+                <option>Wayne</option>
+                <option>Webster</option>
+                <option>Wilkinson</option>
+                <option>Winston</option>
+                <option>Yalobusha</option>
+                <option>Yazoo</option>
+              </select>
+              <a class="button" href="/intake/we-must-vote">Start My Free Screening</a>
+            </div>
+          </div>
+          <p class="trust-line">Private guided screening. Free to start. No eligibility promises.</p>
+
+          <img
+            class="hero-art-img"
+            src="/assets/partners/wemustvote/assets/wemustvote/hero-record-clearing-path.png"
+            alt="A person starting a guided record-clearing pathway with documents, support, and community ahead"
+          />
+
+          <div class="trust-chips"><span>Mississippi-focused</span><span>Free guided screening</span><span>Start with what you know</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading"><h2>This may help if you do not know where to start.</h2><p>You can begin even if you do not have all your paperwork or know exactly what is on your record.</p></div>
+          <div class="help-grid">
+            <article class="icon-item">
+              <img class="help-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/icon-old-arrest.png" alt="" aria-hidden="true" />
+              <h3>Old arrest</h3><p>You have an old arrest and want to know what may matter.</p>
+            </article>
+            <article class="icon-item">
+              <img class="help-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/icon-charged-not-convicted.png" alt="" aria-hidden="true" />
+              <h3>Charged, not convicted</h3><p>You were charged but the case did not end in a conviction.</p>
+            </article>
+            <article class="icon-item">
+              <img class="help-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/icon-past-conviction.png" alt="" aria-hidden="true" />
+              <h3>Past conviction</h3><p>You have a conviction and want to understand possible next steps.</p>
+            </article>
+            <article class="icon-item">
+              <img class="help-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/icon-not-sure-what-shows-up.png" alt="" aria-hidden="true" />
+              <h3>Not sure what shows up</h3><p>You want to know what may appear on a background check.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="container">
+          <div class="section-heading"><h2>The We Must Vote × LegalEase Promise</h2><p>A record-clearing process should feel clear, respectful, and easier to start.</p></div>
+          <div class="promise-grid">
+            <article class="promise-card">
+              <img class="promise-art-img" src="/assets/partners/wemustvote/assets/wemustvote/promise-free-to-start.png" alt="" aria-hidden="true" />
+              <h3>Free to Start</h3><p>Begin with a guided screening at no cost. You do not need to know every answer before you start.</p>
+            </article>
+            <article class="promise-card">
+              <img class="promise-art-img" src="/assets/partners/wemustvote/assets/wemustvote/promise-plain-language-guidance.png" alt="" aria-hidden="true" />
+              <h3>Plain-Language Guidance</h3><p>Wilma asks simple questions and helps explain possible next steps without confusing jargon.</p>
+            </article>
+            <article class="promise-card">
+              <img class="promise-art-img" src="/assets/partners/wemustvote/assets/wemustvote/promise-right-next-step.png" alt="" aria-hidden="true" />
+              <h3>The Right Next Step</h3><p>Depending on your situation, you may be routed to record review, expungement support, clinic review, or future updates.</p>
+            </article>
+          </div>
+          <div class="center-cta"><a class="button" href="/intake/we-must-vote">Start My Free Screening</a></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading"><h2>What people need most is a clear first step.</h2></div>
+          <figure class="quote-card">
+            <div class="quote-badge" aria-hidden="true">WMV × LE</div>
+            <blockquote>“Too many people wait because the process feels confusing, risky, or out of reach. This pilot is about giving people a trusted place to start.”</blockquote>
+            <figcaption>We Must Vote × LegalEase Record-Clearing Access Pilot</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="container wide">
+          <div class="section-heading"><h2>The Record-Clearing Difference</h2><p>Instead of guessing, waiting, or trying to navigate the process alone, start with a guided pathway built to point you toward the right next step.</p></div>
+          <div class="comparison-grid">
+            <article class="comparison-column">
+              <h3><img class="comparison-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/comparison/comparison-figure-it-out-alone.png" alt="" aria-hidden="true" />Trying to figure it out alone</h3>
+              <ul><li><span>−</span>Confusing court language</li><li><span>−</span>Not sure what appears on your record</li><li><span>−</span>Missing paperwork</li><li><span>−</span>No clear next step</li></ul>
+            </article>
+            <article class="comparison-column featured">
+              <h3><img class="comparison-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/comparison/comparison-wemustvote-legalease.png" alt="" aria-hidden="true" />We Must Vote × LegalEase</h3>
+              <ul><li><span>✓</span>Free guided screening</li><li><span>✓</span>Plain-language intake with Wilma</li><li><span>✓</span>Record review pathway</li><li><span>✓</span>Expungement support where available</li><li><span>✓</span>Clinic or partner routing when needed</li></ul>
+            </article>
+            <article class="comparison-column">
+              <h3><img class="comparison-icon-img" src="/assets/partners/wemustvote/assets/wemustvote/comparison/comparison-waiting-or-guessing.png" alt="" aria-hidden="true" />Waiting or guessing</h3>
+              <ul><li><span>−</span>Opportunities may be delayed</li><li><span>−</span>You may not know what employers or landlords see</li><li><span>−</span>Mistakes can slow the process</li><li><span>−</span>No simple way to track next steps</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section how-section" id="how-it-works">
+        <div class="container">
+          <div class="section-heading how-heading">
+            <div class="eyebrow">HOW IT WORKS</div>
+            <h2>Start in a few minutes. Leave with a clearer next step.</h2>
+            <p>Start with what you know. Wilma helps gather the basics so LegalEase can point you toward a possible next step.</p>
+          </div>
+
+          <div class="how-pathway" aria-label="Screening pathway">
+            <div class="how-pathway-item"><span>1</span><p>Start Screening</p></div>
+            <div class="how-pathway-line"></div>
+            <div class="how-pathway-item"><span>2</span><p>Answer Questions</p></div>
+            <div class="how-pathway-line"></div>
+            <div class="how-pathway-item"><span>3</span><p>See Possible Path</p></div>
+            <div class="how-pathway-line"></div>
+            <div class="how-pathway-item"><span>4</span><p>Get Connected</p></div>
+          </div>
+
+          <div class="how-layout">
+            <div class="how-steps">
+              <article class="how-step-card">
+                <div class="how-step-number">1</div>
+                <div>
+                  <h3>Answer a few basic questions</h3>
+                  <p>Share the county, timing, and record concern you want to understand.</p>
+                </div>
+              </article>
+
+              <article class="how-step-card">
+                <div class="how-step-number">2</div>
+                <div>
+                  <h3>Review your possible pathway</h3>
+                  <p>You may see an option for record review, document support, clinic review, partner help, or future updates.</p>
+                </div>
+              </article>
+
+              <article class="how-step-card">
+                <div class="how-step-number">3</div>
+                <div>
+                  <h3>Take the next step</h3>
+                  <p>Choose whether to continue with the available option that fits your situation.</p>
+                </div>
+              </article>
+
+              <div class="how-cta-row">
+                <a class="button" href="/intake/we-must-vote">Start My Free Screening</a>
+                <p>The screening does not guarantee eligibility or legal outcomes.</p>
+              </div>
+            </div>
+
+            <aside class="how-panel">
+              <div class="how-panel-art">
+                <img src="/assets/partners/wemustvote/assets/wemustvote/task_checklist_and_assistant_illustration.png" alt="" aria-hidden="true" />
+              </div>
+
+              <div class="how-panel-card">
+                <h3>What happens after I click?</h3>
+                <ul>
+                  <li><span>✓</span>No paperwork is required to begin</li>
+                  <li><span>✓</span>You can skip details you do not know yet</li>
+                  <li><span>✓</span>Your answers help with routing, not promises</li>
+                  <li><span>✓</span>You choose whether to keep going</li>
+                </ul>
+                <p>You stay in control the whole time.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft needs-section" id="what-you-need">
+        <div class="container needs-layout">
+          <div class="needs-copy">
+            <div class="eyebrow">WHAT YOU’LL NEED</div>
+            <h2>You can start with what you know.</h2>
+            <p>You do not need every document or every detail to begin. The screening can help identify what may be needed next.</p>
+            <div class="reassurance-pill">Missing something? That is okay. Start anyway.</div>
+            <a class="button" href="/intake/we-must-vote">Start My Free Screening</a>
+          </div>
+          <article class="needs-card">
+            <div class="needs-card-art">
+              <img src="/assets/partners/wemustvote/assets/wemustvote/task_checklist_and_assistant_illustration.png" alt="" aria-hidden="true" />
+            </div>
+            <h3>Helpful to have nearby</h3>
+            <ul class="needs-list">
+              <li><span>✓</span><p>Your full legal name</p></li>
+              <li><span>✓</span><p>County where the arrest or charge happened</p></li>
+              <li><span>✓</span><p>Approximate date, if you remember it</p></li>
+              <li><span>✓</span><p>Charge or case information, if available</p></li>
+              <li><span>✓</span><p>Any court paperwork you already have</p></li>
+            </ul>
+            <p class="needs-card-footer">No paperwork? No problem. Start with what you know.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section faq-section" id="faq">
+        <div class="container faq-layout">
+          <aside class="faq-support-card">
+            <div class="faq-support-art">
+              <img src="/assets/partners/wemustvote/assets/wemustvote/friendly_consultation_with_a_roadmap_of_guidance.png" alt="" aria-hidden="true" />
+            </div>
+            <div class="eyebrow">QUESTIONS BEFORE YOU START</div>
+            <h2>Still unsure? That is normal.</h2>
+            <p>Record-clearing can feel confusing. This screening is meant to give you a simple, private first step before you decide what to do next.</p>
+            <div class="faq-support-note">
+              <span>✓</span>
+              Free to start. No eligibility promises. No legal outcome guarantees.
+            </div>
+          </aside>
+
+          <div class="faq-content">
+            <div class="faq-heading">
+              <div class="eyebrow">FAQ</div>
+              <h2>Questions before you start</h2>
+              <p>Quick answers to help you feel more comfortable before beginning the screening.</p>
+            </div>
+
+            <details class="faq enhanced-faq">
+              <summary><span>Who is this for?</span></summary>
+              <p>People in Mississippi who have an arrest, charge, conviction, dismissal, or old record and want to understand possible record-clearing options.</p>
+            </details>
+
+            <details class="faq enhanced-faq">
+              <summary><span>Is this free to start?</span></summary>
+              <p>Yes. The guided screening is free to start.</p>
+            </details>
+
+            <details class="faq enhanced-faq">
+              <summary><span>Do I need court papers to start?</span></summary>
+              <p>No. Court papers are helpful, but you can begin with what you know.</p>
+            </details>
+
+            <details class="faq enhanced-faq">
+              <summary><span>Who is Wilma?</span></summary>
+              <p>Wilma is LegalEase’s guided intake assistant. She asks basic questions and helps route you to possible next steps.</p>
+            </details>
+
+            <details class="faq enhanced-faq">
+              <summary><span>Will this automatically clear my record?</span></summary>
+              <p>No. This is a first step. Depending on your situation, you may be routed to record review, expungement support, clinic review, or another pathway.</p>
+            </details>
+
+            <details class="faq enhanced-faq">
+              <summary><span>What if I am not eligible right now?</span></summary>
+              <p>You may still receive information about future updates or other available support.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer final-cta">
+      <div class="container final-cta-card">
+        <div class="final-cta-copy">
+          <div class="eyebrow">START HERE</div>
+          <h2>Ready to take the first step?</h2>
+          <p>Start your free guided screening through We Must Vote and LegalEase.</p>
+          <a class="button" href="/intake/we-must-vote">Start My Free Screening</a>
+          <p class="trust-line">Screening does not guarantee eligibility or legal outcomes.</p>
+        </div>
+
+        <div class="final-cta-art">
+          <img src="/assets/partners/wemustvote/assets/wemustvote/following_the_path_to_success.png" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

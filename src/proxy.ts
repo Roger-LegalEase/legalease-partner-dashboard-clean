@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/p/we-must-vote") {
+    return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
+  }
+
   const configuredToken = process.env.INTERNAL_ADMIN_ACCESS_TOKEN;
 
   if (process.env.NODE_ENV !== "production" && !configuredToken) {
@@ -22,7 +26,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/internal/:path*"]
+  matcher: ["/internal/:path*", "/p/we-must-vote"]
 };
 
 function unauthorized() {
