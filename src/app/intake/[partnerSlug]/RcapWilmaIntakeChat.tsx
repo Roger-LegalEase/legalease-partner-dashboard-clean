@@ -235,11 +235,6 @@ export function RcapWilmaIntakeChat({
         </div>
       ) : null}
 
-      {session ? (
-        <p className="mt-5 text-xs font-semibold text-grayWilma-600">
-          Session ID: {session.id}. You can return to this page with <span className="font-black text-navy">?session={session.id}</span> to resume.
-        </p>
-      ) : null}
       {error ? <p className="mt-4 rounded-md border border-danger/30 bg-danger/10 p-3 text-sm font-semibold text-danger">{error}</p> : null}
     </section>
   );
@@ -350,7 +345,6 @@ function FinalSummary({ summary, session }: { summary: RcapPathwaySummary; sessi
           Continue to document information form
         </a>
       ) : null}
-      <p className="mt-3 text-xs font-semibold text-grayWilma-600">Completed session: {session.id}</p>
     </div>
   );
 }
