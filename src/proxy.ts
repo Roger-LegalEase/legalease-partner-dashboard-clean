@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/internal/:path*", "/p/we-must-vote", "/sign-in", "/briefcase", "/briefcase/:path*", "/sign-out"]
+  matcher: ["/internal/:path*", "/p/we-must-vote", "/sign-in", "/briefcase", "/briefcase/:path*", "/partner/dashboard", "/partner/dashboard/:path*", "/sign-out"]
 };
 
 function unauthorized() {
@@ -49,7 +49,12 @@ function unauthorized() {
 }
 
 function isAuthSessionPath(pathname: string) {
-  return pathname === "/sign-in" || pathname === "/sign-out" || pathname === "/briefcase" || pathname.startsWith("/briefcase/");
+  return pathname === "/sign-in" ||
+    pathname === "/sign-out" ||
+    pathname === "/briefcase" ||
+    pathname.startsWith("/briefcase/") ||
+    pathname === "/partner/dashboard" ||
+    pathname.startsWith("/partner/dashboard/");
 }
 
 async function refreshSupabaseSession(request: NextRequest) {

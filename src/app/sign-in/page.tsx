@@ -53,7 +53,8 @@ export default function SignInPage() {
       return;
     }
 
-    window.location.assign("/briefcase");
+    const next = new URLSearchParams(window.location.search).get("next");
+    window.location.assign(safeNextPath(next));
   }
 
   return (
@@ -121,4 +122,12 @@ export default function SignInPage() {
       </div>
     </main>
   );
+}
+
+function safeNextPath(value: string | null) {
+  if (value && value.startsWith("/") && !value.startsWith("//")) {
+    return value;
+  }
+
+  return "/briefcase";
 }
