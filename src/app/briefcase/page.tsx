@@ -1,11 +1,13 @@
+import { Briefcase, LogIn, LogOut, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { Briefcase, LogIn, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 
-export default function BriefcasePage() {
-  const auth = getRcapBriefcaseAuthState();
+export const dynamic = "force-dynamic";
+
+export default async function BriefcasePage() {
+  const auth = await getRcapBriefcaseAuthState();
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -24,7 +26,19 @@ export default function BriefcasePage() {
             </div>
           </div>
 
-          {!auth.isAuthenticated ? (
+          {auth.isAuthenticated ? (
+            <div className="mt-6 rounded-md border border-teal/25 bg-teal/10 p-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-teal" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-bold text-navy">Authenticated session detected</p>
+                  {auth.userEmail ? (
+                    <p className="mt-1 text-sm leading-6 text-grayWilma-700">Signed in as {auth.userEmail}</p>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : (
             <div className="mt-6 rounded-md border border-orange/30 bg-orange/10 p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-orange" aria-hidden="true" />
@@ -33,12 +47,21 @@ export default function BriefcasePage() {
                 </p>
               </div>
             </div>
-          ) : null}
+          )}
 
-          <Link href="/sign-in" className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid">
-            <LogIn className="h-4 w-4" aria-hidden="true" />
-            Sign in
-          </Link>
+          {auth.isAuthenticated ? (
+            <form action="/sign-out" method="post">
+              <button className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid" type="submit">
+                <LogOut className="h-4 w-4" aria-hidden="true" />
+                Sign out
+              </button>
+            </form>
+          ) : (
+            <Link href="/sign-in" className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid">
+              <LogIn className="h-4 w-4" aria-hidden="true" />
+              Sign in
+            </Link>
+          )}
         </Card>
       </div>
     </main>

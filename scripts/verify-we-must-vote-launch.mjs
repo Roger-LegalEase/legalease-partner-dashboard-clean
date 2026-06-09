@@ -79,8 +79,14 @@ if (!proxySource.includes('request.nextUrl.pathname === "/p/we-must-vote"') || !
   failures.push("Proxy does not map /p/we-must-vote to the static We Must Vote landing page.");
 }
 
-if (!proxySource.includes('matcher: ["/internal/:path*", "/p/we-must-vote"]')) {
-  failures.push("Proxy matcher does not keep the We Must Vote static landing rewrite narrowly scoped.");
+if (!proxySource.includes('"/internal/:path*"') || !proxySource.includes('"/p/we-must-vote"')) {
+  failures.push("Proxy matcher does not preserve the internal route guard and the narrow We Must Vote static landing rewrite.");
+}
+
+for (const authRouteMatcher of ['"/sign-in"', '"/briefcase"', '"/briefcase/:path*"', '"/sign-out"']) {
+  if (!proxySource.includes(authRouteMatcher)) {
+    failures.push(`Proxy matcher does not include auth session refresh route: ${authRouteMatcher}.`);
+  }
 }
 
 for (const broadPublicMatcher of ['"/p/:path*"', '"/p/(.*)"', "'/p/:path*'", "'/p/(.*)'"]) {

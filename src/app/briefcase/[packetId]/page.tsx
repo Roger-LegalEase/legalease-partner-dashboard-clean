@@ -4,13 +4,15 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function BriefcasePacketPage({
   params
 }: {
   params: Promise<{ packetId: string }>;
 }) {
   const { packetId } = await params;
-  const auth = getRcapBriefcaseAuthState();
+  const auth = await getRcapBriefcaseAuthState();
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
