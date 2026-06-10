@@ -4,18 +4,25 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { createClient } from "@supabase/supabase-js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const routePath = path.join(rootDir, "src/app/partner/dashboard/page.tsx");
 const repositoryPath = path.join(rootDir, "src/lib/partners/partner-dashboard-rls-repository.ts");
+const resolverPath = path.join(rootDir, "src/lib/partners/session-partner.ts");
 const proxyPath = path.join(rootDir, "src/proxy.ts");
+const rcapProfilesRlsMigrationPath = path.join(rootDir, "supabase/phase-22-enable-rls-rcap-user-profiles.sql");
 const port = Number(process.env.PARTNER_DASHBOARD_RLS_VERIFY_PORT ?? 3137);
 let baseUrl = `http://127.0.0.1:${port}`;
 
 loadLocalEnv();
 
 const failures = [];
+const checks = [];
+const skipped = [];
 const requiredEnv = {
+  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   PARTNER_RLS_WMV_ADMIN_EMAIL: process.env.PARTNER_RLS_WMV_ADMIN_EMAIL,
   PARTNER_RLS_WMV_ADMIN_PASSWORD: process.env.PARTNER_RLS_WMV_ADMIN_PASSWORD,
   PARTNER_RLS_DEMO_STAFF_EMAIL: process.env.PARTNER_RLS_DEMO_STAFF_EMAIL,
@@ -62,20 +69,32 @@ if (failures.length > 0) {
 }
 
 console.log("Partner dashboard RLS isolation verification passed.");
-console.log("Route tested: /partner/dashboard");
-console.log("Partner identity source: authenticated session only");
-console.log("Cross-partner bypass attempts: denied by ignored client-controlled input");
-console.log("Internal admin behavior: redirected to /dashboard/partners");
-console.log("No-partner authenticated access: denied");
-console.log("Unauthenticated access: redirected to sign-in");
-console.log("Service role usage in partner dashboard read layer: absent");
-console.log("/p/we-must-vote proxy regression: passed");
-console.log("Public We Must Vote intake/document smoke: passed");
+for (const check of checks) {
+  console.log(`PASS: ${check}`);
+}
+for (const skip of skipped) {
+  console.log(`SKIP: ${skip}`);
+}
 
 function verifySourceShape() {
   const routeSource = readSource(routePath);
   const repositorySource = readSource(repositoryPath);
+  const resolverSource = readSource(resolverPath);
   const proxySource = readSource(proxyPath);
+  const rcapProfilesRlsMigrationSource = readSource(rcapProfilesRlsMigrationPath);
+
+  if (fs.existsSync(path.join(rootDir, "src/app/partner/dashboard/[partnerSlug]"))) {
+    failures.push("/partner/dashboard must not have a [partnerSlug] dynamic route.");
+  }
+
+  const partnerDashboardFiles = listFiles(path.join(rootDir, "src/app/partner"));
+  const unexpectedPartnerDashboardRoutes = partnerDashboardFiles.filter((file) => {
+    const relative = path.relative(path.join(rootDir, "src/app/partner"), file);
+    return relative.includes("dashboard") && relative !== "dashboard/page.tsx";
+  });
+  if (unexpectedPartnerDashboardRoutes.length > 0) {
+    failures.push(`/partner/dashboard must remain the only authenticated partner cockpit route. Found: ${unexpectedPartnerDashboardRoutes.map((file) => path.relative(rootDir, file)).join(", ")}`);
+  }
 
   if (!routeSource.includes("getPartnerDashboardRlsData")) {
     failures.push("/partner/dashboard route must load through the RLS dashboard repository.");
@@ -101,69 +120,127 @@ function verifySourceShape() {
     failures.push("Dashboard RLS repository must use the authenticated server Supabase client.");
   }
 
+  if (!resolverSource.includes("supabase.auth.getUser()") || !resolverSource.includes(".eq(\"auth_user_id\", userData.user.id)")) {
+    failures.push("Session partner resolver must derive partner identity from the authenticated Supabase user only.");
+  }
+
+  for (const banned of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "request.body", "searchParams", "headers()", "localStorage"]) {
+    if (resolverSource.includes(banned)) {
+      failures.push(`Session partner resolver must not reference ${banned}.`);
+    }
+  }
+
   if (!proxySource.includes('"/p/we-must-vote"') || !proxySource.includes('"/partner/dashboard"')) {
     failures.push("Proxy must preserve /p/we-must-vote and include /partner/dashboard session refresh.");
   }
+
+  if (!rcapProfilesRlsMigrationSource.includes("alter table public.rcap_user_profiles enable row level security;")) {
+    failures.push("rcap_user_profiles RLS migration must remain recorded.");
+  }
+
+  const dashboardSources = `${routeSource}\n${repositorySource}\n${resolverSource}`;
+  if (dashboardSources.includes("rcap_user_profiles")) {
+    failures.push("Partner dashboard read path must not reference or rely on rcap_user_profiles.");
+  }
+
+  const mississippiResourceMatches = routeSource.match(/"\/resources\/mississippi\/[^"]+"/g) ?? [];
+  const absoluteMississippiResourceMatches = routeSource.match(/"https?:\/\/[^"]*\/resources\/mississippi\/[^"]+"/g) ?? [];
+  if (mississippiResourceMatches.length < 3 || absoluteMississippiResourceMatches.length > 0) {
+    failures.push("Commit 4 Mississippi resource links must remain relative /resources/mississippi/... paths.");
+  }
+  if (/github\.dev|codespaces/i.test(routeSource)) {
+    failures.push("Partner dashboard must not hardcode github.dev or Codespaces resource URLs.");
+  }
+
+  checks.push("Route shape and identity source are parameterless and session-derived.");
+  checks.push("Service-role/admin client is absent from the dashboard route, resolver, and RLS repository.");
+  checks.push("rcap_user_profiles RLS migration is present and the dashboard does not rely on rcap_user_profiles.");
+  checks.push("Commit 4 Mississippi resource links remain relative and contain no github.dev/Codespaces URLs.");
 }
 
 async function verifyHttpIsolation() {
   await assertUnauthenticatedRedirect();
 
+  const wmvRls = await loadRlsSnapshot({
+    label: "We Must Vote partner admin",
+    email: requiredEnv.PARTNER_RLS_WMV_ADMIN_EMAIL,
+    password: requiredEnv.PARTNER_RLS_WMV_ADMIN_PASSWORD,
+    expectedSlug: "we-must-vote",
+    expectedRole: "partner_admin",
+    forbiddenSlug: "demo-partner"
+  });
+  const demoRls = await loadRlsSnapshot({
+    label: "Demo partner staff",
+    email: requiredEnv.PARTNER_RLS_DEMO_STAFF_EMAIL,
+    password: requiredEnv.PARTNER_RLS_DEMO_STAFF_PASSWORD,
+    expectedSlug: "demo-partner",
+    expectedRole: "partner_staff",
+    forbiddenSlug: "we-must-vote"
+  });
+
   const wmv = await signIn(requiredEnv.PARTNER_RLS_WMV_ADMIN_EMAIL, requiredEnv.PARTNER_RLS_WMV_ADMIN_PASSWORD);
   await assertPartnerDashboard(wmv, {
     label: "We Must Vote partner admin",
-    expectedSlug: "we-must-vote",
-    forbiddenSlug: "demo-partner"
+    expected: wmvRls,
+    forbidden: demoRls
   });
   await assertBypassIgnored(wmv, {
     label: "We Must Vote partner admin",
-    expectedSlug: "we-must-vote",
-    forbiddenSlug: "demo-partner",
+    expected: wmvRls,
+    forbidden: demoRls,
     attempt: "?partner_slug=demo-partner",
     query: "partner_slug=demo-partner"
   });
   await assertBypassIgnored(wmv, {
     label: "We Must Vote partner admin",
-    expectedSlug: "we-must-vote",
-    forbiddenSlug: "demo-partner",
+    expected: wmvRls,
+    forbidden: demoRls,
     attempt: "?partnerSlug=demo-partner",
     query: "partnerSlug=demo-partner"
   });
   await assertBypassIgnored(wmv, {
     label: "We Must Vote partner admin",
-    expectedSlug: "we-must-vote",
-    forbiddenSlug: "demo-partner",
+    expected: wmvRls,
+    forbidden: demoRls,
     attempt: "x-partner-slug: demo-partner",
     headers: { "x-partner-slug": "demo-partner", "x-legalease-partner-slug": "demo-partner" }
+  });
+  await assertSlugPathNotAccepted(wmv, {
+    label: "We Must Vote partner admin",
+    forbiddenSlug: "demo-partner"
   });
   await wmv.close();
 
   const demo = await signIn(requiredEnv.PARTNER_RLS_DEMO_STAFF_EMAIL, requiredEnv.PARTNER_RLS_DEMO_STAFF_PASSWORD);
   await assertPartnerDashboard(demo, {
     label: "Demo partner staff",
-    expectedSlug: "demo-partner",
-    forbiddenSlug: "we-must-vote"
+    expected: demoRls,
+    forbidden: wmvRls
   });
   await assertBypassIgnored(demo, {
     label: "Demo partner staff",
-    expectedSlug: "demo-partner",
-    forbiddenSlug: "we-must-vote",
+    expected: demoRls,
+    forbidden: wmvRls,
     attempt: "?partner_slug=we-must-vote",
     query: "partner_slug=we-must-vote"
   });
   await assertBypassIgnored(demo, {
     label: "Demo partner staff",
-    expectedSlug: "demo-partner",
-    forbiddenSlug: "we-must-vote",
+    expected: demoRls,
+    forbidden: wmvRls,
     attempt: "?partnerSlug=we-must-vote",
     query: "partnerSlug=we-must-vote"
   });
   await assertBypassIgnored(demo, {
     label: "Demo partner staff",
-    expectedSlug: "demo-partner",
-    forbiddenSlug: "we-must-vote",
+    expected: demoRls,
+    forbidden: wmvRls,
     attempt: "x-partner-slug: we-must-vote",
     headers: { "x-partner-slug": "we-must-vote", "x-legalease-partner-slug": "we-must-vote" }
+  });
+  await assertSlugPathNotAccepted(demo, {
+    label: "Demo partner staff",
+    forbiddenSlug: "we-must-vote"
   });
   await demo.close();
 
@@ -181,6 +258,12 @@ async function verifyHttpIsolation() {
     failures.push(`Internal admin was not redirected to /dashboard/partners. Final URL: ${internal.url()}`);
   }
   await internal.close();
+
+  checks.push("Unauthenticated access redirects to /sign-in?next=/partner/dashboard.");
+  checks.push("Internal admin redirects to /dashboard/partners and no-partner authenticated access is denied.");
+  checks.push("Two real partner sessions reached /partner/dashboard through the app sign-in path.");
+  checks.push("Rendered dashboard aggregates match direct authenticated RLS reads for both partners.");
+  checks.push("Query, header, and slug-path identity tampering did not change the resolved partner.");
 }
 
 async function assertUnauthenticatedRedirect() {
@@ -230,47 +313,266 @@ async function signIn(email, password) {
   return page;
 }
 
-async function assertPartnerDashboard(page, { label, expectedSlug, forbiddenSlug }) {
+async function assertPartnerDashboard(page, { label, expected, forbidden }) {
   if (!page.url().startsWith(`${baseUrl}/partner/dashboard`)) {
     failures.push(`${label} did not land on /partner/dashboard after sign-in. Final URL: ${page.url()}`);
     return;
   }
 
   const resolvedSlug = await page.locator("main").getAttribute("data-partner-dashboard-slug").catch(() => null);
+  const resolvedRole = await page.locator("main").getAttribute("data-partner-dashboard-role").catch(() => null);
   const body = await visiblePageText(page);
-  if (resolvedSlug !== expectedSlug) {
-    failures.push(`${label} dashboard did not show expected partner slug ${expectedSlug}.`);
+  if (resolvedSlug !== expected.slug) {
+    failures.push(`${label} dashboard did not show expected partner slug ${expected.slug}.`);
   }
-  if (visibleTextIncludesSlug(body, forbiddenSlug)) {
-    failures.push(`${label} dashboard appeared to show forbidden partner slug ${forbiddenSlug}.`);
+  if (resolvedRole !== expected.role) {
+    failures.push(`${label} dashboard did not show expected role ${expected.role}.`);
+  }
+  assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden);
+}
+
+function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
+  if (!visibleTextContains(body, `Welcome back, ${expected.partnerLabel}`)) {
+    failures.push(`${label} dashboard did not render expected partner label ${expected.partnerLabel}.`);
+  }
+  if (visibleTextContains(body, `Welcome back, ${forbidden.partnerLabel}`) || visibleTextContains(body, `/intake/${forbidden.slug}`)) {
+    failures.push(`${label} dashboard rendered forbidden partner identity from ${forbidden.slug}.`);
+  }
+
+  const allExpectedAggregatesZero =
+    expected.intake.totalSessions === 0 &&
+    expected.intake.completedSessions === 0 &&
+    expected.documents.totalPackets === 0 &&
+    expected.briefcaseItems === 0;
+  const expectedMetricFragments = allExpectedAggregatesZero
+    ? [`${formatMetric(expected.intake.totalSessions)}\nstarted`, `${formatMetric(expected.intake.completedSessions)}\ncompleted`, `${formatMetric(expected.documents.totalPackets)}\npackets`, `${formatMetric(expected.briefcaseItems)}\nsaved`]
+    : [`${formatMetric(expected.intake.totalSessions)}\npeople started`, `${formatMetric(expected.intake.completedSessions)}\ncompleted intake`, `${formatMetric(expected.documents.totalPackets)}\npackets ready`];
+  const expectedFragments = [
+    ...expectedMetricFragments,
+    `Started ${formatMetric(expected.intake.totalSessions)}`,
+    `Completed ${formatMetric(expected.intake.completedSessions)}`,
+    `Packet ${formatMetric(expected.documents.totalPackets)}`,
+    `Saved ${formatMetric(expected.briefcaseItems)}`
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!visibleTextContains(body, fragment)) {
+      failures.push(`${label} dashboard did not render expected RLS-backed aggregate: ${fragment.replace(/\n/g, " ")}.`);
+    }
+  }
+
+  const allForbiddenAggregatesZero =
+    forbidden.intake.totalSessions === 0 &&
+    forbidden.intake.completedSessions === 0 &&
+    forbidden.documents.totalPackets === 0 &&
+    forbidden.briefcaseItems === 0;
+  const forbiddenMetricFragments = allForbiddenAggregatesZero
+    ? [`${formatMetric(forbidden.intake.totalSessions)}\nstarted`, `${formatMetric(forbidden.intake.completedSessions)}\ncompleted`, `${formatMetric(forbidden.documents.totalPackets)}\npackets`, `${formatMetric(forbidden.briefcaseItems)}\nsaved`]
+    : [`${formatMetric(forbidden.intake.totalSessions)}\npeople started`, `${formatMetric(forbidden.intake.completedSessions)}\ncompleted intake`, `${formatMetric(forbidden.documents.totalPackets)}\npackets ready`];
+  const forbiddenFragments = [
+    ...forbiddenMetricFragments,
+    `Started ${formatMetric(forbidden.intake.totalSessions)}`,
+    `Completed ${formatMetric(forbidden.intake.completedSessions)}`,
+    `Packet ${formatMetric(forbidden.documents.totalPackets)}`,
+    `Saved ${formatMetric(forbidden.briefcaseItems)}`
+  ];
+
+  if (!snapshotsHaveSameVisibleAggregates(expected, forbidden)) {
+    for (const fragment of forbiddenFragments) {
+      if (visibleTextContains(body, fragment)) {
+        failures.push(`${label} dashboard rendered forbidden RLS-backed aggregate from ${forbidden.slug}: ${fragment.replace(/\n/g, " ")}.`);
+      }
+    }
+  } else {
+    skipped.push(`${label} forbidden aggregate absence by visible number: ${expected.slug} and ${forbidden.slug} currently have identical visible aggregate counts.`);
   }
 }
 
-async function assertBypassIgnored(page, { label, expectedSlug, forbiddenSlug, attempt, query, headers = {} }) {
+async function assertBypassIgnored(page, { label, expected, forbidden, attempt, query, headers = {} }) {
   await page.setExtraHTTPHeaders(headers);
   const url = query ? `${baseUrl}/partner/dashboard?${query}` : `${baseUrl}/partner/dashboard`;
   await gotoAllowingRedirectAbort(page, url);
   const resolvedSlug = await page.locator("main").getAttribute("data-partner-dashboard-slug").catch(() => null);
+  const resolvedRole = await page.locator("main").getAttribute("data-partner-dashboard-role").catch(() => null);
   const body = await visiblePageText(page);
-  if (resolvedSlug !== expectedSlug) {
-    failures.push(`${label} bypass attempt ${attempt} did not preserve expected partner slug ${expectedSlug}.`);
+  if (resolvedSlug !== expected.slug) {
+    failures.push(`${label} bypass attempt ${attempt} did not preserve expected partner slug ${expected.slug}.`);
   }
-  if (visibleTextIncludesSlug(body, forbiddenSlug)) {
-    failures.push(`${label} bypass attempt ${attempt} exposed forbidden partner slug ${forbiddenSlug}.`);
+  if (resolvedRole !== expected.role) {
+    failures.push(`${label} bypass attempt ${attempt} did not preserve expected role ${expected.role}.`);
   }
+  assertDashboardBodyMatchesSnapshot(body, `${label} bypass attempt ${attempt}`, expected, forbidden);
   await page.setExtraHTTPHeaders({});
+}
+
+async function assertSlugPathNotAccepted(page, { label, forbiddenSlug }) {
+  const response = await gotoAllowingRedirectAbort(page, `${baseUrl}/partner/dashboard/${forbiddenSlug}`);
+  const resolvedSlug = await page.locator("main").getAttribute("data-partner-dashboard-slug").catch(() => null);
+  const body = await page.locator("body").innerText().catch(() => "");
+
+  if (response?.status() !== 404 && resolvedSlug === forbiddenSlug) {
+    failures.push(`${label} slug-path tampering resolved forbidden partner slug ${forbiddenSlug}.`);
+  }
+  if (body?.includes(`data-partner-dashboard-slug="${forbiddenSlug}"`)) {
+    failures.push(`${label} slug-path tampering exposed forbidden dashboard markup for ${forbiddenSlug}.`);
+  }
+}
+
+async function loadRlsSnapshot({ label, email, password, expectedSlug, expectedRole, forbiddenSlug }) {
+  const client = createClient(requiredEnv.NEXT_PUBLIC_SUPABASE_URL, requiredEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+
+  const { data: signInData, error: signInError } = await client.auth.signInWithPassword({ email, password });
+  if (signInError || !signInData.user) {
+    failures.push(`${label} direct RLS sign-in failed: ${signInError?.message ?? "No user returned."}`);
+  }
+
+  const role = await rpcValue(client, "current_partner_role");
+  const slug = await rpcValue(client, "current_partner_slug");
+  if (slug !== expectedSlug) {
+    failures.push(`${label} direct RLS resolved partner slug ${String(slug)} instead of ${expectedSlug}.`);
+  }
+  if (role !== expectedRole) {
+    failures.push(`${label} direct RLS resolved role ${String(role)} instead of ${expectedRole}.`);
+  }
+
+  await assertOnlyOwnRows(client, label, "partner_records", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "partner_metrics", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "partner_assets", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "partner_events", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "rcap_intake_sessions", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "rcap_document_packets", expectedSlug, forbiddenSlug);
+  await assertOnlyOwnRows(client, label, "rcap_briefcase_items", expectedSlug, forbiddenSlug);
+
+  const [partner, intakeRows, documentRows, briefcaseItems] = await Promise.all([
+    selectMaybeSingle(client, label, "partner_records", "partner_slug, partner_name, organization_name, service_area"),
+    selectRows(client, label, "rcap_intake_sessions", "status, eligibility_signal, created_at, completed_at"),
+    selectRows(client, label, "rcap_document_packets", "status, created_at"),
+    countRows(client, label, "rcap_briefcase_items")
+  ]);
+
+  return {
+    slug: expectedSlug,
+    role: expectedRole,
+    partnerLabel: getPartnerDisplayLabel(expectedSlug, partner),
+    intake: summarizeIntake(intakeRows),
+    documents: summarizeDocuments(documentRows),
+    briefcaseItems
+  };
+}
+
+async function assertOnlyOwnRows(client, label, table, ownSlug, otherSlug) {
+  const { data: ownRows, error: ownError } = await client.from(table).select("partner_slug").eq("partner_slug", ownSlug);
+  if (ownError) {
+    if (isMissingOptionalTable(ownError)) {
+      skipped.push(`${label} ${table}: table does not exist in this environment.`);
+      return;
+    }
+    failures.push(`${label} could not read own ${table} rows: ${ownError.message}`);
+    return;
+  }
+
+  if ((ownRows ?? []).some((row) => row.partner_slug !== ownSlug)) {
+    failures.push(`${label} received non-own ${table} rows while querying ${ownSlug}.`);
+  }
+
+  const { data: otherRows, error: otherError } = await client.from(table).select("partner_slug").eq("partner_slug", otherSlug);
+  if (otherError) {
+    failures.push(`${label} other-partner ${table} query errored instead of returning no rows: ${otherError.message}`);
+    return;
+  }
+
+  if ((otherRows ?? []).length !== 0) {
+    failures.push(`${label} could read ${otherRows.length} ${table} row(s) for ${otherSlug}.`);
+  }
+}
+
+async function rpcValue(client, functionName) {
+  const { data, error } = await client.rpc(functionName);
+  if (error) {
+    failures.push(`${functionName} RPC failed: ${error.message}`);
+    return undefined;
+  }
+
+  return data;
+}
+
+async function selectMaybeSingle(client, label, table, columns) {
+  const { data, error } = await client.from(table).select(columns).maybeSingle();
+  if (error) {
+    failures.push(`${label} could not read ${table}: ${error.message}`);
+    return null;
+  }
+
+  return data;
+}
+
+async function selectRows(client, label, table, columns) {
+  const { data, error } = await client.from(table).select(columns).order("created_at", { ascending: false }).limit(250);
+  if (error) {
+    failures.push(`${label} could not read ${table}: ${error.message}`);
+    return [];
+  }
+
+  return data ?? [];
+}
+
+async function countRows(client, label, table) {
+  const { count, error } = await client.from(table).select("id", { count: "exact", head: true });
+  if (error) {
+    failures.push(`${label} could not count ${table}: ${error.message}`);
+    return 0;
+  }
+
+  return count ?? 0;
+}
+
+function summarizeIntake(rows) {
+  return {
+    totalSessions: rows.length,
+    completedSessions: rows.filter((row) => row.status === "completed" || Boolean(row.completed_at)).length
+  };
+}
+
+function summarizeDocuments(rows) {
+  return {
+    totalPackets: rows.length
+  };
+}
+
+function getPartnerDisplayLabel(partnerSlug, partner) {
+  if (partnerSlug === "we-must-vote") {
+    return "We Must Vote";
+  }
+
+  return partner?.organization_name ?? partner?.partner_name ?? toTitleCase(partnerSlug);
+}
+
+function snapshotsHaveSameVisibleAggregates(left, right) {
+  return left.intake.totalSessions === right.intake.totalSessions &&
+    left.intake.completedSessions === right.intake.completedSessions &&
+    left.documents.totalPackets === right.documents.totalPackets &&
+    left.briefcaseItems === right.briefcaseItems;
+}
+
+function isMissingOptionalTable(error) {
+  return error?.code === "42P01" || /does not exist/i.test(error?.message ?? "");
+}
+
+function visibleTextContains(body, fragment) {
+  return normalizeVisibleText(body).includes(normalizeVisibleText(fragment));
+}
+
+function normalizeVisibleText(value = "") {
+  return value.replace(/\s+/g, " ").trim();
 }
 
 async function visiblePageText(page) {
   return page.locator("main").innerText().catch(() => page.locator("body").innerText());
-}
-
-function visibleTextIncludesSlug(text, slug) {
-  const titleCasedSlug = slug
-    .split("-")
-    .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
-    .join("-");
-  return Boolean(text?.includes(slug) || text?.includes(titleCasedSlug));
 }
 
 async function verifyPublicRegressions() {
@@ -329,6 +631,9 @@ async function verifyPublicRegressions() {
   if (!packet.packet?.id) {
     failures.push("Public We Must Vote document smoke could not save a packet.");
   }
+
+  checks.push("/p/we-must-vote proxy marker regression passed.");
+  checks.push("Public We Must Vote intake/document smoke passed.");
 }
 
 async function postJson(pathname, body) {
@@ -401,6 +706,22 @@ function readSource(file) {
   }
 }
 
+function listFiles(directory) {
+  if (!fs.existsSync(directory)) {
+    return [];
+  }
+
+  const entries = fs.readdirSync(directory, { withFileTypes: true });
+  return entries.flatMap((entry) => {
+    const entryPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      return listFiles(entryPath);
+    }
+
+    return [entryPath];
+  });
+}
+
 function loadLocalEnv() {
   const envPath = path.join(rootDir, ".env.local");
   if (!fs.existsSync(envPath)) {
@@ -432,4 +753,16 @@ function unquote(value) {
   }
 
   return value;
+}
+
+function toTitleCase(value) {
+  return value
+    .split("-")
+    .filter(Boolean)
+    .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
+    .join(" ");
+}
+
+function formatMetric(value) {
+  return Math.round(value).toLocaleString();
 }
