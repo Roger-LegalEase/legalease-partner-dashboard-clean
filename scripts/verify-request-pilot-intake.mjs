@@ -86,7 +86,7 @@ function verifyValidation() {
     organization_type: "Community nonprofit",
     state_or_jurisdiction: "Mississippi",
     community_served: "Justice-impacted residents seeking record-clearing support.",
-    interested_workflow: "Partner dashboard",
+    interested_workflow: "Partner dashboard only",
     consent_to_contact: true
   };
 

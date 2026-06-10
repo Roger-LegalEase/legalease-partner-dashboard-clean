@@ -9,12 +9,15 @@ export const organizationTypeOptions = [
 ] as const;
 
 export const interestedWorkflowOptions = [
-  "Mississippi record clearing",
-  "Multi-state record clearing",
-  "Partner dashboard",
-  "Wilma eligibility intake",
-  "Document automation",
-  "Not sure yet"
+  "Mississippi record clearing / RCAP",
+  "Illinois expungement and sealing",
+  "Washington, DC expungement and sealing",
+  "Pennsylvania expungement",
+  "Harris County, Texas expunction / nondisclosure",
+  "Multi-state record relief program",
+  "Partner dashboard only",
+  "Not sure yet",
+  "Other"
 ] as const;
 
 export const pilotRequestFieldLimits = {
