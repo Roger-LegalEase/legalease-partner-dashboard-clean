@@ -363,7 +363,7 @@ async function startNextServer() {
     output += chunk.toString();
   });
 
-  const deadline = Date.now() + 30000;
+  const deadline = Date.now() + 60000;
   while (Date.now() < deadline) {
     if (await canReachServer(baseUrl)) {
       return child;
@@ -385,7 +385,7 @@ function canReachServer(url = baseUrl) {
       resolve(true);
     });
     request.on("error", () => resolve(false));
-    request.setTimeout(1000, () => {
+    request.setTimeout(5000, () => {
       request.destroy();
       resolve(false);
     });
