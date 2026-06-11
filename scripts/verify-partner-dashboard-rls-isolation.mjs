@@ -10,6 +10,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const routePath = path.join(rootDir, "src/app/partner/dashboard/page.tsx");
 const repositoryPath = path.join(rootDir, "src/lib/partners/partner-dashboard-rls-repository.ts");
 const resolverPath = path.join(rootDir, "src/lib/partners/session-partner.ts");
+const actionLayerPath = path.join(rootDir, "src/lib/partners/dashboard-action-layer.ts");
 const proxyPath = path.join(rootDir, "src/proxy.ts");
 const rcapProfilesRlsMigrationPath = path.join(rootDir, "supabase/phase-22-enable-rls-rcap-user-profiles.sql");
 const port = Number(process.env.PARTNER_DASHBOARD_RLS_VERIFY_PORT ?? 3137);
@@ -80,6 +81,7 @@ function verifySourceShape() {
   const routeSource = readSource(routePath);
   const repositorySource = readSource(repositoryPath);
   const resolverSource = readSource(resolverPath);
+  const actionLayerSource = readSource(actionLayerPath);
   const proxySource = readSource(proxyPath);
   const rcapProfilesRlsMigrationSource = readSource(rcapProfilesRlsMigrationPath);
 
@@ -130,6 +132,12 @@ function verifySourceShape() {
     }
   }
 
+  for (const banned of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "createServerSupabaseAuthClient", "createClient", "searchParams", "headers()", "request.body"]) {
+    if (actionLayerSource.includes(banned)) {
+      failures.push(`Dashboard action-layer metric helper must stay pure and must not reference ${banned}.`);
+    }
+  }
+
   if (!proxySource.includes('"/p/we-must-vote"') || !proxySource.includes('"/partner/dashboard"')) {
     failures.push("Proxy must preserve /p/we-must-vote and include /partner/dashboard session refresh.");
   }
@@ -153,7 +161,7 @@ function verifySourceShape() {
   }
 
   checks.push("Route shape and identity source are parameterless and session-derived.");
-  checks.push("Service-role/admin client is absent from the dashboard route, resolver, and RLS repository.");
+  checks.push("Service-role/admin client is absent from the dashboard route, resolver, RLS repository, and action-layer helper.");
   checks.push("rcap_user_profiles RLS migration is present and the dashboard does not rely on rcap_user_profiles.");
   checks.push("Commit 4 Mississippi resource links remain relative and contain no github.dev/Codespaces URLs.");
 }
@@ -346,9 +354,14 @@ function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
     expected.briefcaseItems === 0;
   const expectedMetricFragments = allExpectedAggregatesZero
     ? [`${formatMetric(expected.intake.totalSessions)}\nstarted`, `${formatMetric(expected.intake.completedSessions)}\ncompleted`, `${formatMetric(expected.documents.totalPackets)}\npackets`, `${formatMetric(expected.briefcaseItems)}\nsaved`]
-    : [`${formatMetric(expected.intake.totalSessions)}\npeople started`, `${formatMetric(expected.intake.completedSessions)}\ncompleted intake`, `${formatMetric(expected.documents.totalPackets)}\npackets ready`];
+    : [`${formatMetric(expected.intake.totalSessions)}\npeople started`, `${formatMetric(expected.intake.completedSessions)}\ncompleted intake`, `${formatMetric(expected.documents.totalPackets)}\npackets created`];
+  const expectedActionLayer = computeActionLayerSnapshot(expected.intake);
   const expectedFragments = [
     ...expectedMetricFragments,
+    "RECOMMENDED NEXT ACTION",
+    expectedActionLayer.recommendedAction,
+    `${expectedActionLayer.completionRate}%\nIntake completion`,
+    `${formatMetric(expectedActionLayer.notCompleted)}\nIntakes not completed`,
     `Started ${formatMetric(expected.intake.totalSessions)}`,
     `Completed ${formatMetric(expected.intake.completedSessions)}`,
     `Packet ${formatMetric(expected.documents.totalPackets)}`,
@@ -368,9 +381,12 @@ function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
     forbidden.briefcaseItems === 0;
   const forbiddenMetricFragments = allForbiddenAggregatesZero
     ? [`${formatMetric(forbidden.intake.totalSessions)}\nstarted`, `${formatMetric(forbidden.intake.completedSessions)}\ncompleted`, `${formatMetric(forbidden.documents.totalPackets)}\npackets`, `${formatMetric(forbidden.briefcaseItems)}\nsaved`]
-    : [`${formatMetric(forbidden.intake.totalSessions)}\npeople started`, `${formatMetric(forbidden.intake.completedSessions)}\ncompleted intake`, `${formatMetric(forbidden.documents.totalPackets)}\npackets ready`];
+    : [`${formatMetric(forbidden.intake.totalSessions)}\npeople started`, `${formatMetric(forbidden.intake.completedSessions)}\ncompleted intake`, `${formatMetric(forbidden.documents.totalPackets)}\npackets created`];
+  const forbiddenActionLayer = computeActionLayerSnapshot(forbidden.intake);
   const forbiddenFragments = [
     ...forbiddenMetricFragments,
+    `${forbiddenActionLayer.completionRate}%\nIntake completion`,
+    `${formatMetric(forbiddenActionLayer.notCompleted)}\nIntakes not completed`,
     `Started ${formatMetric(forbidden.intake.totalSessions)}`,
     `Completed ${formatMetric(forbidden.intake.completedSessions)}`,
     `Packet ${formatMetric(forbidden.documents.totalPackets)}`,
@@ -550,6 +566,16 @@ function summarizeIntake(rows) {
 function summarizeDocuments(rows) {
   return {
     totalPackets: rows.length
+  };
+}
+
+function computeActionLayerSnapshot(intake) {
+  const started = Math.max(0, Math.floor(Number(intake.totalSessions) || 0));
+  const completed = Math.min(Math.max(0, Math.floor(Number(intake.completedSessions) || 0)), started);
+  return {
+    completionRate: started === 0 ? 0 : Math.round((completed / started) * 100),
+    notCompleted: Math.max(started - completed, 0),
+    recommendedAction: started === 0 ? "Share your intake link." : "Keep sharing the program."
   };
 }
 

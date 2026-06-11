@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { productionAppUrl } from "@/lib/app-url";
+import { computePartnerDashboardActionLayer, type PartnerDashboardActionLayer } from "@/lib/partners/dashboard-action-layer";
 import { getPartnerDashboardRlsData, type PartnerDashboardRlsData } from "@/lib/partners/partner-dashboard-rls-repository";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
 
@@ -68,12 +69,13 @@ export default async function PartnerDashboardPage() {
     packets: availability.documents ? Math.round(dashboard.documents.totalPackets) : undefined,
     saved: availability.briefcase ? Math.round(dashboard.briefcaseItems) : undefined
   };
-  const completionRate =
-    metrics.started !== undefined && metrics.completed !== undefined && metrics.started > 0
-      ? Math.round((metrics.completed / metrics.started) * 100)
-      : metrics.started === 0
-        ? 0
-        : undefined;
+  const actionLayer =
+    metrics.started !== undefined && metrics.completed !== undefined
+      ? computePartnerDashboardActionLayer({
+          started: metrics.started,
+          completed: metrics.completed
+        })
+      : undefined;
   const allMetricsZero = [metrics.started, metrics.completed, metrics.packets, metrics.saved].every((value) => value === 0);
   const communityMessage = `Have an old Mississippi record and want to see whether record clearing may be an option? ${partnerLabel} and LegalEase have launched a guided intake workflow to help you understand possible next steps. Start here: ${intakeDisplayUrl}`;
 
@@ -89,7 +91,7 @@ export default async function PartnerDashboardPage() {
 
           {dashboard.warnings.length > 0 ? (
             <div style={{ marginBottom: "1rem", background: "#FCEFD9", color: "#8A5A12", borderRadius: 12, padding: "11px 14px", fontSize: 13, lineHeight: 1.5 }}>
-              Some partner dashboard data is temporarily unavailable. No broader partner data was used to fill the gap.
+              Some partner dashboard data is temporarily unavailable. No broader partner data was used as a substitute.
             </div>
           ) : null}
 
@@ -97,7 +99,8 @@ export default async function PartnerDashboardPage() {
           <Header partnerLabel={partnerLabel} serviceArea={serviceArea} />
           <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} />
 
-          {allMetricsZero ? <EmptyState intakeOpenUrl={intakeOpenUrl} /> : <MetricCards metrics={metrics} completionRate={completionRate} />}
+          {allMetricsZero ? <EmptyState intakeOpenUrl={intakeOpenUrl} /> : <MetricCards metrics={metrics} actionLayer={actionLayer} />}
+          <ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />
 
           <div className="partner-dashboard-split" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 14, marginBottom: "1.1rem" }}>
             <Journey metrics={metrics} />
@@ -198,7 +201,7 @@ function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl }: { intakeDisplayUrl:
   );
 }
 
-function MetricCards({ metrics, completionRate }: { metrics: Metrics; completionRate?: number }) {
+function MetricCards({ metrics, actionLayer }: { metrics: Metrics; actionLayer?: PartnerDashboardActionLayer }) {
   return (
     <>
       <div style={{ marginBottom: 8, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -208,8 +211,8 @@ function MetricCards({ metrics, completionRate }: { metrics: Metrics; completion
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14, marginBottom: "1.1rem" }}>
         <MetricCard bg="#FBEAE1" numberColor="#993C1D" labelColor="#A8543A" value={metrics.started} label="people started" />
         <MetricCard bg="#E1F0EC" numberColor="#0F6E56" labelColor="#1D8268" value={metrics.completed} label="completed intake" />
-        <CompletionMetricCard started={metrics.started} completed={metrics.completed} completionRate={completionRate} />
-        <MetricCard bg="#FCEFD9" numberColor="#8A5A12" labelColor="#A06E1F" value={metrics.packets} label="packets ready" />
+        <CompletionMetricCard actionLayer={actionLayer} />
+        <MetricCard bg="#FCEFD9" numberColor="#8A5A12" labelColor="#A06E1F" value={metrics.packets} label="packets created" />
       </div>
     </>
   );
@@ -224,14 +227,52 @@ function MetricCard({ bg, numberColor, labelColor, value, label }: { bg: string;
   );
 }
 
-function CompletionMetricCard({ started, completed, completionRate }: { started?: number; completed?: number; completionRate?: number }) {
-  const detail = started !== undefined && completed !== undefined ? `${formatMetric(completed)} of ${formatMetric(started)} who started` : "Available when intake data loads";
+function CompletionMetricCard({ actionLayer }: { actionLayer?: PartnerDashboardActionLayer }) {
+  const detail = actionLayer ? `${formatMetric(actionLayer.completed)} of ${formatMetric(actionLayer.started)} started intakes` : "Available when intake data loads";
 
   return (
     <div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 18, padding: "1.4rem 1.5rem" }}>
-      <p style={{ margin: 0, fontSize: 56, fontWeight: 700, lineHeight: 0.95, letterSpacing: "-0.04em", color: "#0F1E3D" }}>{completionRate === undefined ? "-" : `${completionRate}%`}</p>
-      <p style={{ margin: "10px 0 0", fontSize: 14, fontWeight: 500, color: "#8A8278" }}>intake completion</p>
+      <p style={{ margin: 0, fontSize: 56, fontWeight: 700, lineHeight: 0.95, letterSpacing: "-0.04em", color: "#0F1E3D" }}>{actionLayer ? `${actionLayer.completionRate}%` : "-"}</p>
+      <p style={{ margin: "10px 0 0", fontSize: 14, fontWeight: 500, color: "#8A8278" }}>Intake completion</p>
       <p style={{ margin: "3px 0 0", fontSize: 12, color: "#A8A096" }}>{detail}</p>
+    </div>
+  );
+}
+
+function ActionHealth({ actionLayer, intakeOpenUrl }: { actionLayer?: PartnerDashboardActionLayer; intakeOpenUrl: string }) {
+  if (!actionLayer) {
+    return (
+      <div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 20, padding: "1.35rem 1.5rem", marginBottom: "1.1rem" }}>
+        <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#0F1E3D" }}>Recommended next action</p>
+        <p style={{ margin: "6px 0 0", fontSize: 14, color: "#8A8278", lineHeight: 1.55 }}>Intake action metrics will show once RLS-scoped intake data is available.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 20, padding: "1.35rem 1.5rem", marginBottom: "1.1rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "minmax(220px,0.8fr) minmax(0,1.2fr)", gap: 14 }} className="partner-dashboard-split">
+        <div style={{ background: "#FBEAE1", borderRadius: 16, padding: "1rem 1.1rem" }}>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "#A8543A" }}>{actionLayer.recommendedAction.label}</p>
+          <p style={{ margin: "7px 0 0", fontSize: 22, fontWeight: 650, letterSpacing: "-0.01em", color: "#0F1E3D" }}>{actionLayer.recommendedAction.body}</p>
+          <Link href={intakeOpenUrl} style={{ marginTop: 12, display: "inline-flex", alignItems: "center", gap: 7, color: "#D85A30", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+            Open intake link
+            <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10 }}>
+          {actionLayer.metrics.map((metric) => (
+            <div key={metric.id} style={{ background: "#FBF7F2", border: "1px solid #EFE7DB", borderRadius: 14, padding: "1rem 1.05rem" }}>
+              <p style={{ margin: 0, fontSize: 34, fontWeight: 700, lineHeight: 1, letterSpacing: "-0.03em", color: "#0F1E3D" }}>{metric.value}</p>
+              <p style={{ margin: "7px 0 0", fontSize: 14, fontWeight: 650, color: "#3A332C" }}>{metric.label}</p>
+              <p style={{ margin: "5px 0 0", fontSize: 12, color: "#8A8278", lineHeight: 1.45 }}>{metric.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p style={{ margin: "12px 0 0", fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
+        Definitions: intake completion is completed intakes divided by started intakes. Intakes not completed is neutral; it does not prove abandonment or that follow-up is appropriate.
+      </p>
     </div>
   );
 }
@@ -280,7 +321,7 @@ function Journey({ metrics }: { metrics: Metrics }) {
   const saved = formatMetric(metrics.saved);
   const journeySummary =
     metrics.started !== undefined && metrics.completed !== undefined && metrics.packets !== undefined && metrics.saved !== undefined
-      ? `${completed} of ${started} people who started the intake completed the screening flow, generated a Mississippi record-clearing packet, and saved their documents to Briefcase.`
+      ? `${completed} of ${started} started intakes are completed. LegalEase has created ${packets} document packets and ${saved} Briefcase items for this partner.`
       : "Participant progress will show here as intake, packet, and Briefcase data becomes available.";
 
   return (
@@ -298,10 +339,10 @@ function Journey({ metrics }: { metrics: Metrics }) {
       </div>
       <div style={{ marginTop: 14, display: "grid", gap: 6 }}>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
-          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets ready:</strong> Completed intakes with a generated document packet.
+          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packet rows created for this partner.
         </p>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
-          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Saved for return:</strong> Packets saved to the user&apos;s Briefcase so they can come back later.
+          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Briefcase items:</strong> Items saved for this partner so a user can come back later.
         </p>
       </div>
     </div>
