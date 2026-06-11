@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowRight, Building2, CheckCircle2, CreditCard, Settings2, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import {
   getPaymentStatusLabel,
   getProgramTier,
@@ -16,6 +17,12 @@ import type { PartnerRecord } from "@/lib/partners/types";
 import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/mississippi/repository";
 
 export default async function InternalPartnerAdminPage() {
+  const access = await resolveInternalAdminPageAccess("/internal/partners/admin");
+
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const partners = await getAllPartnerRecords();
   const qualifiedPartners = partners.filter((record) => record.qualificationStatus === "qualified").length;
   const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;

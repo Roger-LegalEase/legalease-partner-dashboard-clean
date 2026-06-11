@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BarChart3, BriefcaseBusiness, ClipboardList, ExternalLink, FileCheck2, Flag, LifeBuoy, UsersRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getOnboardingStatusLabel, getPaymentStatusLabel, getProvisioningStatusLabel } from "@/lib/partners/partner-service";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerDocuments, partnerIntake, partnerPublicPage } from "@/lib/partners/routes";
@@ -13,6 +14,12 @@ export default async function PartnerSpecificDashboardPlaceholder({
   params: Promise<{ partnerSlug: string }>;
 }) {
   const { partnerSlug } = await params;
+  const access = await resolveInternalAdminPageAccess(`/dashboard/partners/${partnerSlug}`);
+
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const partner = await getPartnerRecordBySlug(partnerSlug);
   const documentActivity = await getPartnerDocumentActivitySummary(partnerSlug);
 

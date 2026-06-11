@@ -3,12 +3,19 @@ import {
   validateAdminActionRequest
 } from "@/lib/partners/admin-actions";
 import { runPartnerAdminAction } from "@/lib/partners/admin-action-runner";
+import { requireInternalAdminRouteAccess } from "@/lib/partners/internal-admin-gate";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
+import { SessionPartnerError } from "@/lib/partners/session-partner";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  const denied = await denyUnlessInternalAdmin();
+  if (denied) {
+    return denied;
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -42,4 +49,21 @@ export async function POST(request: Request) {
     },
     { status }
   );
+}
+
+async function denyUnlessInternalAdmin() {
+  try {
+    await requireInternalAdminRouteAccess();
+    return undefined;
+  } catch (error) {
+    if (error instanceof SessionPartnerError && error.code === "unauthenticated") {
+      return NextResponse.json({ success: false, error: "Authentication required." }, { status: 401 });
+    }
+
+    if (error instanceof SessionPartnerError) {
+      return NextResponse.json({ success: false, error: "Internal admin access required." }, { status: 403 });
+    }
+
+    throw error;
+  }
 }

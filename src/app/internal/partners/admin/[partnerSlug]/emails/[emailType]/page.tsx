@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
 import { isPartnerEmailType, partnerEmailTypeLabels } from "@/lib/email/email-types";
 import { getPartnerEmailRequiredInputs, renderPartnerEmailTemplate } from "@/lib/email/templates";
+import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { internalAdminEmails } from "@/lib/partners/routes";
 import { EmailDryRunButton } from "./EmailDryRunButton";
@@ -15,6 +16,12 @@ export default async function InternalPartnerEmailPreviewPage({
   params: Promise<{ partnerSlug: string; emailType: string }>;
 }) {
   const { partnerSlug, emailType } = await params;
+  const access = await resolveInternalAdminPageAccess(`/internal/partners/admin/${partnerSlug}/emails/${emailType}`);
+
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   if (!isPartnerEmailType(emailType)) {
     notFound();
   }

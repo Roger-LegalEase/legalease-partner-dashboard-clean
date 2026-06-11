@@ -3,6 +3,7 @@ import { CalendarDays, CheckCircle2, ClipboardCheck, ExternalLink, FileText, Mai
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
+import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getActivationReadiness, getPartnerEvents } from "@/lib/partners/activation";
 import {
   getAssetStatusLabel,
@@ -25,6 +26,12 @@ export default async function InternalPartnerAdminDetailPage({
   params: Promise<{ partnerSlug: string }>;
 }) {
   const { partnerSlug } = await params;
+  const access = await resolveInternalAdminPageAccess(`/internal/partners/admin/${partnerSlug}`);
+
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const record = await getPartnerRecordBySlug(partnerSlug);
 
   if (!record) {

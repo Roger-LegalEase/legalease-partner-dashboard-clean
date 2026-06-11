@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
 import { partnerEmailTypeLabels, partnerEmailTypes } from "@/lib/email/email-types";
+import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getPartnerEmailDeliveryRecords, getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { internalAdminDetail, internalAdminEmailPreview } from "@/lib/partners/routes";
 import type { PartnerEmailDeliveryRecord } from "@/lib/partners/types";
@@ -15,6 +16,12 @@ export default async function InternalPartnerEmailsPage({
   params: Promise<{ partnerSlug: string }>;
 }) {
   const { partnerSlug } = await params;
+  const access = await resolveInternalAdminPageAccess(`/internal/partners/admin/${partnerSlug}/emails`);
+
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const partner = await getPartnerRecordBySlug(partnerSlug);
 
   if (!partner) {
