@@ -15,10 +15,11 @@ export function RequestPilotForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setError("");
     setStatus("submitting");
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
 
     try {
@@ -39,7 +40,7 @@ export function RequestPilotForm() {
       }
 
       setStatus("success");
-      event.currentTarget.reset();
+      form.reset();
     } catch (submitError) {
       setStatus("idle");
       setError(submitError instanceof Error ? submitError.message : "Unable to submit request.");
