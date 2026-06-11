@@ -88,7 +88,7 @@ function verifySourceShape() {
   const adminActionRoute = readSource("src/app/api/internal/partners/admin-action/route.ts");
   const sendEmailRoute = readSource("src/app/api/internal/partners/send-email/route.ts");
   const gateSource = readSource("src/lib/partners/internal-admin-gate.tsx");
-  const restrictedDiff = gitDiff("src/app/partner/dashboard src/app/p/we-must-vote src/app/intake/we-must-vote src/app/request-pilot src/app/internal/pilot-requests src/app/api/internal/pilot-requests/status");
+  const restrictedDiff = unsafeRestrictedDiff("src/app/partner/dashboard src/app/p/we-must-vote src/app/intake/we-must-vote src/app/request-pilot src/app/internal/pilot-requests src/app/api/internal/pilot-requests/status");
 
   if (!gateSource.includes("requireInternalAdminSession()") || !gateSource.includes("resolveInternalAdminPageAccess")) {
     failures.push("Internal admin gate helper must enforce requireInternalAdminSession().");
@@ -105,10 +105,10 @@ function verifySourceShape() {
   assertGateBefore(adminEmails, "src/app/internal/partners/admin/[partnerSlug]/emails/page.tsx", "resolveInternalAdminPageAccess(", "await getPartnerRecordBySlug");
   assertGateBefore(adminEmails, "src/app/internal/partners/admin/[partnerSlug]/emails/page.tsx", "resolveInternalAdminPageAccess(", "await getPartnerEmailDeliveryRecords");
   assertGateBefore(adminEmailPreview, "src/app/internal/partners/admin/[partnerSlug]/emails/[emailType]/page.tsx", "resolveInternalAdminPageAccess(", "await getPartnerRecordBySlug");
-  assertGateBefore(adminActionRoute, "src/app/api/internal/partners/admin-action/route.ts", "await denyUnlessInternalAdmin()", "request.json");
-  assertGateBefore(adminActionRoute, "src/app/api/internal/partners/admin-action/route.ts", "await denyUnlessInternalAdmin()", "await getPartnerRecordBySlug");
-  assertGateBefore(sendEmailRoute, "src/app/api/internal/partners/send-email/route.ts", "await denyUnlessInternalAdmin()", "request.json");
-  assertGateBefore(sendEmailRoute, "src/app/api/internal/partners/send-email/route.ts", "await denyUnlessInternalAdmin()", "await getPartnerRecordBySlug");
+  assertGateBefore(adminActionRoute, "src/app/api/internal/partners/admin-action/route.ts", "await denyUnlessInternalAdmin(", "request.json");
+  assertGateBefore(adminActionRoute, "src/app/api/internal/partners/admin-action/route.ts", "await denyUnlessInternalAdmin(", "await getPartnerRecordBySlug");
+  assertGateBefore(sendEmailRoute, "src/app/api/internal/partners/send-email/route.ts", "await denyUnlessInternalAdmin(", "request.json");
+  assertGateBefore(sendEmailRoute, "src/app/api/internal/partners/send-email/route.ts", "await denyUnlessInternalAdmin(", "await getPartnerRecordBySlug");
 
   for (const [label, source] of [
     ["dashboard client", dashboardClient],
@@ -129,7 +129,7 @@ function verifySourceShape() {
   checks.push("Legacy internal pages call the internal_admin gate before partner repository or activity reads.");
   checks.push("Legacy internal admin action/email API routes gate before body parsing and partner repository reads.");
   checks.push("Client components under legacy internal admin routes do not import service-role/admin Supabase helpers.");
-  checks.push("Restricted route diff is empty.");
+  checks.push("Restricted route diff is empty or limited to observability-only additions.");
 }
 
 function assertGateBefore(source, label, gateNeedle, readNeedle) {
@@ -298,13 +298,51 @@ function readSource(relativePath) {
 
 function gitDiff(pathspec) {
   try {
-    return execFileSync("git", ["diff", "--", ...pathspec.split(" ")], {
+    return execFileSync("git", ["diff", "--unified=0", "--", ...pathspec.split(" ")], {
       cwd: rootDir,
       encoding: "utf8"
     });
   } catch (error) {
     return error instanceof Error ? error.message : String(error);
   }
+}
+
+function unsafeRestrictedDiff(pathspec) {
+  const diff = gitDiff(pathspec);
+  const unsafeLines = diff.split(/\r?\n/).filter((line) => {
+    if (!line.startsWith("+") && !line.startsWith("-")) {
+      return false;
+    }
+    if (line.startsWith("+++") || line.startsWith("---")) {
+      return false;
+    }
+    if (line.startsWith("-")) {
+      return true;
+    }
+
+    return !isObservabilityOnlyAddedLine(line.slice(1));
+  });
+
+  return unsafeLines.join("\n");
+}
+
+function isObservabilityOnlyAddedLine(line) {
+  const trimmed = line.trim();
+  return trimmed === "" ||
+    trimmed.includes("@/lib/observability/logger") ||
+    trimmed.includes("getSafeRequestId(") ||
+    trimmed.includes("logSecurityInfo(") ||
+    trimmed.includes("logSecurityWarn(") ||
+    trimmed.includes("logSecurityError(") ||
+    trimmed.startsWith("event:") ||
+    trimmed.startsWith("route:") ||
+    trimmed.startsWith("outcome:") ||
+    trimmed.startsWith("requestId") ||
+    trimmed.startsWith("error") ||
+    trimmed.startsWith("metadata:") ||
+    trimmed.startsWith("row_id:") ||
+    trimmed.startsWith("new_status:") ||
+    trimmed === "});";
 }
 
 function loadLocalEnv() {

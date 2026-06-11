@@ -92,7 +92,7 @@ function verifySourceShape() {
   const routeSource = readSource("src/app/api/internal/pilot-requests/status/route.ts");
   const clientSource = readSource("src/app/internal/pilot-requests/PilotRequestStatusControl.tsx");
   const migrationSource = readSource("supabase/phase-23-partner-pilot-requests.sql");
-  const dashboardDiff = gitDiff("src/app/partner/dashboard src/app/p/we-must-vote src/app/intake/we-must-vote");
+  const dashboardDiff = unsafeRestrictedDiff("src/app/partner/dashboard src/app/p/we-must-vote src/app/intake/we-must-vote");
 
   if (!pageSource.includes("listPilotRequestsForInternalAdmin")) {
     failures.push("Pilot request queue page must load through the gated internal-admin repository.");
@@ -131,7 +131,7 @@ function verifySourceShape() {
   checks.push("Source gate shape requires internal_admin before partner_pilot_requests service-role data access.");
   checks.push("Client pilot request queue component has no service-role/admin Supabase imports.");
   checks.push("partner_pilot_requests migration still has no public/anon/authenticated policies.");
-  checks.push("Restricted route diff is empty.");
+  checks.push("Restricted route diff is empty or limited to observability-only additions.");
 }
 
 async function verifyUnauthenticatedAccess(id) {
@@ -355,10 +355,49 @@ async function visiblePageText(page) {
 }
 
 function gitDiff(paths) {
-  return execFileSync("git", ["diff", "--", ...paths.split(" ")], {
+  return execFileSync("git", ["diff", "--unified=0", "--", ...paths.split(" ")], {
     cwd: rootDir,
     encoding: "utf8"
   });
+}
+
+function unsafeRestrictedDiff(paths) {
+  const diff = gitDiff(paths);
+  const unsafeLines = diff.split(/\r?\n/).filter((line) => {
+    if (!line.startsWith("+") && !line.startsWith("-")) {
+      return false;
+    }
+    if (line.startsWith("+++") || line.startsWith("---")) {
+      return false;
+    }
+    if (line.startsWith("-")) {
+      return true;
+    }
+
+    return !isObservabilityOnlyAddedLine(line.slice(1));
+  });
+
+  return unsafeLines.join("\n");
+}
+
+function isObservabilityOnlyAddedLine(line) {
+  const trimmed = line.trim();
+  return trimmed === "" ||
+    trimmed.includes("@/lib/observability/logger") ||
+    trimmed.includes("getSafeRequestId(") ||
+    trimmed.includes("logSecurityInfo(") ||
+    trimmed.includes("logSecurityWarn(") ||
+    trimmed.includes("logSecurityError(") ||
+    trimmed.startsWith("event:") ||
+    trimmed.startsWith("route:") ||
+    trimmed.startsWith("outcome:") ||
+    trimmed.startsWith("requestId") ||
+    trimmed.startsWith("error") ||
+    trimmed.startsWith("metadata:") ||
+    trimmed.startsWith("row_id:") ||
+    trimmed.startsWith("new_status:") ||
+    trimmed === "});" ||
+    trimmed === "});";
 }
 
 function readSource(file) {

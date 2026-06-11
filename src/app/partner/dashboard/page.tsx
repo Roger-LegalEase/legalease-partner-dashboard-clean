@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { productionAppUrl } from "@/lib/app-url";
+import { logSecurityWarn } from "@/lib/observability/logger";
 import { computePartnerDashboardActionLayer, type PartnerDashboardActionLayer } from "@/lib/partners/dashboard-action-layer";
 import { getPartnerDashboardRlsData, type PartnerDashboardRlsData } from "@/lib/partners/partner-dashboard-rls-repository";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
@@ -141,9 +142,11 @@ async function loadDashboard(): Promise<DashboardLoadResult> {
   } catch (error) {
     if (error instanceof SessionPartnerError) {
       if (error.code === "unauthenticated") {
+        logSecurityWarn({ event: "partner_dashboard auth denied", route: "/partner/dashboard", outcome: "unauthenticated", error });
         return { kind: "redirect", href: "/sign-in?next=/partner/dashboard" };
       }
 
+      logSecurityWarn({ event: "partner_dashboard auth denied", route: "/partner/dashboard", outcome: "forbidden", error });
       return {
         kind: "denied",
         title: "Partner dashboard access denied",

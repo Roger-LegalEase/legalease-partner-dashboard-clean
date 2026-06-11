@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import { logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { requireInternalAdminSession, SessionPartnerError } from "@/lib/partners/session-partner";
 
 type InternalAdminAccess =
@@ -13,13 +14,16 @@ type InternalAdminAccess =
 export async function resolveInternalAdminPageAccess(nextPath: string): Promise<InternalAdminAccess> {
   try {
     await requireInternalAdminSession();
+    logSecurityInfo({ event: "internal_admin gate allow", route: nextPath, outcome: "allowed" });
     return { kind: "allowed" };
   } catch (error) {
     if (error instanceof SessionPartnerError && error.code === "unauthenticated") {
+      logSecurityWarn({ event: "internal_admin gate denied", route: nextPath, outcome: "unauthenticated", error });
       redirect(`/sign-in?next=${encodeURIComponent(nextPath)}`);
     }
 
     if (error instanceof SessionPartnerError) {
+      logSecurityWarn({ event: "internal_admin gate denied", route: nextPath, outcome: "forbidden", error });
       return {
         kind: "denied",
         title: "Internal admin access denied",
@@ -33,6 +37,7 @@ export async function resolveInternalAdminPageAccess(nextPath: string): Promise<
 
 export async function requireInternalAdminRouteAccess() {
   await requireInternalAdminSession();
+  logSecurityInfo({ event: "internal_admin route gate allow", route: "internal_api", outcome: "allowed" });
 }
 
 export function InternalAdminDenied({ title, body }: { title: string; body: string }) {

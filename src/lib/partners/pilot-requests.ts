@@ -1,5 +1,6 @@
 import "server-only";
 
+import { logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { requireInternalAdminSession } from "@/lib/partners/session-partner";
 import { isPilotRequestStatus, type PilotRequestStatus } from "@/lib/partners/pilot-request-status";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -41,10 +42,17 @@ type PilotRequestRow = {
 };
 
 export async function listPilotRequestsForInternalAdmin() {
-  await requireInternalAdminSession();
+  try {
+    await requireInternalAdminSession();
+    logSecurityInfo({ event: "pilot_queue access allowed", route: "/internal/pilot-requests", outcome: "allowed" });
+  } catch (error) {
+    logSecurityWarn({ event: "pilot_queue access denied", route: "/internal/pilot-requests", outcome: "denied", error });
+    throw error;
+  }
 
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
+    logSecurityError({ event: "pilot_queue load fail", route: "/internal/pilot-requests", outcome: "supabase_not_configured" });
     throw new Error("Supabase service-role client is not configured.");
   }
 
@@ -73,6 +81,7 @@ export async function listPilotRequestsForInternalAdmin() {
     .limit(100);
 
   if (error) {
+    logSecurityError({ event: "pilot_queue load fail", route: "/internal/pilot-requests", outcome: "db_error", error });
     throw new Error(`Unable to load pilot requests: ${error.message}`);
   }
 
@@ -80,10 +89,17 @@ export async function listPilotRequestsForInternalAdmin() {
 }
 
 export async function updatePilotRequestStatusForInternalAdmin(id: string, status: PilotRequestStatus) {
-  await requireInternalAdminSession();
+  try {
+    await requireInternalAdminSession();
+    logSecurityInfo({ event: "pilot_queue update gate allowed", route: "/api/internal/pilot-requests/status", outcome: "allowed", metadata: { row_id: id, new_status: status } });
+  } catch (error) {
+    logSecurityWarn({ event: "pilot_queue update gate denied", route: "/api/internal/pilot-requests/status", outcome: "denied", error });
+    throw error;
+  }
 
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
+    logSecurityError({ event: "pilot_queue status_update failure", route: "/api/internal/pilot-requests/status", outcome: "supabase_not_configured", metadata: { row_id: id, new_status: status } });
     throw new Error("Supabase service-role client is not configured.");
   }
 
@@ -93,6 +109,7 @@ export async function updatePilotRequestStatusForInternalAdmin(id: string, statu
     .eq("id", id);
 
   if (error) {
+    logSecurityError({ event: "pilot_queue status_update failure", route: "/api/internal/pilot-requests/status", outcome: "db_error", error, metadata: { row_id: id, new_status: status } });
     throw new Error(`Unable to update pilot request: ${error.message}`);
   }
 }

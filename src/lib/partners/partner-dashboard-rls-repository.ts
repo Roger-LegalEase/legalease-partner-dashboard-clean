@@ -1,5 +1,6 @@
 import "server-only";
 
+import { logSecurityError, logSecurityInfo } from "@/lib/observability/logger";
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import { resolveSessionPartner, type PartnerUserRole, type SessionPartner } from "@/lib/partners/session-partner";
 
@@ -92,6 +93,7 @@ export async function getPartnerDashboardRlsData(): Promise<PartnerDashboardRlsD
   const sessionPartner = await resolveSessionPartner();
 
   if (sessionPartner.kind === "internal_admin") {
+    logSecurityInfo({ event: "partner_dashboard internal_admin redirect", route: "/partner/dashboard", outcome: "redirect" });
     return {
       kind: "internal_admin",
       authUserId: sessionPartner.authUserId,
@@ -137,22 +139,27 @@ async function loadPartnerDashboardForSession(sessionPartner: Extract<SessionPar
   ]);
 
   if (partnerResult.error) {
+    logSecurityError({ event: "partner_dashboard read fail", route: "/partner/dashboard", outcome: "partner_record_error", error: partnerResult.error });
     warnings.push(`Partner record unavailable: ${partnerResult.error.message}`);
   }
 
   if (metricsResult.error) {
+    logSecurityError({ event: "partner_dashboard read fail", route: "/partner/dashboard", outcome: "partner_metrics_error", error: metricsResult.error });
     warnings.push(`Partner metrics unavailable: ${metricsResult.error.message}`);
   }
 
   if (intakeResult.error) {
+    logSecurityError({ event: "partner_dashboard read fail", route: "/partner/dashboard", outcome: "intake_summary_error", error: intakeResult.error });
     warnings.push(`Intake summary unavailable: ${intakeResult.error.message}`);
   }
 
   if (documentResult.error) {
+    logSecurityError({ event: "partner_dashboard read fail", route: "/partner/dashboard", outcome: "document_summary_error", error: documentResult.error });
     warnings.push(`Document summary unavailable: ${documentResult.error.message}`);
   }
 
   if (briefcaseResult.error) {
+    logSecurityError({ event: "partner_dashboard read fail", route: "/partner/dashboard", outcome: "briefcase_count_error", error: briefcaseResult.error });
     warnings.push(`Briefcase count unavailable: ${briefcaseResult.error.message}`);
   }
 
