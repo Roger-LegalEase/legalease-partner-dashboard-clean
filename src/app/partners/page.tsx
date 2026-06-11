@@ -415,6 +415,19 @@ export default function PartnersLandingPage() {
           </div>
         </div>
       </section>
+      <footer className="border-t border-white/10 bg-[#102d4a]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm font-semibold text-white/72 md:flex-row md:items-center md:justify-between md:px-6">
+          <p>LegalEase Incorporated</p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="text-white transition hover:text-[#f6b44b]">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="text-white transition hover:text-[#f6b44b]">
+              Terms
+            </Link>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle2, Loader2, Send } from "lucide-react";
+import Link from "next/link";
 import { useState, type FormEvent, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { interestedWorkflowOptions, organizationTypeOptions } from "@/lib/request-pilot/validation";
 
@@ -121,6 +122,17 @@ export function RequestPilotForm() {
         <span>
           I agree that LegalEase may contact me about this Partner Program pilot request. This form is for partnership
           conversations and does not create an attorney-client relationship or promise legal outcomes.
+          <span className="mt-2 block">
+            By submitting, you agree to our{" "}
+            <Link href="/privacy" className="font-black text-[#c84f2b] underline underline-offset-4">
+              Privacy Policy
+            </Link>{" "}
+            and{" "}
+            <Link href="/terms" className="font-black text-[#c84f2b] underline underline-offset-4">
+              Terms
+            </Link>
+            .
+          </span>
         </span>
       </label>
 
