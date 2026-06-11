@@ -378,7 +378,16 @@ function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
   ];
 
   if (!snapshotsHaveSameVisibleAggregates(expected, forbidden)) {
-    for (const fragment of forbiddenFragments) {
+    const distinctiveForbiddenFragments = forbiddenFragments.filter((fragment) => {
+      return !fragment.startsWith("0\n") && !fragment.endsWith(" 0");
+    });
+
+    if (distinctiveForbiddenFragments.length === 0) {
+      skipped.push(`${label} forbidden aggregate absence by visible number: ${forbidden.slug} currently has only zero-value visible aggregates.`);
+      return;
+    }
+
+    for (const fragment of distinctiveForbiddenFragments) {
       if (visibleTextContains(body, fragment)) {
         failures.push(`${label} dashboard rendered forbidden RLS-backed aggregate from ${forbidden.slug}: ${fragment.replace(/\n/g, " ")}.`);
       }
