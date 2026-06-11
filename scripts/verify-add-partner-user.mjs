@@ -1,0 +1,123 @@
+import fs from "fs";
+import cp from "child_process";
+
+const failures = [];
+
+function read(file) {
+  return fs.readFileSync(file, "utf8");
+}
+
+function failIf(condition, message) {
+  if (condition) failures.push(message);
+}
+
+function indexOfOrFail(source, needle, label) {
+  const index = source.indexOf(needle);
+  failIf(index === -1, `${label} missing: ${needle}`);
+  return index;
+}
+
+function gitDiffNames() {
+  try {
+    return cp.execSync("git diff --name-only", { encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+const routePath = "src/app/internal/partner-users/invite/route.ts";
+const pagePath = "src/app/internal/partner-users/new/page.tsx";
+const clientPath = "src/app/internal/partner-users/new/AddPartnerUserForm.tsx";
+const servicePath = "src/lib/partners/add-partner-user.ts";
+const packagePath = "package.json";
+
+for (const file of [routePath, pagePath, clientPath, servicePath, packagePath]) {
+  failIf(!fs.existsSync(file), `Required file missing: ${file}`);
+}
+
+const routeSource = read(routePath);
+const pageSource = read(pagePath);
+const clientSource = read(clientPath);
+const serviceSource = read(servicePath);
+const packageSource = read(packagePath);
+
+const gateIndex = indexOfOrFail(routeSource, "await requireInternalAdminRouteAccess()", "Route gate");
+const bodyParseIndex = indexOfOrFail(routeSource, "await request.json()", "Route body parse");
+failIf(gateIndex > bodyParseIndex, "Route must require internal_admin before parsing the request body.");
+failIf(!routeSource.includes('status: 401'), "Route must return 401 for unauthenticated access.");
+failIf(!routeSource.includes('status: 403'), "Route must return 403 for non-internal-admin access.");
+failIf(!routeSource.includes("SessionPartnerError"), "Route must handle session authorization failures explicitly.");
+
+const pageGateIndex = indexOfOrFail(pageSource, 'resolveInternalAdminPageAccess("/internal/partner-users/new")', "Page gate");
+const partnerLoadIndex = indexOfOrFail(pageSource, "getAllPartnerRecords()", "Partner select data load");
+failIf(pageGateIndex > partnerLoadIndex, "Page must run internal_admin gate before partner data access.");
+
+failIf(!serviceSource.includes('export const addPartnerUserRoles = ["partner_admin", "partner_staff"] as const'), "Allowed roles must be partner_admin and partner_staff only.");
+failIf(serviceSource.includes('"internal_admin"') || serviceSource.includes("'internal_admin'"), "Add Partner User service must not contain internal_admin as a creatable role.");
+failIf(clientSource.includes("internal_admin"), "Client form must not include internal_admin role.");
+failIf(!clientSource.includes('value="partner_admin"') || !clientSource.includes('value="partner_staff"'), "Client form must expose only partner_admin and partner_staff role options.");
+
+const validateIndex = indexOfOrFail(serviceSource, "validateAddPartnerUserInput(input)", "Input validation");
+const partnerExistsIndex = indexOfOrFail(serviceSource, "validatePartnerExists(supabase, validated.partnerSlug)", "Partner slug validation");
+const inviteIndex = indexOfOrFail(serviceSource, "inviteOrFindAuthUser(supabase, validated.email, validated.name)", "Auth invite");
+const insertIndex = indexOfOrFail(serviceSource, "insertPartnerUserMapping(supabase", "Mapping insert");
+failIf(!(validateIndex < partnerExistsIndex && partnerExistsIndex < inviteIndex && inviteIndex < insertIndex), "Operation order must be validate input -> validate partner -> invite/find auth user -> insert mapping.");
+
+failIf(!serviceSource.includes("emailPattern") || !serviceSource.includes("maxEmailLength"), "Service must validate and cap email addresses.");
+failIf(!serviceSource.includes(".toLowerCase()"), "Service must normalize email/slug values.");
+failIf(!serviceSource.includes("Choose an existing partner."), "Missing clean non-existent partner error.");
+failIf(!serviceSource.includes("deleteUser(invited.authUser.id)"), "Mapping failure after a new invite must attempt auth user cleanup.");
+failIf(!serviceSource.includes('code: "partial_state"') || !serviceSource.includes("authUserId: invited.authUser.id"), "Cleanup failure must report explicit partial state with auth user id.");
+failIf(!serviceSource.includes("findAuthUserByEmail") || !serviceSource.includes('"existing_user_mapped"') || !serviceSource.includes('"already_mapped"'), "Already-existing auth users must be handled without duplicate/crash.");
+failIf(!serviceSource.includes(".maybeSingle()"), "Existing mapping and partner checks should avoid raw row dumps.");
+failIf(!serviceSource.includes('status: "active"') || !serviceSource.includes("invited_email"), "Mapping insert must match partner_users row shape.");
+
+for (const forbidden of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "service_role", "auth.admin", "createClient("]) {
+  failIf(clientSource.includes(forbidden), `Client component includes forbidden admin/server marker: ${forbidden}`);
+}
+
+failIf(!routePath.startsWith("src/app/internal/"), "Write route must live under /internal so the production proxy token layer applies.");
+failIf(routePath.startsWith("src/app/api/"), "Write route must not be a new public /api surface.");
+
+const changedFiles = gitDiffNames();
+const restrictedRoutes = [
+  "src/app/partner/dashboard/page.tsx",
+  "src/app/p/we-must-vote/page.tsx",
+  "src/app/intake/we-must-vote/page.tsx",
+  "src/app/request-pilot/page.tsx",
+  "src/app/api/request-pilot/route.ts",
+  "src/app/internal/pilot-requests/page.tsx",
+  "src/app/api/internal/pilot-requests/status/route.ts",
+  "src/app/dashboard/partners/page.tsx",
+  "src/app/internal/partners/admin/page.tsx",
+  "src/app/api/health/route.ts"
+];
+
+for (const restricted of restrictedRoutes) {
+  failIf(changedFiles.includes(restricted), `Restricted route changed unexpectedly: ${restricted}`);
+}
+
+for (const file of changedFiles) {
+  if (file.startsWith("supabase/")) {
+    failures.push(`Supabase migration/RLS file changed unexpectedly: ${file}`);
+  }
+}
+
+failIf(!packageSource.includes('"partners:verify-add-partner-user": "node scripts/verify-add-partner-user.mjs"'), "package.json script missing for add partner user verifier.");
+
+if (failures.length > 0) {
+  console.error("Add Partner User verification failed.");
+  for (const failure of failures) {
+    console.error(`- ${failure}`);
+  }
+  process.exit(1);
+}
+
+console.log("Add Partner User verification passed.");
+console.log("- Internal route gate runs before body parsing.");
+console.log("- Unauthenticated and non-internal-admin outcomes are denied.");
+console.log("- internal_admin cannot be created through this flow.");
+console.log("- Partner slug and email are validated server-side.");
+console.log("- Existing-user and cleanup/partial-state paths are present.");
+console.log("- Service-role/admin helpers are absent from the client component.");
+console.log("- No Supabase migration/RLS files or restricted routes changed.");
