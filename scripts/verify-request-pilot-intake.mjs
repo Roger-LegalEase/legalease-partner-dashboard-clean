@@ -143,11 +143,15 @@ function verifyApiBoundary() {
     'from("partner_pilot_requests")',
     "validatePilotRequestPayload",
     "checkPilotRequestRateLimit",
+    "checkSharedPilotRequestRateLimit",
+    "derivePilotRequestRateLimitBucket",
     "maxPayloadBytes",
     "content-type",
     "content-length",
     "user-agent",
     "referer",
+    "rate_limit_shared_allowed",
+    "rate_limit_shared_blocked",
     'source: "legaleasepartner.com"',
     'NextResponse.json({ ok: true })'
   ]) {

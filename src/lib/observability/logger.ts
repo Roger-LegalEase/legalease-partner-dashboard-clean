@@ -35,6 +35,7 @@ const allowedMetadataKeys = new Set([
   "old_status",
   "new_status",
   "row_id",
+  "bucket_prefix",
   "mode",
   "action",
   "error_code",

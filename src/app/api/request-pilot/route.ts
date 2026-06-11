@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { checkPilotRequestRateLimit } from "@/lib/request-pilot/rate-limit";
+import { checkSharedPilotRequestRateLimit, derivePilotRequestRateLimitBucket, safeBucketPrefix } from "@/lib/request-pilot/shared-rate-limit";
 import { capRequestMetadata, validatePilotRequestPayload } from "@/lib/request-pilot/validation";
 
 export const runtime = "nodejs";
@@ -55,21 +56,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: validation.error }, { status: 400 });
   }
 
-  const rateLimit = checkPilotRequestRateLimit(getClientIp(request));
-  if (!rateLimit.ok) {
+  const bucket = safeDeriveRateLimitBucket(request);
+  if (!bucket.ok) {
+    logSecurityError({ event: "rate_limit_config_error", route: "/api/request-pilot", outcome: "config_error", requestId, error: bucket.error });
+    return NextResponse.json({ ok: false, error: "Request intake is temporarily unavailable. Please try again later." }, { status: 503 });
+  }
+
+  const localRateLimit = checkPilotRequestRateLimit(bucket.value.bucketKey);
+  if (!localRateLimit.ok) {
     logSecurityWarn({
-      event: "pilot_request rate limit hit",
+      event: "rate_limit_local_blocked",
       route: "/api/request-pilot",
       outcome: "rate_limited",
       requestId,
-      metadata: { retry_after_seconds: rateLimit.retryAfterSeconds }
+      metadata: { retry_after_seconds: localRateLimit.retryAfterSeconds }
     });
     return NextResponse.json(
       { ok: false, error: "Too many requests" },
       {
         status: 429,
         headers: {
-          "retry-after": String(rateLimit.retryAfterSeconds)
+          "retry-after": String(localRateLimit.retryAfterSeconds)
         }
       }
     );
@@ -80,6 +87,48 @@ export async function POST(request: Request) {
     logSecurityError({ event: "pilot_request insert fail", route: "/api/request-pilot", outcome: "supabase_not_configured", requestId });
     return NextResponse.json({ ok: false, error: "Request intake is temporarily unavailable." }, { status: 503 });
   }
+
+  const sharedRateLimit = await checkSharedPilotRequestRateLimit(supabase, request);
+  if (!sharedRateLimit.ok) {
+    if (sharedRateLimit.reason === "blocked") {
+      logSecurityWarn({
+        event: "rate_limit_shared_blocked",
+        route: "/api/request-pilot",
+        outcome: "rate_limited",
+        requestId,
+        metadata: {
+          retry_after_seconds: sharedRateLimit.retryAfterSeconds,
+          bucket_prefix: safeBucketPrefix(sharedRateLimit.bucketKey)
+        }
+      });
+      return NextResponse.json(
+        { ok: false, error: "Too many requests" },
+        {
+          status: 429,
+          headers: {
+            "retry-after": String(sharedRateLimit.retryAfterSeconds)
+          }
+        }
+      );
+    }
+
+    logSecurityError({
+      event: sharedRateLimit.reason === "config_error" ? "rate_limit_config_error" : "rate_limit_shared_error",
+      route: "/api/request-pilot",
+      outcome: sharedRateLimit.reason,
+      requestId,
+      error: sharedRateLimit.error
+    });
+    return NextResponse.json({ ok: false, error: "Request intake is temporarily unavailable. Please try again later." }, { status: 503 });
+  }
+
+  logSecurityInfo({
+    event: "rate_limit_shared_allowed",
+    route: "/api/request-pilot",
+    outcome: "allowed",
+    requestId,
+    metadata: { bucket_prefix: safeBucketPrefix(sharedRateLimit.bucketKey) }
+  });
 
   const { error } = await supabase.from("partner_pilot_requests").insert({
     ...validation.data,
@@ -98,11 +147,16 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true });
 }
 
-function getClientIp(request: Request) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0]?.trim() || "unknown";
+function safeDeriveRateLimitBucket(request: Request) {
+  try {
+    return {
+      ok: true as const,
+      value: derivePilotRequestRateLimitBucket(request)
+    };
+  } catch (error) {
+    return {
+      ok: false as const,
+      error: error instanceof Error ? error : new Error("Unable to derive rate-limit bucket.")
+    };
   }
-
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
 }
