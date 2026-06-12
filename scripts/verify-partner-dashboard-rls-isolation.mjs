@@ -102,6 +102,32 @@ function verifySourceShape() {
     failures.push("/partner/dashboard route must load through the RLS dashboard repository.");
   }
 
+  const fakeDashboardFragments = [
+    "20 started",
+    "18 completed",
+    "91%",
+    "fake recent activity",
+    "Download report",
+    "View details"
+  ];
+  for (const fragment of fakeDashboardFragments) {
+    if (routeSource.includes(fragment)) {
+      failures.push(`/partner/dashboard must not include fake/demo dashboard fragment: ${fragment}.`);
+    }
+  }
+  if (/href=["']#["']/.test(routeSource)) {
+    failures.push('/partner/dashboard must not include dead href="#" links.');
+  }
+  if (!routeSource.includes("Your dashboard will populate as people begin using your intake link.")) {
+    failures.push("/partner/dashboard must include production empty-state copy for zero real activity.");
+  }
+  if (!routeSource.includes("getPublicPartnerPageUrl") || !routeSource.includes("`/p/${partnerSlug}`")) {
+    failures.push("/partner/dashboard must expose a real public partner page action link.");
+  }
+  if (!routeSource.includes("getPublicIntakeOpenUrl") || !routeSource.includes("`https://${getPublicIntakeDisplayUrl(partnerSlug)}`")) {
+    failures.push("/partner/dashboard must expose a real public intake action link.");
+  }
+
   for (const banned of ["searchParams", "params:", "headers()", "x-partner", "getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY"]) {
     if (routeSource.includes(banned)) {
       failures.push(`/partner/dashboard route must not reference ${banned}.`);
@@ -120,6 +146,11 @@ function verifySourceShape() {
 
   if (!repositorySource.includes("createServerSupabaseAuthClient")) {
     failures.push("Dashboard RLS repository must use the authenticated server Supabase client.");
+  }
+  for (const table of ["partner_records", "partner_metrics", "rcap_intake_sessions", "rcap_document_packets", "rcap_briefcase_items"]) {
+    if (!repositorySource.includes(`.from("${table}")`)) {
+      failures.push(`Dashboard RLS repository must read ${table} through the authenticated Supabase client.`);
+    }
   }
 
   if (!resolverSource.includes("supabase.auth.getUser()") || !resolverSource.includes(".eq(\"auth_user_id\", userData.user.id)")) {
@@ -162,6 +193,9 @@ function verifySourceShape() {
 
   checks.push("Route shape and identity source are parameterless and session-derived.");
   checks.push("Service-role/admin client is absent from the dashboard route, resolver, RLS repository, and action-layer helper.");
+  checks.push("Dashboard production path has no fake metric literals, dead hash links, or report/detail placeholder actions.");
+  checks.push("Dashboard action links point to real intake and public partner routes.");
+  checks.push("Dashboard live aggregates read partner_records, partner_metrics, rcap_intake_sessions, rcap_document_packets, and rcap_briefcase_items through authenticated RLS.");
   checks.push("rcap_user_profiles RLS migration is present and the dashboard does not rely on rcap_user_profiles.");
   checks.push("Commit 4 Mississippi resource links remain relative and contain no github.dev/Codespaces URLs.");
 }
@@ -356,17 +390,26 @@ function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
     ? [`${formatMetric(expected.intake.totalSessions)}\nstarted`, `${formatMetric(expected.intake.completedSessions)}\ncompleted`, `${formatMetric(expected.documents.totalPackets)}\npackets`, `${formatMetric(expected.briefcaseItems)}\nsaved`]
     : [`${formatMetric(expected.intake.totalSessions)}\npeople started`, `${formatMetric(expected.intake.completedSessions)}\ncompleted intake`, `${formatMetric(expected.documents.totalPackets)}\npackets created`];
   const expectedActionLayer = computeActionLayerSnapshot(expected.intake);
-  const expectedFragments = [
-    ...expectedMetricFragments,
-    "RECOMMENDED NEXT ACTION",
-    expectedActionLayer.recommendedAction,
-    `${expectedActionLayer.completionRate}%\nIntake completion`,
-    `${formatMetric(expectedActionLayer.notCompleted)}\nIntakes not completed`,
-    `Started ${formatMetric(expected.intake.totalSessions)}`,
-    `Completed ${formatMetric(expected.intake.completedSessions)}`,
-    `Packet ${formatMetric(expected.documents.totalPackets)}`,
-    `Saved ${formatMetric(expected.briefcaseItems)}`
-  ];
+  const expectedFragments = allExpectedAggregatesZero
+    ? [
+        ...expectedMetricFragments,
+        "Your dashboard will populate as people begin using your intake link.",
+        `Started ${formatMetric(expected.intake.totalSessions)}`,
+        `Completed ${formatMetric(expected.intake.completedSessions)}`,
+        `Packet ${formatMetric(expected.documents.totalPackets)}`,
+        `Saved ${formatMetric(expected.briefcaseItems)}`
+      ]
+    : [
+        ...expectedMetricFragments,
+        "RECOMMENDED NEXT ACTION",
+        expectedActionLayer.recommendedAction,
+        `${expectedActionLayer.completionRate}%\nIntake completion`,
+        `${formatMetric(expectedActionLayer.notCompleted)}\nIntakes not completed`,
+        `Started ${formatMetric(expected.intake.totalSessions)}`,
+        `Completed ${formatMetric(expected.intake.completedSessions)}`,
+        `Packet ${formatMetric(expected.documents.totalPackets)}`,
+        `Saved ${formatMetric(expected.briefcaseItems)}`
+      ];
 
   for (const fragment of expectedFragments) {
     if (!visibleTextContains(body, fragment)) {

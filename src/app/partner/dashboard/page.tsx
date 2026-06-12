@@ -59,6 +59,7 @@ export default async function PartnerDashboardPage() {
   const serviceArea = dashboard.partner?.serviceArea ?? "Mississippi";
   const intakeDisplayUrl = getPublicIntakeDisplayUrl(dashboard.partnerSlug);
   const intakeOpenUrl = getPublicIntakeOpenUrl(dashboard.partnerSlug);
+  const publicPartnerPageUrl = getPublicPartnerPageUrl(dashboard.partnerSlug);
   const availability = {
     intake: !hasDashboardWarning(dashboard.warnings, "Intake summary unavailable"),
     documents: !hasDashboardWarning(dashboard.warnings, "Document summary unavailable"),
@@ -98,13 +99,13 @@ export default async function PartnerDashboardPage() {
 
           <CopyBehaviorScript />
           <Header partnerLabel={partnerLabel} serviceArea={serviceArea} />
-          <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} />
+          <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} publicPartnerPageUrl={publicPartnerPageUrl} />
 
           {allMetricsZero ? <EmptyState intakeOpenUrl={intakeOpenUrl} /> : <MetricCards metrics={metrics} actionLayer={actionLayer} />}
-          <ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />
+          {allMetricsZero ? null : <ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />}
 
           <div className="partner-dashboard-split" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 14, marginBottom: "1.1rem" }}>
-            <Journey metrics={metrics} />
+            <Journey metrics={metrics} isEmpty={allMetricsZero} />
             <Readiness />
           </div>
 
@@ -174,7 +175,7 @@ function Header({ partnerLabel, serviceArea }: { partnerLabel: string; serviceAr
   );
 }
 
-function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl }: { intakeDisplayUrl: string; intakeOpenUrl: string }) {
+function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl, publicPartnerPageUrl }: { intakeDisplayUrl: string; intakeOpenUrl: string; publicPartnerPageUrl: string }) {
   return (
     <div style={{ background: "#fff", borderRadius: 20, padding: "1.4rem 1.6rem", border: "1px solid #EEE6DB", marginBottom: "1.1rem" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
@@ -197,6 +198,10 @@ function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl }: { intakeDisplayUrl:
           <Link href={intakeOpenUrl} style={{ background: "#fff", color: "#0F1E3D", border: "1px solid #E0D8CC", borderRadius: 12, padding: "11px 16px", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer" }}>
             <ExternalLink size={16} aria-hidden="true" />
             Open public intake
+          </Link>
+          <Link href={publicPartnerPageUrl} style={{ background: "#fff", color: "#0F1E3D", border: "1px solid #E0D8CC", borderRadius: 12, padding: "11px 16px", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer" }}>
+            <ExternalLink size={16} aria-hidden="true" />
+            Open partner page
           </Link>
         </div>
       </div>
@@ -290,7 +295,7 @@ function EmptyState({ intakeOpenUrl }: { intakeOpenUrl: string }) {
         <div style={{ flex: 1 }}>
           <p style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "#0F1E3D" }}>Your dashboard is ready</p>
           <p style={{ margin: "6px 0 0", fontSize: 15, color: "#5C5750", lineHeight: 1.6 }}>
-            As people begin the record-clearing workflow, their journey will show up here. Start by sharing your intake link.
+            Your dashboard will populate as people begin using your intake link. Start by sharing the link with your community.
           </p>
         </div>
       </div>
@@ -317,13 +322,15 @@ function EmptyMetric({ label }: { label: string }) {
   );
 }
 
-function Journey({ metrics }: { metrics: Metrics }) {
+function Journey({ metrics, isEmpty }: { metrics: Metrics; isEmpty: boolean }) {
   const started = formatMetric(metrics.started);
   const completed = formatMetric(metrics.completed);
   const packets = formatMetric(metrics.packets);
   const saved = formatMetric(metrics.saved);
   const journeySummary =
-    metrics.started !== undefined && metrics.completed !== undefined && metrics.packets !== undefined && metrics.saved !== undefined
+    isEmpty
+      ? "Your dashboard will populate as people begin using your intake link. Until then, these live counters stay at zero."
+      : metrics.started !== undefined && metrics.completed !== undefined && metrics.packets !== undefined && metrics.saved !== undefined
       ? `${completed} of ${started} started intakes are completed. LegalEase has created ${packets} document packets and ${saved} Briefcase items for this partner.`
       : "Participant progress will show here as intake, packet, and Briefcase data becomes available.";
 
@@ -618,6 +625,10 @@ function getPublicIntakeDisplayUrl(partnerSlug: string) {
 
 function getPublicIntakeOpenUrl(partnerSlug: string) {
   return `https://${getPublicIntakeDisplayUrl(partnerSlug)}`;
+}
+
+function getPublicPartnerPageUrl(partnerSlug: string) {
+  return `/p/${partnerSlug}`;
 }
 
 function getPublicIntakeBaseHost() {
