@@ -89,6 +89,9 @@ type DocumentPacketRow = {
   created_at: string | null;
 };
 
+// We Must Vote launched after pre-launch smoke/demo rows were created in production.
+const WE_MUST_VOTE_METRICS_START_AT = "2026-06-12T17:00:00.000Z";
+
 export async function getPartnerDashboardRlsData(): Promise<PartnerDashboardRlsData> {
   const sessionPartner = await resolveSessionPartner();
 
@@ -107,6 +110,7 @@ export async function getPartnerDashboardRlsData(): Promise<PartnerDashboardRlsD
 async function loadPartnerDashboardForSession(sessionPartner: Extract<SessionPartner, { kind: "partner" }>): Promise<PartnerDashboardRlsData> {
   const supabase = await createServerSupabaseAuthClient();
   const warnings: string[] = [];
+  const metricsStartAt = metricsStartAtForPartner(sessionPartner.partnerSlug);
 
   const [
     partnerResult,
@@ -123,19 +127,28 @@ async function loadPartnerDashboardForSession(sessionPartner: Extract<SessionPar
       .from("partner_metrics")
       .select("referrals, screenings, likely_eligible, product_starts, packets_ready, filings, outcomes_available")
       .maybeSingle(),
-    supabase
+    withMetricsStartAt(
+      supabase
       .from("rcap_intake_sessions")
-      .select("status, eligibility_signal, created_at, completed_at")
+        .select("status, eligibility_signal, created_at, completed_at"),
+      metricsStartAt
+    )
       .order("created_at", { ascending: false })
       .limit(250),
-    supabase
+    withMetricsStartAt(
+      supabase
       .from("rcap_document_packets")
-      .select("status, created_at")
+        .select("status, created_at"),
+      metricsStartAt
+    )
       .order("created_at", { ascending: false })
       .limit(250),
-    supabase
+    withMetricsStartAt(
+      supabase
       .from("rcap_briefcase_items")
-      .select("id", { count: "exact", head: true })
+        .select("id", { count: "exact", head: true }),
+      metricsStartAt
+    )
   ]);
 
   if (partnerResult.error) {
@@ -229,4 +242,12 @@ function summarizeDocuments(rows: DocumentPacketRow[]): PartnerDashboardDocument
     readyForReviewPackets: rows.filter((row) => row.status === "ready_for_review" || row.status === "preview_generated").length,
     latestPacketDate: rows[0]?.created_at ?? undefined
   };
+}
+
+function metricsStartAtForPartner(partnerSlug: string) {
+  return partnerSlug === "we-must-vote" ? WE_MUST_VOTE_METRICS_START_AT : undefined;
+}
+
+function withMetricsStartAt<Query extends { gte(column: string, value: string): Query }>(query: Query, metricsStartAt: string | undefined) {
+  return metricsStartAt ? query.gte("created_at", metricsStartAt) : query;
 }

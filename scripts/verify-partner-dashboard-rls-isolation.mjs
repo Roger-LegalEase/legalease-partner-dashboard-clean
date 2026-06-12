@@ -15,6 +15,7 @@ const proxyPath = path.join(rootDir, "src/proxy.ts");
 const rcapProfilesRlsMigrationPath = path.join(rootDir, "supabase/phase-22-enable-rls-rcap-user-profiles.sql");
 const port = Number(process.env.PARTNER_DASHBOARD_RLS_VERIFY_PORT ?? 3137);
 let baseUrl = `http://127.0.0.1:${port}`;
+const weMustVoteMetricsStartAt = "2026-06-12T17:00:00.000Z";
 
 loadLocalEnv();
 
@@ -148,6 +149,9 @@ function verifySourceShape() {
   if (!repositorySource.includes("createServerSupabaseAuthClient")) {
     failures.push("Dashboard RLS repository must use the authenticated server Supabase client.");
   }
+  if (!repositorySource.includes("WE_MUST_VOTE_METRICS_START_AT") || !repositorySource.includes(weMustVoteMetricsStartAt) || !repositorySource.includes('partnerSlug === "we-must-vote"')) {
+    failures.push("Dashboard RLS repository must apply the We Must Vote metrics-start baseline only to we-must-vote.");
+  }
   for (const table of ["partner_records", "partner_metrics", "rcap_intake_sessions", "rcap_document_packets", "rcap_briefcase_items"]) {
     if (!repositorySource.includes(`.from("${table}")`)) {
       failures.push(`Dashboard RLS repository must read ${table} through the authenticated Supabase client.`);
@@ -201,6 +205,7 @@ function verifySourceShape() {
   checks.push("Dashboard production path has no fake metric literals, dead hash links, or report/detail placeholder actions.");
   checks.push("Dashboard action links point to real intake and public partner routes.");
   checks.push("Dashboard live aggregates read partner_records, partner_metrics, rcap_intake_sessions, rcap_document_packets, and rcap_briefcase_items through authenticated RLS.");
+  checks.push("We Must Vote dashboard aggregates apply a server-side metrics-start baseline without affecting other partners.");
   checks.push("rcap_user_profiles RLS migration is present and the dashboard does not rely on rcap_user_profiles.");
   checks.push("Commit 4 Mississippi resource links remain relative and contain no github.dev/Codespaces URLs.");
 }
@@ -443,7 +448,8 @@ function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {
 
   if (!snapshotsHaveSameVisibleAggregates(expected, forbidden)) {
     const distinctiveForbiddenFragments = forbiddenFragments.filter((fragment) => {
-      return !fragment.startsWith("0\n") && !fragment.endsWith(" 0");
+      return !fragment.startsWith("0%\n") &&
+        !expectedFragments.some((expectedFragment) => normalizeVisibleText(expectedFragment) === normalizeVisibleText(fragment));
     });
 
     if (distinctiveForbiddenFragments.length === 0) {
@@ -521,12 +527,17 @@ async function loadRlsSnapshot({ label, email, password, expectedSlug, expectedR
   await assertOnlyOwnRows(client, label, "rcap_document_packets", expectedSlug, forbiddenSlug);
   await assertOnlyOwnRows(client, label, "rcap_briefcase_items", expectedSlug, forbiddenSlug);
 
+  const metricsStartAt = metricsStartAtForPartner(expectedSlug);
   const [partner, intakeRows, documentRows, briefcaseItems] = await Promise.all([
     selectMaybeSingle(client, label, "partner_records", "partner_slug, partner_name, organization_name, service_area"),
-    selectRows(client, label, "rcap_intake_sessions", "status, eligibility_signal, created_at, completed_at"),
-    selectRows(client, label, "rcap_document_packets", "status, created_at"),
-    countRows(client, label, "rcap_briefcase_items")
+    selectRows(client, label, "rcap_intake_sessions", "status, eligibility_signal, created_at, completed_at", metricsStartAt),
+    selectRows(client, label, "rcap_document_packets", "status, created_at", metricsStartAt),
+    countRows(client, label, "rcap_briefcase_items", metricsStartAt)
   ]);
+
+  if (expectedSlug === "we-must-vote") {
+    await assertWeMustVoteBaselineExcludesPrelaunchRows(client, intakeRows.length, documentRows.length, briefcaseItems);
+  }
 
   return {
     slug: expectedSlug,
@@ -584,8 +595,12 @@ async function selectMaybeSingle(client, label, table, columns) {
   return data;
 }
 
-async function selectRows(client, label, table, columns) {
-  const { data, error } = await client.from(table).select(columns).order("created_at", { ascending: false }).limit(250);
+async function selectRows(client, label, table, columns, metricsStartAt) {
+  let query = client.from(table).select(columns).order("created_at", { ascending: false }).limit(250);
+  if (metricsStartAt) {
+    query = query.gte("created_at", metricsStartAt);
+  }
+  const { data, error } = await query;
   if (error) {
     failures.push(`${label} could not read ${table}: ${error.message}`);
     return [];
@@ -594,14 +609,38 @@ async function selectRows(client, label, table, columns) {
   return data ?? [];
 }
 
-async function countRows(client, label, table) {
-  const { count, error } = await client.from(table).select("id", { count: "exact", head: true });
+async function countRows(client, label, table, metricsStartAt) {
+  let query = client.from(table).select("id", { count: "exact", head: true });
+  if (metricsStartAt) {
+    query = query.gte("created_at", metricsStartAt);
+  }
+  const { count, error } = await query;
   if (error) {
     failures.push(`${label} could not count ${table}: ${error.message}`);
     return 0;
   }
 
   return count ?? 0;
+}
+
+async function assertWeMustVoteBaselineExcludesPrelaunchRows(client, filteredIntakes, filteredDocuments, filteredBriefcase) {
+  const [allIntakes, allDocuments, allBriefcase] = await Promise.all([
+    countRows(client, "We Must Vote baseline comparison", "rcap_intake_sessions"),
+    countRows(client, "We Must Vote baseline comparison", "rcap_document_packets"),
+    countRows(client, "We Must Vote baseline comparison", "rcap_briefcase_items")
+  ]);
+
+  if (allIntakes < filteredIntakes || allDocuments < filteredDocuments || allBriefcase < filteredBriefcase) {
+    failures.push("We Must Vote baseline comparison produced impossible filtered counts.");
+  }
+
+  if (allIntakes === filteredIntakes && allDocuments === filteredDocuments && allBriefcase === filteredBriefcase) {
+    failures.push("We Must Vote baseline did not exclude any pre-baseline dashboard rows.");
+  }
+}
+
+function metricsStartAtForPartner(partnerSlug) {
+  return partnerSlug === "we-must-vote" ? weMustVoteMetricsStartAt : undefined;
 }
 
 function summarizeIntake(rows) {
