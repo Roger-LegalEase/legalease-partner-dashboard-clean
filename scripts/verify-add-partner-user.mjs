@@ -29,9 +29,11 @@ const routePath = "src/app/internal/partner-users/invite/route.ts";
 const pagePath = "src/app/internal/partner-users/new/page.tsx";
 const clientPath = "src/app/internal/partner-users/new/AddPartnerUserForm.tsx";
 const servicePath = "src/lib/partners/add-partner-user.ts";
+const setPasswordPath = "src/app/auth/set-password/page.tsx";
+const redirectPath = "src/lib/auth/redirect.ts";
 const packagePath = "package.json";
 
-for (const file of [routePath, pagePath, clientPath, servicePath, packagePath]) {
+for (const file of [routePath, pagePath, clientPath, servicePath, setPasswordPath, redirectPath, packagePath]) {
   failIf(!fs.existsSync(file), `Required file missing: ${file}`);
 }
 
@@ -39,6 +41,8 @@ const routeSource = read(routePath);
 const pageSource = read(pagePath);
 const clientSource = read(clientPath);
 const serviceSource = read(servicePath);
+const setPasswordSource = read(setPasswordPath);
+const redirectSource = read(redirectPath);
 const packageSource = read(packagePath);
 
 const gateIndex = indexOfOrFail(routeSource, "await requireInternalAdminRouteAccess()", "Route gate");
@@ -59,13 +63,16 @@ failIf(!clientSource.includes('value="partner_admin"') || !clientSource.includes
 
 const validateIndex = indexOfOrFail(serviceSource, "validateAddPartnerUserInput(input)", "Input validation");
 const partnerExistsIndex = indexOfOrFail(serviceSource, "validatePartnerExists(supabase, validated.partnerSlug)", "Partner slug validation");
-const inviteIndex = indexOfOrFail(serviceSource, "inviteOrFindAuthUser(supabase, validated.email, validated.name)", "Auth invite");
+const inviteIndex = indexOfOrFail(serviceSource, "inviteOrFindAuthUser(supabase, validated.email, redirectTo, validated.name)", "Auth invite");
 const insertIndex = indexOfOrFail(serviceSource, "insertPartnerUserMapping(supabase", "Mapping insert");
 failIf(!(validateIndex < partnerExistsIndex && partnerExistsIndex < inviteIndex && inviteIndex < insertIndex), "Operation order must be validate input -> validate partner -> invite/find auth user -> insert mapping.");
 
 failIf(!serviceSource.includes("emailPattern") || !serviceSource.includes("maxEmailLength"), "Service must validate and cap email addresses.");
 failIf(!serviceSource.includes(".toLowerCase()"), "Service must normalize email/slug values.");
 failIf(!serviceSource.includes("Choose an existing partner."), "Missing clean non-existent partner error.");
+failIf(!serviceSource.includes("process.env.NEXT_PUBLIC_APP_URL") || !serviceSource.includes('url.pathname = "/auth/set-password"') || !serviceSource.includes('url.search = "?next=/partner/dashboard"'), "Invites must build redirectTo from NEXT_PUBLIC_APP_URL for the set-password page with partner dashboard next path.");
+failIf(serviceSource.includes("absoluteAppUrl(") || serviceSource.includes("localAppUrl") || serviceSource.includes("localhost"), "Invite redirect must not use localhost fallback helpers.");
+failIf(!serviceSource.includes("redirectTo:"), "Supabase invite must pass redirectTo.");
 failIf(!serviceSource.includes("deleteUser(invited.authUser.id)"), "Mapping failure after a new invite must attempt auth user cleanup.");
 failIf(!serviceSource.includes('code: "partial_state"') || !serviceSource.includes("authUserId: invited.authUser.id"), "Cleanup failure must report explicit partial state with auth user id.");
 failIf(!serviceSource.includes("findAuthUserByEmail") || !serviceSource.includes('"existing_user_mapped"') || !serviceSource.includes('"already_mapped"'), "Already-existing auth users must be handled without duplicate/crash.");
@@ -74,7 +81,21 @@ failIf(!serviceSource.includes('status: "active"') || !serviceSource.includes("i
 
 for (const forbidden of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "service_role", "auth.admin", "createClient("]) {
   failIf(clientSource.includes(forbidden), `Client component includes forbidden admin/server marker: ${forbidden}`);
+  failIf(setPasswordSource.includes(forbidden), `Set-password page includes forbidden admin/server marker: ${forbidden}`);
 }
+
+failIf(!setPasswordSource.includes('"use client"'), "Set-password page must be a client component.");
+failIf(!setPasswordSource.includes("createBrowserSupabaseClient()"), "Set-password page must use the browser Supabase client.");
+failIf(!setPasswordSource.includes("exchangeCodeForSession(code)"), "Set-password page must handle auth code invite links.");
+failIf(!setPasswordSource.includes("setSession({ access_token: accessToken, refresh_token: refreshToken })"), "Set-password page must handle hash token invite links.");
+failIf(!setPasswordSource.includes("updateUser({ password })"), "Set-password page must set the invited user's password.");
+failIf(!setPasswordSource.includes("scrubAuthUrl"), "Set-password page must scrub auth tokens from the URL.");
+failIf(setPasswordSource.includes("console.log") || setPasswordSource.includes("console.warn") || setPasswordSource.includes("console.error"), "Set-password page must not log invite links or auth tokens.");
+failIf(!clientSource.includes("Partner user invitation created."), "Client must show invited_and_mapped success copy.");
+failIf(!clientSource.includes("That user already has the requested partner access."), "Client must show already_mapped success copy.");
+failIf(!clientSource.includes("Existing user was granted partner access."), "Client must show existing user mapping success copy.");
+failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
+failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
 
 failIf(!routePath.startsWith("src/app/internal/"), "Write route must live under /internal so the production proxy token layer applies.");
 failIf(routePath.startsWith("src/app/api/"), "Write route must not be a new public /api surface.");

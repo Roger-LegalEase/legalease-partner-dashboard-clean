@@ -98,12 +98,17 @@ export async function inviteAndMapPartnerUser(input: AddPartnerUserInput): Promi
     return { ok: false, code: "supabase_not_configured", error: "Supabase admin access is not configured." };
   }
 
+  const redirectTo = getInviteAcceptanceRedirectUrl();
+  if (!redirectTo) {
+    return { ok: false, code: "supabase_not_configured", error: "Invite redirect is not configured." };
+  }
+
   const partnerExists = await validatePartnerExists(supabase, validated.partnerSlug);
   if (!partnerExists.ok) {
     return partnerExists;
   }
 
-  const invited = await inviteOrFindAuthUser(supabase, validated.email, validated.name);
+  const invited = await inviteOrFindAuthUser(supabase, validated.email, redirectTo, validated.name);
   if (!invited.ok) {
     return invited;
   }
@@ -183,6 +188,27 @@ function normalizeString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function getInviteAcceptanceRedirectUrl() {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (!appUrl) {
+    return null;
+  }
+
+  try {
+    const url = new URL(appUrl);
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      return null;
+    }
+
+    url.pathname = "/auth/set-password";
+    url.search = "?next=/partner/dashboard";
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 async function validatePartnerExists(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
   partnerSlug: string
@@ -203,13 +229,17 @@ async function validatePartnerExists(
 async function inviteOrFindAuthUser(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
   email: string,
+  redirectTo: string,
   name?: string
 ): Promise<
   | { ok: true; authUser: AuthUser; createdByInvite: boolean }
   | Extract<AddPartnerUserResult, { ok: false }>
 > {
   const metadata = name ? { name } : undefined;
-  const invite = await supabase.auth.admin.inviteUserByEmail(email, metadata ? { data: metadata } : undefined);
+  const invite = await supabase.auth.admin.inviteUserByEmail(email, {
+    ...(metadata ? { data: metadata } : {}),
+    redirectTo
+  });
   const invitedUser = invite.data.user as AuthUser | null;
 
   if (!invite.error && invitedUser?.id) {

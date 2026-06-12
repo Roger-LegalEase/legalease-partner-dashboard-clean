@@ -46,11 +46,13 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
       }
 
       const message =
-        result.status === "already_mapped"
-          ? "This user already has the requested partner access."
-          : result.status === "existing_user_mapped"
-            ? "Existing auth user mapped to the selected partner. They can sign in at /sign-in."
-            : "Invite sent and partner access created. The user should check email, set a password, and sign in at /sign-in.";
+        result.status === "invited_and_mapped"
+          ? "Partner user invitation created."
+          : result.status === "already_mapped"
+            ? "That user already has the requested partner access."
+            : result.status === "existing_user_mapped" || result.status === "mapped_existing_user"
+              ? "Existing user was granted partner access."
+              : "Partner user invitation created.";
 
       setState({ kind: "success", message });
       event.currentTarget.reset();

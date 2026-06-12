@@ -6,6 +6,7 @@ import { LogIn } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 const genericError = "We could not sign you in with those credentials.";
@@ -54,7 +55,7 @@ export default function SignInPage() {
     }
 
     const next = new URLSearchParams(window.location.search).get("next");
-    window.location.assign(safeNextPath(next));
+    window.location.assign(safeAppRedirectPath(next, "/briefcase"));
   }
 
   return (
@@ -122,12 +123,4 @@ export default function SignInPage() {
       </div>
     </main>
   );
-}
-
-function safeNextPath(value: string | null) {
-  if (value && value.startsWith("/") && !value.startsWith("//")) {
-    return value;
-  }
-
-  return "/briefcase";
 }
