@@ -10,15 +10,37 @@ import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 type InviteState = "checking" | "ready" | "invalid" | "saving" | "saved";
+type DiagnosticStatus =
+  | "checking"
+  | "no_session_found"
+  | "code_exchange_failed"
+  | "hash_session_failed"
+  | "update_user_failed"
+  | "password_validation_failed"
+  | "success";
+type SafeAuthDiagnostic = {
+  status: DiagnosticStatus;
+  error?: {
+    name?: string;
+    status?: number;
+    code?: string;
+    message?: string;
+  };
+};
 
-const minimumPasswordLength = 8;
+const minimumPasswordLength = 12;
 const invalidInviteMessage = "This invite link is expired or invalid. Ask your LegalEase program lead for a new invitation.";
+const inactiveInviteMessage = "This invite link is no longer active. Please request a new invitation.";
+const invalidOrExpiredInviteMessage = "This invite link is invalid or has expired. Please request a new invitation.";
+const weakPasswordMessage = "That password does not meet the password requirements. Try a longer password with letters, numbers, and a symbol.";
+const fallbackPasswordMessage = "We could not set your password. Please try again or request a new invitation.";
 
 export default function SetPasswordPage() {
   const [state, setState] = useState<InviteState>("checking");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [nextPath, setNextPath] = useState(defaultNextPath);
+  const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   useEffect(() => {
@@ -34,24 +56,58 @@ export default function SetPasswordPage() {
       const refreshToken = hashParams.get("refresh_token");
 
       if (code) {
-        await supabase.auth.exchangeCodeForSession(code);
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (error) {
+          scrubAuthUrl(detectedNextPath);
+          if (isMounted) {
+            setDiagnostic({ status: "code_exchange_failed", error: safeAuthDiagnostic(error) });
+            setErrorMessage(authSessionErrorMessage(error));
+            setState("invalid");
+          }
+          return;
+        }
       } else if (accessToken && refreshToken) {
-        await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+        const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+        if (error) {
+          scrubAuthUrl(detectedNextPath);
+          if (isMounted) {
+            setDiagnostic({ status: "hash_session_failed", error: safeAuthDiagnostic(error) });
+            setErrorMessage(authSessionErrorMessage(error));
+            setState("invalid");
+          }
+          return;
+        }
       }
 
       scrubAuthUrl(detectedNextPath);
 
-      const { data } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
       if (!isMounted) {
         return;
       }
 
-      setState(data.session ? "ready" : "invalid");
+      if (error) {
+        setDiagnostic({ status: "no_session_found", error: safeAuthDiagnostic(error) });
+        setErrorMessage(authSessionErrorMessage(error));
+        setState("invalid");
+        return;
+      }
+
+      if (data.session) {
+        setState("ready");
+        return;
+      }
+
+      setDiagnostic({ status: "no_session_found" });
+      setErrorMessage(inactiveInviteMessage);
+      setState("invalid");
     }
 
-    detectInviteSession().catch(() => {
+    detectInviteSession().catch((error) => {
       scrubAuthUrl(safeAppRedirectPath(new URLSearchParams(window.location.search).get("next")));
       if (isMounted) {
+        setDiagnostic({ status: "code_exchange_failed", error: safeAuthDiagnostic(error) });
+        setErrorMessage(authSessionErrorMessage(error));
         setState("invalid");
       }
     });
@@ -69,26 +125,33 @@ export default function SetPasswordPage() {
     const formData = new FormData(event.currentTarget);
     const password = String(formData.get("password") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
+    const validationMessage = validatePassword(password, confirmPassword);
 
-    if (password.length < minimumPasswordLength) {
-      setErrorMessage(`Use at least ${minimumPasswordLength} characters for your password.`);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords must match.");
+    if (validationMessage) {
+      setDiagnostic({ status: "password_validation_failed" });
+      setErrorMessage(validationMessage);
       return;
     }
 
     setState("saving");
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !sessionData.session) {
+      setDiagnostic({ status: "no_session_found", error: safeAuthDiagnostic(sessionError) });
+      setErrorMessage(sessionError ? authSessionErrorMessage(sessionError) : inactiveInviteMessage);
+      setState("invalid");
+      return;
+    }
+
     const { error } = await supabase.auth.updateUser({ password });
 
     if (error) {
-      setErrorMessage("We could not set your password. Please use the latest invitation link and try again.");
+      setDiagnostic({ status: "update_user_failed", error: safeAuthDiagnostic(error) });
+      setErrorMessage(updateUserErrorMessage(error));
       setState("ready");
       return;
     }
 
+    setDiagnostic({ status: "success" });
     setSuccessMessage("Password set. Opening your partner dashboard...");
     setState("saved");
     window.location.assign(safeAppRedirectPath(nextPath));
@@ -119,11 +182,11 @@ export default function SetPasswordPage() {
 
           {state === "invalid" ? (
             <div className="mt-6 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">
-              {invalidInviteMessage}
+              {errorMessage || invalidOrExpiredInviteMessage}
             </div>
           ) : null}
 
-          {errorMessage ? (
+          {errorMessage && state !== "invalid" ? (
             <div className="mt-6 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">
               {errorMessage}
             </div>
@@ -133,6 +196,12 @@ export default function SetPasswordPage() {
             <div className="mt-6 rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm font-semibold text-teal">
               {successMessage}
             </div>
+          ) : null}
+
+          {process.env.NODE_ENV !== "production" ? (
+            <pre className="sr-only" data-auth-diagnostic={diagnostic.status}>
+              {JSON.stringify(diagnostic)}
+            </pre>
           ) : null}
 
           {state === "ready" || state === "saving" || state === "saved" ? (
@@ -176,6 +245,83 @@ export default function SetPasswordPage() {
       </div>
     </main>
   );
+}
+
+function validatePassword(password: string, confirmPassword: string) {
+  if (password.length < minimumPasswordLength) {
+    return `Use at least ${minimumPasswordLength} characters for your password.`;
+  }
+
+  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+    return "Use at least one letter and one number in your password.";
+  }
+
+  if (password !== confirmPassword) {
+    return "Passwords must match.";
+  }
+
+  return "";
+}
+
+function authSessionErrorMessage(error: unknown) {
+  const diagnostic = safeAuthDiagnostic(error) ?? {};
+  const normalized = `${diagnostic.name ?? ""} ${diagnostic.code ?? ""} ${diagnostic.message ?? ""}`.toLowerCase();
+
+  if (normalized.includes("session missing") || normalized.includes("no active session")) {
+    return inactiveInviteMessage;
+  }
+
+  if (normalized.includes("expired") || normalized.includes("invalid") || normalized.includes("token") || diagnostic.status === 400 || diagnostic.status === 401) {
+    return invalidOrExpiredInviteMessage;
+  }
+
+  return invalidInviteMessage;
+}
+
+function updateUserErrorMessage(error: unknown) {
+  const diagnostic = safeAuthDiagnostic(error) ?? {};
+  const normalized = `${diagnostic.name ?? ""} ${diagnostic.code ?? ""} ${diagnostic.message ?? ""}`.toLowerCase();
+
+  if (normalized.includes("weak_password") || normalized.includes("weak password") || normalized.includes("password")) {
+    return weakPasswordMessage;
+  }
+
+  if (normalized.includes("session missing") || normalized.includes("no active session")) {
+    return inactiveInviteMessage;
+  }
+
+  if (normalized.includes("expired") || normalized.includes("invalid") || normalized.includes("jwt") || normalized.includes("token") || diagnostic.status === 401) {
+    return invalidOrExpiredInviteMessage;
+  }
+
+  return fallbackPasswordMessage;
+}
+
+function safeAuthDiagnostic(error: unknown): SafeAuthDiagnostic["error"] {
+  if (!error || typeof error !== "object") {
+    return undefined;
+  }
+
+  const candidate = error as { name?: unknown; status?: unknown; code?: unknown; message?: unknown };
+
+  return {
+    name: safeDiagnosticText(candidate.name),
+    status: typeof candidate.status === "number" ? candidate.status : undefined,
+    code: safeDiagnosticText(candidate.code),
+    message: safeDiagnosticText(candidate.message)
+  };
+}
+
+function safeDiagnosticText(value: unknown) {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  return value
+    .replace(/https?:\/\/\S+/gi, "[redacted-url]")
+    .replace(/[?#][^\s]+/g, "[redacted-url-part]")
+    .replace(/[A-Za-z0-9_-]{24,}/g, "[redacted]")
+    .slice(0, 180);
 }
 
 function defaultNextPath() {

@@ -91,11 +91,34 @@ failIf(!setPasswordSource.includes("setSession({ access_token: accessToken, refr
 failIf(!setPasswordSource.includes("updateUser({ password })"), "Set-password page must set the invited user's password.");
 failIf(!setPasswordSource.includes("scrubAuthUrl"), "Set-password page must scrub auth tokens from the URL.");
 failIf(setPasswordSource.includes("console.log") || setPasswordSource.includes("console.warn") || setPasswordSource.includes("console.error"), "Set-password page must not log invite links or auth tokens.");
+for (const status of ['"checking"', '"no_session_found"', '"code_exchange_failed"', '"hash_session_failed"', '"update_user_failed"', '"password_validation_failed"', '"success"']) {
+  failIf(!setPasswordSource.includes(status), `Set-password diagnostic status missing: ${status}`);
+}
+failIf(!setPasswordSource.includes("safeAuthDiagnostic") || !setPasswordSource.includes("safeDiagnosticText"), "Set-password diagnostics must be sanitized before display.");
+failIf(!setPasswordSource.includes("[redacted-url]") || !setPasswordSource.includes("[redacted-url-part]") || !setPasswordSource.includes("[redacted]"), "Set-password diagnostics must redact URLs, URL parts, and token-shaped strings.");
+failIf(!setPasswordSource.includes("const minimumPasswordLength = 12"), "Set-password page must require at least 12 password characters.");
+failIf(!setPasswordSource.includes("validatePassword(password, confirmPassword)"), "Set-password page must validate passwords before updateUser.");
+failIf(!setPasswordSource.includes("Use at least one letter and one number in your password."), "Set-password page must require a letter and a number.");
+failIf(!setPasswordSource.includes("Passwords must match."), "Set-password page must explain password confirmation failures.");
+failIf(!setPasswordSource.includes("That password does not meet the password requirements. Try a longer password with letters, numbers, and a symbol."), "Set-password page must show a safe weak-password error.");
+failIf(!setPasswordSource.includes("This invite link is no longer active. Please request a new invitation."), "Set-password page must show a safe missing-session error.");
+failIf(!setPasswordSource.includes("This invite link is invalid or has expired. Please request a new invitation."), "Set-password page must show a safe invalid-token error.");
+failIf(!setPasswordSource.includes("We could not set your password. Please try again or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
+failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(nextPath))"), "Set-password success must redirect to the safe next path, defaulting to /partner/dashboard.");
+failIf(!setPasswordSource.includes("scrubAuthUrl(detectedNextPath)") || setPasswordSource.indexOf("scrubAuthUrl(detectedNextPath)") < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Set-password page must not scrub the URL before session exchange is attempted.");
+const sessionBeforeUpdateIndex = setPasswordSource.indexOf("const { data: sessionData, error: sessionError } = await supabase.auth.getSession()");
+const updateUserIndex = setPasswordSource.indexOf("updateUser({ password })");
+failIf(sessionBeforeUpdateIndex === -1 || updateUserIndex === -1 || sessionBeforeUpdateIndex > updateUserIndex, "Set-password page must confirm an active session immediately before updateUser.");
+failIf(setPasswordSource.includes("{invalidInviteMessage}") || setPasswordSource.includes("Please use the latest invitation link"), "Set-password page must not show the old generic invite failure copy.");
+for (const forbidden of ["window.location.href", "document.cookie", "localStorage", "sessionStorage"]) {
+  failIf(setPasswordSource.includes(forbidden), `Set-password page must not read or log sensitive browser state: ${forbidden}`);
+}
 failIf(!clientSource.includes("Partner user invitation created."), "Client must show invited_and_mapped success copy.");
 failIf(!clientSource.includes("That user already has the requested partner access."), "Client must show already_mapped success copy.");
 failIf(!clientSource.includes("Existing user was granted partner access."), "Client must show existing user mapping success copy.");
 failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
 failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
+failIf(!redirectSource.includes("fallback = defaultPartnerAuthRedirect") || !redirectSource.includes("return fallback"), "Redirect helper must reject external next URLs to /partner/dashboard fallback.");
 
 failIf(!routePath.startsWith("src/app/internal/"), "Write route must live under /internal so the production proxy token layer applies.");
 failIf(routePath.startsWith("src/app/api/"), "Write route must not be a new public /api surface.");
