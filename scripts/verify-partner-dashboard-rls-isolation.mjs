@@ -78,6 +78,7 @@ for (const skip of skipped) {
 }
 
 function verifySourceShape() {
+  const verifierSource = readSource(fileURLToPath(import.meta.url));
   const routeSource = readSource(routePath);
   const repositorySource = readSource(repositoryPath);
   const resolverSource = readSource(resolverPath);
@@ -171,6 +172,10 @@ function verifySourceShape() {
 
   if (!proxySource.includes('"/p/we-must-vote"') || !proxySource.includes('"/partner/dashboard"')) {
     failures.push("Proxy must preserve /p/we-must-vote and include /partner/dashboard session refresh.");
+  }
+
+  if (!verifierSource.includes("Refusing to run mutating verifier against production URL.") || !verifierSource.includes("PARTNER_DASHBOARD_RLS_ALLOW_MUTATING_SMOKE")) {
+    failures.push("Dashboard RLS verifier must refuse production mutating smoke checks and require explicit non-production opt-in.");
   }
 
   if (!rcapProfilesRlsMigrationSource.includes("alter table public.rcap_user_profiles enable row level security;")) {
@@ -664,6 +669,18 @@ async function verifyPublicRegressions() {
     }
   }
 
+  checks.push("/p/we-must-vote proxy marker regression passed.");
+
+  const mutatingSmokeDecision = mutatingSmokeSafetyDecision();
+  if (!mutatingSmokeDecision.ok) {
+    failures.push(mutatingSmokeDecision.reason);
+    return;
+  }
+  if (mutatingSmokeDecision.skip) {
+    skipped.push(mutatingSmokeDecision.reason);
+    return;
+  }
+
   const start = await postJson("/api/rcap/intake/start", {
     partnerSlug: "we-must-vote",
     legalDisclaimerAccepted: true
@@ -710,8 +727,38 @@ async function verifyPublicRegressions() {
     failures.push("Public We Must Vote document smoke could not save a packet.");
   }
 
-  checks.push("/p/we-must-vote proxy marker regression passed.");
   checks.push("Public We Must Vote intake/document smoke passed.");
+}
+
+function mutatingSmokeSafetyDecision() {
+  if (isProductionUrl(baseUrl) || isProductionUrl(process.env.NEXT_PUBLIC_APP_URL ?? "")) {
+    return { ok: false, reason: "Refusing to run mutating verifier against production URL." };
+  }
+
+  if (process.env.PARTNER_DASHBOARD_RLS_ALLOW_MUTATING_SMOKE !== "true") {
+    return {
+      ok: true,
+      skip: true,
+      reason: "Mutating We Must Vote intake/document smoke skipped; set PARTNER_DASHBOARD_RLS_ALLOW_MUTATING_SMOKE=true only for an approved non-production Supabase target."
+    };
+  }
+
+  return { ok: true };
+}
+
+function isProductionUrl(value) {
+  if (!value) {
+    return false;
+  }
+
+  try {
+    const hostname = new URL(value).hostname.toLowerCase();
+    return hostname === "legaleasepartner.com" ||
+      hostname === "www.legaleasepartner.com" ||
+      hostname.endsWith(".vercel.app");
+  } catch {
+    return /legaleasepartner\.com|\.vercel\.app/i.test(value);
+  }
 }
 
 async function postJson(pathname, body) {

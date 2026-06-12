@@ -17,6 +17,7 @@ export type AddPartnerUserResult =
   | {
       ok: true;
       status: "invited_and_mapped" | "existing_user_mapped" | "already_mapped";
+      email: string;
       authUserId: string;
       partnerUserId?: string;
       partnerSlug: string;
@@ -127,6 +128,7 @@ export async function inviteAndMapPartnerUser(input: AddPartnerUserInput): Promi
       return {
         ok: true,
         status: "already_mapped",
+        email: validated.email,
         authUserId: invited.authUser.id,
         partnerUserId: existingMapping.row.id,
         partnerSlug: validated.partnerSlug,
@@ -173,6 +175,7 @@ export async function inviteAndMapPartnerUser(input: AddPartnerUserInput): Promi
   return {
     ok: true,
     status: invited.createdByInvite ? "invited_and_mapped" : "existing_user_mapped",
+    email: validated.email,
     authUserId: invited.authUser.id,
     partnerUserId: mapping.partnerUserId,
     partnerSlug: validated.partnerSlug,

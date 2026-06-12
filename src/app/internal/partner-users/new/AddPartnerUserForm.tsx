@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 type PartnerOption = {
   partnerSlug: string;
@@ -14,14 +14,36 @@ type AddPartnerUserFormProps = {
 type SubmitState =
   | { kind: "idle" }
   | { kind: "submitting" }
-  | { kind: "success"; message: string }
+  | { kind: "success"; message: string; email: string; partnerSlug: string; role: string }
   | { kind: "error"; message: string };
+
+type InviteResponse = {
+  ok?: boolean;
+  outcome?: string;
+  message?: string;
+  email?: string;
+  partnerSlug?: string;
+  role?: string;
+};
+
+const successfulInviteStatuses = new Set([
+  "invited_and_mapped",
+  "already_mapped",
+  "existing_user_mapped",
+  "mapped_existing_user"
+]);
 
 export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
+  const isSubmittingRef = useRef(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isSubmittingRef.current) {
+      return;
+    }
+
+    isSubmittingRef.current = true;
     setState({ kind: "submitting" });
 
     const formData = new FormData(event.currentTarget);
@@ -38,26 +60,26 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const result = (await response.json()) as { ok?: boolean; status?: string; error?: string };
+      const result = await readInviteResponse(response);
+      const isSuccess = response.ok && (result.ok === true || isSuccessfulInviteStatus(result.outcome));
 
-      if (!response.ok || !result.ok) {
-        setState({ kind: "error", message: result.error ?? "Unable to add the partner user." });
+      if (!isSuccess) {
+        setState({ kind: "error", message: safeInviteErrorMessage(response.status, result) });
         return;
       }
 
-      const message =
-        result.status === "invited_and_mapped"
-          ? "Partner user invitation created."
-          : result.status === "already_mapped"
-            ? "That user already has the requested partner access."
-            : result.status === "existing_user_mapped" || result.status === "mapped_existing_user"
-              ? "Existing user was granted partner access."
-              : "Partner user invitation created.";
-
-      setState({ kind: "success", message });
+      setState({
+        kind: "success",
+        message: result.message ?? successMessage(result.outcome),
+        email: result.email ?? payload.email,
+        partnerSlug: result.partnerSlug ?? payload.partnerSlug,
+        role: result.role ?? payload.role
+      });
       event.currentTarget.reset();
     } catch {
       setState({ kind: "error", message: "Unable to add the partner user right now." });
+    } finally {
+      isSubmittingRef.current = false;
     }
   }
 
@@ -115,7 +137,28 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
       </fieldset>
 
       {state.kind === "success" ? (
-        <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm font-semibold text-teal">{state.message}</div>
+        <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-4 text-sm text-teal">
+          <p className="font-black">Status: Invitation created</p>
+          <dl className="mt-3 grid gap-2 text-grayWilma-800">
+            <div className="grid gap-0.5">
+              <dt className="text-xs font-black uppercase text-grayWilma-600">Email</dt>
+              <dd className="font-semibold">{state.email}</dd>
+            </div>
+            <div className="grid gap-0.5">
+              <dt className="text-xs font-black uppercase text-grayWilma-600">Partner</dt>
+              <dd className="font-semibold">{state.partnerSlug}</dd>
+            </div>
+            <div className="grid gap-0.5">
+              <dt className="text-xs font-black uppercase text-grayWilma-600">Role</dt>
+              <dd className="font-semibold">{formatRole(state.role)}</dd>
+            </div>
+            <div className="grid gap-0.5">
+              <dt className="text-xs font-black uppercase text-grayWilma-600">Next step</dt>
+              <dd className="font-semibold">Ask the user to check their inbox and set their password.</dd>
+            </div>
+          </dl>
+          <p className="sr-only">{state.message}</p>
+        </div>
       ) : null}
 
       {state.kind === "error" ? (
@@ -131,4 +174,61 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
       </button>
     </form>
   );
+}
+
+async function readInviteResponse(response: Response): Promise<InviteResponse> {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    return {};
+  }
+
+  try {
+    return (await response.json()) as InviteResponse;
+  } catch {
+    return {};
+  }
+}
+
+function isSuccessfulInviteStatus(status: string | undefined) {
+  return Boolean(status && successfulInviteStatuses.has(status));
+}
+
+function safeInviteErrorMessage(status: number, result: InviteResponse) {
+  if (result.message) {
+    return result.message;
+  }
+
+  if (status === 401) {
+    return "Sign in with an internal admin account and try again.";
+  }
+
+  if (status === 403) {
+    return "Internal admin access is required to add partner users.";
+  }
+
+  return "Unable to add the partner user.";
+}
+
+function successMessage(outcome: string | undefined) {
+  if (outcome === "already_mapped") {
+    return "That user already has the requested partner access.";
+  }
+
+  if (outcome === "existing_user_mapped" || outcome === "mapped_existing_user") {
+    return "Existing user was granted partner access.";
+  }
+
+  return "Partner user invitation created.";
+}
+
+function formatRole(role: string) {
+  if (role === "partner_admin") {
+    return "Partner admin";
+  }
+
+  if (role === "partner_staff") {
+    return "Partner staff";
+  }
+
+  return role;
 }

@@ -15,6 +15,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (request.nextUrl.pathname === "/internal/partner-users/invite" && request.method === "POST") {
+    return refreshSupabaseSession(request);
+  }
+
   const configuredToken = process.env.INTERNAL_ADMIN_ACCESS_TOKEN;
 
   if (process.env.NODE_ENV !== "production" && !configuredToken) {

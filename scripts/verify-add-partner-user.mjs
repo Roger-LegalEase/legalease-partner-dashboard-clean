@@ -51,6 +51,10 @@ failIf(gateIndex > bodyParseIndex, "Route must require internal_admin before par
 failIf(!routeSource.includes('status: 401'), "Route must return 401 for unauthenticated access.");
 failIf(!routeSource.includes('status: 403'), "Route must return 403 for non-internal-admin access.");
 failIf(!routeSource.includes("SessionPartnerError"), "Route must handle session authorization failures explicitly.");
+failIf(!routeSource.includes("isSameOriginRequest(request)") || !routeSource.includes('request.headers.get("origin")') || !routeSource.includes('request.headers.get("referer")'), "Route must enforce same-origin Origin/Referer protection before invite writes.");
+failIf(!routeSource.includes("failureResponse") || !routeSource.includes("ok: false") || !routeSource.includes("outcome") || !routeSource.includes("message"), "Route failures must use the normalized ok/outcome/message envelope.");
+failIf(!routeSource.includes("ok: true") || !routeSource.includes("email: result.email") || !routeSource.includes("partnerSlug: result.partnerSlug") || !routeSource.includes("role: result.role"), "Route success must return ok, outcome, message, email, partnerSlug, and role.");
+failIf(routeSource.includes("authUserId: result.code") || routeSource.includes("authUserId: result.authUserId"), "Route must not return auth user ids in client-visible failure responses.");
 
 const pageGateIndex = indexOfOrFail(pageSource, 'resolveInternalAdminPageAccess("/internal/partner-users/new")', "Page gate");
 const partnerLoadIndex = indexOfOrFail(pageSource, "getAllPartnerRecords()", "Partner select data load");
@@ -116,6 +120,9 @@ for (const forbidden of ["window.location.href", "document.cookie", "localStorag
 failIf(!clientSource.includes("Partner user invitation created."), "Client must show invited_and_mapped success copy.");
 failIf(!clientSource.includes("That user already has the requested partner access."), "Client must show already_mapped success copy.");
 failIf(!clientSource.includes("Existing user was granted partner access."), "Client must show existing user mapping success copy.");
+failIf(!clientSource.includes("result.ok === true") || !clientSource.includes("isSuccessfulInviteStatus(result.outcome)"), "Client must treat HTTP 2xx plus ok:true/outcome as success.");
+failIf(!clientSource.includes("isSubmittingRef.current"), "Client must prevent double submit.");
+failIf(!clientSource.includes("Status: Invitation created") || !clientSource.includes("Ask the user to check their inbox and set their password."), "Client must render the normalized success panel.");
 failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
 failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
 failIf(!redirectSource.includes("fallback = defaultPartnerAuthRedirect") || !redirectSource.includes("return fallback"), "Redirect helper must reject external next URLs to /partner/dashboard fallback.");
