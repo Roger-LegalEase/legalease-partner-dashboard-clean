@@ -106,22 +106,52 @@ failIf(!setPasswordSource.includes("Use at least 12 characters with a letter, a 
 failIf(!setPasswordSource.includes('id="password-requirements"'), "Set-password page must expose password requirements near the password fields.");
 failIf(!setPasswordSource.includes("password.length < minimumPasswordLength"), "Set-password page must enforce the minimum password length locally.");
 failIf(!setPasswordSource.includes("/[A-Za-z]/.test(password)") || !setPasswordSource.includes("/[0-9]/.test(password)") || !setPasswordSource.includes("/[^A-Za-z0-9]/.test(password)"), "Set-password page must require a letter, number, and symbol locally.");
-failIf(!setPasswordSource.includes("Passwords must match."), "Set-password page must explain password confirmation failures.");
-failIf(!setPasswordSource.includes("const weakPasswordMessage = passwordRequirementsMessage"), "Set-password page must map weak-password errors to the visible password requirement text.");
+failIf(!setPasswordSource.includes("Passwords do not match."), "Set-password page must explain password confirmation failures separately from strength failures.");
+failIf(setPasswordSource.includes("Passwords must match."), "Set-password page must not show the old password confirmation copy.");
+failIf(setPasswordSource.includes("const weakPasswordMessage = passwordRequirementsMessage"), "Set-password page must not reuse the local validation message for Supabase updateUser weak-password errors.");
+failIf(!setPasswordSource.includes("That password does not meet Supabase password requirements. Try a different password with at least 12 characters, a number, and a symbol."), "Set-password page must show a safe Supabase-specific weak-password error.");
 failIf(!setPasswordSource.includes("This invite link is no longer active. Please request a new invitation."), "Set-password page must show a safe missing-session error.");
 failIf(!setPasswordSource.includes("This invite link is invalid or has expired. Please request a new invitation."), "Set-password page must show a safe invalid-token error.");
-failIf(!setPasswordSource.includes("We could not set your password. Please try again or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
+failIf(!setPasswordSource.includes("We could not set your password. Please try a different password or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
 failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(nextPath))"), "Set-password success must redirect to the safe next path, defaulting to /partner/dashboard.");
 failIf(!setPasswordSource.includes("scrubAuthUrl(detectedNextPath)") || setPasswordSource.indexOf("scrubAuthUrl(detectedNextPath)") < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Set-password page must not scrub the URL before session exchange is attempted.");
 const sessionBeforeUpdateIndex = setPasswordSource.indexOf("const { data: sessionData, error: sessionError } = await supabase.auth.getSession()");
 const updateUserIndex = setPasswordSource.indexOf("updateUser({ password })");
 const validationBeforeUpdateIndex = setPasswordSource.indexOf("const validationMessage = validatePassword(password, confirmPassword)");
+const formDataIndex = setPasswordSource.indexOf("const formData = new FormData(event.currentTarget)");
+const localValidationReturnIndex = setPasswordSource.indexOf("setErrorMessage(validationMessage)");
 failIf(sessionBeforeUpdateIndex === -1 || updateUserIndex === -1 || sessionBeforeUpdateIndex > updateUserIndex, "Set-password page must confirm an active session immediately before updateUser.");
 failIf(validationBeforeUpdateIndex === -1 || updateUserIndex === -1 || validationBeforeUpdateIndex > updateUserIndex, "Set-password page must validate locally before updateUser.");
+failIf(formDataIndex === -1 || formDataIndex > validationBeforeUpdateIndex, "Set-password page must validate against current submitted form values, not stale component state.");
+failIf(localValidationReturnIndex === -1 || localValidationReturnIndex > updateUserIndex || !setPasswordSource.includes("return;\n    }\n\n    setState(\"saving\")"), "Set-password page must return before updateUser when local validation fails.");
+failIf(!setPasswordSource.includes("setErrorMessage(\"\")") || !setPasswordSource.includes("setSuccessMessage(\"\")"), "Set-password submit must clear stale error and success state before validation/update.");
 failIf(setPasswordSource.includes("{invalidInviteMessage}") || setPasswordSource.includes("Please use the latest invitation link"), "Set-password page must not show the old generic invite failure copy.");
 for (const forbidden of ["window.location.href", "document.cookie", "localStorage", "sessionStorage"]) {
   failIf(setPasswordSource.includes(forbidden), `Set-password page must not read or log sensitive browser state: ${forbidden}`);
 }
+
+const localPasswordValidation = (password, confirmPassword) => {
+  if (password.length < 12) return "Use at least 12 characters with a letter, a number, and a symbol.";
+  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)) return "Use at least 12 characters with a letter, a number, and a symbol.";
+  if (password !== confirmPassword) return "Passwords do not match.";
+  return "";
+};
+
+const passingPasswordExamples = ["LegalEaseTest2026!", "KcalbKcalb3815@"];
+for (const password of passingPasswordExamples) {
+  failIf(localPasswordValidation(password, password) !== "", `Safe placeholder password should pass local validation: ${password}`);
+}
+
+const failingPasswordExamples = [
+  ["Short1!", "Use at least 12 characters with a letter, a number, and a symbol."],
+  ["LegalEaseTest!", "Use at least 12 characters with a letter, a number, and a symbol."],
+  ["LegalEase2026", "Use at least 12 characters with a letter, a number, and a symbol."],
+  ["123456789012!", "Use at least 12 characters with a letter, a number, and a symbol."]
+];
+for (const [password, expectedMessage] of failingPasswordExamples) {
+  failIf(localPasswordValidation(password, password) !== expectedMessage, `Safe placeholder password should fail local validation with requirements message: ${password}`);
+}
+failIf(localPasswordValidation("LegalEaseTest2026!", "LegalEaseTest2026?") !== "Passwords do not match.", "Password confirmation mismatch must return the mismatch message.");
 failIf(!clientSource.includes("Partner user invitation created."), "Client must show invited_and_mapped success copy.");
 failIf(!clientSource.includes("That user already has the requested partner access."), "Client must show already_mapped success copy.");
 failIf(!clientSource.includes("Existing user was granted partner access."), "Client must show existing user mapping success copy.");

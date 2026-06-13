@@ -33,8 +33,9 @@ const invalidInviteMessage = "This invite link is expired or invalid. Ask your L
 const inactiveInviteMessage = "This invite link is no longer active. Please request a new invitation.";
 const invalidOrExpiredInviteMessage = "This invite link is invalid or has expired. Please request a new invitation.";
 const passwordRequirementsMessage = "Use at least 12 characters with a letter, a number, and a symbol.";
-const weakPasswordMessage = passwordRequirementsMessage;
-const fallbackPasswordMessage = "We could not set your password. Please try again or request a new invitation.";
+const passwordMismatchMessage = "Passwords do not match.";
+const weakPasswordMessage = "That password does not meet Supabase password requirements. Try a different password with at least 12 characters, a number, and a symbol.";
+const fallbackPasswordMessage = "We could not set your password. Please try a different password or request a new invitation.";
 
 export default function SetPasswordPage() {
   const [state, setState] = useState<InviteState>("checking");
@@ -256,7 +257,7 @@ export default function SetPasswordPage() {
   );
 }
 
-function validatePassword(password: string, confirmPassword: string) {
+export function validatePassword(password: string, confirmPassword: string) {
   if (password.length < minimumPasswordLength) {
     return passwordRequirementsMessage;
   }
@@ -266,7 +267,7 @@ function validatePassword(password: string, confirmPassword: string) {
   }
 
   if (password !== confirmPassword) {
-    return "Passwords must match.";
+    return passwordMismatchMessage;
   }
 
   return "";
