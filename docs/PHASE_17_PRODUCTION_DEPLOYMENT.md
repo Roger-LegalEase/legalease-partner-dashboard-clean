@@ -40,11 +40,8 @@ Stripe:
 
 ```bash
 STRIPE_SECRET_KEY=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=
-STRIPE_PRICE_STARTER_ACCESS_PROGRAM=
-STRIPE_PRICE_COMMUNITY_ACCESS_PROGRAM=
-STRIPE_PRICE_COUNTY_ACCESS_PROGRAM=
+Stripe invoice billing is custom-scoped; fixed partner price env vars are intentionally not part of the current model.
 ```
 
 Email:
@@ -74,10 +71,10 @@ PARTNER_PREVIEW_ACCESS_TOKEN=
 
 ## Stripe Production Setup Checklist
 
-- Create live products and prices for Starter Access Program, Community Access Program, and Full Access Program.
-- Keep `STRIPE_PRICE_COUNTY_ACCESS_PROGRAM` as the internal env var for the Full Access Program price.
+- Keep partner billing invoice-only until reviewed.
+- Do not create public fixed-tier Checkout prices for partner sales.
 - Set live `STRIPE_SECRET_KEY`.
-- Set live `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`.
+- Set live `STRIPE_WEBHOOK_SECRET`.
 - Configure the production webhook endpoint.
 
 ## Production Webhook Checklist

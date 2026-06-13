@@ -48,13 +48,14 @@ loadLocalEnv();
 
 const failures = [];
 const typesSource = readSource("src/lib/partners/types.ts");
-const repositorySource = readSource("src/lib/partners/partner-repository.ts");
 const packagesSource = readSource("src/lib/partners/packages.ts");
 const checkoutSource = readSource("src/app/api/partners/checkout/route.ts");
 const webhookSource = readSource("src/app/api/stripe/webhook/route.ts");
+const billingSource = readSource("src/lib/partners/billing.ts");
 const serviceSource = readSource("src/lib/partners/partner-service.ts");
 const setupSql = readSource("supabase/partner-journey-os.sql");
 const migrationSql = readSource("supabase/phase-13-paid-provisioning.sql");
+const billingMigrationSql = readSource("supabase/phase-25-partner-billing-invoices.sql");
 
 for (const field of requiredPaymentFields) {
   if (!typesSource.includes(field)) {
@@ -90,28 +91,30 @@ if (!packagesSource.includes("Full Access Program")) {
   failures.push("Full Access Program public naming is missing.");
 }
 
-if (!packagesSource.includes("STRIPE_PRICE_COUNTY_ACCESS_PROGRAM")) {
-  failures.push("Internal STRIPE_PRICE_COUNTY_ACCESS_PROGRAM compatibility is missing.");
-}
 
-if (!checkoutSource.includes("packageName") || !checkoutSource.includes("checkout_started")) {
-  failures.push("Checkout creation does not record package name and checkout_started state.");
+const bannedCheckoutCreateCall = `checkout.sessions.${"create"}`;
+if (!checkoutSource.includes("Public partner checkout is not supported") || checkoutSource.includes(bannedCheckoutCreateCall)) {
+  failures.push("Public package checkout route is not disabled for invoice-only billing.");
 }
 
 if (!serviceSource.includes("void searchParams") || serviceSource.includes("searchParams.paid")) {
   failures.push("Onboarding/payment gate appears to trust query params.");
 }
 
-if (!webhookSource.includes("checkout.session.completed") || !webhookSource.includes("activatePaidPartnerProvisioning")) {
-  failures.push("Webhook activation path is not configured.");
+if (!billingSource.includes("stripe.invoices.create") || !billingSource.includes("stripe.invoiceItems.create")) {
+  failures.push("Stripe invoice creation path is not configured.");
 }
 
-if (!webhookSource.includes('session.payment_status !== "paid"')) {
-  failures.push("Webhook handler does not require paid Stripe session status.");
+if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, webhookSecret)")) {
+  failures.push("Webhook handler does not verify Stripe signatures against the raw request body.");
 }
 
-if (!repositorySource.includes('provisioning_status: "ready_for_onboarding"')) {
-  failures.push("Paid state does not move provisioning to ready_for_onboarding.");
+if (!billingSource.includes("processed_stripe_events") || !billingMigrationSql.includes("processed_stripe_events")) {
+  failures.push("Stripe webhook idempotency table/path is missing.");
+}
+
+if (!billingMigrationSql.includes("partner_billing_requests") || !billingSource.includes("partner_billing_requests")) {
+  failures.push("Partner billing request persistence is missing.");
 }
 
 const envLocalTracked = isGitTracked(".env.local");
@@ -140,9 +143,9 @@ if (failures.length > 0) {
 
 console.log("Paid provisioning verification passed.");
 console.log("Payment gate: enabled");
-console.log("Webhook activation path: configured");
+console.log("Stripe invoice webhook reconciliation: configured");
 console.log("Full Access public naming: configured");
-console.log("Internal Stripe compatibility: preserved");
+console.log("Public partner checkout: disabled");
 console.log(`.env.local tracked: ${envLocalTracked ? "yes" : "no"}`);
 console.log(`Tracked secrets found: ${trackedSecretsFound ? "yes" : "no"}`);
 console.log("Dashboard product boundary: record-clearing only");

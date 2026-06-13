@@ -1,140 +1,109 @@
 "use client";
 
-import { CheckCircle2, CreditCard, Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { useState, type FormEvent, type InputHTMLAttributes, type SelectHTMLAttributes } from "react";
 import { Button } from "@/components/ui/Button";
-import type { PartnerPackage } from "@/lib/partners/packages";
+import { interestedWorkflowOptions, organizationTypeOptions } from "@/lib/request-pilot/validation";
 
-const organizationTypes = [
-  "Nonprofit",
-  "Public agency",
-  "Workforce organization",
-  "Community college",
-  "Legal aid partner",
-  "Employer coalition",
-  "Other"
-];
-
-const primaryNeeds = [
-  "Expungement",
-  "Sealing",
-  "Record restriction",
-  "Clean Slate awareness",
-  "Mixed/unknown"
-];
-
-export function PartnerStartForm({ packages }: { packages: PartnerPackage[] }) {
-  const [selectedPackageId, setSelectedPackageId] = useState(packages[1]?.id ?? packages[0]?.id ?? "");
+export function PartnerStartForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     setError("");
+    setMessage("");
 
     try {
       const formData = new FormData(event.currentTarget);
-      const packageId = String(formData.get("packageId") ?? "");
-
-      const response = await fetch("/api/partners/checkout", {
+      const response = await fetch("/api/request-pilot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ packageId })
+        body: JSON.stringify({
+          contact_name: String(formData.get("contact_name") ?? ""),
+          organization_name: String(formData.get("organization_name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          phone: String(formData.get("phone") ?? ""),
+          role_title: String(formData.get("role_title") ?? ""),
+          organization_type: String(formData.get("organization_type") ?? ""),
+          state_or_jurisdiction: String(formData.get("state_or_jurisdiction") ?? ""),
+          community_served: String(formData.get("community_served") ?? ""),
+          estimated_people_served: String(formData.get("estimated_people_served") ?? ""),
+          interested_workflow: String(formData.get("interested_workflow") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          consent_to_contact: formData.get("consent_to_contact") === "on",
+          website: String(formData.get("website") ?? "")
+        })
       });
+      const payload = (await response.json()) as { ok?: boolean; error?: string };
 
-      const payload = (await response.json()) as { url?: string; error?: string };
-
-      if (!response.ok || !payload.url) {
-        throw new Error(payload.error ?? "Unable to create a checkout session.");
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error ?? "Unable to submit request.");
       }
 
-      window.location.assign(payload.url);
-    } catch (checkoutError) {
-      setError(checkoutError instanceof Error ? checkoutError.message : "Unable to create a checkout session.");
+      event.currentTarget.reset();
+      setMessage("Request received. LegalEase will follow up after discovery review.");
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Unable to submit request.");
+    } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
-      <fieldset className="grid gap-3">
-        <legend className="text-sm font-black text-navy">Program package</legend>
-        <div className="grid gap-3">
-          {packages.map((partnerPackage) => {
-            const selected = selectedPackageId === partnerPackage.id;
-
-            return (
-              <label
-                key={partnerPackage.id}
-                className={`grid cursor-pointer gap-3 rounded-md border p-4 transition ${
-                  selected
-                    ? "border-teal bg-teal/5 ring-2 ring-teal/15"
-                    : "border-grayWilma-200 bg-white hover:border-teal/50"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="packageId"
-                  value={partnerPackage.id}
-                  checked={selected}
-                  onChange={() => setSelectedPackageId(partnerPackage.id)}
-                  className="sr-only"
-                />
-                <span className="flex items-start justify-between gap-4">
-                  <span>
-                    <span className="block text-base font-black text-navy">{partnerPackage.name}</span>
-                    <span className="mt-1 block text-sm font-semibold text-teal">{partnerPackage.priceLabel}</span>
-                  </span>
-                  {selected ? <CheckCircle2 className="h-5 w-5 shrink-0 text-teal" aria-hidden="true" /> : null}
-                </span>
-                <span className="text-sm leading-6 text-grayWilma-700">{partnerPackage.description}</span>
-                <span className="flex flex-wrap gap-2">
-                  {partnerPackage.includedComponents.map((component) => (
-                    <span
-                      key={component}
-                      className="rounded-md border border-grayWilma-200 bg-[#f7f8f6] px-2.5 py-1 text-xs font-semibold text-grayWilma-700"
-                    >
-                      {component}
-                    </span>
-                  ))}
-                </span>
-                <span className="text-xs leading-5 text-grayWilma-600">{partnerPackage.recommendedFor}</span>
-              </label>
-            );
-          })}
-        </div>
-      </fieldset>
-
-      <div className="grid gap-5 border-t border-grayWilma-200 pt-6 md:grid-cols-2">
-        <TextField label="Organization name" name="organizationName" required />
-        <TextField label="Contact name" name="contactName" required />
-        <TextField label="Email" name="email" type="email" required />
-        <TextField label="Website" name="website" type="url" placeholder="https://example.org" />
-        <SelectField label="Organization type" name="organizationType" options={organizationTypes} required />
-        <TextField label="State/region served" name="regionServed" required />
-        <TextField
-          label="Estimated people served in 90 days"
-          name="estimatedVolume"
-          type="number"
-          min="1"
-          required
-        />
-        <SelectField label="Primary record-clearing need" name="primaryNeed" options={primaryNeeds} required />
+      <div className="hidden" aria-hidden="true">
+        <TextField label="Website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
+      <div className="grid gap-5 md:grid-cols-2">
+        <TextField label="Organization name" name="organization_name" required />
+        <TextField label="Contact name" name="contact_name" required />
+        <TextField label="Email" name="email" type="email" required />
+        <TextField label="Phone" name="phone" type="tel" />
+        <TextField label="Role or title" name="role_title" />
+        <SelectField label="Organization type" name="organization_type" options={[...organizationTypeOptions]} required />
+        <TextField label="State or jurisdiction" name="state_or_jurisdiction" required />
+        <TextField label="Estimated people served" name="estimated_people_served" />
+      </div>
+
+      <SelectField label="Interested workflow" name="interested_workflow" options={[...interestedWorkflowOptions]} />
+
       <label className="grid gap-2 text-sm font-semibold text-navy">
-        Program goal
+        Community served
         <textarea
-          name="programGoal"
+          name="community_served"
           required
-          rows={5}
+          rows={4}
           className="rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm font-normal text-grayWilma-800 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/20"
-          placeholder="Describe the community, implementation goal, and record-clearing access need."
+          placeholder="Describe the community, region, or partner audience."
         />
       </label>
+
+      <label className="grid gap-2 text-sm font-semibold text-navy">
+        Discovery notes
+        <textarea
+          name="message"
+          rows={5}
+          className="rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm font-normal text-grayWilma-800 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/20"
+          placeholder="Share goals, timeline, scope, procurement needs, or record-clearing access questions."
+        />
+      </label>
+
+      <label className="flex items-start gap-3 text-sm font-semibold leading-6 text-grayWilma-700">
+        <input name="consent_to_contact" type="checkbox" required className="mt-1 h-4 w-4 rounded border-grayWilma-300 text-teal" />
+        LegalEase may contact me about partner discovery and scoped billing.
+      </label>
+
+      {message ? (
+        <p className="rounded-md border border-teal/20 bg-teal/5 px-3 py-2 text-sm font-semibold text-teal">
+          {message}
+        </p>
+      ) : null}
 
       {error ? (
         <p className="rounded-md border border-danger/20 bg-danger/5 px-3 py-2 text-sm font-semibold text-danger">
@@ -144,19 +113,18 @@ export function PartnerStartForm({ packages }: { packages: PartnerPackage[] }) {
 
       <div className="flex flex-col gap-3 border-t border-grayWilma-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-2xl text-xs leading-5 text-grayWilma-600">
-          Payment is required before provisioning begins. Checkout does not create production provisioning, CRM records, or
-          email sends in this phase.
+          Partner pricing is custom-scoped after discovery. LegalEase creates Stripe invoices internally after scope is agreed.
         </p>
         <Button type="submit" className="min-h-11 whitespace-nowrap px-5" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Creating Checkout
+              Sending request
             </>
           ) : (
             <>
-              <CreditCard className="h-4 w-4" aria-hidden="true" />
-              Begin Checkout
+              <Send className="h-4 w-4" aria-hidden="true" />
+              Request discovery
             </>
           )}
         </Button>

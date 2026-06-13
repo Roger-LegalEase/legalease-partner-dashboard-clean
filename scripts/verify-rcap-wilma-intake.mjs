@@ -165,9 +165,6 @@ if (!packagesSource.includes("Full Access Program")) {
   failures.push("Full Access Program public naming is missing.");
 }
 
-if (!packagesSource.includes("STRIPE_PRICE_COUNTY_ACCESS_PROGRAM")) {
-  failures.push("Internal STRIPE_PRICE_COUNTY_ACCESS_PROGRAM compatibility is missing.");
-}
 
 if (envExampleContainsRealSecrets(readSource(".env.example"))) {
   failures.push(".env.example appears to contain real secret values.");

@@ -64,7 +64,7 @@ The public highest-tier package name is:
 
 The internal Stripe price env var remains:
 
-`STRIPE_PRICE_COUNTY_ACCESS_PROGRAM`
+Stripe invoice billing is now custom-scoped; fixed partner price env vars are deprecated.
 
 This preserves Stripe readiness compatibility while updating public naming.
 

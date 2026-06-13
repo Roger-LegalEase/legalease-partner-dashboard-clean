@@ -152,7 +152,6 @@ if (!docsSource.includes("Illinois-only") || !docsSource.includes("RAP sheet") |
 }
 
 if (!packagesSource.includes("Full Access Program")) failures.push("Full Access Program public naming is missing.");
-if (!packagesSource.includes("STRIPE_PRICE_COUNTY_ACCESS_PROGRAM")) failures.push("Internal STRIPE_PRICE_COUNTY_ACCESS_PROGRAM compatibility is missing.");
 for (const banned of ["StartApart", "ClaimCoach"]) {
   if (dashboardDataSource.includes(banned)) failures.push(`${banned} appears in dashboard modules.`);
 }

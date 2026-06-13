@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { partnerPackages } from "@/lib/partners/packages";
 import { PartnerStartForm } from "./PartnerStartForm";
 
 export default function PartnerStartPage() {
@@ -14,25 +13,25 @@ export default function PartnerStartPage() {
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <Badge tone="teal">Partner checkout</Badge>
-            <h1 className="mt-3 text-4xl font-black leading-tight text-navy">Choose a Record-Clearing Access Program package.</h1>
+            <Badge tone="teal">Partner discovery</Badge>
+            <h1 className="mt-3 text-4xl font-black leading-tight text-navy">Request a scoped partner engagement.</h1>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-              Select the implementation package that matches your organization&apos;s record-clearing access goals. Payment is required
-              before LegalEase begins provisioning partner setup, launch materials, and dashboard activation.
+              LegalEase partner pricing is custom-scoped after discovery. Share your organization&apos;s goals and LegalEase will
+              prepare a scoped invoice after the engagement is reviewed.
             </p>
             <div className="mt-6 grid gap-3 text-sm text-grayWilma-700">
               <div className="rounded-md border border-grayWilma-200 bg-white p-4">
-                <p className="font-black text-navy">Provisioning starts after confirmation</p>
+                <p className="font-black text-navy">Invoices are created internally</p>
                 <p className="mt-1 leading-6">
-                  Checkout creates a Stripe test-mode payment session. The app waits for confirmed payment before paid
-                  provisioning opens.
+                  Partners do not choose amounts, plans, tiers, or Stripe price IDs. LegalEase creates Stripe invoices after scope
+                  is agreed.
                 </p>
               </div>
             </div>
           </div>
 
           <Card className="rounded-md p-6">
-            <PartnerStartForm packages={partnerPackages} />
+            <PartnerStartForm />
           </Card>
         </section>
       </div>

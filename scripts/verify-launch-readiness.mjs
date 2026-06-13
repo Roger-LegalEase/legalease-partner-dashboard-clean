@@ -16,12 +16,8 @@ const requiredEnvKeys = [
   "SUPABASE_SERVICE_ROLE_KEY",
   "ENABLE_SUPABASE_PARTNER_DATA",
   "STRIPE_SECRET_KEY",
-  "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
   "STRIPE_WEBHOOK_SECRET",
   "NEXT_PUBLIC_APP_URL",
-  "STRIPE_PRICE_STARTER_ACCESS_PROGRAM",
-  "STRIPE_PRICE_COMMUNITY_ACCESS_PROGRAM",
-  "STRIPE_PRICE_COUNTY_ACCESS_PROGRAM",
   "ENABLE_PARTNER_EMAIL_DELIVERY",
   "PARTNER_EMAIL_PROVIDER",
   "RESEND_API_KEY",
@@ -126,9 +122,6 @@ if (!packagesSource.includes("Full Access Program")) {
   failures.push("Full Access Program public naming is missing.");
 }
 
-if (!packagesSource.includes("STRIPE_PRICE_COUNTY_ACCESS_PROGRAM")) {
-  failures.push("Internal STRIPE_PRICE_COUNTY_ACCESS_PROGRAM compatibility is missing.");
-}
 
 const envLocalTracked = isGitTracked(".env.local");
 if (envLocalTracked) {

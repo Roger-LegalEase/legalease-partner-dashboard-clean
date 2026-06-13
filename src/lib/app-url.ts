@@ -15,19 +15,6 @@ export function absoluteAppUrl(path: string) {
   return `${getPublicBaseUrl()}${normalizedPath}`;
 }
 
-export function checkoutSuccessUrl(partnerSlug?: string) {
-  const params = new URLSearchParams({ session_id: "{CHECKOUT_SESSION_ID}" });
-  if (partnerSlug) {
-    params.set("partner_slug", partnerSlug);
-  }
-
-  return absoluteAppUrl(`/partners/checkout/success?${params.toString()}`).replace("%7BCHECKOUT_SESSION_ID%7D", "{CHECKOUT_SESSION_ID}");
-}
-
-export function checkoutCancelUrl() {
-  return absoluteAppUrl("/partners/start");
-}
-
 export function partnerLandingPageUrl(partnerSlug: string) {
   return absoluteAppUrl(`/p/${partnerSlug}`);
 }
