@@ -117,6 +117,10 @@ failIf(!signInSource.includes('href="/auth/forgot-password"'), "Sign-in page mus
 failIf(!signInSource.includes("safeAppRedirectPath(next, \"/briefcase\")"), "Sign-in page must preserve safe relative next redirect validation.");
 failIf(!signInSource.includes("options: captchaOptions(captchaToken)"), "Sign-in must pass CAPTCHA token through Supabase auth options when present.");
 failIf(!signInSource.includes("authCaptchaFailureMessage") || !signInSource.includes("isCaptchaError(error)"), "Sign-in must handle missing/failed CAPTCHA with safe copy.");
+failIf(!signInSource.includes("const [isPasswordVisible, setIsPasswordVisible] = useState(false)"), "Sign-in password visibility must default to hidden.");
+failIf(!signInSource.includes('type={isPasswordVisible ? "text" : "password"}'), "Sign-in password input must toggle between password and text.");
+failIf(!signInSource.includes('type="button"') || !signInSource.includes('aria-label={isPasswordVisible ? "Hide password" : "Show password"}'), "Sign-in password visibility control must be an accessible non-submit button.");
+failIf(!signInSource.includes('{isPasswordVisible ? "Hide" : "Show"}'), "Sign-in password visibility control must show Show/Hide text.");
 failIf(signInSource.includes("console.log") || signInSource.includes("console.warn") || signInSource.includes("console.error"), "Sign-in page must not log auth details.");
 
 failIf(!captchaHelperSource.includes("NEXT_PUBLIC_TURNSTILE_SITE_KEY"), "Auth CAPTCHA helper must use the public Turnstile site key.");
@@ -156,6 +160,11 @@ failIf(!setPasswordSource.includes("This invite link is no longer active. Please
 failIf(!setPasswordSource.includes("This invite link is invalid or has expired. Please request a new invitation."), "Set-password page must show a safe invalid-token error.");
 failIf(!setPasswordSource.includes("We could not set your password. Please try a different password or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
 failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(nextPath))"), "Set-password success must redirect to the safe next path, defaulting to /partner/dashboard.");
+failIf(!setPasswordSource.includes("const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false)") || !setPasswordSource.includes("const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)"), "Set-password visibility controls must default both password fields to hidden.");
+failIf(!setPasswordSource.includes('type={isNewPasswordVisible ? "text" : "password"}') || !setPasswordSource.includes('type={isConfirmPasswordVisible ? "text" : "password"}'), "Set-password inputs must independently toggle between password and text.");
+failIf(!setPasswordSource.includes('aria-label={isNewPasswordVisible ? "Hide new password" : "Show new password"}') || !setPasswordSource.includes('aria-label={isConfirmPasswordVisible ? "Hide confirmed password" : "Show confirmed password"}'), "Set-password visibility buttons must have field-specific accessible labels.");
+failIf((setPasswordSource.match(/type="button"/g) ?? []).length < 2, "Set-password visibility controls must be non-submit buttons.");
+failIf(!setPasswordSource.includes('{isNewPasswordVisible ? "Hide" : "Show"}') || !setPasswordSource.includes('{isConfirmPasswordVisible ? "Hide" : "Show"}'), "Set-password visibility controls must show Show/Hide text for both fields.");
 failIf(!setPasswordSource.includes("scrubAuthUrl(detectedNextPath)") || setPasswordSource.indexOf("scrubAuthUrl(detectedNextPath)") < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Set-password page must not scrub the URL before session exchange is attempted.");
 const sessionBeforeUpdateIndex = setPasswordSource.indexOf("const { data: sessionData, error: sessionError } = await supabase.auth.getSession()");
 const updateUserIndex = setPasswordSource.indexOf("updateUser({ password })");

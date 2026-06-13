@@ -43,6 +43,8 @@ export default function SetPasswordPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [nextPath, setNextPath] = useState(defaultNextPath);
   const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
+  const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   useEffect(() => {
@@ -225,29 +227,51 @@ export default function SetPasswordPage() {
               </p>
               <label className="grid gap-1.5">
                 <span className="text-sm font-bold text-navy">New password</span>
-                <input
-                  aria-describedby="password-requirements"
-                  autoComplete="new-password"
-                  className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
-                  disabled={isBusy}
-                  minLength={minimumPasswordLength}
-                  name="password"
-                  required
-                  type="password"
-                />
+                <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
+                  <input
+                    aria-describedby="password-requirements"
+                    autoComplete="new-password"
+                    className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
+                    disabled={isBusy}
+                    minLength={minimumPasswordLength}
+                    name="password"
+                    required
+                    type={isNewPasswordVisible ? "text" : "password"}
+                  />
+                  <button
+                    aria-label={isNewPasswordVisible ? "Hide new password" : "Show new password"}
+                    className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
+                    disabled={isBusy}
+                    onClick={() => setIsNewPasswordVisible((visible) => !visible)}
+                    type="button"
+                  >
+                    {isNewPasswordVisible ? "Hide" : "Show"}
+                  </button>
+                </div>
               </label>
               <label className="grid gap-1.5">
                 <span className="text-sm font-bold text-navy">Confirm password</span>
-                <input
-                  aria-describedby="password-requirements"
-                  autoComplete="new-password"
-                  className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
-                  disabled={isBusy}
-                  minLength={minimumPasswordLength}
-                  name="confirmPassword"
-                  required
-                  type="password"
-                />
+                <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
+                  <input
+                    aria-describedby="password-requirements"
+                    autoComplete="new-password"
+                    className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
+                    disabled={isBusy}
+                    minLength={minimumPasswordLength}
+                    name="confirmPassword"
+                    required
+                    type={isConfirmPasswordVisible ? "text" : "password"}
+                  />
+                  <button
+                    aria-label={isConfirmPasswordVisible ? "Hide confirmed password" : "Show confirmed password"}
+                    className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
+                    disabled={isBusy}
+                    onClick={() => setIsConfirmPasswordVisible((visible) => !visible)}
+                    type="button"
+                  >
+                    {isConfirmPasswordVisible ? "Hide" : "Show"}
+                  </button>
+                </div>
               </label>
               <Button className="min-h-11" disabled={isBusy} type="submit">
                 {state === "saving" || state === "saved" ? "Setting password..." : "Set password"}

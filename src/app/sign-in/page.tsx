@@ -24,6 +24,7 @@ export default function SignInPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   async function signInWithPassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -111,13 +112,24 @@ export default function SignInPage() {
             </label>
             <label className="grid gap-1.5">
               <span className="text-sm font-bold text-navy">Password</span>
-              <input
-                autoComplete="current-password"
-                className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
-                name="password"
-                required
-                type="password"
-              />
+              <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
+                <input
+                  autoComplete="current-password"
+                  className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
+                  name="password"
+                  required
+                  type={isPasswordVisible ? "text" : "password"}
+                />
+                <button
+                  aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                  className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
+                  disabled={isSubmitting}
+                  onClick={() => setIsPasswordVisible((visible) => !visible)}
+                  type="button"
+                >
+                  {isPasswordVisible ? "Hide" : "Show"}
+                </button>
+              </div>
             </label>
             <TurnstileWidget onTokenChange={setCaptchaToken} />
             <Button className="min-h-11" disabled={isSubmitting} type="submit">
