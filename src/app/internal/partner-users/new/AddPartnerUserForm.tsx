@@ -43,10 +43,11 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
       return;
     }
 
+    const form = event.currentTarget;
     isSubmittingRef.current = true;
     setState({ kind: "submitting" });
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       partnerSlug: String(formData.get("partnerSlug") ?? ""),
       email: String(formData.get("email") ?? ""),
@@ -75,7 +76,7 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
         partnerSlug: result.partnerSlug ?? payload.partnerSlug,
         role: result.role ?? payload.role
       });
-      event.currentTarget.reset();
+      form.reset();
     } catch {
       setState({ kind: "error", message: "Unable to add the partner user right now." });
     } finally {
