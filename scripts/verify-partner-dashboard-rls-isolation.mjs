@@ -8,6 +8,8 @@ import { createClient } from "@supabase/supabase-js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const routePath = path.join(rootDir, "src/app/partner/dashboard/page.tsx");
+const partnerTeamPath = path.join(rootDir, "src/app/partner/team/page.tsx");
+const partnerTeamServicePath = path.join(rootDir, "src/lib/partners/partner-team.ts");
 const repositoryPath = path.join(rootDir, "src/lib/partners/partner-dashboard-rls-repository.ts");
 const resolverPath = path.join(rootDir, "src/lib/partners/session-partner.ts");
 const actionLayerPath = path.join(rootDir, "src/lib/partners/dashboard-action-layer.ts");
@@ -81,6 +83,8 @@ for (const skip of skipped) {
 function verifySourceShape() {
   const verifierSource = readSource(fileURLToPath(import.meta.url));
   const routeSource = readSource(routePath);
+  const partnerTeamSource = readSource(partnerTeamPath);
+  const partnerTeamServiceSource = readSource(partnerTeamServicePath);
   const repositorySource = readSource(repositoryPath);
   const resolverSource = readSource(resolverPath);
   const actionLayerSource = readSource(actionLayerPath);
@@ -102,6 +106,9 @@ function verifySourceShape() {
 
   if (!routeSource.includes("getPartnerDashboardRlsData")) {
     failures.push("/partner/dashboard route must load through the RLS dashboard repository.");
+  }
+  if (!routeSource.includes('dashboard.role === "partner_admin" ? <ManageTeamCard /> : null') || !routeSource.includes('href="/partner/team"')) {
+    failures.push("/partner/dashboard must expose /partner/team only as an active partner_admin action.");
   }
 
   const fakeDashboardFragments = [
@@ -138,6 +145,19 @@ function verifySourceShape() {
 
   if (!repositorySource.includes("resolveSessionPartner()")) {
     failures.push("Dashboard RLS repository must resolve partner identity from the authenticated session.");
+  }
+
+  if (!partnerTeamSource.includes("resolveSessionPartner()") || !partnerTeamSource.includes('href: "/sign-in?next=/partner/team"')) {
+    failures.push("/partner/team must derive identity from the authenticated session and redirect unauthenticated users to sign-in.");
+  }
+  if (!partnerTeamSource.includes('sessionPartner.role !== "partner_admin"') || !partnerTeamSource.includes("getPartnerTeamPageData(access.sessionPartner)")) {
+    failures.push("/partner/team must require partner_admin and load team data only for the resolved session partner.");
+  }
+  if (!partnerTeamServiceSource.includes('.eq("partner_slug", sessionPartner.partnerSlug)') || !partnerTeamServiceSource.includes("row.partner_slug !== sessionPartner.partnerSlug")) {
+    failures.push("Partner team list service must scope and filter members by resolved session partner slug.");
+  }
+  if (!partnerTeamServiceSource.includes('.in("role", ["partner_admin", "partner_staff"])')) {
+    failures.push("Partner team list service must exclude internal_admin users.");
   }
 
   for (const banned of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "searchParams", "headers()", "request.body"]) {
@@ -204,6 +224,7 @@ function verifySourceShape() {
   checks.push("Service-role/admin client is absent from the dashboard route, resolver, RLS repository, and action-layer helper.");
   checks.push("Dashboard production path has no fake metric literals, dead hash links, or report/detail placeholder actions.");
   checks.push("Dashboard action links point to real intake and public partner routes.");
+  checks.push("Partner team route and list derive identity from the session and scope rows to the resolved partner.");
   checks.push("Dashboard live aggregates read partner_records, partner_metrics, rcap_intake_sessions, rcap_document_packets, and rcap_briefcase_items through authenticated RLS.");
   checks.push("We Must Vote dashboard aggregates apply a server-side metrics-start baseline without affecting other partners.");
   checks.push("rcap_user_profiles RLS migration is present and the dashboard does not rely on rcap_user_profiles.");
@@ -212,6 +233,7 @@ function verifySourceShape() {
 
 async function verifyHttpIsolation() {
   await assertUnauthenticatedRedirect();
+  await assertUnauthenticatedTeamRedirect();
 
   const wmvRls = await loadRlsSnapshot({
     label: "We Must Vote partner admin",
@@ -232,6 +254,11 @@ async function verifyHttpIsolation() {
 
   const wmv = await signIn(requiredEnv.PARTNER_RLS_WMV_ADMIN_EMAIL, requiredEnv.PARTNER_RLS_WMV_ADMIN_PASSWORD);
   await assertPartnerDashboard(wmv, {
+    label: "We Must Vote partner admin",
+    expected: wmvRls,
+    forbidden: demoRls
+  });
+  await assertPartnerTeamAccess(wmv, {
     label: "We Must Vote partner admin",
     expected: wmvRls,
     forbidden: demoRls
@@ -269,6 +296,10 @@ async function verifyHttpIsolation() {
     expected: demoRls,
     forbidden: wmvRls
   });
+  await assertPartnerTeamDenied(demo, {
+    label: "Demo partner staff",
+    forbidden: wmvRls
+  });
   await assertBypassIgnored(demo, {
     label: "Demo partner staff",
     expected: demoRls,
@@ -302,6 +333,11 @@ async function verifyHttpIsolation() {
   if (!noPartnerBody?.includes("Partner dashboard access denied")) {
     failures.push("No-partner authenticated user was not denied on /partner/dashboard.");
   }
+  await noPartner.goto(`${baseUrl}/partner/team`, { waitUntil: "networkidle" });
+  const noPartnerTeamBody = await visiblePageText(noPartner);
+  if (!noPartnerTeamBody?.includes("Partner team access denied") || visibleTextContains(noPartnerTeamBody, "Invite partner staff")) {
+    failures.push("No-partner authenticated user was not denied on /partner/team.");
+  }
   await noPartner.close();
 
   const internal = await signIn(requiredEnv.PARTNER_RLS_INTERNAL_ADMIN_EMAIL, requiredEnv.PARTNER_RLS_INTERNAL_ADMIN_PASSWORD);
@@ -314,6 +350,8 @@ async function verifyHttpIsolation() {
   checks.push("Unauthenticated access redirects to /sign-in?next=/partner/dashboard.");
   checks.push("Internal admin redirects to /dashboard/partners and no-partner authenticated access is denied.");
   checks.push("Two real partner sessions reached /partner/dashboard through the app sign-in path.");
+  checks.push("Partner team page allows partner_admin, denies partner_staff and no-partner users, and redirects unauthenticated users.");
+  checks.push("Partner team page did not render forbidden cross-partner identity for the exercised partner contexts.");
   checks.push("Rendered dashboard aggregates match direct authenticated RLS reads for both partners.");
   checks.push("Query, header, and slug-path identity tampering did not change the resolved partner.");
 }
@@ -328,6 +366,20 @@ async function assertUnauthenticatedRedirect() {
     currentUrl.searchParams.get("next") === "/partner/dashboard";
   if (!redirectedToSignIn && response?.status() !== 401 && response?.status() !== 403) {
     failures.push(`Unauthenticated /partner/dashboard was not redirected or denied. Final URL: ${page.url()}`);
+  }
+  await page.close();
+}
+
+async function assertUnauthenticatedTeamRedirect() {
+  const page = await browser.newPage();
+  const response = await gotoAllowingRedirectAbort(page, `${baseUrl}/partner/team`);
+  const currentUrl = new URL(page.url());
+  const redirectedToSignIn =
+    currentUrl.origin === baseUrl &&
+    currentUrl.pathname === "/sign-in" &&
+    currentUrl.searchParams.get("next") === "/partner/team";
+  if (!redirectedToSignIn && response?.status() !== 401 && response?.status() !== 403) {
+    failures.push(`Unauthenticated /partner/team was not redirected or denied. Final URL: ${page.url()}`);
   }
   await page.close();
 }
@@ -349,7 +401,7 @@ async function signIn(email, password) {
   const page = await browser.newPage();
   await page.goto(`${baseUrl}/sign-in?next=/partner/dashboard`, { waitUntil: "networkidle" });
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(password);
+  await page.locator('input[name="password"]').fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.waitForFunction(
     () => {
@@ -381,6 +433,41 @@ async function assertPartnerDashboard(page, { label, expected, forbidden }) {
     failures.push(`${label} dashboard did not show expected role ${expected.role}.`);
   }
   assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden);
+}
+
+async function assertPartnerTeamAccess(page, { label, expected, forbidden }) {
+  await gotoAllowingRedirectAbort(page, `${baseUrl}/partner/team`);
+  if (!page.url().startsWith(`${baseUrl}/partner/team`)) {
+    failures.push(`${label} did not reach /partner/team. Final URL: ${page.url()}`);
+    return;
+  }
+
+  const resolvedSlug = await page.locator("main").getAttribute("data-partner-team-slug").catch(() => null);
+  const resolvedRole = await page.locator("main").getAttribute("data-partner-team-role").catch(() => null);
+  const body = await visiblePageText(page);
+  if (resolvedSlug !== expected.slug) {
+    failures.push(`${label} team page did not show expected partner slug ${expected.slug}.`);
+  }
+  if (resolvedRole !== "partner_admin") {
+    failures.push(`${label} team page did not show partner_admin role.`);
+  }
+  if (!visibleTextContains(body, expected.partnerLabel) || !visibleTextContains(body, "Invite partner staff")) {
+    failures.push(`${label} team page did not render expected partner team invite surface.`);
+  }
+  if (visibleTextContains(body, forbidden.partnerLabel) || visibleTextContains(body, forbidden.slug)) {
+    failures.push(`${label} team page rendered forbidden partner identity from ${forbidden.slug}.`);
+  }
+}
+
+async function assertPartnerTeamDenied(page, { label, forbidden }) {
+  await gotoAllowingRedirectAbort(page, `${baseUrl}/partner/team`);
+  const body = await visiblePageText(page);
+  if (!visibleTextContains(body, "Partner team access denied")) {
+    failures.push(`${label} was not denied on /partner/team.`);
+  }
+  if (visibleTextContains(body, "Invite partner staff") || visibleTextContains(body, forbidden.partnerLabel)) {
+    failures.push(`${label} denied /partner/team page exposed invite controls or forbidden partner identity.`);
+  }
 }
 
 function assertDashboardBodyMatchesSnapshot(body, label, expected, forbidden) {

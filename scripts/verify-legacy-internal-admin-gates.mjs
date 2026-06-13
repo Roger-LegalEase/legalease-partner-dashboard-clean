@@ -202,7 +202,7 @@ async function signIn(email, password, nextPath) {
   const page = await browser.newPage();
   await page.goto(`${baseUrl}/sign-in?next=${encodeURIComponent(nextPath)}`, { waitUntil: "networkidle" });
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(password);
+  await page.locator('input[name="password"]').fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.waitForFunction(
     () => {
@@ -335,6 +335,26 @@ function unsafeRestrictedDiff(pathspec) {
 function isAllowedPartnerDashboardHardeningLine(line) {
   const trimmed = line.trim();
   return trimmed === '<IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} />' ||
+    trimmed === 'Sprout' ||
+    trimmed === 'Sprout,' ||
+    trimmed === 'UsersRound' ||
+    trimmed === '{dashboard.role === "partner_admin" ? <ManageTeamCard /> : null}' ||
+    trimmed === 'function ManageTeamCard() {' ||
+    trimmed === '<UsersRound size={20} aria-hidden="true" />' ||
+    trimmed === '<p style={{ margin: 0, fontSize: 17, fontWeight: 650, color: "#0F1E3D" }}>Manage partner team</p>' ||
+    trimmed === '<p style={{ margin: "4px 0 0", fontSize: 13, color: "#8A8278", lineHeight: 1.45 }}>Invite staff users for your partner workspace.</p>' ||
+    trimmed === '<Link href="/partner/team" style={{ background: "#fff", color: "#0F1E3D", border: "1px solid #E0D8CC", borderRadius: 12, padding: "11px 16px", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", textDecoration: "none" }}>' ||
+    trimmed === 'Manage team' ||
+    trimmed === '<ArrowRight size={14} aria-hidden="true" />' ||
+    trimmed === 'return (' ||
+    trimmed === '</span>' ||
+    trimmed === '<div>' ||
+    trimmed === '</div>' ||
+    trimmed === ');' ||
+    trimmed === '<div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 20, padding: "1.1rem 1.25rem", marginBottom: "1.1rem" }}>' ||
+    trimmed === '<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>' ||
+    trimmed === '<div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>' ||
+    trimmed === '<span style={{ width: 40, height: 40, borderRadius: 12, background: "#E1F0EC", display: "flex", alignItems: "center", justifyContent: "center", color: "#0F6E56", flexShrink: 0 }}>' ||
     trimmed === '<IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} publicPartnerPageUrl={publicPartnerPageUrl} />' ||
     trimmed === '<ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />' ||
     trimmed === '{allMetricsZero ? null : <ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />}' ||

@@ -12,7 +12,8 @@ import {
   Route,
   Share2,
   ShieldCheck,
-  Sprout
+  Sprout,
+  UsersRound
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { productionAppUrl } from "@/lib/app-url";
@@ -100,6 +101,7 @@ export default async function PartnerDashboardPage() {
           <CopyBehaviorScript />
           <Header partnerLabel={partnerLabel} serviceArea={serviceArea} />
           <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} publicPartnerPageUrl={publicPartnerPageUrl} />
+          {dashboard.role === "partner_admin" ? <ManageTeamCard /> : null}
 
           {allMetricsZero ? <EmptyState intakeOpenUrl={intakeOpenUrl} /> : <MetricCards metrics={metrics} actionLayer={actionLayer} />}
           {allMetricsZero ? null : <ActionHealth actionLayer={actionLayer} intakeOpenUrl={intakeOpenUrl} />}
@@ -204,6 +206,28 @@ function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl, publicPartnerPageUrl 
             Open partner page
           </Link>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ManageTeamCard() {
+  return (
+    <div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 20, padding: "1.1rem 1.25rem", marginBottom: "1.1rem" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
+          <span style={{ width: 40, height: 40, borderRadius: 12, background: "#E1F0EC", display: "flex", alignItems: "center", justifyContent: "center", color: "#0F6E56", flexShrink: 0 }}>
+            <UsersRound size={20} aria-hidden="true" />
+          </span>
+          <div>
+            <p style={{ margin: 0, fontSize: 17, fontWeight: 650, color: "#0F1E3D" }}>Manage partner team</p>
+            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#8A8278", lineHeight: 1.45 }}>Invite staff users for your partner workspace.</p>
+          </div>
+        </div>
+        <Link href="/partner/team" style={{ background: "#fff", color: "#0F1E3D", border: "1px solid #E0D8CC", borderRadius: 12, padding: "11px 16px", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", textDecoration: "none" }}>
+          Manage team
+          <ArrowRight size={14} aria-hidden="true" />
+        </Link>
       </div>
     </div>
   );

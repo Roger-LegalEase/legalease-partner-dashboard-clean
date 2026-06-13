@@ -217,7 +217,7 @@ async function signIn(email, password, nextPath) {
   const page = await browser.newPage();
   await page.goto(`${baseUrl}/sign-in?next=${encodeURIComponent(nextPath)}`, { waitUntil: "networkidle" });
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(password);
+  await page.locator('input[name="password"]').fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.waitForFunction(
     () => {
