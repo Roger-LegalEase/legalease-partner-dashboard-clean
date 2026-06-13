@@ -155,9 +155,26 @@ failIf(localPasswordValidation("LegalEaseTest2026!", "LegalEaseTest2026?") !== "
 failIf(!clientSource.includes("Partner user invitation created."), "Client must show invited_and_mapped success copy.");
 failIf(!clientSource.includes("That user already has the requested partner access."), "Client must show already_mapped success copy.");
 failIf(!clientSource.includes("Existing user was granted partner access."), "Client must show existing user mapping success copy.");
-failIf(!clientSource.includes("result.ok === true") || !clientSource.includes("isSuccessfulInviteStatus(result.outcome)"), "Client must treat HTTP 2xx plus ok:true/outcome as success.");
+failIf(!clientSource.includes("response.ok && result.ok === true"), "Client must treat HTTP 2xx plus ok:true as success.");
 failIf(!clientSource.includes("isSubmittingRef.current"), "Client must prevent double submit.");
 failIf(!clientSource.includes("Status: Invitation created") || !clientSource.includes("Ask the user to check their inbox and set their password."), "Client must render the normalized success panel.");
+for (const outcome of ["invited_and_mapped", "already_mapped", "existing_user_mapped", "mapped_existing_user"]) {
+  failIf(!routeSource.includes(outcome) || !clientSource.includes(outcome), `Invite success outcome must be route/client recognized: ${outcome}`);
+}
+const inviteSuccessIndex = clientSource.indexOf("if (isSuccess) {");
+const inviteSuccessStateIndex = clientSource.indexOf('kind: "success"', inviteSuccessIndex);
+const inviteSafeResetIndex = clientSource.indexOf("safelyResetForm(form)", inviteSuccessIndex);
+const inviteSuccessReturnIndex = clientSource.indexOf("return;", inviteSuccessIndex);
+const inviteFalseIndex = clientSource.indexOf("if (result.ok === false)", inviteSuccessIndex);
+const inviteCatchIndex = clientSource.indexOf("} catch {", inviteSuccessIndex);
+const inviteFinallyIndex = clientSource.indexOf("} finally {", inviteSuccessIndex);
+failIf(inviteSuccessIndex === -1 || inviteSuccessStateIndex === -1 || inviteSafeResetIndex === -1 || inviteSuccessReturnIndex === -1, "Client invite success path must set success, safely reset, and return.");
+failIf(inviteFalseIndex === -1 || inviteSuccessReturnIndex > inviteFalseIndex, "Client invite success path must return before failure handling.");
+failIf(inviteCatchIndex === -1 || inviteSuccessReturnIndex > inviteCatchIndex, "Client invite success path must return before catch can convert success into a generic error.");
+failIf(inviteFinallyIndex === -1 || clientSource.slice(inviteFinallyIndex, clientSource.indexOf("  }\n\n  return", inviteFinallyIndex)).includes("setState("), "Client invite finally block must not mutate success/error state.");
+failIf(!clientSource.includes("function safelyResetForm(form: HTMLFormElement)") || !clientSource.includes("form.reset()") || !clientSource.includes("Reset is cosmetic; success state is the source of truth."), "Client invite form reset must be guarded so reset failures cannot overwrite success.");
+const inviteSuccessBlock = clientSource.slice(inviteSuccessIndex, inviteSuccessReturnIndex);
+failIf(inviteSuccessBlock.includes("throw ") || inviteSuccessBlock.includes('kind: "error"') || inviteSuccessBlock.includes("Unable to add the partner user right now."), "Client invite success branch must not throw or set the generic error.");
 failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
 failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
 failIf(!redirectSource.includes("fallback = defaultPartnerAuthRedirect") || !redirectSource.includes("return fallback"), "Redirect helper must reject external next URLs to /partner/dashboard fallback.");

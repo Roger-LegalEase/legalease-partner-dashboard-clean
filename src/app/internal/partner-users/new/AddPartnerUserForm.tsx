@@ -26,13 +26,6 @@ type InviteResponse = {
   role?: string;
 };
 
-const successfulInviteStatuses = new Set([
-  "invited_and_mapped",
-  "already_mapped",
-  "existing_user_mapped",
-  "mapped_existing_user"
-]);
-
 export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
   const isSubmittingRef = useRef(false);
@@ -44,9 +37,6 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
     }
 
     const form = event.currentTarget;
-    isSubmittingRef.current = true;
-    setState({ kind: "submitting" });
-
     const formData = new FormData(form);
     const payload = {
       partnerSlug: String(formData.get("partnerSlug") ?? ""),
@@ -55,6 +45,9 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
       name: String(formData.get("name") ?? "")
     };
 
+    isSubmittingRef.current = true;
+    setState({ kind: "submitting" });
+
     try {
       const response = await fetch("/internal/partner-users/invite", {
         method: "POST",
@@ -62,21 +55,26 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
         body: JSON.stringify(payload)
       });
       const result = await readInviteResponse(response);
-      const isSuccess = response.ok && (result.ok === true || isSuccessfulInviteStatus(result.outcome));
+      const isSuccess = response.ok && result.ok === true;
 
-      if (!isSuccess) {
+      if (isSuccess) {
+        setState({
+          kind: "success",
+          message: result.message ?? successMessage(result.outcome),
+          email: result.email ?? payload.email,
+          partnerSlug: result.partnerSlug ?? payload.partnerSlug,
+          role: result.role ?? payload.role
+        });
+        safelyResetForm(form);
+        return;
+      }
+
+      if (result.ok === false) {
         setState({ kind: "error", message: safeInviteErrorMessage(response.status, result) });
         return;
       }
 
-      setState({
-        kind: "success",
-        message: result.message ?? successMessage(result.outcome),
-        email: result.email ?? payload.email,
-        partnerSlug: result.partnerSlug ?? payload.partnerSlug,
-        role: result.role ?? payload.role
-      });
-      form.reset();
+      setState({ kind: "error", message: safeInviteErrorMessage(response.status, result) });
     } catch {
       setState({ kind: "error", message: "Unable to add the partner user right now." });
     } finally {
@@ -190,10 +188,6 @@ async function readInviteResponse(response: Response): Promise<InviteResponse> {
   }
 }
 
-function isSuccessfulInviteStatus(status: string | undefined) {
-  return Boolean(status && successfulInviteStatuses.has(status));
-}
-
 function safeInviteErrorMessage(status: number, result: InviteResponse) {
   if (result.message) {
     return result.message;
@@ -211,6 +205,10 @@ function safeInviteErrorMessage(status: number, result: InviteResponse) {
 }
 
 function successMessage(outcome: string | undefined) {
+  if (outcome === "invited_and_mapped") {
+    return "Partner user invitation created.";
+  }
+
   if (outcome === "already_mapped") {
     return "That user already has the requested partner access.";
   }
@@ -220,6 +218,14 @@ function successMessage(outcome: string | undefined) {
   }
 
   return "Partner user invitation created.";
+}
+
+function safelyResetForm(form: HTMLFormElement) {
+  try {
+    form.reset();
+  } catch {
+    // Reset is cosmetic; success state is the source of truth.
+  }
 }
 
 function formatRole(role: string) {
