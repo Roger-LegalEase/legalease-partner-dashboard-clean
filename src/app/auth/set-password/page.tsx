@@ -32,7 +32,8 @@ const minimumPasswordLength = 12;
 const invalidInviteMessage = "This invite link is expired or invalid. Ask your LegalEase program lead for a new invitation.";
 const inactiveInviteMessage = "This invite link is no longer active. Please request a new invitation.";
 const invalidOrExpiredInviteMessage = "This invite link is invalid or has expired. Please request a new invitation.";
-const weakPasswordMessage = "That password does not meet the password requirements. Try a longer password with letters, numbers, and a symbol.";
+const passwordRequirementsMessage = "Use at least 12 characters with a letter, a number, and a symbol.";
+const weakPasswordMessage = passwordRequirementsMessage;
 const fallbackPasswordMessage = "We could not set your password. Please try again or request a new invitation.";
 
 export default function SetPasswordPage() {
@@ -206,9 +207,16 @@ export default function SetPasswordPage() {
 
           {state === "ready" || state === "saving" || state === "saved" ? (
             <form className="mt-6 grid gap-4" onSubmit={setPassword}>
+              <p
+                id="password-requirements"
+                className="rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-2 text-sm font-semibold text-grayWilma-700"
+              >
+                {passwordRequirementsMessage}
+              </p>
               <label className="grid gap-1.5">
                 <span className="text-sm font-bold text-navy">New password</span>
                 <input
+                  aria-describedby="password-requirements"
                   autoComplete="new-password"
                   className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
                   disabled={isBusy}
@@ -221,6 +229,7 @@ export default function SetPasswordPage() {
               <label className="grid gap-1.5">
                 <span className="text-sm font-bold text-navy">Confirm password</span>
                 <input
+                  aria-describedby="password-requirements"
                   autoComplete="new-password"
                   className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
                   disabled={isBusy}
@@ -249,11 +258,11 @@ export default function SetPasswordPage() {
 
 function validatePassword(password: string, confirmPassword: string) {
   if (password.length < minimumPasswordLength) {
-    return `Use at least ${minimumPasswordLength} characters for your password.`;
+    return passwordRequirementsMessage;
   }
 
-  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
-    return "Use at least one letter and one number in your password.";
+  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+    return passwordRequirementsMessage;
   }
 
   if (password !== confirmPassword) {

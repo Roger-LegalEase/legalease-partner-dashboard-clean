@@ -102,9 +102,12 @@ failIf(!setPasswordSource.includes("safeAuthDiagnostic") || !setPasswordSource.i
 failIf(!setPasswordSource.includes("[redacted-url]") || !setPasswordSource.includes("[redacted-url-part]") || !setPasswordSource.includes("[redacted]"), "Set-password diagnostics must redact URLs, URL parts, and token-shaped strings.");
 failIf(!setPasswordSource.includes("const minimumPasswordLength = 12"), "Set-password page must require at least 12 password characters.");
 failIf(!setPasswordSource.includes("validatePassword(password, confirmPassword)"), "Set-password page must validate passwords before updateUser.");
-failIf(!setPasswordSource.includes("Use at least one letter and one number in your password."), "Set-password page must require a letter and a number.");
+failIf(!setPasswordSource.includes("Use at least 12 characters with a letter, a number, and a symbol."), "Set-password page must show the visible password requirements helper text.");
+failIf(!setPasswordSource.includes('id="password-requirements"'), "Set-password page must expose password requirements near the password fields.");
+failIf(!setPasswordSource.includes("password.length < minimumPasswordLength"), "Set-password page must enforce the minimum password length locally.");
+failIf(!setPasswordSource.includes("/[A-Za-z]/.test(password)") || !setPasswordSource.includes("/[0-9]/.test(password)") || !setPasswordSource.includes("/[^A-Za-z0-9]/.test(password)"), "Set-password page must require a letter, number, and symbol locally.");
 failIf(!setPasswordSource.includes("Passwords must match."), "Set-password page must explain password confirmation failures.");
-failIf(!setPasswordSource.includes("That password does not meet the password requirements. Try a longer password with letters, numbers, and a symbol."), "Set-password page must show a safe weak-password error.");
+failIf(!setPasswordSource.includes("const weakPasswordMessage = passwordRequirementsMessage"), "Set-password page must map weak-password errors to the visible password requirement text.");
 failIf(!setPasswordSource.includes("This invite link is no longer active. Please request a new invitation."), "Set-password page must show a safe missing-session error.");
 failIf(!setPasswordSource.includes("This invite link is invalid or has expired. Please request a new invitation."), "Set-password page must show a safe invalid-token error.");
 failIf(!setPasswordSource.includes("We could not set your password. Please try again or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
@@ -112,7 +115,9 @@ failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(n
 failIf(!setPasswordSource.includes("scrubAuthUrl(detectedNextPath)") || setPasswordSource.indexOf("scrubAuthUrl(detectedNextPath)") < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Set-password page must not scrub the URL before session exchange is attempted.");
 const sessionBeforeUpdateIndex = setPasswordSource.indexOf("const { data: sessionData, error: sessionError } = await supabase.auth.getSession()");
 const updateUserIndex = setPasswordSource.indexOf("updateUser({ password })");
+const validationBeforeUpdateIndex = setPasswordSource.indexOf("const validationMessage = validatePassword(password, confirmPassword)");
 failIf(sessionBeforeUpdateIndex === -1 || updateUserIndex === -1 || sessionBeforeUpdateIndex > updateUserIndex, "Set-password page must confirm an active session immediately before updateUser.");
+failIf(validationBeforeUpdateIndex === -1 || updateUserIndex === -1 || validationBeforeUpdateIndex > updateUserIndex, "Set-password page must validate locally before updateUser.");
 failIf(setPasswordSource.includes("{invalidInviteMessage}") || setPasswordSource.includes("Please use the latest invitation link"), "Set-password page must not show the old generic invite failure copy.");
 for (const forbidden of ["window.location.href", "document.cookie", "localStorage", "sessionStorage"]) {
   failIf(setPasswordSource.includes(forbidden), `Set-password page must not read or log sensitive browser state: ${forbidden}`);
