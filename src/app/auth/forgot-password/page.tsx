@@ -2,40 +2,34 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { LogIn } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
-import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
-const genericError = "We could not sign you in with those credentials.";
+const successMessage = "If an account exists for that email, we sent password reset instructions.";
+const invalidEmailMessage = "Enter a valid email address.";
 
-export default function SignInPage() {
+export default function ForgotPasswordPage() {
   const [errorMessage, setErrorMessage] = useState("");
-  const [isSignedOut] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return new URLSearchParams(window.location.search).get("signedOut") === "1";
-  });
+  const [statusMessage, setStatusMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
 
-  async function signInWithPassword(event: FormEvent<HTMLFormElement>) {
+  async function requestPasswordReset(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsSubmitting(true);
     setErrorMessage("");
+    setStatusMessage("");
+    setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") ?? "").trim();
-    const password = String(formData.get("password") ?? "");
+    const email = String(formData.get("email") ?? "").trim().toLowerCase();
 
-    if (!email || !password) {
-      setErrorMessage(genericError);
+    if (!isValidEmail(email)) {
+      setErrorMessage(invalidEmailMessage);
       setIsSubmitting(false);
       return;
     }
@@ -47,28 +41,19 @@ export default function SignInPage() {
     }
 
     const supabase = createBrowserSupabaseClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-      options: captchaOptions(captchaToken)
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: passwordResetRedirectTo(),
+      captchaToken: captchaOptions(captchaToken)?.captchaToken
     });
 
-    if (error) {
-      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : genericError);
+    if (error && isCaptchaError(error)) {
+      setErrorMessage(authCaptchaFailureMessage);
       setIsSubmitting(false);
       return;
     }
 
-    const { data: sessionData } = await supabase.auth.getSession();
-
-    if (!sessionData.session) {
-      setErrorMessage("We could not confirm your signed-in session. Please try again.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const next = new URLSearchParams(window.location.search).get("next");
-    window.location.assign(safeAppRedirectPath(next, "/briefcase"));
+    setStatusMessage(successMessage);
+    setIsSubmitting(false);
   }
 
   return (
@@ -78,19 +63,13 @@ export default function SignInPage() {
           <div className="text-center">
             <Badge tone="blue">LegalEase account access</Badge>
             <span className="mx-auto mt-5 flex h-12 w-12 items-center justify-center rounded-md bg-teal/10 text-teal">
-              <LogIn className="h-6 w-6" aria-hidden="true" />
+              <KeyRound className="h-6 w-6" aria-hidden="true" />
             </span>
-            <h1 className="mt-5 text-3xl font-black text-navy">Sign in or create your account</h1>
+            <h1 className="mt-5 text-3xl font-black text-navy">Reset your password</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              Partner access is invite-only. Use the email approved by LegalEase.
+              Enter the email address approved for your LegalEase partner account.
             </p>
           </div>
-
-          {isSignedOut ? (
-            <div className="mt-6 rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm font-semibold text-teal">
-              You are signed out.
-            </div>
-          ) : null}
 
           {errorMessage ? (
             <div className="mt-6 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">
@@ -98,7 +77,13 @@ export default function SignInPage() {
             </div>
           ) : null}
 
-          <form className="mt-6 grid gap-4" onSubmit={signInWithPassword}>
+          {statusMessage ? (
+            <div className="mt-6 rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm font-semibold text-teal">
+              {statusMessage}
+            </div>
+          ) : null}
+
+          <form className="mt-6 grid gap-4" onSubmit={requestPasswordReset}>
             <label className="grid gap-1.5">
               <span className="text-sm font-bold text-navy">Email</span>
               <input
@@ -109,40 +94,33 @@ export default function SignInPage() {
                 type="email"
               />
             </label>
-            <label className="grid gap-1.5">
-              <span className="text-sm font-bold text-navy">Password</span>
-              <input
-                autoComplete="current-password"
-                className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
-                name="password"
-                required
-                type="password"
-              />
-            </label>
             <TurnstileWidget onTokenChange={setCaptchaToken} />
             <Button className="min-h-11" disabled={isSubmitting} type="submit">
-              {isSubmitting ? "Signing in..." : "Sign in"}
+              {isSubmitting ? "Sending instructions..." : "Send reset instructions"}
             </Button>
           </form>
 
           <div className="mt-5 text-center">
-            <Link href="/auth/forgot-password" className="text-sm font-semibold text-teal hover:text-navy">
-              Forgot your password?
-            </Link>
-          </div>
-
-          <p className="mt-5 text-center text-sm leading-6 text-grayWilma-600">
-            Need access? Contact your LegalEase program lead for an invitation.
-          </p>
-          <div className="mt-5 text-center">
-            <Link href="/" className="text-sm font-semibold text-teal hover:text-navy">
-              Back home
+            <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
+              Back to sign in
             </Link>
           </div>
         </Card>
       </div>
     </main>
   );
+}
+
+function passwordResetRedirectTo() {
+  const configuredAppUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  const baseUrl = configuredAppUrl || window.location.origin;
+  const url = new URL("/auth/set-password", baseUrl);
+  url.search = "?next=/partner/dashboard";
+  return url.toString();
+}
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function isCaptchaError(error: unknown) {

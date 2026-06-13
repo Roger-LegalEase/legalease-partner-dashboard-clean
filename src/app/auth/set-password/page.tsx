@@ -47,6 +47,14 @@ export default function SetPasswordPage() {
 
   useEffect(() => {
     let isMounted = true;
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY" && session && isMounted) {
+        setErrorMessage("");
+        setState("ready");
+      }
+    });
 
     async function detectInviteSession() {
       const detectedNextPath = safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
@@ -116,6 +124,7 @@ export default function SetPasswordPage() {
 
     return () => {
       isMounted = false;
+      subscription.unsubscribe();
     };
   }, [supabase]);
 

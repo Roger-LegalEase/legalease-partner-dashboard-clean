@@ -29,11 +29,15 @@ const routePath = "src/app/internal/partner-users/invite/route.ts";
 const pagePath = "src/app/internal/partner-users/new/page.tsx";
 const clientPath = "src/app/internal/partner-users/new/AddPartnerUserForm.tsx";
 const servicePath = "src/lib/partners/add-partner-user.ts";
+const signInPath = "src/app/sign-in/page.tsx";
 const setPasswordPath = "src/app/auth/set-password/page.tsx";
+const forgotPasswordPath = "src/app/auth/forgot-password/page.tsx";
+const captchaHelperPath = "src/lib/auth/captcha.ts";
+const turnstileWidgetPath = "src/components/auth/TurnstileWidget.tsx";
 const redirectPath = "src/lib/auth/redirect.ts";
 const packagePath = "package.json";
 
-for (const file of [routePath, pagePath, clientPath, servicePath, setPasswordPath, redirectPath, packagePath]) {
+for (const file of [routePath, pagePath, clientPath, servicePath, signInPath, setPasswordPath, forgotPasswordPath, captchaHelperPath, turnstileWidgetPath, redirectPath, packagePath]) {
   failIf(!fs.existsSync(file), `Required file missing: ${file}`);
 }
 
@@ -41,7 +45,11 @@ const routeSource = read(routePath);
 const pageSource = read(pagePath);
 const clientSource = read(clientPath);
 const serviceSource = read(servicePath);
+const signInSource = read(signInPath);
 const setPasswordSource = read(setPasswordPath);
+const forgotPasswordSource = read(forgotPasswordPath);
+const captchaHelperSource = read(captchaHelperPath);
+const turnstileWidgetSource = read(turnstileWidgetPath);
 const redirectSource = read(redirectPath);
 const packageSource = read(packagePath);
 
@@ -86,12 +94,46 @@ failIf(!serviceSource.includes('status: "active"') || !serviceSource.includes("i
 for (const forbidden of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", "service_role", "auth.admin", "createClient("]) {
   failIf(clientSource.includes(forbidden), `Client component includes forbidden admin/server marker: ${forbidden}`);
   failIf(setPasswordSource.includes(forbidden), `Set-password page includes forbidden admin/server marker: ${forbidden}`);
+  failIf(signInSource.includes(forbidden), `Sign-in page includes forbidden admin/server marker: ${forbidden}`);
+  failIf(forgotPasswordSource.includes(forbidden), `Forgot-password page includes forbidden admin/server marker: ${forbidden}`);
+  failIf(turnstileWidgetSource.includes(forbidden), `Turnstile widget includes forbidden admin/server marker: ${forbidden}`);
 }
+
+failIf(!forgotPasswordSource.includes('"use client"'), "Forgot-password page must be a client component.");
+failIf(!forgotPasswordSource.includes("resetPasswordForEmail(email, {"), "Forgot-password page must call resetPasswordForEmail with the submitted email.");
+failIf(!forgotPasswordSource.includes("redirectTo: passwordResetRedirectTo()"), "Forgot-password reset must pass an explicit redirectTo.");
+failIf(!forgotPasswordSource.includes('new URL("/auth/set-password", baseUrl)') || !forgotPasswordSource.includes('url.search = "?next=/partner/dashboard"'), "Forgot-password reset redirect must target /auth/set-password with partner dashboard next path.");
+failIf(!forgotPasswordSource.includes("process.env.NEXT_PUBLIC_APP_URL"), "Forgot-password reset redirect must use NEXT_PUBLIC_APP_URL when configured.");
+failIf(!forgotPasswordSource.includes("If an account exists for that email, we sent password reset instructions."), "Forgot-password success copy must not reveal whether the account exists.");
+for (const leakingCopy of ["email not found", "user not found", "account does not exist", "no account"]) {
+  failIf(forgotPasswordSource.toLowerCase().includes(leakingCopy), `Forgot-password page must not include account enumeration copy: ${leakingCopy}`);
+}
+failIf(!forgotPasswordSource.includes("isValidEmail(email)") || !forgotPasswordSource.includes("Enter a valid email address."), "Forgot-password page must validate email format locally.");
+failIf(!forgotPasswordSource.includes("isCaptchaError(error)") || !forgotPasswordSource.includes("authCaptchaFailureMessage"), "Forgot-password page must map CAPTCHA failures to safe copy.");
+failIf(!forgotPasswordSource.includes("setStatusMessage(successMessage)") || forgotPasswordSource.includes("setErrorMessage(error.message"), "Forgot-password page must show non-enumerating success and must not display raw Supabase errors.");
+failIf(forgotPasswordSource.includes("console.log") || forgotPasswordSource.includes("console.warn") || forgotPasswordSource.includes("console.error"), "Forgot-password page must not log reset attempts or auth details.");
+
+failIf(!signInSource.includes('href="/auth/forgot-password"'), "Sign-in page must link to /auth/forgot-password.");
+failIf(!signInSource.includes("safeAppRedirectPath(next, \"/briefcase\")"), "Sign-in page must preserve safe relative next redirect validation.");
+failIf(!signInSource.includes("options: captchaOptions(captchaToken)"), "Sign-in must pass CAPTCHA token through Supabase auth options when present.");
+failIf(!signInSource.includes("authCaptchaFailureMessage") || !signInSource.includes("isCaptchaError(error)"), "Sign-in must handle missing/failed CAPTCHA with safe copy.");
+failIf(signInSource.includes("console.log") || signInSource.includes("console.warn") || signInSource.includes("console.error"), "Sign-in page must not log auth details.");
+
+failIf(!captchaHelperSource.includes("NEXT_PUBLIC_TURNSTILE_SITE_KEY"), "Auth CAPTCHA helper must use the public Turnstile site key.");
+failIf(captchaHelperSource.includes("TURNSTILE_SECRET_KEY"), "Auth CAPTCHA helper must not include the Turnstile secret key.");
+failIf(!captchaHelperSource.includes("NEXT_PUBLIC_AUTH_CAPTCHA_REQUIRED") || !captchaHelperSource.includes('configuredRequirement === "false"') || !captchaHelperSource.includes('configuredRequirement === "true"'), "Auth CAPTCHA must support an explicit public enable/disable deployment switch.");
+failIf(!captchaHelperSource.includes('process.env.NODE_ENV === "production"') || !captchaHelperSource.includes("isAuthCaptchaEnabled()"), "Auth CAPTCHA must fail safely in production when Turnstile is not configured unless explicitly disabled.");
+failIf(!captchaHelperSource.includes("Please complete the security check and try again."), "Auth CAPTCHA failure copy missing.");
+failIf(!turnstileWidgetSource.includes("NEXT_PUBLIC_TURNSTILE_SITE_KEY") && !turnstileWidgetSource.includes("getTurnstileSiteKey"), "Turnstile widget must use only the public site key.");
+failIf(turnstileWidgetSource.includes("TURNSTILE_SECRET_KEY"), "Turnstile widget must not include the Turnstile secret key.");
+failIf(!turnstileWidgetSource.includes("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"), "Turnstile widget must load the Cloudflare Turnstile script.");
+failIf(!turnstileWidgetSource.includes("if (!siteKey)") || !turnstileWidgetSource.includes("return null"), "Turnstile widget must render only when a public site key is present.");
 
 failIf(!setPasswordSource.includes('"use client"'), "Set-password page must be a client component.");
 failIf(!setPasswordSource.includes("createBrowserSupabaseClient()"), "Set-password page must use the browser Supabase client.");
 failIf(!setPasswordSource.includes("exchangeCodeForSession(code)"), "Set-password page must handle auth code invite links.");
 failIf(!setPasswordSource.includes("setSession({ access_token: accessToken, refresh_token: refreshToken })"), "Set-password page must handle hash token invite links.");
+failIf(!setPasswordSource.includes('event === "PASSWORD_RECOVERY"'), "Set-password page must recognize password recovery auth events.");
 failIf(!setPasswordSource.includes("updateUser({ password })"), "Set-password page must set the invited user's password.");
 failIf(!setPasswordSource.includes("scrubAuthUrl"), "Set-password page must scrub auth tokens from the URL.");
 failIf(setPasswordSource.includes("console.log") || setPasswordSource.includes("console.warn") || setPasswordSource.includes("console.error"), "Set-password page must not log invite links or auth tokens.");
