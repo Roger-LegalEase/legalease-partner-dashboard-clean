@@ -64,6 +64,8 @@ function verifyInvoiceBillingModel() {
     "src/app/internal/billing/create/route.ts",
     "src/app/api/stripe/webhook/route.ts",
     "src/app/api/partners/checkout/route.ts",
+    "src/lib/partners/billing-reconciliation.ts",
+    "scripts/test-billing-reconciliation.mjs",
     "supabase/phase-25-partner-billing-invoices.sql"
   ];
 
@@ -116,6 +118,30 @@ function verifyInvoiceBillingModel() {
     invoiceFailures.push("Billing helper does not create Stripe invoice items and invoices.");
   }
 
+  const reconciliationSource = readSource("src/lib/partners/billing-reconciliation.ts");
+  const reconciliationTestSource = readSource("scripts/test-billing-reconciliation.mjs");
+  if (!billingSource.includes("reconcilePartnerBillingInvoiceEvent") || !reconciliationSource.includes("findBillingRequestByStripeInvoiceId")) {
+    invoiceFailures.push("Billing reconciliation does not use the hardened invoice-event helper with invoice-ID fallback.");
+  }
+
+  if (!reconciliationSource.includes("stale_processed_event_repair") || !reconciliationSource.includes("recordProcessedStripeEvent(event.id, event.type, stripeInvoiceId)")) {
+    invoiceFailures.push("Supported invoice events can be marked processed before verified billing reconciliation.");
+  }
+
+  for (const requiredCoverage of [
+    "testInvoicePaidUpdatesStatusAndPaidAt",
+    "testProcessedPaidEventRepairsUnpaidBillingRow",
+    "testMissingMetadataFallbackByStripeInvoiceId",
+    "testNoMatchingBillingRowFailsWithoutProcessedRecord",
+    "testDuplicatePaidAfterSuccessfulProcessingIsIdempotent",
+    "testSupportedEventCannotBeRecordedAsIgnored",
+    "testUnsupportedEventCanBeIgnored"
+  ]) {
+    if (!reconciliationTestSource.includes(requiredCoverage)) {
+      invoiceFailures.push(`Billing reconciliation regression coverage is missing ${requiredCoverage}.`);
+    }
+  }
+
   if (!billingSource.includes("partnerBillingMinAmountCents") || !billingSource.includes("partnerBillingMaxAmountCents")) {
     invoiceFailures.push("Billing helper does not enforce server-side amount bounds.");
   }
@@ -139,20 +165,20 @@ function verifyInvoiceBillingModel() {
   }
 
   for (const eventType of ["invoice.finalized", "invoice.paid", "invoice.payment_failed", "invoice.voided"]) {
-    if (!billingSource.includes(eventType)) {
+    if (!reconciliationSource.includes(eventType)) {
       invoiceFailures.push(`Billing reconciliation does not handle ${eventType}.`);
     }
   }
 
-  if (!billingSource.includes("processed_stripe_events") || !billingSource.includes("hasProcessedStripeEvent") || !billingSource.includes('return "duplicate"')) {
+  if (!billingSource.includes("processed_stripe_events") || !reconciliationSource.includes("hasProcessedStripeEvent") || !reconciliationSource.includes('return "duplicate"')) {
     invoiceFailures.push("Stripe webhook idempotency tracking is missing.");
   }
 
-  if (!billingSource.includes('return "ignored"') || !billingSource.includes("!isSupportedInvoiceEvent")) {
+  if (!reconciliationSource.includes('return "ignored"') || !reconciliationSource.includes("!isSupportedInvoiceEvent")) {
     invoiceFailures.push("Unsupported Stripe events are not safely ignored.");
   }
 
-  if (!webhookSource.includes('status: 500') || !billingSource.includes("Unable to reconcile Stripe invoice event")) {
+  if (!webhookSource.includes('status: 500') || !reconciliationSource.includes("Unable to reconcile Stripe invoice event")) {
     invoiceFailures.push("Webhook failed-write retry behavior is not represented.");
   }
 

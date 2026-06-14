@@ -2,21 +2,20 @@ import "server-only";
 
 import Stripe from "stripe";
 import { logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
+import {
+  reconcilePartnerBillingInvoiceEvent,
+  type BillingInvoiceUpdate,
+  type BillingReconciliationRow,
+  type BillingReconciliationStore,
+  type PartnerBillingStatus,
+  type StripeInvoiceEventLike
+} from "@/lib/partners/billing-reconciliation";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getStripeServerClient, isStripeConfigurationError, stripeClientErrorMessage } from "@/lib/stripe/server";
 
 export const partnerBillingMinAmountCents = 100000;
 export const partnerBillingMaxAmountCents = 25000000;
 export const partnerBillingCurrency = "usd";
-
-export type PartnerBillingStatus =
-  | "draft"
-  | "invoice_created"
-  | "invoice_sent"
-  | "paid"
-  | "payment_failed"
-  | "voided"
-  | "canceled";
 
 export type PartnerBillingRequest = {
   id: string;
@@ -242,43 +241,14 @@ export async function createPartnerInvoiceForInternalAdmin(
 }
 
 export async function reconcileStripeInvoiceEvent(event: Stripe.Event): Promise<"processed" | "duplicate" | "ignored"> {
-  if (await hasProcessedStripeEvent(event.id)) {
-    return "duplicate";
-  }
-
-  if (!isSupportedInvoiceEvent(event.type)) {
-    await recordProcessedStripeEvent(event.id, event.type, stripeEventObjectId(event.data.object));
-    return "ignored";
-  }
-
-  const invoice = event.data.object as Stripe.Invoice;
-  const billingRequestId = invoice.metadata?.partner_billing_request_id;
-  const relatedObjectId = invoice.id;
-
-  if (!billingRequestId) {
-    logSecurityInfo({ event: "stripe_invoice ignored", route: "/api/stripe/webhook", outcome: "missing_billing_request", metadata: { event_type: event.type, stripe_event_id: event.id } });
-    return "ignored";
-  }
-
-  const status = statusForInvoiceEvent(event.type);
-  const paidAt = event.type === "invoice.paid" ? invoiceStatusTimestamp(invoice) : undefined;
-  const writeResult = await updateBillingRequestFromInvoice({
-    billingRequestId,
-    stripeInvoiceId: invoice.id,
-    stripeCustomerId: stripeObjectId(invoice.customer),
-    stripeInvoiceUrl: invoice.hosted_invoice_url ?? undefined,
-    status,
-    paidAt
+  return reconcilePartnerBillingInvoiceEvent(event as StripeInvoiceEventLike, createSupabaseBillingReconciliationStore(), {
+    info(input) {
+      logSecurityInfo({ ...input, route: "/api/stripe/webhook" });
+    },
+    error(input) {
+      logSecurityError({ ...input, route: "/api/stripe/webhook" });
+    }
   });
-
-  if (!writeResult) {
-    logSecurityError({ event: "stripe_invoice reconciliation failed", route: "/api/stripe/webhook", outcome: "db_write_failed", metadata: { event_type: event.type, stripe_event_id: event.id } });
-    throw new Error("Unable to reconcile Stripe invoice event.");
-  }
-
-  await recordProcessedStripeEvent(event.id, event.type, relatedObjectId);
-  logSecurityInfo({ event: "stripe_invoice reconciled", route: "/api/stripe/webhook", outcome: "ok", metadata: { event_type: event.type, stripe_event_id: event.id, status } });
-  return "processed";
 }
 
 function getBillingSupabaseClient() {
@@ -351,28 +321,67 @@ async function updateBillingRequestFromInvoice({
   stripeInvoiceUrl,
   status,
   paidAt
-}: {
-  billingRequestId: string;
-  stripeInvoiceId: string;
-  stripeCustomerId?: string;
-  stripeInvoiceUrl?: string;
-  status: PartnerBillingStatus;
-  paidAt?: string;
-}) {
+}: BillingInvoiceUpdate): Promise<BillingReconciliationRow | null> {
   const supabase = getBillingSupabaseClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("partner_billing_requests")
     .update({
       stripe_invoice_id: stripeInvoiceId,
       stripe_customer_id: stripeCustomerId ?? null,
       stripe_invoice_url: stripeInvoiceUrl ?? null,
       status,
-      paid_at: paidAt ?? null,
+      paid_at: status === "paid" ? paidAt ?? new Date().toISOString() : null,
       updated_at: new Date().toISOString()
     })
-    .eq("id", billingRequestId);
+    .eq("id", billingRequestId)
+    .select("*")
+    .single();
 
-  return !error;
+  if (error || !data) {
+    return null;
+  }
+
+  return billingReconciliationRow(data as PartnerBillingRequestRow);
+}
+
+function createSupabaseBillingReconciliationStore(): BillingReconciliationStore {
+  return {
+    hasProcessedStripeEvent,
+    recordProcessedStripeEvent,
+    findBillingRequestById,
+    findBillingRequestByStripeInvoiceId,
+    updateBillingRequestFromInvoice
+  };
+}
+
+async function findBillingRequestById(billingRequestId: string): Promise<BillingReconciliationRow | null> {
+  const supabase = getBillingSupabaseClient();
+  const { data, error } = await supabase
+    .from("partner_billing_requests")
+    .select("*")
+    .eq("id", billingRequestId)
+    .maybeSingle();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return billingReconciliationRow(data as PartnerBillingRequestRow);
+}
+
+async function findBillingRequestByStripeInvoiceId(stripeInvoiceId: string): Promise<BillingReconciliationRow | null> {
+  const supabase = getBillingSupabaseClient();
+  const { data, error } = await supabase
+    .from("partner_billing_requests")
+    .select("*")
+    .eq("stripe_invoice_id", stripeInvoiceId)
+    .maybeSingle();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return billingReconciliationRow(data as PartnerBillingRequestRow);
 }
 
 async function hasProcessedStripeEvent(stripeEventId: string) {
@@ -415,31 +424,6 @@ function stripeMetadataForBillingRequest(billingRequest: PartnerBillingRequest):
   };
 }
 
-function isSupportedInvoiceEvent(eventType: string) {
-  return eventType === "invoice.finalized" || eventType === "invoice.paid" || eventType === "invoice.payment_failed" || eventType === "invoice.voided";
-}
-
-function statusForInvoiceEvent(eventType: string): PartnerBillingStatus {
-  if (eventType === "invoice.paid") {
-    return "paid";
-  }
-
-  if (eventType === "invoice.payment_failed") {
-    return "payment_failed";
-  }
-
-  if (eventType === "invoice.voided") {
-    return "voided";
-  }
-
-  return "invoice_created";
-}
-
-function invoiceStatusTimestamp(invoice: Stripe.Invoice) {
-  const paidAt = invoice.status_transitions?.paid_at;
-  return paidAt ? new Date(paidAt * 1000).toISOString() : new Date().toISOString();
-}
-
 function mapBillingRequestRow(row: PartnerBillingRequestRow): PartnerBillingRequest {
   return {
     id: row.id,
@@ -459,6 +443,15 @@ function mapBillingRequestRow(row: PartnerBillingRequestRow): PartnerBillingRequ
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     ...(row.paid_at ? { paidAt: row.paid_at } : {})
+  };
+}
+
+function billingReconciliationRow(row: PartnerBillingRequestRow): BillingReconciliationRow {
+  return {
+    id: row.id,
+    status: isPartnerBillingStatus(row.status) ? row.status : "draft",
+    ...(row.paid_at ? { paidAt: row.paid_at } : {}),
+    ...(row.stripe_invoice_id ? { stripeInvoiceId: row.stripe_invoice_id } : {})
   };
 }
 
@@ -533,18 +526,6 @@ function isValidEmail(value: string) {
 
 function isPartnerBillingStatus(value: string): value is PartnerBillingStatus {
   return value === "draft" || value === "invoice_created" || value === "invoice_sent" || value === "paid" || value === "payment_failed" || value === "voided" || value === "canceled";
-}
-
-function stripeObjectId(value: string | { id: string } | null): string | undefined {
-  if (!value) {
-    return undefined;
-  }
-
-  return typeof value === "string" ? value : value.id;
-}
-
-function stripeEventObjectId(value: Stripe.Event.Data.Object) {
-  return value && typeof value === "object" && "id" in value && typeof value.id === "string" ? value.id : undefined;
 }
 
 function stripeErrorType(error: unknown) {

@@ -52,6 +52,8 @@ const packagesSource = readSource("src/lib/partners/packages.ts");
 const checkoutSource = readSource("src/app/api/partners/checkout/route.ts");
 const webhookSource = readSource("src/app/api/stripe/webhook/route.ts");
 const billingSource = readSource("src/lib/partners/billing.ts");
+const billingReconciliationSource = readSource("src/lib/partners/billing-reconciliation.ts");
+const billingReconciliationTestSource = readSource("scripts/test-billing-reconciliation.mjs");
 const serviceSource = readSource("src/lib/partners/partner-service.ts");
 const setupSql = readSource("supabase/partner-journey-os.sql");
 const migrationSql = readSource("supabase/phase-13-paid-provisioning.sql");
@@ -103,6 +105,28 @@ if (!serviceSource.includes("void searchParams") || serviceSource.includes("sear
 
 if (!billingSource.includes("stripe.invoices.create") || !billingSource.includes("stripe.invoiceItems.create")) {
   failures.push("Stripe invoice creation path is not configured.");
+}
+
+if (!billingSource.includes("reconcilePartnerBillingInvoiceEvent") || !billingReconciliationSource.includes("findBillingRequestByStripeInvoiceId")) {
+  failures.push("Stripe invoice reconciliation does not support metadata and invoice-ID billing lookup.");
+}
+
+if (!billingReconciliationSource.includes("stale_processed_event_repair") || !billingReconciliationSource.includes("recordProcessedStripeEvent(event.id, event.type, stripeInvoiceId)")) {
+  failures.push("Stripe invoice reconciliation can mark supported events processed before billing state is verified.");
+}
+
+for (const requiredCoverage of [
+  "testInvoicePaidUpdatesStatusAndPaidAt",
+  "testProcessedPaidEventRepairsUnpaidBillingRow",
+  "testMissingMetadataFallbackByStripeInvoiceId",
+  "testNoMatchingBillingRowFailsWithoutProcessedRecord",
+  "testDuplicatePaidAfterSuccessfulProcessingIsIdempotent",
+  "testSupportedEventCannotBeRecordedAsIgnored",
+  "testUnsupportedEventCanBeIgnored"
+]) {
+  if (!billingReconciliationTestSource.includes(requiredCoverage)) {
+    failures.push(`Billing reconciliation regression coverage is missing ${requiredCoverage}.`);
+  }
 }
 
 if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, webhookSecret)")) {
