@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-partner-repository.mjs && node scripts/test-partner-admin-actions.mjs && node scripts/test-partner-write-layer.mjs && node scripts/test-partner-dashboard-action-layer.mjs && node scripts/test-billing-reconciliation.mjs && node scripts/verify-request-pilot-intake.mjs",
+    "test": "node scripts/test-partner-repository.mjs && node scripts/test-partner-admin-actions.mjs && node scripts/test-partner-write-layer.mjs && node scripts/test-partner-dashboard-action-layer.mjs && node scripts/test-billing-reconciliation.mjs && node scripts/verify-request-pilot-intake.mjs && node scripts/test-inspect-local-record-clearing-pdfs.mjs && node scripts/test-nebraska-record-clearing-shadow.mjs",
     "partners:check-seed-sql": "node scripts/check-partner-seed-sql.mjs",
     "partners:check-supabase-env": "node scripts/check-supabase-partner-env.mjs",
     "partners:export-seed-sql": "node scripts/export-partner-seed-sql.mjs",
@@ -43,6 +43,8 @@
     "partners:verify-dc-document-generator": "node scripts/verify-dc-document-generator.mjs",
     "partners:verify-pennsylvania-document-generator": "node scripts/verify-pennsylvania-document-generator.mjs",
     "partners:verify-texas-harris-document-generator": "node scripts/verify-texas-harris-document-generator.mjs",
+    "rcap:forms:inspect-local": "node scripts/inspect-local-record-clearing-pdfs.mjs",
+    "rcap:verify-nebraska-shadow": "node scripts/verify-nebraska-record-clearing-shadow.mjs",
     "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs"
   },
   "dependencies": {
