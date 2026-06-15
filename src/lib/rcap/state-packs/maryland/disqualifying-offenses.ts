@@ -1,0 +1,13 @@
+// Maryland bars / disqualifiers. Sourced from the Maryland Wilma Agent Training
+// Reference (Nationwide Record Clearing): § 10-105 bars (section 4), § 10-110
+// bars and court findings (section 7), the unit rule (section 9), and shielding
+// limits (section 10). These are screening notes, not an exhaustive legal test.
+export const mdDisqualifyingOffenseNotes = [
+  "Unit rule (§ 10-107): if any charge or conviction in the same incident/unit is not expungeable, the other charges in that unit usually cannot be expunged either. Cannabis possession and minor traffic violations are excluded from the unit rule.",
+  "§ 10-105 bars (non-conviction route): a pending criminal proceeding; a PBJ followed by a new conviction within the relevant 3-year period; a DUI/DWI PBJ followed by a new conviction or another DUI/DWI PBJ within the 15-year period; whether the user owes restitution or can show inability to pay; a case blocked by the unit rule; and a PBJ for an excluded offense category. A PBJ is not automatically ready for expungement.",
+  "§ 10-110 bars and court findings (conviction route): a new conviction during the applicable waiting period (unless that new conviction is itself expungeable); any pending criminal proceeding; the unit rule; victim objection; State's Attorney objection; restitution paid or inability to pay; probation/parole/mandatory-supervision success; rehabilitation and public-safety risk; and the interest of justice. If the State's Attorney or a victim objects within 30 days, the court holds a hearing.",
+  "§ 10-110 is a closed list: a guilty conviction is expungeable only if the exact charge statute is on the Maryland Courts List of Expungeable Charges Under § 10-110 (CC-DC-CR-072G2). Do not classify by plain-English offense name; use the exact statute, CJIS charge code, degree, and misdemeanor/felony status.",
+  "Shielding limits (Second Chance Act): only the listed shieldable convictions qualify; a petition may be filed no earlier than 3 years after full sentence satisfaction; only one shielding petition is allowed in a lifetime; and a pending criminal proceeding blocks shielding.",
+  "Juvenile disqualifiers (Cts. & Jud. Proc. § 3-8A-27.1): a later criminal conviction, a pending delinquency petition or criminal charge, more than one delinquency adjudication, or an adjudication for an offense that would be a felony, crime of violence, or sex-offender-registration offense if committed by an adult.",
+  "Scope limits: Maryland expungement and shielding do not automatically clear federal or out-of-state records and do not automatically update private background-check companies; shielding does not destroy the record."
+];
