@@ -20,7 +20,7 @@ try {
   assertMississippiExcluded();
   assertVocabularyHardFails();
   assertLifecycleRules();
-  assertPdfQualityBlocks();
+  await assertPdfQualityBlocks();
   assertAuditManifestCreated();
   assertNoLiveRoutesModified();
   assertNoRawPdfsCommitted();
@@ -36,7 +36,8 @@ function assertNebraskaConfigExists() {
   assert.equal(nebraska.enabledReliefTracks.includes("adult_set_aside_conviction"), true);
   assert.equal(nebraska.enabledReliefTracks.includes("adult_record_sealing"), true);
   assert.equal(recordClearing.nebraskaOfficialPdfTemplates.length, 3);
-  assert.equal(recordClearing.nebraskaOfficialPdfTemplates.every((template) => template.templateLifecycle === "replacement_candidate"), true);
+  assert.equal(recordClearing.nebraskaOfficialPdfTemplates.every((template) => template.templateLifecycle === "shadow_only"), true);
+  assert.equal(recordClearing.getNebraskaTemplateByFormId("ne_cc_6_11_petition_set_aside_conviction").fieldMapStatus, "visual_review_required");
 }
 
 function assertMississippiExcluded() {
@@ -85,13 +86,13 @@ function assertLifecycleRules() {
   assert.equal(recordClearing.isTemplateAllowedForNewEngineFinalFiling({ ...template, templateGrade: "html_replica_or_unverified", templateLifecycle: "verified_replacement" }, true), false);
 }
 
-function assertPdfQualityBlocks() {
+async function assertPdfQualityBlocks() {
   const sourcePdfPath = path.join(tempRoot, "source.pdf");
   fs.writeFileSync(sourcePdfPath, "%PDF-1.7\n1 0 obj\n<< /Type /Catalog >>\nendobj\n%%EOF\n");
   const template = recordClearing.getNebraskaTemplateByFormId("ne_cc_6_11_petition_set_aside_conviction");
   const fieldMap = recordClearing.getFieldMap(template.formId);
   for (const classification of ["scanned_pdf", "encrypted_or_locked", "xfa_pdf", "manual_review"]) {
-    const result = recordClearing.renderOfficialPdfShadow({
+    const result = await recordClearing.renderOfficialPdfShadow({
       template: { ...template, pdfClassification: classification },
       fieldMap,
       sourcePdfPath,
@@ -127,7 +128,7 @@ function assertAuditManifestCreated() {
     createdAt: "2026-06-14T00:00:00.000Z"
   });
   assert.equal(manifest.packetId, "test-packet");
-  assert.equal(manifest.templateLifecycles[template.formId], "replacement_candidate");
+  assert.equal(manifest.templateLifecycles[template.formId], "shadow_only");
   assert.equal(manifest.qaResult.passed, true);
 }
 

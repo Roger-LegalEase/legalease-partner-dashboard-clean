@@ -9,6 +9,13 @@ import { inspectLocalRecordClearingPdfs, inspectPdfBytes, mapSourceFolder } from
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "record-clearing-pdf-inspection-"));
+const sharedReportPaths = [
+  path.join(rootDir, "data/record-clearing/pdf-inspection/latest-report.json"),
+  path.join(rootDir, "data/record-clearing/pdf-inspection/latest-report.md"),
+  path.join(rootDir, "data/record-clearing/pdf-inspection/migration-triage.json"),
+  path.join(rootDir, "data/record-clearing/pdf-inspection/migration-triage.md")
+];
+const sharedReportSnapshot = snapshotSharedReports();
 
 try {
   await assertMissingSourceFailsClearly();
@@ -22,6 +29,7 @@ try {
   assertNoLiveRoutesModified();
   console.log("Local official PDF inspection tests passed.");
 } finally {
+  restoreSharedReports(sharedReportSnapshot);
   fs.rmSync(tempRoot, { recursive: true, force: true });
 }
 
@@ -135,15 +143,30 @@ async function assertWrittenReportsArePathSafeAndIncludeTriage() {
   assert.equal(report.migrationTriage.encryptedOrLockedJurisdictions.some((jurisdiction) => jurisdiction.jurisdictionCode === "AK"), true);
   assert.equal(report.migrationTriage.deferUntilBetterSources.some((jurisdiction) => jurisdiction.jurisdictionCode === "AK"), true);
 
-  const jsonReportPath = path.join(rootDir, "data/record-clearing/pdf-inspection/latest-report.json");
-  const markdownReportPath = path.join(rootDir, "data/record-clearing/pdf-inspection/latest-report.md");
-  const triageJsonPath = path.join(rootDir, "data/record-clearing/pdf-inspection/migration-triage.json");
-  const triageMarkdownPath = path.join(rootDir, "data/record-clearing/pdf-inspection/migration-triage.md");
-  for (const reportPath of [jsonReportPath, markdownReportPath, triageJsonPath, triageMarkdownPath]) {
+  for (const reportPath of sharedReportPaths) {
     assert.equal(fs.existsSync(reportPath), true);
     const content = fs.readFileSync(reportPath, "utf8");
     assert.equal(content.includes(tempRoot), false);
     assert.equal(content.includes("/workspaces/"), false);
+  }
+}
+
+function snapshotSharedReports() {
+  return sharedReportPaths.map((reportPath) => ({
+    reportPath,
+    existed: fs.existsSync(reportPath),
+    content: fs.existsSync(reportPath) ? fs.readFileSync(reportPath) : null
+  }));
+}
+
+function restoreSharedReports(snapshot) {
+  for (const item of snapshot) {
+    if (item.existed && item.content) {
+      fs.mkdirSync(path.dirname(item.reportPath), { recursive: true });
+      fs.writeFileSync(item.reportPath, item.content);
+      continue;
+    }
+    if (!item.existed && fs.existsSync(item.reportPath)) fs.rmSync(item.reportPath);
   }
 }
 

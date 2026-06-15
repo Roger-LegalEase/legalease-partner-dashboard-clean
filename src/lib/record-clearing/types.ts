@@ -32,7 +32,7 @@ export type MappingMode = "acroform" | "overlay" | "hybrid" | "manual_review";
 
 export type LegalOpsApprovalStatus = "pending" | "approved" | "rejected";
 
-export type FieldMapStatus = "draft" | "complete" | "verified";
+export type FieldMapStatus = "draft" | "visual_review_required" | "complete" | "verified";
 
 export type RenderPurpose = "shadow_verification" | "final_filing";
 
@@ -64,6 +64,7 @@ export interface OverlayInstruction {
   y: number;
   textKey: string;
   fontSize?: number;
+  label?: string;
 }
 
 export interface FieldMap {
@@ -102,6 +103,7 @@ export interface RenderInput {
   fieldMap: FieldMap;
   sourcePdfPath: string;
   outputDirectory: string;
+  outputFileName?: string;
   purpose: RenderPurpose;
   shadowMode: boolean;
   sampleData: Record<string, string>;

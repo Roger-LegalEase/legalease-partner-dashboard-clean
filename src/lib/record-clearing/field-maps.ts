@@ -5,7 +5,64 @@ export const nebraskaFieldMaps: Record<string, FieldMap> = {
     formId: "ne_cc_6_11_petition_set_aside_conviction",
     mappingMode: "hybrid",
     fields: {},
-    overlays: []
+    overlays: [
+      {
+        page: 1,
+        x: 283,
+        y: 663,
+        textKey: "county",
+        fontSize: 9,
+        label: "court/county"
+      },
+      {
+        page: 1,
+        x: 380,
+        y: 637,
+        textKey: "caseNumber",
+        fontSize: 10,
+        label: "case number"
+      },
+      {
+        page: 1,
+        x: 112,
+        y: 579,
+        textKey: "petitionerName",
+        fontSize: 10,
+        label: "petitioner full name"
+      },
+      {
+        page: 1,
+        x: 221,
+        y: 468,
+        textKey: "offenseDescription",
+        fontSize: 10,
+        label: "conviction/offense description"
+      },
+      {
+        page: 1,
+        x: 121,
+        y: 446,
+        textKey: "dispositionDate",
+        fontSize: 10,
+        label: "disposition/sentence date"
+      },
+      {
+        page: 1,
+        x: 363,
+        y: 334,
+        textKey: "signatureDate",
+        fontSize: 10,
+        label: "petitioner signature date"
+      },
+      {
+        page: 1,
+        x: 187,
+        y: 318,
+        textKey: "petitionerName",
+        fontSize: 10,
+        label: "petitioner printed name"
+      }
+    ]
   },
   ne_cc_6_11_2_order_set_aside_conviction: {
     formId: "ne_cc_6_11_2_order_set_aside_conviction",

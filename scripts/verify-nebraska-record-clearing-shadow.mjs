@@ -37,7 +37,7 @@ const mississippiEnabled = recordClearing.recordClearingJurisdictions.some((juri
 if (mississippiEnabled) failures.push("Mississippi must remain excluded from the new shadow engine.");
 
 for (const template of recordClearing.nebraskaOfficialPdfTemplates) {
-  if (template.templateLifecycle !== "replacement_candidate") failures.push(`${template.formId} must remain replacement_candidate.`);
+  if (template.templateLifecycle !== "shadow_only") failures.push(`${template.formId} must remain shadow_only.`);
   if (template.productionReady !== false) failures.push(`${template.formId} must not be productionReady.`);
   const inspected = nebraskaInspectionRows.find((row) => row.relativePath === template.relativePath);
   if (!inspected) {
@@ -49,14 +49,22 @@ for (const template of recordClearing.nebraskaOfficialPdfTemplates) {
 
 const packetPlan = recordClearing.planNebraskaPacket("adult_set_aside_conviction");
 const sampleData = {
-  petitionerName: "Test Petitioner",
-  caseNumber: "CR 00-0000",
-  county: "Lancaster"
+  petitionerName: "RENDER TEST PETITIONER",
+  dateOfBirth: "01/23/1980",
+  caseNumber: "CR-TEST-12345",
+  county: "Lancaster County",
+  offenseDescription: "Test Offense Description",
+  dispositionDate: "06/14/2026",
+  signatureDate: "06/14/2026"
 };
 const templates = packetPlan.requiredForms.map((form) => recordClearing.getNebraskaTemplateByFormId(form.formId));
 const fieldMaps = templates.map((template) => recordClearing.getFieldMap(template.formId));
 const renderResults = [];
 const selectedModes = [];
+const cc611FieldMap = recordClearing.getFieldMap("ne_cc_6_11_petition_set_aside_conviction");
+const cc611FieldsAttempted = (cc611FieldMap?.overlays ?? []).map((overlay) => overlay.label ?? overlay.textKey);
+const cc611ReviewPdfPath = path.join(outputDirectory, "NE-CC-6-11-field-map-review.pdf");
+const cc611ReviewManifestPath = path.join(outputDirectory, "NE-CC-6-11-field-map-review.json");
 
 for (const template of templates) {
   const inspection = nebraskaInspectionRows.find((row) => row.relativePath === template.relativePath);
@@ -71,7 +79,7 @@ for (const template of templates) {
     selectedMode
   });
 
-  const renderResult = recordClearing.renderOfficialPdfShadow({
+  const renderResult = await recordClearing.renderOfficialPdfShadow({
     template: {
       ...template,
       pdfClassification: inspection.classification,
@@ -83,6 +91,9 @@ for (const template of templates) {
     },
     sourcePdfPath: path.join(sourceDir, template.relativePath),
     outputDirectory,
+    outputFileName: template.formId === "ne_cc_6_11_petition_set_aside_conviction"
+      ? "NE-CC-6-11-field-map-review.pdf"
+      : undefined,
     purpose: "shadow_verification",
     shadowMode: true,
     sampleData
@@ -115,6 +126,30 @@ const auditManifest = recordClearing.buildAuditManifest({
 const auditPath = path.join(outputDirectory, "nebraska-shadow-audit.json");
 fs.writeFileSync(auditPath, `${JSON.stringify(auditManifest, null, 2)}\n`);
 
+const cc611Template = templates.find((template) => template.formId === "ne_cc_6_11_petition_set_aside_conviction");
+const cc611RenderResult = renderResults.find((result) => result.outputPath === cc611ReviewPdfPath);
+const cc611SelectedMode = selectedModes.find((mode) => mode.formId === "ne_cc_6_11_petition_set_aside_conviction");
+const cc611ReviewManifest = {
+  formId: "ne_cc_6_11_petition_set_aside_conviction",
+  formNumber: "CC 6:11",
+  courtFacingTitle: cc611Template?.courtFacingTitle ?? "Petition to Set Aside Criminal Conviction",
+  reliefTrack: "adult_set_aside_conviction",
+  shadowMode: true,
+  productionReady: cc611Template?.productionReady ?? null,
+  mappingMode: cc611SelectedMode?.selectedMode ?? cc611FieldMap?.mappingMode ?? null,
+  acroFormUsability: "dirty_acroform_present_but_generic_field_names_make_overlay_review_safer",
+  status: "visual_review_required",
+  reviewPdfPath: cc611ReviewPdfPath,
+  fieldsAttempted: cc611FieldsAttempted,
+  fieldsNotAttempted: ["date of birth - no visible CC 6:11 target identified in first-pass AcroForm/widget inspection"],
+  sampleData,
+  renderResult: cc611RenderResult ?? null,
+  qaPassed: qaResult.passed,
+  qaFailures: qaResult.failures,
+  qaWarnings: qaResult.warnings
+};
+fs.writeFileSync(cc611ReviewManifestPath, `${JSON.stringify(cc611ReviewManifest, null, 2)}\n`);
+
 if (hasLiveRouteChanges()) failures.push("Live RCAP route or legacy generator files were modified.");
 if (renderResults.some((result) => result.outputHash && result.outputHash === result.blankSourceHash && result.status === "shadow_rendered")) {
   failures.push("A rendered output was marked shadow_rendered even though it matches the blank source hash.");
@@ -143,10 +178,16 @@ console.log(`Shadow renderable: ${shadowRenderable ? "yes" : "no"}`);
 console.log(`Field mapping needed: ${fieldMappingNeeded ? "yes" : "no"}`);
 console.log(`Blocked by PDF quality: ${blocked > 0 ? "yes" : "no"}`);
 console.log(`Selected renderer modes: ${JSON.stringify(selectedModes)}`);
+console.log(`CC 6:11 field map status: ${cc611Template?.fieldMapStatus ?? "unknown"}`);
+console.log(`CC 6:11 rendered review PDF path: ${cc611ReviewPdfPath}`);
+console.log(`CC 6:11 mapping mode: ${cc611SelectedMode?.selectedMode ?? "unknown"}`);
+console.log(`CC 6:11 fields attempted: ${cc611FieldsAttempted.join(", ")}`);
+console.log(`CC 6:11 status: visual_review_required`);
 console.log(`Generated PDF paths: ${generatedPdfPaths.length > 0 ? generatedPdfPaths.join(", ") : "none"}`);
 console.log(`QA passed: ${qaResult.passed}`);
 console.log(`QA warnings: ${qaResult.warnings.length > 0 ? qaResult.warnings.join("; ") : "none"}`);
 console.log(`Audit manifest: ${auditPath}`);
+console.log(`Review manifest: ${cc611ReviewManifestPath}`);
 console.log("Mississippi new-engine enabled: no");
 console.log("Live RCAP routes modified: no");
 

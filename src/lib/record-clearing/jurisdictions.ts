@@ -21,7 +21,7 @@ export const nebraskaJurisdiction: JurisdictionConfig = {
     adult_set_aside_conviction: {
       primaryReliefTerm: "set aside",
       allowedTerms: ["set aside", "set-aside", "setting aside"],
-      prohibitedTerms: ["expungement", "expunge", "expunged"]
+      prohibitedTerms: ["expungement", "expunge", "expunged", "seal", "sealing", "sealed"]
     },
     adult_record_sealing: {
       primaryReliefTerm: "sealing",

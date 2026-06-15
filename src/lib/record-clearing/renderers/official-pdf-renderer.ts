@@ -3,7 +3,7 @@ import path from "node:path";
 import { isFieldMapComplete } from "../field-maps";
 import type { MappingMode, RenderInput, RenderResult } from "../types";
 import { renderAcroformShadow } from "./acroform-renderer";
-import { renderOverlayShadow } from "./overlay-renderer";
+import { renderOverlayShadow, renderPdfOverlayShadow } from "./overlay-renderer";
 import { detectXfaInPdfFile } from "./xfa-detector";
 import { hashFile, safeOutputFileName } from "./render-utils";
 
@@ -14,7 +14,7 @@ export function chooseRendererMode(pdfClassification: string, recommendedMapping
   return recommendedMappingMode;
 }
 
-export function renderOfficialPdfShadow(input: RenderInput): RenderResult {
+export async function renderOfficialPdfShadow(input: RenderInput): Promise<RenderResult> {
   const blockReason = getRenderBlockReason(input);
   if (blockReason) {
     return {
@@ -45,8 +45,12 @@ export function renderOfficialPdfShadow(input: RenderInput): RenderResult {
   };
 }
 
-function renderHybridShadow(input: RenderInput): RenderResult {
-  const outputPath = path.join(input.outputDirectory, safeOutputFileName(input.template, "hybrid-shadow"));
+async function renderHybridShadow(input: RenderInput): Promise<RenderResult> {
+  if ((input.fieldMap.overlays?.length ?? 0) > 0) {
+    return renderPdfOverlayShadow(input, "hybrid", safeOutputFileName(input.template, "hybrid-shadow"));
+  }
+
+  const outputPath = path.join(input.outputDirectory, input.outputFileName ?? safeOutputFileName(input.template, "hybrid-shadow"));
   fs.mkdirSync(input.outputDirectory, { recursive: true });
   fs.copyFileSync(input.sourcePdfPath, outputPath);
 
@@ -66,7 +70,7 @@ function getRenderBlockReason(input: RenderInput): string | null {
   if (!input.shadowMode) return "Official PDF renderer is shadow-only for this vertical slice.";
   if (input.purpose === "final_filing") return "Final filing output is blocked for replacement-candidate templates.";
   if (input.template.templateGrade === "html_replica_or_unverified") return "Grade E templates are blocked from new-engine final filing output.";
-  if (input.template.templateLifecycle !== "replacement_candidate") return "Nebraska templates must remain replacement_candidate in this task.";
+  if (input.template.templateLifecycle !== "shadow_only") return "Nebraska templates must remain shadow_only in this task.";
   if (input.template.pdfClassification === "encrypted_or_locked") return "Encrypted or locked PDFs are blocked from auto-generation.";
   if (input.template.pdfClassification === "xfa_pdf") return "XFA PDFs are blocked from AcroForm fill.";
   if (input.template.pdfClassification === "scanned_pdf") return "Scanned PDFs are blocked from auto-generation.";

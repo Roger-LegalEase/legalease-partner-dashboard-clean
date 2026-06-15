@@ -21,5 +21,5 @@ export function isTemplateAllowedForNewEngineFinalFiling(template: {
 export function isTemplateAllowedForShadowVerification(template: {
   templateLifecycle: string;
 }): boolean {
-  return template.templateLifecycle === "replacement_candidate";
+  return template.templateLifecycle === "shadow_only";
 }
