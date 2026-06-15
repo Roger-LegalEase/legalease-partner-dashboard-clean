@@ -8,11 +8,19 @@ export const nebraskaFieldMaps: Record<string, FieldMap> = {
     overlays: [
       {
         page: 1,
-        x: 283,
-        y: 663,
+        x: 150,
+        y: 680,
+        textKey: "courtType",
+        fontSize: 8,
+        label: "court type"
+      },
+      {
+        page: 1,
+        x: 298,
+        y: 680,
         textKey: "county",
-        fontSize: 9,
-        label: "court/county"
+        fontSize: 8,
+        label: "county"
       },
       {
         page: 1,

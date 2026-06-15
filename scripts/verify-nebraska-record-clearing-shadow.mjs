@@ -52,7 +52,8 @@ const sampleData = {
   petitionerName: "RENDER TEST PETITIONER",
   dateOfBirth: "01/23/1980",
   caseNumber: "CR-TEST-12345",
-  county: "Lancaster County",
+  courtType: "District",
+  county: "Lancaster",
   offenseDescription: "Test Offense Description",
   dispositionDate: "06/14/2026",
   signatureDate: "06/14/2026"
