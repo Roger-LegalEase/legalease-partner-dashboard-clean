@@ -17,10 +17,12 @@ import {
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultOfficialFormsSourceDir = "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing";
 const officialFormsSourceDir = path.resolve(process.env.OFFICIAL_FORMS_SOURCE_DIR || defaultOfficialFormsSourceDir);
-const localBatchRoot = path.join(rootDir, "tmp/review/batch-field-map-review");
-const inboxBatchRoot = "/workspaces/legalease-partner-dashboard-clean/tmp/review-inbox/batch-field-map-review";
-const manifestPath = path.join(inboxBatchRoot, "REVIEW-MANIFEST.md");
+const defaultLocalBatchRoot = path.join(rootDir, "tmp/review/batch-field-map-review");
+const defaultInboxBatchRoot = "/workspaces/legalease-partner-dashboard-clean/tmp/review-inbox/batch-field-map-review";
 const inspectionReportPath = path.join(rootDir, "data/record-clearing/pdf-inspection/latest-report.json");
+const acceleratorSummaryPath = path.join(rootDir, "tmp/review/field-map-accelerator-batch/field-map-accelerator-summary.json");
+const priorityQueuePath = path.join(rootDir, "docs/record-clearing/official-pdf-field-map-priority-queue.md");
+const fieldMapDraftDirectory = path.join(rootDir, "docs/record-clearing/field-map-drafts");
 
 const defaultTargets = [
   "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
@@ -36,14 +38,36 @@ const defaultTargets = [
 ];
 
 const emptyConfidenceCounts = { high: 0, medium: 0, low: 0, unknown: 0 };
+const excludedRelativePaths = new Set([
+  "LegalEase Minnesota/EXP102_Current-2.pdf",
+  "LegalEase Minnesota/EXP105_Current.pdf",
+  "LegalEase Maryland/LegalEase Maryland forms /ccdccr072C.pdf",
+  "LegalEase Maryland/LegalEase Maryland forms /ccdccr072D.pdf"
+]);
+const normalizedExcludedRelativePaths = new Set([...excludedRelativePaths].map(normalizeRelativePathForComparison));
+
+let localBatchRoot = defaultLocalBatchRoot;
+let inboxBatchRoot = defaultInboxBatchRoot;
+let manifestPath = path.join(inboxBatchRoot, "REVIEW-MANIFEST.md");
 
 await main();
 
 async function main() {
-  const targetRelativePaths = process.argv.slice(2).length > 0 ? process.argv.slice(2) : defaultTargets;
+  const options = parseArgs(process.argv.slice(2));
+  localBatchRoot = resolveOutputPath(options.out ?? defaultLocalBatchRoot);
+  inboxBatchRoot = resolveOutputPath(options.inbox ?? defaultInboxBatchRoot);
+  manifestPath = path.join(inboxBatchRoot, "REVIEW-MANIFEST.md");
+
   const inspectionByPath = loadInspectionByPath();
+  const targetRelativePaths = options.next
+    ? selectNextTargets({ count: options.next, inspectionByPath })
+    : options.paths.length > 0
+      ? options.paths
+      : defaultTargets;
   const results = [];
 
+  fs.rmSync(localBatchRoot, { recursive: true, force: true });
+  fs.rmSync(inboxBatchRoot, { recursive: true, force: true });
   fs.mkdirSync(localBatchRoot, { recursive: true });
   fs.mkdirSync(inboxBatchRoot, { recursive: true });
 
@@ -54,6 +78,136 @@ async function main() {
 
   fs.writeFileSync(manifestPath, buildManifest(results));
   printSummary(results);
+}
+
+function parseArgs(args) {
+  const options = { next: null, out: null, inbox: null, paths: [] };
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+
+    if (arg === "--next") {
+      const value = args[index + 1];
+      if (!value || Number.isNaN(Number(value))) throw new Error("--next requires a numeric count.");
+      options.next = Number(value);
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--out") {
+      const value = args[index + 1];
+      if (!value) throw new Error("--out requires a path.");
+      options.out = value;
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--inbox") {
+      const value = args[index + 1];
+      if (!value) throw new Error("--inbox requires a path.");
+      options.inbox = value;
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith("--")) throw new Error(`Unknown option: ${arg}`);
+
+    options.paths.push(arg);
+  }
+
+  if (options.next && options.paths.length > 0) {
+    throw new Error("--next cannot be combined with explicit PDF paths.");
+  }
+
+  return options;
+}
+
+function resolveOutputPath(outputPath) {
+  return path.isAbsolute(outputPath) ? outputPath : path.join(rootDir, outputPath);
+}
+
+function selectNextTargets({ count, inspectionByPath }) {
+  const alreadyDrafted = loadDraftedSourcePdfs();
+  const candidates = loadPriorityCandidates(inspectionByPath);
+  const selected = [];
+  const seen = new Set();
+
+  for (const candidate of candidates) {
+    const relativePath = candidate.relativePath;
+    if (!relativePath || seen.has(relativePath)) continue;
+    seen.add(relativePath);
+
+    if (normalizedExcludedRelativePaths.has(normalizeRelativePathForComparison(relativePath))) continue;
+    if (alreadyDrafted.has(relativePath)) continue;
+    if ((candidate.widgetCount ?? 0) <= 0) continue;
+    if ((candidate.errors ?? []).length > 0) continue;
+
+    const inspection = inspectionByPath.get(relativePath);
+    if (inspection) {
+      if (inspection.encryptedOrLocked === true || inspection.possibleXfaDetected === true || inspection.likelyScannedPdf === true) continue;
+      if (inspection.recommendedMappingMode === "manual_review" && (inspection.acroFormFieldCount ?? 0) <= 0) continue;
+    }
+
+    selected.push(relativePath);
+    if (selected.length >= count) break;
+  }
+
+  if (selected.length < count) {
+    console.warn(`Selected ${selected.length} PDFs for --next ${count}; fewer extractable candidates were available after exclusions.`);
+  }
+
+  return selected;
+}
+
+function loadPriorityCandidates(inspectionByPath) {
+  if (fs.existsSync(acceleratorSummaryPath)) {
+    const summary = JSON.parse(fs.readFileSync(acceleratorSummaryPath, "utf8"));
+    return summary.inspectedPdfs ?? summary.top20EasiestCandidatePdfs ?? [];
+  }
+
+  if (fs.existsSync(priorityQueuePath)) {
+    return parsePriorityQueueMarkdown(inspectionByPath);
+  }
+
+  return [...inspectionByPath.values()];
+}
+
+function parsePriorityQueueMarkdown(inspectionByPath) {
+  const markdown = fs.readFileSync(priorityQueuePath, "utf8");
+  const candidates = [];
+
+  for (const line of markdown.split(/\r?\n/)) {
+    const match = line.match(/`(LegalEase [^`]+\.pdf)`/);
+    if (!match) continue;
+
+    const relativePath = match[1];
+    const inspection = inspectionByPath.get(relativePath);
+    candidates.push({
+      relativePath,
+      widgetCount: inspection?.acroFormFieldCount ?? 0,
+      errors: []
+    });
+  }
+
+  return candidates;
+}
+
+function loadDraftedSourcePdfs() {
+  const drafted = new Set();
+  if (!fs.existsSync(fieldMapDraftDirectory)) return drafted;
+
+  for (const entry of fs.readdirSync(fieldMapDraftDirectory, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".field-map-review.json")) continue;
+
+    try {
+      const draft = JSON.parse(fs.readFileSync(path.join(fieldMapDraftDirectory, entry.name), "utf8"));
+      if (draft.sourcePdf) drafted.add(draft.sourcePdf);
+    } catch (error) {
+      console.warn(`Unable to read draft map ${entry.name}: ${error.message}`);
+    }
+  }
+
+  return drafted;
 }
 
 function loadInspectionByPath() {
@@ -648,6 +802,10 @@ function normalizeText(value) {
     .replace(/[^a-z0-9]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function normalizeRelativePathForComparison(value) {
+  return String(value).replace(/\\/g, "/").toLowerCase();
 }
 
 function isGenericFieldName(fieldName) {
