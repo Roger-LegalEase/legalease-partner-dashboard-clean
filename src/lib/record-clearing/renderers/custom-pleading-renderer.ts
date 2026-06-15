@@ -53,6 +53,12 @@ export interface PleadingPresentation {
    * courtName or venueDescriptor, is replaced with the runtime county.
    */
   recordsScopePhrase?: string;
+  /**
+   * When true, the caption lists the movant first and the sovereign second
+   * (e.g. Oklahoma's statutory "Petitioner vs. THE STATE OF OKLAHOMA,
+   * Respondent" form). Defaults to false (sovereign first), preserving PA/DC/ND.
+   */
+  movantFirstInCaption?: boolean;
 }
 
 export const PA_DEFAULT_PRESENTATION: PleadingPresentation = {
@@ -221,15 +227,21 @@ function buildSections(
   const captionLines: string[] = [config.courtCaption];
   if (pres.usesCounty) captionLines.push(`COUNTY OF ${county.toUpperCase()}`);
   if (pres.divisionLine) captionLines.push(pres.divisionLine);
+  // Top party uses a trailing comma, bottom party a trailing period, regardless
+  // of which party is listed first (sovereign-first vs movant-first jurisdictions).
+  const sovereignParty = { name: pres.sovereignPartyName, role: pres.sovereignRole };
+  const movantParty = { name: petitioner.toUpperCase(), role: movantRole };
+  const topParty = pres.movantFirstInCaption ? movantParty : sovereignParty;
+  const bottomParty = pres.movantFirstInCaption ? sovereignParty : movantParty;
   captionLines.push(
     "",
-    `${pres.sovereignPartyName},`,
-    `    ${pres.sovereignRole},`,
+    `${topParty.name},`,
+    `    ${topParty.role},`,
     "",
     "v.",
     "",
-    `${petitioner.toUpperCase()},`,
-    `    ${movantRole}.`
+    `${bottomParty.name},`,
+    `    ${bottomParty.role}.`
   );
   sections.push({ sectionId: "court_caption", heading: "", text: captionLines.join("\n") });
 
@@ -437,10 +449,13 @@ function buildSections(
       : `${custodianLead}, ${arrestingAgency}`;
     const orderHeaderLines: string[] = [config.courtCaption];
     if (pres.usesCounty) orderHeaderLines.push(`COUNTY OF ${county.toUpperCase()}`);
+    const orderCaption = pres.movantFirstInCaption
+      ? `${petitioner.toUpperCase()} v. ${pres.sovereignPartyName}`
+      : `${pres.sovereignPartyName} v. ${petitioner.toUpperCase()}`;
     const orderLines = [
       ...orderHeaderLines,
       "",
-      `${pres.sovereignPartyName} v. ${petitioner.toUpperCase()}`,
+      orderCaption,
       `DOCKET NO.: ${caseData.docketNumber || "[DOCKET NUMBER TO BE CONFIRMED]"}`,
       "",
       "[PROPOSED] ORDER",
