@@ -1,0 +1,14 @@
+// Minnesota disqualifying / excluded offenses. Sourced from the Minnesota
+// Expungement Reference for Wilma (Nationwide Record Clearing), sections 3-4,
+// reflecting the § 609A.015 automatic exclusions, the § 609A.02 felony limits,
+// and the § 243.166 registration bar. Screening notes, not an exhaustive legal
+// test; verify the exact statute and current Chapter 609A text.
+export const mnDisqualifyingOffenseNotes = [
+  "Registration bar (§ 243.166): a conviction requiring predatory/sex-offender registration is not eligible for expungement under the felony petition list — escalate immediately if registration is mentioned.",
+  "Not every felony is expungeable: petition eligibility exists only for the specific felony categories listed in § 609A.02, subd. 3(b) (plus some felonies later deemed gross misdemeanors/misdemeanors). Verify the exact statute before marking a felony eligible.",
+  "Automatic Clean Slate misdemeanor exclusions (§ 609A.015): DWI-related offenses, order-for-protection (OFP) violations, fifth-degree assault, domestic assault, interference with privacy, harassment restraining order (HRO) violations, interference with an emergency call, obscene or harassing phone calls, indecent exposure, and domestic abuse no-contact order (DANCO) violations.",
+  "Automatic Clean Slate gross-misdemeanor exclusions (§ 609A.015): certain reckless driving causing serious harm or death, second- and third-degree DWI, OFP violations, criminal vehicular operation, certain assaults, domestic assault, criminal neglect, fifth-degree criminal sexual conduct, malicious punishment of a child, escape from custody, witness tampering, fourth-degree burglary, interference with privacy, harassment/stalking, emergency-call interference, indecent exposure, nonconsensual dissemination of private sexual images, and DANCO violations.",
+  "Automatic felony limits (§ 609A.015): automatic felony relief is narrower than petition relief and excludes some petition-eligible felonies from automatic sealing, including third- and fourth-degree controlled-substance possession, escape from civil commitment for mental illness, third-degree burglary other than trespass-based burglary, and certain interference-with-privacy offenses. A case may fail automatic screening but still be worth a petition.",
+  "Not guilty by reason of mental illness is NOT a resolution in favor of the person for § 609A.02 eligibility.",
+  "Scope/limits: expungement does not destroy records, may not seal DNA records in certain cases, and may not seal DVS driving records; criminal-justice agencies may still access expunged records, and certain conviction records may be opened for criminal-justice employment, DHS background studies, and teacher licensing unless the order specifically addresses those agencies. Out-of-state and federal records are not reached by a Minnesota order."
+];
