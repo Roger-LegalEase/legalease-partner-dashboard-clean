@@ -1,4 +1,4 @@
-export type JurisdictionCode = "NE" | "PA" | "DC";
+export type JurisdictionCode = "NE" | "PA" | "DC" | "ND";
 
 export type ReliefTrack = "adult_set_aside_conviction" | "adult_record_sealing";
 
