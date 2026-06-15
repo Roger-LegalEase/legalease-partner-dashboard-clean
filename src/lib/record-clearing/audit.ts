@@ -1,8 +1,8 @@
-import type { AuditManifest, OfficialPdfTemplate, QaResult, ReliefTrack, RenderResult } from "./types";
+import type { AuditManifest, JurisdictionCode, OfficialPdfTemplate, QaResult, ReliefTrack, RenderResult } from "./types";
 
 export interface AuditManifestInput {
   packetId: string;
-  jurisdictionCode: "NE";
+  jurisdictionCode: JurisdictionCode;
   reliefTrack: ReliefTrack;
   workflowVersion: string;
   templates: OfficialPdfTemplate[];
