@@ -8,6 +8,10 @@ Research-source hierarchy: private/Nationwide Record Clearing/ is the counsel-re
 
 src/lib/rcap/state-packs/** are shared research assets consumed by both legacy generators and the new engine. They are read-only unless a task explicitly authorizes a fidelity correction against the Nationwide source. Neither agent may casually edit a state pack because a change can affect both consumers.
 
+visual_review_required is a hard block, not a label. Agents may create and commit draft mapping files only if they remain blocked from final output.
+
+Auto-generated state packs are draft research conversions. Agents may not wire a generated state pack into a renderer until the task includes a Nationwide fidelity check and the result is reported.
+
 Codex: Nebraska CC 6:11 field mapping and official PDF overlay work only. Claude: Pennsylvania CustomPleadingRenderer and airtight pleading states only.
 
 Mississippi legacy stays live. Nebraska set-aside is not expungement. No new-engine output goes live unless lifecycle is verified_replacement.

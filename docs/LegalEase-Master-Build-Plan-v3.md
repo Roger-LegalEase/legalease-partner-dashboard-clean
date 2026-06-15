@@ -63,6 +63,16 @@ Legal content must flow from the strongest available source, in this order:
 
 The per-state gate is source fidelity, not re-approval of the law. The build must faithfully reflect the Nationwide source: nothing dropped, nothing altered, nothing invented. Separate overlay visual QA still confirms text lands in the right boxes.
 
+Any state pack generated from a Wilma RTF, agent-reference source, PDF, HTML, statute page, or other Nationwide material is a draft pack until it passes a fidelity check against `private/Nationwide Record Clearing/`.
+
+No auto-generated or newly converted state pack may feed a renderer as authoritative until:
+- the pack is compared against the relevant Nationwide source;
+- missing citations, pathways, waiting periods, required fields, forms, vocabulary, safety language, and filing instructions are identified;
+- discrepancies are resolved in favor of Nationwide;
+- the fidelity result is recorded.
+
+Nationwide is the tiebreaker. If a generated state pack and Nationwide conflict, Nationwide wins. The discrepancy is a pack bug to fix, not an open legal question.
+
 ---
 
 ## 1. Already built (do not rebuild)
@@ -112,6 +122,12 @@ Shadow module, renderers, inspection, Nebraska slice, Nebraska verifier. Nebrask
 ### 2.4 Grade + lifecycle
 Grades A–E. Lifecycle: `legacy_live` → `shadow_only` → `visual_review_required` (overlay states only — review PDF generated, awaiting human visual check) → `preview_only` → `replacement_candidate` → `verified_replacement` → `retired`. **Grade E legacy_live keeps serving old routes; Grade E new-engine output BLOCKED. New-engine final output only for A/B/C/D at `verified_replacement` + QA passed. No legacy retired until replacement is verified + flag flipped.**
 
+Draft field maps may be committed while status remains `visual_review_required`, but `visual_review_required` must be a hard lifecycle wall. A `visual_review_required` map may generate review artifacts only. It must be structurally impossible for that map to produce final user-facing output, live-route output, `verified_replacement` output, or partner/consumer deliverables.
+
+The verifier must fail if any `visual_review_required` mapping is wired toward final output or live routing.
+
+Visual review can be batched later, but it cannot be skipped. The batch-in-progress must never leak to users.
+
 ### 2.5 Shared engine, two products
 `src/lib/record-clearing/` shared. RCAP (partner-assisted) + Expungement.ai (consumer) adapters. Court/agency forms NEVER branded. **Architectural invariant: RCAP partners can NEVER see consumer Expungement.ai records — hard isolation.**
 
@@ -160,6 +176,8 @@ Detailed single-scope prompt → agent works in worktree, runs checks, reports d
 **Tier 2: Wilma RTF but no state pack.** Convert Wilma RTF / agent-reference research into a structured state pack first. Wire renderers only after the state pack exists.
 
 **Tier 3: bare states.** Official source research → state pack → renderer.
+
+The factory makes the first draft fast. The Nationwide fidelity check makes it correct.
 
 ### PHASE 0 — Structure (do first)
 Confirm main clean → commit `AGENTS.md` + `.claude/settings.json` → create both worktrees → configure Codex approval mode → assign agents.
