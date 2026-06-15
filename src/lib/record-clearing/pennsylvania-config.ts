@@ -1,3 +1,10 @@
+import {
+  pennsylvaniaEligibilityRules,
+  pennsylvaniaWaitingPeriods,
+  pennsylvaniaFilingInstructions,
+  pennsylvaniaDisqualifyingOffenseNotes,
+  pennsylvaniaPathwayLabels
+} from "../rcap/state-packs/pennsylvania";
 import type { PleadingTrackConfig } from "./renderers/custom-pleading-renderer";
 
 export type PaPleadingTrack = "adult_expungement" | "adult_limited_access" | "adult_clean_slate";
@@ -8,19 +15,18 @@ export interface PaPleadingEligibilityPath {
   statute: { citation: string | null; description: string; counselFlag?: string };
 }
 
-// Confirmed from existing PA generator: 18 Pa.C.S. § 4904 quoted verbatim in verification block.
+// 18 Pa.C.S. § 4904 — verified from legacy generator body text verbatim.
 const verificationStatute = {
   citation: "18 Pa.C.S. § 4904",
   description: "Unsworn falsification to authorities — verification penalty basis for petition"
 };
 
-// Citations confirmed from legacy generator:
-//   Pa.R.Crim.P. 790 — source HTML/PDF paths name the rule; generator title quotes it.
-//   18 Pa.C.S. § 9122 — selectReason() quotes "Non-conviction record under 18 Pa.C.S. § 9122."
-//   18 Pa.C.S. § 4904 — generator body quotes it verbatim.
-// All other expungement basis citations (summary, ARD, pardon, age-70, deceased) are NOT cited
-// in the existing generator and are flagged for counsel below.
+// Service requirement: state pack filing-instructions[3], sourced from Nationwide Wilma RTF.
+const commonServiceNote = pennsylvaniaFilingInstructions[3];
 
+// Citations confirmed from:
+//   - src/lib/rcap/state-packs/pennsylvania/eligibility-rules.ts (§ 9122, § 9122.1, § 9122.2)
+//   - private/Nationwide Record Clearing/LegalEase Pennsylvania/Wilma RTF (Rule 790, 490, 320, 791)
 export const pennsylvaniaExpungementConfig: PleadingTrackConfig = {
   jurisdictionCode: "PA",
   trackId: "adult_expungement",
@@ -32,24 +38,29 @@ export const pennsylvaniaExpungementConfig: PleadingTrackConfig = {
   primaryStatutoryAuthority: [
     {
       citation: "Pa.R.Crim.P. 790",
-      description: "Pennsylvania Rule of Criminal Procedure 790 — Expungement Petition procedure and form"
+      description: "Pennsylvania Rule of Criminal Procedure 790 — expungement petition procedure and form"
     },
     {
       citation: "18 Pa.C.S. § 9122",
-      description: "Criminal history record information — grounds and procedure for expungement"
+      description: pennsylvaniaEligibilityRules[0]
+    },
+    {
+      citation: "Pa.R.Crim.P. 490",
+      description: "Pennsylvania Rule of Criminal Procedure 490 — automatic acquittal expungement"
+    },
+    {
+      citation: "Pa.R.Crim.P. 320",
+      description: "Pennsylvania Rule of Criminal Procedure 320 — ARD expungement on successful completion"
     }
   ],
   verificationStatute,
   includeProposedOrder: true,
   includeCertificateOfService: true,
-  serviceNote:
-    "Petitioner shall serve a copy of this petition upon the attorney for the Commonwealth when filing with the Clerk of Courts.",
+  serviceNote: commonServiceNote,
   counselFlags: [
-    "Summary conviction 5-year expungement basis: verify current PA statute citation with counsel before filing (not cited in existing generator — known only as '5 years arrest/prosecution-free')",
-    "ARD expungement basis: specific statute citation required — confirm current Rule 790 practice and ARD disposition treatment with counsel (not cited in existing generator)",
-    "Gubernatorial pardon expungement basis: verify current PA statute citation with counsel (not cited in existing generator)",
-    "Age 70 expungement basis: verify current PA statute citation with counsel (generator describes '10 years after final release and arrest-free' but cites no section)",
-    "Deceased-for-3-years expungement basis: verify current PA statute citation with counsel (not cited in existing generator)"
+    `PATCH report: ${pennsylvaniaFilingInstructions[0]}`,
+    "Applicable expungement rule (Pa.R.Crim.P. 790, 490, or 320) depends on specific case type and disposition — confirm the correct pathway with counsel before filing.",
+    `Disqualifying offenses: ${pennsylvaniaDisqualifyingOffenseNotes[0]}`
   ]
 };
 
@@ -63,20 +74,22 @@ export const pennsylvaniaLimitedAccessConfig: PleadingTrackConfig = {
   courtCaption: "IN THE COURT OF COMMON PLEAS",
   primaryStatutoryAuthority: [
     {
-      citation: null,
-      description:
-        "Pennsylvania limited access / record sealing statute — citation required; confirm current provision with counsel before filing (not cited in existing generator)"
+      citation: "18 Pa.C.S. § 9122.1",
+      description: pennsylvaniaEligibilityRules[1]
+    },
+    {
+      citation: "Pa.R.Crim.P. 791",
+      description: "Pennsylvania Rule of Criminal Procedure 791 — petition for limited access"
     }
   ],
   verificationStatute,
   includeProposedOrder: true,
   includeCertificateOfService: true,
-  serviceNote:
-    "Petitioner shall serve a copy of this petition upon the attorney for the Commonwealth when filing with the Clerk of Courts.",
+  serviceNote: commonServiceNote,
   counselFlags: [
-    "Limited access (sealing) statutory citation required — existing PA generator does not cite the sealing statute; counsel must confirm current PA limited access statute before any filing",
-    "Misdemeanor sealing basis: confirm current statute, 7-year conviction-free waiting period (from existing generator), and current court requirements with counsel",
-    "Property felony sealing basis: confirm current statute, 10-year waiting period, and restitution-paid requirement with counsel"
+    `Offense-grade distinction: ${pennsylvaniaDisqualifyingOffenseNotes[1]}`,
+    `Restitution requirement: ${pennsylvaniaDisqualifyingOffenseNotes[4]}`,
+    "Property-felony sealing (Clean Slate 3.0): confirm current statute text, 10-year waiting period, and restitution-paid status with counsel before filing."
   ]
 };
 
@@ -90,9 +103,8 @@ export const pennsylvaniaCleanSlateConfig: PleadingTrackConfig = {
   courtCaption: "IN THE COURT OF COMMON PLEAS",
   primaryStatutoryAuthority: [
     {
-      citation: null,
-      description:
-        "Pennsylvania Clean Slate Act — citation required; confirm current provision with counsel (not cited in existing generator)"
+      citation: "18 Pa.C.S. § 9122.2",
+      description: pennsylvaniaEligibilityRules[2]
     }
   ],
   verificationStatute,
@@ -100,8 +112,8 @@ export const pennsylvaniaCleanSlateConfig: PleadingTrackConfig = {
   includeCertificateOfService: false,
   serviceNote: null,
   counselFlags: [
-    "Clean Slate statutory citation required — confirm current PA Clean Slate Act provision with counsel",
-    "Clean Slate automatic sealing is not expungement; do not use Pa.R.Crim.P. 790 expungement petition form for Clean Slate matters"
+    "Clean Slate automatic sealing under § 9122.2 is not expungement; do not use Pa.R.Crim.P. 790 petition for Clean Slate matters.",
+    `PATCH verification recommended: ${pennsylvaniaFilingInstructions[5]}`
   ]
 };
 
@@ -111,79 +123,71 @@ export const pennsylvaniaPleadingConfigs: Record<PaPleadingTrack, PleadingTrackC
   adult_clean_slate: pennsylvaniaCleanSlateConfig
 };
 
-// Eligibility paths — confirmed sources noted inline.
+// All citations confirmed from state pack (§ 9122, § 9122.1, § 9122.2) and Nationwide Wilma RTF
+// (Pa.R.Crim.P. 790, 490, 320, 791). Waiting-period text from state pack waiting-periods.ts.
 export const pennsylvaniaEligibilityPaths: Record<string, PaPleadingEligibilityPath> = {
   non_conviction: {
     id: "non_conviction",
-    label: "Non-conviction record under 18 Pa.C.S. § 9122",
+    label: pennsylvaniaPathwayLabels.expungement_non_conviction,
     statute: {
       citation: "18 Pa.C.S. § 9122",
-      description: "Non-conviction expungement — confirmed from existing PA generator selectReason()"
+      description: "Non-conviction expungement under § 9122"
     }
   },
   summary_5_years: {
     id: "summary_5_years",
-    label: "Summary conviction — 5 years arrest/prosecution-free",
+    label: pennsylvaniaPathwayLabels.expungement_summary_5_years,
     statute: {
-      citation: null,
-      description: "Summary conviction expungement after 5 years",
-      counselFlag:
-        "Summary conviction 5-year expungement basis: verify current PA statute citation with counsel"
+      citation: "18 Pa.C.S. § 9122",
+      description: `Summary conviction expungement — ${pennsylvaniaWaitingPeriods[2]}`
     }
   },
   ard: {
     id: "ard",
-    label: "Successful ARD (Accelerated Rehabilitative Disposition) completion",
+    label: pennsylvaniaPathwayLabels.expungement_ard,
     statute: {
-      citation: null,
-      description: "ARD completion treated as non-conviction for expungement purposes",
-      counselFlag:
-        "ARD expungement basis: confirm specific statute citation and current practice with counsel"
+      citation: "Pa.R.Crim.P. 320 / 18 Pa.C.S. § 9122",
+      description: `ARD expungement — ${pennsylvaniaWaitingPeriods[3]}`
     }
   },
   pardon: {
     id: "pardon",
-    label: "Full gubernatorial pardon",
+    label: pennsylvaniaPathwayLabels.expungement_pardon,
     statute: {
-      citation: null,
-      description: "Expungement following full gubernatorial pardon",
-      counselFlag: "Pardon expungement basis: verify current PA statute citation with counsel"
+      citation: "18 Pa.C.S. § 9122",
+      description: `Pardon expungement — ${pennsylvaniaWaitingPeriods[4]}`
     }
   },
   age_70: {
     id: "age_70",
-    label: "Age 70 or older — 10 years after final release and arrest-free period",
+    label: pennsylvaniaPathwayLabels.expungement_age_70,
     statute: {
-      citation: null,
-      description: "Age 70+ expungement pathway",
-      counselFlag: "Age 70 expungement basis: verify current PA statute citation with counsel"
+      citation: "18 Pa.C.S. § 9122",
+      description: `Age 70+ expungement — ${pennsylvaniaWaitingPeriods[5]}`
     }
   },
   deceased: {
     id: "deceased",
-    label: "Deceased for 3 years",
+    label: pennsylvaniaPathwayLabels.expungement_deceased,
     statute: {
-      citation: null,
-      description: "Deceased-for-3-years expungement pathway",
-      counselFlag: "Deceased expungement basis: verify current PA statute citation with counsel"
+      citation: "18 Pa.C.S. § 9122",
+      description: "Deceased for 3 years — expungement of records of decedent"
     }
   },
   limited_access_misdemeanor: {
     id: "limited_access_misdemeanor",
-    label: "Misdemeanor conviction — 7 years conviction-free",
+    label: pennsylvaniaPathwayLabels.limited_access_misdemeanor,
     statute: {
-      citation: null,
-      description: "Misdemeanor limited access / sealing",
-      counselFlag: "Misdemeanor sealing basis: statute citation required — confirm with counsel"
+      citation: "18 Pa.C.S. § 9122.1",
+      description: `Misdemeanor limited access — ${pennsylvaniaWaitingPeriods[6]}`
     }
   },
   limited_access_property_felony: {
     id: "limited_access_property_felony",
-    label: "Third-degree property felony — 10 years and restitution paid",
+    label: pennsylvaniaPathwayLabels.limited_access_property_felony,
     statute: {
-      citation: null,
-      description: "Property felony limited access / sealing",
-      counselFlag: "Property felony sealing basis: statute citation required — confirm with counsel"
+      citation: "18 Pa.C.S. § 9122.1",
+      description: `Property felony limited access — ${pennsylvaniaWaitingPeriods[8]}`
     }
   }
 };
