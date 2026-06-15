@@ -1,0 +1,13 @@
+// Minnesota petition filing workflow. Sourced from the Minnesota Expungement
+// Reference for Wilma (Nationwide Record Clearing), section 6, corroborated by
+// Minn. Stat. § 609A.03 and Minnesota Courts guidance. Minnesota uses mandatory
+// statewide EXP forms; this pack is shadow-only research and wires no renderer.
+export const mnFilingInstructions = [
+  "Step 1 — Get the criminal record: collect the Minnesota District Court / MCRO file (court file number, charges, disposition, sentence, discharge date), the BCA criminal-history record, arresting agency records, the prosecutor's charging/dismissal history, any out-of-state/FBI record, and the DVS driving record if driving-related (a criminal expungement may not seal a DVS driving record).",
+  "Step 2 — Determine whether a filing fee applies: generally no filing fee if the case was resolved in the person's favor; a fee may apply where the person pleaded guilty or was found guilty (even if the conviction was later vacated); a fee waiver may be available for those who qualify financially.",
+  "Step 3 — Complete the petition (EXP102, Notice of Hearing and Petition for Expungement): include names and aliases, date of birth, addresses since the offense, the reason for expungement, offense details and statute numbers, court file number, disposition date, rehabilitation steps for convictions, full criminal-charge history, prior diversion/stay/continuance details, and any prior expungement/pardon/record-sealing requests.",
+  "Step 4 — Serve required agencies: serve the petition on the required government agencies; Minnesota law provides for victim notice in certain cases (EXP103, Notice to Crime Victim), and agencies may object or submit information. The hearing cannot be held sooner than 60 days after service (court guidance: at least 63 days). File proof of service (EXP104).",
+  "Step 5 — Hearing: agencies may object, but an objection does not automatically mean denial; the judge decides after applying the legal standard and the statutory factors.",
+  "Step 6 — Order and waiting period: if expungement is granted, the order is generally stayed for 60 days after filing and during any appeal period; the court administrator sends the order to affected agencies, which may be required to confirm receipt and compliance if requested. Choose the correct order form — EXP105 (§ 609A.02, subd. 3 — conviction/diversion/stay/listed felony), EXP106 (§ 609A.02, subd. 1 or 2 — controlled-substance dismissal/discharge or juvenile prosecuted as adult), or EXP107 (judicial records only).",
+  "Keep certified copies of any order; private background-check companies may already hold old data, and the person may need to dispute inaccurate private reports after expungement."
+];
