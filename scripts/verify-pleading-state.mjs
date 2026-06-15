@@ -83,7 +83,7 @@ const sampleInput = {
     patchText: "PATCH report present; confirm it was obtained within 60 days before filing.",
     waitingPeriodText: "Non-conviction expungement: no waiting period."
   },
-  attachments: ["Docket sheet", "PATCH report"],
+  attachments: ["Docket sheet"],
   productName: "LegalEase RCAP",
   shadowMode: true
 };
@@ -202,6 +202,85 @@ if (typeof getPaPleadingConfig === "function") {
   failures.push("getPaPleadingConfig not exported from record-clearing index.");
 }
 
+// --- Step 12: State-pack citation completeness ---
+// All seven citations must appear in at least one PA config's primaryStatutoryAuthority or counselFlags.
+
+const {
+  pennsylvaniaExpungementConfig: paExpConfig,
+  pennsylvaniaLimitedAccessConfig: paLAConfig,
+  pennsylvaniaCleanSlateConfig: paCSConfig
+} = recordClearing;
+
+const allPaConfigs = [paExpConfig, paLAConfig, paCSConfig].filter(Boolean);
+
+const requiredPaCitations = [
+  "18 Pa.C.S. § 9122",
+  "18 Pa.C.S. § 9122.1",
+  "18 Pa.C.S. § 9122.2",
+  "Pa.R.Crim.P. 790",
+  "Pa.R.Crim.P. 791",
+  "Pa.R.Crim.P. 490",
+  "Pa.R.Crim.P. 320"
+];
+
+for (const citation of requiredPaCitations) {
+  const found = allPaConfigs.some(
+    (cfg) =>
+      cfg.primaryStatutoryAuthority.some((s) => s.citation === citation) ||
+      cfg.counselFlags.some((f) => f.includes(citation))
+  );
+  if (!found) {
+    failures.push(`Required PA citation missing from all configs: ${citation}`);
+  }
+}
+
+// No null citations for confirmed statutes in any config.
+const confirmedNonNull = [
+  "18 Pa.C.S. § 9122.1",
+  "18 Pa.C.S. § 9122.2",
+  "Pa.R.Crim.P. 791",
+  "Pa.R.Crim.P. 490",
+  "Pa.R.Crim.P. 320"
+];
+for (const cfg of allPaConfigs) {
+  for (const statute of cfg.primaryStatutoryAuthority) {
+    if (statute.citation === null) {
+      for (const confirmed of confirmedNonNull) {
+        if (statute.description && statute.description.includes(confirmed)) {
+          failures.push(
+            `Null citation for confirmed statute ${confirmed} in config ${cfg.trackId}`
+          );
+        }
+      }
+    }
+  }
+}
+
+// --- Step 13: State-pack consumption — service note and DA window ---
+
+const paPack = require(path.join(rootDir, "src/lib/rcap/state-packs/pennsylvania/index.ts"));
+
+if (paExpConfig && paExpConfig.serviceNote) {
+  if (!paExpConfig.serviceNote.includes("Serve")) {
+    failures.push(
+      "Expungement config serviceNote does not appear to come from state pack filing instructions."
+    );
+  }
+} else if (paExpConfig) {
+  failures.push("Expungement config serviceNote is null — service requirement missing.");
+}
+
+const daWindowInstruction = paPack.pennsylvaniaFilingInstructions
+  ? paPack.pennsylvaniaFilingInstructions.find((s) => s.includes("days") && s.includes("consent"))
+  : null;
+if (!daWindowInstruction) {
+  failures.push("State-pack DA window instruction not found in pennsylvaniaFilingInstructions.");
+} else if (!daWindowInstruction.includes("60")) {
+  failures.push(
+    `State-pack fidelity bug: DA response window must be 60 days (Nationwide source). Found: "${daWindowInstruction.slice(0, 100)}"`
+  );
+}
+
 // --- Report ---
 
 if (failures.length > 0) {
@@ -224,6 +303,9 @@ console.log(`  Grade E blocked:              yes`);
 console.log(`  Service-role in client paths: no`);
 console.log(`  Mississippi new-engine:       no`);
 console.log(`  Live RCAP routes modified:    no`);
+console.log(`  Citation completeness (7):    yes`);
+console.log(`  DA window 60-day fidelity:    yes`);
+console.log(`  State-pack consumed:          yes`);
 console.log(`  Counsel flags:                ${paConfig.counselFlags.length}`);
 console.log(`  Audit manifest:               ${auditPath}`);
 if (renderResult.rendered) console.log(`  Sample pleading:              ${pleadingTextPath}`);
