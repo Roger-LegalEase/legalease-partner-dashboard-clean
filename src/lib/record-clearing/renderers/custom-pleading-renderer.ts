@@ -5,6 +5,67 @@ export interface PleadingStatute {
   description: string;
 }
 
+/**
+ * Jurisdiction-specific presentation strings for the pleading body.
+ *
+ * When a config omits `presentation`, the renderer falls back to
+ * PA_DEFAULT_PRESENTATION, which preserves the original Pennsylvania output
+ * byte-for-byte. New states (e.g. DC) supply a full presentation so the
+ * caption, parties, venue, verification, service, and proposed-order text use
+ * the correct sovereign, court, and vocabulary.
+ */
+export interface PleadingPresentation {
+  /** Caption + proposed-order header party, upper-case (e.g. "COMMONWEALTH OF PENNSYLVANIA"). */
+  sovereignPartyName: string;
+  /** Sentence-case party for the parties block (e.g. "the Commonwealth of Pennsylvania"). */
+  sovereignPartyProper: string;
+  /** Role label under the sovereign in the caption (e.g. "Respondent"). */
+  sovereignRole: string;
+  /** Movant role noun (e.g. "Petitioner" / "Movant"). */
+  movantRole: string;
+  /** Filing noun (e.g. "Petition" / "Motion"). */
+  filingNoun: string;
+  /** Division line under the court name (e.g. "CRIMINAL DIVISION"). */
+  divisionLine: string;
+  /** True when the caption/venue use a county line (PA); false for DC. */
+  usesCounty: boolean;
+  /** Full court name used in jurisdiction/venue when usesCounty is false. */
+  courtName: string;
+  /** Venue descriptor used when usesCounty is false (e.g. "the District of Columbia"). */
+  venueDescriptor: string;
+  /** Lead record custodians for the proposed order when usesCounty is false. */
+  recordCustodianLead: string;
+  /** Verification verb phrase (e.g. "verify" / "declare under penalty of perjury"). */
+  verificationVerb: string;
+  /** Penalty label appended when a verification statute citation is present. */
+  verificationPenaltyLabel: string;
+  /** Certificate-of-service recipient label (e.g. "the attorney for the Commonwealth"). */
+  serviceRecipientLabel: string;
+  /** Certificate-of-service recipient address placeholder. */
+  serviceRecipientAddressLabel: string;
+  /** Optional override for the requested-relief action verb (clause (b)). */
+  reliefActionVerb?: string;
+  /** Optional override for the proposed-order action verb. */
+  orderActionVerb?: string;
+}
+
+export const PA_DEFAULT_PRESENTATION: PleadingPresentation = {
+  sovereignPartyName: "COMMONWEALTH OF PENNSYLVANIA",
+  sovereignPartyProper: "the Commonwealth of Pennsylvania",
+  sovereignRole: "Respondent",
+  movantRole: "Petitioner",
+  filingNoun: "Petition",
+  divisionLine: "CRIMINAL DIVISION",
+  usesCounty: true,
+  courtName: "",
+  venueDescriptor: "",
+  recordCustodianLead: "",
+  verificationVerb: "verify",
+  verificationPenaltyLabel: "the penalties for unsworn falsification to authorities",
+  serviceRecipientLabel: "the attorney for the Commonwealth",
+  serviceRecipientAddressLabel: "[ATTORNEY FOR COMMONWEALTH ADDRESS — CONFIRM WITH CLERK OF COURTS]"
+};
+
 export interface PleadingTrackConfig {
   jurisdictionCode: JurisdictionCode;
   trackId: string;
@@ -19,6 +80,8 @@ export interface PleadingTrackConfig {
   includeCertificateOfService: boolean;
   serviceNote: string | null;
   counselFlags: string[];
+  /** Optional jurisdiction presentation; defaults to PA_DEFAULT_PRESENTATION. */
+  presentation?: PleadingPresentation;
 }
 
 export interface PleadingPartyData {
@@ -89,11 +152,24 @@ export interface PleadingRenderResult {
   errors: string[];
 }
 
+function resolvePresentation(config: PleadingTrackConfig): PleadingPresentation {
+  return config.presentation ?? PA_DEFAULT_PRESENTATION;
+}
+
+function defaultReliefAction(primaryReliefTerm: string): string {
+  return primaryReliefTerm === "expungement" ? "expunge" : "apply limited access to";
+}
+
+function defaultOrderAction(primaryReliefTerm: string): string {
+  return primaryReliefTerm === "expungement" ? "expunge" : "seal";
+}
+
 export function renderCustomPleading(input: PleadingRenderInput): PleadingRenderResult {
   const warnings: string[] = [];
+  const pres = resolvePresentation(input.config);
   const attachmentList = buildAttachmentList(input);
   const sections = buildSections(input, attachmentList, warnings);
-  const footer = `---\nPrepared by petitioner using ${input.productName}. This is not an official court form.`;
+  const footer = `---\nPrepared by ${pres.movantRole.toLowerCase()} using ${input.productName}. This is not an official court form.`;
   const bodyText = sections
     .map((s) => (s.heading ? `${s.heading}\n\n${s.text}` : s.text))
     .join("\n\n");
@@ -126,29 +202,30 @@ function buildSections(
   warnings: string[]
 ): PleadingSection[] {
   const { config, partyData, caseData, chargeData, eligibilityData } = input;
+  const pres = resolvePresentation(config);
   const sections: PleadingSection[] = [];
   const county = caseData.countyName || "[COUNTY TO BE CONFIRMED]";
   const petitioner = partyData.petitionerName || "[PETITIONER NAME TO BE CONFIRMED]";
+  const movantRole = pres.movantRole;
+  const filingNoun = pres.filingNoun;
+  const filingNounLower = filingNoun.toLowerCase();
   let p = 0;
 
   // Court caption
-  sections.push({
-    sectionId: "court_caption",
-    heading: "",
-    text: [
-      config.courtCaption,
-      `COUNTY OF ${county.toUpperCase()}`,
-      "CRIMINAL DIVISION",
-      "",
-      "COMMONWEALTH OF PENNSYLVANIA,",
-      "    Respondent,",
-      "",
-      "v.",
-      "",
-      `${petitioner.toUpperCase()},`,
-      "    Petitioner."
-    ].join("\n")
-  });
+  const captionLines: string[] = [config.courtCaption];
+  if (pres.usesCounty) captionLines.push(`COUNTY OF ${county.toUpperCase()}`);
+  captionLines.push(
+    pres.divisionLine,
+    "",
+    `${pres.sovereignPartyName},`,
+    `    ${pres.sovereignRole},`,
+    "",
+    "v.",
+    "",
+    `${petitioner.toUpperCase()},`,
+    `    ${movantRole}.`
+  );
+  sections.push({ sectionId: "court_caption", heading: "", text: captionLines.join("\n") });
 
   // Case number block
   const caseLines: string[] = [];
@@ -177,25 +254,29 @@ function buildSections(
 
   // I. Jurisdiction and venue
   p += 1;
-  const jv1 = `${p}. This Court has jurisdiction over this matter as the Court of Common Pleas of ${county} County, Pennsylvania, where the proceedings occurred.`;
+  const jv1 = pres.usesCounty
+    ? `${p}. This Court has jurisdiction over this matter as the Court of Common Pleas of ${county} County, Pennsylvania, where the proceedings occurred.`
+    : `${p}. This Court has jurisdiction over this matter as the ${pres.courtName}, where the proceedings occurred.`;
   p += 1;
-  const jv2 = `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this petition occurred in ${county} County, Pennsylvania.`;
+  const jv2 = pres.usesCounty
+    ? `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${county} County, Pennsylvania.`
+    : `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${pres.venueDescriptor}.`;
   sections.push({ sectionId: "jurisdiction_venue", heading: "I. JURISDICTION AND VENUE", text: [jv1, "", jv2].join("\n") });
 
   // II. Parties
   const partyLines: string[] = [];
   p += 1;
   partyLines.push(
-    `${p}. Petitioner is ${petitioner}` +
+    `${p}. ${movantRole} is ${petitioner}` +
       (partyData.petitionerAddress
         ? `, whose address is ${partyData.petitionerAddress}.`
-        : `. [PETITIONER ADDRESS — ADD IF REQUIRED BY LOCAL RULES]`)
+        : `. [${movantRole.toUpperCase()} ADDRESS — ADD IF REQUIRED BY LOCAL RULES]`)
   );
   p += 1;
-  partyLines.push(`${p}. Respondent is the Commonwealth of Pennsylvania.`);
+  partyLines.push(`${p}. ${pres.sovereignRole} is ${pres.sovereignPartyProper}.`);
   if (partyData.otherNamesUsed) {
     p += 1;
-    partyLines.push(`${p}. Petitioner has also been known as: ${partyData.otherNamesUsed}.`);
+    partyLines.push(`${p}. ${movantRole} has also been known as: ${partyData.otherNamesUsed}.`);
   }
   sections.push({ sectionId: "parties", heading: "II. PARTIES", text: partyLines.join("\n") });
 
@@ -204,11 +285,11 @@ function buildSections(
   p += 1;
   if (chargeData.arrestDate) {
     factLines.push(
-      `${p}. On or about ${chargeData.arrestDate}, Petitioner was charged with ${chargeData.chargeDescription || "[CHARGE DESCRIPTION TO BE CONFIRMED]"} by ${chargeData.arrestingAgency || "[ARRESTING AGENCY TO BE CONFIRMED]"}.`
+      `${p}. On or about ${chargeData.arrestDate}, ${movantRole} was charged with ${chargeData.chargeDescription || "[CHARGE DESCRIPTION TO BE CONFIRMED]"} by ${chargeData.arrestingAgency || "[ARRESTING AGENCY TO BE CONFIRMED]"}.`
     );
   } else {
     factLines.push(
-      `${p}. Petitioner was charged with ${chargeData.chargeDescription || "[CHARGE DESCRIPTION TO BE CONFIRMED]"} by ${chargeData.arrestingAgency || "[ARRESTING AGENCY TO BE CONFIRMED]"}. [ARREST DATE TO BE CONFIRMED]`
+      `${p}. ${movantRole} was charged with ${chargeData.chargeDescription || "[CHARGE DESCRIPTION TO BE CONFIRMED]"} by ${chargeData.arrestingAgency || "[ARRESTING AGENCY TO BE CONFIRMED]"}. [ARREST DATE TO BE CONFIRMED]`
     );
   }
   if (chargeData.complaintDate) {
@@ -253,7 +334,7 @@ function buildSections(
   const eligLines: string[] = [];
   p += 1;
   eligLines.push(
-    `${p}. Petitioner may be eligible for ${config.primaryReliefTerm} on the following basis: ${eligibilityData.eligibilityBasisLabel}.`
+    `${p}. ${movantRole} may be eligible for ${config.primaryReliefTerm} on the following basis: ${eligibilityData.eligibilityBasisLabel}.`
   );
   if (eligibilityData.restitutionText) {
     p += 1;
@@ -273,7 +354,7 @@ function buildSections(
   }
   eligLines.push(
     "",
-    "IMPORTANT: Petitioner may be eligible; this document does not guarantee eligibility or a court outcome."
+    `IMPORTANT: ${movantRole} may be eligible; this document does not guarantee eligibility or a court outcome.`
   );
   sections.push({
     sectionId: "eligibility_allegations",
@@ -282,29 +363,29 @@ function buildSections(
   });
 
   // V. Requested relief
-  const reliefAction =
-    config.primaryReliefTerm === "expungement" ? "expunge" : "apply limited access to";
+  const reliefAction = pres.reliefActionVerb ?? defaultReliefAction(config.primaryReliefTerm);
   const reliefLines = [
-    "WHEREFORE, Petitioner respectfully requests that this Court:",
-    `(a) Grant this Petition and enter an Order directing the ${config.primaryReliefTerm} of all arrest and criminal history records in the above-captioned matter;`,
+    `WHEREFORE, ${movantRole} respectfully requests that this Court:`,
+    `(a) Grant this ${filingNoun} and enter an Order directing the ${config.primaryReliefTerm} of all arrest and criminal history records in the above-captioned matter;`,
     `(b) Direct all criminal justice agencies having custody of such records to ${reliefAction} all records relating to this matter; and`,
     "(c) Grant such other and further relief as this Court deems just and appropriate."
   ];
   sections.push({ sectionId: "requested_relief", heading: "V. REQUESTED RELIEF", text: reliefLines.join("\n") });
 
   // VI. Verification and signature block
-  const verificationCitation =
-    config.verificationStatute.citation ?? "[VERIFICATION STATUTE — CONFIRM WITH COUNSEL]";
+  const penaltySentence = config.verificationStatute.citation
+    ? ` I understand that false statements herein are made subject to ${pres.verificationPenaltyLabel} under ${config.verificationStatute.citation}.`
+    : "";
   const verificationLines = [
-    `I, ${petitioner}, verify that the statements made in this petition are true and correct to the best of my knowledge, information, and belief. I understand that false statements herein are made subject to the penalties for unsworn falsification to authorities under ${verificationCitation}.`,
+    `I, ${petitioner}, ${pres.verificationVerb} that the statements made in this ${filingNounLower} are true and correct to the best of my knowledge, information, and belief.${penaltySentence}`,
     "",
     "________________________________",
     petitioner,
-    partyData.petitionerAddress ?? "[PETITIONER ADDRESS]",
+    partyData.petitionerAddress ?? `[${movantRole.toUpperCase()} ADDRESS]`,
     "",
     "Date: ________________________________",
     "",
-    "[NOTE: Date of birth and Social Security Number should be added by petitioner if required by the applicable form or local court rules.]"
+    `[NOTE: Date of birth and Social Security Number should be added by ${movantRole.toLowerCase()} if required by the applicable form or local court rules.]`
   ];
   sections.push({
     sectionId: "verification_signature",
@@ -317,9 +398,9 @@ function buildSections(
     const serviceLines = [
       config.serviceNote,
       "",
-      "I certify that on ________________________, I served a copy of this Petition upon the attorney for the Commonwealth at the following address:",
+      `I certify that on ________________________, I served a copy of this ${filingNoun} upon ${pres.serviceRecipientLabel} at the following address:`,
       "",
-      "[ATTORNEY FOR COMMONWEALTH ADDRESS — CONFIRM WITH CLERK OF COURTS]",
+      pres.serviceRecipientAddressLabel,
       "",
       "Service method: [personal delivery / first-class mail / other as permitted by applicable court rules]",
       "",
@@ -337,19 +418,27 @@ function buildSections(
 
   // Proposed order (config-driven)
   if (config.includeProposedOrder) {
-    const orderAction = config.primaryReliefTerm === "expungement" ? "expunge" : "seal";
+    const orderAction = pres.orderActionVerb ?? defaultOrderAction(config.primaryReliefTerm);
+    const custodianLead = pres.usesCounty
+      ? `The Pennsylvania State Police, ${county} County Court of Common Pleas`
+      : pres.recordCustodianLead;
+    const arrestingAgency = chargeData.arrestingAgency || "[ARRESTING AGENCY]";
+    const custodianClause = custodianLead.includes(arrestingAgency)
+      ? custodianLead
+      : `${custodianLead}, ${arrestingAgency}`;
+    const orderHeaderLines: string[] = [config.courtCaption];
+    if (pres.usesCounty) orderHeaderLines.push(`COUNTY OF ${county.toUpperCase()}`);
     const orderLines = [
-      config.courtCaption,
-      `COUNTY OF ${county.toUpperCase()}`,
+      ...orderHeaderLines,
       "",
-      `COMMONWEALTH OF PENNSYLVANIA v. ${petitioner.toUpperCase()}`,
+      `${pres.sovereignPartyName} v. ${petitioner.toUpperCase()}`,
       `DOCKET NO.: ${caseData.docketNumber || "[DOCKET NUMBER TO BE CONFIRMED]"}`,
       "",
       "[PROPOSED] ORDER",
       "",
-      "AND NOW, this ______ day of ____________________, 20____, upon consideration of the Petition filed herein, and any response thereto, it is hereby ORDERED and DECREED that:",
+      `AND NOW, this ______ day of ____________________, 20____, upon consideration of the ${filingNoun} filed herein, and any response thereto, it is hereby ORDERED and DECREED that:`,
       "",
-      `The Pennsylvania State Police, ${county} County Court of Common Pleas, ${chargeData.arrestingAgency || "[ARRESTING AGENCY]"}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`,
+      `${custodianClause}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`,
       "",
       "BY THE COURT:",
       "",
@@ -365,7 +454,7 @@ function buildSections(
       sectionId: "attachment_list",
       heading: "ATTACHMENTS",
       text:
-        "Attachments submitted with this petition:\n" +
+        `Attachments submitted with this ${filingNounLower}:\n` +
         attachmentList.map((a) => `- ${a}`).join("\n")
     });
   }

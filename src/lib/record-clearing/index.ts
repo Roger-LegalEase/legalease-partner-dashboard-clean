@@ -1,4 +1,5 @@
 export * from "./audit";
+export * from "./dc-config";
 export * from "./field-maps";
 export * from "./form-authorities";
 export * from "./jurisdictions";
