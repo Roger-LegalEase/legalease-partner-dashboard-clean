@@ -220,11 +220,14 @@ Per mandatory-form state (27 + MN): ingest PDF → classify → build field-map 
 ### PHASE 7 — NY redo + IL/MN (per track)
 NY fresh on main (abandon WIP-branch NY): five-mechanism workflow, Output Type 1 (160.59 petition) + Output Type 2 (verification guidance), sealing vocabulary. IL: statewide-approved-forms handling. MN: overlay (EXP 102 + 105/106/107).
 
-### PHASE 8 — Expungement.ai consumer (after engine proven)
-**8.0 Consumer privacy/payment threat model FIRST:** guest vs. account retention, abandoned eligibility records, PII deletion/export, packet access after payment, refund/dispute, partner-vs-consumer role separation, and the hard invariant **RCAP partners never see consumer records.**
-8.1 Consumer adapter on shared engine. Form-based eligibility (deterministic, NOT chat). Wilma = general-questions only, walled off from eligibility/legal advice, single cheap model, guardrails adversarially tested.
-8.2 Consumer payment gate reusing hardened learnings (idempotency, fail-on-write-retry, persist-eligibility-before-checkout-with-ID-in-metadata, never trust query-param success). Test-mode round-trip + duplicate-event test before real money.
-8.3 Lock: separate repo vs same app (lean separate); shared state-engine package (lean shared); domain/Supabase/Vercel; accounts vs guest. SOC 2 = readiness posture, never a launch claim. Pen test = own task.
+### Expungement.ai as a consumer adapter on the shared engine
+Expungement.ai is not a separate rebuild. It is a second front-end / consumer adapter on the same state-pack + renderer + overlay-map engine that powers RCAP. RCAP and Expungement.ai consume the same legal engine, source hierarchy, lifecycle gates, and verified state library.
+
+Do not weaken the sequencing rule: Expungement.ai starts only after the assembly line has a verified state library. The fidelity gate matters even more for Expungement.ai because it will eventually operate self-serve at scale with less human oversight than partner-assisted RCAP workflows.
+
+Hard isolation remains mandatory: RCAP partners can never see Expungement.ai consumer records. Partner-assisted RCAP records and consumer self-serve records must stay separated by product surface, roles, access policies, storage boundaries, and audit assumptions.
+
+Consumer-specific work remains its own phase before launch: privacy/payment threat model, unassisted intake, Wilma guardrails, $50 self-serve payment gate, and architecture locks. The privacy/payment threat model must cover guest vs. account retention, abandoned eligibility records, PII deletion/export, packet access after payment, refund/dispute, partner-vs-consumer role separation, and the hard invariant that RCAP partners never see consumer records. Intake must remain deterministic and form-based, not chat-led. Wilma is general-questions only, walled off from eligibility/legal advice, cheap-model constrained, and adversarially tested. The payment gate reuses hardened learnings: idempotency, fail-on-write-retry, persist eligibility before checkout with ID in metadata, never trust query-param success, test-mode round-trip, and duplicate-event testing before real money. Architecture locks must decide separate repo vs. same app, shared engine packaging, domain/Supabase/Vercel boundaries, accounts vs. guest, SOC 2 readiness posture, and pen-test scope.
 
 ---
 
