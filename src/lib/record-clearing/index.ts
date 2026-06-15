@@ -7,6 +7,7 @@ export * from "./north-dakota-config";
 export * from "./oklahoma-config";
 export * from "./packet-planner";
 export * from "./pennsylvania-config";
+export * from "./wyoming-config";
 export * from "./pleading-qa";
 export * from "./products";
 export * from "./qa";
