@@ -1,0 +1,13 @@
+// Florida disqualifying / barred offenses. Sourced from the Florida Wilma Agent
+// Training Reference (Nationwide Record Clearing), section 6, reflecting the
+// § 943.0584 barred-offense list. Screening notes, not an exhaustive legal test;
+// map the exact Florida statute and verify the current § 943.0584 list.
+export const flDisqualifyingOffenseNotes = [
+  "Critical nuance (§ 943.0584): for the barred-offense list, 'conviction' includes a guilty or no-contest plea or a determination of guilt even if adjudication was withheld. A withhold does NOT guarantee eligibility — a plea or finding on a listed offense can still block court-ordered sealing or expunction.",
+  "Barred-offense categories flagged for likely ineligibility / manual review under § 943.0584 include: sexual misconduct; illegal explosives; terrorism; murder, manslaughter, homicide; domestic assault/battery; aggravated assault; felony battery, domestic battery by strangulation, aggravated battery; stalking/aggravated stalking; luring or enticing a child; kidnapping/false imprisonment; chapter 794 sexual offenses; lewd/lascivious offenses involving minors; arson; burglary of a dwelling.",
+  "Additional barred categories: voyeurism/digital voyeurism; robbery, carjacking, home-invasion robbery; Florida Communications Fraud Act violations; elderly/disabled adult abuse; child abuse/aggravated child abuse; sexual performance by a child; public-corruption offenses under chapter 839; certain obscenity/computer sex crimes; selling/buying minors; aircraft piracy; manufacturing controlled substances; drug trafficking; and any predicate offense for sexual-predator or sexual-offender registration.",
+  "Human trafficking appears on the barred-offense list as a charged offense, but the separate human-trafficking VICTIM expunction route (§ 943.0583) is available to the trafficking victim and can reach records regardless of disposition — route victims there, not through the normal packet.",
+  "Other categorical limits: the normal route generally requires no prior Florida court-ordered seal/expunge (except the same-record 10-year-sealed exception); the person must be off all court supervision; and the person must have no disqualifying prior adjudication of guilt for any offense.",
+  "Special-route limits: juvenile diversion expunction (§ 943.0582) excludes forcible felonies and felonies involving a firearm or weapon; human-trafficking victim expunction (§ 943.0583) does not apply to offenses listed in § 775.084(1)(b)1.",
+  "Scope limit: the § 943.0584 list is long and specific — map the user's exact offense to its Florida statute and verify against the current barred list before declaring eligibility; the offense label alone is not enough."
+];
