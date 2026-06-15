@@ -47,6 +47,12 @@ export interface PleadingPresentation {
   reliefActionVerb?: string;
   /** Optional override for the proposed-order action verb. */
   orderActionVerb?: string;
+  /**
+   * Optional records-scope phrase for requested-relief clause (a). Defaults to
+   * "all arrest and criminal history records". A "{county}" token, if present in
+   * courtName or venueDescriptor, is replaced with the runtime county.
+   */
+  recordsScopePhrase?: string;
 }
 
 export const PA_DEFAULT_PRESENTATION: PleadingPresentation = {
@@ -214,8 +220,8 @@ function buildSections(
   // Court caption
   const captionLines: string[] = [config.courtCaption];
   if (pres.usesCounty) captionLines.push(`COUNTY OF ${county.toUpperCase()}`);
+  if (pres.divisionLine) captionLines.push(pres.divisionLine);
   captionLines.push(
-    pres.divisionLine,
     "",
     `${pres.sovereignPartyName},`,
     `    ${pres.sovereignRole},`,
@@ -254,13 +260,15 @@ function buildSections(
 
   // I. Jurisdiction and venue
   p += 1;
+  const resolvedCourtName = pres.courtName.replace("{county}", county);
+  const resolvedVenueDescriptor = pres.venueDescriptor.replace("{county}", county);
   const jv1 = pres.usesCounty
     ? `${p}. This Court has jurisdiction over this matter as the Court of Common Pleas of ${county} County, Pennsylvania, where the proceedings occurred.`
-    : `${p}. This Court has jurisdiction over this matter as the ${pres.courtName}, where the proceedings occurred.`;
+    : `${p}. This Court has jurisdiction over this matter as the ${resolvedCourtName}, where the proceedings occurred.`;
   p += 1;
   const jv2 = pres.usesCounty
     ? `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${county} County, Pennsylvania.`
-    : `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${pres.venueDescriptor}.`;
+    : `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${resolvedVenueDescriptor}.`;
   sections.push({ sectionId: "jurisdiction_venue", heading: "I. JURISDICTION AND VENUE", text: [jv1, "", jv2].join("\n") });
 
   // II. Parties
@@ -364,9 +372,10 @@ function buildSections(
 
   // V. Requested relief
   const reliefAction = pres.reliefActionVerb ?? defaultReliefAction(config.primaryReliefTerm);
+  const recordsScope = pres.recordsScopePhrase ?? "all arrest and criminal history records";
   const reliefLines = [
     `WHEREFORE, ${movantRole} respectfully requests that this Court:`,
-    `(a) Grant this ${filingNoun} and enter an Order directing the ${config.primaryReliefTerm} of all arrest and criminal history records in the above-captioned matter;`,
+    `(a) Grant this ${filingNoun} and enter an Order directing the ${config.primaryReliefTerm} of ${recordsScope} in the above-captioned matter;`,
     `(b) Direct all criminal justice agencies having custody of such records to ${reliefAction} all records relating to this matter; and`,
     "(c) Grant such other and further relief as this Court deems just and appropriate."
   ];
