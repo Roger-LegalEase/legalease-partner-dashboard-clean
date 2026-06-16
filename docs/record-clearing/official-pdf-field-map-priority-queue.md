@@ -1,6 +1,6 @@
 # Official PDF Field-Map Priority Queue
 
-Status date: 2026-06-15
+Status date: 2026-06-16
 
 This is a docs-only priority queue based on candidate extraction from the local official PDF archive. It uses the batch field-map accelerator outputs under `tmp/review/field-map-accelerator-batch/` as planning input only.
 
@@ -12,8 +12,74 @@ Nebraska CC 6:11 remains `visual_review_required`.
 
 - `tmp/review/field-map-accelerator-batch/field-map-accelerator-summary.json`
 - `tmp/review/field-map-accelerator-batch/field-map-accelerator-summary.md`
+- `tmp/review-inbox/missing-folder-2-field-map-review/REVIEW-MANIFEST.md`
 
 The tmp artifacts are local review outputs and must remain ignored. Do not copy them into git.
+
+## Missing Folder 2 Field-Map Review Batch
+
+This local-only pass inspected the newly added official-form PDFs in the real California, Colorado, North Carolina, Wisconsin, Oklahoma, and Wyoming private source folders. Oklahoma has no local PDF in the real folder. Wyoming has a handout PDF, not a blank official form candidate.
+
+Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map-review/`. Each generated packet includes an `OPEN-ME-overlay.pdf` where candidate widgets were extractable. The tracked draft field-map JSONs created from this batch remain `visual_review_required`, have `lifecycle: "none"`, and are not renderer-ready.
+
+### New Draft Review Artifacts
+
+| Jurisdiction | Source PDF | Classification / mode | Fields | Widgets | Draft artifact | Review packet |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| Colorado | `LegalEase Colorado/JDF 2361 - Z Rem.pdf` | `acroform_dirty` / `hybrid` | 16 | 17 | `docs/record-clearing/field-map-drafts/colorado-jdf-2361-z-rem.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf-2361-z-rem/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF2370.pdf` | `acroform_dirty` / `hybrid` | 6 | 6 | `docs/record-clearing/field-map-drafts/colorado-jdf2370.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf2370/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF2371.pdf` | `acroform_dirty` / `hybrid` | 51 | 59 | `docs/record-clearing/field-map-drafts/colorado-jdf2371.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf2371/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF2374.pdf` | `acroform_dirty` / `hybrid` | 22 | 24 | `docs/record-clearing/field-map-drafts/colorado-jdf2374.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf2374/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF304.pdf` | `acroform_dirty` / `hybrid` | 71 | 73 | `docs/record-clearing/field-map-drafts/colorado-jdf304.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf304/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF416.pdf` | `acroform_dirty` / `hybrid` | 9 | 11 | `docs/record-clearing/field-map-drafts/colorado-jdf416.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf416/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF417.pdf` | `acroform_dirty` / `hybrid` | 62 | 70 | `docs/record-clearing/field-map-drafts/colorado-jdf417.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf417/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF418.pdf` | `acroform_dirty` / `hybrid` | 16 | 18 | `docs/record-clearing/field-map-drafts/colorado-jdf418.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf418/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF477.pdf` | `acroform_dirty` / `hybrid` | 45 | 55 | `docs/record-clearing/field-map-drafts/colorado-jdf477.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf477/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF478.pdf` | `acroform_dirty` / `hybrid` | 31 | 33 | `docs/record-clearing/field-map-drafts/colorado-jdf478.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf478/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF492.pdf` | `acroform_dirty` / `hybrid` | 13 | 15 | `docs/record-clearing/field-map-drafts/colorado-jdf492.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf492/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF493.pdf` | `acroform_dirty` / `hybrid` | 13 | 15 | `docs/record-clearing/field-map-drafts/colorado-jdf493.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf493/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF493.spanish.pdf` | `acroform_dirty` / `hybrid` | 13 | 15 | `docs/record-clearing/field-map-drafts/colorado-jdf493-spanish.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf493-spanish/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF611.pdf` | `acroform_dirty` / `hybrid` | 10 | 10 | `docs/record-clearing/field-map-drafts/colorado-jdf611.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf611/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF612.pdf` | `acroform_dirty` / `hybrid` | 64 | 78 | `docs/record-clearing/field-map-drafts/colorado-jdf612.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf612/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF614.pdf` | `acroform_dirty` / `hybrid` | 16 | 17 | `docs/record-clearing/field-map-drafts/colorado-jdf614.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf614/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF615.pdf` | `acroform_dirty` / `hybrid` | 21 | 23 | `docs/record-clearing/field-map-drafts/colorado-jdf615.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf615/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF641.pdf` | `acroform_dirty` / `hybrid` | 113 | 122 | `docs/record-clearing/field-map-drafts/colorado-jdf641.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf641/OPEN-ME-overlay.pdf` |
+| Colorado | `LegalEase Colorado/JDF642.pdf` | `acroform_dirty` / `hybrid` | 19 | 21 | `docs/record-clearing/field-map-drafts/colorado-jdf642.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf642/OPEN-ME-overlay.pdf` |
+| North Carolina | `LegalEase North Carolina/cr287_1.pdf` | `acroform_dirty` / `hybrid` | 118 | 118 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-287.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr287-1/OPEN-ME-overlay.pdf` |
+| North Carolina | `LegalEase North Carolina/cr297.pdf` | `acroform_dirty` / `hybrid` | 104 | 104 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-297.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr297/OPEN-ME-overlay.pdf` |
+| North Carolina | `LegalEase North Carolina/cr298_1.pdf` | `acroform_dirty` / `hybrid` | 103 | 103 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-298.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr298-1/OPEN-ME-overlay.pdf` |
+
+### Inspected But Not Drafted
+
+| Jurisdiction | Source PDF | Classification / mode | Reason blocked from draft mapping |
+| --- | --- | --- | --- |
+| California | `LegalEase California/Instructions-for-Filling-Out-a-Petition-for-Dismissal.pdf` | `scanned_pdf` / `manual_review` | Instruction packet only; no AcroForm widgets. |
+| California | `LegalEase California/cr180.pdf` | `encrypted_or_locked` / `manual_review` | Local PDF has encryption marker; `pdf-lib` will not load it without ignoring encryption. Do not draft a field map until source status and editable form strategy are reviewed. |
+| California | `LegalEase California/cr181.pdf` | `encrypted_or_locked` / `manual_review` | Local PDF has encryption marker; `pdf-lib` will not load it without ignoring encryption. Do not draft a field map until source status and editable form strategy are reviewed. |
+| Colorado | `LegalEase Colorado/JDF302.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF302.spanish.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF324.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF324.spanish.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF326.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF326.spanish.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF682.pdf` | `acroform_dirty` / `hybrid` | Raw AcroForm marker exists, but `pdf-lib` found 0 fields and 0 widgets; no useful candidate packet. |
+| Colorado | `LegalEase Colorado/JDF683.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF686.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF 435 order denying petition to seal.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| Colorado | `LegalEase Colorado/JDF 685 Order and Notice of Hearing on Petition to Seal Criminal Conviction Municipal Records.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
+| North Carolina | `LegalEase North Carolina/cr287-instr_3.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
+| North Carolina | `LegalEase North Carolina/cr297-instr_2.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
+| North Carolina | `LegalEase North Carolina/cr298-instr_7.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
+| Wisconsin | `LegalEase Wisconsin/CR-266.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection; overlay mapping would require a separate manual coordinate pass. |
+| Wisconsin | `LegalEase Wisconsin/CR-266_summary.pdf` | `scanned_pdf` / `manual_review` | Summary/instruction file; no AcroForm widgets. |
+| Wisconsin | `LegalEase Wisconsin/CR-267.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection; overlay mapping would require a separate manual coordinate pass. |
+| Wisconsin | `LegalEase Wisconsin/CR-267_summary.pdf` | `scanned_pdf` / `manual_review` | Summary/instruction file; no AcroForm widgets. |
+| Wisconsin | `LegalEase Wisconsin/forms-download/CR-266_en.pdf` | `scanned_pdf` / `manual_review` | Duplicate CR-266 source copy; no AcroForm widgets. |
+| Wisconsin | `LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf` | `scanned_pdf` / `manual_review` | Duplicate summary/instruction file; no AcroForm widgets. |
+| Oklahoma | _none_ | _none_ | No official blank PDFs exist locally in `LegalEase Oklahoma/`. |
+| Wyoming | `LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf` | `scanned_pdf` / `manual_review` | Handout, not an official blank form candidate; no AcroForm widgets. |
 
 ## Batch Summary
 
@@ -123,4 +189,3 @@ Before any field map from this queue can be treated as usable for final output:
 - Resolve every unknown or low-confidence candidate manually.
 - Keep all draft mapping status at `visual_review_required` until visual review and later lifecycle review are complete.
 - Do not use this queue to promote any form to `replacement_candidate` or `verified_replacement`.
-
