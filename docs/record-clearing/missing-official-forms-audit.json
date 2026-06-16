@@ -1,0 +1,2020 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "missing_official_forms_audit",
+  "status": "audit_only_no_lifecycle_effect",
+  "notices": [
+    "This audit does not alter legal content or promote any form.",
+    "This audit is not visual approval.",
+    "This audit is not replacement_candidate.",
+    "This audit is not verified_replacement.",
+    "This audit is not production ready.",
+    "This audit is not live routed.",
+    "No private source file was modified by this audit."
+  ],
+  "taxonomyDefinitions": {
+    "has_reference_doc": "Folder includes an agent/reference PDF or similar reference material.",
+    "has_wilma_reference": "Folder includes a Wilma/reference RTF or Wilma-named reference.",
+    "has_official_blank_pdfs": "Folder includes at least one likely blank official PDF, excluding reference/instruction-only PDFs.",
+    "has_official_source_html": "Folder includes captured official-source HTML pages.",
+    "has_modeled_forms_only": "Folder has references/HTML/RTF/DOC/DOCX but no likely blank official PDF.",
+    "missing_official_pdf": "A referenced form or family is not identifiable as a local blank official PDF.",
+    "missing_form_family": "A broader form family remains absent locally.",
+    "source_reference_mentions_form_not_present": "A local source, state-pack catalog, or captured HTML implies a form that is not clearly present.",
+    "downloaded_since_last_audit": "Newly copied missing-form PDFs are present in the real state folder.",
+    "needs_local_rescan": "Inspection artifacts should be regenerated because private files changed since the last inspection report.",
+    "needs_official_source_confirmation": "Local files may satisfy the gap but need title/source/revision confirmation before catalog or mapping use.",
+    "needs_web_research": "Local files remain insufficient after this rescan and external official-source checking is needed."
+  },
+  "summary": {
+    "generatedAt": "2026-06-16T13:32:02.404Z",
+    "sourceRoot": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing",
+    "stateFolderCount": 51,
+    "excludedNonStateFolders": [
+      "Missing Forms"
+    ],
+    "statesWithReferenceDocs": 50,
+    "statesWithWilmaReferences": 27,
+    "statesWithOfficialBlankPdfs": 44,
+    "statesWithOfficialSourceHtml": 31,
+    "statesWithModeledFormsOnly": 7,
+    "statesNeedingLocalRescan": 5,
+    "statesNeedingOfficialSourceConfirmation": 4,
+    "statesNeedingWebResearch": 6,
+    "totals": {
+      "pdf": 246,
+      "html": 82,
+      "rtf": 27,
+      "docx": 7
+    },
+    "highPriorityMissingFormCount": 3,
+    "missingOrUncertainFormCount": 13
+  },
+  "inputs": [
+    "private/Nationwide Record Clearing/ state folders (read-only scan; Missing Forms staging excluded)",
+    "src/lib/rcap/state-packs/**/official-forms.ts",
+    "src/lib/rcap/state-packs/**/document-types.ts",
+    "docs/record-clearing/official-form-rollout-inventory.md",
+    "docs/record-clearing/official-pdf-field-map-priority-queue.md",
+    "data/record-clearing/pdf-inspection/latest-report.json",
+    "docs/record-clearing/field-map-drafts/*.field-map-review.json"
+  ],
+  "downloadedSinceLastAudit": [
+    {
+      "state": "Florida",
+      "files": [
+        "LegalEase Florida/se (1).pdf",
+        "LegalEase Florida/se (2).pdf",
+        "LegalEase Florida/se (3).pdf",
+        "LegalEase Florida/se (4).pdf",
+        "LegalEase Florida/se (5).pdf",
+        "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf"
+      ]
+    },
+    {
+      "state": "Maryland",
+      "files": [
+        "LegalEase Maryland/ccdccr078.pdf",
+        "LegalEase Maryland/dccr071.pdf"
+      ]
+    },
+    {
+      "state": "Minnesota",
+      "files": [
+        "LegalEase Minnesota/EXP103_Current.pdf"
+      ]
+    },
+    {
+      "state": "Missouri",
+      "files": [
+        "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf"
+      ]
+    },
+    {
+      "state": "Massachusetts",
+      "files": [
+        "LegalEase massachusetts/jud-Petition-for-Expungement-of-Marijuana-Offenses-2022-11-08-final.pdf"
+      ]
+    }
+  ],
+  "statesMovedOutOfNeedsWebResearch": [
+    {
+      "state": "Florida",
+      "why": "The copied se (1)-se (5) PDFs now provide local blank-form candidates for the previously missing Florida seal/expunge packet components; remaining work is official-source confirmation and title normalization."
+    },
+    {
+      "state": "Maryland",
+      "why": "ccdccr078.pdf and dccr071.pdf are now in the Maryland folder, satisfying two previously high-priority missing Judiciary forms."
+    },
+    {
+      "state": "Massachusetts",
+      "why": "The marijuana expungement petition PDF is now in the Massachusetts folder; the remaining time-based expungement item needs local/source confirmation, not broad web research."
+    },
+    {
+      "state": "Minnesota",
+      "why": "EXP103_Current.pdf is now in the Minnesota folder, completing the EXP101-EXP107 local family captured by the state-pack catalog."
+    },
+    {
+      "state": "Missouri",
+      "why": "CR370 judgment/order is now in the Missouri folder, satisfying the previously high-priority missing order form for the 610.140 packet."
+    }
+  ],
+  "remainingTrueNeedsWebResearchStates": [
+    "California",
+    "Colorado",
+    "North Carolina",
+    "Oklahoma",
+    "Wisconsin",
+    "Wyoming"
+  ],
+  "highPriorityMissingForms": [
+    {
+      "state": "California",
+      "formNumber": "CR-180 / CR-181",
+      "formName": "Petition and Order for Dismissal",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has CR-180/CR-181 HTML captures and a reference PDF, but no blank official PDFs.",
+      "sourceThatImpliesItShouldExist": "private California HTML captures",
+      "requiredFor": "official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current Judicial Council PDFs."
+    },
+    {
+      "state": "Colorado",
+      "formNumber": "JDF family",
+      "formName": "Colorado sealing forms packet",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has source HTML/reference material but no blank JDF PDFs.",
+      "sourceThatImpliesItShouldExist": "private Colorado HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to identify and collect current JDF forms by route."
+    },
+    {
+      "state": "North Carolina",
+      "formNumber": null,
+      "formName": "AOC-CR expunction petition/order forms for G.S. 15A-145.5 and 15A-146 routes",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has HTML pages naming expunction routes but only an agent-reference PDF, no blank official AOC PDFs.",
+      "sourceThatImpliesItShouldExist": "private North Carolina HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current AOC-CR PDFs."
+    }
+  ],
+  "needsOfficialSourceConfirmation": [
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "Florida seal/expunge packet PDFs se (1)-se (5)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Previously missing packet forms are now locally present, but filenames are generic and must be matched to official titles/rules before catalog use.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts; copied local PDFs",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect the five local se PDFs, map each to official title/form role, and record source URL/access/revision metadata."
+    },
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "FDLE Application for Certificate of Eligibility",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The new Florida folder has court rule and se packet PDFs, but no clearly named FDLE certificate application PDF; local source HTML may point to it.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Use local Florida source HTML/reference first to confirm whether an FDLE application PDF is already represented or still needs manual collection."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-148",
+      "formName": "Petition for Shielding Under Maryland Second Chance Act",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The newly copied Maryland files satisfy CC-DC-CR-078 and DC-CR-071; CC-DC-CR-148 is still referenced by the catalog but not locally present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm from local Maryland source HTML/reference whether shielding is in current scope and collect/record source metadata if needed."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-072G2",
+      "formName": "List of Expungeable Charges Under Criminal Procedure § 10-110",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Still referenced by the catalog and not present as a local PDF by filename after the copied forms.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "low",
+      "recommendedNextAction": "Confirm whether this support form is required for generated packets before collecting."
+    },
+    {
+      "state": "Massachusetts",
+      "formNumber": null,
+      "formName": "Petition to Expunge Form (time-based)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The marijuana expungement PDF was copied in, but the catalog also references a separate time-based expungement petition not clearly present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/massachusetts/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect local Massachusetts PDFs/reference to determine whether jud-Petition-for-Expungement.pdf covers this role or a separate form remains needed."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR300",
+      "formName": "Petition for Correction of Arrest Court Records — Identity Theft",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR300 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR300 current availability and whether it is in scope for supported filing packets."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR375",
+      "formName": "Petition for Expungement — Marijuana-Related Offense(s)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR375 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR375 current availability and whether it is superseded or locally represented by another PDF."
+    }
+  ],
+  "missingOrUncertainForms": [
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "Florida seal/expunge packet PDFs se (1)-se (5)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Previously missing packet forms are now locally present, but filenames are generic and must be matched to official titles/rules before catalog use.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts; copied local PDFs",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect the five local se PDFs, map each to official title/form role, and record source URL/access/revision metadata."
+    },
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "FDLE Application for Certificate of Eligibility",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The new Florida folder has court rule and se packet PDFs, but no clearly named FDLE certificate application PDF; local source HTML may point to it.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Use local Florida source HTML/reference first to confirm whether an FDLE application PDF is already represented or still needs manual collection."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-148",
+      "formName": "Petition for Shielding Under Maryland Second Chance Act",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The newly copied Maryland files satisfy CC-DC-CR-078 and DC-CR-071; CC-DC-CR-148 is still referenced by the catalog but not locally present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm from local Maryland source HTML/reference whether shielding is in current scope and collect/record source metadata if needed."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-072G2",
+      "formName": "List of Expungeable Charges Under Criminal Procedure § 10-110",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Still referenced by the catalog and not present as a local PDF by filename after the copied forms.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "low",
+      "recommendedNextAction": "Confirm whether this support form is required for generated packets before collecting."
+    },
+    {
+      "state": "Massachusetts",
+      "formNumber": null,
+      "formName": "Petition to Expunge Form (time-based)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The marijuana expungement PDF was copied in, but the catalog also references a separate time-based expungement petition not clearly present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/massachusetts/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect local Massachusetts PDFs/reference to determine whether jud-Petition-for-Expungement.pdf covers this role or a separate form remains needed."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR300",
+      "formName": "Petition for Correction of Arrest Court Records — Identity Theft",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR300 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR300 current availability and whether it is in scope for supported filing packets."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR375",
+      "formName": "Petition for Expungement — Marijuana-Related Offense(s)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR375 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR375 current availability and whether it is superseded or locally represented by another PDF."
+    },
+    {
+      "state": "California",
+      "formNumber": "CR-180 / CR-181",
+      "formName": "Petition and Order for Dismissal",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has CR-180/CR-181 HTML captures and a reference PDF, but no blank official PDFs.",
+      "sourceThatImpliesItShouldExist": "private California HTML captures",
+      "requiredFor": "official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current Judicial Council PDFs."
+    },
+    {
+      "state": "Colorado",
+      "formNumber": "JDF family",
+      "formName": "Colorado sealing forms packet",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has source HTML/reference material but no blank JDF PDFs.",
+      "sourceThatImpliesItShouldExist": "private Colorado HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to identify and collect current JDF forms by route."
+    },
+    {
+      "state": "North Carolina",
+      "formNumber": null,
+      "formName": "AOC-CR expunction petition/order forms for G.S. 15A-145.5 and 15A-146 routes",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has HTML pages naming expunction routes but only an agent-reference PDF, no blank official AOC PDFs.",
+      "sourceThatImpliesItShouldExist": "private North Carolina HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current AOC-CR PDFs."
+    },
+    {
+      "state": "Oklahoma",
+      "formNumber": null,
+      "formName": "Petition to Expunge Records and Order to Expunge Records",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and statute HTML but zero PDFs; official blank form availability remains unresolved locally.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/oklahoma/document-types.ts; private statute HTML",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine whether forms are statutory text, local forms, or statewide PDFs."
+    },
+    {
+      "state": "Wyoming",
+      "formNumber": null,
+      "formName": "Wyoming expungement forms/packet",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and handout HTML but zero PDFs.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/wyoming/document-types.ts; private handout HTML",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine current court form availability."
+    },
+    {
+      "state": "Wisconsin",
+      "formNumber": null,
+      "formName": "Wisconsin expungement petition/order forms",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and no blank official PDF forms.",
+      "sourceThatImpliesItShouldExist": "private Wisconsin Wilma reference",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine whether statewide circuit court forms exist."
+    }
+  ],
+  "recommendedNext10WebResearchTargets": [
+    {
+      "state": "California",
+      "formNumber": "CR-180 / CR-181",
+      "formName": "Petition and Order for Dismissal",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has CR-180/CR-181 HTML captures and a reference PDF, but no blank official PDFs.",
+      "sourceThatImpliesItShouldExist": "private California HTML captures",
+      "requiredFor": "official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current Judicial Council PDFs."
+    },
+    {
+      "state": "Colorado",
+      "formNumber": "JDF family",
+      "formName": "Colorado sealing forms packet",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has source HTML/reference material but no blank JDF PDFs.",
+      "sourceThatImpliesItShouldExist": "private Colorado HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to identify and collect current JDF forms by route."
+    },
+    {
+      "state": "North Carolina",
+      "formNumber": null,
+      "formName": "AOC-CR expunction petition/order forms for G.S. 15A-145.5 and 15A-146 routes",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has HTML pages naming expunction routes but only an agent-reference PDF, no blank official AOC PDFs.",
+      "sourceThatImpliesItShouldExist": "private North Carolina HTML captures",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "high",
+      "recommendedNextAction": "External official-source check is needed to collect current AOC-CR PDFs."
+    },
+    {
+      "state": "Oklahoma",
+      "formNumber": null,
+      "formName": "Petition to Expunge Records and Order to Expunge Records",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and statute HTML but zero PDFs; official blank form availability remains unresolved locally.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/oklahoma/document-types.ts; private statute HTML",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine whether forms are statutory text, local forms, or statewide PDFs."
+    },
+    {
+      "state": "Wyoming",
+      "formNumber": null,
+      "formName": "Wyoming expungement forms/packet",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and handout HTML but zero PDFs.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/wyoming/document-types.ts; private handout HTML",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine current court form availability."
+    },
+    {
+      "state": "Wisconsin",
+      "formNumber": null,
+      "formName": "Wisconsin expungement petition/order forms",
+      "classification": "needs_web_research",
+      "whyItAppearsMissing": "Local folder has Wilma RTF and no blank official PDF forms.",
+      "sourceThatImpliesItShouldExist": "private Wisconsin Wilma reference",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "External official-source check is needed to determine whether statewide circuit court forms exist."
+    }
+  ],
+  "recommendedNext10OfficialSourceConfirmationTargets": [
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "Florida seal/expunge packet PDFs se (1)-se (5)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Previously missing packet forms are now locally present, but filenames are generic and must be matched to official titles/rules before catalog use.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts; copied local PDFs",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect the five local se PDFs, map each to official title/form role, and record source URL/access/revision metadata."
+    },
+    {
+      "state": "Florida",
+      "formNumber": null,
+      "formName": "FDLE Application for Certificate of Eligibility",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The new Florida folder has court rule and se packet PDFs, but no clearly named FDLE certificate application PDF; local source HTML may point to it.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/florida/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Use local Florida source HTML/reference first to confirm whether an FDLE application PDF is already represented or still needs manual collection."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-148",
+      "formName": "Petition for Shielding Under Maryland Second Chance Act",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The newly copied Maryland files satisfy CC-DC-CR-078 and DC-CR-071; CC-DC-CR-148 is still referenced by the catalog but not locally present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm from local Maryland source HTML/reference whether shielding is in current scope and collect/record source metadata if needed."
+    },
+    {
+      "state": "Maryland",
+      "formNumber": "CC-DC-CR-072G2",
+      "formName": "List of Expungeable Charges Under Criminal Procedure § 10-110",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "Still referenced by the catalog and not present as a local PDF by filename after the copied forms.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/maryland/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "low",
+      "recommendedNextAction": "Confirm whether this support form is required for generated packets before collecting."
+    },
+    {
+      "state": "Massachusetts",
+      "formNumber": null,
+      "formName": "Petition to Expunge Form (time-based)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "The marijuana expungement PDF was copied in, but the catalog also references a separate time-based expungement petition not clearly present by filename.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/massachusetts/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Inspect local Massachusetts PDFs/reference to determine whether jud-Petition-for-Expungement.pdf covers this role or a separate form remains needed."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR300",
+      "formName": "Petition for Correction of Arrest Court Records — Identity Theft",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR300 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR300 current availability and whether it is in scope for supported filing packets."
+    },
+    {
+      "state": "Missouri",
+      "formNumber": "CR375",
+      "formName": "Petition for Expungement — Marijuana-Related Offense(s)",
+      "classification": "needs_official_source_confirmation",
+      "whyItAppearsMissing": "CR370 was copied in, but CR375 remains referenced with no local matching PDF.",
+      "sourceThatImpliesItShouldExist": "src/lib/rcap/state-packs/missouri/official-forms.ts",
+      "requiredFor": "state pack; official PDF mapping; user filing packet",
+      "priority": "medium",
+      "recommendedNextAction": "Confirm CR375 current availability and whether it is superseded or locally represented by another PDF."
+    }
+  ],
+  "states": [
+    {
+      "state": "Alabama",
+      "folder": "LegalEase Alabama",
+      "counts": {
+        "pdf": 3,
+        "html": 3,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Alabama/Alabama-Expungement-Agent-Reference.pdf",
+        "LegalEase Alabama/al-expungement-petition.html",
+        "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+        "LegalEase Alabama/cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+        "LegalEase Alabama/criminal-forms.html",
+        "LegalEase Alabama/criminal-record-expungement.html"
+      ]
+    },
+    {
+      "state": "Alaska",
+      "folder": "LegalEase Alaska",
+      "counts": {
+        "pdf": 2,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Alaska/Alaska-RecordRelief-Agent-Reference.pdf",
+        "LegalEase Alaska/RequestToSealCrimInfo.pdf",
+        "LegalEase Alaska/ak-record-relief-forms.html",
+        "LegalEase Alaska/background-checks.html"
+      ]
+    },
+    {
+      "state": "Arizona",
+      "folder": "LegalEase Arizona",
+      "counts": {
+        "pdf": 5,
+        "html": 1,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 4,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Arizona/AOCCREM1I-071221.pdf",
+        "LegalEase Arizona/AOCCREM2F-071221.pdf",
+        "LegalEase Arizona/AOCCREM3F-071221.pdf",
+        "LegalEase Arizona/AOCCREM4F-071221.pdf",
+        "LegalEase Arizona/Arizona-Petition-Forms.html",
+        "LegalEase Arizona/Arizona-RecordRelief-Agent-Reference-2.pdf"
+      ]
+    },
+    {
+      "state": "Arkansas",
+      "folder": "LegalEase Arkanasa",
+      "counts": {
+        "pdf": 4,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 3,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+        "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html",
+        "LegalEase Arkanasa/Arkansas-RecordSealing-Agent-Reference.pdf",
+        "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+        "LegalEase Arkanasa/criminal-history.html"
+      ]
+    },
+    {
+      "state": "California",
+      "folder": "LegalEase California ",
+      "counts": {
+        "pdf": 1,
+        "html": 4,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_source_html",
+        "has_modeled_forms_only",
+        "needs_web_research",
+        "missing_official_pdf",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase California /CR-180.html",
+        "LegalEase California /CR-181.html",
+        "LegalEase California /California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "LegalEase California /ca-dismissal-sealing-forms.html",
+        "LegalEase California /find-forms.html"
+      ]
+    },
+    {
+      "state": "Colorado",
+      "folder": "LegalEase Colorado",
+      "counts": {
+        "pdf": 1,
+        "html": 3,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 4
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_source_html",
+        "has_modeled_forms_only",
+        "needs_web_research",
+        "missing_official_pdf",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Colorado/Colorado-JDF-Complete.html",
+        "LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf",
+        "LegalEase Colorado/court-order-sealing-of-arrests.html",
+        "LegalEase Colorado/seal-my-case.html",
+        "LegalEase Colorado/seal-my-case2",
+        "LegalEase Colorado/seal-my-case3",
+        "LegalEase Colorado/seal-my-case4",
+        "LegalEase Colorado/seal-my-case5"
+      ]
+    },
+    {
+      "state": "Connecticut",
+      "folder": "LegalEase Connecticut",
+      "counts": {
+        "pdf": 3,
+        "html": 4,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Connecticut/CR202.pdf",
+        "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+        "LegalEase Connecticut/Connecticut-RecordErasure-Agent-Reference.pdf",
+        "LegalEase Connecticut/DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "LegalEase Connecticut/cleanslate.html",
+        "LegalEase Connecticut/petition-for-cannabis-erasure.html",
+        "LegalEase Connecticut/petition-for-clean-slate-erasure.html"
+      ]
+    },
+    {
+      "state": "DC",
+      "folder": "LegalEase DC",
+      "counts": {
+        "pdf": 2,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase DC/23-110_Motion.pdf",
+        "LegalEase DC/DC Expungement : Record Sealing Reference for Wilma.rtf",
+        "LegalEase DC/How_to_file_a_motion_to_seal.pdf"
+      ]
+    },
+    {
+      "state": "Delaware",
+      "folder": "LegalEase Delaware",
+      "counts": {
+        "pdf": 2,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 2
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Delaware/2download.aspx",
+        "LegalEase Delaware/3download.aspx",
+        "LegalEase Delaware/Delaware-Expungement-Forms.html",
+        "LegalEase Delaware/Delaware-RecordExpungement-Agent-Reference.pdf",
+        "LegalEase Delaware/download.aspx.pdf",
+        "LegalEase Delaware/list.aspx.html"
+      ]
+    },
+    {
+      "state": "Florida",
+      "folder": "LegalEase Florida",
+      "counts": {
+        "pdf": 7,
+        "html": 1,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "has_official_source_html",
+        "downloaded_since_last_audit",
+        "needs_official_source_confirmation",
+        "missing_official_pdf",
+        "source_reference_mentions_form_not_present",
+        "needs_local_rescan"
+      ],
+      "downloadedSinceLastAuditFiles": [
+        "LegalEase Florida/se (1).pdf",
+        "LegalEase Florida/se (2).pdf",
+        "LegalEase Florida/se (3).pdf",
+        "LegalEase Florida/se (4).pdf",
+        "LegalEase Florida/se (5).pdf",
+        "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf"
+      ],
+      "sampleFiles": [
+        "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+        "LegalEase Florida/Florida Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "LegalEase Florida/Florida-Expungement-Forms.html",
+        "LegalEase Florida/Florida-RecordSealing-Expunction-Agent-Reference.pdf",
+        "LegalEase Florida/se (1).pdf",
+        "LegalEase Florida/se (2).pdf",
+        "LegalEase Florida/se (3).pdf",
+        "LegalEase Florida/se (4).pdf",
+        "LegalEase Florida/se (5).pdf"
+      ]
+    },
+    {
+      "state": "Georgia",
+      "folder": "LegalEase Georgia",
+      "counts": {
+        "pdf": 2,
+        "html": 4,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_source_html",
+        "has_modeled_forms_only"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Georgia/Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "LegalEase Georgia/Request to Restrict Record Application and Instructions form.pdf",
+        "LegalEase Georgia/file-request-expunge-criminal-record.html",
+        "LegalEase Georgia/ga-record-restriction-forms.html",
+        "LegalEase Georgia/georgia-criminal-history-record-restrictions.html",
+        "LegalEase Georgia/record-restrictions-expungement.html"
+      ]
+    },
+    {
+      "state": "Hawaii",
+      "folder": "LegalEase Hawaii",
+      "counts": {
+        "pdf": 3,
+        "html": 3,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 1
+      },
+      "likelyOfficialPdfCount": 3,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Hawaii/.DS_Store",
+        "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+        "LegalEase Hawaii/files-4/Hawaii-Expungement-Forms.html",
+        "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.html",
+        "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.pdf",
+        "LegalEase Hawaii/hcjdc-forms.html"
+      ]
+    },
+    {
+      "state": "Idaho",
+      "folder": "LegalEase Idaho",
+      "counts": {
+        "pdf": 4,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 3,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Idaho/1778008446796-Clean-Slate-Instructions.pdf",
+        "LegalEase Idaho/1778008521917-Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+        "LegalEase Idaho/ExpungmentApplication.pdf",
+        "LegalEase Idaho/files-4/Idaho-Expungement-Forms.html",
+        "LegalEase Idaho/files-4/Idaho-Expungement-Reference.html",
+        "LegalEase Idaho/files-4/Idaho-Expungement-Reference.pdf"
+      ]
+    },
+    {
+      "state": "Illinois",
+      "folder": "LegalEase Illinois",
+      "counts": {
+        "pdf": 18,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 14,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+        "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+        "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+        "LegalEase Illinois/CXP Instructions.pdf",
+        "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+        "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+        "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+        "LegalEase Illinois/EXP Certificate of Service Circuit Clerk.pdf",
+        "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+        "LegalEase Illinois/EXP-AD Additional Cases Sealing.pdf"
+      ]
+    },
+    {
+      "state": "Indiana",
+      "folder": "LegalEase Indiana",
+      "counts": {
+        "pdf": 2,
+        "html": 3,
+        "rtf": 0,
+        "docx": 4,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+        "LegalEase Indiana/files-4/Indiana-Adult-Expungement-Forms.html",
+        "LegalEase Indiana/files-4/Indiana-Expungement-Reference.html",
+        "LegalEase Indiana/files-4/Indiana-Expungement-Reference.pdf",
+        "LegalEase Indiana/files-4/Indiana-Juvenile-Expungement-Forms.html",
+        "LegalEase Indiana/jd-forms-automatic-expungement-order-denial.docx",
+        "LegalEase Indiana/jd-forms-automatic-expungement-order-granting.docx",
+        "LegalEase Indiana/jd-forms-expungement-order.docx",
+        "LegalEase Indiana/jd-forms-expungement-petition.docx"
+      ]
+    },
+    {
+      "state": "Iowa",
+      "folder": "LegalEase Iowa",
+      "counts": {
+        "pdf": 6,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Iowa/01_29_2021_order_chapter_2.pdf",
+        "LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf",
+        "LegalEase Iowa/files-4/Iowa-Expungement-Forms.html",
+        "LegalEase Iowa/files-4/Iowa-Expungement-Reference.html",
+        "LegalEase Iowa/files-4/Iowa-Expungement-Reference.pdf",
+        "LegalEase Iowa/r286_f1_expngcrt901c2_43EF13261CD9C.pdf",
+        "LegalEase Iowa/r286_f2_expngmisd901c3_6F5CCD02F88E6.pdf",
+        "LegalEase Iowa/r286_f3_expngpblcntox_9182B460CD331.pdf"
+      ]
+    },
+    {
+      "state": "Kansas",
+      "folder": "LegalEase Kansas",
+      "counts": {
+        "pdf": 7,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "LegalEase Kansas/Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "LegalEase Kansas/files-4/Kansas-Expungement-Forms.html",
+        "LegalEase Kansas/files-4/Kansas-Expungement-Reference.html",
+        "LegalEase Kansas/files-4/Kansas-Expungement-Reference.pdf"
+      ]
+    },
+    {
+      "state": "Kentucky",
+      "folder": "LegalEase Kentucky",
+      "counts": {
+        "pdf": 7,
+        "html": 2,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 1
+      },
+      "likelyOfficialPdfCount": 7,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Kentucky/.DS_Store",
+        "LegalEase Kentucky/496.2.pdf",
+        "LegalEase Kentucky/496.3.pdf",
+        "LegalEase Kentucky/497.2.pdf",
+        "LegalEase Kentucky/JV-29.1.pdf",
+        "LegalEase Kentucky/JV-29.pdf",
+        "LegalEase Kentucky/JV-30.pdf",
+        "LegalEase Kentucky/files-4/Kentucky-Expungement-Forms.html",
+        "LegalEase Kentucky/files-4/Kentucky-Expungement-Reference.html",
+        "LegalEase Kentucky/files-4/Kentucky-Expungement-Reference.pdf"
+      ]
+    },
+    {
+      "state": "Louisiana",
+      "folder": "LegalEase Louisiana",
+      "counts": {
+        "pdf": 0,
+        "html": 7,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 1
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_source_html",
+        "has_modeled_forms_only"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Louisiana/.DS_Store",
+        "LegalEase Louisiana/2 Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/3Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/4Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/5Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/6Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/7Louisiana Laws - Louisiana State Legislature.html",
+        "LegalEase Louisiana/Louisiana Expungement — Statewide Agent Reference.rtf",
+        "LegalEase Louisiana/Louisiana Laws - Louisiana State Legislature.html"
+      ]
+    },
+    {
+      "state": "Maine",
+      "folder": "LegalEase Maine",
+      "counts": {
+        "pdf": 3,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 3,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Maine/MJB-Form-cr-218.pdf",
+        "LegalEase Maine/MJB-Form-cr-289.pdf",
+        "LegalEase Maine/MJB-Form-jv-043.pdf",
+        "LegalEase Maine/Maine Record Sealing — Statewide Agent Reference.rtf"
+      ]
+    },
+    {
+      "state": "Maryland",
+      "folder": "LegalEase Maryland",
+      "counts": {
+        "pdf": 7,
+        "html": 1,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "has_official_source_html",
+        "downloaded_since_last_audit",
+        "needs_official_source_confirmation",
+        "missing_official_pdf",
+        "source_reference_mentions_form_not_present",
+        "needs_local_rescan"
+      ],
+      "downloadedSinceLastAuditFiles": [
+        "LegalEase Maryland/ccdccr078.pdf",
+        "LegalEase Maryland/dccr071.pdf"
+      ],
+      "sampleFiles": [
+        "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+        "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+        "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+        "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+        "LegalEase Maryland/Maryland Expungement & Shielding — Wilma Agent Training Reference.rtf",
+        "LegalEase Maryland/Maryland-Expungement-Shielding-Agent-Reference.pdf",
+        "LegalEase Maryland/ccdccr078.pdf",
+        "LegalEase Maryland/dccr071.pdf",
+        "LegalEase Maryland/md-expungement-shielding-forms.html"
+      ]
+    },
+    {
+      "state": "Michigan",
+      "folder": "LegalEase Michigan",
+      "counts": {
+        "pdf": 6,
+        "html": 1,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Michigan/2021-11.pdf",
+        "LegalEase Michigan/Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "LegalEase Michigan/jc105.pdf",
+        "LegalEase Michigan/mc227.pdf",
+        "LegalEase Michigan/mc228a.pdf",
+        "LegalEase Michigan/mc228b.pdf",
+        "LegalEase Michigan/mi-setaside-application.html"
+      ]
+    },
+    {
+      "state": "Minnesota",
+      "folder": "LegalEase Minnesota",
+      "counts": {
+        "pdf": 10,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 10,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "downloaded_since_last_audit",
+        "needs_local_rescan"
+      ],
+      "downloadedSinceLastAuditFiles": [
+        "LegalEase Minnesota/EXP103_Current.pdf"
+      ],
+      "sampleFiles": [
+        "LegalEase Minnesota/EXP101-Hmong.pdf",
+        "LegalEase Minnesota/EXP101-Somali.pdf",
+        "LegalEase Minnesota/EXP101-Spanish.pdf",
+        "LegalEase Minnesota/EXP101.pdf",
+        "LegalEase Minnesota/EXP102_Current-2.pdf",
+        "LegalEase Minnesota/EXP103_Current.pdf",
+        "LegalEase Minnesota/EXP104_Current.pdf",
+        "LegalEase Minnesota/EXP105_Current.pdf",
+        "LegalEase Minnesota/EXP106_Current.pdf",
+        "LegalEase Minnesota/EXP107_Current.pdf"
+      ]
+    },
+    {
+      "state": "Mississippi",
+      "folder": "LegalEase Mississippi",
+      "counts": {
+        "pdf": 4,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 4,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Mississippi/Mississippi Expungement Reference for Wilma.rtf",
+        "LegalEase Mississippi/Order-of-Expungement-for-Conviction.pdf",
+        "LegalEase Mississippi/Order-of-Expungement-for-Dismissed-Case.pdf",
+        "LegalEase Mississippi/Petition-for-Expungement-of-Criminal-Record-of-Criminal-Conviction.pdf",
+        "LegalEase Mississippi/Petition-for-Expungement-of-Criminal-Record-on-Dismissed-Case.pdf"
+      ]
+    },
+    {
+      "state": "Missouri",
+      "folder": "LegalEase Missouri",
+      "counts": {
+        "pdf": 7,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 7,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "downloaded_since_last_audit",
+        "needs_official_source_confirmation",
+        "source_reference_mentions_form_not_present",
+        "needs_local_rescan"
+      ],
+      "downloadedSinceLastAuditFiles": [
+        "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf"
+      ],
+      "sampleFiles": [
+        "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+        "LegalEase Missouri/EXPUNGEMENT FORM.pdf",
+        "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+        "LegalEase Missouri/Missouri Expungement Reference for Wilma.rtf",
+        "LegalEase Missouri/Modified-MSPD-Pro-Se-FormFillable.pdf",
+        "LegalEase Missouri/motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person.pdf",
+        "LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf",
+        "LegalEase Missouri/petition-for-expungement-of-arrest-records.pdf"
+      ]
+    },
+    {
+      "state": "Montana",
+      "folder": "LegalEase Montana",
+      "counts": {
+        "pdf": 3,
+        "html": 0,
+        "rtf": 1,
+        "docx": 3,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Montana/2023-Updated-ExpungementRemovalRequestForm.pdf",
+        "LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+        "LegalEase Montana/Montana Expungement Reference for Wilma.rtf",
+        "LegalEase Montana/Records_Removal_Flowchart_Simple.pdf",
+        "LegalEase Montana/form-a.docx",
+        "LegalEase Montana/form-b.docx",
+        "LegalEase Montana/srmisexp2025.pdf"
+      ]
+    },
+    {
+      "state": "Nebraska",
+      "folder": "LegalEase Nebraska",
+      "counts": {
+        "pdf": 3,
+        "html": 0,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 3,
+      "classifications": [
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Nebraska/CC-6-11-2.pdf",
+        "LegalEase Nebraska/CC-6-11.pdf",
+        "LegalEase Nebraska/CC-6-12.pdf"
+      ]
+    },
+    {
+      "state": "Nevada",
+      "folder": "LegalEase Nevada",
+      "counts": {
+        "pdf": 6,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Nevada/DPS-006.pdf",
+        "LegalEase Nevada/Nevada Record-Sealing Reference for Wilma.rtf",
+        "LegalEase Nevada/dc-record-sealing-form-updated-2018.pdf",
+        "LegalEase Nevada/district-court-forms.pdf",
+        "LegalEase Nevada/jc-record-sealing-form-updated-2018.pdf",
+        "LegalEase Nevada/justice-court-forms.pdf",
+        "LegalEase Nevada/sealing-records-booklet.pdf"
+      ]
+    },
+    {
+      "state": "New Hampshire",
+      "folder": "LegalEase New Hampshire",
+      "counts": {
+        "pdf": 6,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase New Hampshire/New Hampshire Expungement : Annulment Reference for Wilma.rtf",
+        "LegalEase New Hampshire/annulmentchecklist.pdf",
+        "LegalEase New Hampshire/nhjb-2317-dse.pdf",
+        "LegalEase New Hampshire/nhjb-2981-d.pdf",
+        "LegalEase New Hampshire/nhjb-3056-dse.pdf",
+        "LegalEase New Hampshire/nhjb-3057-dse.pdf",
+        "LegalEase New Hampshire/nhjb-3124-ds.pdf"
+      ]
+    },
+    {
+      "state": "New Jersey",
+      "folder": "LegalEase New Jersey",
+      "counts": {
+        "pdf": 3,
+        "html": 4,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase New Jersey/10557_expunge_kit.pdf",
+        "LegalEase New Jersey/New-Jersey-Expungement-Agent-Reference.pdf",
+        "LegalEase New Jersey/expunge-record.html",
+        "LegalEase New Jersey/expungementuserguide.pdf",
+        "LegalEase New Jersey/forms.html",
+        "LegalEase New Jersey/marijuana-expungement.html",
+        "LegalEase New Jersey/nj-expungement-petition.html"
+      ]
+    },
+    {
+      "state": "New Mexico",
+      "folder": "LegalEase New Mexico",
+      "counts": {
+        "pdf": 8,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 1
+      },
+      "likelyOfficialPdfCount": 8,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase New Mexico/.DS_Store",
+        "LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "LegalEase New Mexico/4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "LegalEase New Mexico/4-960.1-Notice-of-hearing.pdf",
+        "LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "LegalEase New Mexico/New Mexico Expungement Reference for Wilma.rtf"
+      ]
+    },
+    {
+      "state": "New York",
+      "folder": "LegalEase New York",
+      "counts": {
+        "pdf": 2,
+        "html": 7,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase New York/CPL160.59SealingApplication.pdf",
+        "LegalEase New York/NewYork-Record-Sealing-CleanSlate-Agent-Reference.pdf",
+        "LegalEase New York/application-seal-conviction-after-10-yrs-2.html",
+        "LegalEase New York/application-seal-conviction-after-10-yrs.html",
+        "LegalEase New York/criminal-records-sealing.html",
+        "LegalEase New York/new-york-states-clean-slate-act.html",
+        "LegalEase New York/ny-sealing-application-160-59.html",
+        "LegalEase New York/sealed-records-after-10-years-cpl-16059.html",
+        "LegalEase New York/sealed-records-drug-related-cases-cpl-16058.html"
+      ]
+    },
+    {
+      "state": "North Carolina",
+      "folder": "LegalEase North Carolina",
+      "counts": {
+        "pdf": 1,
+        "html": 8,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_source_html",
+        "has_modeled_forms_only",
+        "needs_web_research",
+        "missing_official_pdf",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase North Carolina/North-Carolina-Expunction-Agent-Reference.pdf",
+        "LegalEase North Carolina/expunctions.html",
+        "LegalEase North Carolina/expungements.html",
+        "LegalEase North Carolina/forms-2.html",
+        "LegalEase North Carolina/forms.html",
+        "LegalEase North Carolina/nc-expunction-petition.html",
+        "LegalEase North Carolina/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies.html",
+        "LegalEase North Carolina/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors.html",
+        "LegalEase North Carolina/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed.html"
+      ]
+    },
+    {
+      "state": "North Dakota",
+      "folder": "LegalEase North Dakota",
+      "counts": {
+        "pdf": 11,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 9,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf",
+        "LegalEase North Dakota/10. Confidential Info Form AR41 5f1.pdf",
+        "LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf",
+        "LegalEase North Dakota/3. Brief Prohibit Public Access AR41 5f1.pdf",
+        "LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf",
+        "LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf",
+        "LegalEase North Dakota/6. Affidavit Service Mail Motion AR41 5f1.pdf",
+        "LegalEase North Dakota/Close-Nonconviction-Records.pdf",
+        "LegalEase North Dakota/Expungement.pdf",
+        "LegalEase North Dakota/North Dakota Expungement : Sealing Reference for Wilma.rtf"
+      ]
+    },
+    {
+      "state": "Ohio",
+      "folder": "LegalEase Ohio",
+      "counts": {
+        "pdf": 5,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Ohio/Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "LegalEase Ohio/Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "LegalEase Ohio/SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "LegalEase Ohio/SealingorExpunging%20Inst_202504091343476141.pdf",
+        "LegalEase Ohio/SysServ_CQE_sample_petition.pdf",
+        "LegalEase Ohio/sealingsExpungementsRequest.pdf"
+      ]
+    },
+    {
+      "state": "Oklahoma",
+      "folder": "LegalEase Oklahoma",
+      "counts": {
+        "pdf": 0,
+        "html": 1,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_source_html",
+        "has_modeled_forms_only",
+        "needs_web_research",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Oklahoma/Oklahoma Expungement Reference for Wilma.rtf",
+        "LegalEase Oklahoma/Oklahoma Statutes §22-18a (2025) - Petition to Expunge Records and Order to Expunge Records. : 2025.html"
+      ]
+    },
+    {
+      "state": "Oregon",
+      "folder": "LegalEase Oregon",
+      "counts": {
+        "pdf": 2,
+        "html": 1,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+        "LegalEase Oregon/Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "LegalEase Oregon/or-setaside-motion.html"
+      ]
+    },
+    {
+      "state": "Pennsylvania",
+      "folder": "LegalEase Pennsylvania",
+      "counts": {
+        "pdf": 14,
+        "html": 3,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 14,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Pennsylvania/143137-172055-motionforexpungementjuvenilefillable.pdf",
+        "LegalEase Pennsylvania/172056-orderforexpungementjuvenilefillable.pdf",
+        "LegalEase Pennsylvania/213820-file-6290.pdf",
+        "LegalEase Pennsylvania/213825-file-6289.pdf",
+        "LegalEase Pennsylvania/213835-file-6288.pdf",
+        "LegalEase Pennsylvania/213843-file-6287.pdf",
+        "LegalEase Pennsylvania/215125-file-5632.pdf",
+        "LegalEase Pennsylvania/215133-file-5631.pdf",
+        "LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf",
+        "LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf"
+      ]
+    },
+    {
+      "state": "Rhode Island",
+      "folder": "LegalEase Rhode Island",
+      "counts": {
+        "pdf": 4,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 4,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf",
+        "LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf",
+        "LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf",
+        "LegalEase Rhode Island/Motion to Expunge or Seal and Affidavit.pdf",
+        "LegalEase Rhode Island/Rhode Island Expungement : Sealing Reference for Wilma.rtf"
+      ]
+    },
+    {
+      "state": "South Carolina",
+      "folder": "LegalEase South Carolina ",
+      "counts": {
+        "pdf": 6,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase South Carolina /SCCA223A1(a).pdf",
+        "LegalEase South Carolina /SCCA223A1.pdf",
+        "LegalEase South Carolina /SCCA223B1.pdf",
+        "LegalEase South Carolina /SCCA223D1.pdf",
+        "LegalEase South Carolina /SCCA223E.pdf",
+        "LegalEase South Carolina /SCCA492.pdf",
+        "LegalEase South Carolina /South Carolina Expungement — Wilma Agent Training Reference.rtf"
+      ]
+    },
+    {
+      "state": "South Dakota",
+      "folder": "LegalEase South Dakota",
+      "counts": {
+        "pdf": 7,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 6,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase South Dakota/South Dakota Expungement Reference for Wilma.rtf",
+        "LegalEase South Dakota/ujs-232-case-filing-statement-written.pdf",
+        "LegalEase South Dakota/ujs-390-expungement-instructions.pdf",
+        "LegalEase South Dakota/ujs-392-waiver-of-expungement-hearing-07_2025.pdf",
+        "LegalEase South Dakota/ujs-393-notice-of-hearing-for-expungement-of-record_08_2025.pdf",
+        "LegalEase South Dakota/ujs-394-order-of-expungement_06_2023.pdf",
+        "LegalEase South Dakota/ujs-395-notice-of-entry-of-expungement-order_06_2023.pdf",
+        "LegalEase South Dakota/ujs391-motion-for-expungement-and-affidavit-of-mailing-final-07_2025.pdf"
+      ]
+    },
+    {
+      "state": "Tennessee",
+      "folder": "LegalEase Tennesee",
+      "counts": {
+        "pdf": 3,
+        "html": 3,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Tennesee/EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "LegalEase Tennesee/REMOVAL_FORM_fillable050925.pdf",
+        "LegalEase Tennesee/Tennessee-Expunction-Agent-Reference.pdf",
+        "LegalEase Tennesee/diversions-expungements.html",
+        "LegalEase Tennesee/expungements.html",
+        "LegalEase Tennesee/tn-expunction-petition.html"
+      ]
+    },
+    {
+      "state": "Texas",
+      "folder": "LegalEase Texas",
+      "counts": {
+        "pdf": 2,
+        "html": 1,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 1,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Texas/Texas-Statewide-Expunction-Nondisclosure-Agent-Reference.pdf",
+        "LegalEase Texas/petition_charges_dismissed_or_quashed_revision_06112026.pdf",
+        "LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html"
+      ]
+    },
+    {
+      "state": "Utah",
+      "folder": "LegalEase Utah",
+      "counts": {
+        "pdf": 12,
+        "html": 2,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 12,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Utah/02_Victim_Statement.pdf",
+        "LegalEase Utah/03_Petitioner_Reply.pdf",
+        "LegalEase Utah/04_Request_Response_APP.pdf",
+        "LegalEase Utah/05_Response_APP.pdf",
+        "LegalEase Utah/06_Notice_of_Hearing.pdf",
+        "LegalEase Utah/09_Acceptance_of_service.pdf",
+        "LegalEase Utah/09_Consent-waiver_of_hearing.pdf",
+        "LegalEase Utah/1002EX_Petition_to_Expunge_Records_Traffic_Conviction.pdf",
+        "LegalEase Utah/1003EX_Petition_to_Expunge_Records_Cannabis_Conviction.pdf",
+        "LegalEase Utah/1022EX_Order_Traffic_Records_Conviction.pdf"
+      ]
+    },
+    {
+      "state": "Vermont",
+      "folder": "LegalEase Vermont",
+      "counts": {
+        "pdf": 7,
+        "html": 1,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 7,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Vermont/200-00129 – Petition to Expunge Criminal History.pdf",
+        "LegalEase Vermont/200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+        "LegalEase Vermont/200-00131.pdf",
+        "LegalEase Vermont/200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+        "LegalEase Vermont/200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+        "LegalEase Vermont/200-00631.pdf",
+        "LegalEase Vermont/400-00171.pdf",
+        "LegalEase Vermont/Vermont Expungement & Sealing — Wilma Agent Training Reference.rtf",
+        "LegalEase Vermont/application-waive-filing-fees-and-service-costs.html"
+      ]
+    },
+    {
+      "state": "Virginia",
+      "folder": "LegalEase Virginia ",
+      "counts": {
+        "pdf": 3,
+        "html": 1,
+        "rtf": 0,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_official_blank_pdfs",
+        "has_official_source_html"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Virginia /Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "LegalEase Virginia /cc1473.pdf",
+        "LegalEase Virginia /cc1473inst.pdf",
+        "LegalEase Virginia /va-expungement-sealing-forms.html"
+      ]
+    },
+    {
+      "state": "Washington",
+      "folder": "LegalEase Washington",
+      "counts": {
+        "pdf": 10,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 5,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 10,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf",
+        "LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf",
+        "LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf",
+        "LegalEase Washington/CrRLJ 09.0100 Petition to Vacate Conviction_(f)(U).pdf",
+        "LegalEase Washington/CrRLJ 09.0200 Ord Pet Vacate Conviction_(f)(U).pdf",
+        "LegalEase Washington/CrRLJ 09.0300 InstructVacateMisdConvictions_2022 07.pdf",
+        "LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf",
+        "LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf",
+        "LegalEase Washington/CrRLJ 09_0150 Notice of Hearing_2019 07.pdf",
+        "LegalEase Washington/CrRLJ CR 09_0500 Motion and Decl Vacate Conv Treaty Indian Fishing rights.doc"
+      ]
+    },
+    {
+      "state": "West Virginia",
+      "folder": "LegalEase West Virginia",
+      "counts": {
+        "pdf": 5,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase West Virginia/SCA-C-903.pdf",
+        "LegalEase West Virginia/SCA-C900.pdf",
+        "LegalEase West Virginia/SCA-C906.pdf",
+        "LegalEase West Virginia/SCA-C907.pdf",
+        "LegalEase West Virginia/SCA-C912.pdf",
+        "LegalEase West Virginia/West Virginia Expungement Reference for Wilma.rtf"
+      ]
+    },
+    {
+      "state": "Wisconsin",
+      "folder": "LegalEase Wisconsin",
+      "counts": {
+        "pdf": 2,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 1,
+        "other": 1
+      },
+      "likelyOfficialPdfCount": 2,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "needs_web_research",
+        "missing_official_pdf",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Wisconsin/.DS_Store",
+        "LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+        "LegalEase Wisconsin/forms-download/CR-266_en.pdf",
+        "LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf"
+      ]
+    },
+    {
+      "state": "Wyoming",
+      "folder": "LegalEase Wyoming",
+      "counts": {
+        "pdf": 0,
+        "html": 1,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 0,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_source_html",
+        "has_modeled_forms_only",
+        "needs_web_research",
+        "missing_form_family",
+        "source_reference_mentions_form_not_present"
+      ],
+      "downloadedSinceLastAuditFiles": [],
+      "sampleFiles": [
+        "LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html",
+        "LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf"
+      ]
+    },
+    {
+      "state": "Massachusetts",
+      "folder": "LegalEase massachusetts",
+      "counts": {
+        "pdf": 5,
+        "html": 0,
+        "rtf": 1,
+        "docx": 0,
+        "doc": 0,
+        "other": 0
+      },
+      "likelyOfficialPdfCount": 5,
+      "classifications": [
+        "has_reference_doc",
+        "has_wilma_reference",
+        "has_official_blank_pdfs",
+        "downloaded_since_last_audit",
+        "needs_official_source_confirmation",
+        "source_reference_mentions_form_not_present",
+        "needs_local_rescan"
+      ],
+      "downloadedSinceLastAuditFiles": [
+        "LegalEase massachusetts/jud-Petition-for-Expungement-of-Marijuana-Offenses-2022-11-08-final.pdf"
+      ],
+      "sampleFiles": [
+        "LegalEase massachusetts/Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "LegalEase massachusetts/OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "LegalEase massachusetts/jud-Petition-for-Expungement-of-Marijuana-Offenses-2022-11-08-final.pdf",
+        "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf"
+      ]
+    }
+  ]
+}
