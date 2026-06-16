@@ -10,7 +10,7 @@ The current shadow baseline covers 26 jurisdictions: PA, DC, ND, OK, WY, MD, GA,
 
 Every baseline jurisdiction has a state pack in `src/lib/rcap/state-packs/**`, but state-pack presence is not promotion readiness. Under the plan of record, the remaining gates are source fidelity/freshness, official-source confirmation where flagged, filled-data visual review, counsel confirmation, implementation review, and the live-route selector firewall.
 
-The safest official-PDF vertical-slice candidate is Wisconsin CR-266/CR-267 because the state pack exists, the official PDFs are local, manual overlay drafts exist, and Roger Roman approved the overlay accuracy. Even there, the maps remain `visual_review_required`, `lifecycle: "none"`, and `rendererReady: false`; Wisconsin still needs official-source/currentness confirmation and an explicit later implementation task before any renderer use.
+The safest official-PDF vertical-slice candidate is Wisconsin CR-266/CR-267 because the state pack exists, the official PDFs are local, manual overlay drafts exist, and Roger Roman approved the overlay accuracy. Roger also visually approved the California, Colorado, and North Carolina overlay review packets staged in the current review inboxes; Colorado and North Carolina remain outside this 26-state shadow baseline matrix. Every approved map still remains `visual_review_required`, `lifecycle: "none"`, and `rendererReady: false`; Wisconsin still needs official-source/currentness confirmation and an explicit later implementation task before any renderer use.
 
 ## Current Coverage Count
 
@@ -25,6 +25,8 @@ The safest official-PDF vertical-slice candidate is Wisconsin CR-266/CR-267 beca
 | Baseline visually approved draft maps | 2 |
 | Baseline draft maps still `visual_review_required` | 71 |
 | Baseline jurisdictions needing official-source confirmation before strategy/form use | 6 |
+| Current review-inbox overlay packets visually approved by Roger | 26 |
+| Current review-inbox overlay packets renderer-ready | 0 |
 
 Status counts:
 
@@ -43,7 +45,7 @@ These are candidates for more review only. None is renderer-ready.
 
 | Rank | Jurisdiction/forms | Why safest relative to the rest | Required next gate |
 | ---: | --- | --- | --- |
-| 1 | Wisconsin CR-266 / CR-267 | State pack exists; local official PDFs exist; two manual overlay draft maps exist; Roger approved overlay accuracy. Small two-form surface. | Confirm Wisconsin official source/currentness, packet completeness, source hashes, and counsel review; keep renderer blocked. |
+| 1 | Wisconsin CR-266 / CR-267 | State pack exists; local official PDFs exist; two manual overlay draft maps exist; Roger approved overlay accuracy. Small two-form surface. | Approved overlay; confirm Wisconsin official source/currentness, packet completeness, source hashes, counsel review, and implementation gate; keep renderer blocked. |
 | 2 | North Dakota AR41 5f1 form family | State pack exists; local official PDFs exist; eight draft maps exist; queue identifies a clean AcroForm candidate for a controlled review target. | Run filled-data visual review on one clean candidate and resolve unknown field names. |
 | 3 | Maryland CC-DC-CR-072A / CC-DC-CR-072B | State pack exists; local official PDFs exist; two draft maps have useful semantic signal and a narrow form family. | Resolve CC-DC-CR-148 and CC-DC-CR-072G2 scope/source questions before implementation planning. |
 | 4 | Rhode Island motion/affidavit family | State pack exists; four similar draft maps exist, so one confirmed pattern may reduce review cost. | Visually review one representative form, then decide if the family can be batched. |
@@ -111,7 +113,7 @@ All 26 baseline jurisdictions should remain shadow-only for now. The following a
 | Vermont | yes | yes, 7 PDFs | 6 | 0 | 6 | source freshness; high unknown inventory | high | medium | `needs_visual_review` | Use extraction as inventory; review one petition/order path after route selection. |
 | Washington | yes | yes, 10 PDFs | 0 | 0 | 0 | source freshness; local-court guardrails | high | high | `needs_manual_overlay` | Coordinate with the state-pack lane before PDF mapping. |
 | West Virginia | yes | yes, 5 PDFs | 4 | 0 | 4 | source freshness; unknown-heavy widgets | high | medium | `needs_visual_review` | Coordinate with state-pack lane, then review one SCA form. |
-| Wisconsin | yes | yes, 6 PDFs | 2 | 2 | 2 | official-source/currentness confirmation; counsel confirmation | low | medium | `shadow_only_ready_for_more_review` | Record official source metadata and draft a shadow-only implementation plan in a later task. |
+| Wisconsin | yes | yes, 6 PDFs | 2 | 2 | 2 | official-source/currentness confirmation; counsel confirmation | low | medium | `shadow_only_ready_for_more_review` | Approved overlay; record official source metadata and draft a shadow-only implementation plan in a later task. |
 
 ## Recommended Next 3 Codex Tasks
 

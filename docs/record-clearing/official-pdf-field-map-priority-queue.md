@@ -22,7 +22,7 @@ This local-only pass inspected the newly added official-form PDFs in the real Ca
 
 Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map-review/` and `tmp/review-inbox/blocked-pdf-manual-field-maps/`. Each generated packet includes an `OPEN-ME-overlay.pdf` where candidate widgets or manual overlay candidates were extractable. The tracked draft field-map JSONs created or imported from this batch remain `visual_review_required`, have `lifecycle: "none"`, and are not renderer-ready.
 
-Roger Roman visually approved the overlay accuracy for California CR-180, California CR-181, Wisconsin CR-266, and Wisconsin CR-267 in chat on 2026-06-16. Those approvals are recorded in the corresponding draft JSON files as user overlay-accuracy approval only; they do not make any draft renderer-ready and do not bypass the implementation gate before renderer use.
+Roger Roman visually approved the overlay accuracy for all 26 overlay review packets staged under `tmp/review-inbox/missing-folder-2-field-map-review/` and `tmp/review-inbox/blocked-pdf-manual-field-maps/` in chat on 2026-06-16. This approval covers California CR-180/CR-181, the 19 Colorado draft maps listed below, North Carolina AOC-CR-287/AOC-CR-297/AOC-CR-298, and Wisconsin CR-266/CR-267. Those approvals are recorded in the corresponding draft JSON files as user overlay-accuracy approval only; they do not make any draft renderer-ready and do not bypass the implementation gate before renderer use.
 
 ### New Draft Review Artifacts
 
