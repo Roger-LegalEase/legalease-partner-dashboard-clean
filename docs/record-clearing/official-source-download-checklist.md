@@ -1,104 +1,104 @@
 # Official Source Download Checklist
 
-Generated from the pushed missing-official-forms audit on 2026-06-16.
+Generated from the local-only missing-official-forms audit rescan on 2026-06-16.
 
 This checklist is for manual official-source research only. It does not download files, alter private source materials, change legal content, promote any lifecycle status, create replacement candidates, verify replacements, or wire any form to a live route.
 
 ## Executive Summary
 
-The missing-official-forms audit leaves six true web-research states where local files remain insufficient after the latest local rescan:
+The missing-official-forms audit leaves no true `needs_web_research` states after the latest local-only rescan of the updated private Nationwide Record Clearing folders.
 
 | Priority | States | Reason |
 | --- | --- | --- |
-| High | California, Colorado, North Carolina | Known statewide official form families are referenced locally, but current blank official PDFs are missing or incomplete in the private folder. |
-| Medium | Oklahoma, Wisconsin, Wyoming | Local references exist, but the official statewide form source, required blank forms, or whether the state uses statutory/local-court forms still needs official-source confirmation. |
+| Medium | California, Colorado, North Carolina, Wisconsin | Local blank PDF candidates are now present, but title, source URL, revision date/currentness, packet scope, and hash metadata still need official-source confirmation before catalog, field-map, lifecycle, renderer, or route use. |
+| Confirmation | Oklahoma, Wyoming | Local source/reference material moves both out of true web research for this audit and supports a custom pleading/statutory strategy. The local files do not prove from an official source that no statewide official blank form exists. |
 
 ## Top Official-Source Checks
 
-1. California Courts: confirm and manually collect current CR-180 and CR-181 PDFs from the Judicial Council/Self-Help source pages.
-2. Colorado Judicial Branch: review the current "Seal My Case" forms and collect the active JDF forms for supported sealing and expungement routes.
-3. North Carolina Judicial Branch: collect current AOC expunction forms and instructions for G.S. 15A-145.5 and 15A-146 routes.
-4. Oklahoma official statute/court sources: determine whether 22 O.S. Section 18a statutory petition/order text is the operative statewide source or whether court-provided blank forms exist.
-5. Wisconsin Court System: verify CR-266 and identify whether any additional expungement petition/order forms are required.
-6. Wyoming Judicial Branch: determine whether statewide expungement blank forms exist or whether the state only provides instructions with local-court filing practice.
+1. California Courts: confirm local CR-180 and CR-181 PDFs against the Judicial Council/Self-Help captures and record current title, revision date, source URL, access date, and file hash.
+2. Colorado Judicial Branch: map each local JDF PDF to the current "Seal My Case" and related route captures, then record source/title/revision metadata and route scope.
+3. North Carolina Judicial Branch: confirm local AOC-CR-287, AOC-CR-297, and AOC-CR-298 PDFs/instructions, and decide whether AOC-CR-288 or any attachment/certificate forms are in scope.
+4. Wisconsin Court System: confirm CR-266/CR-267 titles, revision dates, and whether both forms/summaries are required for supported expungement workflows.
+5. Oklahoma: record that local statutory/reference text supports a custom pleading/statutory strategy for this audit; confirm against official Oklahoma statute/court sources before treating the strategy as final.
+6. Wyoming: record that local handout/reference material supports petition/proposed-order drafting, with possible local templates; confirm against official Wyoming Judicial Branch/court sources before treating the strategy as final.
 
 ## California
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | Petition for Dismissal and Order for Dismissal blank PDFs. |
+| Missing or uncertain official forms | None in the true web-research bucket. CR-180 and CR-181 PDFs are now present locally; official-source metadata still needs confirmation. |
 | Form numbers/titles | CR-180, Petition for Dismissal; CR-181, Order for Dismissal. |
 | Official agency/court source page to check | California Courts Self-Help/Judicial Council pages for CR-180 and CR-181. Local captures reference `https://selfhelp.courts.ca.gov/jcc-form/CR-180`, `https://selfhelp.courts.ca.gov/jcc-form/CR-181`, `https://www.courts.ca.gov/documents/cr180.pdf`, and `https://www.courts.ca.gov/documents/cr181.pdf`. |
 | Required for | State-pack strategy, official PDF mapping, live replacement readiness, and user filing packet completeness. |
 | Priority | High. |
-| Recommended manual download action | Manually open the California Courts form pages, confirm current revision dates, download current CR-180 and CR-181 blank PDFs, and record source URLs and file dates. Consider Spanish or translated variants only after the English required forms are captured. |
-| Local files already present | `LegalEase California /CR-180.html`, `LegalEase California /CR-181.html`, `LegalEase California /ca-dismissal-sealing-forms.html`, and `LegalEase California /find-forms.html`. |
-| Notes | Local captures identify the correct form family and PDF URLs, but the blank PDFs are not present in the private Nationwide folder. |
+| Recommended manual action | Confirm the locally present `LegalEase California/cr180.pdf` and `LegalEase California/cr181.pdf` against the California Courts captures, record revision/source/hash metadata, and decide whether translated variants are later needed. |
+| Local files already present | `LegalEase California/cr180.pdf`, `LegalEase California/cr181.pdf`, `LegalEase California/Instructions-for-Filling-Out-a-Petition-for-Dismissal.pdf`, `LegalEase California /CR-180.html`, `LegalEase California /CR-181.html`, `LegalEase California /ca-dismissal-sealing-forms.html`, and `LegalEase California /find-forms.html`. |
+| Notes | The local private folder has both `LegalEase California/` and `LegalEase California `/; the audit consolidates them for evidence but does not modify private folder structure. |
 
 ## Colorado
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | Current Colorado Judicial Branch sealing and expungement JDF form family. |
+| Missing or uncertain official forms | None in the true web-research bucket. The JDF PDF family is now present locally; currentness and route scope still need confirmation. |
 | Form numbers/titles | Local references include JDF 302, Petition to Expunge Court Records; JDF 304, Order of Expungement Records; JDF 324, Petition for Expungement Records Law Enforcement Contact Not Resulting in Referral to Another Agency; JDF 326, Order for Expungement Records Law Enforcement Contact Not Resulting in Referral to Another Agency; JDF 477, Motion to Seal Non-Conviction Records; JDF 478, Order to Seal Non-Conviction Records; JDF 492, Order Denying Motion to Seal Non-Conviction Records; JDF 493, Order and Notice of Hearing to Seal Criminal Justice Records. Older local references also mention JDF 417, JDF 418, JDF 419, JDF 435, JDF 612, JDF 613, and JDF 614. |
 | Official agency/court source page to check | Colorado Judicial Branch "Seal My Case" page and linked self-help form pages. Local captures reference `https://www.coloradojudicial.gov/self-help/seal-my-case` and related Colorado Judicial Branch form pages. |
 | Required for | State-pack strategy, official PDF mapping, live replacement readiness, and user filing packet completeness for supported Colorado routes. |
 | Priority | High. |
-| Recommended manual download action | Manually review the current Colorado Judicial Branch "Seal My Case" page, identify active forms for non-conviction sealing, conviction sealing, conduct-now-lawful routes, pardoned conviction routes, and juvenile expungement routes, then download current official PDFs or Word forms for the routes in scope. Confirm whether older JDF 417/418/419/435/612/613/614 references are superseded by current JDF 477/478/492/493 or other forms. |
-| Local files already present | `LegalEase Colorado/Colorado-JDF-Complete.html`, `LegalEase Colorado/seal-my-case.html`, `LegalEase Colorado/seal-my-case2`, `LegalEase Colorado/seal-my-case3`, and `LegalEase Colorado/court-order-sealing-of-arrests.html`. |
-| Notes | Local material names many forms and source pages, but current blank official JDF files are incomplete or absent from the private Nationwide folder. |
+| Recommended manual action | Confirm each local JDF PDF against the Colorado Judicial Branch captures, identify active forms for supported routes, record source/revision/hash metadata, and mark superseded forms only after confirmation. |
+| Local files already present | `LegalEase Colorado/JDF302.pdf`, `LegalEase Colorado/JDF304.pdf`, `LegalEase Colorado/JDF324.pdf`, `LegalEase Colorado/JDF326.pdf`, `LegalEase Colorado/JDF477.pdf`, `LegalEase Colorado/JDF478.pdf`, `LegalEase Colorado/JDF492.pdf`, `LegalEase Colorado/JDF493.pdf`, `LegalEase Colorado/JDF611.pdf`, `LegalEase Colorado/JDF612.pdf`, `LegalEase Colorado/JDF614.pdf`, `LegalEase Colorado/JDF615.pdf`, `LegalEase Colorado/JDF641.pdf`, `LegalEase Colorado/JDF642.pdf`, `LegalEase Colorado/JDF682.pdf`, `LegalEase Colorado/JDF683.pdf`, `LegalEase Colorado/JDF686.pdf`, `LegalEase Colorado/Colorado-JDF-Complete.html`, and related Colorado Judicial Branch HTML captures. |
+| Notes | Local PDFs are enough to move Colorado out of high-priority missing; they are not approved for lifecycle promotion, field mapping, or renderer use. |
 
 ## North Carolina
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | AOC expunction petition/order forms and instructions for the supported dismissal and nonviolent conviction routes. |
+| Missing or uncertain official forms | None in the true web-research bucket. AOC-CR-287, AOC-CR-297, and AOC-CR-298 PDFs/instructions are now present locally; AOC-CR-288 scope still needs confirmation. |
 | Form numbers/titles | AOC-CR-297, Instructions: Petition and Order of Expunction Under G.S. 15A-145.5 (Nonviolent Felony(ies)); AOC-CR-298, Instructions: Petition and Order of Expunction Under G.S. 15A-145.5 (Nonviolent Misdemeanor(s)); AOC-CR-287, Instructions: Petition and Order of Expunction Under G.S. 15A-146(a) or 15A-146(a1) (Charges Dismissed). AOC-CR-288 may be relevant if not-guilty/not-responsible routes are in scope. |
 | Official agency/court source page to check | North Carolina Judicial Branch expunctions and forms pages. Local captures reference `https://www.nccourts.gov/help-topics/court-records/expunctions` and `https://www.nccourts.gov/documents/forms`. |
 | Required for | State-pack strategy, official PDF mapping, live replacement readiness, and user filing packet completeness. |
 | Priority | High. |
-| Recommended manual download action | Manually open the North Carolina Judicial Branch expunctions table and forms search, download current AOC-CR-297, AOC-CR-298, and AOC-CR-287 PDFs/instructions, and confirm whether AOC-CR-288 or any attachment/certificate forms are needed for the supported filing packet. |
-| Local files already present | `LegalEase North Carolina/expunctions.html`, `LegalEase North Carolina/forms.html`, `LegalEase North Carolina/forms-2.html`, route-specific local captures for G.S. 15A-145.5 and G.S. 15A-146, and a modeled `nc-expunction-petition.html`. |
-| Notes | Local files identify the route families and AOC form numbers, but blank AOC PDFs are not present. |
+| Recommended manual action | Confirm local AOC PDFs/instructions against the North Carolina Judicial Branch captures, record source/revision/hash metadata, and decide whether AOC-CR-288 or any attachment/certificate forms are in scope. |
+| Local files already present | `LegalEase North Carolina/cr287_1.pdf`, `LegalEase North Carolina/cr287-instr_3.pdf`, `LegalEase North Carolina/cr297.pdf`, `LegalEase North Carolina/cr297-instr_2.pdf`, `LegalEase North Carolina/cr298_1.pdf`, `LegalEase North Carolina/cr298-instr_7.pdf`, `LegalEase North Carolina/expunctions.html`, `LegalEase North Carolina/forms.html`, `LegalEase North Carolina/forms-2.html`, route-specific local captures for G.S. 15A-145.5 and G.S. 15A-146, and a modeled `nc-expunction-petition.html`. |
+| Notes | Local PDFs are enough to move North Carolina out of high-priority missing; they are not approved for lifecycle promotion, field mapping, or renderer use. |
 
 ## Oklahoma
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | Petition to Expunge Records and Order to Expunge Records, or confirmation that the statutory text is the operative statewide source rather than a separate statewide blank form. |
+| Missing or uncertain official forms | No statewide blank PDF is treated as high-priority missing for this audit. Local statutory/reference material supports a custom pleading/statutory strategy, but official-source confirmation is still required. |
 | Form numbers/titles | Petition to Expunge Records; Order to Expunge Records; statutory reference to 22 O.S. Section 18a. |
-| Official agency/court source page to check | Oklahoma State Courts Network Title 22 statutes and any Oklahoma court forms source that publishes expungement forms. Start with OSCN Title 22 statute lookup for Section 18a and then check whether the Oklahoma courts publish separate statewide blank forms. |
+| Official agency/court source page to check | No web research is requested for this rescan. Future confirmation can compare the local statutory capture against Oklahoma official statute sources if a later task authorizes it. |
 | Required for | State-pack strategy and user filing packet completeness; official PDF mapping and live replacement only if a statewide blank official form exists. |
 | Priority | Medium. |
-| Recommended manual download action | Confirm the current official statutory language for 22 O.S. Section 18a, determine whether the petition/order form language is embedded in statute, and check whether Oklahoma courts publish separate blank forms. If separate official forms exist, manually download them and record the source. If not, document that the route depends on statutory text or local-court formatting. |
+| Recommended manual action | Record the local statutory/reference petition/order strategy for this audit and keep any packet generation blocked until a later official-source/currentness confirmation task. |
 | Local files already present | `LegalEase Oklahoma/Oklahoma Expungement Reference for Wilma.rtf` and `LegalEase Oklahoma/Oklahoma Statutes §22-18a (2025) - Petition to Expunge Records and Order to Expunge Records. : 2025.html`. |
-| Notes | Local materials provide a Wilma reference and statute capture, but no official blank PDFs are present. |
+| Notes | Classified as `custom_pleading_strategy_source_supported` and `needs_official_source_confirmation`, not `official_source_confirms_no_statewide_form`. The local files do not prove from an official source that no statewide blank form exists. |
 
 ## Wisconsin
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | Current Wisconsin expungement form family and whether CR-266 is sufficient for the supported filing packet. |
-| Form numbers/titles | CR-266 is present locally and needs official-source confirmation. Additional petition/order or supplemental expungement forms are uncertain. |
+| Missing or uncertain official forms | None in the true web-research bucket. CR-266/CR-267 PDFs and summaries are now present locally; currentness and packet completeness still need confirmation. |
+| Form numbers/titles | CR-266 and CR-267 PDFs/summaries are present locally and need official-source confirmation. |
 | Official agency/court source page to check | Wisconsin Court System circuit court forms, criminal forms, and any CR-266 form detail/download page. |
 | Required for | State-pack strategy and user filing packet completeness; official PDF mapping and live replacement if current official blank PDFs are confirmed. |
 | Priority | Medium. |
-| Recommended manual download action | Confirm CR-266 on the Wisconsin Court System site, record its current revision date and title, and determine whether any additional petition, order, notice, or instruction forms are required for expungement workflows. Download only the current official blank forms after confirmation. |
-| Local files already present | `LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf`, `LegalEase Wisconsin/forms-download/CR-266_en.pdf`, `LegalEase Wisconsin/forms-download/CR-266_en.doc`, and `LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf`. |
-| Notes | Unlike the other true web-research states, one local Wisconsin form file exists. The remaining uncertainty is whether it is current and complete for the filing packet. |
+| Recommended manual action | Confirm CR-266/CR-267 on Wisconsin Court System sources, record titles/revision dates/source URLs/hashes, and determine whether both forms or summaries are required for supported workflows. |
+| Local files already present | `LegalEase Wisconsin/CR-266.pdf`, `LegalEase Wisconsin/CR-266_summary.pdf`, `LegalEase Wisconsin/CR-267.pdf`, `LegalEase Wisconsin/CR-267_summary.pdf`, `LegalEase Wisconsin/forms-download/CR-266_en.pdf`, `LegalEase Wisconsin/forms-download/CR-266_en.doc`, `LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf`, and `LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf`. |
+| Notes | Local PDFs are enough to move Wisconsin out of true web research; they are not approved for lifecycle promotion, field mapping, or renderer use. |
 
 ## Wyoming
 
 | Item | Details |
 | --- | --- |
-| Missing or uncertain official forms | Wyoming expungement blank forms or confirmation that statewide blank forms are not published. |
+| Missing or uncertain official forms | No statewide blank PDF is treated as high-priority missing for this audit. Local handout/reference material supports petition/proposed-order drafting, with possible local templates, but official-source confirmation is still required. |
 | Form numbers/titles | No form number is known from the audit. Local material references a Wyoming expungement handout. |
-| Official agency/court source page to check | Wyoming Judicial Branch legal assistance/forms and any court-records or expungement self-help page linked from the local handout source. |
+| Official agency/court source page to check | No web research is requested for this rescan. Future confirmation can compare the local handout/Wilma evidence against Wyoming Judicial Branch sources if a later task authorizes it. |
 | Required for | State-pack strategy and user filing packet completeness; official PDF mapping and live replacement only if official blank forms exist. |
 | Priority | Medium. |
-| Recommended manual download action | Manually check the Wyoming Judicial Branch forms and self-help pages for statewide expungement forms. If none exist, document whether the handout directs users to local courts, petition drafting, or county-specific filing practices. If blank official forms exist, download the current forms and record the official source URL. |
-| Local files already present | `LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf` and `LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html`. |
-| Notes | Local files include guidance material but no blank PDFs or official form numbers. |
+| Recommended manual action | Record that the local Wyoming materials support petition/proposed-order drafting from handout/reference/statute sources, and keep any packet generation blocked until a later official-source and local-template confirmation task. |
+| Local files already present | `LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf`, `LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf`, and `LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html`. |
+| Notes | Classified as `custom_pleading_strategy_source_supported` and `needs_official_source_confirmation`, not `official_source_confirms_no_statewide_form`. The local HTML capture is a 502 page, so it is not used as proof that no statewide form exists. |
 
 ## Manual Collection Rules
 
