@@ -1,0 +1,14 @@
+// Massachusetts disqualifying / excluded offenses and limits. Sourced from the
+// Massachusetts Sealing & Expungement — Wilma Agent Training Reference (Nationwide
+// Record Clearing), sections 3, 6, reflecting the § 100A sealing exceptions and
+// the § 100J time-based-expungement exclusions. Screening notes, not an
+// exhaustive legal test; verify the exact current M.G.L. c. 276 text.
+export const maDisqualifyingOffenseNotes = [
+  "Adult sealing exceptions (§ 100A): firearms convictions under M.G.L. c. 140 §§ 121-131H are generally not sealable; public-corruption/obstruction-type convictions under c. 268 or c. 268A are generally not sealable except resisting arrest; Level 2 or Level 3 sex-offender classification cannot seal sex offenses; sex offenses carry a 15-year/registration-duration wait, whichever is longer.",
+  "Sealing timing treatments (§ 100A): 209A abuse-prevention or 258E harassment-prevention order violations are treated as a felony for sealing timing; an old felony now classified as a misdemeanor (or an unknown level) is treated as a misdemeanor; a subsequent not guilty/dismissal/nolle/no bill does not interrupt the waiting period.",
+  "Time-based expungement disqualifiers (§ 100J): generally route away (attorney/manual review) where the record involves death or serious bodily injury; intent to cause death or serious bodily injury; a dangerous weapon; an offense against an elderly or disabled person; a sex offense, child sex offense, or sexually violent offense; OUI/OUI-type under c. 90 § 24; firearms offenses under c. 140 §§ 121-131Q; restraining-order/abuse-prevention/harassment-prevention order violations; or domestic assault and battery under c. 265 § 13M.",
+  "Time-based expungement gating (§ 100I): all offenses must have occurred before the person's 21st birthday; no more than 2 records; the misdemeanor-only (3-year) or any-felony (7-year) wait must be met; no other Massachusetts or out-of-state/federal appearances/dispositions (except minor motor-vehicle offenses); and the petitioner must not be the subject of an active criminal investigation.",
+  "Non-conviction nuance (§ 100C): dismissal/nolle prosequi records are NOT automatically sealed — they require a court petition and a substantial-justice finding (unlike not-guilty/no-bill/no-probable-cause records).",
+  "Section 100K scope: non-time-based expungement requires proof by clear and convincing evidence of false ID, identity theft, a decriminalized offense, demonstrable error, or fraud — it is not a general hardship route.",
+  "Scope limit: sealing hides records from most public access but does not destroy them (criminal-justice agencies/courts/authorized users retain access); only true expungement (§ 100E) is permanent erasure, and out-of-state/federal records are not reached by a Massachusetts order. CWOF dispositions are frequently misunderstood — flag for review."
+];
