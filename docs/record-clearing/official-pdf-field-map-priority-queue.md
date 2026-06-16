@@ -4,7 +4,7 @@ Status date: 2026-06-16
 
 This is a docs-only priority queue based on candidate extraction from the local official PDF archive. It uses the batch field-map accelerator outputs under `tmp/review/field-map-accelerator-batch/` as planning input only.
 
-This document is not visual approval. It does not mark any PDF as `replacement_candidate` or `verified_replacement`. It does not weaken the requirement for human visual review, source freshness review, and counsel confirmation before any lifecycle promotion.
+Except where a draft artifact explicitly records user overlay approval, this document is not visual approval. It does not mark any PDF as `replacement_candidate` or `verified_replacement`. It does not weaken the requirement for source freshness review, implementation review, and counsel confirmation before any lifecycle promotion.
 
 Nebraska CC 6:11 remains `visual_review_required`.
 
@@ -20,12 +20,16 @@ The tmp artifacts are local review outputs and must remain ignored. Do not copy 
 
 This local-only pass inspected the newly added official-form PDFs in the real California, Colorado, North Carolina, Wisconsin, Oklahoma, and Wyoming private source folders. Oklahoma has no local PDF in the real folder. Wyoming has a handout PDF, not a blank official form candidate.
 
-Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map-review/`. Each generated packet includes an `OPEN-ME-overlay.pdf` where candidate widgets were extractable. The tracked draft field-map JSONs created from this batch remain `visual_review_required`, have `lifecycle: "none"`, and are not renderer-ready.
+Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map-review/` and `tmp/review-inbox/blocked-pdf-manual-field-maps/`. Each generated packet includes an `OPEN-ME-overlay.pdf` where candidate widgets or manual overlay candidates were extractable. The tracked draft field-map JSONs created or imported from this batch remain `visual_review_required`, have `lifecycle: "none"`, and are not renderer-ready.
+
+Roger Roman visually approved the overlay accuracy for California CR-180, California CR-181, Wisconsin CR-266, and Wisconsin CR-267 in chat on 2026-06-16. Those approvals are recorded in the corresponding draft JSON files as user overlay-accuracy approval only; they do not make any draft renderer-ready and do not bypass the implementation gate before renderer use.
 
 ### New Draft Review Artifacts
 
 | Jurisdiction | Source PDF | Classification / mode | Fields | Widgets | Draft artifact | Review packet |
 | --- | --- | --- | ---: | ---: | --- | --- |
+| California | `LegalEase California/cr180.pdf` | `xfa_pdf_encrypted_renderable_widgets_extracted` / `manual` | 76 | 76 | `docs/record-clearing/field-map-drafts/california-cr-180.field-map-review.json` | `tmp/review-inbox/blocked-pdf-manual-field-maps/california-cr-180/OPEN-ME-overlay.pdf` |
+| California | `LegalEase California/cr181.pdf` | `xfa_pdf_encrypted_renderable_widgets_extracted` / `manual` | 54 | 54 | `docs/record-clearing/field-map-drafts/california-cr-181.field-map-review.json` | `tmp/review-inbox/blocked-pdf-manual-field-maps/california-cr-181/OPEN-ME-overlay.pdf` |
 | Colorado | `LegalEase Colorado/JDF 2361 - Z Rem.pdf` | `acroform_dirty` / `hybrid` | 16 | 17 | `docs/record-clearing/field-map-drafts/colorado-jdf-2361-z-rem.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf-2361-z-rem/OPEN-ME-overlay.pdf` |
 | Colorado | `LegalEase Colorado/JDF2370.pdf` | `acroform_dirty` / `hybrid` | 6 | 6 | `docs/record-clearing/field-map-drafts/colorado-jdf2370.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf2370/OPEN-ME-overlay.pdf` |
 | Colorado | `LegalEase Colorado/JDF2371.pdf` | `acroform_dirty` / `hybrid` | 51 | 59 | `docs/record-clearing/field-map-drafts/colorado-jdf2371.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/colorado-jdf2371/OPEN-ME-overlay.pdf` |
@@ -48,14 +52,14 @@ Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map
 | North Carolina | `LegalEase North Carolina/cr287_1.pdf` | `acroform_dirty` / `hybrid` | 118 | 118 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-287.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr287-1/OPEN-ME-overlay.pdf` |
 | North Carolina | `LegalEase North Carolina/cr297.pdf` | `acroform_dirty` / `hybrid` | 104 | 104 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-297.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr297/OPEN-ME-overlay.pdf` |
 | North Carolina | `LegalEase North Carolina/cr298_1.pdf` | `acroform_dirty` / `hybrid` | 103 | 103 | `docs/record-clearing/field-map-drafts/north-carolina-aoc-cr-298.field-map-review.json` | `tmp/review-inbox/missing-folder-2-field-map-review/north-carolina-cr298-1/OPEN-ME-overlay.pdf` |
+| Wisconsin | `LegalEase Wisconsin/CR-266.pdf` | `manual_overlay_non_acroform` / `manual` | 11 | 11 | `docs/record-clearing/field-map-drafts/wisconsin-cr-266.field-map-review.json` | `tmp/review-inbox/blocked-pdf-manual-field-maps/wisconsin-cr-266/OPEN-ME-overlay.pdf` |
+| Wisconsin | `LegalEase Wisconsin/CR-267.pdf` | `manual_overlay_non_acroform` / `manual` | 15 | 15 | `docs/record-clearing/field-map-drafts/wisconsin-cr-267.field-map-review.json` | `tmp/review-inbox/blocked-pdf-manual-field-maps/wisconsin-cr-267/OPEN-ME-overlay.pdf` |
 
 ### Inspected But Not Drafted
 
 | Jurisdiction | Source PDF | Classification / mode | Reason blocked from draft mapping |
 | --- | --- | --- | --- |
 | California | `LegalEase California/Instructions-for-Filling-Out-a-Petition-for-Dismissal.pdf` | `scanned_pdf` / `manual_review` | Instruction packet only; no AcroForm widgets. |
-| California | `LegalEase California/cr180.pdf` | `encrypted_or_locked` / `manual_review` | Local PDF has encryption marker; `pdf-lib` will not load it without ignoring encryption. Do not draft a field map until source status and editable form strategy are reviewed. |
-| California | `LegalEase California/cr181.pdf` | `encrypted_or_locked` / `manual_review` | Local PDF has encryption marker; `pdf-lib` will not load it without ignoring encryption. Do not draft a field map until source status and editable form strategy are reviewed. |
 | Colorado | `LegalEase Colorado/JDF302.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
 | Colorado | `LegalEase Colorado/JDF302.spanish.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
 | Colorado | `LegalEase Colorado/JDF324.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection. |
@@ -72,9 +76,7 @@ Generated review packets live under `tmp/review-inbox/missing-folder-2-field-map
 | North Carolina | `LegalEase North Carolina/cr287-instr_3.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
 | North Carolina | `LegalEase North Carolina/cr297-instr_2.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
 | North Carolina | `LegalEase North Carolina/cr298-instr_7.pdf` | `scanned_pdf` / `manual_review` | Instructions only; no AcroForm widgets. |
-| Wisconsin | `LegalEase Wisconsin/CR-266.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection; overlay mapping would require a separate manual coordinate pass. |
 | Wisconsin | `LegalEase Wisconsin/CR-266_summary.pdf` | `scanned_pdf` / `manual_review` | Summary/instruction file; no AcroForm widgets. |
-| Wisconsin | `LegalEase Wisconsin/CR-267.pdf` | `scanned_pdf` / `manual_review` | No AcroForm widgets or text layer detected by local inspection; overlay mapping would require a separate manual coordinate pass. |
 | Wisconsin | `LegalEase Wisconsin/CR-267_summary.pdf` | `scanned_pdf` / `manual_review` | Summary/instruction file; no AcroForm widgets. |
 | Wisconsin | `LegalEase Wisconsin/forms-download/CR-266_en.pdf` | `scanned_pdf` / `manual_review` | Duplicate CR-266 source copy; no AcroForm widgets. |
 | Wisconsin | `LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf` | `scanned_pdf` / `manual_review` | Duplicate summary/instruction file; no AcroForm widgets. |
