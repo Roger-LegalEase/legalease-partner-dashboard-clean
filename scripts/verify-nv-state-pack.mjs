@@ -219,14 +219,25 @@ const siblingVerifiers = [
   "verify-mn-state-pack.mjs"
 ];
 const siblingResults = [];
-for (const script of siblingVerifiers) {
-  const res = spawnSync(process.execPath, [path.join(rootDir, "scripts", script)], {
-    cwd: rootDir,
-    encoding: "utf8"
-  });
-  const ok = res.status === 0;
-  siblingResults.push({ script, ok });
-  if (!ok) failures.push(`Sibling verifier failed: ${script} (exit ${res.status}).`);
+// Recursion guard. When this verifier is itself spawned by another verifier it
+// runs with RCAP_VERIFIER_CHILD=1; in that case it still performs all of its own
+// real checks above (content, legal-source, lifecycle, forbidden-path,
+// shadow-only) but MUST NOT re-run its own sibling loop -- otherwise each sibling
+// would recursively spawn its own siblings and fan out exponentially. A top-level
+// run (flag unset) spawns each sibling exactly once, passing the flag down, so the
+// child's own sibling loop is skipped. Sibling exit codes remain real (no faked
+// PASS); when running as a child, siblingResults is simply left empty.
+if (process.env.RCAP_VERIFIER_CHILD !== "1") {
+  for (const script of siblingVerifiers) {
+    const res = spawnSync(process.execPath, [path.join(rootDir, "scripts", script)], {
+      cwd: rootDir,
+      encoding: "utf8",
+      env: { ...process.env, RCAP_VERIFIER_CHILD: "1" }
+    });
+    const ok = res.status === 0;
+    siblingResults.push({ script, ok });
+    if (!ok) failures.push(`Sibling verifier failed: ${script} (exit ${res.status}).`);
+  }
 }
 
 // --- Step 8: Shadow artifact ---

@@ -5,15 +5,11 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-// Louisiana is a STATUTORY-FORM expungement state: the remedy is EXPUNGEMENT
-// (removal from public access, not destruction), filed as a "Motion for
-// Expungement" under La. Code Crim. Proc. tit. XXXIV (arts. 971-999.1). Routes
-// span no-conviction (arts. 976-977), misdemeanor (art. 977: 894(B) set-aside or
-// 5-year), felony (art. 978: 893(E) set-aside, 10-year, first-offender pardon,
-// 978(E) violent exception), first-offense marijuana (art. 998), interim
-// expungement (arts. 994-995), redaction, trafficking-victim, automated
-// (art. 985.2), and immediate after program (art. 985.3). This verifier proves
-// the Louisiana STATE PACK was built from the Nationwide source and remains
+// New Hampshire is an ANNULMENT state: the legal term is annulment, not
+// expungement (RSA 651:5). Routes: favorable outcome (not guilty/dismissed/not
+// prosecuted), vacated conviction, conviction annulment (offense-level waits),
+// marijuana possession (RSA 651:5-b), and DWI (RSA 265-A:21). This verifier proves
+// the New Hampshire STATE PACK was built from the Nationwide source and remains
 // shadow-only research: NOT wired to any renderer, NOT in the live jurisdiction
 // selector, and NOT verified_replacement. The overlay/config is intentionally
 // deferred (see report), so this verifier consumes the state pack directly.
@@ -26,109 +22,102 @@ const failures = [];
 registerTypeScriptHook();
 
 const recordClearing = require(path.join(rootDir, "src/lib/record-clearing/index.ts"));
-const laPackPath = path.join(rootDir, "src/lib/rcap/state-packs/louisiana/index.ts");
+const nhPackPath = path.join(rootDir, "src/lib/rcap/state-packs/new-hampshire/index.ts");
 
-// --- Step 1: LA state pack exists ---
+// --- Step 1: NH state pack exists ---
 
-if (!fs.existsSync(laPackPath)) {
-  failures.push("LA state pack index not found at src/lib/rcap/state-packs/louisiana/index.ts.");
+if (!fs.existsSync(nhPackPath)) {
+  failures.push("NH state pack index not found at src/lib/rcap/state-packs/new-hampshire/index.ts.");
   process.exit(reportAndExit());
 }
-const laPack = require(laPackPath);
+const nhPack = require(nhPackPath);
 
 const expectedPackExports = [
-  "laEligibilityRules",
-  "laWaitingPeriodNotes",
-  "laFilingInstructions",
-  "laDisqualifyingOffenseNotes",
-  "laPlainLanguage",
-  "laSafetyDisclaimer",
-  "laFeeNotes",
-  "laPathways",
-  "laPathwayLabels",
-  "laRequiredFields",
-  "laFieldLabels",
-  "laDocumentTypes",
-  "laOfficialForms",
-  "laStatutorySourceFiles",
-  "laSampleDocumentInputs"
+  "nhEligibilityRules",
+  "nhWaitingPeriodNotes",
+  "nhFilingInstructions",
+  "nhDisqualifyingOffenseNotes",
+  "nhPlainLanguage",
+  "nhSafetyDisclaimer",
+  "nhFeeNotes",
+  "nhPathways",
+  "nhPathwayLabels",
+  "nhRequiredFields",
+  "nhFieldLabels",
+  "nhDocumentTypes",
+  "nhOfficialForms",
+  "nhSampleDocumentInputs"
 ];
 for (const name of expectedPackExports) {
-  if (!(name in laPack)) failures.push(`LA state pack missing export: ${name}.`);
+  if (!(name in nhPack)) failures.push(`NH state pack missing export: ${name}.`);
 }
 
 // --- Step 2: State-pack content is consumed and internally consistent ---
 
-if (Array.isArray(laPack.laPathways)) {
-  const pathwayIds = laPack.laPathways.map((p) => p.pathway);
+if (Array.isArray(nhPack.nhPathways)) {
+  const pathwayIds = nhPack.nhPathways.map((p) => p.pathway);
   const requiredPathways = [
-    "no_conviction_expungement",
-    "misdemeanor_conviction_expungement",
-    "felony_conviction_expungement",
-    "first_offense_marijuana_expungement",
-    "interim_expungement",
-    "expungement_by_redaction",
-    "human_trafficking_victim",
-    "automated_expungement",
-    "immediate_expungement_after_program"
+    "favorable_outcome_annulment",
+    "vacated_conviction_annulment",
+    "conviction_annulment",
+    "marijuana_possession_annulment",
+    "dwi_annulment",
+    "out_of_state_federal_unavailable"
   ];
   for (const id of requiredPathways) {
-    if (!pathwayIds.includes(id)) failures.push(`LA pathways missing required pathway: ${id}.`);
+    if (!pathwayIds.includes(id)) failures.push(`NH pathways missing required pathway: ${id}.`);
   }
-  for (const p of laPack.laPathways) {
-    if (!p.citation || !/Crim\. Proc\./.test(p.citation)) {
-      failures.push(`LA pathway '${p.pathway}' is missing a La. Code Crim. Proc. citation.`);
+  for (const p of nhPack.nhPathways) {
+    if (!p.citation || !/RSA/.test(p.citation)) {
+      failures.push(`NH pathway '${p.pathway}' is missing an RSA citation.`);
     }
   }
   for (const id of pathwayIds) {
-    if (!(id in laPack.laRequiredFields)) {
-      failures.push(`laRequiredFields missing entry for pathway '${id}'.`);
+    if (!(id in nhPack.nhRequiredFields)) {
+      failures.push(`nhRequiredFields missing entry for pathway '${id}'.`);
     }
   }
 }
 
-const allPackText = JSON.stringify(laPack);
+const allPackText = JSON.stringify(nhPack);
 const requiredCitations = [
-  "art. 977",
-  "art. 978",
-  "art. 998",
-  "arts. 994-995",
-  "art. 985.2",
-  "art. 985.3",
-  "art. 893",
-  "art. 894",
-  "art. 989",
-  "tit. XXXIV"
+  "RSA 651:5",
+  "RSA 651:5-b",
+  "RSA 265-A:21",
+  "RSA 651:6",
+  "RSA 632-A:4",
+  "RSA 631:2-b",
+  "NHJB-2317"
 ];
 for (const cite of requiredCitations) {
-  if (!allPackText.includes(cite)) failures.push(`LA state pack is missing required citation: ${cite}.`);
+  if (!allPackText.includes(cite)) failures.push(`NH state pack is missing required citation: ${cite}.`);
 }
 
-// Louisiana's defining structure and vocabulary: motion-based expungement.
-if (!/Motion for Expungement/i.test(allPackText)) {
-  failures.push("LA state pack must center on the 'Motion for Expungement' (art. 989).");
+// New Hampshire's defining structure and vocabulary: ANNULMENT.
+if (!/651:5/.test(allPackText)) failures.push("NH state pack must center on RSA 651:5.");
+if (!/annulment/i.test(allPackText)) failures.push("NH state pack must use 'annulment' vocabulary.");
+if (!/separate petition/i.test(allPackText)) {
+  failures.push("NH state pack must capture the separate-petition-per-record rule.");
 }
-if (!/expungement/i.test(allPackText)) failures.push("LA state pack must use 'expungement'.");
-if (!/public access/i.test(allPackText)) {
-  failures.push("LA state pack must capture the removal-from-public-access concept.");
+if (!/multiple convictions/i.test(allPackText)) {
+  failures.push("NH state pack must capture the multiple-convictions all-eligible rule.");
 }
-if (!/first[- ]offender pardon/i.test(allPackText)) {
-  failures.push("LA state pack must capture the first-offender-pardon felony route.");
+if (!/barred/i.test(allPackText)) {
+  failures.push("NH state pack must capture the barred-offense categories.");
 }
-if (!/\$550/.test(allPackText)) failures.push("LA state pack must capture the $550 standard fee cap.");
 
-// Forms catalog must include the core statutory expungement forms.
-if (Array.isArray(laPack.laOfficialForms)) {
-  const names = laPack.laOfficialForms.map((f) => `${f.article || ""} ${f.officialName}`).join(" | ");
-  for (const needle of ["Art. 989", "Art. 987", "Art. 998"]) {
-    if (!names.includes(needle)) failures.push(`LA official-forms catalog missing: ${needle}.`);
+// Forms catalog must include the NHJB petition and checklist.
+if (Array.isArray(nhPack.nhOfficialForms)) {
+  const names = nhPack.nhOfficialForms.map((f) => `${f.formNumber || ""} ${f.officialName || ""}`).join(" | ");
+  for (const needle of ["NHJB-2317-DSe", "Checklist"]) {
+    if (!names.includes(needle)) failures.push(`NH official-forms catalog missing: ${needle}.`);
   }
 }
 
 // --- Step 3: No seals / logos and no other-state boilerplate leaked ---
 
 if (/\[seal\]/i.test(allPackText) || /\[logo\]/i.test(allPackText)) {
-  failures.push("LA state pack must not contain [seal] or [logo] markers.");
+  failures.push("NH state pack must not contain [seal] or [logo] markers.");
 }
 const otherStateLeakTerms = [
   "Commonwealth of Pennsylvania",
@@ -144,8 +133,11 @@ const otherStateLeakTerms = [
   "Missouri",
   "Nevada",
   "New Mexico",
+  "Louisiana",
   "Maine",
   "Massachusetts",
+  "Montana",
+  "Ohio",
   "FDLE",
   "Nebraska",
   "RSMo",
@@ -153,38 +145,40 @@ const otherStateLeakTerms = [
   "NMSA",
   "M.R.S.",
   "M.G.L.",
+  "Mont. Code Ann.",
+  "Ohio Rev. Code",
+  "Crim. Proc.",
   "610.140",
   "29-3A"
 ];
 for (const term of otherStateLeakTerms) {
-  if (allPackText.includes(term)) failures.push(`LA state pack must not contain other-state content: "${term}".`);
+  if (allPackText.includes(term)) failures.push(`NH state pack must not contain other-state content: "${term}".`);
 }
-// Must not borrow other states' relief vocabulary (Louisiana legitimately uses
-// "set aside" under arts. 893/894, so that is NOT banned here).
-for (const term of ["Clean Slate", "record restriction", "annulment", "Certificate of Eligibility", "record sealing"]) {
+// Must not borrow other states' relief vocabulary.
+for (const term of ["Clean Slate", "record restriction", "Certificate of Eligibility", "set aside", "set-aside", "redesignation"]) {
   if (new RegExp(term, "i").test(allPackText)) {
-    failures.push(`LA state pack must not use non-Louisiana relief vocabulary: "${term}".`);
+    failures.push(`NH state pack must not use non-New-Hampshire relief vocabulary: "${term}".`);
   }
 }
 
-// --- Step 4: Shadow-only — LA not wired to a renderer or the live selector ---
+// --- Step 4: Shadow-only — NH not wired to a renderer or the live selector ---
 
-if (fs.existsSync(path.join(rootDir, "src/lib/record-clearing/louisiana-config.ts"))) {
+if (fs.existsSync(path.join(rootDir, "src/lib/record-clearing/new-hampshire-config.ts"))) {
   failures.push(
-    "louisiana-config.ts exists: Louisiana uses statutory codal forms; the renderer/field-map/config is deferred until per-article form review + a Nationwide fidelity check are approved."
+    "new-hampshire-config.ts exists: New Hampshire uses official NHJB forms; the overlay/field-map/config is deferred until per-form review + a Nationwide fidelity check are approved."
   );
 }
 for (const name of Object.keys(recordClearing)) {
-  if (/^la[A-Z]/.test(name) && /Config$/.test(name)) {
-    failures.push(`Unexpected Louisiana config exported from record-clearing index: ${name} (must stay deferred).`);
+  if (/^nh[A-Z]/.test(name) && /Config$/.test(name)) {
+    failures.push(`Unexpected New Hampshire config exported from record-clearing index: ${name} (must stay deferred).`);
   }
 }
-const laLive = Array.isArray(recordClearing.recordClearingJurisdictions)
-  ? recordClearing.recordClearingJurisdictions.some((j) => j.jurisdictionCode === "LA")
+const nhLive = Array.isArray(recordClearing.recordClearingJurisdictions)
+  ? recordClearing.recordClearingJurisdictions.some((j) => j.jurisdictionCode === "NH")
   : false;
-if (laLive) failures.push("Louisiana must not appear in the live recordClearingJurisdictions selector.");
+if (nhLive) failures.push("New Hampshire must not appear in the live recordClearingJurisdictions selector.");
 if (/verified_replacement/.test(allPackText)) {
-  failures.push("LA state pack must not declare verified_replacement lifecycle.");
+  failures.push("NH state pack must not declare verified_replacement lifecycle.");
 }
 
 // --- Step 5: Mississippi remains excluded from the new engine ---
@@ -200,7 +194,7 @@ if (hasForbiddenChanges()) {
   failures.push("Forbidden file changes detected (live routes, legacy rcap generators, or Nebraska files).");
 }
 
-// --- Step 7: Sibling verifiers still pass (PA/DC/ND/OK/WY/MD/GA/FL/MN/MO/NV/NM) ---
+// --- Step 7: Sibling verifiers still pass (15 established) ---
 
 const siblingVerifiers = [
   "verify-pleading-state.mjs",
@@ -214,7 +208,10 @@ const siblingVerifiers = [
   "verify-mn-state-pack.mjs",
   "verify-mo-state-pack.mjs",
   "verify-nv-state-pack.mjs",
-  "verify-nm-state-pack.mjs"
+  "verify-nm-state-pack.mjs",
+  "verify-la-state-pack.mjs",
+  "verify-me-state-pack.mjs",
+  "verify-ma-state-pack.mjs"
 ];
 const siblingResults = [];
 // Recursion guard. When this verifier is itself spawned by another verifier it
@@ -240,40 +237,40 @@ if (process.env.RCAP_VERIFIER_CHILD !== "1") {
 
 // --- Step 8: Shadow artifact ---
 
-const outputDir = path.join(rootDir, "tmp/record-clearing-shadow/louisiana");
+const outputDir = path.join(rootDir, "tmp/record-clearing-shadow/new-hampshire");
 fs.mkdirSync(outputDir, { recursive: true });
 const artifact = {
-  state: "LA",
-  tier: "Tier 2/hybrid (statewide agent RTF + Louisiana Laws HTML statutes / codal forms -> structured state pack)",
+  state: "NH",
+  tier: "Tier 2/hybrid (annulment agent RTF + official NHJB form PDFs -> structured state pack)",
   lifecycle: "shadow_only",
   verifiedReplacement: false,
   liveRouted: false,
   rendererStrategy:
-    "official_pdf_form_filling / overlay (deferred, per-article): Louisiana forms are statutory (arts. 987-995, 998, 999.1); Motion for Expungement (art. 989) + orders; config deferred pending codal-form review",
-  pathways: Array.isArray(laPack.laPathways) ? laPack.laPathways.map((p) => p.pathway) : [],
-  officialForms: Array.isArray(laPack.laOfficialForms)
-    ? laPack.laOfficialForms.map((f) => f.article || f.officialName)
+    "official_pdf_form_filling / overlay (deferred, per-form): New Hampshire uses NHJB-2317-DSe (Petition to Annul) and related NHJB forms; separate petition per record; config deferred pending form identification",
+  pathways: Array.isArray(nhPack.nhPathways) ? nhPack.nhPathways.map((p) => p.pathway) : [],
+  officialForms: Array.isArray(nhPack.nhOfficialForms)
+    ? nhPack.nhOfficialForms.map((f) => f.formNumber || f.officialName)
     : [],
   siblingVerifiers: siblingResults
 };
-fs.writeFileSync(path.join(outputDir, "la-state-pack-summary.json"), `${JSON.stringify(artifact, null, 2)}\n`);
+fs.writeFileSync(path.join(outputDir, "nh-state-pack-summary.json"), `${JSON.stringify(artifact, null, 2)}\n`);
 
 // --- Report ---
 
 if (failures.length > 0) {
-  console.error("Louisiana state-pack verification FAILED.");
+  console.error("New Hampshire state-pack verification FAILED.");
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
 
-console.log("Louisiana state-pack verification PASSED.");
-console.log(`  LA state pack exists:          yes`);
+console.log("New Hampshire state-pack verification PASSED.");
+console.log(`  NH state pack exists:          yes`);
 console.log(`  Pack exports present:          ${expectedPackExports.length}`);
 console.log(`  Pathways:                      ${artifact.pathways.length}`);
 console.log(`  Official forms cataloged:      ${artifact.officialForms.length}`);
 console.log(`  Renderer strategy:             official_pdf/overlay (config deferred)`);
-console.log(`  Removal-not-destruction framing:enforced`);
-console.log(`  Louisiana config wired:        no (deferred)`);
+console.log(`  Annulment-not-expungement:     enforced`);
+console.log(`  New Hampshire config wired:    no (deferred)`);
 console.log(`  Live-routed (selector):        no`);
 console.log(`  Lifecycle verified_replacement:no`);
 console.log(`  Seals / logos in pack:         no`);
@@ -281,13 +278,13 @@ console.log(`  Other-state leakage:           no`);
 console.log(`  Mississippi new-engine:        no`);
 console.log(`  Forbidden files changed:       no`);
 for (const r of siblingResults) console.log(`  Sibling ${r.script.padEnd(28)} ${r.ok ? "PASS" : "FAIL"}`);
-console.log(`  Shadow summary:                ${path.join(outputDir, "la-state-pack-summary.json")}`);
+console.log(`  Shadow summary:                ${path.join(outputDir, "nh-state-pack-summary.json")}`);
 
 // --- Helpers ---
 
 function reportAndExit() {
   if (failures.length > 0) {
-    console.error("Louisiana state-pack verification FAILED.");
+    console.error("New Hampshire state-pack verification FAILED.");
     for (const f of failures) console.error(`  - ${f}`);
     return 1;
   }
