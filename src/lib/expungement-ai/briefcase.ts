@@ -26,6 +26,11 @@ type ConsumerBriefcaseRow = {
   next_steps_json: string[];
   artifact_refs_json: Record<string, unknown>;
   payment_status: ConsumerBriefcaseItem["paymentStatus"] | null;
+  payment_provider: ConsumerBriefcaseItem["paymentProvider"] | null;
+  checkout_session_id: string | null;
+  payment_intent_id: string | null;
+  amount_cents: 5000 | null;
+  receipt_url: string | null;
   packet_status: ConsumerBriefcaseItem["packetStatus"] | null;
   reminder_at: string | null;
   source_session_id: string | null;
@@ -57,6 +62,11 @@ export async function createBriefcaseItem(input: CreateConsumerBriefcaseItemInpu
       next_steps_json: input.nextSteps,
       artifact_refs_json: input.artifactRefs ?? {},
       payment_status: input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable"),
+      payment_provider: input.paymentProvider ?? null,
+      checkout_session_id: input.checkoutSessionId ?? null,
+      payment_intent_id: input.paymentIntentId ?? null,
+      amount_cents: input.amountCents ?? (input.paymentAllowed ? 5000 : null),
+      receipt_url: input.receiptUrl ?? null,
       packet_status: input.packetStatus ?? "not_started",
       reminder_at: input.reminderAt ?? null,
       source_session_id: input.sourceSessionId ?? null
@@ -121,6 +131,46 @@ export async function updateBriefcaseItemStatus(
   const { data, error } = await supabase
     .from("consumer_briefcase_items")
     .update({ status, updated_at: new Date().toISOString() })
+    .eq("user_id", userId)
+    .eq("id", itemId)
+    .select("*")
+    .single<ConsumerBriefcaseRow>();
+
+  if (error || !data) return null;
+  return rowToBriefcaseItem(data);
+}
+
+export async function updateBriefcasePaymentMetadata(
+  userId: string,
+  itemId: string,
+  metadata: Pick<
+    ConsumerBriefcaseItem,
+    "paymentStatus" | "paymentProvider" | "checkoutSessionId" | "paymentIntentId" | "amountCents" | "receiptUrl" | "packetStatus"
+  >
+): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = await getConsumerBriefcaseClient();
+
+  if (!supabase) {
+    const items = fallbackItemsForUser(userId);
+    const index = items.findIndex((item) => item.id === itemId);
+    if (index === -1) return null;
+    items[index] = { ...items[index], ...metadata };
+    fallbackItemsByUser.set(userId, items);
+    return items[index];
+  }
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .update({
+      payment_status: metadata.paymentStatus,
+      payment_provider: metadata.paymentProvider,
+      checkout_session_id: metadata.checkoutSessionId,
+      payment_intent_id: metadata.paymentIntentId,
+      amount_cents: metadata.amountCents,
+      receipt_url: metadata.receiptUrl,
+      packet_status: metadata.packetStatus,
+      updated_at: new Date().toISOString()
+    })
     .eq("user_id", userId)
     .eq("id", itemId)
     .select("*")
@@ -261,6 +311,11 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
     packetType: input.packetType,
     artifactRefs: input.artifactRefs,
     paymentStatus: input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable"),
+    paymentProvider: input.paymentProvider,
+    checkoutSessionId: input.checkoutSessionId,
+    paymentIntentId: input.paymentIntentId,
+    amountCents: input.amountCents ?? (input.paymentAllowed ? 5000 : undefined),
+    receiptUrl: input.receiptUrl,
     packetStatus: input.packetStatus,
     reminderAt: input.reminderAt,
     sourceSessionId: input.sourceSessionId
@@ -286,6 +341,11 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     packetType: row.packet_type ?? undefined,
     artifactRefs: row.artifact_refs_json,
     paymentStatus: row.payment_status ?? undefined,
+    paymentProvider: row.payment_provider ?? undefined,
+    checkoutSessionId: row.checkout_session_id ?? undefined,
+    paymentIntentId: row.payment_intent_id ?? undefined,
+    amountCents: row.amount_cents ?? undefined,
+    receiptUrl: row.receipt_url ?? undefined,
     packetStatus: row.packet_status ?? undefined,
     reminderAt: row.reminder_at ?? undefined,
     sourceSessionId: row.source_session_id ?? undefined

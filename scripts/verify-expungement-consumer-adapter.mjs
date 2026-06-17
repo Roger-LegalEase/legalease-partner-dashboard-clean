@@ -88,14 +88,16 @@ assert(!adapterSource.includes("state_not_live"), "Consumer adapter must not inc
 assert(resultPanelSource.includes('result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution")'), "Pay gate must require paymentAllowed and packet-ready result codes.");
 assert(resultPanelSource.includes('data-consumer-pay-gate="hidden"'), "Result panel must render a hidden pay-gate state for non-payment results.");
 assert(paymentSource.includes("isConsumerPaymentAllowed"), "Consumer payment placeholder must reuse the payment clamp.");
-assert(!paymentSource.includes("stripe") && !paymentSource.includes("@/lib/stripe"), "Placeholder payment adapter must not import Stripe.");
+assert(paymentSource.includes("createConsumerPacketCheckout"), "Consumer payment adapter must expose checkout plumbing.");
+assert(paymentSource.includes("@/lib/stripe/server"), "Consumer payment adapter must use the isolated server Stripe helper.");
+assert(!paymentSource.includes("partner_billing") && !paymentSource.includes("partner_billing_requests"), "Consumer payment adapter must not touch partner billing.");
 assert(adapterSource.includes("saveEligibilityCheckToBriefcase"), "Every eligibility check must save to Briefcase.");
 assert(adapterSource.includes("saveEligibilityResultToBriefcase"), "Every eligibility result must save to Briefcase.");
 assert(briefcaseSource.includes("guidance_saved"), "Briefcase must represent guidance-only saved matters.");
 assert(briefcaseSource.includes("wilma_conversation"), "Briefcase must include Wilma conversations.");
 assert(wilmaBubbleSource.includes("data-wilma-bubble"), "Wilma bubble must expose a stable marker.");
 assert(packageSource.includes('"expungement:verify-consumer-adapter"'), "Missing npm verifier script.");
-assert(paymentSource.includes("Placeholder adapter only; replace with real service integration before production payments."), "Payment placeholder boundary must be explicit.");
+assert(paymentSource.includes("dry_run"), "Payment adapter must keep an explicit dry-run fallback when Stripe is not configured.");
 assert(briefcaseSource.includes("Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS."), "Briefcase production persistence boundary must be explicit.");
 assert(briefcaseSource.includes("Safe fallback path"), "Briefcase fallback boundary must be explicit.");
 assert(wilmaBubbleSource.includes("screening tool decides eligibility"), "Wilma frontend shell must defer eligibility decisions to the screening tool.");
@@ -149,6 +151,7 @@ const changedFiles = process.env.EXPUNGEMENT_VERIFY_CHANGED_FILES?.split("\n").f
   .map((line) => line.slice(3).trim());
 for (const file of changedFiles) {
   if (file === "supabase/phase-26-consumer-briefcase-items.sql") continue;
+  if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }
@@ -171,4 +174,4 @@ console.log("No state_not_live branch in consumer flow.");
 console.log("Pay gate is clamped to paymentAllowed plus packet-ready result codes.");
 console.log("Non-payment result codes verified with hidden pay gate.");
 console.log("Briefcase save hooks and Wilma global bubble markers are present.");
-console.log("Placeholder payment adapter has no Stripe import and restricted files are untouched.");
+console.log("Consumer payment adapter is isolated from partner billing and restricted files are untouched.");

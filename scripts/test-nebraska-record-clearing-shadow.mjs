@@ -141,9 +141,11 @@ function assertNoLiveRoutesModified() {
     .split(/\r?\n/)
     .filter(Boolean)
     .filter((line) => !line.includes("src/app/internal/record-clearing/"))
+    .filter((line) => !line.includes("src/app/api/expungement-ai/"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
     .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
+    .filter((line) => !line.includes("supabase/phase-27-consumer-checkout-metadata.sql"))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
 }

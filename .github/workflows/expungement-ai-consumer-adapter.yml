@@ -9,10 +9,12 @@ on:
       - src/app/briefcase/**
       - src/lib/expungement-ai/**
       - supabase/phase-26-consumer-briefcase-items.sql
+      - supabase/phase-27-consumer-checkout-metadata.sql
       - docs/EXPUNGEMENT_AI_CONSUMER_ADAPTER.md
       - design-handoff/expungement-ai-frontend/**
       - scripts/verify-expungement-consumer-adapter.mjs
       - scripts/verify-expungement-consumer-persistence.mjs
+      - scripts/verify-expungement-consumer-checkout.mjs
       - package.json
       - package-lock.json
       - .github/workflows/expungement-ai-consumer-adapter.yml
@@ -71,3 +73,6 @@ jobs:
 
       - name: Verify Expungement.ai consumer persistence
         run: npm run expungement:verify-consumer-persistence
+
+      - name: Verify Expungement.ai consumer checkout
+        run: npm run expungement:verify-consumer-checkout
