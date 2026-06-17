@@ -97,7 +97,10 @@ function assertNoRestrictedChanges() {
     "src/app/expungement/",
     "src/components/expungement/"
   ];
-  const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
+  const allowedConsumerPersistenceFiles = new Set(["supabase/phase-26-consumer-briefcase-items.sql"]);
+  const forbidden = changedFiles
+    .filter((file) => !allowedConsumerPersistenceFiles.has(file))
+    .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
   if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
 }
 

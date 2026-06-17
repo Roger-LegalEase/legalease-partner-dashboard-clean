@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Briefcase, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ export default async function BriefcasePacketPage({
   params: Promise<{ packetId: string }>;
 }) {
   const { packetId } = await params;
-  const auth = await getRcapBriefcaseAuthState();
+  const auth = await requireConsumerBriefcaseSession();
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -33,7 +33,7 @@ export default async function BriefcasePacketPage({
           <div className="mt-6 flex items-start gap-3 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-teal" aria-hidden="true" />
             <p className="text-sm leading-6 text-grayWilma-700">
-              Packet reference: {packetId}. Auth mode: {auth.mode}. Sensitive packet fields are not displayed without production user protection.
+              Packet reference: {packetId}. Auth mode: {auth.mode}. Sensitive packet fields are scoped to the signed-in consumer session.
             </p>
           </div>
           <Link href="/sign-in" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white">
