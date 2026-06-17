@@ -85,7 +85,7 @@ for (const stateName of batches[batch]) {
     throw new Error(`State not found in all50 manifest/inventory: ${stateName}`);
   }
 
-  const slug = stateName === "Texas" ? "texas" : slugify(stateName);
+  const slug = stateName === "Texas" ? "texas" : stateName === "District of Columbia" ? "dc" : slugify(stateName);
   const packDir = path.join(rootDir, "src/lib/rcap/state-packs", slug);
   fs.mkdirSync(packDir, { recursive: true });
 
@@ -141,7 +141,7 @@ export const ${metadataName} = ${JSON.stringify(
       jurisdiction: {
         code: state.code,
         name: state.name,
-        slug: state.slug === "texas" ? "texas" : state.slug,
+        slug: state.code === "DC" ? "dc" : state.slug === "texas" ? "texas" : state.slug,
         sourceFolders: inventory.sourceFolders
       },
       products: [

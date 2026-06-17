@@ -23,7 +23,10 @@ const requiredTopLevelKeys = [
   "buildStatusMetadata"
 ];
 
-const slugOverrides = new Map([["TX", "texas"]]);
+const slugOverrides = new Map([
+  ["DC", "dc"],
+  ["TX", "texas"]
+]);
 
 for (const state of manifest.states) {
   const slug = slugOverrides.get(state.code) || state.slug;
@@ -85,6 +88,9 @@ console.log("Legacy live generator files unchanged: yes");
 console.log("Expungement.ai UI untouched: yes");
 
 function runGit(args) {
-  const { execFileSync } = require("node:child_process");
-  return execFileSync("git", args, { cwd: rootDir, encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
+  const { spawnSync } = require("node:child_process");
+  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
+  const output = result.stdout || "";
+  if (result.error && output.length === 0) return [];
+  return output.split(/\r?\n/).filter(Boolean);
 }

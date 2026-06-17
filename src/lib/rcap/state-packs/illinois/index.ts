@@ -11,3 +11,4 @@ export * from "./required-fields";
 export * from "./safety-language";
 export * from "./sample-data";
 export * from "./waiting-periods";
+export * from "./all50-build-metadata";
