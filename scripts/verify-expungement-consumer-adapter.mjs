@@ -96,7 +96,8 @@ assert(briefcaseSource.includes("wilma_conversation"), "Briefcase must include W
 assert(wilmaBubbleSource.includes("data-wilma-bubble"), "Wilma bubble must expose a stable marker.");
 assert(packageSource.includes('"expungement:verify-consumer-adapter"'), "Missing npm verifier script.");
 assert(paymentSource.includes("Placeholder adapter only; replace with real service integration before production payments."), "Payment placeholder boundary must be explicit.");
-assert(briefcaseSource.includes("Placeholder adapter only; replace with real Briefcase database persistence before production."), "Briefcase placeholder boundary must be explicit.");
+assert(briefcaseSource.includes("Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS."), "Briefcase production persistence boundary must be explicit.");
+assert(briefcaseSource.includes("Safe fallback path"), "Briefcase fallback boundary must be explicit.");
 assert(wilmaBubbleSource.includes("screening tool decides eligibility"), "Wilma frontend shell must defer eligibility decisions to the screening tool.");
 assert(adapterSource.includes("RCAP engine remains the eligibility source of truth"), "Eligibility adapter boundary must be explicit.");
 
@@ -115,8 +116,8 @@ assert(paymentAllowedForFixture("packet_ready_with_caution"), "packet_ready_with
 const briefcaseRoutes = routes.filter((route) => route.startsWith("src/app/briefcase/"));
 for (const route of briefcaseRoutes) {
   const source = read(route);
-  assert(source.includes("getRcapBriefcaseAuthState") || source.includes("BriefcaseAuthGate"), `${route} must require a user session.`);
-  assert(source.includes("BriefcaseShell") || source.includes("BriefcaseAuthGate"), `${route} must render the Briefcase Wilma shell or auth gate.`);
+  assert(source.includes("requireConsumerBriefcaseSession"), `${route} must require a user session.`);
+  assert(source.includes("BriefcaseShell"), `${route} must render the Briefcase Wilma shell.`);
 }
 
 const expungementRoutes = routes.filter((route) => route.startsWith("src/app/expungement-ai/"));
@@ -147,6 +148,7 @@ const changedFiles = process.env.EXPUNGEMENT_VERIFY_CHANGED_FILES?.split("\n").f
   .filter(Boolean)
   .map((line) => line.slice(3).trim());
 for (const file of changedFiles) {
+  if (file === "supabase/phase-26-consumer-briefcase-items.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }

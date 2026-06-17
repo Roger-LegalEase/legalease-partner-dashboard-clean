@@ -78,7 +78,18 @@ Every consumer has a Briefcase. The shell models these saved item types:
 - generated packets
 - Wilma conversations
 
-Briefcase sections include My Checks, My Packets, Filing Checklist, Reminders, Payment History, and Wilma Conversations. Current persistence is an isolated placeholder adapter in `src/lib/expungement-ai/briefcase.ts`; production must replace it with real consumer database persistence.
+Briefcase sections include My Checks, My Packets, Filing Checklist, Reminders, Payment History, and Wilma Conversations.
+
+`src/lib/expungement-ai/briefcase.ts` now exposes the consumer persistence foundation:
+
+- `createBriefcaseItem`
+- `listBriefcaseItems`
+- `getBriefcaseItem`
+- `updateBriefcaseItemStatus`
+
+The production-ready path uses the request-scoped Supabase auth client and the `consumer_briefcase_items` table under owner-scoped RLS. The safe fallback path remains for local and not-yet-configured environments only.
+
+The migration is staged in `supabase/phase-26-consumer-briefcase-items.sql`. It has not been applied by this branch.
 
 ## Wilma Rule
 
@@ -90,8 +101,7 @@ Wilma renders as a global bubble on every Expungement.ai and Briefcase page. The
 
 ## Still Needed Before Production Payment
 
-- real consumer auth persistence
-- real Briefcase database persistence
+- apply/review the consumer Briefcase migration through the production DB process
 - real Stripe checkout/payment confirmation
 - real post-payment packet generation call
 - receipt storage

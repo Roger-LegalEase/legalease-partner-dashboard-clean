@@ -49,6 +49,31 @@ export type ConsumerBriefcaseItem = {
   nextSteps: string[];
   paymentAllowed: boolean;
   packetReady: boolean;
+  pathwayLabel?: string;
+  packetType?: ExpungementAiEligibilityResult["packetType"];
+  artifactRefs?: Record<string, unknown>;
+  paymentStatus?: "not_applicable" | "unpaid" | "paid" | "refunded";
+  packetStatus?: "not_started" | "ready" | "downloaded";
+  reminderAt?: string;
+  sourceSessionId?: string;
+};
+
+export type CreateConsumerBriefcaseItemInput = {
+  userId: string;
+  itemType: ConsumerBriefcaseItem["type"];
+  jurisdiction: string;
+  pathwayLabel?: string;
+  resultCode?: ExpungementAiResultCode;
+  packetType?: ExpungementAiEligibilityResult["packetType"];
+  paymentAllowed: boolean;
+  status: ConsumerMatterStatus;
+  summary: string;
+  nextSteps: string[];
+  artifactRefs?: Record<string, unknown>;
+  paymentStatus?: ConsumerBriefcaseItem["paymentStatus"];
+  packetStatus?: ConsumerBriefcaseItem["packetStatus"];
+  reminderAt?: string;
+  sourceSessionId?: string;
 };
 
 export type ExpungementAiCheckInput = {

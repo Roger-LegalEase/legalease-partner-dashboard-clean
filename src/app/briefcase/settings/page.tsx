@@ -1,12 +1,11 @@
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
-import { BriefcaseAuthGate, SettingsView } from "@/components/expungement-ai/BriefcaseViews";
-import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import { SettingsView } from "@/components/expungement-ai/BriefcaseViews";
+import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function BriefcaseSettingsPage() {
-  const auth = await getRcapBriefcaseAuthState();
-  if (!auth.isAuthenticated) return <BriefcaseAuthGate />;
+  const auth = await requireConsumerBriefcaseSession();
 
   return (
     <BriefcaseShell userEmail={auth.userEmail}>

@@ -143,6 +143,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("src/app/internal/record-clearing/"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
+    .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
 }
