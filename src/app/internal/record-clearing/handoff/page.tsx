@@ -29,7 +29,7 @@ export default async function All50InternalHandoffPage() {
             <Badge tone="blue">Internal admin only</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy md:text-5xl">RCAP all-50 QA attorney handoff</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
-              Final internal dashboard for QA, visual review, source freshness review, and attorney review. Pending review does not block state_built status and does block live approval.
+              Final internal dashboard for QA, visual review, source freshness review, and attorney review. Pending review does not block <code className="rounded bg-grayWilma-100 px-1 py-0.5 text-[0.85em] font-semibold text-navy">state_built</code>, but it does block live approval.
             </p>
           </div>
           <Card className="rounded-md p-5">

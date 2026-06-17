@@ -50,6 +50,13 @@ export default async function All50InternalStateDetailPage({
             <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
               Jurisdiction summary, state-pack metadata, form overlay status, sample packets, blocked forms, and pending review checklists for QA and attorney handoff.
             </p>
+            <p className="mt-3 max-w-3xl rounded-md border border-grayWilma-200 bg-[#fbfcfa] px-3 py-2 text-xs leading-5 text-grayWilma-700">
+              These are repository review artifact paths for internal QA/attorney review. Listed file and form locations are repository paths, not clickable downloads. Open the{" "}
+              <Link href={`/internal/record-clearing/states/${state.build.slug}/review`} className="font-black text-[#31465b] underline">
+                review artifact packet
+              </Link>{" "}
+              for the full file reference list.
+            </p>
           </div>
           <Card className="rounded-md p-5">
             <p className="text-sm font-black text-navy">Jurisdiction summary</p>
@@ -95,29 +102,54 @@ export default async function All50InternalStateDetailPage({
 
         <section className="mt-8 grid gap-5 lg:grid-cols-[1fr_0.72fr]">
           <Card className="rounded-md p-5">
-            <h2 className="text-xl font-black text-navy">Official form inventory</h2>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-xl font-black text-navy">Official form inventory</h2>
+              <span className="text-xs font-black uppercase text-grayWilma-600">{state.forms.length} forms total</span>
+            </div>
             <div className="mt-4 grid gap-3">
               {state.forms.slice(0, 24).map((form) => (
                 <FormRow key={`${form.relativePath}-${form.status}`} form={form} />
               ))}
             </div>
-            {state.forms.length > 24 ? <p className="mt-4 text-xs text-grayWilma-600">{state.forms.length - 24} additional forms are listed in forms-manifest.json.</p> : null}
+            <p className="mt-4 text-xs text-grayWilma-600">
+              {state.forms.length > 24
+                ? `Showing first 24 of ${state.forms.length} forms. The complete inventory is in forms-manifest.json under the review packet root (${state.reviewRoot}/forms-manifest.json).`
+                : `All ${state.forms.length} forms shown. Full inventory is also in forms-manifest.json under ${state.reviewRoot}.`}
+            </p>
           </Card>
 
           <div className="grid gap-5">
             <Card className="rounded-md p-5">
-              <h2 className="flex items-center gap-2 text-xl font-black text-navy">
-                <ListChecks className="h-5 w-5 text-teal" aria-hidden="true" />
-                Sample packet list
-              </h2>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="flex items-center gap-2 text-xl font-black text-navy">
+                  <ListChecks className="h-5 w-5 text-teal" aria-hidden="true" />
+                  Sample packet list
+                </h2>
+                <span className="text-xs font-black uppercase text-grayWilma-600">{state.samples.length} samples total</span>
+              </div>
               <PathList paths={state.samples.slice(0, 18)} empty="No rendered samples for this state." />
+              {state.samples.length > 18 ? (
+                <p className="mt-3 text-xs text-grayWilma-600">
+                  Showing first 18 of {state.samples.length} rendered samples. Full set lives under {state.reviewRoot}/sample-packets/.
+                </p>
+              ) : state.samples.length > 0 ? (
+                <p className="mt-3 text-xs text-grayWilma-600">
+                  All {state.samples.length} rendered samples shown, under {state.reviewRoot}/sample-packets/.
+                </p>
+              ) : null}
             </Card>
             <Card className="rounded-md p-5">
-              <h2 className="flex items-center gap-2 text-xl font-black text-navy">
-                <FileWarning className="h-5 w-5 text-orange" aria-hidden="true" />
-                Blocked forms
-              </h2>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="flex items-center gap-2 text-xl font-black text-navy">
+                  <FileWarning className="h-5 w-5 text-orange" aria-hidden="true" />
+                  Blocked forms
+                </h2>
+                <span className="text-xs font-black uppercase text-grayWilma-600">{state.blockedArtifacts.length} blocked total</span>
+              </div>
               <PathList paths={state.blockedArtifacts} empty="No blocked form artifacts for this state." />
+              {state.blockedArtifacts.length > 0 ? (
+                <p className="mt-3 text-xs text-grayWilma-600">Blocked-form artifacts live under {state.reviewRoot}/blocked-forms/.</p>
+              ) : null}
             </Card>
           </div>
         </section>

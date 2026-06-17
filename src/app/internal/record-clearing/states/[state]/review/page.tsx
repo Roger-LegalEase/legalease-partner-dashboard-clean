@@ -48,7 +48,7 @@ export default async function All50InternalStateReviewPage({
           <Badge tone="blue">Internal admin only</Badge>
           <h1 className="mt-4 text-4xl font-black leading-tight text-navy md:text-5xl">{state.build.name} review artifacts</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
-            File references for the QA and attorney handoff packet. These are repository paths for internal reviewers; public file routing is unchanged.
+            File references for the QA and attorney handoff packet. These are repository review artifact paths for internal QA/attorney review — repository paths, not clickable downloads. Public file routing is unchanged.
           </p>
         </section>
 
@@ -65,12 +65,19 @@ export default async function All50InternalStateReviewPage({
 
         <section className="mt-6 grid gap-4 md:grid-cols-2">
           <Card className="rounded-md p-5">
-            <h2 className="text-lg font-black text-navy">Field maps</h2>
-            <p className="mt-2 text-sm text-grayWilma-700">{state.forms.filter((form) => form.fieldMapPath).length} field-map drafts are referenced by forms-manifest.json and copied under the state field-maps folder.</p>
+            <h2 className="text-lg font-black text-navy">All forms &amp; field maps</h2>
+            <p className="mt-2 text-sm text-grayWilma-700">
+              {state.forms.length} forms total ({state.forms.filter((form) => form.fieldMapPath).length} with field-map drafts). The full form inventory is in {state.reviewRoot}/forms-manifest.json; field-map drafts are copied under {state.reviewRoot}/field-maps/.
+            </p>
+            <Link href={`/internal/record-clearing/states/${state.build.slug}`} className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#31465b] underline">
+              View full form inventory
+            </Link>
           </Card>
           <Card className="rounded-md p-5">
-            <h2 className="text-lg font-black text-navy">Samples and blocked forms</h2>
-            <p className="mt-2 text-sm text-grayWilma-700">{state.samples.length} rendered sample packets; {state.blockedArtifacts.length} blocked-form artifacts.</p>
+            <h2 className="text-lg font-black text-navy">Rendered samples &amp; blocked forms</h2>
+            <p className="mt-2 text-sm text-grayWilma-700">
+              {state.samples.length} rendered sample packets under {state.reviewRoot}/sample-packets/; {state.blockedArtifacts.length} blocked-form artifacts under {state.reviewRoot}/blocked-forms/.
+            </p>
           </Card>
         </section>
       </div>

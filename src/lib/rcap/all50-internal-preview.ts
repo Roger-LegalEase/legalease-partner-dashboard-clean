@@ -225,7 +225,7 @@ export function getAll50HandoffSummary(): HandoffSummary {
 }
 
 export function getLegacyGeneratorStatus(state: StatePreview): string {
-  if (state.build.code === "TX") return "Texas-Harris legacy fallback preserved; statewide build pending review";
+  if (state.build.code === "TX") return "Texas-Harris legacy generator preserved; Texas statewide all-50 build pending QA/visual/counsel/source review";
   if (["MS", "IL", "DC", "PA"].includes(state.build.code)) return "legacy live generator preserved";
   return "not a legacy live generator";
 }

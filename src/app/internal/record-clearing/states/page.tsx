@@ -61,7 +61,7 @@ export default async function All50InternalStatesPage() {
             <h2 className="text-lg font-black text-navy">Jurisdiction review index</h2>
             <p className="mt-1 text-sm text-grayWilma-700">Build, overlay, review, and legacy-generator status for the all-50 internal queue.</p>
           </div>
-          <div className="hidden border-b border-grayWilma-200 bg-[#f7f8f6] px-5 py-3 text-xs font-black uppercase text-grayWilma-600 xl:grid xl:grid-cols-[1.05fr_0.85fr_1fr_0.55fr_0.55fr_0.75fr_0.75fr_0.75fr_0.8fr_1fr_0.45fr] xl:items-center">
+          <div className="hidden border-b border-grayWilma-200 bg-[#f7f8f6] px-5 py-3 text-xs font-black uppercase text-grayWilma-600 xl:grid xl:grid-cols-[1.05fr_0.85fr_1fr_0.55fr_0.55fr_0.75fr_0.7fr_0.7fr_0.7fr_0.7fr_1fr_0.45fr] xl:items-center">
             <span>State</span>
             <span>Build</span>
             <span>Renderer modes</span>
@@ -71,6 +71,7 @@ export default async function All50InternalStatesPage() {
             <span>QA</span>
             <span>Visual</span>
             <span>Counsel</span>
+            <span>Source</span>
             <span>Legacy</span>
             <span>Detail</span>
           </div>
@@ -97,7 +98,7 @@ function SummaryCard({ label, value }: { label: string; value: number }) {
 function StateRow({ state }: { state: StatePreview }) {
   const review = state.build.reviewStatuses;
   return (
-    <article className="grid gap-4 px-5 py-5 xl:grid-cols-[1.05fr_0.85fr_1fr_0.55fr_0.55fr_0.75fr_0.75fr_0.75fr_0.8fr_1fr_0.45fr] xl:items-center">
+    <article className="grid gap-4 px-5 py-5 xl:grid-cols-[1.05fr_0.85fr_1fr_0.55fr_0.55fr_0.75fr_0.7fr_0.7fr_0.7fr_0.7fr_1fr_0.45fr] xl:items-center">
       <div>
         <p className="font-black text-navy">{state.build.name}</p>
         <p className="mt-1 text-xs text-grayWilma-600">{state.build.code}</p>
@@ -110,14 +111,15 @@ function StateRow({ state }: { state: StatePreview }) {
       <Badge tone="orange">{review.qa}</Badge>
       <Badge tone="orange">{review.visual}</Badge>
       <Badge tone="orange">{review.counsel}</Badge>
+      <div className="xl:contents">
+        <p className="text-xs text-grayWilma-600 xl:hidden">Source freshness</p>
+        <Badge tone="orange">{review.sourceFreshness}</Badge>
+      </div>
       <p className="text-xs leading-5 text-grayWilma-700">{getLegacyGeneratorStatus(state)}</p>
       <Link href={`/internal/record-clearing/states/${state.build.slug}`} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-navy px-3 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid">
         <FileCheck2 className="h-4 w-4" aria-hidden="true" />
         <span className="sr-only">Open {state.build.name}</span>
       </Link>
-      <div className="xl:hidden">
-        <p className="text-xs text-grayWilma-600">Source freshness: {review.sourceFreshness}</p>
-      </div>
     </article>
   );
 }
