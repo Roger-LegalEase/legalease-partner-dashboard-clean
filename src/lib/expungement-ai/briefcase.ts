@@ -2,6 +2,8 @@ import "server-only";
 
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
+// Placeholder adapter only; replace with real Briefcase database persistence before production.
+// The shell keeps the save contract explicit without changing Supabase RLS/auth/session logic.
 const startedAt = "2026-06-17T00:00:00.000Z";
 
 export function saveEligibilityCheckToBriefcase(state: string): ConsumerBriefcaseItem {

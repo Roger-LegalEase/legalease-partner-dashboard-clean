@@ -11,6 +11,8 @@ import {
 } from "@/lib/expungement-ai/briefcase";
 import type { ExpungementAiCheckInput, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
+// Adapter boundary only; the RCAP engine remains the eligibility source of truth.
+// Replace shell persistence calls with real service integrations before production persistence.
 export function runExpungementAiEligibilityCheck(input: ExpungementAiCheckInput): ExpungementAiEligibilityResult {
   saveEligibilityCheckToBriefcase(input.state);
 

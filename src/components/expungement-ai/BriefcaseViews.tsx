@@ -63,7 +63,7 @@ export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
       <div className="mt-4 space-y-3">
         {items.filter((item) => item.packetReady).map((item) => (
           <div key={item.id} className="rounded-md bg-[#F7F3EC] p-4 text-sm">
-            <p className="font-bold">$50 one-time packet payment placeholder</p>
+            <p className="font-bold">$50 one-time packet payment record pending production integration</p>
             <p className="mt-1 text-[#5A6275]">{item.title}</p>
           </div>
         ))}

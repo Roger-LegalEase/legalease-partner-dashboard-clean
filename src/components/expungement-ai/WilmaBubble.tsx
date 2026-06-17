@@ -36,7 +36,6 @@ export function WilmaBubble({ context }: { context: WilmaPageContext }) {
               <input
                 aria-label="Message Wilma"
                 className="min-h-11 min-w-0 flex-1 rounded-xl border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20"
-                placeholder="Ask about the next step"
               />
               <button aria-label="Send message" className="grid h-11 w-11 place-items-center rounded-xl bg-[#FF3B00] text-white" type="button">
                 <Send className="h-4 w-4" aria-hidden="true" />

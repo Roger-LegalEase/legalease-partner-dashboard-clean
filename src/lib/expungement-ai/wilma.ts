@@ -8,6 +8,8 @@ export type WilmaPageContext =
   | "packet-ready"
   | "briefcase";
 
+// Placeholder adapter only; replace with the production Wilma service integration and safety harness.
+// The frontend sends page context and renders responses; it must not decide eligibility.
 export function wilmaPromptForPage(context: WilmaPageContext) {
   const prompts: Record<WilmaPageContext, string> = {
     landing: "Want me to explain how this works?",

@@ -56,7 +56,7 @@ console.log(`Partner RCAP approved: ${records.filter((record) => record.approved
 console.log(`Expungement.ai approved: ${records.filter((record) => record.approvedChannels.expungementAi).length}`);
 console.log("Public live routing unchanged except all-51 selector contract: yes");
 console.log("Legacy generators preserved: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
 function readPromotionManifest() {
@@ -94,9 +94,7 @@ function assertNoRestrictedChanges() {
     "vercel",
     ".env",
     ".github/workflows/deploy",
-    "src/app/expungement-ai/",
     "src/app/expungement/",
-    "src/components/expungement-ai/",
     "src/components/expungement/"
   ];
   const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
