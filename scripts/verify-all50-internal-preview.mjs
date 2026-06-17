@@ -109,9 +109,10 @@ function assertGateBeforeDataRead(source, label) {
 }
 
 function assertNoRestrictedChanges() {
-  const changedFiles = git(["diff", "--name-only", "HEAD"]);
+  const changedFiles = changedFilesAgainstMain();
   const forbiddenPrefixes = [
     "src/app/api/",
+    "src/app/auth/",
     "src/app/p/",
     "src/app/intake/",
     "src/app/documents/",
@@ -119,11 +120,21 @@ function assertNoRestrictedChanges() {
     "src/app/partner/",
     "src/app/partners/",
     "src/app/request-pilot/",
+    "src/app/internal/billing/",
+    "src/lib/auth/",
+    "src/lib/partners/billing",
+    "src/lib/partners/session-partner",
+    "src/lib/partners/partner-dashboard-rls",
+    "src/lib/partners/partner-repository",
+    "src/lib/partners/partner-service",
     "src/lib/rcap/documents/mississippi/",
     "src/lib/rcap/documents/illinois/",
     "src/lib/rcap/documents/dc/",
     "src/lib/rcap/documents/pennsylvania/",
     "src/lib/rcap/documents/texas-harris/",
+    "supabase/",
+    "vercel",
+    ".env",
     "src/app/expungement-ai/",
     "src/app/expungement/",
     "src/components/expungement-ai/",
@@ -153,4 +164,33 @@ function git(args) {
   const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
   if (result.error && !result.stdout) throw result.error;
   return (result.stdout || "").split(/\r?\n/).filter(Boolean);
+}
+
+function gitOneLine(args) {
+  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
+  if (result.status !== 0 || result.error) return null;
+  return result.stdout.trim() || null;
+}
+
+function changedFilesAgainstMain() {
+  const baseRef = resolveMainBaseRef();
+  if (!baseRef) {
+    failures.push("Could not resolve origin/main or main for restricted-file comparison.");
+    return [];
+  }
+
+  const mergeBase = gitOneLine(["merge-base", "HEAD", baseRef]);
+  if (!mergeBase) {
+    failures.push(`Could not compute merge base between HEAD and ${baseRef}.`);
+    return [];
+  }
+
+  return git(["diff", "--name-only", mergeBase, "HEAD"]);
+}
+
+function resolveMainBaseRef() {
+  for (const ref of ["origin/main", "main"]) {
+    if (gitOneLine(["rev-parse", "--verify", `${ref}^{commit}`])) return ref;
+  }
+  return null;
 }
