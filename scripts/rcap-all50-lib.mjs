@@ -11,6 +11,40 @@ export const ALL50_DATA_DIR = path.join(rootDir, "data/rcap-all50");
 export const SOURCE_INVENTORY_PATH = path.join(ALL50_DATA_DIR, "nationwide-source-inventory.json");
 export const BUILD_MANIFEST_PATH = path.join(ALL50_DATA_DIR, "all-state-build-manifest.json");
 export const REVIEW_ARTIFACT_DIR = path.join(ALL50_DATA_DIR, "review-artifacts");
+export const REVIEW_INBOX_DIR = path.join(rootDir, "tmp/review-inbox/all50");
+export const STATE_PACK_DIR = path.join(rootDir, "src/lib/rcap/state-packs");
+
+// State-pack directory slugs do not always match the manifest slug. The
+// all50-build-metadata.ts files live under these overridden directory names.
+export const STATE_PACK_SLUG_OVERRIDES = new Map([
+  ["DC", "dc"],
+  ["TX", "texas"]
+]);
+
+export function statePackDirSlug(state) {
+  return STATE_PACK_SLUG_OVERRIDES.get(state.code) || state.slug;
+}
+
+export function statePackMetadataPath(state) {
+  return path.join(STATE_PACK_DIR, statePackDirSlug(state), "all50-build-metadata.ts");
+}
+
+// The all50-build-metadata.ts files are emitted as `export const X = { ... } as const;`
+// where the object body is strict JSON (double-quoted keys). Parse the JSON body
+// without executing the TypeScript module.
+export function readStatePackMetadata(state) {
+  const metadataPath = statePackMetadataPath(state);
+  if (!fs.existsSync(metadataPath)) return null;
+  const source = fs.readFileSync(metadataPath, "utf8");
+  const start = source.indexOf("{");
+  const end = source.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) return null;
+  try {
+    return JSON.parse(source.slice(start, end + 1));
+  } catch {
+    return null;
+  }
+}
 
 export const BUILD_STATUSES = [
   "not_started",

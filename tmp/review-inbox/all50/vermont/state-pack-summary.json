@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": {
+    "code": "VT",
+    "name": "Vermont",
+    "slug": "vermont",
+    "sourceFolders": [
+      "LegalEase Vermont"
+    ]
+  },
+  "buildStatus": "state_built",
+  "products": [
+    "record_clearing_guidance_packet",
+    "official_pdf_overlay_draft",
+    "custom_pleading_or_state_pack_draft"
+  ],
+  "pathways": [
+    {
+      "id": "record_clearing_review",
+      "label": "Vermont record-clearing review",
+      "output": "guidance_packet",
+      "reviewRequiredBeforeLive": true
+    },
+    {
+      "id": "official_form_overlay",
+      "label": "Vermont official form overlay draft",
+      "output": "official_pdf_overlay_draft",
+      "reviewRequiredBeforeLive": true
+    },
+    {
+      "id": "custom_pleading",
+      "label": "Vermont custom pleading draft",
+      "output": "custom_pleading_or_state_pack_draft",
+      "reviewRequiredBeforeLive": true
+    }
+  ],
+  "requiredUserInputs": [
+    "participant_full_legal_name",
+    "date_of_birth_if_required_by_selected_form",
+    "contact_information",
+    "case_number",
+    "court_or_agency_name",
+    "county_or_filing_location",
+    "charge_or_record_description",
+    "case_outcome",
+    "disposition_date_if_known",
+    "sentence_completion_or_supervision_status_if_applicable",
+    "records_or_background_report_if_available"
+  ],
+  "officialFormCount": 7,
+  "customPleadingSupport": {
+    "supported": true,
+    "status": "draft_config_allowed",
+    "notes": "Pleading-style draft support may be built from Nationwide resources and coded state-pack data where available."
+  },
+  "guidanceOnlyFallback": {
+    "supported": true,
+    "label": "Vermont record-clearing guidance fallback",
+    "status": "built",
+    "notes": "Available for internal review even when official forms or pleading templates need more work."
+  },
+  "reviewStatuses": {
+    "qa": "pending",
+    "visual": "pending",
+    "counsel": "pending",
+    "sourceFreshness": "pending"
+  },
+  "disclaimerPresent": true
+}
