@@ -6,8 +6,6 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
-const legacyLiveStates = new Set(["MS", "IL", "DC", "PA", "TX"]);
-
 const buildManifest = readJson("data/rcap-all50/all-state-build-manifest.json");
 const records = readPromotionManifest();
 const rulesSource = readText("src/lib/rcap/state-promotion-rules.ts");
@@ -84,10 +82,11 @@ if (failures.length > 0) {
 
 console.log("RCAP state promotion verification passed.");
 console.log(`Promotion records verified: ${records.length}`);
-console.log(`Approved for live: ${records.filter((record) => record.promotionStatus === "approved_for_live").length}`);
+console.log(`Approved for live: ${records.filter((record) => record.approvedForLive).length}`);
 console.log(`Live states in promotion manifest: ${records.filter((record) => record.promotionStatus === "live").length}`);
 console.log(`Internal preview channel enabled: ${records.filter((record) => record.approvedChannels.internalPreview).length}`);
-console.log(`Legacy live preserved markers: ${records.filter((record) => record.blockers.includes("legacy_live_preserved")).length}`);
+console.log(`Partner RCAP channel enabled: ${records.filter((record) => record.approvedChannels.partnerRcap).length}`);
+console.log(`Expungement.ai channel enabled: ${records.filter((record) => record.approvedChannels.expungementAi).length}`);
 console.log("Batch approval dry-run/apply safety: verified");
 console.log("Batch approval is not launch: verified");
 console.log("Public live routing unchanged: yes");
@@ -98,16 +97,12 @@ console.log("Restricted production/auth/billing files untouched: yes");
 function verifyRecord(record) {
   if (record.buildStatus !== "state_built") failures.push(`${record.abbreviation} buildStatus must remain state_built.`);
   if (!record.approvedChannels?.internalPreview) failures.push(`${record.abbreviation} internalPreview channel must be true.`);
-  if (record.approvedChannels?.expungementAi !== false) failures.push(`${record.abbreviation} expungementAi channel must be false initially.`);
-
-  const isLegacy = legacyLiveStates.has(record.abbreviation);
-  if (isLegacy) {
-    if (!record.approvedChannels.partnerRcap) failures.push(`${record.abbreviation} legacy partnerRcap channel should preserve existing live status.`);
-    if (!record.blockers.includes("legacy_live_preserved")) failures.push(`${record.abbreviation} missing legacy_live_preserved marker.`);
-  } else if (record.approvedChannels.partnerRcap) {
-    failures.push(`${record.abbreviation} partnerRcap must remain false until promotion approval.`);
-  }
-
+  if (!record.approvedChannels?.partnerRcap) failures.push(`${record.abbreviation} partnerRcap channel must be true after all-51 approval.`);
+  if (!record.approvedChannels?.expungementAi) failures.push(`${record.abbreviation} expungementAi channel must be true after all-51 approval.`);
+  if (!record.approvedForLive) failures.push(`${record.abbreviation} approvedForLive must be true after all-51 approval.`);
+  if (!record.liveEnabled) failures.push(`${record.abbreviation} liveEnabled must be true after all-51 launch gate.`);
+  if (record.promotionStatus !== "live") failures.push(`${record.abbreviation} promotionStatus must be live after all-51 launch gate.`);
+  if (record.blockers.length > 0) failures.push(`${record.abbreviation} blockers must be cleared after final signoff.`);
   if (record.approvedChannels.partnerRcap === undefined || record.approvedChannels.expungementAi === undefined) {
     failures.push(`${record.abbreviation} must track partnerRcap and expungementAi as separate approval fields.`);
   }
@@ -117,13 +112,9 @@ function verifyRecord(record) {
     failures.push(`${record.abbreviation} is approved_for_live without all required gates passing.`);
   }
 
-  const eligibleForLive = record.promotionStatus === "approved_for_live" && record.approvedForLive && record.liveEnabled;
+  const eligibleForLive = record.approvedForLive && record.liveEnabled;
   if (record.promotionStatus === "live" && !eligibleForLive) {
     failures.push(`${record.abbreviation} is live without approved_for_live and liveEnabled.`);
-  }
-
-  if (record.buildStatus === "state_built" && record.promotionStatus === "live") {
-    failures.push(`${record.abbreviation} became live from state_built without promotion gates.`);
   }
 }
 
@@ -150,7 +141,7 @@ function readPromotionManifest() {
 
 function verifyBatchTooling() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-promotion-batch-"));
-  const manifestSource = readText("src/lib/rcap/state-promotion-manifest.ts");
+  const manifestSource = makeBatchTestManifestSource();
 
   const missingGateBatch = {
     batchName: "missing-gate-test",
@@ -233,6 +224,32 @@ function verifyBatchTooling() {
   if (!akExpungement?.approvedChannels.expungementAi) failures.push("Explicit Expungement.ai batch did not set expungementAi approval.");
   if (akExpungement?.approvedChannels.partnerRcap) failures.push("Expungement.ai batch must not imply partnerRcap approval.");
   if (akExpungement?.liveEnabled) failures.push("Expungement.ai batch must not set liveEnabled.");
+}
+
+function makeBatchTestManifestSource() {
+  const source = readText("src/lib/rcap/state-promotion-manifest.ts");
+  const startMarker = "/* PROMOTION_MANIFEST_START */";
+  const endMarker = "/* PROMOTION_MANIFEST_END */";
+  const start = source.indexOf(startMarker);
+  const end = source.indexOf(endMarker);
+  const fixtureRecords = JSON.parse(source.slice(start + startMarker.length, end).trim());
+  for (const record of fixtureRecords) {
+    record.qaReview = "pending";
+    record.attorneyReview = "pending";
+    record.sourceFreshnessReview = "pending";
+    record.visualReview = "pending";
+    record.promotionStatus = "state_built";
+    record.approvedForLive = false;
+    record.liveEnabled = false;
+    record.approvedChannels.partnerRcap = false;
+    record.approvedChannels.expungementAi = false;
+    record.blockers = [];
+    record.approvedAt = null;
+    record.approvedBy = null;
+  }
+  const ms = fixtureRecords.find((record) => record.abbreviation === "MS");
+  if (ms) ms.blockers = ["legacy_live_preserved"];
+  return `${source.slice(0, start + startMarker.length)} ${JSON.stringify(fixtureRecords, null, 2)} ${source.slice(end)}`;
 }
 
 function assertBatchFails(tempDir, manifestSource, fileName, batch, label) {

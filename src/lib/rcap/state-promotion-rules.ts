@@ -9,6 +9,12 @@ export const batchApprovalLaunchSafety = {
   futureLaunchRequiresAll51Operation: true
 } as const;
 
+export const all51LaunchRule = {
+  rule: "All 50 states plus DC launch together. No U.S. state or DC may remain state_not_live after the all-51 launch gate applies.",
+  partialStateRolloutAllowed: false,
+  launchJurisdictionCount: 51
+} as const;
+
 export type PromotionEligibility = {
   eligible: boolean;
   reasons: string[];
@@ -63,4 +69,8 @@ export function assertExpungementAiSeparateFromPartnerRcap(record: StatePromotio
 
 export function getBatchApprovalLaunchSafety() {
   return batchApprovalLaunchSafety;
+}
+
+export function getAll51LaunchRule() {
+  return all51LaunchRule;
 }
