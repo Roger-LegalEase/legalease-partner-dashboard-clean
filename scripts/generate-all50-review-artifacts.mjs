@@ -11,6 +11,12 @@ import {
   writeJson,
   writeText
 } from "./rcap-all50-lib.mjs";
+import {
+  generateAll50ReviewInbox,
+  overlayManifestPath,
+  readOverlayManifest,
+  reviewInboxRoot
+} from "./rcap-all50-overlay-factory-lib.mjs";
 
 let manifest;
 if (fs.existsSync(BUILD_MANIFEST_PATH)) {
@@ -31,3 +37,10 @@ for (const state of manifest.states) {
 console.log("RCAP all-50 review artifacts generated.");
 console.log(`Artifacts: ${manifest.states.length + 1}`);
 console.log(`Wrote: ${REVIEW_ARTIFACT_DIR}`);
+
+if (fs.existsSync(overlayManifestPath)) {
+  generateAll50ReviewInbox(readOverlayManifest());
+  console.log(`Overlay review inbox refreshed: ${reviewInboxRoot}`);
+} else {
+  console.log("Overlay review inbox skipped: run npm run rcap:build-overlays first.");
+}

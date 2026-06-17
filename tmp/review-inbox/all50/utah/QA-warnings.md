@@ -1,0 +1,26 @@
+# Utah QA Warnings
+
+- LegalEase Utah/02_Victim_Statement.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/02_Victim_Statement.pdf: partial map requires visual review
+- LegalEase Utah/03_Petitioner_Reply.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/03_Petitioner_Reply.pdf: partial map requires visual review
+- LegalEase Utah/04_Request_Response_APP.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/04_Request_Response_APP.pdf: partial map requires visual review
+- LegalEase Utah/05_Response_APP.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/05_Response_APP.pdf: partial map requires visual review
+- LegalEase Utah/06_Notice_of_Hearing.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/06_Notice_of_Hearing.pdf: partial map requires visual review
+- LegalEase Utah/09_Acceptance_of_service.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/09_Acceptance_of_service.pdf: partial map requires visual review
+- LegalEase Utah/09_Consent-waiver_of_hearing.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/09_Consent-waiver_of_hearing.pdf: partial map requires visual review
+- LegalEase Utah/1002EX_Petition_to_Expunge_Records_Traffic_Conviction.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/1002EX_Petition_to_Expunge_Records_Traffic_Conviction.pdf: partial map requires visual review
+- LegalEase Utah/1003EX_Petition_to_Expunge_Records_Cannabis_Conviction.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/1003EX_Petition_to_Expunge_Records_Cannabis_Conviction.pdf: partial map requires visual review
+- LegalEase Utah/1022EX_Order_Traffic_Records_Conviction.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/1022EX_Order_Traffic_Records_Conviction.pdf: partial map requires visual review
+- LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf: partial map requires visual review
+- LegalEase Utah/Civil_Filing_Cover_Sheet.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Utah/Civil_Filing_Cover_Sheet.pdf: partial map requires visual review

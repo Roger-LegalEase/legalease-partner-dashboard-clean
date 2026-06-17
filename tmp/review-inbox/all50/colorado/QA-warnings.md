@@ -1,0 +1,68 @@
+# Colorado QA Warnings
+
+- LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf: partial map requires visual review
+- LegalEase Colorado/JDF 2361 - Z Rem.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF 2361 - Z Rem.pdf: partial map requires visual review
+- LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf: partial map requires visual review
+- LegalEase Colorado/JDF 435 order denying petition to seal.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF 435 order denying petition to seal.pdf: partial map requires visual review
+- LegalEase Colorado/JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf: partial map requires visual review
+- LegalEase Colorado/JDF 685 Order and Notice of Hearing on Petition to Seal Criminal Conviction Municipal Records.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF 685 Order and Notice of Hearing on Petition to Seal Criminal Conviction Municipal Records.pdf: partial map requires visual review
+- LegalEase Colorado/JDF2370.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF2370.pdf: partial map requires visual review
+- LegalEase Colorado/JDF2371.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF2371.pdf: partial map requires visual review
+- LegalEase Colorado/JDF2374.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF2374.pdf: partial map requires visual review
+- LegalEase Colorado/JDF302.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF302.pdf: partial map requires visual review
+- LegalEase Colorado/JDF302.spanish.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF302.spanish.pdf: partial map requires visual review
+- LegalEase Colorado/JDF304.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF304.pdf: partial map requires visual review
+- LegalEase Colorado/JDF324.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF324.pdf: partial map requires visual review
+- LegalEase Colorado/JDF324.spanish.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF324.spanish.pdf: partial map requires visual review
+- LegalEase Colorado/JDF326.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF326.pdf: partial map requires visual review
+- LegalEase Colorado/JDF326.spanish.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF326.spanish.pdf: partial map requires visual review
+- LegalEase Colorado/JDF416.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF416.pdf: partial map requires visual review
+- LegalEase Colorado/JDF417.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF417.pdf: partial map requires visual review
+- LegalEase Colorado/JDF418.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF418.pdf: partial map requires visual review
+- LegalEase Colorado/JDF477.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF477.pdf: partial map requires visual review
+- LegalEase Colorado/JDF478.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF478.pdf: partial map requires visual review
+- LegalEase Colorado/JDF492.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF492.pdf: partial map requires visual review
+- LegalEase Colorado/JDF493.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF493.pdf: partial map requires visual review
+- LegalEase Colorado/JDF493.spanish.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF493.spanish.pdf: partial map requires visual review
+- LegalEase Colorado/JDF611.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF611.pdf: partial map requires visual review
+- LegalEase Colorado/JDF612.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF612.pdf: partial map requires visual review
+- LegalEase Colorado/JDF614.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF614.pdf: partial map requires visual review
+- LegalEase Colorado/JDF615.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF615.pdf: partial map requires visual review
+- LegalEase Colorado/JDF641.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF641.pdf: partial map requires visual review
+- LegalEase Colorado/JDF642.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF642.pdf: partial map requires visual review
+- LegalEase Colorado/JDF682.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Colorado/JDF682.pdf: partial map requires visual review
+- LegalEase Colorado/JDF683.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF683.pdf: partial map requires visual review
+- LegalEase Colorado/JDF686.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Colorado/JDF686.pdf: partial map requires visual review

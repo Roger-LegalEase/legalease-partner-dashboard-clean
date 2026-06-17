@@ -1,13 +1,10 @@
-# Illinois — Next Actions
+# Illinois Next Actions
 
-- [ ] Official PDF overlay samples pending render.
-- [ ] Overlay field maps pending verification.
-- [ ] Visual alignment review pending.
-- [ ] QA review pending.
-- [ ] Counsel review pending.
-- [ ] Source freshness review pending.
+- Complete visual review for mapped and partial official PDF samples.
+- Review field-map drafts against source forms.
+- Confirm blocked forms can be replaced, unlocked, or handled through guidance fallback.
+- Counsel review remains pending before live approval.
+- Source freshness review remains pending before live approval.
 
-- [ ] Route to QA using qa-report.json.
-- [ ] Route to counsel using attorney-review-notes.md.
-- [ ] Render official PDF overlay samples and field maps, then complete visual-review-notes.md.
-- [ ] On QA + counsel + visual pass, propose advance to approved_for_live.
+Blocked forms: 0
+Partial maps: 18

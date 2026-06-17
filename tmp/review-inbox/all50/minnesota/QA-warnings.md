@@ -1,0 +1,22 @@
+# Minnesota QA Warnings
+
+- LegalEase Minnesota/EXP101-Hmong.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP101-Hmong.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP101-Somali.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP101-Somali.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP101-Spanish.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP101-Spanish.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP101.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP101.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP102_Current-2.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP102_Current-2.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP103_Current.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP103_Current.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP104_Current.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Minnesota/EXP104_Current.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP105_Current.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP105_Current.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP106_Current.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP106_Current.pdf: partial map requires visual review
+- LegalEase Minnesota/EXP107_Current.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Minnesota/EXP107_Current.pdf: partial map requires visual review
