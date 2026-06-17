@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -26,6 +27,8 @@ for (const record of records) {
 for (const marker of [
   "canApproveForLive",
   "canBecomeLive",
+  "Batch approval is not launch. Live enablement is a separate all-51 launch operation.",
+  "getBatchApprovalLaunchSafety",
   "qaReview !== \"passed\"",
   "attorneyReview !== \"passed\"",
   "sourceFreshnessReview !== \"passed\"",
@@ -45,6 +48,32 @@ for (const marker of ["--dry-run", "--approve-for-live", "qaReview", "attorneyRe
   assertIncludes(promoteScript, "scripts/rcap-promote-state.mjs", marker);
 }
 
+assertFile("docs/rcap-promotion/batch-approval-template.json");
+assertFile("scripts/rcap-apply-promotion-batch.mjs");
+const batchScript = readText("scripts/rcap-apply-promotion-batch.mjs");
+for (const marker of [
+  "--dry-run",
+  "--apply",
+  "RCAP_PROMOTION_MANIFEST_PATH",
+  "approvedChannels.partnerRcap = true",
+  "approvedChannels.expungementAi = true",
+  "record.liveEnabled = false",
+  "batchApprovalIsNotLaunch",
+  "all51LaunchRequiredSeparately",
+  "Blockers must be cleared first"
+]) {
+  assertIncludes(batchScript, "scripts/rcap-apply-promotion-batch.mjs", marker);
+}
+
+const packageJson = readJson("package.json");
+if (packageJson.scripts["rcap:promotion:dry-run-batch"] !== "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --dry-run") {
+  failures.push("package.json missing rcap:promotion:dry-run-batch script.");
+}
+if (packageJson.scripts["rcap:promotion:apply-batch"] !== "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --apply") {
+  failures.push("package.json missing rcap:promotion:apply-batch script.");
+}
+
+verifyBatchTooling();
 assertNoRestrictedChanges();
 
 if (failures.length > 0) {
@@ -59,6 +88,8 @@ console.log(`Approved for live: ${records.filter((record) => record.promotionSta
 console.log(`Live states in promotion manifest: ${records.filter((record) => record.promotionStatus === "live").length}`);
 console.log(`Internal preview channel enabled: ${records.filter((record) => record.approvedChannels.internalPreview).length}`);
 console.log(`Legacy live preserved markers: ${records.filter((record) => record.blockers.includes("legacy_live_preserved")).length}`);
+console.log("Batch approval dry-run/apply safety: verified");
+console.log("Batch approval is not launch: verified");
 console.log("Public live routing unchanged: yes");
 console.log("Legacy generators preserved: yes");
 console.log("Expungement.ai UI untouched: yes");
@@ -115,6 +146,142 @@ function readPromotionManifest() {
     return [];
   }
   return JSON.parse(source.slice(start + startMarker.length, end).trim());
+}
+
+function verifyBatchTooling() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-promotion-batch-"));
+  const manifestSource = readText("src/lib/rcap/state-promotion-manifest.ts");
+
+  const missingGateBatch = {
+    batchName: "missing-gate-test",
+    reviewer: "Verifier",
+    reviewDate: "2026-06-17T00:00:00.000Z",
+    channel: "partnerRcap",
+    states: [
+      {
+        state: "AL",
+        qaReview: "passed",
+        sourceFreshnessReview: "passed",
+        visualReview: "not_required",
+        notes: []
+      }
+    ]
+  };
+  assertBatchFails(tempDir, manifestSource, "missing-gates.json", missingGateBatch, "missing gates");
+
+  const blockerBatch = {
+    batchName: "blocker-test",
+    reviewer: "Verifier",
+    reviewDate: "2026-06-17T00:00:00.000Z",
+    channel: "partnerRcap",
+    states: [
+      {
+        state: "MS",
+        qaReview: "passed",
+        attorneyReview: "passed",
+        sourceFreshnessReview: "passed",
+        visualReview: "not_required",
+        notes: []
+      }
+    ]
+  };
+  assertBatchFails(tempDir, manifestSource, "blockers.json", blockerBatch, "blockers");
+
+  const partnerBatch = {
+    batchName: "partner-channel-test",
+    reviewer: "Verifier",
+    reviewDate: "2026-06-17T00:00:00.000Z",
+    channel: "partnerRcap",
+    states: [
+      {
+        state: "AL",
+        qaReview: "passed",
+        attorneyReview: "passed",
+        sourceFreshnessReview: "passed",
+        visualReview: "not_required",
+        liveEnabled: true,
+        notes: ["Verifier partner approval test."]
+      }
+    ]
+  };
+  const partnerRecords = assertBatchApplies(tempDir, manifestSource, "partner.json", partnerBatch, "partner approval");
+  const alPartner = partnerRecords.find((record) => record.abbreviation === "AL");
+  if (!alPartner?.approvedForLive || alPartner.promotionStatus !== "approved_for_live") failures.push("Batch script did not approve fully gated AL for live approval record.");
+  if (!alPartner?.approvedChannels.partnerRcap) failures.push("Batch script did not set partnerRcap for partner batch.");
+  if (alPartner?.approvedChannels.expungementAi) failures.push("Partner batch must not set Expungement.ai approval.");
+  if (alPartner?.liveEnabled) failures.push("Batch script must not set liveEnabled, even if batch input includes liveEnabled.");
+  if (alPartner?.promotionStatus === "live") failures.push("Batch script must not make a state public-live.");
+
+  const expungementBatch = {
+    batchName: "expungement-channel-test",
+    reviewer: "Verifier",
+    reviewDate: "2026-06-17T00:00:00.000Z",
+    channel: "expungementAi",
+    states: [
+      {
+        state: "AK",
+        qaReview: "passed",
+        attorneyReview: "passed",
+        sourceFreshnessReview: "passed",
+        visualReview: "not_required",
+        notes: ["Verifier Expungement.ai approval test."]
+      }
+    ]
+  };
+  const expungementRecords = assertBatchApplies(tempDir, manifestSource, "expungement.json", expungementBatch, "expungement approval");
+  const akExpungement = expungementRecords.find((record) => record.abbreviation === "AK");
+  if (!akExpungement?.approvedChannels.expungementAi) failures.push("Explicit Expungement.ai batch did not set expungementAi approval.");
+  if (akExpungement?.approvedChannels.partnerRcap) failures.push("Expungement.ai batch must not imply partnerRcap approval.");
+  if (akExpungement?.liveEnabled) failures.push("Expungement.ai batch must not set liveEnabled.");
+}
+
+function assertBatchFails(tempDir, manifestSource, fileName, batch, label) {
+  const manifestCopy = writeTempManifest(tempDir, manifestSource, `${fileName}.manifest.ts`);
+  const batchFile = writeTempBatch(tempDir, fileName, batch);
+  const result = runBatch(batchFile, manifestCopy, true);
+  if (result.status === 0) failures.push(`Batch script should refuse ${label}.`);
+}
+
+function assertBatchApplies(tempDir, manifestSource, fileName, batch, label) {
+  const manifestCopy = writeTempManifest(tempDir, manifestSource, `${fileName}.manifest.ts`);
+  const batchFile = writeTempBatch(tempDir, fileName, batch);
+  const result = runBatch(batchFile, manifestCopy, true);
+  if (result.status !== 0) {
+    failures.push(`Batch script should apply ${label}: ${result.stderr || result.stdout}`);
+    return [];
+  }
+  return readPromotionManifestFromFile(manifestCopy);
+}
+
+function writeTempManifest(tempDir, manifestSource, fileName) {
+  const filePath = path.join(tempDir, fileName);
+  fs.writeFileSync(filePath, manifestSource);
+  return filePath;
+}
+
+function writeTempBatch(tempDir, fileName, batch) {
+  const filePath = path.join(tempDir, fileName);
+  fs.writeFileSync(filePath, JSON.stringify(batch, null, 2));
+  return filePath;
+}
+
+function runBatch(batchFile, manifestCopy, apply) {
+  return spawnSync(
+    process.execPath,
+    ["scripts/rcap-apply-promotion-batch.mjs", "--file", batchFile, apply ? "--apply" : "--dry-run"],
+    {
+      cwd: rootDir,
+      encoding: "utf8",
+      env: { ...process.env, RCAP_PROMOTION_MANIFEST_PATH: manifestCopy }
+    }
+  );
+}
+
+function readPromotionManifestFromFile(filePath) {
+  const source = fs.readFileSync(filePath, "utf8");
+  const startMarker = "/* PROMOTION_MANIFEST_START */";
+  const endMarker = "/* PROMOTION_MANIFEST_END */";
+  return JSON.parse(source.slice(source.indexOf(startMarker) + startMarker.length, source.indexOf(endMarker)).trim());
 }
 
 function assertNoRestrictedChanges() {

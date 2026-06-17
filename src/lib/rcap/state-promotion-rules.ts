@@ -2,6 +2,13 @@ import "server-only";
 
 import type { StatePromotionRecord } from "@/lib/rcap/state-promotion-manifest";
 
+export const batchApprovalLaunchSafety = {
+  rule: "Batch approval is not launch. Live enablement is a separate all-51 launch operation.",
+  batchApprovalCanSetLiveEnabled: false,
+  batchApprovalCanChangePublicRouting: false,
+  futureLaunchRequiresAll51Operation: true
+} as const;
+
 export type PromotionEligibility = {
   eligible: boolean;
   reasons: string[];
@@ -52,4 +59,8 @@ export function getRecommendedPromotionAction(record: StatePromotionRecord): str
 export function assertExpungementAiSeparateFromPartnerRcap(record: StatePromotionRecord): boolean {
   return Object.prototype.hasOwnProperty.call(record.approvedChannels, "partnerRcap")
     && Object.prototype.hasOwnProperty.call(record.approvedChannels, "expungementAi");
+}
+
+export function getBatchApprovalLaunchSafety() {
+  return batchApprovalLaunchSafety;
 }

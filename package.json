@@ -89,7 +89,9 @@
     "rcap:verify-wi-state-pack": "node scripts/verify-wi-state-pack.mjs",
     "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs",
     "rcap:verify-state-promotion": "node scripts/verify-state-promotion.mjs",
-    "rcap:verify-state-promotion-routes": "node scripts/verify-state-promotion-routes.mjs"
+    "rcap:verify-state-promotion-routes": "node scripts/verify-state-promotion-routes.mjs",
+    "rcap:promotion:dry-run-batch": "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --dry-run",
+    "rcap:promotion:apply-batch": "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --apply"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
