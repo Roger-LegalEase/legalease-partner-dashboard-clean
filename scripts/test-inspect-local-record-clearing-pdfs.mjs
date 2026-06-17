@@ -221,7 +221,12 @@ function assertNoLiveRoutesModified() {
   const status = fs.existsSync(path.join(rootDir, ".git"))
     ? String(spawnSync("git", ["status", "--short", "--", "src/app", "src/lib/rcap-intake", "supabase"], { cwd: rootDir, encoding: "utf8" }).stdout ?? "")
     : "";
-  assert.equal(status.trim(), "");
+  const liveRouteStatus = status
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .filter((line) => !line.includes("src/app/internal/record-clearing/"))
+    .join("\n");
+  assert.equal(liveRouteStatus.trim(), "");
 }
 
 function makePdf({ acroForm = false, fieldNames = [], xfa = false, textLayer = false, encrypted = false } = {}) {

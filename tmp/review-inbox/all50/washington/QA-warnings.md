@@ -1,0 +1,22 @@
+# Washington QA Warnings
+
+- LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf: partial map requires visual review
+- LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf: partial map requires visual review
+- LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09_0150 Notice of Hearing_2019 07.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09_0150 Notice of Hearing_2019 07.pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09.0100 Petition to Vacate Conviction_(f)(U).pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09.0100 Petition to Vacate Conviction_(f)(U).pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09.0200 Ord Pet Vacate Conviction_(f)(U).pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09.0200 Ord Pet Vacate Conviction_(f)(U).pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09.0300 InstructVacateMisdConvictions_2022 07.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09.0300 InstructVacateMisdConvictions_2022 07.pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf: partial map requires visual review
+- LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf: partial map requires visual review
+- LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf: partial map requires visual review

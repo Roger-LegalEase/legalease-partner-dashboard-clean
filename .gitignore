@@ -41,7 +41,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-tmp/
+tmp/*
+# RCAP all-50 QA/attorney review handoff artifacts are committed for team review.
+# Only the all50 review-inbox subtree is tracked; other tmp/review-inbox output
+# (e.g. overlay-factory candidates) stays ignored.
+!tmp/review-inbox/
+tmp/review-inbox/*
+!tmp/review-inbox/all50/
 
 # Local official PDF forms - do not commit
 private/

@@ -1,0 +1,27 @@
+# North Dakota QA Warnings
+
+- LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf: partial map requires visual review
+- LegalEase North Dakota/10. Confidential Info Form AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf: partial map requires visual review
+- LegalEase North Dakota/3. Brief Prohibit Public Access AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf: partial map requires visual review
+- LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf: partial map requires visual review
+- LegalEase North Dakota/6. Affidavit Service Mail Motion AR41 5f1.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase North Dakota/6. Affidavit Service Mail Motion AR41 5f1.pdf: partial map requires visual review
+- LegalEase North Dakota/Close-Nonconviction-Records.pdf: Duplicate AcroForm field names detected.
+- LegalEase North Dakota/Close-Nonconviction-Records.pdf: No page objects were detected by raw inspection.
+- LegalEase North Dakota/Close-Nonconviction-Records.pdf: partial map requires visual review
+- LegalEase North Dakota/Expungement.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase North Dakota/Expungement.pdf: partial map requires visual review
+- LegalEase North Dakota/Sealing Criminal Records Research Guide.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase North Dakota/Sealing Criminal Records Research Guide.pdf: partial map requires visual review
+- LegalEase North Dakota/Sealing-DUI-Records-Research-Guide.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase North Dakota/Sealing-DUI-Records-Research-Guide.pdf: partial map requires visual review

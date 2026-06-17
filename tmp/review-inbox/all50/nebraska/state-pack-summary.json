@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": {
+    "code": "NE",
+    "name": "Nebraska",
+    "slug": "nebraska",
+    "sourceFolders": [
+      "LegalEase Nebraska"
+    ]
+  },
+  "buildStatus": "state_built",
+  "products": [
+    "record_clearing_guidance_packet",
+    "official_pdf_overlay_draft"
+  ],
+  "pathways": [
+    {
+      "id": "record_clearing_review",
+      "label": "Nebraska record-clearing review",
+      "output": "guidance_packet",
+      "reviewRequiredBeforeLive": true
+    },
+    {
+      "id": "official_form_overlay",
+      "label": "Nebraska official form overlay draft",
+      "output": "official_pdf_overlay_draft",
+      "reviewRequiredBeforeLive": true
+    }
+  ],
+  "requiredUserInputs": [
+    "participant_full_legal_name",
+    "date_of_birth_if_required_by_selected_form",
+    "contact_information",
+    "case_number",
+    "court_or_agency_name",
+    "county_or_filing_location",
+    "charge_or_record_description",
+    "case_outcome",
+    "disposition_date_if_known",
+    "sentence_completion_or_supervision_status_if_applicable",
+    "records_or_background_report_if_available"
+  ],
+  "officialFormCount": 3,
+  "customPleadingSupport": {
+    "supported": false,
+    "status": "guidance_fallback_only",
+    "notes": "No pleading-specific source packet was identified by the build manifest; guidance fallback remains available."
+  },
+  "guidanceOnlyFallback": {
+    "supported": true,
+    "label": "Nebraska record-clearing guidance fallback",
+    "status": "built",
+    "notes": "Available for internal review even when official forms or pleading templates need more work."
+  },
+  "reviewStatuses": {
+    "qa": "pending",
+    "visual": "pending",
+    "counsel": "pending",
+    "sourceFreshness": "pending"
+  },
+  "disclaimerPresent": true
+}

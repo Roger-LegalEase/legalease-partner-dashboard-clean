@@ -1,0 +1,59 @@
+name: RCAP All50 Handoff Verification
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - feat/rcap-all50-qa-attorney-handoff
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify RCAP all50 handoff
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Verify all50 build
+        run: npm run rcap:verify-all50-build
+
+      - name: Verify all50 state packs
+        run: npm run rcap:verify-all50-state-packs
+
+      - name: Verify overlay factory
+        run: npm run rcap:verify-overlay-factory
+
+      - name: Verify all50 review artifacts
+        run: npm run rcap:verify-all50-review-artifacts
+
+      - name: Verify all50 internal preview
+        run: npm run rcap:verify-all50-internal-preview
+
+      - name: Verify all50 handoff
+        run: npm run rcap:verify-all50-handoff

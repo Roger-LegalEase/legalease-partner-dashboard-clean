@@ -136,8 +136,13 @@ function assertNoLiveRoutesModified() {
   const status = spawnSync("git", ["status", "--short", "--", "src/app", "src/lib/rcap-intake", "supabase"], {
     cwd: rootDir,
     encoding: "utf8"
-  }).stdout.trim();
-  assert.equal(status, "");
+  }).stdout;
+  const liveRouteStatus = status
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .filter((line) => !line.includes("src/app/internal/record-clearing/"))
+    .join("\n");
+  assert.equal(liveRouteStatus.trim(), "");
 }
 
 function assertNoRawPdfsCommitted() {

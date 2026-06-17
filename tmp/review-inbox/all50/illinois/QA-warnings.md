@@ -1,0 +1,44 @@
+# Illinois QA Warnings
+
+- LegalEase Illinois/CXP Additional Cannabis Convictions.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Additional Cannabis Convictions.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Additional Notice of Court Date.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Additional Notice of Court Date.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/CXP Additional Notice of Court Date.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Instructions.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Instructions.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/CXP Instructions.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Notice of Court Date for Motion.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Notice of Court Date for Motion.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/CXP Notice of Court Date for Motion.pdf: partial map requires visual review
+- LegalEase Illinois/CXP Order Granting or Denying Motion.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/CXP Order Granting or Denying Motion.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/CXP Order Granting or Denying Motion.pdf: partial map requires visual review
+- LegalEase Illinois/EXP Certificate of Service Circuit Clerk.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/EXP Certificate of Service Circuit Clerk.pdf: partial map requires visual review
+- LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf: partial map requires visual review
+- LegalEase Illinois/EXP-AD Additional Cases Sealing.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/EXP-AD Additional Cases Sealing.pdf: partial map requires visual review
+- LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf: partial map requires visual review
+- LegalEase Illinois/EXP-AD Order Denying.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/EXP-AD Order Denying.pdf: partial map requires visual review
+- LegalEase Illinois/Getting_Started_Juv_Exp.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/Getting_Started_Juv_Exp.pdf: partial map requires visual review
+- LegalEase Illinois/Illinois-Expungement-Sealing-Agent-Reference.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Illinois/Illinois-Expungement-Sealing-Agent-Reference.pdf: partial map requires visual review
+- LegalEase Illinois/Instructions_Juv_Exp.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/Instructions_Juv_Exp.pdf: partial map requires visual review
+- LegalEase Illinois/Notice_Juv_Exp.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/Notice_Juv_Exp.pdf: partial map requires visual review
+- LegalEase Illinois/Order_Juv_Exp.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/Order_Juv_Exp.pdf: No page objects were detected by raw inspection.
+- LegalEase Illinois/Order_Juv_Exp.pdf: partial map requires visual review
+- LegalEase Illinois/Request_Juv_Exp.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Illinois/Request_Juv_Exp.pdf: partial map requires visual review

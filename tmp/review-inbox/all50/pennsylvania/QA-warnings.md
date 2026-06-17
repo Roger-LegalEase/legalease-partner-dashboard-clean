@@ -1,0 +1,35 @@
+# Pennsylvania QA Warnings
+
+- LegalEase Pennsylvania/143137-172055-motionforexpungementjuvenilefillable.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/143137-172055-motionforexpungementjuvenilefillable.pdf: No page objects were detected by raw inspection.
+- LegalEase Pennsylvania/143137-172055-motionforexpungementjuvenilefillable.pdf: partial map requires visual review
+- LegalEase Pennsylvania/172056-orderforexpungementjuvenilefillable.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/172056-orderforexpungementjuvenilefillable.pdf: No page objects were detected by raw inspection.
+- LegalEase Pennsylvania/172056-orderforexpungementjuvenilefillable.pdf: partial map requires visual review
+- LegalEase Pennsylvania/213820-file-6290.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/213820-file-6290.pdf: partial map requires visual review
+- LegalEase Pennsylvania/213825-file-6289.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/213825-file-6289.pdf: blocked (xfa_form)
+- LegalEase Pennsylvania/213835-file-6288.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/213835-file-6288.pdf: No page objects were detected by raw inspection.
+- LegalEase Pennsylvania/213835-file-6288.pdf: partial map requires visual review
+- LegalEase Pennsylvania/213843-file-6287.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/213843-file-6287.pdf: No page objects were detected by raw inspection.
+- LegalEase Pennsylvania/213843-file-6287.pdf: partial map requires visual review
+- LegalEase Pennsylvania/215125-file-5632.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/215125-file-5632.pdf: partial map requires visual review
+- LegalEase Pennsylvania/215133-file-5631.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/215133-file-5631.pdf: partial map requires visual review
+- LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf: No page objects were detected by raw inspection.
+- LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf: partial map requires visual review
+- LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf: partial map requires visual review
+- LegalEase Pennsylvania/222603-petitionforexpungement490030912-000076.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/222603-petitionforexpungement490030912-000076.pdf: partial map requires visual review
+- LegalEase Pennsylvania/222612-petitionforexpungement790030912-000077.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/222612-petitionforexpungement790030912-000077.pdf: partial map requires visual review
+- LegalEase Pennsylvania/dna_removal_request.pdf: No AcroForm or extractable text layer detected; do not treat as a confident flat PDF.
+- LegalEase Pennsylvania/dna_removal_request.pdf: blocked (encrypted_pdf)
+- LegalEase Pennsylvania/sp4-170.pdf: AcroForm dictionary was detected, but no field names were found by raw inspection.
+- LegalEase Pennsylvania/sp4-170.pdf: partial map requires visual review
