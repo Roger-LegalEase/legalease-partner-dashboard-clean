@@ -1,0 +1,68 @@
+name: Expungement.ai Consumer Adapter Verification
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/app/expungement-ai/**
+      - src/app/briefcase/**
+      - src/lib/expungement-ai/**
+      - docs/EXPUNGEMENT_AI_CONSUMER_ADAPTER.md
+      - design-handoff/expungement-ai-frontend/**
+      - scripts/verify-expungement-consumer-adapter.mjs
+      - package.json
+      - package-lock.json
+      - .github/workflows/expungement-ai-consumer-adapter.yml
+  push:
+    branches:
+      - feat/expungement-ai-consumer-adapter
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify Expungement.ai consumer adapter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        if: ${{ hashFiles('package-lock.json') != '' }}
+        run: npm ci
+
+      - name: Install dependencies without lockfile
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Verify all51 launch-enabled
+        run: npm run rcap:verify-all51-launch-enabled
+
+      - name: Verify all51 final approval
+        run: npm run rcap:verify-all51-final-approval
+
+      - name: Verify encrypted PDF rescue
+        run: npm run rcap:verify-encrypted-pdf-rescue
+
+      - name: Verify Expungement.ai consumer adapter
+        run: npm run expungement:verify-consumer-adapter

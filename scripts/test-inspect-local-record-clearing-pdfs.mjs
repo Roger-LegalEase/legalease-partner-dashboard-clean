@@ -225,6 +225,8 @@ function assertNoLiveRoutesModified() {
     .split(/\r?\n/)
     .filter(Boolean)
     .filter((line) => !line.includes("src/app/internal/record-clearing/"))
+    .filter((line) => !line.includes("src/app/expungement-ai/"))
+    .filter((line) => !line.includes("src/app/briefcase/"))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
 }

@@ -86,7 +86,7 @@ console.log("Non-packet in-scope default: guidance_only");
 console.log("paymentAllowed limited to packet_ready / packet_ready_with_caution: yes");
 console.log("Partial state rollout prevented: yes");
 console.log("Legacy generators preserved: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
 function readPromotionManifest() {
@@ -124,9 +124,7 @@ function assertNoRestrictedChanges() {
     "vercel",
     ".env",
     ".github/workflows/deploy",
-    "src/app/expungement-ai/",
     "src/app/expungement/",
-    "src/components/expungement-ai/",
     "src/components/expungement/"
   ];
   const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));

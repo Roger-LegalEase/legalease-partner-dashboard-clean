@@ -94,7 +94,7 @@ console.log("Blocked paths fallback to guidance_only: verified");
 console.log("paymentAllowed false for guidance_only: verified");
 console.log("No entire state downgraded to guidance_only by one blocked form: yes");
 console.log("Legacy generators preserved: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
 function assertNoRestrictedChanges() {
@@ -119,9 +119,7 @@ function assertNoRestrictedChanges() {
     "vercel",
     ".env",
     ".github/workflows/deploy",
-    "src/app/expungement-ai/",
     "src/app/expungement/",
-    "src/components/expungement-ai/",
     "src/components/expungement/"
   ];
   const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));

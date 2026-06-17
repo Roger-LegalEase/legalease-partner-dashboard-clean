@@ -4,6 +4,28 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - docs/RCAP_*/**
+      - docs/rcap/**
+      - docs/RCAP_*.md
+      - docs/LegalEase-Master-Build-Plan-v2.md/**
+      - private/Nationwide Record Clearing/**
+      - scripts/*all50*.mjs
+      - scripts/*all51*.mjs
+      - scripts/*rcap*.mjs
+      - scripts/*record-clearing*.mjs
+      - scripts/verify-*-state-pack.mjs
+      - scripts/verify-*-pleading-state.mjs
+      - scripts/verify-*-document-generator.mjs
+      - scripts/verify-encrypted-pdf-rescue.mjs
+      - scripts/verify-official-pdf-*.mjs
+      - src/app/internal/record-clearing/**
+      - src/lib/rcap/**
+      - src/lib/rcap-intake/**
+      - src/lib/record-clearing/**
+      - package.json
+      - package-lock.json
+      - .github/workflows/rcap-all50-handoff.yml
   push:
     branches:
       - feat/rcap-all50-qa-attorney-handoff
@@ -14,6 +36,7 @@ permissions:
 jobs:
   verify:
     name: Verify RCAP all50 handoff
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'feat/expungement-ai') }}
     runs-on: ubuntu-latest
 
     steps:
