@@ -87,7 +87,15 @@
     "rcap:verify-wa-state-pack": "node scripts/verify-wa-state-pack.mjs",
     "rcap:verify-wv-state-pack": "node scripts/verify-wv-state-pack.mjs",
     "rcap:verify-wi-state-pack": "node scripts/verify-wi-state-pack.mjs",
-    "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs"
+    "partners:verify-supabase-readiness": "node scripts/verify-supabase-partner-readiness.mjs",
+    "rcap:verify-state-promotion": "node scripts/verify-state-promotion.mjs",
+    "rcap:verify-state-promotion-routes": "node scripts/verify-state-promotion-routes.mjs",
+    "rcap:promotion:dry-run-batch": "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --dry-run",
+    "rcap:promotion:apply-batch": "node scripts/rcap-apply-promotion-batch.mjs --file docs/rcap-promotion/batch-approval-template.json --apply",
+    "rcap:verify-all51-final-approval": "node scripts/verify-all51-final-approval.mjs",
+    "rcap:verify-all51-launch-enabled": "node scripts/verify-all51-launch-enabled.mjs",
+    "rcap:rescue-encrypted-pdfs": "node scripts/rescue-encrypted-rcap-pdfs.mjs",
+    "rcap:verify-encrypted-pdf-rescue": "node scripts/verify-encrypted-pdf-rescue.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

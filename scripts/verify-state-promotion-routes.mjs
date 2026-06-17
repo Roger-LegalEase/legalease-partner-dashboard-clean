@@ -7,104 +7,77 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const failures = [];
 
 const routeFiles = [
-  "src/app/internal/record-clearing/states/page.tsx",
-  "src/app/internal/record-clearing/states/[state]/page.tsx",
-  "src/app/internal/record-clearing/states/[state]/review/page.tsx",
-  "src/app/internal/record-clearing/handoff/page.tsx"
+  "src/app/internal/record-clearing/promotion/page.tsx",
+  "src/app/internal/record-clearing/promotion/[state]/page.tsx"
 ];
-
-const buildManifest = readJson("data/rcap-all50/all-state-build-manifest.json");
-const overlayManifest = readJson("data/rcap-all50/overlays/overlay-factory-manifest.json");
 
 for (const routeFile of routeFiles) {
   assertFile(routeFile);
   const source = readText(routeFile);
   assertIncludes(source, routeFile, "resolveInternalAdminPageAccess(");
   assertIncludes(source, routeFile, "InternalAdminDenied");
+  assertIncludes(source, routeFile, "internal_admin");
   assertGateBeforeDataRead(source, routeFile);
 }
 
-assertFile("src/lib/rcap/all50-internal-preview.ts");
-const dataSource = readText("src/lib/rcap/all50-internal-preview.ts");
+const indexSource = readText("src/app/internal/record-clearing/promotion/page.tsx");
 for (const marker of [
-  "getAll50StatePreviews",
-  "getAll50StatePreview",
-  "getAll50HandoffSummary",
-  "tmp/review-inbox/all50",
-  "blockedForms",
-  "visualReviewPending",
-  "counselReviewPending",
-  "qaReviewPending",
-  "sourceFreshnessPending"
+  "getStatePromotionRecords",
+  "QA",
+  "Attorney",
+  "Source",
+  "Visual",
+  "approvedForLive",
+  "liveEnabled",
+  "approvedChannels",
+  "getRecommendedPromotionAction"
 ]) {
-  assertIncludes(dataSource, "src/lib/rcap/all50-internal-preview.ts", marker);
+  assertIncludes(indexSource, "src/app/internal/record-clearing/promotion/page.tsx", marker);
 }
 
-if (buildManifest.states.length !== 51) failures.push(`Expected 51 build states, found ${buildManifest.states.length}.`);
-if (overlayManifest.states.length !== 51) failures.push(`Expected 51 overlay states, found ${overlayManifest.states.length}.`);
-
-for (const state of buildManifest.states) {
-  const reviewRoot = `tmp/review-inbox/all50/${state.slug}`;
-  for (const fileName of [
-    "REVIEW-MANIFEST.md",
-    "source-inventory.json",
-    "state-pack-summary.json",
-    "forms-manifest.json",
-    "guidance-summary.md",
-    "pleading-summary.md",
-    "qa-report.json",
-    "attorney-review-notes.md",
-    "visual-review-notes.md",
-    "next-actions.md"
-  ]) {
-    assertFile(path.join(reviewRoot, fileName));
-  }
-  if (state.buildStatus !== "state_built") failures.push(`${state.code} is not state_built.`);
-  for (const status of ["qa", "visual", "counsel", "sourceFreshness"]) {
-    if (!state.reviewStatuses?.[status]) {
-      failures.push(`${state.code} missing ${status} review status.`);
-    }
-  }
-  for (const status of ["qa", "counsel", "sourceFreshness"]) {
-    if (state.reviewStatuses?.[status] !== "pending") {
-      failures.push(`${state.code} missing pending ${status} review status.`);
-    }
-  }
+const detailSource = readText("src/app/internal/record-clearing/promotion/[state]/page.tsx");
+for (const marker of [
+  "getStatePromotionRecord",
+  "canApproveForLive",
+  "canBecomeLive",
+  "tmp/review-inbox/all50",
+  "/internal/record-clearing/states/",
+  "Partner RCAP",
+  "Expungement.ai",
+  "Eligible for approved_for_live"
+]) {
+  assertIncludes(detailSource, "src/app/internal/record-clearing/promotion/[state]/page.tsx", marker);
 }
-
-const blockedStates = overlayManifest.states.filter((state) => state.blockedForms > 0);
-if (blockedStates.length === 0) failures.push("No blocked forms surfaced in overlay state summaries.");
-if (overlayManifest.summary.blockedForms !== 1) failures.push(`Expected 1 blocked form, found ${overlayManifest.summary.blockedForms}.`);
-if (overlayManifest.summary.visualReviewPending !== 292) failures.push(`Expected 292 visual-review-pending PDFs, found ${overlayManifest.summary.visualReviewPending}.`);
 
 assertNoRestrictedChanges();
 
 if (failures.length > 0) {
-  console.error("RCAP all-50 internal preview verification failed:");
+  console.error("RCAP state promotion route verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log("RCAP all-50 internal preview verification passed.");
-console.log("Internal preview routes: 4");
-console.log(`Jurisdictions surfaced: ${buildManifest.states.length}`);
-console.log(`Blocked forms surfaced: ${overlayManifest.summary.blockedForms}`);
+console.log("RCAP state promotion route verification passed.");
+console.log("Internal promotion routes: 2");
 console.log("Internal admin gate: source verified");
+console.log("Review artifact links: verified");
+console.log("Handoff detail links: verified");
 console.log("Public live routing unchanged: yes");
 console.log("Legacy generators preserved: yes");
 console.log("Expungement.ai UI untouched: yes");
+console.log("Restricted production/auth/billing files untouched: yes");
 
 function assertGateBeforeDataRead(source, label) {
   const gateIndex = source.indexOf("resolveInternalAdminPageAccess(");
   const deniedIndex = source.indexOf('access.kind === "denied"');
-  const dataReadMarkers = ["getAll50StatePreviews(", "getAll50StatePreview(", "getAll50HandoffSummary("];
+  const dataReadMarkers = ["getStatePromotionRecords(", "getStatePromotionRecord("];
   const dataReadIndex = Math.min(...dataReadMarkers.map((marker) => source.indexOf(marker)).filter((index) => index >= 0));
   if (gateIndex === -1 || deniedIndex === -1 || !Number.isFinite(dataReadIndex)) {
-    failures.push(`${label} must gate and then read all50 preview data.`);
+    failures.push(`${label} must gate and then read promotion data.`);
     return;
   }
   if (gateIndex > dataReadIndex || deniedIndex > dataReadIndex) {
-    failures.push(`${label} must resolve internal admin access before reading preview data.`);
+    failures.push(`${label} must resolve internal admin access before reading promotion data.`);
   }
 }
 
@@ -132,9 +105,12 @@ function assertNoRestrictedChanges() {
     "src/lib/rcap/documents/dc/",
     "src/lib/rcap/documents/pennsylvania/",
     "src/lib/rcap/documents/texas-harris/",
+    "src/lib/stripe",
+    "src/lib/billing",
     "supabase/",
     "vercel",
     ".env",
+    ".github/workflows/deploy",
     "src/app/expungement-ai/",
     "src/app/expungement/",
     "src/components/expungement-ai/",
@@ -152,23 +128,19 @@ function assertIncludes(source, label, marker) {
   if (!source.includes(marker)) failures.push(`${label} missing marker: ${marker}`);
 }
 
-function readJson(relativePath) {
-  return JSON.parse(readText(relativePath));
-}
-
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
 }
 
 function git(args) {
   const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.error && !result.stdout) throw result.error;
+  if (result.status !== 0 && result.error && !result.stdout) throw result.error;
   return (result.stdout || "").split(/\r?\n/).filter(Boolean);
 }
 
 function gitOneLine(args) {
   const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 || result.error) return null;
+  if (result.status !== 0 || (result.error && !result.stdout)) return null;
   return result.stdout.trim() || null;
 }
 
@@ -189,8 +161,11 @@ function changedFilesAgainstMain() {
 }
 
 function resolveMainBaseRef() {
-  for (const ref of ["origin/main", "main"]) {
-    if (gitOneLine(["rev-parse", "--verify", `${ref}^{commit}`])) return ref;
+  for (const candidate of [
+    ["refs/remotes/origin/main", "origin/main"],
+    ["refs/heads/main", "main"]
+  ]) {
+    if (gitOneLine(["rev-parse", "--verify", `${candidate[0]}^{commit}`])) return candidate[1];
   }
   return null;
 }
