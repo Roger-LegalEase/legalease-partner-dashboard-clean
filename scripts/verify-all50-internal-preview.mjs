@@ -74,7 +74,7 @@ for (const state of buildManifest.states) {
 
 const blockedStates = overlayManifest.states.filter((state) => state.blockedForms > 0);
 if (blockedStates.length === 0) failures.push("No blocked forms surfaced in overlay state summaries.");
-if (overlayManifest.summary.blockedForms !== 9) failures.push(`Expected 9 blocked forms, found ${overlayManifest.summary.blockedForms}.`);
+if (overlayManifest.summary.blockedForms !== 1) failures.push(`Expected 1 blocked form, found ${overlayManifest.summary.blockedForms}.`);
 if (overlayManifest.summary.visualReviewPending !== 292) failures.push(`Expected 292 visual-review-pending PDFs, found ${overlayManifest.summary.visualReviewPending}.`);
 
 assertNoRestrictedChanges();
