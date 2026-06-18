@@ -125,7 +125,8 @@ function assertNoRestrictedChanges() {
   const allowedConsumerPersistenceFiles = new Set([
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
-    "supabase/phase-28-consumer-packet-generation-status.sql"
+    "supabase/phase-28-consumer-packet-generation-status.sql",
+    "supabase/phase-29-consumer-wilma-telemetry.sql"
   ]);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))

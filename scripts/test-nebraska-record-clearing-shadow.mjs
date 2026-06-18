@@ -147,6 +147,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
     .filter((line) => !line.includes("supabase/phase-27-consumer-checkout-metadata.sql"))
     .filter((line) => !line.includes("supabase/phase-28-consumer-packet-generation-status.sql"))
+    .filter((line) => !line.includes("supabase/phase-29-consumer-wilma-telemetry.sql"))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
 }
