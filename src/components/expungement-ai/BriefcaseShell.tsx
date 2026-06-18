@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Briefcase, CalendarDays, CreditCard, FileText, FolderOpen, MessageCircle, Settings } from "lucide-react";
+import { Briefcase, CalendarDays, CreditCard, FileText, FolderOpen, HelpCircle, MessageCircle, Settings } from "lucide-react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 
 const briefcaseLinks = [
@@ -9,6 +9,7 @@ const briefcaseLinks = [
   { href: "/briefcase/documents", label: "My Packets", icon: FileText },
   { href: "/briefcase/reminders", label: "Reminders", icon: CalendarDays },
   { href: "/briefcase/payments", label: "Payments", icon: CreditCard },
+  { href: "/expungement-ai/support", label: "Support", icon: HelpCircle },
   { href: "/briefcase/settings", label: "Settings", icon: Settings }
 ];
 
@@ -31,6 +32,7 @@ export function BriefcaseShell({
           </Link>
           <div className="flex items-center gap-3 text-sm font-semibold text-[#5A6275]">
             <Link href="/expungement-ai/check">New check</Link>
+            <Link href="/expungement-ai/support">Support</Link>
             {userEmail ? <span className="hidden md:inline">{userEmail}</span> : null}
           </div>
         </div>

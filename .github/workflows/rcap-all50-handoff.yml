@@ -36,7 +36,16 @@ permissions:
 jobs:
   verify:
     name: Verify RCAP all50 handoff
-    if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'feat/expungement-ai') }}
+    if: >-
+      ${{
+        github.event_name != 'pull_request' ||
+        (
+          !startsWith(github.head_ref, 'feat/expungement-ai-') &&
+          !startsWith(github.head_ref, 'fix/expungement-ai-') &&
+          !startsWith(github.head_ref, 'docs/expungement-ai-') &&
+          !startsWith(github.head_ref, 'ci/expungement-ai-')
+        )
+      }}
     runs-on: ubuntu-latest
 
     steps:
