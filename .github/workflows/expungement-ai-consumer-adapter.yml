@@ -10,17 +10,20 @@ on:
       - src/lib/expungement-ai/**
       - supabase/phase-26-consumer-briefcase-items.sql
       - supabase/phase-27-consumer-checkout-metadata.sql
+      - supabase/phase-28-consumer-packet-generation-status.sql
       - docs/EXPUNGEMENT_AI_CONSUMER_ADAPTER.md
       - design-handoff/expungement-ai-frontend/**
       - scripts/verify-expungement-consumer-adapter.mjs
       - scripts/verify-expungement-consumer-persistence.mjs
       - scripts/verify-expungement-consumer-checkout.mjs
+      - scripts/verify-expungement-post-payment-packet-generation.mjs
       - package.json
       - package-lock.json
       - .github/workflows/expungement-ai-consumer-adapter.yml
   push:
     branches:
       - feat/expungement-ai-consumer-adapter
+      - feat/expungement-ai-post-payment-packet-generation
 
 permissions:
   contents: read
@@ -76,3 +79,6 @@ jobs:
 
       - name: Verify Expungement.ai consumer checkout
         run: npm run expungement:verify-consumer-checkout
+
+      - name: Verify Expungement.ai post-payment packet generation
+        run: npm run expungement:verify-post-payment-packet-generation
