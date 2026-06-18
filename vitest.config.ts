@@ -42,6 +42,7 @@ export default defineConfig({
 	      "tests/analytics.test.ts",
 	      "tests/legalese-os-events.test.ts",
 	      "tests/legalese-os-exporter-vertical-smoke.test.ts",
+	      "tests/legalese-os-cross-repo-smoke.test.ts",
 	      "tests/env.test.ts",
 	      "tests/product-config.test.ts",
 	      "tests/checkr.test.ts",
