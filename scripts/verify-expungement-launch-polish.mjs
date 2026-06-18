@@ -177,6 +177,8 @@ const allowedChangedFiles = new Set([
   "scripts/verify-expungement-consumer-checkout.mjs",
   "scripts/verify-expungement-consumer-persistence.mjs",
   "scripts/verify-expungement-post-payment-packet-generation.mjs",
+  "scripts/detect-ci-scope.mjs",
+  "scripts/verify-product-aware-rcap-ci.mjs",
   "scripts/test-inspect-local-record-clearing-pdfs.mjs",
   "scripts/test-nebraska-record-clearing-shadow.mjs",
   "src/lib/expungement-ai/support-os-adapter.ts",
