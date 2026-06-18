@@ -152,6 +152,7 @@ const changedFiles = process.env.EXPUNGEMENT_VERIFY_CHANGED_FILES?.split("\n").f
 for (const file of changedFiles) {
   if (file === "supabase/phase-26-consumer-briefcase-items.sql") continue;
   if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
+  if (file === "supabase/phase-28-consumer-packet-generation-status.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }

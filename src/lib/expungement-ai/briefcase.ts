@@ -180,6 +180,54 @@ export async function updateBriefcasePaymentMetadata(
   return rowToBriefcaseItem(data);
 }
 
+export async function updateBriefcasePacketMetadata(
+  userId: string,
+  itemId: string,
+  metadata: {
+    packetStatus: ConsumerBriefcaseItem["packetStatus"];
+    artifactRefs?: Record<string, unknown>;
+  }
+): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = await getConsumerBriefcaseClient();
+
+  if (!supabase) {
+    const items = fallbackItemsForUser(userId);
+    const index = items.findIndex((item) => item.id === itemId);
+    if (index === -1) return null;
+    items[index] = {
+      ...items[index],
+      packetStatus: metadata.packetStatus,
+      ...(metadata.artifactRefs ? { artifactRefs: metadata.artifactRefs } : {})
+    };
+    fallbackItemsByUser.set(userId, items);
+    return items[index];
+  }
+
+  const updates: {
+    packet_status: ConsumerBriefcaseItem["packetStatus"];
+    artifact_refs_json?: Record<string, unknown>;
+    updated_at: string;
+  } = {
+    packet_status: metadata.packetStatus,
+    updated_at: new Date().toISOString()
+  };
+
+  if (metadata.artifactRefs) {
+    updates.artifact_refs_json = metadata.artifactRefs;
+  }
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .update(updates)
+    .eq("user_id", userId)
+    .eq("id", itemId)
+    .select("*")
+    .single<ConsumerBriefcaseRow>();
+
+  if (error || !data) return null;
+  return rowToBriefcaseItem(data);
+}
+
 export function saveEligibilityCheckToBriefcase(state: string, userId = "local-preview-user"): ConsumerBriefcaseItem {
   const item = {
     id: consumerBriefcaseId("check", state, "started"),

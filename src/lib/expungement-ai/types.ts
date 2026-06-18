@@ -58,7 +58,7 @@ export type ConsumerBriefcaseItem = {
   paymentIntentId?: string;
   amountCents?: 5000;
   receiptUrl?: string;
-  packetStatus?: "not_started" | "ready" | "downloaded";
+  packetStatus?: "not_started" | "pending" | "generating" | "ready" | "failed" | "downloaded";
   reminderAt?: string;
   sourceSessionId?: string;
 };
