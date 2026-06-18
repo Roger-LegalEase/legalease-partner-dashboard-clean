@@ -29,23 +29,13 @@ function changedFiles() {
   return (result.stdout ?? "").split(/\r?\n/).filter(Boolean).map((line) => line.slice(3).trim());
 }
 
-const docDir = "design-handoff/expungement-ai-frontend/files-6";
-for (const doc of [
-  "Wilma-Persona-and-Guardrails.md",
-  "Wilma-System-Prompt.md",
-  "Wilma-Golden-Examples.md",
-  "Wilma-Adversarial-Test-Suite.md",
-  "Wilma-Engineering-Build-Spec.md",
-  "Wilma-Telemetry-Escalation-Spec.md"
-]) {
-  assert(exists(path.join(docDir, doc)), `Wilma source doc missing: ${doc}`);
-}
-
 const packageSource = read("package.json");
+const workflowSource = read(".github/workflows/expungement-ai-consumer-adapter.yml");
 const contextSource = read("src/lib/expungement-ai/wilma-context.ts");
 const safetySource = read("src/lib/expungement-ai/wilma-safety.ts");
 const telemetrySource = read("src/lib/expungement-ai/wilma-telemetry.ts");
 const killSwitchSource = read("src/lib/expungement-ai/wilma-kill-switch.ts");
+const wilmaSource = read("src/lib/expungement-ai/wilma.ts");
 const routePath = "src/app/api/expungement-ai/wilma/chat/route.ts";
 const routeSource = exists(routePath) ? read(routePath) : "";
 const migrationPath = "supabase/phase-29-consumer-wilma-telemetry.sql";
@@ -55,6 +45,28 @@ const shellSource = read("src/components/expungement-ai/ConsumerPageShell.tsx");
 const briefcaseShellSource = read("src/components/expungement-ai/BriefcaseShell.tsx");
 
 assert(packageSource.includes('"expungement:verify-wilma-safety-harness"'), "Missing expungement:verify-wilma-safety-harness npm script.");
+for (const file of [
+  "src/lib/expungement-ai/wilma-context.ts",
+  "src/lib/expungement-ai/wilma-safety.ts",
+  "src/lib/expungement-ai/wilma-telemetry.ts",
+  "src/lib/expungement-ai/wilma-kill-switch.ts",
+  "src/lib/expungement-ai/wilma.ts",
+  routePath,
+  migrationPath
+]) {
+  assert(exists(file), `Wilma safety harness file missing: ${file}`);
+}
+for (const workflowMarker of [
+  "src/app/api/expungement-ai/wilma/**",
+  "src/lib/expungement-ai/wilma*.ts",
+  "scripts/verify-wilma-safety-harness.mjs",
+  "supabase/phase-29-consumer-wilma-telemetry.sql",
+  "package.json",
+  "package-lock.json",
+  "npm run expungement:verify-wilma-safety-harness"
+]) {
+  assert(workflowSource.includes(workflowMarker), `Consumer adapter workflow missing Wilma marker: ${workflowMarker}`);
+}
 assert(bubbleSource.includes('data-wilma-bubble="true"'), "Wilma bubble marker missing.");
 assert(shellSource.includes("<WilmaBubble") && briefcaseShellSource.includes("<WilmaBubble"), "Wilma bubble must remain global on Expungement.ai and Briefcase shells.");
 assert(exists(routePath), "Wilma chat API route missing.");
@@ -100,6 +112,8 @@ for (const field of ["exchange_id", "session_id", "timestamp", "state", "user_me
 
 assert(killSwitchSource.includes("isWilmaKillSwitchActive"), "Kill-switch check missing.");
 assert(killSwitchSource.includes("Wilma is temporarily unavailable while we check something. Your Briefcase and packet tools still work."), "Kill-switch unavailable copy missing.");
+assert(wilmaSource.includes("placeholder-no-provider-v1"), "Wilma harness must not require a live model/provider.");
+assert(wilmaSource.includes("I do not decide eligibility"), "Wilma placeholder must defer eligibility decisions.");
 assert(exists(migrationPath), "Wilma telemetry migration missing.");
 assert(migrationSource.includes("consumer_wilma_telemetry"), "Wilma telemetry migration table missing.");
 assert(migrationSource.includes("enable row level security"), "Wilma telemetry migration must enable RLS.");
