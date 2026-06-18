@@ -111,10 +111,16 @@ export async function fulfillWilmaOrder(
       facts: session.facts,
       metadata: { orderId: order.id }
     });
-    return dependencies.orderBackend.updateOrderStatus({
+    const failed = await dependencies.orderBackend.updateOrderStatus({
       orderId: order.id,
       status: "fulfillment_failed"
     });
+    await emitPacketGenerationFailureHealthEvent(failed, {
+      configEnv: dependencies.legalEaseOsConfigEnv,
+      fetcher: dependencies.legalEaseOsFetch,
+      now: dependencies.now
+    });
+    return failed;
   }
 }
 
@@ -165,5 +171,36 @@ async function emitPacketGeneratedEvent(
     );
   } catch {
     // LegalEase OS telemetry must never affect fulfillment.
+  }
+}
+
+async function emitPacketGenerationFailureHealthEvent(
+  order: WilmaDocumentPrepOrder,
+  options: LegalEaseOsEventOptions
+): Promise<void> {
+  try {
+    await emitLegalEaseOsEvent(
+      {
+        source_system: "expungement_ai",
+        event_type: "engine.health_changed",
+        occurred_at: options.now?.() ?? new Date(),
+        subject_type: "packet_generation",
+        subject_ref: `wilma_packet_failure:${order.id}:${order.documentTarget}`,
+        jurisdiction: order.state,
+        packet_type: order.documentTarget,
+        metrics: {
+          status: "fulfillment_failed",
+          reason_code_count: order.reasonCodes.length,
+          rule_version: order.ruleVersion,
+          failure_stage: "document_or_tracker_generation"
+        },
+        summary: "Document-prep fulfillment failed before packet completion.",
+        recommended_operator_action: "Review fulfillment health and retry manually if needed.",
+        pii_classification: "hashed_reference_only"
+      },
+      options
+    );
+  } catch {
+    // LegalEase OS telemetry must never affect fulfillment failure handling.
   }
 }
