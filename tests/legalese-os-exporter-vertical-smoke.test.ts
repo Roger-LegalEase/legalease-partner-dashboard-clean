@@ -33,6 +33,7 @@ const allowedEventFields = new Set([
 const forbiddenFragments = [
   "Jane Person",
   "client@example.com",
+  "failure@example.com",
   "roger@example.com",
   "beta@example.com",
   "second@example.com",
@@ -65,10 +66,11 @@ const forbiddenFragments = [
 ];
 
 describe("LegalEase OS exporter vertical smoke", () => {
-  it("emits signed safe events from both wired product seams", async () => {
+  it("emits signed safe events from all wired product seams", async () => {
     const collector = createCollector();
     const engineTime = "2026-06-18T20:00:00.000Z";
     const packetTime = "2026-06-18T20:05:00.000Z";
+    const failureTime = "2026-06-18T20:10:00.000Z";
     const engineHandler = createWilmaConfigRouteHandler({
       currentUser: async () => null,
       launchBackend: backend(launchConfig()),
@@ -80,6 +82,9 @@ describe("LegalEase OS exporter vertical smoke", () => {
     const packetBackend = createWilmaOrderTestBackend();
     const session = eligibleSession();
     const order = await createPendingOrder(packetBackend, session);
+    const failedSession = eligibleSession({ email: "failure@example.com" });
+    failedSession.id = "wilma_session_failure";
+    const failedOrder = await createPendingOrder(packetBackend, failedSession);
 
     const engineResponse = await engineHandler(
       new Request(
@@ -100,12 +105,29 @@ describe("LegalEase OS exporter vertical smoke", () => {
       legalEaseOsFetch: collector.fetcher,
       now: () => new Date(packetTime)
     });
+    const failed = await fulfillWilmaOrder(failedOrder, failedSession, {
+      orderBackend: packetBackend.orderBackend,
+      documentGenerationBackend: {
+        async generateDocumentPrep() {
+          throw new Error("generation failed");
+        }
+      },
+      trackerBackend: packetBackend.trackerBackend,
+      legalEaseOsConfigEnv: enabledLegalEaseOsConfig,
+      legalEaseOsFetch: collector.fetcher,
+      now: () => new Date(failureTime)
+    });
 
     expect(engineResponse.status).toBe(200);
     expect(fulfilled.status).toBe("fulfilled");
-    expect(collector.fetcher).toHaveBeenCalledTimes(2);
+    expect(failed.status).toBe("fulfillment_failed");
+    expect(collector.fetcher).toHaveBeenCalledTimes(3);
     const events = collector.events();
-    expect(events.map((event) => event.payload.event_type)).toEqual(["engine.health_changed", "packet.generated"]);
+    expect(events.map((event) => event.payload.event_type)).toEqual([
+      "engine.health_changed",
+      "packet.generated",
+      "engine.health_changed"
+    ]);
 
     for (const event of events) {
       expectSignedEvent(event);
@@ -145,6 +167,26 @@ describe("LegalEase OS exporter vertical smoke", () => {
       has_tracker_workspace: true,
       rule_version: "wilma-service-fit-v1"
     });
+
+    expect(events[2]?.payload).toMatchObject({
+      source_system: "expungement_ai",
+      event_type: "engine.health_changed",
+      subject_type: "packet_generation",
+      subject_ref_hash: hashLegalEaseOsReference(`wilma_packet_failure:${failedOrder.id}:${failedOrder.documentTarget}`),
+      jurisdiction: "IL",
+      packet_type: "expungement_petition",
+      pii_classification: "hashed_reference_only",
+      summary: "Document-prep fulfillment failed before packet completion.",
+      recommended_operator_action: "Review fulfillment health and retry manually if needed."
+    });
+    expect(events[2]?.payload.metrics).toMatchObject({
+      status: "fulfillment_failed",
+      reason_code_count: 3,
+      rule_version: "wilma-service-fit-v1",
+      failure_stage: "document_or_tracker_generation"
+    });
+    expect(events[2]?.rawBody).not.toContain("generation failed");
+    expect(events[2]?.rawBody).not.toContain(failedOrder.id);
   });
 
   it.each([
@@ -163,7 +205,7 @@ describe("LegalEase OS exporter vertical smoke", () => {
         LEGALEASE_OS_EVENTS_ENDPOINT: enabledLegalEaseOsConfig.LEGALEASE_OS_EVENTS_ENDPOINT
       }
     ]
-  ])("does not emit either wired product event when exporter is %s", async (_label, legalEaseOsConfigEnv) => {
+  ])("does not emit any wired product event when exporter is %s", async (_label, legalEaseOsConfigEnv) => {
     const fetcher = vi.fn();
     const engineHandler = createWilmaConfigRouteHandler({
       currentUser: async () => null,
@@ -174,6 +216,9 @@ describe("LegalEase OS exporter vertical smoke", () => {
     const packetBackend = createWilmaOrderTestBackend();
     const session = eligibleSession();
     const order = await createPendingOrder(packetBackend, session);
+    const failedSession = eligibleSession({ email: "failure@example.com" });
+    failedSession.id = "wilma_session_failure";
+    const failedOrder = await createPendingOrder(packetBackend, failedSession);
 
     const engineResponse = await engineHandler(new Request("http://localhost:3000/api/wilma/config"));
     const fulfilled = await fulfillWilmaOrder(order, session, {
@@ -183,9 +228,21 @@ describe("LegalEase OS exporter vertical smoke", () => {
       legalEaseOsConfigEnv,
       legalEaseOsFetch: fetcher
     });
+    const failed = await fulfillWilmaOrder(failedOrder, failedSession, {
+      orderBackend: packetBackend.orderBackend,
+      documentGenerationBackend: {
+        async generateDocumentPrep() {
+          throw new Error("generation failed");
+        }
+      },
+      trackerBackend: packetBackend.trackerBackend,
+      legalEaseOsConfigEnv,
+      legalEaseOsFetch: fetcher
+    });
 
     expect(engineResponse.status).toBe(200);
     expect(fulfilled.status).toBe("fulfilled");
+    expect(failed.status).toBe("fulfillment_failed");
     expect(fetcher).not.toHaveBeenCalled();
   });
 
@@ -202,6 +259,9 @@ describe("LegalEase OS exporter vertical smoke", () => {
     const packetBackend = createWilmaOrderTestBackend();
     const session = eligibleSession();
     const order = await createPendingOrder(packetBackend, session);
+    const failedSession = eligibleSession({ email: "failure@example.com" });
+    failedSession.id = "wilma_session_failure";
+    const failedOrder = await createPendingOrder(packetBackend, failedSession);
 
     const engineResponse = await engineHandler(new Request("http://localhost:3000/api/wilma/config"));
     const engineBody = (await engineResponse.json()) as { available: boolean };
@@ -212,13 +272,25 @@ describe("LegalEase OS exporter vertical smoke", () => {
       legalEaseOsConfigEnv: enabledLegalEaseOsConfig,
       legalEaseOsFetch: fetcher
     });
+    const failed = await fulfillWilmaOrder(failedOrder, failedSession, {
+      orderBackend: packetBackend.orderBackend,
+      documentGenerationBackend: {
+        async generateDocumentPrep() {
+          throw new Error("generation failed");
+        }
+      },
+      trackerBackend: packetBackend.trackerBackend,
+      legalEaseOsConfigEnv: enabledLegalEaseOsConfig,
+      legalEaseOsFetch: fetcher
+    });
 
     expect(engineResponse.status).toBe(200);
     expect(engineBody.available).toBe(true);
     expect(fulfilled.status).toBe("fulfilled");
     expect(fulfilled.documentGenerationJobId).toBe("doc_job_1");
     expect(fulfilled.trackerWorkspaceId).toBe("tracker_1");
-    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(failed.status).toBe("fulfillment_failed");
+    expect(fetcher).toHaveBeenCalledTimes(3);
   });
 
   it("throttles repeated engine health exports but allows separate packet generations", async () => {
