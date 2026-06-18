@@ -14,6 +14,18 @@ Verify the webhook secret and checkout success/cancel URLs before production lau
 
 ## Support workflow status
 
-Expungement.ai includes a public contact page and a technical support request workflow. The support API currently validates category, email, optional Briefcase item ID, and message; redacts SSN, full DOB, and full street address patterns from message text; then returns a dry-run/server-log-only response.
+Expungement.ai includes a public contact page and a technical support request workflow. The support API currently validates category, email, optional Briefcase item ID, and message; redacts SSN, full DOB, phone, email-in-body, and likely address patterns from message text; then creates or enqueues a LegalEase OS support item.
 
-Live email sending and database persistence are not configured in this launch-polish patch.
+Live email sending is not configured in this launch-polish patch. Local development can return a clearly marked dryRun response if LegalEase OS persistence is unavailable, but production must not return success unless the request is persisted or enqueued to LegalEase OS.
+
+## Support and correspondence routing
+
+All support/contact submissions must create LegalEase OS support items.
+
+Email address [info@legalease.law](mailto:info@legalease.law) remains customer-facing. The operating source of truth is LegalEase OS.
+
+No support request should be accepted in production unless it is persisted or enqueued to LegalEase OS.
+
+Partner users must not access consumer support correspondence.
+
+Support items should be reviewed from internal LegalEase OS tooling.

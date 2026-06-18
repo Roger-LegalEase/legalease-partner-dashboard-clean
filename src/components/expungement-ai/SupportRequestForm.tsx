@@ -9,15 +9,27 @@ const categories = [
   { value: "packet_download", label: "Packet download" },
   { value: "briefcase", label: "Briefcase" },
   { value: "wilma", label: "Wilma" },
+  { value: "technical_issue", label: "Technical issue" },
+  { value: "general_contact", label: "General contact" },
   { value: "something_else", label: "Something else" }
 ];
 
 type SupportResponse =
-  | { ok: true; supportRequestId: string; mode: "dry_run"; piiDetected: boolean; message: string }
+  | { ok: true; supportItemId: string; dryRun?: boolean; message: string }
   | { ok?: false; error: string };
 
-export function SupportRequestForm({ briefcaseItemId }: { briefcaseItemId?: string }) {
-  const [category, setCategory] = useState(categories[0].value);
+export function SupportRequestForm({
+  briefcaseItemId,
+  defaultCategory = "account_login",
+  routeSubmittedFrom = "/expungement-ai/support",
+  heading = "Request technical help"
+}: {
+  briefcaseItemId?: string;
+  defaultCategory?: string;
+  routeSubmittedFrom?: string;
+  heading?: string;
+}) {
+  const [category, setCategory] = useState(defaultCategory);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<SupportResponse | null>(null);
@@ -32,7 +44,14 @@ export function SupportRequestForm({ briefcaseItemId }: { briefcaseItemId?: stri
       const response = await fetch("/api/expungement-ai/support", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, email, briefcaseItemId, message })
+        body: JSON.stringify({
+          category,
+          email,
+          briefcaseItemId,
+          message,
+          routeSubmittedFrom,
+          legalAdviceWarningAcknowledged: true
+        })
       });
       const body = (await response.json()) as SupportResponse;
       const errorMessage = "error" in body ? body.error : "Unable to send support request.";
@@ -47,7 +66,8 @@ export function SupportRequestForm({ briefcaseItemId }: { briefcaseItemId?: stri
 
   return (
     <form className="rounded-md border border-[#ECEFF4] bg-white p-5" onSubmit={submitSupportRequest}>
-      <h2 className="text-xl font-extrabold">Request technical help</h2>
+      <h2 className="text-xl font-extrabold">{heading}</h2>
+      <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your request will be routed to the LegalEase support team.</p>
       <div className="mt-5 grid gap-4">
         <label className="grid gap-2 text-sm font-bold">
           What do you need help with?
@@ -70,7 +90,7 @@ export function SupportRequestForm({ briefcaseItemId }: { briefcaseItemId?: stri
       </button>
       {status?.ok ? (
         <p className="mt-4 rounded-md bg-[#00A99D]/10 p-3 text-sm font-semibold text-[#007A72]">
-          Request received for support triage. Reference: {status.supportRequestId}{status.piiDetected ? " Sensitive details were redacted before logging." : ""}
+          {status.message} Reference: {status.supportItemId}{status.dryRun ? " (local dry run)" : ""}
         </p>
       ) : status?.error ? (
         <p className="mt-4 rounded-md bg-[#FF3B00]/10 p-3 text-sm font-semibold text-[#8F2300]">{status.error}</p>

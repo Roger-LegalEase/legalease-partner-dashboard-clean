@@ -29,6 +29,10 @@ assert(readinessDoc.includes("Partner invoice Stripe flow remains unchanged"), "
 assert(readinessDoc.includes("Expungement.ai consumer checkout plumbing is isolated"), "Production readiness doc must state consumer checkout isolation.");
 assert(readinessDoc.includes("Do not switch from test keys to live keys until final go/no-go"), "Production readiness doc must block live key switch before go/no-go.");
 assert(readinessDoc.includes("verify the webhook secret and checkout success/cancel URLs") || readinessDoc.includes("Verify the webhook secret and checkout success/cancel URLs"), "Production readiness doc must call out webhook and checkout URL verification.");
+assert(readinessDoc.includes("Support and correspondence routing"), "Production readiness doc must include support and correspondence routing.");
+assert(readinessDoc.includes("All support/contact submissions must create LegalEase OS support items"), "Production readiness doc must require LegalEase OS support items.");
+assert(readinessDoc.includes("No support request should be accepted in production unless it is persisted or enqueued to LegalEase OS"), "Production readiness doc must block production success when OS persistence fails.");
+assert(readinessDoc.includes("Partner users must not access consumer support correspondence"), "Production readiness doc must state partner users cannot access support correspondence.");
 
 run("npm", ["run", "expungement:verify-consumer-checkout"]);
 

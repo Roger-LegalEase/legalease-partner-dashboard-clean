@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Briefcase, HelpCircle, Mail, MapPin, PlayCircle } from "lucide-react";
 import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell";
+import { SupportRequestForm } from "@/components/expungement-ai/SupportRequestForm";
 
 export default function ExpungementAiContactPage() {
   return (
@@ -12,6 +13,7 @@ export default function ExpungementAiContactPage() {
             <h1 className="mt-3 text-4xl font-extrabold">Contact Expungement.ai</h1>
             <p className="mt-4 text-sm leading-6 text-[#5A6275]">
               Contact us about Expungement.ai accounts, payments, packet access, Briefcase, Wilma, or technical issues with the product.
+              Messages sent here go to the LegalEase support team.
             </p>
             <p className="mt-4 rounded-md border border-[#D9DEE8] bg-white p-4 text-sm leading-6 text-[#5A6275]">
               We can help with account, payment, packet access, and technical issues. We cannot provide legal advice or guarantee court outcomes.
@@ -41,6 +43,9 @@ export default function ExpungementAiContactPage() {
               </p>
             </div>
           </aside>
+        </div>
+        <div className="mt-6">
+          <SupportRequestForm defaultCategory="general_contact" routeSubmittedFrom="/expungement-ai/contact" heading="Send a message" />
         </div>
       </section>
     </ConsumerPageShell>
