@@ -80,6 +80,9 @@ export function SettingsView() {
     <section className="rounded-md border border-[#ECEFF4] bg-white p-5">
       <h1 className="text-2xl font-extrabold">Settings</h1>
       <p className="mt-3 text-sm leading-6 text-[#5A6275]">Consumer account preferences live here. This pass does not change partner auth, RLS, sessions, or billing.</p>
+      <Link className="mt-5 inline-flex min-h-11 items-center justify-center rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href="/expungement-ai/support">
+        Get technical support
+      </Link>
     </section>
   );
 }

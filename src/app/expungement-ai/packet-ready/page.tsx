@@ -58,6 +58,7 @@ export default async function PacketReadyPage({
                 <Link className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href={packet.artifactRefs.downloadPath}><Download className="h-4 w-4" aria-hidden="true" /> Download packet</Link>
                 <Link className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href="/briefcase"><ListChecks className="h-4 w-4" aria-hidden="true" /> View filing checklist</Link>
                 <Link className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href="/briefcase/documents"><Save className="h-4 w-4" aria-hidden="true" /> Save to Briefcase</Link>
+                <Link className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(confirmed.id)}`}><MessageCircle className="h-4 w-4" aria-hidden="true" /> Technical support</Link>
                 <button className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" type="button"><MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps</button>
               </div>
               <div className="mt-6">
@@ -75,6 +76,7 @@ export default async function PacketReadyPage({
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link className="inline-flex min-h-11 items-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/expungement-ai/packet-ready?briefcaseItemId=${briefcaseItemId ?? ""}&session_id=${checkoutSessionId ?? ""}`}>Try again</Link>
                 <Link className="inline-flex min-h-11 items-center rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href="/briefcase">Open Briefcase</Link>
+                <Link className="inline-flex min-h-11 items-center rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href={`/expungement-ai/support?briefcaseItemId=${briefcaseItemId ?? ""}`}>Contact support</Link>
               </div>
             </>
           ) : paid && packet?.packetStatus === "generating" ? (
@@ -82,6 +84,7 @@ export default async function PacketReadyPage({
               <p className="text-xs font-bold uppercase text-[#00A99D]">Generating packet</p>
               <h1 className="mt-3 text-4xl font-extrabold">Preparing your packet</h1>
               <p className="mt-3 text-sm leading-6 text-[#5A6275]">Payment is confirmed. Your packet is generating and will appear here when ready.</p>
+              <Link className="mt-6 inline-flex min-h-11 items-center rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href={`/expungement-ai/support?briefcaseItemId=${briefcaseItemId ?? ""}`}>Contact support</Link>
             </>
           ) : (
             <>

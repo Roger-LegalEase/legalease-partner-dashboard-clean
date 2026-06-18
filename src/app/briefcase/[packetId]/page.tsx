@@ -41,6 +41,9 @@ export default async function BriefcasePacketPage({
               <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href="/briefcase">
                 <ListChecks className="h-4 w-4" aria-hidden="true" /> Filing checklist
               </Link>
+              <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
+                <MessageCircle className="h-4 w-4" aria-hidden="true" /> Technical support
+              </Link>
               <button className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" type="button">
                 <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps
               </button>
