@@ -89,20 +89,28 @@ Briefcase sections include My Checks, My Packets, Filing Checklist, Reminders, P
 
 The production-ready path uses the request-scoped Supabase auth client and the `consumer_briefcase_items` table under owner-scoped RLS. The safe fallback path remains for local and not-yet-configured environments only.
 
-The migration is staged in `supabase/phase-26-consumer-briefcase-items.sql`. It has not been applied by this branch.
+The base Briefcase migration is staged in `supabase/phase-26-consumer-briefcase-items.sql`. Checkout metadata is staged in `supabase/phase-27-consumer-checkout-metadata.sql`. Neither migration has been applied by this branch.
+
+## Consumer Checkout Boundary
+
+`src/lib/expungement-ai/payment-adapter.ts` now exposes isolated consumer checkout plumbing:
+
+- `createConsumerPacketCheckout`
+- `getConsumerCheckoutStatus`
+- `recordConsumerPaymentConfirmation`
+
+Checkout is allowed only when the owned Briefcase item has `paymentAllowed === true` and result code is `packet_ready` or `packet_ready_with_caution`. The price is fixed at 5000 cents. Non-packet outcomes never reach checkout.
+
+When Stripe server configuration is absent, checkout returns an explicit `dry_run` session for local and review environments. Stripe invoice/partner billing code is not used or modified.
 
 ## Wilma Rule
 
 Wilma renders as a global bubble on every Expungement.ai and Briefcase page. The frontend sends page context and renders the shell response. It does not determine eligibility, provide legal advice, predict outcomes, guarantee results, or state unverified legal facts.
 
-## Placeholder Payment Boundary
-
-`src/lib/expungement-ai/payment-adapter.ts` is a placeholder payment adapter only. It does not import Stripe and does not alter existing Stripe live-mode behavior. Replace it with real checkout and payment confirmation before production payments.
-
 ## Still Needed Before Production Payment
 
-- apply/review the consumer Briefcase migration through the production DB process
-- real Stripe checkout/payment confirmation
+- apply/review the consumer Briefcase and checkout metadata migrations through the production DB process
+- production Stripe environment verification for the consumer checkout path
 - real post-payment packet generation call
 - receipt storage
 - production Wilma safety harness

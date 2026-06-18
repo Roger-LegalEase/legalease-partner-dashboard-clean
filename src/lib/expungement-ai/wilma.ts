@@ -24,3 +24,22 @@ export function wilmaPromptForPage(context: WilmaPageContext) {
 
   return prompts[context];
 }
+
+export const wilmaSystemPromptVersion = "wilma-safety-harness-v1";
+export const wilmaModelVersion = "placeholder-no-provider-v1";
+
+export function draftWilmaPlaceholderResponse(message: string) {
+  if (/\b(eligible|qualify|qualification|do i qualify|yes or no)\b/i.test(message)) {
+    return "That is exactly what the screening tool is built to figure out. I can explain the questions and walk you back to the tool, but I do not decide eligibility.";
+  }
+
+  if (/\b(lawyer|attorney|legal advice|what should i file|strategy)\b/i.test(message)) {
+    return "I am a guide, not your lawyer. I can explain the general process in plain language, and I can point you to legal help for advice about your specific situation.";
+  }
+
+  if (/\b(expungement|sealing|petition|filing|court)\b/i.test(message)) {
+    return "I can explain the general process. The screening tool handles eligibility, and any legal strategy questions should go to a qualified legal helper.";
+  }
+
+  return "I can help explain the process in plain language and keep you oriented. For eligibility, use the screening tool so your details are checked the right way.";
+}

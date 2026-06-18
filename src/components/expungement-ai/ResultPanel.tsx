@@ -58,7 +58,7 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
             Generate your packet for $50
           </p>
           <p className="mt-2 text-sm leading-6 text-[#5A6275]">One-time payment. Your generated packet saves to Briefcase instantly after checkout.</p>
-          <Link className="mt-4 inline-flex min-h-11 items-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/pay">
+          <Link className="mt-4 inline-flex min-h-11 items-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`}>
             Continue to $50 payment
           </Link>
         </div>

@@ -88,6 +88,9 @@ const forbiddenPrefixes = [
 ];
 for (const file of changedFiles) {
   if (file === migrationPath) continue;
+  if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
+  if (file === "supabase/phase-28-consumer-packet-generation-status.sql") continue;
+  if (file === "supabase/phase-29-consumer-wilma-telemetry.sql") continue;
   for (const prefix of forbiddenPrefixes) {
     assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);
   }

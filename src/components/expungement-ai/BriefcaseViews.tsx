@@ -1,4 +1,5 @@
-import { CalendarDays, CheckCircle2, CreditCard, FileText, ListChecks, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { CalendarDays, CheckCircle2, CreditCard, Download, FileText, ListChecks, MessageCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
@@ -63,8 +64,10 @@ export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
       <div className="mt-4 space-y-3">
         {items.filter((item) => item.packetReady).map((item) => (
           <div key={item.id} className="rounded-md bg-[#F7F3EC] p-4 text-sm">
-            <p className="font-bold">$50 one-time packet payment record pending production integration</p>
+            <p className="font-bold">$50 one-time packet payment: {item.paymentStatus ?? "not_applicable"}</p>
             <p className="mt-1 text-[#5A6275]">{item.title}</p>
+            <p className="mt-1 text-[#5A6275]">Packet: {item.packetStatus ?? "not_started"}</p>
+            {item.receiptUrl ? <p className="mt-1 text-[#5A6275]">Receipt: {item.receiptUrl}</p> : null}
           </div>
         ))}
       </div>
@@ -127,18 +130,52 @@ function BriefcaseSection({
 }
 
 function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
+  const artifact = packetArtifactFor(item);
+
   return (
     <article className="rounded-md border border-[#ECEFF4] bg-[#FBFCFE] p-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-extrabold">{item.title}</p>
           <p className="mt-1 text-sm leading-6 text-[#5A6275]">{item.summary}</p>
+          <div className="mt-3 grid gap-2 text-xs font-semibold text-[#5A6275] md:grid-cols-2">
+            <p>Jurisdiction: {item.state}</p>
+            <p>Pathway: {item.pathwayLabel ?? item.resultCode ?? "Saved matter"}</p>
+            <p>Payment: {item.paymentStatus ?? "not_applicable"}</p>
+            <p>Packet: {item.packetStatus ?? "not_started"}</p>
+            {artifact ? <p>Generated: {new Date(artifact.generatedAt).toLocaleString()}</p> : null}
+            {item.receiptUrl ? <p>Receipt: {item.receiptUrl}</p> : null}
+          </div>
         </div>
         <span className="w-fit rounded-md bg-[#00A99D]/10 px-3 py-1 text-xs font-bold text-[#007A72]">{item.status.replaceAll("_", " ")}</span>
       </div>
       <ul className="mt-3 space-y-1 text-sm leading-6 text-[#5A6275]">
         {item.nextSteps.map((step) => <li key={step}>{step}</li>)}
       </ul>
+      {artifact ? (
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-4 text-sm font-bold text-white" href={artifact.downloadPath}>
+            <Download className="h-4 w-4" aria-hidden="true" /> Download
+          </Link>
+          <Link className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#D9DEE8] px-4 text-sm font-bold" href={`/briefcase/${item.id}`}>
+            Open packet
+          </Link>
+        </div>
+      ) : null}
     </article>
   );
+}
+
+function packetArtifactFor(item: ConsumerBriefcaseItem) {
+  const refs = item.artifactRefs;
+  if (
+    refs &&
+    typeof refs.generatedAt === "string" &&
+    typeof refs.downloadPath === "string" &&
+    typeof refs.fileName === "string"
+  ) {
+    return refs as { generatedAt: string; downloadPath: string; fileName: string };
+  }
+
+  return null;
 }
