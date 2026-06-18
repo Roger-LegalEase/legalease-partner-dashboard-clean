@@ -85,8 +85,7 @@ describe("LegalEase OS cross-repo smoke", () => {
           LEGALEASE_OS_EVENTS_ENABLED: localExporterEnabled,
           LEGALEASE_OS_EVENTS_ENDPOINT: localCommandCenterEndpoint,
           LEGALEASE_OS_EVENTS_SECRET: localCommandCenterSecret
-        },
-        now: () => new Date(smokeEvent.occurred_at)
+        }
       });
 
       expect(result.enabled).toBe(true);
