@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefcase, Product UI Spec</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1320; --navy2:#1B2B40; --orange:#FF3B00; --teal:#00A99D; --teal2:#2BC4B6;
+  --cream:#F7F3EC; --ink:#1A1D26; --muted:#5A6275; --faint:#8A93A6; --line:#ECEFF4;
+  --bg:#FBFCFE; --green:#3DD598; --amber:#E0A93B; --red:#E5484D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:#E7EAF0;color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 20px}
+.note{max-width:1180px;margin:0 auto 28px;color:#3a4straightforward;font-size:13px;color:#5A6275}
+.canvas{max-width:1180px;margin:0 auto 48px;background:var(--bg);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(11,19,32,.14);border:1px solid #E2E6EE}
+.screenlabel{max-width:1180px;margin:0 auto 12px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0B1320}
+.sublabel{max-width:1180px;margin:-6px auto 14px;font-size:13px;color:#5A6275}
+
+/* App chrome */
+.app{display:flex;min-height:640px}
+.sidebar{width:248px;background:#0B1326;color:#fff;flex-shrink:0;display:flex;flex-direction:column;padding:20px 16px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;color:#fff;margin-bottom:28px;padding:0 6px}
+.logo svg{width:20px;height:20px}
+.user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.05);margin-bottom:24px}
+.avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy2),var(--teal));display:grid;place-items:center;font-weight:700;font-size:14px}
+.user .nm{font-size:13px;font-weight:600}.user .em{font-size:11px;color:rgba(255,255,255,.5)}
+.navsec{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:600;padding:0 8px;margin:18px 0 8px}
+.navitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;color:rgba(255,255,255,.7);margin-bottom:3px;cursor:pointer}
+.navitem .i{width:17px;height:17px}
+.navitem:hover{background:rgba(255,255,255,.06);color:#fff}
+.navitem.active{background:rgba(0,169,157,.16);color:#fff;font-weight:600}
+.navitem.active .i{color:var(--teal2)}
+.sb-bottom{margin-top:auto}
+.helpcard{background:rgba(255,255,255,.05);border-radius:12px;padding:14px}
+.helpcard .t{font-size:12px;font-weight:600;margin-bottom:5px}
+.helpcard .d{font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;margin-bottom:10px}
+.helpcard button{width:100%;background:var(--orange);color:#fff;border:none;font-family:inherit;font-size:12px;font-weight:600;padding:9px;border-radius:8px;cursor:pointer}
+
+.main{flex:1;background:var(--bg);display:flex;flex-direction:column;min-width:0}
+.topbar{height:62px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+.topbar .crumb{font-size:13px;color:var(--faint)}
+.topbar .crumb b{color:var(--ink)}
+.topbar .actions{display:flex;align-items:center;gap:14px}
+.iconbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--faint);cursor:pointer}
+.newbtn{display:flex;align-items:center;gap:7px;background:var(--orange);color:#fff;border:none;font-family:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:9px;cursor:pointer}
+.content{padding:28px;overflow:auto}
+
+.h1{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.subtle{font-size:13px;color:var(--faint);margin-top:3px}
+
+/* Next-step banner */
+.nextbanner{margin-top:22px;border-radius:16px;background:linear-gradient(135deg,var(--navy),var(--navy2));padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#fff}
+.nextbanner .eg{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7FE9DE;font-weight:600;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.nextbanner .eg .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.nextbanner h3{font-size:20px;font-weight:700;margin-bottom:5px}
+.nextbanner p{font-size:13px;color:rgba(255,255,255,.7);max-width:52ch;line-height:1.5}
+.nextbanner .cta{background:var(--orange);color:#fff;border:none;font-family:inherit;font-size:14px;font-weight:700;padding:13px 22px;border-radius:11px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:8px}
+
+/* Stat row */
+.stats{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.statcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.statcard .l{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:7px}
+.statcard .v{font-size:28px;font-weight:800;color:var(--navy);line-height:1}
+.statcard .v.teal{color:var(--teal)}
+.statcard .s{font-size:11px;color:var(--faint);margin-top:5px}
+
+/* Section title */
+.secttitle{display:flex;align-items:center;justify-content:space-between;margin:30px 0 14px}
+.secttitle h2{font-size:15px;font-weight:700;color:var(--navy)}
+.secttitle a{font-size:13px;color:var(--teal);text-decoration:none;font-weight:600}
+
+/* Matter cards */
+.matters{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.matter{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(11,19,32,.04)}
+.matter .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+.matter .ti{font-size:16px;font-weight:700;color:var(--navy)}
+.matter .su{font-size:12px;color:var(--faint);margin-top:3px}
+.pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.pill.teal{color:var(--teal);background:rgba(0,169,157,.12)}
+.pill.amber{color:#B97C12;background:rgba(224,169,59,.16)}
+.pill.gray{color:var(--faint);background:#F0F2F6}
+.pill.green{color:#1F9D6B;background:rgba(61,213,152,.16)}
+
+/* Stepper */
+.stepper{display:flex;align-items:flex-start;margin-top:6px}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step:not(:last-child):after{content:"";position:absolute;top:9px;left:50%;width:100%;height:2px;background:var(--line)}
+.step.done:not(:last-child):after{background:var(--green)}
+.node{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:700;background:#fff;border:2px solid #D4DAE4;color:var(--faint);position:relative;z-index:1}
+.step.done .node{background:var(--green);border-color:var(--green);color:#fff}
+.step.current .node{border-color:var(--orange);color:var(--orange)}
+.step .lbl{font-size:9.5px;color:var(--faint);margin-top:7px;font-weight:500;text-align:center}
+.step.done .lbl,.step.current .lbl{color:var(--ink);font-weight:600}
+
+/* Wilma pill */
+.wilma{position:absolute;bottom:24px;right:28px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 9px 9px 16px;box-shadow:0 12px 30px rgba(11,19,32,.16);cursor:pointer}
+.wilma .tx{font-size:13px;font-weight:600;color:var(--navy)}
+.wilma .orb{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--navy2));display:grid;place-items:center;color:#fff}
+
+/* Detail view doc list */
+.docpanel{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.docrow{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.docrow:last-child{border-bottom:none}
+.docicon{width:38px;height:46px;border-radius:6px;background:#EEF1F6;border:1px solid #E2E6EE;display:grid;place-items:center;color:var(--faint);font-size:10px;font-weight:700;flex-shrink:0}
+.docrow .nm{font-size:14px;font-weight:600;color:var(--ink)}
+.docrow .mt{font-size:11px;color:var(--faint);margin-top:2px}
+.docrow .act{margin-left:auto;display:flex;gap:8px}
+.btn-sm{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;cursor:pointer;border:none;font-family:inherit}
+.btn-ghost{background:#F0F2F6;color:var(--navy)}
+.btn-solid{background:var(--navy);color:#fff}
+
+/* Filing instructions card */
+.filing{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px}
+.filing h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.filing .lead{font-size:13px;color:var(--muted);margin-bottom:20px}
+.fstep{display:flex;gap:14px;padding-bottom:18px;position:relative}
+.fstep:not(:last-child):before{content:"";position:absolute;left:13px;top:30px;bottom:0;width:2px;background:var(--line)}
+.fnum{width:28px;height:28px;border-radius:50%;background:var(--cream);border:2px solid var(--teal);color:var(--teal);font-weight:700;font-size:12px;display:grid;place-items:center;flex-shrink:0;z-index:1}
+.fstep .ft{font-size:14px;font-weight:600;color:var(--ink)}
+.fstep .fd{font-size:13px;color:var(--muted);line-height:1.55;margin-top:3px}
+
+/* small multiples grid for states */
+.states-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.statecard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.statecard .nm{font-size:14px;font-weight:600;color:var(--navy)}
+.statecard .st{font-size:11px;margin-top:4px;font-weight:600}
+.statecard .st.live{color:var(--teal)}
+.statecard .st.soon{color:var(--faint)}
+
+/* care states */
+.empty{text-align:center;padding:60px 20px}
+.empty .ill{width:88px;height:88px;border-radius:50%;background:var(--cream);display:grid;place-items:center;margin:0 auto 20px;color:var(--teal)}
+.empty h3{font-size:20px;font-weight:700;color:var(--navy)}
+.empty p{font-size:14px;color:var(--muted);margin-top:8px;max-width:42ch;margin-left:auto;margin-right:auto;line-height:1.6}
+.empty button{margin-top:22px;background:var(--orange);color:#fff;border:none;font-family:inherit;font-size:14px;font-weight:700;padding:13px 26px;border-radius:11px;cursor:pointer}
+</style></head>
+<body>
+
+<div class="note">Expungement.ai, Briefcase product UI. Reference mockup for design handoff. Brand: Sora typeface; Navy #0B1320, Orange #FF3B00, Teal #00A99D, Cream #F7F3EC. All names/data are placeholder.</div>
+
+<!-- SCREEN 1: BRIEFCASE HOME -->
+<div class="screenlabel">Screen 1, Briefcase home (default landed state)</div>
+<div class="sublabel">Status-forward home base. Answers "where do I stand" and "what's my next step" before anything else.</div>
+<div class="canvas"><div class="app" style="position:relative">
+  <aside class="sidebar">
+    <div class="logo"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg> Expungement.ai</div>
+    <div class="user"><div class="avatar">AR</div><div><div class="nm">Alex Rivera</div><div class="em">alex@email.com</div></div></div>
+    <div class="navitem active"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg> Briefcase</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg> My matters</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10l4 4v14H3V3z"/><path d="M7 8h6M7 12h10M7 16h10"/></svg> Documents</div>
+    <div class="navsec">Account</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 16 0v1"/></svg> Profile</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1l-.4-2.6h-4l-.4 2.6a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5c.1-.3.1-.7.1-1z"/></svg> Settings</div>
+    <div class="sb-bottom"><div class="helpcard"><div class="t">Stuck on something?</div><div class="d">Wilma can explain any step in plain language, anytime.</div><button>Ask Wilma</button></div></div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><div class="crumb"><b>Briefcase</b></div><div class="actions"><div class="iconbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><button class="newbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="width:15px;height:15px"><path d="M12 5v14M5 12h14"/></svg> New record check</button></div></div>
+    <div class="content">
+      <div class="h1">Welcome back, Alex</div>
+      <div class="subtle">You have 2 records in progress. Here's where things stand.</div>
+      <div class="nextbanner">
+        <div><div class="eg"><span class="dot"></span> Your next step</div><h3>File your Philadelphia petition</h3><p>Your packet is complete and ready. We'll walk you through exactly where to take it and what to expect.</p></div>
+        <button class="cta">Show me how to file <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="stats">
+        <div class="statcard"><div class="l">In progress</div><div class="v">2</div><div class="s">Active records</div></div>
+        <div class="statcard"><div class="l">Ready to file</div><div class="v teal">1</div><div class="s">Action needed</div></div>
+        <div class="statcard"><div class="l">Documents</div><div class="v">6</div><div class="s">Prepared for you</div></div>
+        <div class="statcard"><div class="l">Cleared</div><div class="v">0</div><div class="s">So far</div></div>
+      </div>
+      <div class="secttitle"><h2>Your matters</h2><a href="#">View all</a></div>
+      <div class="matters">
+        <div class="matter">
+          <div class="top"><div><div class="ti">Disorderly conduct</div><div class="su">Philadelphia, PA, dismissed 2020</div></div><span class="pill teal">Ready to file</span></div>
+          <div class="stepper">
+            <div class="step done"><div class="node">&#10003;</div><div class="lbl">Reviewed</div></div>
+            <div class="step done"><div class="node">&#10003;</div><div class="lbl">Prepared</div></div>
+            <div class="step current"><div class="node">3</div><div class="lbl">File it</div></div>
+            <div class="step"><div class="node">4</div><div class="lbl">Court</div></div>
+            <div class="step"><div class="node">5</div><div class="lbl">Decision</div></div>
+          </div>
+        </div>
+        <div class="matter">
+          <div class="top"><div><div class="ti">Possession</div><div class="su">Cook County, IL, filed Apr 2026</div></div><span class="pill amber">With the court</span></div>
+          <div class="stepper">
+            <div class="step done"><div class="node">&#10003;</div><div class="lbl">Reviewed</div></div>
+            <div class="step done"><div class="node">&#10003;</div><div class="lbl">Prepared</div></div>
+            <div class="step done"><div class="node">&#10003;</div><div class="lbl">File it</div></div>
+            <div class="step current"><div class="node">4</div><div class="lbl">Court</div></div>
+            <div class="step"><div class="node">5</div><div class="lbl">Decision</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wilma"><span class="tx">Ask Wilma</span><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg></span></div>
+</div></div>
+
+<!-- SCREEN 2: MATTER DETAIL -->
+<div class="screenlabel">Screen 2, Matter detail (documents nested inside a matter)</div>
+<div class="sublabel">Opened from a matter card. Documents live here, not in a global pile. The most important block is the filing instructions.</div>
+<div class="canvas"><div class="app" style="position:relative">
+  <aside class="sidebar">
+    <div class="logo"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg> Expungement.ai</div>
+    <div class="user"><div class="avatar">AR</div><div><div class="nm">Alex Rivera</div><div class="em">alex@email.com</div></div></div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg> Briefcase</div>
+    <div class="navitem active"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg> My matters</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10l4 4v14H3V3z"/><path d="M7 8h6M7 12h10M7 16h10"/></svg> Documents</div>
+    <div class="sb-bottom"><div class="helpcard"><div class="t">Stuck on something?</div><div class="d">Wilma can explain any step in plain language, anytime.</div><button>Ask Wilma</button></div></div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><div class="crumb">My matters / <b>Disorderly conduct</b></div><div class="actions"><div class="iconbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div></div></div>
+    <div class="content">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div><div class="h1">Disorderly conduct</div><div class="subtle">Philadelphia, PA, dismissed 2020, Case #CR-2020-114829</div></div>
+        <span class="pill teal" style="margin-top:8px">Ready to file</span>
+      </div>
+      <div class="stepper" style="max-width:520px;margin-top:20px">
+        <div class="step done"><div class="node">&#10003;</div><div class="lbl">Reviewed</div></div>
+        <div class="step done"><div class="node">&#10003;</div><div class="lbl">Prepared</div></div>
+        <div class="step current"><div class="node">3</div><div class="lbl">File it</div></div>
+        <div class="step"><div class="node">4</div><div class="lbl">Court</div></div>
+        <div class="step"><div class="node">5</div><div class="lbl">Decision</div></div>
+      </div>
+
+      <div class="secttitle"><h2>How to file (Philadelphia)</h2></div>
+      <div class="filing">
+        <h3>You're ready. Here's exactly what to do.</h3>
+        <p class="lead">These steps are specific to the Philadelphia Court of Common Pleas, where your case was heard.</p>
+        <div class="fstep"><div class="fnum">1</div><div><div class="ft">Print your packet</div><div class="fd">Print the 3 documents below, single-sided. You'll need the original plus 2 copies of each.</div></div></div>
+        <div class="fstep"><div class="fnum">2</div><div><div class="ft">Take them to the Clerk of Courts</div><div class="fd">1301 Filbert St, Room 100, Philadelphia. Open Mon, Fri 8:30am, 4:30pm. Bring a photo ID.</div></div></div>
+        <div class="fstep"><div class="fnum">3</div><div><div class="ft">Ask to file an expungement petition</div><div class="fd">Hand the clerk your packet. If you can't afford the filing fee, ask for a fee waiver form, we've included guidance on this.</div></div></div>
+        <div class="fstep"><div class="fnum">4</div><div><div class="ft">Keep your stamped copy</div><div class="fd">The clerk will stamp your copies. Keep one safe, then come back here and mark it filed.</div></div></div>
+        <button class="btn-sm btn-solid" style="margin-top:6px;padding:12px 20px;font-size:13px">I've filed this, mark as submitted</button>
+      </div>
+
+      <div class="secttitle"><h2>Your documents</h2><a href="#">Download all</a></div>
+      <div class="docpanel">
+        <div class="docrow"><div class="docicon">PDF</div><div><div class="nm">Petition for Expungement</div><div class="mt">Prepared, ready to print, 4 pages</div></div><div class="act"><button class="btn-sm btn-ghost">Preview</button><button class="btn-sm btn-solid">Download</button></div></div>
+        <div class="docrow"><div class="docicon">PDF</div><div><div class="nm">Proposed Order</div><div class="mt">Prepared, ready to print, 1 page</div></div><div class="act"><button class="btn-sm btn-ghost">Preview</button><button class="btn-sm btn-solid">Download</button></div></div>
+        <div class="docrow"><div class="docicon">PDF</div><div><div class="nm">Filing checklist & fee waiver guide</div><div class="mt">Prepared, ready to print, 2 pages</div></div><div class="act"><button class="btn-sm btn-ghost">Preview</button><button class="btn-sm btn-solid">Download</button></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="wilma"><span class="tx">Ask Wilma</span><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg></span></div>
+</div></div>
+
+<!-- SCREEN 3: care states -->
+<div class="screenlabel">Screen 3, Empty / first-time state</div>
+<div class="sublabel">What a brand-new user sees before any matter exists. Warm, one clear action, no empty dashboard shell.</div>
+<div class="canvas"><div class="app" style="position:relative">
+  <aside class="sidebar">
+    <div class="logo"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg> Expungement.ai</div>
+    <div class="user"><div class="avatar">JM</div><div><div class="nm">Jordan Mills</div><div class="em">jordan@email.com</div></div></div>
+    <div class="navitem active"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg> Briefcase</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg> My matters</div>
+    <div class="navitem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10l4 4v14H3V3z"/><path d="M7 8h6M7 12h10M7 16h10"/></svg> Documents</div>
+    <div class="sb-bottom"><div class="helpcard"><div class="t">New here?</div><div class="d">Wilma can answer any question before you start.</div><button>Ask Wilma</button></div></div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><div class="crumb"><b>Briefcase</b></div></div>
+    <div class="content">
+      <div class="empty">
+        <div class="ill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:40px;height:40px"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg></div>
+        <h3>Let's find out what you can clear</h3>
+        <p>Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything.</p>
+        <button>Check if I qualify</button>
+      </div>
+    </div>
+  </div>
+  <div class="wilma"><span class="tx">Ask Wilma</span><span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg></span></div>
+</div></div>
+
+<!-- STATUS / PILL LEGEND -->
+<div class="screenlabel">Component, matter status pills (states the stepper + pill reflect)</div>
+<div class="canvas" style="padding:28px"><div style="display:flex;flex-wrap:wrap;gap:12px">
+  <span class="pill gray">Reviewing eligibility</span>
+  <span class="pill teal">Ready to file</span>
+  <span class="pill amber">With the court</span>
+  <span class="pill green">Cleared</span>
+  <span class="pill" style="color:#B23036;background:rgba(229,72,77,.12)">Needs your attention</span>
+</div>
+<div style="margin-top:18px;font-size:13px;color:#5A6275;line-height:1.7">
+  Stepper stages (always 5): <b>Reviewed, Prepared, File it, Court, Decision.</b> Pill color maps to current stage. "Needs your attention" (red) overrides when we're missing info from the user or a deadline is near.
+</div>
+</div>
+
+</body></html>

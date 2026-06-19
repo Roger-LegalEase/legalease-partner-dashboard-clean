@@ -1,0 +1,31 @@
+EXPUNGEMENT.AI — FRONT-END PACKAGE (all current files)
+
+START HERE
+  CLAUDE-CODE-BRIEF.md ... kickoff brief if an agent (e.g. Claude Code) builds this. Frozen
+                           contract, UPL non-negotiables, build order. Read first if building.
+  README.md .............. the handoff index: contract, branch->screen map, brand, build order.
+
+flow/  (the screening funnel — the core product)
+  expungement-flow-all51.html .. state picker + profile-driven flow, all 51 real jurisdictions.
+  expungement-flow-IL.html ..... single-state (Illinois) version, focused reference.
+  Expungement-Flow-Prototype.html .. broader funnel + Briefcase + Wilma states (kill-switch
+                                 fallback + report-response built in).
+  FRONTEND-FLOW-NOTES.md ....... React structure, question-type->component mapping, integration.
+
+profiles/  (data the flow renders; in prod these come from GET /profiles/{state})
+  all51.json ... 51 trimmed consumer profiles.   IL.json ... Illinois alone.
+
+design/  (the Briefcase, the logged-in home)
+  Briefcase-Design-Spec.docx ... rules, tokens, screens, Appendix A (guidance-only matter).
+  Briefcase-Product-Mockup.html .. built visual reference.
+
+landing/  (the marketing page — deploy this folder as-is; images must stay beside index.html)
+  index.html + hero-1500.webp + hero-800.webp + hero-1500.jpg
+
+wilma/  (the in-product guide — her logic/backend exist; these define behavior + safety)
+  Persona-and-Guardrails / System-Prompt / Golden-Examples /
+  Adversarial-Test-Suite / Telemetry-Escalation-Spec / Engineering-Build-Spec
+
+BOUNDARY: front end only. The engine (Codex) decides every eligibility result and owns
+/profiles and /evaluate. The front end renders the profile and the engine's result; it never
+decides. The engine's live response is the source of truth for the result contract.
