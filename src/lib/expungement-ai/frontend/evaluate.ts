@@ -18,7 +18,7 @@
  */
 import { type EvaluateRequest, type ScreeningEvaluation } from "./contracts";
 import { buildNeedsReviewEvaluation } from "./fixtures";
-import { parseScreeningEvaluation, type ParseResult } from "./schemas";
+import { parseScreeningEvaluation } from "./schemas";
 
 /**
  * Flip to `true` only once Codex's `/evaluate` endpoint is live and the backend branch has
@@ -31,7 +31,16 @@ export type EvaluateContext = {
   jurisdiction: string;
 };
 
-export type EvaluateScreeningResult = ParseResult<ScreeningEvaluation>;
+/**
+ * Discriminated result so the UI can show distinct, calm states:
+ *   - `api_error`          -> the request itself failed (network / non-2xx). Offer retry.
+ *   - `malformed_response` -> a response came back but violated the contract. We refuse to
+ *                             render it rather than risk a wrong outcome. Offer retry.
+ * A malformed response can never become a packet-ready or payment-allowed state.
+ */
+export type EvaluateScreeningResult =
+  | { ok: true; data: ScreeningEvaluation }
+  | { ok: false; kind: "api_error" | "malformed_response"; error: string };
 
 /**
  * Evaluate a screening. Returns a discriminated result so callers render a calm error state
@@ -50,10 +59,15 @@ export async function evaluateScreening(
     : { ok: true as const, value: runMockEvaluation(request, context) };
 
   if (!raw.ok) {
-    return raw;
+    return { ok: false, kind: "api_error", error: raw.error };
   }
 
-  return parseScreeningEvaluation(raw.value);
+  const parsed = parseScreeningEvaluation(raw.value);
+  if (!parsed.ok) {
+    return { ok: false, kind: "malformed_response", error: parsed.error };
+  }
+
+  return { ok: true, data: parsed.data };
 }
 
 /**

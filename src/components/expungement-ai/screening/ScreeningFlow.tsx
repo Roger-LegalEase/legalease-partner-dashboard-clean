@@ -7,9 +7,9 @@
  * On this branch the profile comes from the mock adapter (`loadJurisdictionProfile`). Production
  * swaps that to GET /api/expungement-ai/profiles/{state} inside the adapter only.
  *
- * Milestone 2 ends the flow at a calm "ready to review" transition. The evaluate call
- * (`evaluateScreening`) and the result screens are Milestone 3; there is intentionally no
- * outcome, no payment, and no forced-result control here.
+ * At the end of the questions the flow calls the `evaluateScreening` adapter (mock on this branch)
+ * and renders whatever result the engine returns. It never computes the outcome, and the
+ * packet/payment action is clamped to the engine's `paymentAllowed` (see ScreeningResult).
  *
  * Note (mock-only cost): importing the adapter client-side bundles the mock `all51.json` into
  * this route's client chunk. When the live `/profiles` endpoint is wired, the static JSON import
@@ -18,18 +18,29 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import type { AnswerValue, JurisdictionProfile } from "@/lib/expungement-ai/frontend/contracts";
+import type {
+  AnswerValue,
+  JurisdictionProfile,
+  ScreeningEvaluation
+} from "@/lib/expungement-ai/frontend/contracts";
 import {
   listAvailableStateKeys,
   loadJurisdictionProfile,
   normalizeStateKey
 } from "@/lib/expungement-ai/frontend/profile-loader";
+import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import { blocksContinue } from "@/components/expungement-ai/screening/answers";
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
+import {
+  EvaluatingState,
+  EvaluationErrorState,
+  ScreeningResult
+} from "@/components/expungement-ai/screening/ScreeningResult";
 
 const PICKER_PATH = "/expungement-ai/screening";
+const PACKET_PATH = "/expungement-ai/pay";
 
 type LoadState =
   | { status: "loading" }
@@ -37,7 +48,15 @@ type LoadState =
   | { status: "malformed"; detail: string }
   | { status: "ready"; profile: JurisdictionProfile };
 
-type SubPhase = "questions" | "review_complete";
+type Phase = "questions" | "evaluating" | "result" | "error";
+type EvalError = { kind: "api_error" | "malformed_response"; message: string };
+
+function createMatterId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `matter-${crypto.randomUUID()}`;
+  }
+  return `matter-${Date.now().toString(36)}`;
+}
 
 export function ScreeningFlow({ state }: { state: string }) {
   const router = useRouter();
@@ -45,8 +64,11 @@ export function ScreeningFlow({ state }: { state: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
   const [error, setError] = useState<string | null>(null);
-  const [subPhase, setSubPhase] = useState<SubPhase>("questions");
+  const [phase, setPhase] = useState<Phase>("questions");
+  const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
+  const [evalError, setEvalError] = useState<EvalError | null>(null);
   const focusRef = useRef<HTMLDivElement>(null);
+  const matterIdRef = useRef<string>(createMatterId());
 
   useEffect(() => {
     // The component is remounted per state (keyed by the route), so initial state is already
@@ -71,12 +93,18 @@ export function ScreeningFlow({ state }: { state: string }) {
     [load]
   );
 
-  // Move keyboard focus to the question region on each screen change and when entering review.
+  const questionPromptById = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const screen of screens) map[screen.id] = screen.prompt;
+    return map;
+  }, [screens]);
+
+  // Move keyboard focus to the active region on each screen/phase change.
   useEffect(() => {
     if (load.status === "ready") {
       focusRef.current?.focus();
     }
-  }, [currentIndex, subPhase, load.status]);
+  }, [currentIndex, phase, load.status]);
 
   if (load.status === "loading") return <LoadingState />;
   if (load.status === "missing") return <MissingProfileState state={state} onPick={() => router.push(PICKER_PATH)} />;
@@ -91,6 +119,28 @@ export function ScreeningFlow({ state }: { state: string }) {
     setError(null);
   }
 
+  async function runEvaluation() {
+    setPhase("evaluating");
+    setEvalError(null);
+    // The engine evaluates; we only send the collected answers. Answers stay in memory and are
+    // never placed in the URL, logs, or storage. The mock returns a fixed safe needs_review.
+    const result = await evaluateScreening(
+      {
+        profileVersion: profile.profileVersion,
+        matterId: matterIdRef.current,
+        normalizedAnswers: answers
+      },
+      { jurisdiction: profile.jurisdiction.code }
+    );
+    if (result.ok) {
+      setEvaluation(result.data);
+      setPhase("result");
+    } else {
+      setEvalError({ kind: result.kind, message: result.error });
+      setPhase("error");
+    }
+  }
+
   function handleContinue() {
     const question = screens[currentIndex];
     if (blocksContinue(question, answers[question.id])) {
@@ -102,16 +152,12 @@ export function ScreeningFlow({ state }: { state: string }) {
     if (currentIndex < screens.length - 1) {
       setCurrentIndex((index) => index + 1);
     } else {
-      setSubPhase("review_complete");
+      void runEvaluation();
     }
   }
 
   function handleBack() {
     setError(null);
-    if (subPhase === "review_complete") {
-      setSubPhase("questions");
-      return;
-    }
     if (currentIndex > 0) {
       setCurrentIndex((index) => index - 1);
       return;
@@ -119,36 +165,54 @@ export function ScreeningFlow({ state }: { state: string }) {
     router.push(PICKER_PATH);
   }
 
-  if (subPhase === "review_complete") {
+  function goToQuestions(focusQuestionId?: string) {
+    setEvalError(null);
+    setEvaluation(null);
+    if (focusQuestionId) {
+      const targetIndex = screens.findIndex((screen) => screen.id === focusQuestionId);
+      if (targetIndex >= 0) setCurrentIndex(targetIndex);
+    }
+    setPhase("questions");
+  }
+
+  if (phase === "evaluating") {
     return (
       <FlowFrame>
         <ProgressRail current={screens.length} total={screens.length} />
-        <div ref={focusRef} tabIndex={-1} className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm outline-none md:p-8">
-          <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]">Almost there</p>
-          <h1 className="mt-3 text-[26px] font-extrabold leading-tight text-[#0B1320] md:text-[32px]">
-            That&apos;s everything we need to ask about your {stateName} record.
-          </h1>
-          <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-            The screening result is the next step. Nothing here is a decision about your eligibility,
-            and there is no payment at this stage.
-          </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
-            <button
-              type="button"
-              disabled
-              className="min-h-[48px] flex-1 cursor-not-allowed rounded-[14px] bg-[#E4E8EF] px-6 py-3 text-base font-extrabold text-[#8A93A6]"
-              title="The result step is wired in the next milestone."
-            >
-              See my result (coming next)
-            </button>
-            <button
-              type="button"
-              onClick={handleBack}
-              className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1]"
-            >
-              Back to edit
-            </button>
-          </div>
+        <div ref={focusRef} tabIndex={-1} className="outline-none">
+          <EvaluatingState />
+        </div>
+      </FlowFrame>
+    );
+  }
+
+  if (phase === "error" && evalError) {
+    return (
+      <FlowFrame>
+        <ProgressRail current={screens.length} total={screens.length} />
+        <div ref={focusRef} tabIndex={-1} className="outline-none">
+          <EvaluationErrorState
+            kind={evalError.kind}
+            onRetry={() => void runEvaluation()}
+            onEditAnswers={() => goToQuestions()}
+          />
+        </div>
+      </FlowFrame>
+    );
+  }
+
+  if (phase === "result" && evaluation) {
+    return (
+      <FlowFrame>
+        <ProgressRail current={screens.length} total={screens.length} />
+        <div ref={focusRef} tabIndex={-1} className="outline-none">
+          <ScreeningResult
+            evaluation={evaluation}
+            stateName={stateName}
+            questionPromptById={questionPromptById}
+            onEditAnswers={goToQuestions}
+            onPacketAction={() => router.push(PACKET_PATH)}
+          />
         </div>
       </FlowFrame>
     );
