@@ -39,6 +39,12 @@ export default async function BriefcasePacketPage({
               {artifact ? <p><span className="font-bold text-[#0B1320]">Generated:</span> {new Date(artifact.generatedAt).toLocaleString()}</p> : null}
               {item.receiptUrl ? <p><span className="font-bold text-[#0B1320]">Receipt:</span> {item.receiptUrl}</p> : null}
             </div>
+            <div className="mt-6">
+              <h2 className="text-lg font-extrabold">{isGuidanceOnly ? "Next steps" : "Filing checklist"}</h2>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-[#5A6275]">
+                {item.nextSteps.map((step) => <li key={step}>{step}</li>)}
+              </ul>
+            </div>
             <div className="mt-6 flex flex-wrap gap-3">
               {artifact && !isGuidanceOnly ? (
                 <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href={artifact.downloadPath}>
@@ -56,12 +62,6 @@ export default async function BriefcasePacketPage({
               <button className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-5 text-sm font-bold" type="button">
                 <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps
               </button>
-            </div>
-            <div className="mt-6">
-              <h2 className="text-lg font-extrabold">{isGuidanceOnly ? "Next steps" : "Filing checklist"}</h2>
-              <ul className="mt-3 space-y-2 text-sm leading-6 text-[#5A6275]">
-                {item.nextSteps.map((step) => <li key={step}>{step}</li>)}
-              </ul>
             </div>
           </>
         ) : (

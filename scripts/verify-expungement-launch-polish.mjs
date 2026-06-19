@@ -47,7 +47,10 @@ const wilmaBubble = read("src/components/expungement-ai/WilmaBubble.tsx");
 const statesSource = read("src/lib/expungement-ai/states.ts");
 const selectorSource = read("src/lib/rcap/all51-launch-selector.ts");
 const promotionManifest = read("src/lib/rcap/state-promotion-manifest.ts");
+const flowPrototypePath = "design-handoff/expungement-ai-frontend/files-6/Expungement-Flow-Prototype.html";
+const flowPrototype = exists(flowPrototypePath) ? read(flowPrototypePath) : "";
 const publicExpungementSources = [
+  "public/static/expungement-ai/index.html",
   "src/app/expungement-ai/page.tsx",
   "src/app/expungement-ai/start/page.tsx",
   "src/app/expungement-ai/check/page.tsx",
@@ -58,7 +61,11 @@ const publicExpungementSources = [
   "src/app/expungement-ai/contact/page.tsx",
   "src/app/expungement-ai/support/page.tsx",
   "src/app/expungement-ai/sign-in/page.tsx",
-  "src/components/expungement-ai/ResultPanel.tsx"
+  "src/app/briefcase/page.tsx",
+  "src/app/briefcase/[packetId]/page.tsx",
+  "src/components/expungement-ai/BriefcaseViews.tsx",
+  "src/components/expungement-ai/ResultPanel.tsx",
+  "src/components/expungement-ai/WilmaBubble.tsx"
 ].filter(exists);
 
 assert(packageSource.includes('"expungement:verify-launch-polish"'), "Missing expungement:verify-launch-polish npm script.");
@@ -78,7 +85,7 @@ assert(contactPage.includes("Contact Expungement.ai"), "Contact headline missing
 assert(contactPage.includes("info@legalease.law") && supportPage.includes("info@legalease.law"), "Support email must appear on contact/support pages.");
 assert(contactPage.includes("907 W. Peace Street, Canton, MS 39046"), "Mailing address missing from contact page.");
 assert(contactPage.includes("cannot provide legal advice") && supportPage.includes("cannot provide legal advice"), "Not legal advice language missing.");
-assert(contactPage.includes("guarantee court outcomes") && supportPage.includes("Court approval is not guaranteed"), "No guaranteed outcome language missing.");
+assert(contactPage.includes("guarantee court outcomes") && supportPage.includes("Court approval is not promised"), "No promised outcome language missing.");
 for (const label of ["Account or login", "Payment or receipt", "Packet download", "Briefcase", "Wilma", "Something else"]) {
   assert(supportPage.includes(label) || supportForm.includes(label), `Support topic missing: ${label}`);
 }
@@ -185,6 +192,7 @@ assert(smokeDoc.includes(phrase), `Manual smoke tests missing LegalEase OS suppo
 
 for (const sourceFile of publicExpungementSources) {
   const source = read(sourceFile);
+  const lowerSource = source.toLowerCase();
   for (const forbidden of [
     "Choose your state and path",
     "Case ending",
@@ -196,10 +204,12 @@ for (const sourceFile of publicExpungementSources) {
     "Record-clearing next steps",
     "Unsupported record type",
     "Outside this self-help tool",
-    "state_not_live",
-    "we will clear your record"
+    "state_not_live"
   ]) {
     assert(!source.includes(forbidden), `Public Expungement.ai scaffold string leaked in ${sourceFile}: ${forbidden}`);
+  }
+  for (const forbidden of ["you qualify", "guaranteed", "we will clear your record"]) {
+    assert(!lowerSource.includes(forbidden), `Public Expungement.ai launch wording leaked in ${sourceFile}: ${forbidden}`);
   }
   assert(!source.includes("data-result-code"), `Public Expungement.ai route must not render raw result-code markers: ${sourceFile}`);
   if (sourceFile !== "src/components/expungement-ai/ResultPanel.tsx") {
@@ -219,10 +229,14 @@ for (const sourceFile of [
   "src/components/expungement-ai/BriefcaseViews.tsx"
 ]) {
   const source = read(sourceFile);
-  for (const forbidden of ["qualify", "guaranteed", "we will clear your record"]) {
+  for (const forbidden of ["you qualify", "guaranteed", "we will clear your record"]) {
     assert(!source.toLowerCase().includes(forbidden), `Expungement.ai app-flow source leaked forbidden launch wording in ${sourceFile}: ${forbidden}`);
   }
 }
+
+assert(exists(flowPrototypePath), "Expungement flow prototype handoff file is missing.");
+assert(flowPrototype.includes("Expungement.ai") && flowPrototype.includes("paymentAllowed") && flowPrototype.includes("Briefcase"), "Expungement flow prototype must remain available as behavioral source.");
+assert(resultPanel.includes("Expungement-Flow-Prototype.html"), "Result panel must reference the flow prototype behavioral source.");
 
 assert(checkPage.includes('name="pathType" type="hidden"') && !checkPage.includes("<select") || checkPage.includes('name="pathType" type="hidden"'), "Adapter path value, if present, must be hidden and not a public selector.");
 for (const page of [
@@ -280,6 +294,8 @@ for (const prompt of [
 assert(settingsView.includes("data-briefcase-guidance-state") && settingsView.includes("Guidance saved"), "Briefcase guidance-only matter state missing.");
 assert(packetDetail.includes("Guidance saved") && packetDetail.includes("Next steps"), "Briefcase detail guidance-only state missing.");
 assert(!settingsView.includes("5-stage"), "Briefcase guidance state must not include a 5-stage filing stepper.");
+assert(settingsView.indexOf("Next steps") !== -1 && settingsView.indexOf("Next steps") < settingsView.indexOf("artifact && !isGuidanceOnly"), "Briefcase must prioritize next steps before document actions.");
+assert(packetDetail.indexOf("Next steps") !== -1 && packetDetail.indexOf("Next steps") < packetDetail.indexOf("artifact && !isGuidanceOnly"), "Briefcase detail must prioritize next steps before document actions.");
 
 const handoffLanding = exists("src/app/expungement-ai/ExpungementLandingHandoff.tsx") ? read("src/app/expungement-ai/ExpungementLandingHandoff.tsx") : "";
 assert(handoffLanding.includes("Expungement-Landing-Full.html"), "Expungement.ai landing must use the files-6 landing handoff source.");

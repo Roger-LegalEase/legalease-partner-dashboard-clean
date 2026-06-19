@@ -45,7 +45,7 @@ export default async function ExpungementAiSupportPage({
             <div className="mt-6 rounded-md border border-[#D9DEE8] bg-white p-4 text-sm leading-6 text-[#5A6275]">
               <HelpCircle className="mb-3 h-5 w-5 text-[#00A99D]" aria-hidden="true" />
               <p>For urgent legal deadlines, contact a lawyer or the court directly.</p>
-              <p className="mt-2">Expungement.ai support cannot provide legal advice. Court approval is not guaranteed.</p>
+              <p className="mt-2">Expungement.ai support cannot provide legal advice. Court approval is not promised.</p>
               <p className="mt-2">For technical help, contact <a className="font-bold text-[#0B1320]" href="mailto:info@legalease.law">info@legalease.law</a>.</p>
               <Link className="mt-4 inline-flex min-h-10 items-center rounded-md border border-[#D9DEE8] px-4 text-sm font-bold" href="/expungement-ai/contact">Contact page</Link>
             </div>

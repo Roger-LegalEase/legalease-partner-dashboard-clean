@@ -106,6 +106,7 @@ const nonPaymentCodes: ExpungementAiResultCode[] = [
   "hard_stop"
 ];
 
+// Behavioral source: design-handoff/expungement-ai-frontend/files-6/Expungement-Flow-Prototype.html
 export function shouldShowConsumerPayGate(result: ExpungementAiEligibilityResult) {
   return result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution");
 }
