@@ -38,6 +38,15 @@ const settingsView = read("src/components/expungement-ai/BriefcaseViews.tsx");
 const readinessDoc = exists("docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md") ? read("docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md") : "";
 const smokeDoc = exists("docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md") ? read("docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md") : "";
 const consumerShell = read("src/components/expungement-ai/ConsumerPageShell.tsx");
+const startPage = read("src/app/expungement-ai/start/page.tsx");
+const checkPage = read("src/app/expungement-ai/check/page.tsx");
+const resultsPage = read("src/app/expungement-ai/results/page.tsx");
+const payPage = read("src/app/expungement-ai/pay/page.tsx");
+const resultPanel = read("src/components/expungement-ai/ResultPanel.tsx");
+const wilmaBubble = read("src/components/expungement-ai/WilmaBubble.tsx");
+const statesSource = read("src/lib/expungement-ai/states.ts");
+const selectorSource = read("src/lib/rcap/all51-launch-selector.ts");
+const promotionManifest = read("src/lib/rcap/state-promotion-manifest.ts");
 const publicExpungementSources = [
   "src/app/expungement-ai/page.tsx",
   "src/app/expungement-ai/start/page.tsx",
@@ -176,7 +185,20 @@ assert(smokeDoc.includes(phrase), `Manual smoke tests missing LegalEase OS suppo
 
 for (const sourceFile of publicExpungementSources) {
   const source = read(sourceFile);
-  for (const forbidden of ["Choose your state and path", "Path type", "Add caution to packet-ready result"]) {
+  for (const forbidden of [
+    "Choose your state and path",
+    "Case ending",
+    "Packet path",
+    "Path type",
+    "Add caution",
+    "branch picker",
+    "demo bar",
+    "Record-clearing next steps",
+    "Unsupported record type",
+    "Outside this self-help tool",
+    "state_not_live",
+    "we will clear your record"
+  ]) {
     assert(!source.includes(forbidden), `Public Expungement.ai scaffold string leaked in ${sourceFile}: ${forbidden}`);
   }
   assert(!source.includes("data-result-code"), `Public Expungement.ai route must not render raw result-code markers: ${sourceFile}`);
@@ -184,6 +206,80 @@ for (const sourceFile of publicExpungementSources) {
     assert(!source.includes("packet_ready") && !source.includes("packet_ready_with_caution"), `Public Expungement.ai route must not expose raw packet result codes: ${sourceFile}`);
   }
 }
+
+for (const sourceFile of [
+  "src/app/expungement-ai/start/page.tsx",
+  "src/app/expungement-ai/check/page.tsx",
+  "src/app/expungement-ai/results/page.tsx",
+  "src/app/expungement-ai/pay/page.tsx",
+  "src/app/expungement-ai/packet-ready/page.tsx",
+  "src/app/briefcase/page.tsx",
+  "src/app/briefcase/[packetId]/page.tsx",
+  "src/components/expungement-ai/ResultPanel.tsx",
+  "src/components/expungement-ai/BriefcaseViews.tsx"
+]) {
+  const source = read(sourceFile);
+  for (const forbidden of ["qualify", "guaranteed", "we will clear your record"]) {
+    assert(!source.toLowerCase().includes(forbidden), `Expungement.ai app-flow source leaked forbidden launch wording in ${sourceFile}: ${forbidden}`);
+  }
+}
+
+assert(checkPage.includes('name="pathType" type="hidden"') && !checkPage.includes("<select") || checkPage.includes('name="pathType" type="hidden"'), "Adapter path value, if present, must be hidden and not a public selector.");
+for (const page of [
+  ["start", startPage],
+  ["check", checkPage],
+  ["results", resultsPage],
+  ["pay", payPage],
+  ["packet-ready", packetReady],
+  ["briefcase", read("src/app/briefcase/page.tsx")],
+  ["briefcase-detail", packetDetail]
+]) {
+  assert(page[1].includes("wilmaContext") || page[1].includes("BriefcaseShell") || page[1].includes("WilmaBubble"), `Wilma surface missing on ${page[0]} screen.`);
+}
+
+for (const branch of [
+  "packet_ready",
+  "packet_ready_with_caution",
+  "needs_more_info",
+  "not_yet",
+  "guidance_only",
+  "not_covered_yet",
+  "likely_not_eligible",
+  "needs_review",
+  "hard_stop"
+]) {
+  assert(resultPanel.includes(branch), `Result panel must cover branch: ${branch}.`);
+}
+assert(resultPanel.includes("result.paymentAllowed === true"), "Pay gate must check result.paymentAllowed.");
+assert(resultPanel.includes('result.resultCode === "packet_ready"') && resultPanel.includes('result.resultCode === "packet_ready_with_caution"'), "Pay gate must be limited to packet-ready branches.");
+for (const branch of ["needs_more_info", "not_yet", "guidance_only", "not_covered_yet", "likely_not_eligible", "needs_review", "hard_stop"]) {
+  assert(resultPanel.includes(branch), `No-pay branch coverage missing: ${branch}.`);
+}
+assert(resultPanel.includes("nonPaymentBranchesNeverShowPayGate"), "Result panel must expose non-payment branch pay-gate guard for verifier coverage.");
+assert(!resultPanel.includes("data-result-code"), "Result panel must not render raw result-code markers.");
+
+assert(statesSource.includes("getAll51SelectableJurisdictions"), "Consumer state options must use all51 live jurisdiction source.");
+assert(selectorSource.includes("return statePromotionManifest.filter") && selectorSource.includes('record.liveEnabled && record.promotionStatus === "live"'), "All51 selector must source live states from the manifest.");
+assert(!selectorSource.includes('"state_not_live"'), "Selector must not expose a state_not_live launch branch.");
+assert((promotionManifest.match(/"abbreviation":/g) ?? []).length >= 51, "State promotion manifest must include all 50 states plus DC.");
+
+assert(wilmaBubble.includes("data-wilma-surface"), "Wilma surface marker missing.");
+assert(wilmaBubble.includes("data-wilma-report-response"), "Wilma report-response affordance missing.");
+assert(wilmaBubble.includes("data-wilma-kill-switch-fallback"), "Wilma kill-switch fallback missing.");
+assert(wilmaBubble.includes("not legal advice"), "Wilma not-legal-advice copy missing.");
+for (const prompt of [
+  "Want me to explain the screening?",
+  "Want me to explain these questions?",
+  "Want me to explain this result?",
+  "Want to know what's included?",
+  "Want me to explain this matter status?"
+]) {
+  assert(wilmaBubble.includes(prompt), `Wilma page-aware opener missing: ${prompt}`);
+}
+
+assert(settingsView.includes("data-briefcase-guidance-state") && settingsView.includes("Guidance saved"), "Briefcase guidance-only matter state missing.");
+assert(packetDetail.includes("Guidance saved") && packetDetail.includes("Next steps"), "Briefcase detail guidance-only state missing.");
+assert(!settingsView.includes("5-stage"), "Briefcase guidance state must not include a 5-stage filing stepper.");
 
 const handoffLanding = exists("src/app/expungement-ai/ExpungementLandingHandoff.tsx") ? read("src/app/expungement-ai/ExpungementLandingHandoff.tsx") : "";
 assert(handoffLanding.includes("Expungement-Landing-Full.html"), "Expungement.ai landing must use the files-6 landing handoff source.");
@@ -230,6 +326,7 @@ const allowedChangedFiles = new Set([
   "src/components/expungement-ai/BriefcaseShell.tsx",
   "src/components/expungement-ai/BriefcaseViews.tsx",
   "src/components/expungement-ai/ConsumerNav.tsx",
+  "src/components/expungement-ai/WilmaBubble.tsx",
   "src/components/expungement-ai/SupportRequestForm.tsx",
   "src/app/api/rcap/intake/start/route.ts",
   "src/app/api/rcap/intake/complete/route.ts",

@@ -100,7 +100,7 @@ assert(packageSource.includes('"expungement:verify-consumer-adapter"'), "Missing
 assert(paymentSource.includes("dry_run"), "Payment adapter must keep an explicit dry-run fallback when Stripe is not configured.");
 assert(briefcaseSource.includes("Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS."), "Briefcase production persistence boundary must be explicit.");
 assert(briefcaseSource.includes("Safe fallback path"), "Briefcase fallback boundary must be explicit.");
-assert(wilmaBubbleSource.includes("screening tool decides eligibility"), "Wilma frontend shell must defer eligibility decisions to the screening tool.");
+assert(wilmaBubbleSource.includes("screening tool decides the result"), "Wilma frontend shell must defer result decisions to the screening tool.");
 assert(adapterSource.includes("RCAP engine remains the eligibility source of truth"), "Eligibility adapter boundary must be explicit.");
 
 for (const code of resultCodes) {
@@ -122,11 +122,12 @@ for (const route of briefcaseRoutes) {
   assert(source.includes("BriefcaseShell"), `${route} must render the Briefcase Wilma shell.`);
 }
 
-const expungementRoutes = routes.filter((route) => route.startsWith("src/app/expungement-ai/"));
+const expungementRoutes = routes.filter((route) => route.startsWith("src/app/expungement-ai/") && route !== "src/app/expungement-ai/page.tsx");
 for (const route of expungementRoutes) {
   const source = read(route);
   assert(source.includes("ConsumerPageShell"), `${route} must render the global Wilma shell.`);
 }
+assert(exists("public/static/expungement-ai/index.html"), "Static Expungement.ai landing document must exist.");
 
 const restrictedPatterns = [
   "src/lib/stripe/",

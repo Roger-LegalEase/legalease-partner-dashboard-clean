@@ -24,7 +24,7 @@ export function BriefcaseOverview({ items }: { items: ConsumerBriefcaseItem[] })
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-xs font-bold uppercase text-[#00A99D]">Consumer DTC dashboard</p>
+        <p className="text-xs font-bold uppercase text-[#00A99D]">Your private workspace</p>
         <h1 className="mt-2 text-4xl font-extrabold">Your record-clearing Briefcase</h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[#5A6275]">Checks, results, generated packets, filing checklists, reminders, payments, and Wilma conversations stay together so you can return without restarting.</p>
       </div>
@@ -134,28 +134,36 @@ function BriefcaseSection({
 
 function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
   const artifact = packetArtifactFor(item);
+  const isGuidanceOnly = item.status === "guidance_saved" || item.resultCode === "guidance_only" || item.packetType === "guidance_packet";
 
   return (
-    <article className="rounded-md border border-[#ECEFF4] bg-[#FBFCFE] p-4">
+    <article className="rounded-[18px] border border-[#ECEFF4] bg-[#FBFCFE] p-4" data-briefcase-guidance-state={isGuidanceOnly ? "Guidance saved" : undefined}>
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-extrabold">{item.title}</p>
           <p className="mt-1 text-sm leading-6 text-[#5A6275]">{item.summary}</p>
           <div className="mt-3 grid gap-2 text-xs font-semibold text-[#5A6275] md:grid-cols-2">
             <p>Jurisdiction: {item.state}</p>
-            <p>Pathway: {item.pathwayLabel ?? item.resultCode ?? "Saved matter"}</p>
-            <p>Payment: {item.paymentStatus ?? "not_applicable"}</p>
-            <p>Packet: {item.packetStatus ?? "not_started"}</p>
+            <p>Pathway: {item.pathwayLabel ?? "Saved matter"}</p>
+            {isGuidanceOnly ? (
+              <p>Documents: Guidance only</p>
+            ) : (
+              <>
+                <p>Payment: {item.paymentStatus ?? "not_applicable"}</p>
+                <p>Packet: {item.packetStatus ?? "not_started"}</p>
+              </>
+            )}
             {artifact ? <p>Generated: {new Date(artifact.generatedAt).toLocaleString()}</p> : null}
             {item.receiptUrl ? <p>Receipt: {item.receiptUrl}</p> : null}
           </div>
         </div>
-        <span className="w-fit rounded-md bg-[#00A99D]/10 px-3 py-1 text-xs font-bold text-[#007A72]">{item.status.replaceAll("_", " ")}</span>
+        <span className="w-fit rounded-full bg-[#00A99D]/10 px-3 py-1 text-xs font-extrabold text-[#007A72]">{isGuidanceOnly ? "Guidance saved" : item.status.replaceAll("_", " ")}</span>
       </div>
+      {isGuidanceOnly ? <h3 className="mt-4 text-sm font-extrabold text-[#0B1320]">Next steps</h3> : null}
       <ul className="mt-3 space-y-1 text-sm leading-6 text-[#5A6275]">
         {item.nextSteps.map((step) => <li key={step}>{step}</li>)}
       </ul>
-      {artifact ? (
+      {artifact && !isGuidanceOnly ? (
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-4 text-sm font-bold text-white" href={artifact.downloadPath}>
             <Download className="h-4 w-4" aria-hidden="true" /> Download
