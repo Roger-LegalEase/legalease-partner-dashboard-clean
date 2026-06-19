@@ -1,0 +1,2448 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "NM",
+    "name": "New Mexico",
+    "slug": "new-mexico"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "New Mexico Expungement Reference for Wilma.rtf",
+        "relativePath": "LegalEase New Mexico/New Mexico Expungement Reference for Wilma.rtf",
+        "sha256": "b646c2d2f7f138814d847c1d12e347bfccb3aedf52ecd9ae74a691cd1a026828",
+        "sizeBytes": 68672,
+        "score": 1763,
+        "extractedChars": 25701
+      }
+    ],
+    "sourceCorpusSha256": "1db8637956e22f092855ca55f218d7c1fa8026609f5308cea4de746c17aa94ea",
+    "sourceCorpusChars": 25635,
+    "allFolderFiles": [
+      {
+        "fileName": "4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e2fecbc04c4115cef68f9f550aeec134d02502bcea3e4a846793e6ded0df9ef9",
+        "sizeBytes": 128959
+      },
+      {
+        "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+        "sizeBytes": 136440
+      },
+      {
+        "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+        "sizeBytes": 137754
+      },
+      {
+        "fileName": "4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+        "sizeBytes": 12711
+      },
+      {
+        "fileName": "4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "relativePath": "LegalEase New Mexico/4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b0753256df66e970deea11fba5a2fe339e1b126a53ad2d6d4c0cca13622551fb",
+        "sizeBytes": 120448
+      },
+      {
+        "fileName": "4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c",
+        "sizeBytes": 123710
+      },
+      {
+        "fileName": "4-960.1-Notice-of-hearing.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.1-Notice-of-hearing.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "sizeBytes": 16762
+      },
+      {
+        "fileName": "4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+        "sizeBytes": 9831
+      },
+      {
+        "fileName": "New Mexico Expungement Reference for Wilma.rtf",
+        "relativePath": "LegalEase New Mexico/New Mexico Expungement Reference for Wilma.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "b646c2d2f7f138814d847c1d12e347bfccb3aedf52ecd9ae74a691cd1a026828",
+        "sizeBytes": 68672
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "vacatur/vacation"
+    ],
+    "pathwayLabels": [
+      "No conviction / released without conviction",
+      "Conviction",
+      "Cannabis expungement",
+      "Cannabis sentence dismissal / incarcerated-person pathway",
+      "DNA sample/profile expungement"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "source_question_01_step-1-was-the-person-wrongly-identified",
+        "source_question_02_step-2-was-there-a-conviction"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "identity_error"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "arrest_date",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from New Mexico, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the New Mexico case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "Municipal or ordinance matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these New Mexico descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "No conviction / released without conviction",
+        "Conviction",
+        "Cannabis expungement",
+        "Cannabis sentence dismissal / incarcerated-person pathway",
+        "DNA sample/profile expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "source_question_01_step-1-was-the-person-wrongly-identified",
+      "stage": "state_specific_eligibility",
+      "prompt": "Step 1 - Was the person wrongly identified because of identity theft?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_02_step-2-was-there-a-conviction",
+      "stage": "state_specific_eligibility",
+      "prompt": "Step 2 - Was there a conviction?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "identity_error",
+      "stage": "special_pathways",
+      "prompt": "Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "arrest_date",
+      "stage": "case_details",
+      "prompt": "When did the arrest or citation occur?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in New Mexico was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "no-conviction-released-without-conviction",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "no-conviction-released-without-conviction",
+        "conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "no-conviction-released-without-conviction",
+        "conviction",
+        "cannabis-expungement",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "cannabis-expungement",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "no-conviction-released-without-conviction",
+      "label": "No conviction / released without conviction",
+      "summary": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+      "sourceRef": "section:47-63",
+      "ruleClauses": [
+        "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "includes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other charge or proceeding is pending and the person was released without conviction, the court must issue an order within 30 days of the hearing requiring expungement of related arrest and public records. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "Waiting period: 1 year from final disposition.",
+        "Required notice: district attorney and Department of Public Safety.",
+        "Required record attachment: DPS record of arrest and prosecutions dated no earlier than 90 days before filing. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "likely_eligible_release_without_conviction",
+        "not_eligible_yet_one_year_from_final_disposition",
+        "not_eligible_pending_charge_or_proceeding",
+        "needs_dps_record_within_90_days",
+        "If your New Mexico case was dismissed, you were found not guilty, the case was no-billed, you completed certain diversion or conditional-discharge routes, or the case was otherwise discharged, you may be able to file after one year from the final disposition, as long as you have no pending charges or proceedings."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "disposition_date",
+        "sentence_completion_date",
+        "pending_cases",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "includes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other charge or proceeding is pending and the person was released without conviction, the court must issue an order within 30 days of the hearing requiring expungement of related arrest and public records. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "Waiting period: 1 year from final disposition.",
+        "Required record attachment: DPS record of arrest and prosecutions dated no earlier than 90 days before filing. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+        "If your New Mexico case was dismissed, you were found not guilty, the case was no-billed, you completed certain diversion or conditional-discharge routes, or the case was otherwise discharged, you may be able to file after one year from the final disposition, as long as you have no pending charges or proceedings."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:47-63"
+      ]
+    },
+    {
+      "id": "conviction",
+      "label": "Conviction",
+      "summary": "A person convicted of a municipal ordinance violation, misdemeanor, or felony may petition after completing the sentence and paying fines or fees owed to the state for that conviction. The petition is filed in the district court where the person was convicted, and notice goes to the district attorney, DPS, and the law enforcement agency that arrested the person. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\") The court must find: no other charge or proceeding…",
+      "sourceRef": "section:64-94",
+      "ruleClauses": [
+        "A person convicted of a municipal ordinance violation, misdemeanor, or felony may petition after completing the sentence and paying fines or fees owed to the state for that conviction. The petition is filed in the district court where the person was convicted, and notice goes to the district attorney, DPS, and the law enforcement agency that arrested the person. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+        "The court must find: no other charge or proceeding is pending; justice will be served; victim restitution has been fulfilled; and no other criminal conviction occurred during the applicable waiting period. The statute measures the waiting period from the last date on which the person completed a sentence for a conviction in any jurisdiction. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+        "Municipal ordinance conviction 2 years",
+        "Misdemeanor not otherwise listed 2 years",
+        "Misdemeanor aggravated battery under 30-3-5(B) 4 years",
+        "Fourth-degree felony not otherwise listed 4 years",
+        "Third-degree felony not otherwise listed 6 years",
+        "Second-degree felony not otherwise listed 8 years",
+        "Crimes Against Household Members Act offense 10 years",
+        "These waiting periods come from 29-3A-5(C)(4). (",
+        "\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+        "likely_eligible_conviction_2_year_misdemeanor_or_municipal",
+        "likely_eligible_conviction_4_year_aggravated_battery_or_4th_degree_felony",
+        "likely_eligible_conviction_6_year_3rd_degree_felony",
+        "likely_eligible_conviction_8_year_2nd_degree_felony",
+        "likely_eligible_conviction_10_year_1st_degree_or_household_member_act",
+        "not_eligible_yet_waiting_period",
+        "not_eligible_pending_charge_or_proceeding",
+        "not_eligible_unpaid_fines_fees_or_restitution",
+        "For New Mexico conviction expungement, the clock usually starts after the sentence is completed, not just from the conviction date. I need the conviction level, sentence-completion date, whether fines and fees are paid, whether restitution is complete, and whether you have had any new convictions during the waiting period."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "financial_obligations",
+        "court",
+        "charge",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The court must find: no other charge or proceeding is pending; justice will be served; victim restitution has been fulfilled; and no other criminal conviction occurred during the applicable waiting period. The statute measures the waiting period from the last date on which the person completed a sentence for a conviction in any jurisdiction. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+        "Municipal ordinance conviction 2 years",
+        "Misdemeanor not otherwise listed 2 years",
+        "Misdemeanor aggravated battery under 30-3-5(B) 4 years",
+        "Fourth-degree felony not otherwise listed 4 years",
+        "Third-degree felony not otherwise listed 6 years",
+        "Second-degree felony not otherwise listed 8 years",
+        "Crimes Against Household Members Act offense 10 years",
+        "These waiting periods come from 29-3A-5(C)(4). (",
+        "not_eligible_yet_waiting_period"
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:64-94"
+      ]
+    },
+    {
+      "id": "cannabis-expungement",
+      "label": "Cannabis expungement",
+      "summary": "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever…",
+      "sourceRef": "section:129-140",
+      "ruleClauses": [
+        "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever comes first, and then automatically expunged. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")",
+        "Automatic expungement under 29-3A-8 applies to public records involving only cannabis and cannabis paraphernalia charges and requires destruction of those records. The Administrative Office of the Courts must provide a procedure for eligible people to verify whether automatic expungement occurred and request expedited automatic expungement if it has not. If the arrest or conviction involved both cannabis and non-cannabis charges, the person may request expungement of the eligible cannabis charges through the AOC process. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")",
+        "possible_automatic_cannabis_expungement",
+        "possible_expedited_cannabis_expungement_request",
+        "mixed_cannabis_non_cannabis_case_admin_request",
+        "not_cannabis_use_regular_petition_route",
+        "needs_case_number_for_cannabis_aoc_request",
+        "New Mexico has a special cannabis expungement process. If the case involved only cannabis or cannabis paraphernalia charges that are no longer crimes or would now be lesser offenses, it may be eligible for automatic or expedited automatic expungement. If the case also had non-cannabis charges, we may need to separate the eligible cannabis charges from the rest of the case."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "court",
+        "arrest_date",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever comes first, and then automatically expunged. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")"
+      ],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "section:129-140"
+      ]
+    },
+    {
+      "id": "cannabis-sentence-dismissal-incarcerated-person-pathway",
+      "label": "Cannabis sentence dismissal / incarcerated-person pathway",
+      "summary": "For people currently incarcerated for a cannabis offense that is no longer a crime or would have been a lesser offense under the Cannabis Regulation Act, correctional facilities, jails, or juvenile correctional facilities were required to notify the court that the case may be reopened for dismissal of sentence or expungement. The court must reopen and dismiss the sentence if it is legally invalid. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-9/\") A person who…",
+      "sourceRef": "section:141-150",
+      "ruleClauses": [
+        "For people currently incarcerated for a cannabis offense that is no longer a crime or would have been a lesser offense under the Cannabis Regulation Act, correctional facilities, jails, or juvenile correctional facilities were required to notify the court that the case may be reopened for dismissal of sentence or expungement. The court must reopen and dismiss the sentence if it is legally invalid. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-9/\")",
+        "A person who completed a sentence for a cannabis conviction that would no longer be an offense or would be a lesser offense is entitled to have the conviction dismissed and expunged because the prior conviction is legally invalid or redesignated as a penalty assessment citation. A person currently or formerly incarcerated for a cannabis offense that is no longer a crime may petition at any time to modify the sentence or vacate the conviction, and no fee or cost may be imposed for sentence review under this section. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-9/\")",
+        "possible_cannabis_sentence_dismissal",
+        "possible_cannabis_redesignation",
+        "incarcerated_or_formerly_incarcerated_cannabis_handoff",
+        "no_fee_cannabis_sentence_review"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "sentence_completion_date",
+        "court",
+        "charge",
+        "age_at_offense"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:141-150"
+      ]
+    },
+    {
+      "id": "dna-sample-profile-expungement",
+      "label": "DNA sample/profile expungement",
+      "summary": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year.…",
+      "sourceRef": "section:151-161",
+      "ruleClauses": [
+        "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+        "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+        "dna_arrest_resolved_without_felony",
+        "dna_no_felony_charge_within_one_year",
+        "dna_block_prior_felony_or_pending_felony",
+        "needs_certified_disposition_or_affidavit"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+        "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")"
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:151-161"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-05-conviction-expungement-29-3a-5-eligible-municipal-ordin",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction expungement 29-3A-5 Eligible municipal ordinance, misdemeanor, or felony convictions after waiting period"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:13-22",
+      "candidatePathwayIds": [
+        "conviction",
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "cannabis-expungement"
+      ]
+    },
+    {
+      "id": "rule-06-cannabis-automatic-administrative-expungement-29-3a-8-c",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Cannabis automatic / administrative expungement 29-3A-8 Cannabis/cannabis paraphernalia charges no longer criminal or now lesser offense"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:13-22",
+      "candidatePathwayIds": [
+        "cannabis-expungement",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-01-new-mexico-uses-the-word-expungement-but-for-most-non-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "financial_obligations",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "New Mexico uses the word expungement, but for most non-cannabis criminal records it means removing records from general public access, not physically destroying every record. The statute defines expungement as removal from public access of notations of arrest, complaint, indictment, information, guilty plea, conviction, acquittal, dismissal, or discharge, including records posted on public court, corrections, or law-enforcement websites. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-2/\")"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:6-12",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "cannabis-expungement",
+        "conviction"
+      ]
+    },
+    {
+      "id": "rule-02-in-new-mexico-expungement-usually-means-the-general-pub",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "In New Mexico, expungement usually means the general public should no longer be able to access the arrest or court record. It does not always mean the record is destroyed. Courts, law enforcement, and other criminal justice agencies may still have access in some situations."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:6-12",
+      "candidatePathwayIds": [
+        "cannabis-expungement",
+        "no-conviction-released-without-conviction",
+        "conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-03-new-mexico-s-court-guidance-says-the-district-court-can",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "New Mexico\u0019s court guidance says the district court cannot expunge records from another state or federal records. It also says the petition must be filed in the district where the arrest and/or criminal records originated, even if the original case was in municipal or metropolitan court."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:6-12",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "conviction",
+        "dna-sample-profile-expungement",
+        "cannabis-expungement"
+      ]
+    },
+    {
+      "id": "rule-04-release-without-conviction-29-3a-4-dismissal-acquittal-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Release without conviction 29-3A-4 Dismissal, acquittal, nolle prosequi, no bill, diversion, conditional discharge, or other discharge"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:13-22",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "conviction",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "rule-07-cannabis-sentence-dismissal-vacatur-for-incarcerated-or",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Cannabis sentence dismissal / vacatur for incarcerated or formerly incarcerated people 29-3A-9 Cannabis conviction/sentence now legally invalid or reducible after Cannabis Regulation Act"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:13-22",
+      "candidatePathwayIds": [
+        "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "cannabis-expungement",
+        "no-conviction-released-without-conviction",
+        "conviction"
+      ]
+    },
+    {
+      "id": "rule-08-dna-sample-profile-expungement-29-16-10-separate-reques",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "DNA sample/profile expungement 29-16-10 Separate request to remove DNA sample/profile from DNA identification system/CODIS"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:13-22",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-09-a-person-wrongly-identified-in-arrest-records-or-public",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 30,
+          "unit": "days",
+          "raw": "30 days"
+        },
+        "sourceConditionText": "A person wrongly identified in arrest records or public records because of identity theft may petition the district court for expungement. After a hearing and a showing that the person is a victim of identity theft, the court must issue an order within 30 days requiring all arrest records and public records to be expunged. The court must also cause the order to be delivered to relevant law enforcement agencies and courts. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-3/\")"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "decision_tree:39-46",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "cannabis-expungement",
+        "conviction",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-10-wilma-status-likely-eligible-identity-theft-expungement",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Wilma status: likely_eligible_identity_theft_expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "decision_tree:39-46"
+    },
+    {
+      "id": "rule-11-if-someone-used-your-identity-and-the-record-wrongly-na",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "If someone used your identity and the record wrongly names you, New Mexico has a specific identity-theft expungement route. We need proof that you were the victim of identity theft and records showing which arrest or court records identify you incorrectly."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "decision_tree:39-46",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement",
+        "conviction",
+        "cannabis-expungement",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "rule-12-step-2-was-there-a-conviction",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Step 2 - Was there a conviction?"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "decision_tree:39-46",
+      "candidatePathwayIds": [
+        "cannabis-expungement",
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "conviction"
+      ]
+    },
+    {
+      "id": "rule-13-1-form-4-951-petition-to-expunge-arrest-records-and-pub",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "1 Form 4-951 - Petition to Expunge Arrest Records and Public Records; Identity Theft"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "cannabis-expungement"
+      ]
+    },
+    {
+      "id": "rule-14-1-form-4-952-petition-to-expunge-arrest-records-and-pub",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "1 Form 4-952 - Petition to Expunge Arrest Records and Public Records; Upon Release Without Conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "cannabis-expungement"
+      ]
+    },
+    {
+      "id": "rule-15-1-form-4-953-petition-to-expunge-arrest-records-and-pub",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "1 Form 4-953 - Petition to Expunge Arrest Records and Public Records; Upon Conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction",
+        "cannabis-expungement",
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-16-use-the-new-mexico-courts-cannabis-expungement-applicat",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Use the New Mexico Courts cannabis expungement application/AOC process first when the case is cannabis-only or cannabis-paraphernalia-only. If the case includes non-cannabis charges, route to the AOC cannabis request for eligible cannabis charges and separately screen non-cannabis charges under the regular court-petition process. (\"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\")"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "cannabis-expungement",
+        "no-conviction-released-without-conviction",
+        "dna-sample-profile-expungement",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "rule-17-1-written-request-for-dna-sample-profile-expungement",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "1 Written request for DNA sample/profile expungement."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "rule-18-2-certified-copy-of-dismissal-nolle-prosequi-diversion-",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "2 Certified copy of dismissal, nolle prosequi, diversion completion, conditional discharge, misdemeanor conviction, acquittal, or reversal order."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement",
+        "no-conviction-released-without-conviction",
+        "conviction",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "rule-19-3-sworn-affidavit-if-no-felony-charge-was-filed-within-",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "3 Sworn affidavit if no felony charge was filed within one year."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement",
+        "no-conviction-released-without-conviction",
+        "conviction"
+      ]
+    },
+    {
+      "id": "rule-20-4-screen-for-prior-felony-conviction-or-pending-felony-",
+      "priority": 70,
+      "stage": "packet_readiness",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "4 Screen for prior felony conviction or pending felony charge, which can block DNA expungement. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "packet_logic:219-256",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement",
+        "conviction",
+        "no-conviction-released-without-conviction",
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "route-no-conviction-released-without-conviction",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "no-conviction-released-without-conviction",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "disposition_date",
+          "sentence_completion_date",
+          "pending_cases",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "disposition_date",
+          "sentence_completion_date",
+          "pending_cases",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "No conviction / released without conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:47-63",
+      "candidatePathwayIds": [
+        "no-conviction-released-without-conviction"
+      ]
+    },
+    {
+      "id": "route-conviction",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "conviction",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court",
+          "charge",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court",
+          "charge",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:64-94",
+      "candidatePathwayIds": [
+        "conviction"
+      ]
+    },
+    {
+      "id": "route-cannabis-expungement",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "cannabis-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "arrest_date",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "arrest_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Cannabis expungement"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:129-140",
+      "candidatePathwayIds": [
+        "cannabis-expungement"
+      ]
+    },
+    {
+      "id": "route-cannabis-sentence-dismissal-incarcerated-person-pathway",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date",
+          "court",
+          "charge",
+          "age_at_offense"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date",
+          "court",
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Cannabis sentence dismissal / incarcerated-person pathway"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:141-150",
+      "candidatePathwayIds": [
+        "cannabis-sentence-dismissal-incarcerated-person-pathway"
+      ]
+    },
+    {
+      "id": "route-dna-sample-profile-expungement",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "dna-sample-profile-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "DNA sample/profile expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:151-161",
+      "candidatePathwayIds": [
+        "dna-sample-profile-expungement"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the final disposition in the district where the charges originated",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "includes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other charge or proceeding is pending and the person was released without conviction, the court must issue an order within 30 days of the hearing requiring expungement of related arrest and public records. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Waiting period: 1 year from final disposition.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "final disposition",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Required record attachment: DPS record of arrest and prosecutions dated no earlier than 90 days before filing. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "If your New Mexico case was dismissed, you were found not guilty, the case was no-billed, you completed certain diversion or conditional-discharge routes, or the case was otherwise discharged, you may be able to file after one year from the final disposition, as long as you have no pending charges or proceedings.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "one year from the final disposition, as long as you have no pending charges or proceedings",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "The court must find: no other charge or proceeding is pending; justice will be served; victim restitution has been fulfilled; and no other criminal conviction occurred during the applicable waiting period. The statute measures the waiting period from the last date on which the person completed a sentence for a conviction in any jurisdiction. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+      "duration": null,
+      "anchor": "the last date on which the person completed a sentence for a conviction in any jurisdiction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "financial_obligations",
+        "court",
+        "charge",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Municipal ordinance conviction 2 years",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Misdemeanor not otherwise listed 2 years",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Misdemeanor aggravated battery under 30-3-5(B) 4 years",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Fourth-degree felony not otherwise listed 4 years",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Third-degree felony not otherwise listed 6 years",
+      "duration": {
+        "value": 6,
+        "unit": "years",
+        "raw": "6 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Second-degree felony not otherwise listed 8 years",
+      "duration": {
+        "value": 8,
+        "unit": "years",
+        "raw": "8 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Crimes Against Household Members Act offense 10 years",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "These waiting periods come from 29-3A-5(C)(4). (",
+      "duration": null,
+      "anchor": "29-3A-5(C)(4)",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "not_eligible_yet_waiting_period",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever comes first, and then automatically expunged. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "two years"
+      },
+      "anchor": "the conviction date, or two years after the arrest date if there was no conviction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "arrest_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the ordinary court-record expungement",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the state DNA identification system, the administrative center must ensure expungement from CODIS",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "New Mexico\u0019s court guidance says the district court cannot expunge records from another state or federal records. It also says the petition must be filed in the district where the arrest and/or criminal records originated, even if the original case was in municipal or metropolitan court.",
+      "fieldsReferenced": [
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Filing location and packet basics A New Mexico expungement petition is filed in district court in the district where the arrest and/or criminal records originated. This is true even if the original case was in municipal court, magistrate court, metropolitan court, or was dismissed before the DA or city attorney filed a court case. New Mexico court guidance says multiple charges and arrests under the same case number may be included in one petition, but if the person seeks to expunge arrest records not associated with a filed case, they must file a separate expungement petition for each arrest. The petition and information provided during the process are sealed from public access even if the petition is denied. The current general court information sheet lists a $132 district court filing fee and says a person who cannot pay should complete an Application for Free Process and Affidavit of Indigency, Form 4-222 NMRA. It also says a DPS arrest-record check costs $15 and requires an Authorization for Release of Information form with an original notarized signature.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "county",
+        "court",
+        "case_number",
+        "charge",
+        "record_type"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "New Mexico conviction expungement does not apply to convictions for:",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "excluded_great_bodily_harm_or_death",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "New Mexico has several expungement routes. If your case ended without a conviction, you may be able to file one year after the final disposition if you have no pending charges. If you were convicted, the waiting period depends on the level of the offense - usually two, four, six, eight, or ten years after sentence completion - and the court must also find that justice will be served. Some convictions, including DWI/DUI, sex offenses, offenses against children, embezzlement, and offenses causing great bodily harm or death, are not eligible. Cannabis records have a separate automatic or administrative process, and DNA records have a separate request process. I\u0019ll need your case number, county, charge, final disposition, sentence-completion date, and DPS record to screen the correct path.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "pending_cases",
+        "county",
+        "court",
+        "case_number",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "New Mexico\u0019s court guidance says the district court cannot expunge records from another state or federal records.",
+      "fieldsReferenced": [
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "The current general court information sheet lists a $132 district court filing fee and says a person who cannot pay should complete an Application for Free Process and Affidavit of Indigency, Form 4-222 NMRA.",
+      "fieldsReferenced": [
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Conviction exclusions New Mexico conviction expungement does not apply to convictions for: An offense committed against a child.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "An offense involving driving while under the influence of intoxicating liquor or drugs. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\") Wilma hard-stop / legal-review labels: excluded_offense_against_child excluded_great_bodily_harm_or_death excluded_sex_offense excluded_embezzlement excluded_dwi_dui legal_review_required_unclear_exclusion Wilma script: New Mexico excludes some convictions from expungement, including DWI/DUI, embezzlement, sex offenses, offenses against children, and offenses that caused great bodily harm or death.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Internal Wilma eligibility labels likely_eligible_identity_theft_expungement likely_eligible_release_without_conviction not_eligible_yet_one_year_from_final_disposition not_eligible_pending_charge_or_proceeding needs_final_disposition needs_dps_record_within_90_days likely_eligible_conviction_2_year_misdemeanor_or_municipal likely_eligible_conviction_4_year_aggravated_battery_or_4th_degree_felony likely_eligible_conviction_6_year_3rd_degree_felony likely_eligible_conviction_8_year_2nd_degree_felony likely_eligible_conviction_10_year_1st_degree_or_household_member_act eligible_timing_but_court_discretion_required not_eligible_yet_waiting_period not_eligible_unpaid_fines_fees_or_restitution excluded_offense_against_child excluded_great_bodily_harm_or_death excluded_sex_offense excluded_embezzlement excluded_dwi_dui legal_review_required_unclear_exclusion possible_automatic_cannabis_expungement possible_expedited_cannabis_expungement_request mixed_cannabis_non_cannabis_case_admin_request possible_cannabis_sentence_dismissal possible_cannabis_vacatur possible_cannabis_redesignation possible_dna_expungement dna_conviction_reversed dna_arrest_resolved_without_felony dna_no_felony_charge_within_one_year dna_block_prior_felony_or_pending_felony 17.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "court",
+        "charge"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Some convictions, including DWI/DUI, sex offenses, offenses against children, embezzlement, and offenses causing great bodily harm or death, are not eligible.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "no-conviction-released-without-conviction",
+        "pathwayLabel": "No conviction / released without conviction",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+            "relativePath": "LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+            "sizeBytes": 9831
+          },
+          {
+            "fileName": "4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+            "relativePath": "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c",
+            "sizeBytes": 123710
+          },
+          {
+            "fileName": "4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+            "relativePath": "LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+            "sizeBytes": 12711
+          },
+          {
+            "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+            "sizeBytes": 136440
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:47-63"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "conviction",
+        "pathwayLabel": "Conviction",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+            "sizeBytes": 137754
+          },
+          {
+            "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+            "sizeBytes": 136440
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:64-94"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "cannabis-expungement",
+        "pathwayLabel": "Cannabis expungement",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:129-140"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "pathwayLabel": "Cannabis sentence dismissal / incarcerated-person pathway",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+            "sizeBytes": 137754
+          },
+          {
+            "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+            "sizeBytes": 136440
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:141-150"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "dna-sample-profile-expungement",
+        "pathwayLabel": "DNA sample/profile expungement",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+            "sizeBytes": 137754
+          },
+          {
+            "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+            "sizeBytes": 136440
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:151-161"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "arrest_date",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "financial_obligations",
+      "identity_error",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "New Mexico Courts currently lists these petition forms for non-cannabis court petition expungements:",
+      "4-951 Petition to expunge arrest records and public records; identity theft 29-3A-3 identity-theft route",
+      "4-952 Petition to expunge arrest records and public records; upon release without conviction 29-3A-4 no-conviction route",
+      "4-953 Petition to expunge arrest records and public records; upon conviction 29-3A-5 conviction route",
+      "New Mexico Courts\u0019 expungement page lists those three petitions and says the court-petition expungement process requires filing at a courthouse. The same page says the automatic case-record expungement process is only for cannabis/marijuana, and if the court record does not specifically state cannabis or cannabis paraphernalia, the person may still request expungement using the regular court petition process. (",
+      "For cannabis records, New Mexico Courts provides an Application for Expungement of Court Records involving Cannabis and asks for the user\u0019s name, date of birth, full case number, last four digits of SSN, address, phone/email, picture ID, and case documentation if available. The court page also says users can use Case Lookup to find the case number. (\"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\")",
+      "New Mexico Courts currently lists these petition forms for non-cannabis court petition expungements: Form Official name Use 4-951 Petition to expunge arrest records and public records; identity theft 29-3A-3 identity-theft route 4-952 Petition to expunge arrest records and public records; upon release without conviction 29-3A-4 no-conviction route 4-953 Petition to expunge arrest records and public records; upon conviction 29-3A-5 conviction route New Mexico Courts\u0019 expungement page lists those three petitions and says the court-petition expungement process requires filing at a courthouse.",
+      "The same page says the automatic case-record expungement process is only for cannabis/marijuana, and if the court record does not specifically state cannabis or cannabis paraphernalia, the person may still request expungement using the regular court petition process. ( \"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\") For cannabis records, New Mexico Courts provides an Application for Expungement of Court Records involving Cannabis and asks for the user\u0019s name, date of birth, full case number, last four digits of SSN, address, phone/email, picture ID, and case documentation if available."
+    ],
+    "attachments": [
+      "4 Certificate/service to district attorney and DPS.",
+      "2 DPS record / criminal history.",
+      "4 Proof of sentence completion.",
+      "2 Certified copy of dismissal, nolle prosequi, diversion completion, conditional discharge, misdemeanor conviction, acquittal, or reversal order.",
+      "3 Final disposition.",
+      "Conviction Generate/check: 1 Form 4-953 - Petition to Expunge Arrest Records and Public Records; Upon Conviction 2 DPS record / criminal history.",
+      "5 Proof fines/fees paid.",
+      "6 Proof restitution completed."
+    ],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [],
+    "feeRules": [],
+    "hearingAndObjectionRules": [
+      "5 Notice/hearing paperwork as required locally.",
+      "6 Notice of hearing or local hearing documents."
+    ],
+    "postFilingRules": [
+      "After an expungement order, proceedings are treated as if they never occurred, and officials and the person who received the order may respond to an inquiry that no record exists. However, arrest or conviction records must still be disclosed by the person and officials for applications or queries involving employment or association with a financial institution regulated by FINRA or the Securities and Exchange Commission. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-7/\")",
+      "New Mexico court guidance also warns that courts, law enforcement agencies, and other criminal justice agencies will always have access to records even after expungement; records are not destroyed; and arrest or conviction records may still be available for use in future criminal proceedings.",
+      "Expungement can help remove the record from public view and allow most public-facing responses to say no record exists. But it is not absolute. Criminal justice agencies may still access it, it may be used in future criminal proceedings, and financial-industry applications may still require disclosure.",
+      "After an expungement order, proceedings are treated as if they never occurred, and officials and the person who received the order may respond to an inquiry that no record exists.",
+      "However, arrest or conviction records must still be disclosed by the person and officials for applications or queries involving employment or association with a financial institution regulated by FINRA or the Securities and Exchange Commission. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-7/\") New Mexico court guidance also warns that courts, law enforcement agencies, and other criminal justice agencies will always have access to records even after expungement; records are not destroyed; and arrest or conviction records may still be available for use in future criminal proceedings.",
+      "Wilma plain-language script: Expungement can help remove the record from public view and allow most public-facing responses to say no record exists."
+    ],
+    "formInventory": [
+      {
+        "fileName": "4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e2fecbc04c4115cef68f9f550aeec134d02502bcea3e4a846793e6ded0df9ef9",
+        "sizeBytes": 128959
+      },
+      {
+        "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+        "sizeBytes": 136440
+      },
+      {
+        "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+        "sizeBytes": 137754
+      },
+      {
+        "fileName": "4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+        "sizeBytes": 12711
+      },
+      {
+        "fileName": "4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "relativePath": "LegalEase New Mexico/4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b0753256df66e970deea11fba5a2fe339e1b126a53ad2d6d4c0cca13622551fb",
+        "sizeBytes": 120448
+      },
+      {
+        "fileName": "4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c",
+        "sizeBytes": 123710
+      },
+      {
+        "fileName": "4-960.1-Notice-of-hearing.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.1-Notice-of-hearing.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "sizeBytes": 16762
+      },
+      {
+        "fileName": "4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+        "sizeBytes": 9831
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e2fecbc04c4115cef68f9f550aeec134d02502bcea3e4a846793e6ded0df9ef9",
+        "sizeBytes": 128959
+      },
+      {
+        "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+        "sizeBytes": 136440
+      },
+      {
+        "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+        "sizeBytes": 137754
+      },
+      {
+        "fileName": "4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+        "sizeBytes": 12711
+      },
+      {
+        "fileName": "4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "relativePath": "LegalEase New Mexico/4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b0753256df66e970deea11fba5a2fe339e1b126a53ad2d6d4c0cca13622551fb",
+        "sizeBytes": 120448
+      },
+      {
+        "fileName": "4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c",
+        "sizeBytes": 123710
+      },
+      {
+        "fileName": "4-960.1-Notice-of-hearing.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.1-Notice-of-hearing.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "sizeBytes": 16762
+      },
+      {
+        "fileName": "4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "relativePath": "LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+        "sizeBytes": 9831
+      },
+      {
+        "fileName": "New Mexico Expungement Reference for Wilma.rtf",
+        "relativePath": "LegalEase New Mexico/New Mexico Expungement Reference for Wilma.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "b646c2d2f7f138814d847c1d12e347bfccb3aedf52ecd9ae74a691cd1a026828",
+        "sizeBytes": 68672
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "It does not always mean the record is destroyed.",
+    "After an expungement order, proceedings are treated as if they never occurred, and officials and the person who received the order may respond to an inquiry that no record exists.",
+    "However, arrest or conviction records must still be disclosed by the person and officials for applications or queries involving employment or association with a financial institution regulated by FINRA or the Securities and Exchange Commission. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-7/\") New Mexico court guidance also warns that courts, law enforcement agencies, and other criminal justice agencies will always have access to records even after expungement; records are not destroyed; and arrest or conviction records may still be available for use in future criminal proceedings.",
+    "Use New Mexico-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Core New Mexico rule",
+      "category": "overview",
+      "startLine": 6,
+      "endLine": 12,
+      "text": "New Mexico uses the word expungement, but for most non-cannabis criminal records it means removing records from general public access, not physically destroying every record. The statute defines expungement as removal from public access of notations of arrest, complaint, indictment, information, guilty plea, conviction, acquittal, dismissal, or discharge, including records posted on public court, corrections, or law-enforcement websites. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-2/\")\nWilma plain-language script:\nIn New Mexico, expungement usually means the general public should no longer be able to access the arrest or court record. It does not always mean the record is destroyed. Courts, law enforcement, and other criminal justice agencies may still have access in some situations.\n\nNew Mexico\u0019s court guidance says the district court cannot expunge records from another state or federal records. It also says the petition must be filed in the district where the arrest and/or criminal records originated, even if the original case was in municipal or metropolitan court."
+    },
+    {
+      "title": "Main New Mexico pathways",
+      "category": "pathways",
+      "startLine": 13,
+      "endLine": 22,
+      "text": "Pathway Main authority Best used for\nIdentity-theft / wrong-person records 29-3A-3 Someone was wrongly identified because of identity theft\nRelease without conviction 29-3A-4 Dismissal, acquittal, nolle prosequi, no bill, diversion, conditional discharge, or other discharge\nConviction expungement 29-3A-5 Eligible municipal ordinance, misdemeanor, or felony convictions after waiting period\nCannabis automatic / administrative expungement 29-3A-8 Cannabis/cannabis paraphernalia charges no longer criminal or now lesser offense\nCannabis sentence dismissal / vacatur for incarcerated or formerly incarcerated people 29-3A-9 Cannabis conviction/sentence now legally invalid or reducible after Cannabis Regulation Act\nDNA sample/profile expungement 29-16-10 Separate request to remove DNA sample/profile from DNA identification system/CODIS"
+    },
+    {
+      "title": "Official forms Wilma should know",
+      "category": "forms",
+      "startLine": 23,
+      "endLine": 33,
+      "text": "New Mexico Courts currently lists these petition forms for non-cannabis court petition expungements:\nForm Official name Use\n4-951 Petition to expunge arrest records and public records; identity theft 29-3A-3 identity-theft route\n4-952 Petition to expunge arrest records and public records; upon release without conviction 29-3A-4 no-conviction route\n4-953 Petition to expunge arrest records and public records; upon conviction 29-3A-5 conviction route\nNew Mexico Courts\u0019 expungement page lists those three petitions and says the court-petition expungement process requires filing at a courthouse. The same page says the automatic case-record expungement process is only for cannabis/marijuana, and if the court record does not specifically state cannabis or cannabis paraphernalia, the person may still request expungement using the regular court petition process. (\n\n\"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\")\nFor cannabis records, New Mexico Courts provides an Application for Expungement of Court Records involving Cannabis and asks for the user\u0019s name, date of birth, full case number, last four digits of SSN, address, phone/email, picture ID, and case documentation if available. The court page also says users can use Case Lookup to find the case number. (\"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\")"
+    },
+    {
+      "title": "Decision tree for Wilma",
+      "category": "decision_tree",
+      "startLine": 39,
+      "endLine": 46,
+      "text": "Step 1 - Was the person wrongly identified because of identity theft?\nA person wrongly identified in arrest records or public records because of identity theft may petition the district court for expungement. After a hearing and a showing that the person is a victim of identity theft, the court must issue an order within 30 days requiring all arrest records and public records to be expunged. The court must also cause the order to be delivered to relevant law enforcement agencies and courts. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-3/\")\nWilma status: likely_eligible_identity_theft_expungement\nWilma script:\nIf someone used your identity and the record wrongly names you, New Mexico has a specific identity-theft expungement route. We need proof that you were the victim of identity theft and records showing which arrest or court records identify you incorrectly.\n\nStep 2 - Was there a conviction?"
+    },
+    {
+      "title": "No conviction / released without conviction",
+      "category": "pathway_detail",
+      "startLine": 47,
+      "endLine": 63,
+      "text": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")\n\nReleased without conviction\nincludes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other charge or proceeding is pending and the person was released without conviction, the court must issue an order within 30 days of the hearing requiring expungement of related arrest and public records. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")\nWaiting period: 1 year from final disposition.\nRequired notice: district attorney and Department of Public Safety.\nRequired record attachment: DPS record of arrest and prosecutions dated no earlier than 90 days before filing. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")\nWilma status labels:\nlikely_eligible_release_without_conviction\nnot_eligible_yet_one_year_from_final_disposition\nnot_eligible_pending_charge_or_proceeding\nneeds_final_disposition\nneeds_dps_record_within_90_days\nWilma script:\nIf your New Mexico case was dismissed, you were found not guilty, the case was no-billed, you completed certain diversion or conditional-discharge routes, or the case was otherwise discharged, you may be able to file after one year from the final disposition, as long as you have no pending charges or proceedings."
+    },
+    {
+      "title": "Conviction",
+      "category": "pathway_detail",
+      "startLine": 64,
+      "endLine": 94,
+      "text": "A person convicted of a municipal ordinance violation, misdemeanor, or felony may petition after completing the sentence and paying fines or fees owed to the state for that conviction. The petition is filed in the district court where the person was convicted, and notice goes to the district attorney, DPS, and the law enforcement agency that arrested the person. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")\nThe court must find: no other charge or proceeding is pending; justice will be served; victim restitution has been fulfilled; and no other criminal conviction occurred during the applicable waiting period. The statute measures the waiting period from the last date on which the person completed a sentence for a conviction in any jurisdiction. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")\nConviction waiting periods\n\nConviction type Waiting period\nMunicipal ordinance conviction 2 years\nMisdemeanor not otherwise listed 2 years\nMisdemeanor aggravated battery under 30-3-5(B) 4 years\nFourth-degree felony not otherwise listed 4 years\nThird-degree felony not otherwise listed 6 years\nSecond-degree felony not otherwise listed 8 years\nFirst-degree felony 10 years\nCrimes Against Household Members Act offense 10 years\nThese waiting periods come from 29-3A-5(C)(4). (\n\n\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")\nWilma status labels:\nlikely_eligible_conviction_2_year_misdemeanor_or_municipal\nlikely_eligible_conviction_4_year_aggravated_battery_or_4th_degree_felony\nlikely_eligible_conviction_6_year_3rd_degree_felony\nlikely_eligible_conviction_8_year_2nd_degree_felony\nlikely_eligible_conviction_10_year_1st_degree_or_household_member_act\nnot_eligible_yet_waiting_period\nnot_eligible_pending_charge_or_proceeding\nnot_eligible_unpaid_fines_fees_or_restitution\nneeds_sentence_completion_date\nneeds_restitution_status\nWilma script:\nFor New Mexico conviction expungement, the clock usually starts after the sentence is completed, not just from the conviction date. I need the conviction level, sentence-completion date, whether fines and fees are paid, whether restitution is complete, and whether you have had any new convictions during the waiting period."
+    },
+    {
+      "title": "Conviction exclusions",
+      "category": "pathway_detail",
+      "startLine": 95,
+      "endLine": 115,
+      "text": "New Mexico conviction expungement does not apply to convictions for:\nAn offense committed against a child.\nAn offense that caused great bodily harm or death to another person.\nA sex offense as defined in 29-11A-3.\nEmbezzlement under 30-16-8.\nAn offense involving driving while under the influence of intoxicating liquor or drugs. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")\nWilma hard-stop / legal-review labels:\nexcluded_offense_against_child\nexcluded_great_bodily_harm_or_death\nexcluded_sex_offense\nexcluded_embezzlement\nexcluded_dwi_dui\nlegal_review_required_unclear_exclusion\nWilma script:\nNew Mexico excludes some convictions from expungement, including DWI/DUI, embezzlement, sex offenses, offenses against children, and offenses that caused great bodily harm or death. If any of those may apply, this needs legal review before we promise any pathway.\n\nImportant DWI nuance: The definition of\narrest records\nexcludes DWI citations maintained by the Taxation and Revenue Department, computer-aided dispatch information, and breath alcohol testing equipment log books. So even when a non-conviction case has an expungement path, some DWI-related records may remain outside the standard expungement definition. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-2/\")"
+    },
+    {
+      "title": "Cannabis expungement",
+      "category": "pathway_detail",
+      "startLine": 129,
+      "endLine": 140,
+      "text": "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever comes first, and then automatically expunged. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")\nAutomatic expungement under 29-3A-8 applies to public records involving only cannabis and cannabis paraphernalia charges and requires destruction of those records. The Administrative Office of the Courts must provide a procedure for eligible people to verify whether automatic expungement occurred and request expedited automatic expungement if it has not. If the arrest or conviction involved both cannabis and non-cannabis charges, the person may request expungement of the eligible cannabis charges through the AOC process. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")\nWilma status labels:\npossible_automatic_cannabis_expungement\npossible_expedited_cannabis_expungement_request\nmixed_cannabis_non_cannabis_case_admin_request\nnot_cannabis_use_regular_petition_route\nneeds_case_number_for_cannabis_aoc_request\nWilma script:\nNew Mexico has a special cannabis expungement process. If the case involved only cannabis or cannabis paraphernalia charges that are no longer crimes or would now be lesser offenses, it may be eligible for automatic or expedited automatic expungement. If the case also had non-cannabis charges, we may need to separate the eligible cannabis charges from the rest of the case."
+    },
+    {
+      "title": "Cannabis sentence dismissal / incarcerated-person pathway",
+      "category": "pathway_detail",
+      "startLine": 141,
+      "endLine": 150,
+      "text": "For people currently incarcerated for a cannabis offense that is no longer a crime or would have been a lesser offense under the Cannabis Regulation Act, correctional facilities, jails, or juvenile correctional facilities were required to notify the court that the case may be reopened for dismissal of sentence or expungement. The court must reopen and dismiss the sentence if it is legally invalid. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-9/\")\nA person who completed a sentence for a cannabis conviction that would no longer be an offense or would be a lesser offense is entitled to have the conviction dismissed and expunged because the prior conviction is legally invalid or redesignated as a penalty assessment citation. A person currently or formerly incarcerated for a cannabis offense that is no longer a crime may petition at any time to modify the sentence or vacate the conviction, and no fee or cost may be imposed for sentence review under this section. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-9/\")\nWilma status labels:\npossible_cannabis_sentence_dismissal\npossible_cannabis_vacatur\npossible_cannabis_redesignation\nincarcerated_or_formerly_incarcerated_cannabis_handoff\nno_fee_cannabis_sentence_review"
+    },
+    {
+      "title": "DNA sample/profile expungement",
+      "category": "pathway_detail",
+      "startLine": 151,
+      "endLine": 161,
+      "text": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")\nThe person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")\nWilma status labels:\npossible_dna_expungement\ndna_conviction_reversed\ndna_arrest_resolved_without_felony\ndna_no_felony_charge_within_one_year\ndna_block_prior_felony_or_pending_felony\nneeds_certified_disposition_or_affidavit"
+    },
+    {
+      "title": "Effect of New Mexico expungement",
+      "category": "effects",
+      "startLine": 162,
+      "endLine": 167,
+      "text": "After an expungement order, proceedings are treated as if they never occurred, and officials and the person who received the order may respond to an inquiry that no record exists. However, arrest or conviction records must still be disclosed by the person and officials for applications or queries involving employment or association with a financial institution regulated by FINRA or the Securities and Exchange Commission. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-7/\")\nNew Mexico court guidance also warns that courts, law enforcement agencies, and other criminal justice agencies will always have access to records even after expungement; records are not destroyed; and arrest or conviction records may still be available for use in future criminal proceedings.\nWilma plain-language script:\nExpungement can help remove the record from public view and allow most public-facing responses to say no record exists. But it is not absolute. Criminal justice agencies may still access it, it may be used in future criminal proceedings, and financial-industry applications may still require disclosure."
+    },
+    {
+      "title": "Intake checklist for Wilma",
+      "category": "intake_questions",
+      "startLine": 168,
+      "endLine": 218,
+      "text": "Identity\nFull legal name.\nFormer names, aliases, nicknames.\nDate of birth.\nCurrent mailing address.\nAddress at time of incident, if known.\nPhone and email.\nLast four digits of SSN, especially for cannabis AOC request.\nPicture ID.\nDriver\u0019s license number if traffic/DWI/Motor Vehicle Code issue.\nCase information\nCounty.\nJudicial district.\nCourt name: district, magistrate, metropolitan, municipal.\nCase number.\nArrest date.\nArresting law enforcement agency.\nLaw enforcement agency case number.\nArrest number, if available.\nDistrict attorney / prosecuting agency.\nOriginal charge.\nFinal charge.\nDisposition.\nFinal disposition date.\nWhether there was a conviction.\nWhether the case involved cannabis, cannabis paraphernalia, or non-cannabis charges.\nWhether case involved DWI/DUI.\nWhether case involved child victim, sex offense, great bodily harm, death, embezzlement, or household-member offense.\nConviction-specific\nConviction level: municipal ordinance, misdemeanor, fourth-degree felony, third-degree felony, second-degree felony, first-degree felony.\nSentence date.\nSentence completion date.\nProbation/parole completion date.\nWhether fines/fees owed to the state were paid.\nWhether victim restitution was ordered and completed.\nAny criminal conviction during the waiting period.\nAny pending charge or proceeding anywhere.\nDocuments\nDPS record of arrest and prosecutions.\nCourt docket / Case Lookup printout.\nJudgment and sentence.\nFinal disposition.\nProof of sentence completion.\nProof of probation/parole discharge.\nProof of fines/fees payment.\nProof of restitution completion.\nCannabis case documentation, if available.\nIdentity-theft proof, if applicable.\nCertified disposition or affidavit for DNA expungement, if applicable."
+    },
+    {
+      "title": "Packet logic for RCAP/Wilma",
+      "category": "packet_logic",
+      "startLine": 219,
+      "endLine": 256,
+      "text": "Identity theft\nGenerate/check:\n1 Form 4-951 - Petition to Expunge Arrest Records and Public Records; Identity Theft\n2 Supporting identity-theft documentation.\n3 Records showing the wrongly identified arrest/case.\n4 Proposed order.\n5 Notice/hearing paperwork as required locally.\nRelease without conviction\nGenerate/check:\n1 Form 4-952 - Petition to Expunge Arrest Records and Public Records; Upon Release Without Conviction\n2 DPS record of arrest and prosecutions dated within 90 days.\n3 Final disposition.\n4 Certificate/service to district attorney and DPS.\n5 Proposed order.\n6 Notice of hearing or local hearing documents.\n7 Indigency request, if needed.\nConviction\nGenerate/check:\n1 Form 4-953 - Petition to Expunge Arrest Records and Public Records; Upon Conviction\n2 DPS record / criminal history.\n3 Judgment and sentence.\n4 Proof of sentence completion.\n5 Proof fines/fees paid.\n6 Proof restitution completed.\n7 Service to district attorney, DPS, and arresting agency.\n8 Statement explaining why justice will be served.\n9 Proposed order.\n10 Indigency request, if needed.\nCannabis\nUse the New Mexico Courts cannabis expungement application/AOC process first when the case is cannabis-only or cannabis-paraphernalia-only. If the case includes non-cannabis charges, route to the AOC cannabis request for eligible cannabis charges and separately screen non-cannabis charges under the regular court-petition process. (\"https://nmcourts.gov/court-administration/office-of-general-counsel/expungement/\")\nDNA\nGenerate/check:\n1 Written request for DNA sample/profile expungement.\n2 Certified copy of dismissal, nolle prosequi, diversion completion, conditional discharge, misdemeanor conviction, acquittal, or reversal order.\n3 Sworn affidavit if no felony charge was filed within one year.\n4 Screen for prior felony conviction or pending felony charge, which can block DNA expungement. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")"
+    },
+    {
+      "title": "Internal Wilma eligibility labels",
+      "category": "internal_labels",
+      "startLine": 303,
+      "endLine": 339,
+      "text": "likely_eligible_identity_theft_expungement\nlikely_eligible_release_without_conviction\nnot_eligible_yet_one_year_from_final_disposition\nnot_eligible_pending_charge_or_proceeding\nneeds_final_disposition\nneeds_dps_record_within_90_days\n\nlikely_eligible_conviction_2_year_misdemeanor_or_municipal\nlikely_eligible_conviction_4_year_aggravated_battery_or_4th_degree_felony\nlikely_eligible_conviction_6_year_3rd_degree_felony\nlikely_eligible_conviction_8_year_2nd_degree_felony\nlikely_eligible_conviction_10_year_1st_degree_or_household_member_act\neligible_timing_but_court_discretion_required\nnot_eligible_yet_waiting_period\nnot_eligible_unpaid_fines_fees_or_restitution\n\nexcluded_offense_against_child\nexcluded_great_bodily_harm_or_death\nexcluded_sex_offense\nexcluded_embezzlement\nexcluded_dwi_dui\nlegal_review_required_unclear_exclusion\n\npossible_automatic_cannabis_expungement\npossible_expedited_cannabis_expungement_request\nmixed_cannabis_non_cannabis_case_admin_request\npossible_cannabis_sentence_dismissal\npossible_cannabis_vacatur\npossible_cannabis_redesignation\n\npossible_dna_expungement\ndna_conviction_reversed\ndna_arrest_resolved_without_felony\ndna_no_felony_charge_within_one_year\ndna_block_prior_felony_or_pending_felony"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 19,
+      "decisionRules": 26,
+      "waitingRules": 18,
+      "exclusions": 11,
+      "sourceFiles": 9,
+      "officialForms": 8
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

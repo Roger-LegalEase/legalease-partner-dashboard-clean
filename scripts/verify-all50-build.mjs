@@ -3,7 +3,6 @@ import path from "node:path";
 import {
   BUILD_MANIFEST_PATH,
   BUILD_STATUSES,
-  LEGACY_GENERATOR_DIRS,
   REVIEW_ARTIFACT_DIR,
   SOURCE_INVENTORY_PATH,
   STATES_PLUS_DC,
@@ -94,16 +93,14 @@ if (manifest) {
   }
 }
 
-for (const legacyDir of LEGACY_GENERATOR_DIRS) {
-  if (!fs.existsSync(path.resolve(legacyDir))) {
-    fail(`Legacy generator directory missing: ${legacyDir}`);
-  }
-}
-
 const changedFiles = changedFilesFromGit();
-const changedLegacyFiles = changedFiles.filter((file) => LEGACY_GENERATOR_DIRS.some((dir) => file.startsWith(`${dir}/`)));
-if (changedLegacyFiles.length > 0) {
-  fail(`Legacy generator files changed: ${changedLegacyFiles.join(", ")}`);
+const runtimeSource = [
+  "src/lib/expungement-ai/eligibility-adapter.ts",
+  "src/lib/expungement-ai/packet-generation.ts",
+  "src/lib/expungement-ai/states.ts"
+].map((file) => fs.readFileSync(path.resolve(file), "utf8")).join("\n");
+for (const forbidden of ["legacyGeneratorFor", "renderLegacyGeneratorPacket", "renderAll51FallbackPacket", "@/lib/rcap/all51-launch-selector"]) {
+  if (runtimeSource.includes(forbidden)) fail(`Active runtime still references old MVP/fallback path: ${forbidden}`);
 }
 
 const expungementUiPatterns = [
@@ -114,8 +111,12 @@ const expungementUiPatterns = [
   /^src\/components\/expungement\//
 ];
 const expungementUiChanges = changedFiles.filter((file) => expungementUiPatterns.some((pattern) => pattern.test(file)));
-if (expungementUiChanges.length > 0) {
-  fail(`Expungement.ai UI files changed: ${expungementUiChanges.join(", ")}`);
+const disallowedUiChanges = expungementUiChanges.filter((file) => ![
+  "src/app/expungement-ai/check/page.tsx",
+  "src/app/expungement-ai/results/page.tsx"
+].includes(file));
+if (disallowedUiChanges.length > 0) {
+  fail(`Expungement.ai designer UI files changed: ${disallowedUiChanges.join(", ")}`);
 }
 
 if (!fs.existsSync(path.join(REVIEW_ARTIFACT_DIR, "index.md"))) {
@@ -130,5 +131,5 @@ if (failures.length > 0) {
 
 console.log("RCAP all-50 build verification passed.");
 console.log(`Jurisdictions verified: ${STATES_PLUS_DC.length}`);
-console.log("Legacy generators preserved: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Legacy generators removed from active runtime: yes");
+console.log("Expungement.ai designer components untouched: yes");

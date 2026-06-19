@@ -4,7 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { DocumentPacketActions } from "@/components/rcap/documents/DocumentPacketActions";
 import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
-import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 import { mississippiFieldLabels, type MississippiDocumentFieldKey } from "@/lib/rcap/state-packs/mississippi/required-fields";
 
 export function MississippiPetitionPacketPreview({ packet }: { packet: RcapDocumentPacket }) {

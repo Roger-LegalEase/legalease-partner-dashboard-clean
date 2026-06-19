@@ -6,8 +6,8 @@ import { MississippiPetitionPacketPreview } from "@/components/rcap/documents/mi
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerPublicPage } from "@/lib/partners/routes";
 import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
-import { generateMississippiPetitionDraft } from "@/lib/rcap/documents/mississippi/generator";
-import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
+import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
+import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 
 export default async function RcapDocumentsPage({
   params,
@@ -154,30 +154,37 @@ function isPennsylvaniaState(state?: string) {
 }
 
 function buildPreviewPacket(session: NonNullable<Awaited<ReturnType<typeof getRcapIntakeSession>>>): RcapDocumentPacket {
-  const generated = generateMississippiPetitionDraft(session);
+  const safetyDisclaimer = "This source-driven packet preview is not legal advice and must be reviewed before filing.";
+  const filingInstructions = ["Use the source-driven RCAP engine packet plan for this jurisdiction/pathway."];
+  const countyCourtInstructions = ["Confirm filing location and local requirements from the source packet instructions."];
+  const filingNextStepsPacket = buildFilingNextStepsPacket({
+    state: "MS",
+    county: session.county,
+    documentType: "source_driven_packet",
+    pathway: "source_engine_packet_plan",
+    filingInstructions,
+    countyCourtInstructions,
+    safetyDisclaimer
+  });
   return {
     id: crypto.randomUUID(),
     partnerSlug: session.partnerSlug,
     intakeSessionId: session.id,
     state: "MS",
-    county: generated.fields.county,
-    documentType: generated.documentType,
-    pathway: generated.pathway,
-    status: generated.status,
-    petitionerFirstName: generated.fields.petitionerFirstName,
-    petitionerLastName: generated.fields.petitionerLastName,
-    courtCounty: generated.fields.courtCounty,
-    courtType: generated.fields.courtType,
-    causeNumber: generated.fields.causeNumber,
-    charge: generated.fields.charge,
-    needsRecordReview: generated.fields.needsRecordReview,
-    hasCourtDocuments: generated.fields.hasCourtDocuments,
-    generatedHtml: generated.draftHtml,
-    generatedPlainText: generated.draftPlainText,
-    filingInstructions: generated.filingInstructions,
-    countyCourtInstructions: generated.countyCourtInstructions,
-    filingNextStepsPacket: generated.filingNextStepsPacket,
-    missingFields: generated.missingFields,
-    safetyDisclaimer: generated.safetyDisclaimer
+    county: session.county,
+    documentType: "source_driven_packet",
+    pathway: "source_engine_packet_plan",
+    status: "ready_for_review",
+    courtCounty: session.county,
+    charge: session.chargeOrCaseType,
+    needsRecordReview: true,
+    hasCourtDocuments: session.hasDocuments,
+    generatedHtml: "<p>Source-driven packet plan pending review.</p>",
+    generatedPlainText: "Source-driven packet plan pending review.",
+    filingInstructions,
+    countyCourtInstructions,
+    filingNextStepsPacket,
+    missingFields: [],
+    safetyDisclaimer
   };
 }

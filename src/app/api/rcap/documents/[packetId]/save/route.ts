@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { saveDcDocumentPacketInputs } from "@/lib/rcap/documents/dc/repository";
-import type { DcDocumentPacketInput } from "@/lib/rcap/documents/dc/types";
-import { saveMississippiDocumentPacketInputs } from "@/lib/rcap/documents/mississippi/repository";
-import type { MississippiDocumentPacketInput } from "@/lib/rcap/documents/mississippi/types";
+import { saveDcDocumentPacketInputs } from "@/lib/rcap/documents/source-repository";
+import type { DcDocumentPacketInput } from "@/lib/rcap/documents/types";
+import { saveMississippiDocumentPacketInputs } from "@/lib/rcap/documents/source-repository";
+import type { MississippiDocumentPacketInput } from "@/lib/rcap/documents/types";
 
 export async function POST(
   request: Request,

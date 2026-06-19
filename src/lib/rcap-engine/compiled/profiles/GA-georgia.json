@@ -1,0 +1,3869 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "GA",
+    "name": "Georgia",
+    "slug": "georgia"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Georgia/Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "sha256": "aeb7a7ee904b69018ffbf747177f1de650c0b986f5a49293abc14d2fbfae6bf8",
+        "sizeBytes": 34557,
+        "score": 1661,
+        "extractedChars": 29689
+      }
+    ],
+    "sourceCorpusSha256": "2e9c9d5f9ad17fefb315d71b4336f0ffd2de6c1b614453cd06abd45f06cf2812",
+    "sourceCorpusChars": 24671,
+    "allFolderFiles": [
+      {
+        "fileName": "Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Georgia/Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "aeb7a7ee904b69018ffbf747177f1de650c0b986f5a49293abc14d2fbfae6bf8",
+        "sizeBytes": 34557
+      },
+      {
+        "fileName": "Request to Restrict Record Application and Instructions form.pdf",
+        "relativePath": "LegalEase Georgia/Request to Restrict Record Application and Instructions form.pdf",
+        "extension": ".pdf",
+        "kind": "instructions",
+        "sha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+        "sizeBytes": 449903
+      },
+      {
+        "fileName": "file-request-expunge-criminal-record.html",
+        "relativePath": "LegalEase Georgia/file-request-expunge-criminal-record.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "08f1f65779c1ad37a6e74b6f18289dc4bb2a4cd3ad8d5de9c7f4d1cb3b2ba4d3",
+        "sizeBytes": 97400
+      },
+      {
+        "fileName": "ga-record-restriction-forms.html",
+        "relativePath": "LegalEase Georgia/ga-record-restriction-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "45ace39dcc94dbe554cbae1539120c832d1770f5a4958c88e81aad8cdb3a575a",
+        "sizeBytes": 24867
+      },
+      {
+        "fileName": "georgia-criminal-history-record-restrictions.html",
+        "relativePath": "LegalEase Georgia/georgia-criminal-history-record-restrictions.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "cb0da766ae49ebd3f6f16ffc3406699700934f50cc34c3ccaadae4404824c501",
+        "sizeBytes": 269211
+      },
+      {
+        "fileName": "record-restrictions-expungement.html",
+        "relativePath": "LegalEase Georgia/record-restrictions-expungement.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "ae65dae0ca8f4464bb35c0ef00b91a48d8ae7df0ec8b4d19d36359daee7dff9a",
+        "sizeBytes": 79132
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure",
+      "record restriction",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Non-conviction restriction (agency/prosecutor process)",
+      "SB 288 conviction restriction (court process)",
+      "Restriction and sealing serve the interests of justice",
+      "AUTOMATIC RESTRICTION (≥ 7/1/2013 non-conviction)",
+      "PARDONED FELONY (§ 35-3-37(j)(7))",
+      "Pathway 1 — Non-conviction records (the core path, § 35-3-37(h))",
+      "Pathway 2 — Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+      "Pathway 3 — Pardoned felonies (§ 35-3-37(j)(7))",
+      "Pathway 4 — Youthful / first-offender and related routes"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "prior_relief"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "arrest_date",
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Georgia, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Georgia case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Georgia descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Non-conviction record restriction through the agency/prosecutor process",
+        "Automatic restriction of qualifying post-July 1, 2013 non-convictions",
+        "SB 288 misdemeanor-conviction restriction and sealing",
+        "Restriction and sealing of a pardoned felony",
+        "Youthful / first-offender restriction route",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "prior_relief",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you previously received record-clearing relief in Georgia or elsewhere?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Georgia criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "arrest_date",
+      "stage": "case_details",
+      "prompt": "When did the arrest or citation occur?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What Georgia county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Georgia category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "DUI/DWI or serious traffic",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Georgia was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "automatic-restriction",
+        "pathway-1-non-conviction-records"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "pathway-1-non-conviction-records"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "pathway-1-non-conviction-records"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "sb-288-conviction-restriction",
+        "pathway-2-misdemeanor-convictions-under-sb-288",
+        "pathway-4-youthful-first-offender-and-related-routes"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "pardoned-felony",
+        "pathway-3-pardoned-felonies"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "sb-288-conviction-restriction",
+        "restriction-and-sealing-serve-the-interests-of-justice",
+        "pardoned-felony",
+        "pathway-1-non-conviction-records",
+        "pathway-2-misdemeanor-convictions-under-sb-288",
+        "pathway-3-pardoned-felonies",
+        "pathway-4-youthful-first-offender-and-related-routes"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "pardoned-felony",
+        "pathway-3-pardoned-felonies"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+      "label": "Non-conviction record restriction through the agency/prosecutor process",
+      "summary": "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi, not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal, or completion of a pretrial diversion program. Whether action is required depends on the arrest date: Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm. Arrests before July 1, 2013: the person must apply for restriction through the…",
+      "sourceRef": "pathways:68-115; section:260-272; section:68-115; corpus-unit:64; corpus-unit:25",
+      "sourceEvidenceRefs": [
+        "pathways:68-115",
+        "section:260-272",
+        "section:68-115",
+        "corpus-unit:64",
+        "corpus-unit:25"
+      ],
+      "ruleClauses": [
+        "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,",
+        "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,",
+        "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:",
+        "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm.",
+        "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval.",
+        "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request.",
+        "1 Obtain and review your GCIC criminal history to confirm each charge has a final, qualifying disposition.",
+        "2 If the arrest was before July 1, 2013, get the Request to Restrict Arrest Record form from the arresting",
+        "agency; if on/after July 1, 2013, contact the prosecutor to confirm automatic restriction.",
+        "3 Submit the application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve",
+        "4 If approved, the prosecutor enters the restriction code in the GCIC CCH interface, or the approved application",
+        "plus the GCIC processing fee is forwarded to GCIC.",
+        "5 GCIC processes complete applications (typically 2–3 weeks) and mails a completion letter. If the prosecutor",
+        "denies, appeal to the Superior Court within 30 days.",
+        "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.",
+        "Non-conviction records (the core path, § 35-3-37(h))",
+        "Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+        "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "discretionary on an interests-of-justice showing.",
+        "Pardoned felonies (§ 35-3-37(j)(7))",
+        "A felony conviction that has been pardoned by the Georgia State Board of Pardons and Paroles may be",
+        "restricted if the person has not been convicted of a new offense (other than a non-serious traffic offense) since",
+        "the pardon and has no pending charges. This is one of the few routes to restrict a felony conviction.",
+        "Youthful / first-offender and related routes",
+        "Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses)",
+        "have long been restrictable, and retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "arrest_date",
+        "record_type",
+        "criminal_history",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "denies, appeal to the Superior Court within 30 days.",
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "probation terminated. Non-conviction restriction generally has no waiting period.",
+        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+        "Non-conviction restriction generally has no waiting period.",
+        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+      ],
+      "exclusionRules": [
+        "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+        "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+        "DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless driving, fleeing).",
+        "Family violence simple assault, simple battery, and battery under §§ 16-5-20(d), 16-5-23(f), 16-5-23.1(f) — unless the person was under 21 at the time of the arrest.",
+        "Theft offenses under Chapter 8 of Title 16 — except theft by shoplifting and refund fraud, which can be restricted.",
+        "Sexual offenses, including sexual battery, public indecency, and related crimes.",
+        "Crimes against children / family, including certain child-related and exploitation offenses.",
+        "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+        "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+        "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+        "Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same conduct is not restrictable.",
+        "Out-of-state / federal records are not reachable by Georgia restriction.",
+        "agent must map the user's actual offense to its Code section and verify against the current",
+        "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+        "For family-violence misdemeanors, the under-21-at-arrest exception is the only opening — confirm age",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+      "label": "Automatic restriction of qualifying post-July 1, 2013 non-convictions",
+      "summary": "A 2020 charge dismissed/nolle prossed is restricted automatically when the clerk or prosecutor enters the disposition into GCIC. No application needed; confirm via the GCIC criminal history. A 35-3-37(m) sealing motion can still be filed to close the clerk's court file.",
+      "sourceRef": "section:422-430; section:260-272; pathways:68-115; corpus-unit:110; section:68-115; section:320-347; section:348-351; corpus-unit:26",
+      "sourceEvidenceRefs": [
+        "section:422-430",
+        "section:260-272",
+        "pathways:68-115",
+        "corpus-unit:110",
+        "section:68-115",
+        "section:320-347",
+        "section:348-351",
+        "corpus-unit:26",
+        "corpus-unit:64",
+        "corpus-unit:18",
+        "corpus-unit:84",
+        "corpus-unit:91",
+        "corpus-unit:96"
+      ],
+      "ruleClauses": [
+        "A 2020 charge dismissed/nolle prossed is restricted",
+        "automatically when the clerk or prosecutor enters the",
+        "disposition into GCIC. No application needed; confirm via the",
+        "GCIC criminal history. A 35-3-37(m) sealing motion can still",
+        "be filed to close the clerk's court file.",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "1 Obtain and review your GCIC criminal history to confirm each charge has a final, qualifying disposition.",
+        "2 If the arrest was before July 1, 2013, get the Request to Restrict Arrest Record form from the arresting",
+        "agency; if on/after July 1, 2013, contact the prosecutor to confirm automatic restriction.",
+        "3 Submit the application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve",
+        "4 If approved, the prosecutor enters the restriction code in the GCIC CCH interface, or the approved application",
+        "plus the GCIC processing fee is forwarded to GCIC.",
+        "5 GCIC processes complete applications (typically 2–3 weeks) and mails a completion letter. If the prosecutor",
+        "denies, appeal to the Superior Court within 30 days.",
+        "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,",
+        "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,",
+        "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:",
+        "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm.",
+        "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval.",
+        "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request.",
+        "Examples C & D — Other pathways C. AUTOMATIC RESTRICTION (≥ 7/1/2013 non-conviction): A 2020 charge dismissed/nolle prossed is restricted automatically when the clerk or prosecutor enters the disposition into GCIC. No application needed; confirm via the GCIC criminal history. A 35-3-37(m) sealing motion can still be filed to close the clerk's court file.",
+        "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.",
+        "Non-conviction records (the core path, § 35-3-37(h))",
+        "Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+        "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "discretionary on an interests-of-justice showing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "criminal_history",
+        "record_type",
+        "arrest_date",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "denies, appeal to the Superior Court within 30 days.",
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "probation terminated. Non-conviction restriction generally has no waiting period.",
+        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+        "Non-conviction restriction generally has no waiting period.",
+        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+      ],
+      "exclusionRules": [
+        "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+        "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+        "DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless driving, fleeing).",
+        "Family violence simple assault, simple battery, and battery under §§ 16-5-20(d), 16-5-23(f), 16-5-23.1(f) — unless the person was under 21 at the time of the arrest.",
+        "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+        "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+        "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+        "Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same conduct is not restrictable.",
+        "Out-of-state / federal records are not reachable by Georgia restriction.",
+        "agent must map the user's actual offense to its Code section and verify against the current",
+        "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A.",
+        "No more than two misdemeanor convictions may ever be restricted under SB 288. • Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment. • Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock. • Plea-bargain dismissals.",
+        "VERIFY BEFORE RELYING The § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21 exception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts.",
+        "The agent must map the user's actual offense to its Code section and verify against the current excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "AGENT GUIDANCE DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and most theft is excluded EXCEPT shoplifting and refund fraud."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+      "label": "SB 288 misdemeanor-conviction restriction and sealing",
+      "summary": "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded offense, and within the two-misdemeanor lifetime cap. 2 Prepare a Petition for Record Restriction and Sealing citing § 35-3-37(j)(4), attaching the GCIC history and proof of completion, plus a proposed order. 3 File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+      "sourceRef": "section:273-294; pathways:68-115; section:68-115; section:116-150; corpus-unit:67; waiting_periods:116-150; corpus-unit:32; corpus-unit:57",
+      "sourceEvidenceRefs": [
+        "section:273-294",
+        "pathways:68-115",
+        "section:68-115",
+        "section:116-150",
+        "corpus-unit:67",
+        "waiting_periods:116-150",
+        "corpus-unit:32",
+        "corpus-unit:57",
+        "corpus-unit:58",
+        "corpus-unit:27"
+      ],
+      "ruleClauses": [
+        "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded",
+        "offense, and within the two-misdemeanor lifetime cap.",
+        "2 Prepare a Petition for Record Restriction and Sealing citing § 35-3-37(j)(4), attaching the GCIC history and",
+        "proof of completion, plus a proposed order.",
+        "3 File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "otherwise it holds an interests-of-justice hearing.",
+        "5 If granted, the court orders GCIC and the arresting agency to restrict; then file the separate § 35-3-37(m)",
+        "motion to seal the clerk's court file.",
+        "Identify the arrest date early — the July 1, 2013 line decides whether non-conviction restriction is",
+        "automatic or application-based.",
+        "For convictions, remember it is a two-step finish: court-ordered restriction, then a separate motion to seal",
+        "the clerk's file. Don't stop at restriction if the user wants the court record closed too.",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "discretionary on an interests-of-justice showing.",
+        "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.",
+        "Non-conviction records (the core path, § 35-3-37(h))",
+        "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,",
+        "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,",
+        "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:",
+        "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm.",
+        "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval.",
+        "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request.",
+        "Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+        "Pardoned felonies (§ 35-3-37(j)(7))"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief",
+        "arrest_date",
+        "record_type",
+        "disposition_date",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "denies, appeal to the Superior Court within 30 days.",
+        "Served on the District Attorney (90 days to object).",
+        "probation terminated. Non-conviction restriction generally has no waiting period.",
+        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+        "Non-conviction restriction generally has no waiting period.",
+        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+      ],
+      "exclusionRules": [
+        "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+        "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+        "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+        "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+        "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+        "Out-of-state / federal records are not reachable by Georgia restriction.",
+        "agent must map the user's actual offense to its Code section and verify against the current",
+        "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A.",
+        "No more than two misdemeanor convictions may ever be restricted under SB 288. • Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment. • Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock. • Plea-bargain dismissals.",
+        "VERIFY BEFORE RELYING The § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21 exception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts.",
+        "The agent must map the user's actual offense to its Code section and verify against the current excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "AGENT GUIDANCE DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and most theft is excluded EXCEPT shoplifting and refund fraud.",
+        "the current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "restriction-and-sealing-of-a-pardoned-felony",
+      "label": "Restriction and sealing of a pardoned felony",
+      "summary": "A felony conviction pardoned by the State Board of Pardons and Paroles may be restricted by petition if there is no new offense since the pardon and no pending charges — one of the few routes to restrict a Georgia felony conviction. Proposed Order (court pathways)",
+      "sourceRef": "section:431-446; pathways:68-115; section:68-115; section:116-150; section:190-227; corpus-unit:111; case_outcomes:190-227; waiting_periods:116-150",
+      "sourceEvidenceRefs": [
+        "section:431-446",
+        "pathways:68-115",
+        "section:68-115",
+        "section:116-150",
+        "section:190-227",
+        "corpus-unit:111",
+        "case_outcomes:190-227",
+        "waiting_periods:116-150",
+        "corpus-unit:28",
+        "corpus-unit:38",
+        "corpus-unit:54"
+      ],
+      "ruleClauses": [
+        "A felony conviction pardoned by the State Board of Pardons and",
+        "Paroles may be restricted by petition if there is no new",
+        "offense since the pardon and no pending charges — one of the",
+        "few routes to restrict a Georgia felony conviction.",
+        "Proposed Order (court pathways)",
+        "Each court petition is accompanied by a proposed Order reciting the caption and directing the Georgia Crime",
+        "Information Center and the arresting agency to restrict the record under § 35-3-37, and, where sought, ordering",
+        "the Clerk of Court to seal the case file under § 35-3-37(m).",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Georgia statutes and common practice",
+        "the current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the",
+        "two-step restriction-then-sealing process before relying on any rule here.",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A felony conviction that has been pardoned by the Georgia State Board of Pardons and Paroles may be",
+        "restricted if the person has not been convicted of a new offense (other than a non-serious traffic offense) since",
+        "the pardon and has no pending charges. This is one of the few routes to restrict a felony conviction.",
+        "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.",
+        "Non-conviction records (the core path, § 35-3-37(h))",
+        "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,",
+        "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,",
+        "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:",
+        "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm.",
+        "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval.",
+        "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request.",
+        "Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+        "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "discretionary on an interests-of-justice showing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "pardon_status",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "prior_relief",
+        "arrest_date",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_felony",
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "probation terminated. Non-conviction restriction generally has no waiting period.",
+        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+        "Non-conviction restriction generally has no waiting period.",
+        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+      ],
+      "exclusionRules": [
+        "the current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the",
+        "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+        "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+        "DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless driving, fleeing).",
+        "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+        "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+        "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+        "Out-of-state / federal records are not reachable by Georgia restriction.",
+        "agent must map the user's actual offense to its Code section and verify against the current",
+        "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A.",
+        "No more than two misdemeanor convictions may ever be restricted under SB 288. • Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment. • Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock. • Plea-bargain dismissals.",
+        "VERIFY BEFORE RELYING The § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21 exception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts.",
+        "The agent must map the user's actual offense to its Code section and verify against the current excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "AGENT GUIDANCE DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and most theft is excluded EXCEPT shoplifting and refund fraud.",
+        "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "youthful-first-offender-restriction-route",
+      "label": "Youthful / first-offender restriction route",
+      "summary": "Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses) have long been restrictable, and retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases convert a conviction into a first-offender discharge that is then restrictable. The separate sealing step (§ 35-3-37(m)) Restriction hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public",
+      "sourceRef": "pathways:68-115; section:68-115; corpus-unit:29",
+      "sourceEvidenceRefs": [
+        "pathways:68-115",
+        "section:68-115",
+        "corpus-unit:29"
+      ],
+      "ruleClauses": [
+        "Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses)",
+        "have long been restrictable, and retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases",
+        "convert a conviction into a first-offender discharge that is then restrictable.",
+        "The separate sealing step (§ 35-3-37(m))",
+        "Restriction hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public",
+        "court record. To close that, the person files a motion/petition to seal the clerk's record under § 35-3-37(m).",
+        "Restriction must occur first; sealing is the second step.",
+        "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.",
+        "Non-conviction records (the core path, § 35-3-37(h))",
+        "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,",
+        "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,",
+        "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:",
+        "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm.",
+        "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval.",
+        "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request.",
+        "Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))",
+        "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+        "discretionary on an interests-of-justice showing.",
+        "Pardoned felonies (§ 35-3-37(j)(7))",
+        "A felony conviction that has been pardoned by the Georgia State Board of Pardons and Paroles may be",
+        "restricted if the person has not been convicted of a new offense (other than a non-serious traffic offense) since",
+        "the pardon and has no pending charges. This is one of the few routes to restrict a felony conviction.",
+        "Youthful / first-offender and related routes",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "Route by disposition: non-conviction → restriction (automatic post-2013, or by application pre-2013);",
+        "misdemeanor conviction → SB 288 petition (mind the two-in-a-lifetime cap); felony → generally only via"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "record_type",
+        "disposition_date",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief",
+        "arrest_date",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+        "probation terminated. Non-conviction restriction generally has no waiting period.",
+        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+        "Non-conviction restriction generally has no waiting period.",
+        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+      ],
+      "exclusionRules": [
+        "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+        "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+        "DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless driving, fleeing).",
+        "Theft offenses under Chapter 8 of Title 16 — except theft by shoplifting and refund fraud, which can be restricted.",
+        "Sexual offenses, including sexual battery, public indecency, and related crimes.",
+        "Crimes against children / family, including certain child-related and exploitation offenses.",
+        "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+        "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+        "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+        "Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same conduct is not restrictable.",
+        "Out-of-state / federal records are not reachable by Georgia restriction.",
+        "agent must map the user's actual offense to its Code section and verify against the current",
+        "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+        "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+        "For family-violence misdemeanors, the under-21-at-arrest exception is the only opening — confirm age",
+        "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+        "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A.",
+        "No more than two misdemeanor convictions may ever be restricted under SB 288. • Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment. • Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock. • Plea-bargain dismissals."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-35-excluded-offense-sec-3-not-restrictable-pardon-first",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Excluded offense (Sec. 3) — Not restrictable Pardon / first-offender only"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-11-in-a-lifetime-provided-all-sentence-terms-are-complete-",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "four years"
+        },
+        "sourceConditionText": "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-12-before-filing-has-no-pending-charges-and-the-offense-is",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-16-the-pardon-and-has-no-pending-charges-this-is-one-of-th",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "the pardon and has no pending charges. This is one of the few routes to restrict a felony conviction."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-44-probation-terminated-non-conviction-restriction-general",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "probation terminated. Non-conviction restriction generally has no waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "youthful-first-offender-restriction-route",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-45-pathway-matter-remedy-waiting-period-notes",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pathway / matter Remedy Waiting period Notes"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:116-150"
+    },
+    {
+      "id": "rule-50-sb-288-sentence-complete-no-pending-charges",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(SB 288) sentence complete no pending charges"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-54-convictions-for-at-least-four-years-before-filing-and-3",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "four years"
+        },
+        "sourceConditionText": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-58-years-and-no-pending-charges-before-indicating-eligibil",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "years, and no pending charges before indicating eligibility. A later conviction resets the four-year clock."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-65-pending-charges-new-convictions-disqualify-and-a-new-co",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-06-arrests-on-or-after-july-1-2013-generally-restricted-au",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the qualifying disposition into the GCIC database — no application process; the person may contact the prosecutor to confirm."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-08-automatic-restriction-35-3-37-j-1-2021-certain-non-co",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-25-route-by-disposition-non-conviction-restriction-automat",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Route by disposition: non-conviction → restriction (automatic post-2013, or by application pre-2013);"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "youthful-first-offender-restriction-route",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-29-dismissed-nolle-prosequi-35-3-37-h-automatic-via-gcic-e",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissed / nolle prosequi § 35-3-37(h) Automatic via GCIC entry Qualifying disposition entered"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-31-auto-restriction-category-35-3-37-j-1-automatic-no-requ",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Auto-restriction category § 35-3-37(j.1) Automatic, no request Statute-specified records"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-46-non-conviction-dismissed-restrict-none-automatic-if-arr",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-01-restriction-and-then-sealing-is-available-along-several",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-02-pathway-1-non-conviction-records-the-core-path-35-3-37",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pathway 1 — Non-conviction records (the core path, § 35-3-37(h))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-03-charges-that-did-not-result-in-a-conviction-are-the-pri",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Charges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-04-not-presented-to-the-grand-jury-no-further-action-antic",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "not presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-05-or-completion-of-a-pretrial-diversion-program-whether-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "arrest_date"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "or completion of a pretrial diversion program. Whether action is required depends on the arrest date:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-07-arrests-before-july-1-2013-the-person-must-apply-for-re",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-09-pathway-2-misdemeanor-convictions-under-sb-288-35-3-37",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pathway 2 — Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-10-since-january-1-2021-a-person-may-petition-the-court-to",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Since January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-13-pathway-3-pardoned-felonies-35-3-37-j-7",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pathway 3 — Pardoned felonies (§ 35-3-37(j)(7))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115"
+    },
+    {
+      "id": "rule-14-a-felony-conviction-that-has-been-pardoned-by-the-georg",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "A felony conviction that has been pardoned by the Georgia State Board of Pardons and Paroles may be"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-15-restricted-if-the-person-has-not-been-convicted-of-a-ne",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "restricted if the person has not been convicted of a new offense (other than a non-serious traffic offense) since"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-17-pathway-4-youthful-first-offender-and-related-routes",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pathway 4 — Youthful / first-offender and related routes"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-18-misdemeanors-committed-before-age-21-with-exceptions-fo",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-19-convert-a-conviction-into-a-first-offender-discharge-th",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "convert a conviction into a first-offender discharge that is then restrictable."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-20-the-separate-sealing-step-35-3-37-m",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The separate sealing step (§ 35-3-37(m))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-21-restriction-hides-the-record-in-the-gcic-criminal-histo",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Restriction hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-22-court-record-to-close-that-the-person-files-a-motion-pe",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "court record. To close that, the person files a motion/petition to seal the clerk's record under § 35-3-37(m)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-23-restriction-must-occur-first-sealing-is-the-second-step",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Restriction must occur first; sealing is the second step."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-24-georgia-record-restriction-sealing-agent-training-refer",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-26-misdemeanor-conviction-sb-288-petition-mind-the-two-in-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "misdemeanor conviction → SB 288 petition (mind the two-in-a-lifetime cap); felony → generally only via"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-27-always-treat-sealing-of-the-court-file-as-a-distinct-se",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Always treat sealing of the court file as a distinct second step. Telling a user their record is 'restricted' is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-28-not-the-same-as-the-court-file-being-sealed-explain-bot",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "not the same as the court file being sealed — explain both."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-115",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-30-non-conviction-35-3-37-h-apply-at-arresting-agency-gbi-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Non-conviction § 35-3-37(h) Apply at arresting agency; GBI Request to Restrict form"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-32-pretrial-diversion-done-35-3-37-h-restriction-on-comple",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pretrial diversion done § 35-3-37(h) Restriction on completion Program completed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-33-misdemeanor-conviction-35-3-37-j-4-petition-to-court-4",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Misdemeanor conviction § 35-3-37(j)(4) Petition to court; 4 yrs; ≤ 2 lifetime; eligible"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-34-pardoned-felony-35-3-37-j-7-petition-to-court-no-new-of",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "court",
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardoned felony § 35-3-37(j)(7) Petition to court No new offense since pardon"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-36-on-a-sb-288-petition-the-prosecuting-attorney-has-90-da",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 90,
+          "unit": "days",
+          "raw": "90 days"
+        },
+        "sourceConditionText": "On a SB 288 petition, the prosecuting attorney has 90 days to object; if there is no objection the court may grant"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-37-non-conviction-applications-denied-by-the-prosecutor-th",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "non-conviction applications denied by the prosecutor, the person may appeal to the Superior Court within 30"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-38-the-effect-of-relief-a-restricted-record-does-not-appea",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The effect of relief: a restricted record does not appear on a GCIC background check seen by employers, landlords, or the general public, and the person may state the record does not exist; but criminal justice agencies retain access, and the clerk's court file stays public until separately sealed under § 35-3-37(m)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "rule-39-tell-users-plainly-restriction-hides-the-record-from-ba",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tell users plainly: restriction hides the record from background checks but does not erase it, and the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-40-court-file-remains-public-until-sealed-in-the-separate-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "court file remains public until sealed in the separate § 35-3-37(m) step."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-41-flag-the-decision-maker-non-conviction-restriction-runs",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Flag the decision-maker: non-conviction restriction runs through the prosecutor/GCIC; SB 288 conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "rule-42-restriction-runs-through-the-court-with-a-90-day-prosec",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "restriction runs through the court with a 90-day prosecutor objection window."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:190-227",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-43-for-sb-288-conviction-restriction-the-clock-runs-from-c",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "For SB 288 conviction restriction, the clock runs from completion of the sentence — all jail time served and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-47-dead-docket-restrict-required-period-then-eligible",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Dead docket Restrict Required period Then eligible"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-48-pretrial-diversion-completed-restrict-on-completion-pro",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pretrial diversion completed Restrict On completion Program successfully completed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-49-misdemeanor-conviction-restrict-seal-4-years-since-plus",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "4 years"
+        },
+        "sourceConditionText": "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-51-pardoned-felony-restrict-after-pardon-no-new-offense-si",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardoned felony Restrict After pardon No new offense since pardon"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-52-misdemeanor-before-age-21-restrict-per-statute-exceptio",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-53-the-sb-288-conditions-stack-a-person-must-1-have-comple",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-55-measured-backward-from-the-filing-date-and-is-broken-by",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "measured backward from the filing date and is broken by any intervening conviction, so a new offense resets the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-56-the-two-misdemeanor-cap-is-a-lifetime-limit-not-per-fil",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "The two-misdemeanor cap is a lifetime limit, not per-filing — a person who has already restricted two misdemeanor convictions cannot restrict a third."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-57-for-sb-288-confirm-sentence-completion-jail-done-and-pr",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "For SB 288, confirm sentence completion (jail done AND probation terminated), four conviction-free"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-59-track-the-lifetime-two-misdemeanor-cap-ask-whether-the-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Track the lifetime two-misdemeanor cap; ask whether the user has previously restricted any conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-60-before-promising-a-new-one-is-possible",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "before promising a new one is possible."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-61-for-sb-288-misdemeanor-conviction-restriction-35-3-37-j",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-62-conviction-for-any-of-the-following-generally-cannot-be",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction for any of the following generally cannot be restricted, regardless of time elapsed:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-63-two-misdemeanor-lifetime-cap-no-more-than-two-misdemean",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-64-felony-convictions-generally-cannot-be-restricted-excep",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route",
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-66-plea-bargain-dismissals-a-charge-dismissed-as-part-of-a",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same conduct is not restrictable."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-67-out-of-state-federal-records-are-not-reachable-by-georg",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "residency_or_location"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Out-of-state / federal records are not reachable by Georgia restriction."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "rule-68-agent-must-map-the-user-s-actual-offense-to-its-code-se",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "agent must map the user's actual offense to its Code section and verify against the current"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189"
+    },
+    {
+      "id": "rule-69-excluded-list-before-declaring-a-misdemeanor-eligible-t",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "rule-70-at-arrest-before-ruling-it-in-or-out",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "at arrest before ruling it in or out."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:151-189",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "route-non-conviction-record-restriction-through-the-agency-prosecutor-process",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "arrest_date",
+          "record_type",
+          "criminal_history",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "arrest_date",
+          "record_type",
+          "criminal_history",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Non-conviction record restriction through the agency/prosecutor process"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:68-115; section:260-272; section:68-115; corpus-unit:64; corpus-unit:25",
+      "candidatePathwayIds": [
+        "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      ]
+    },
+    {
+      "id": "route-automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "criminal_history",
+          "record_type",
+          "arrest_date",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "criminal_history",
+          "record_type",
+          "arrest_date",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Automatic restriction of qualifying post-July 1, 2013 non-convictions"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:422-430; section:260-272; pathways:68-115; corpus-unit:110; section:68-115; section:320-347; section:348-351; corpus-unit:26",
+      "candidatePathwayIds": [
+        "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      ]
+    },
+    {
+      "id": "route-sb-288-misdemeanor-conviction-restriction-and-sealing",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "arrest_date",
+          "record_type",
+          "disposition_date",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "arrest_date",
+          "record_type",
+          "disposition_date",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "SB 288 misdemeanor-conviction restriction and sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:273-294; pathways:68-115; section:68-115; section:116-150; corpus-unit:67; waiting_periods:116-150; corpus-unit:32; corpus-unit:57",
+      "candidatePathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ]
+    },
+    {
+      "id": "route-restriction-and-sealing-of-a-pardoned-felony",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "pardon_status",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "arrest_date",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "pardon_status",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "arrest_date",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Restriction and sealing of a pardoned felony"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:431-446; pathways:68-115; section:68-115; section:116-150; section:190-227; corpus-unit:111; case_outcomes:190-227; waiting_periods:116-150",
+      "candidatePathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony"
+      ]
+    },
+    {
+      "id": "route-youthful-first-offender-restriction-route",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "youthful-first-offender-restriction-route",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "record_type",
+          "disposition_date",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "arrest_date",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "record_type",
+          "disposition_date",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "arrest_date",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Youthful / first-offender restriction route"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:68-115; section:68-115; corpus-unit:29",
+      "candidatePathwayIds": [
+        "youthful-first-offender-restriction-route"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "denies, appeal to the Superior Court within 30 days.",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Served on the District Attorney (90 days to object).",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "four years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "prior_relief"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "probation terminated. Non-conviction restriction generally has no waiting period.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Pathway / matter Remedy Waiting period Notes",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "four years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Non-conviction restriction generally has no waiting period.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges.",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": "pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for ser",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases",
+        "charge",
+        "pardon_status"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "conviction for any of the following generally cannot be restricted, regardless of time elapsed:",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless driving, fleeing).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Family violence simple assault, simple battery, and battery under §§ 16-5-20(d), 16-5-23(f), 16-5-23.1(f) — unless the person was under 21 at the time of the arrest.",
+      "fieldsReferenced": [
+        "offense_category",
+        "age_at_offense"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Theft offenses under Chapter 8 of Title 16 — except theft by shoplifting and refund fraud, which can be restricted.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Sexual offenses, including sexual battery, public indecency, and related crimes.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Crimes against children / family, including certain child-related and exploitation offenses.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Offenses involving serious injury or endangerment as enumerated in the statute.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under SB 288.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "prior_relief"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same conduct is not restrictable.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "disposition_date",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "Out-of-state / federal records are not reachable by Georgia restriction.",
+      "fieldsReferenced": [
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "The § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "exception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts. The",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "agent must map the user's actual offense to its Code section and verify against the current",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "most theft is excluded EXCEPT shoplifting and refund fraud. Check the precise offense.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "For family-violence misdemeanors, the under-21-at-arrest exception is the only opening — confirm age",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "at arrest before ruling it in or out.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "A conviction for any of the following generally cannot be restricted, regardless of time elapsed: • DUI and all other serious traffic offenses under O.C.G.A.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "No more than two misdemeanor convictions may ever be restricted under SB 288. • Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment. • Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the four-year clock. • Plea-bargain dismissals.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "VERIFY BEFORE RELYING The § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21 exception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "The agent must map the user's actual offense to its Code section and verify against the current excluded list before declaring a misdemeanor eligible — the offense label alone is not enough.",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-27",
+      "ruleText": "AGENT GUIDANCE DUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and most theft is excluded EXCEPT shoplifting and refund fraud.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-28",
+      "ruleText": "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-29",
+      "ruleText": "the current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the",
+      "fieldsReferenced": [
+        "county",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-30",
+      "ruleText": "before filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is",
+      "fieldsReferenced": [
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "not_yet"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "pathwayLabel": "Non-conviction record restriction through the agency/prosecutor process",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:68-115",
+          "section:260-272",
+          "section:68-115",
+          "corpus-unit:64",
+          "corpus-unit:25"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "pathwayLabel": "Automatic restriction of qualifying post-July 1, 2013 non-convictions",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:422-430",
+          "section:260-272",
+          "pathways:68-115",
+          "corpus-unit:110",
+          "section:68-115",
+          "section:320-347",
+          "section:348-351",
+          "corpus-unit:26",
+          "corpus-unit:64",
+          "corpus-unit:18",
+          "corpus-unit:84",
+          "corpus-unit:91",
+          "corpus-unit:96"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "pathwayLabel": "SB 288 misdemeanor-conviction restriction and sealing",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:273-294",
+          "pathways:68-115",
+          "section:68-115",
+          "section:116-150",
+          "corpus-unit:67",
+          "waiting_periods:116-150",
+          "corpus-unit:32",
+          "corpus-unit:57",
+          "corpus-unit:58",
+          "corpus-unit:27"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+        "pathwayLabel": "Restriction and sealing of a pardoned felony",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:431-446",
+          "pathways:68-115",
+          "section:68-115",
+          "section:116-150",
+          "section:190-227",
+          "corpus-unit:111",
+          "case_outcomes:190-227",
+          "waiting_periods:116-150",
+          "corpus-unit:28",
+          "corpus-unit:38",
+          "corpus-unit:54"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "youthful-first-offender-restriction-route",
+        "pathwayLabel": "Youthful / first-offender restriction route",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:68-115",
+          "section:68-115",
+          "corpus-unit:29"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "arrest_date",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "prior_relief",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "Georgia uses a mix of a GBI agency form (for non-conviction restriction) and court petitions (for SB 288",
+      "Non-conviction restriction — GBI form",
+      "Request to Restrict Arrest Record — the GBI/GCIC application (used mainly for pre-July-2013 arrests, or to correct a record that was not auto-restricted). Section Three is completed by the prosecutor.",
+      "For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "SB 288 misdemeanor-conviction restriction — court petition",
+      "Petition for Record Restriction and Sealing filed in the Superior (or State) Court of the county of conviction, citing § 35-3-37(j)(4), with a proposed order.",
+      "Sealing the clerk's file — separate motion",
+      "Motion/Petition to Seal Court Records under § 35-3-37(m), filed after restriction, asking the court to seal the clerk of court's file with a proposed sealing order.",
+      "petition for SB 288 misdemeanors; a § 35-3-37(m) motion to seal the court file as the second step.",
+      "Always attach a current GCIC criminal history to a court petition, and pair each petition with a proposed",
+      "Georgia uses a mix of a GBI agency form (for non-conviction restriction) and court petitions (for SB 288 conviction restriction and for sealing).",
+      "Non-conviction restriction — GBI form • Request to Restrict Arrest Record — the GBI/GCIC application (used mainly for pre-July-2013 arrests, or to correct a record that was not auto-restricted).",
+      "Section Three is completed by the prosecutor. • For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "SB 288 misdemeanor-conviction restriction — court petition • Petition for Record Restriction and Sealing filed in the Superior (or State) Court of the county of conviction, citing § 35-3-37(j)(4), with a proposed order. • Attach the GCIC criminal history and proof that the sentence is complete and the four-year window is satisfied. • Serve the prosecuting attorney, who has 90 days to object.",
+      "Sealing the clerk's file — separate motion • Motion/Petition to Seal Court Records under § 35-3-37(m), filed after restriction, asking the court to seal the clerk of court's file with a proposed sealing order.",
+      "AGENT GUIDANCE Pick by pathway: GBI Request to Restrict for non-conviction (esp. pre-2013); a § 35-3-37(j)(4) court petition for SB 288 misdemeanors; a § 35-3-37(m) motion to seal the court file as the second step."
+    ],
+    "attachments": [
+      "For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "Attach the GCIC criminal history and proof that the sentence is complete and the four-year window is satisfied.",
+      "Always attach a current GCIC criminal history to a court petition, and pair each petition with a proposed",
+      "Section Three is completed by the prosecutor. • For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "SB 288 misdemeanor-conviction restriction — court petition • Petition for Record Restriction and Sealing filed in the Superior (or State) Court of the county of conviction, citing § 35-3-37(j)(4), with a proposed order. • Attach the GCIC criminal history and proof that the sentence is complete and the four-year window is satisfied. • Serve the prosecuting attorney, who has 90 days to object.",
+      "Reviewing the criminal history first is essential — it confirms each charge has a final qualifying disposition and",
+      "Reviewing the criminal history first is essential — it confirms each charge has a final qualifying disposition and reveals whether automatic restriction already occurred."
+    ],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [
+      "Georgia uses a mix of a GBI agency form (for non-conviction restriction) and court petitions (for SB 288",
+      "Request to Restrict Arrest Record — the GBI/GCIC application (used mainly for pre-July-2013 arrests, or to correct a record that was not auto-restricted). Section Three is completed by the prosecutor.",
+      "For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "Serve the prosecuting attorney, who has 90 days to object.",
+      "Georgia uses a mix of a GBI agency form (for non-conviction restriction) and court petitions (for SB 288 conviction restriction and for sealing).",
+      "Section Three is completed by the prosecutor. • For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person contacts the prosecutor to confirm.",
+      "SB 288 misdemeanor-conviction restriction — court petition • Petition for Record Restriction and Sealing filed in the Superior (or State) Court of the county of conviction, citing § 35-3-37(j)(4), with a proposed order. • Attach the GCIC criminal history and proof that the sentence is complete and the four-year window is satisfied. • Serve the prosecuting attorney, who has 90 days to object."
+    ],
+    "feeRules": [
+      "GCIC restriction processing fee Set by GCIC Per application; payable to GBI by money order/certified check",
+      "Automatic restriction (≥ 7/1/2013) $0 No application, no fee",
+      "SB 288 court petition filing fee ~$50–$250 Varies by county; per petition",
+      "GCIC criminal history report Fee set by GCIC To review the record before applying",
+      "Attorney fees (if represented) Varies Not required; Georgia Justice Project offers free help to eligible people",
+      "Board of Pardons application Varies Only for the pardon route to a felony",
+      "The cost depends entirely on pathway. Automatic non-conviction restriction (post-July-2013) costs nothing. A",
+      "pre-2013 non-conviction application carries the GCIC processing fee. An SB 288 conviction petition carries a",
+      "county-set court filing fee, generally in the $50–$250 range. The Georgia Justice Project provides free",
+      "representation to eligible people who cannot afford an attorney.",
+      "Lead with the free path: if a non-conviction arrest is post-July-2013, restriction should be automatic at no",
+      "cost — the user mainly needs to confirm via their GCIC history.",
+      "Quote SB 288 petition fees as a county-dependent range, and point low-income users to the Georgia",
+      "Justice Project (404-827-... helpline) for free help.",
+      "Georgia Record Restriction & Sealing — Agent Training Reference · LegalEase",
+      "Item Amount Note GCIC restriction processing fee Set by GCIC Per application; payable to GBI by money order/certified check Automatic restriction (≥ 7/1/2013) $0 No application, no fee SB 288 court petition filing fee ~$50–$250 Varies by county; per petition GCIC criminal history report Fee set by GCIC To review the record before applying Attorney fees (if represented) Varies Not required; Georgia Justice Project offers free help to eligible people Board of Pardons application Varies Only for the pardon route to a felony The cost depends entirely on pathway.",
+      "Automatic non-conviction restriction (post-July-2013) costs nothing.",
+      "A pre-2013 non-conviction application carries the GCIC processing fee.",
+      "An SB 288 conviction petition carries a county-set court filing fee, generally in the $50–$250 range.",
+      "The Georgia Justice Project provides free representation to eligible people who cannot afford an attorney.",
+      "AGENT GUIDANCE Lead with the free path: if a non-conviction arrest is post-July-2013, restriction should be automatic at no cost — the user mainly needs to confirm via their GCIC history.",
+      "Quote SB 288 petition fees as a county-dependent range, and point low-income users to the Georgia Justice Project (404-827-... helpline) for free help."
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [],
+    "formInventory": [
+      {
+        "fileName": "file-request-expunge-criminal-record.html",
+        "relativePath": "LegalEase Georgia/file-request-expunge-criminal-record.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "08f1f65779c1ad37a6e74b6f18289dc4bb2a4cd3ad8d5de9c7f4d1cb3b2ba4d3",
+        "sizeBytes": 97400
+      },
+      {
+        "fileName": "ga-record-restriction-forms.html",
+        "relativePath": "LegalEase Georgia/ga-record-restriction-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "45ace39dcc94dbe554cbae1539120c832d1770f5a4958c88e81aad8cdb3a575a",
+        "sizeBytes": 24867
+      },
+      {
+        "fileName": "record-restrictions-expungement.html",
+        "relativePath": "LegalEase Georgia/record-restrictions-expungement.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "ae65dae0ca8f4464bb35c0ef00b91a48d8ae7df0ec8b4d19d36359daee7dff9a",
+        "sizeBytes": 79132
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Georgia/Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "aeb7a7ee904b69018ffbf747177f1de650c0b986f5a49293abc14d2fbfae6bf8",
+        "sizeBytes": 34557
+      },
+      {
+        "fileName": "Request to Restrict Record Application and Instructions form.pdf",
+        "relativePath": "LegalEase Georgia/Request to Restrict Record Application and Instructions form.pdf",
+        "extension": ".pdf",
+        "kind": "instructions",
+        "sha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+        "sizeBytes": 449903
+      },
+      {
+        "fileName": "file-request-expunge-criminal-record.html",
+        "relativePath": "LegalEase Georgia/file-request-expunge-criminal-record.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "08f1f65779c1ad37a6e74b6f18289dc4bb2a4cd3ad8d5de9c7f4d1cb3b2ba4d3",
+        "sizeBytes": 97400
+      },
+      {
+        "fileName": "ga-record-restriction-forms.html",
+        "relativePath": "LegalEase Georgia/ga-record-restriction-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "45ace39dcc94dbe554cbae1539120c832d1770f5a4958c88e81aad8cdb3a575a",
+        "sizeBytes": 24867
+      },
+      {
+        "fileName": "georgia-criminal-history-record-restrictions.html",
+        "relativePath": "LegalEase Georgia/georgia-criminal-history-record-restrictions.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "cb0da766ae49ebd3f6f16ffc3406699700934f50cc34c3ccaadae4404824c501",
+        "sizeBytes": 269211
+      },
+      {
+        "fileName": "record-restrictions-expungement.html",
+        "relativePath": "LegalEase Georgia/record-restrictions-expungement.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "ae65dae0ca8f4464bb35c0ef00b91a48d8ae7df0ec8b4d19d36359daee7dff9a",
+        "sizeBytes": 79132
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Georgia-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 68,
+      "endLine": 115,
+      "text": "Restriction (and then sealing) is available along several pathways. The agent routes by disposition first.\n\nPathway 1 — Non-conviction records (the core path, § 35-3-37(h))\nCharges that did not result in a conviction are the primary eligible category: dismissed, nolle prossed/prosequi,\nnot presented to the grand jury, no further action anticipated, dead docketed (for the required period), acquittal,\nor completion of a pretrial diversion program. Whether action is required depends on the arrest date:\n\n• Arrests on or after July 1, 2013: generally restricted automatically when the clerk or prosecutor enters the\nqualifying disposition into the GCIC database — no application process; the person may contact the\nprosecutor to confirm.\n• Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the\nGBI Request to Restrict Arrest Record form, with prosecutor approval.\n• Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically\nwithout any request.\n\nPathway 2 — Misdemeanor convictions under SB 288 (§ 35-3-37(j)(4))\nSince January 1, 2021, a person may petition the court to restrict and seal up to two misdemeanor convictions\nin a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years\nbefore filing, has no pending charges, and the offense is not on the excluded list (Section 3). Grant is\ndiscretionary on an interests-of-justice showing.\n\nPathway 3 — Pardoned felonies (§ 35-3-37(j)(7))\nA felony conviction that has been pardoned by the Georgia State Board of Pardons and Paroles may be\nrestricted if the person has not been convicted of a new offense (other than a non-serious traffic offense) since\nthe pardon and has no pending charges. This is one of the few routes to restrict a felony conviction.\n\nPathway 4 — Youthful / first-offender and related routes\nMisdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses)\nhave long been restrictable, and retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases\nconvert a conviction into a first-offender discharge that is then restrictable.\n\nThe separate sealing step (§ 35-3-37(m))\nRestriction hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public\ncourt record. To close that, the person files a motion/petition to seal the clerk's record under § 35-3-37(m).\nRestriction must occur first; sealing is the second step.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase\n\nAGENT GUIDANCE\nRoute by disposition: non-conviction → restriction (automatic post-2013, or by application pre-2013);\nmisdemeanor conviction → SB 288 petition (mind the two-in-a-lifetime cap); felony → generally only via\npardon, then § 35-3-37(j)(7).\nAlways treat sealing of the court file as a distinct second step. Telling a user their record is 'restricted' is\nnot the same as the court file being sealed — explain both.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 116,
+      "endLine": 150,
+      "text": "For SB 288 conviction restriction, the clock runs from completion of the sentence — all jail time served and\nprobation terminated. Non-conviction restriction generally has no waiting period.\n\nPathway / matter Remedy Waiting period Notes\n\nNon-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013\nnolle prosequi, acquittal)\n\nDead docket Restrict Required period Then eligible\non dead docket\n\nPretrial diversion completed Restrict On completion Program successfully completed\n\nMisdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,\n(SB 288) sentence complete no pending charges\n\nPardoned felony Restrict After pardon No new offense since pardon\n\nMisdemeanor before age 21 Restrict Per statute Exceptions for serious offenses\n\nThe SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no\nconvictions for at least four years before filing; and (3) have no pending charges. The four-year window is\nmeasured backward from the filing date and is broken by any intervening conviction, so a new offense resets the\nclock. The two-misdemeanor cap is a lifetime limit, not per-filing — a person who has already restricted two\nmisdemeanor convictions cannot restrict a third.\n\nAGENT GUIDANCE\nFor SB 288, confirm sentence completion (jail done AND probation terminated), four conviction-free\nyears, and no pending charges before indicating eligibility. A later conviction resets the four-year clock.\nTrack the lifetime two-misdemeanor cap; ask whether the user has previously restricted any conviction\nbefore promising a new one is possible.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Disqualifying / excluded offenses",
+      "category": "exclusions",
+      "startLine": 151,
+      "endLine": 189,
+      "text": "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A\nconviction for any of the following generally cannot be restricted, regardless of time elapsed:\n\n• DUI and all other serious traffic offenses under O.C.G.A. §§ 40-6-390 through 40-6-397 (e.g., reckless\ndriving, fleeing).\n• Family violence simple assault, simple battery, and battery under §§ 16-5-20(d), 16-5-23(f), 16-5-23.1(f) —\nunless the person was under 21 at the time of the arrest.\n• Theft offenses under Chapter 8 of Title 16 — except theft by shoplifting and refund fraud, which can be\nrestricted.\n• Sexual offenses, including sexual battery, public indecency, and related crimes.\n• Crimes against children / family, including certain child-related and exploitation offenses.\n• Offenses involving serious injury or endangerment as enumerated in the statute.\n\nOther categorical limits\n• Two-misdemeanor lifetime cap. No more than two misdemeanor convictions may ever be restricted under\nSB 288.\n• Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive\nfirst-offender treatment.\n• Pending charges / new convictions disqualify, and a new conviction can undo eligibility and reset the\nfour-year clock.\n• Plea-bargain dismissals. A charge dismissed as part of a plea to another charge arising from the same\nconduct is not restrictable.\n• Out-of-state / federal records are not reachable by Georgia restriction.\n\nVERIFY BEFORE RELYING\nThe § 35-3-37(j)(4) excluded list is specific and the family-violence and theft carve-outs (under-21\nexception; shoplifting/refund-fraud inclusion) turn on the exact O.C.G.A. section and facts. The\nagent must map the user's actual offense to its Code section and verify against the current\nexcluded list before declaring a misdemeanor eligible — the offense label alone is not enough.\n\nAGENT GUIDANCE\nDUI and theft are the two most common disqualifiers users misjudge: DUI is categorically excluded, and\nmost theft is excluded EXCEPT shoplifting and refund fraud. Check the precise offense.\nFor family-violence misdemeanors, the under-21-at-arrest exception is the only opening — confirm age\nat arrest before ruling it in or out.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 190,
+      "endLine": 227,
+      "text": "Disposition determines the pathway, whether action is needed, and who decides. This table is the agent's\nprimary routing logic for Georgia.\n\nCase outcome Pathway Route / who decides Condition\n\nDismissed / nolle prosequi § 35-3-37(h) Automatic via GCIC entry Qualifying disposition entered\n/ acquitted (≥ 7/1/2013)\n\nNon-conviction § 35-3-37(h) Apply at arresting agency; GBI Request to Restrict form\n(arrest < 7/1/2013) prosecutor approves\n\nAuto-restriction category § 35-3-37(j.1) Automatic, no request Statute-specified records\n\nPretrial diversion done § 35-3-37(h) Restriction on completion Program completed\n\nMisdemeanor conviction § 35-3-37(j)(4) Petition to court; 4 yrs; ≤ 2 lifetime; eligible\nprosecutor 90-day objection\n\nPardoned felony § 35-3-37(j)(7) Petition to court No new offense since pardon\n\nExcluded offense (Sec. 3) — Not restrictable Pardon / first-offender only\n\nOn a SB 288 petition, the prosecuting attorney has 90 days to object; if there is no objection the court may grant\nwithout a hearing, and if the prosecutor objects the court holds an interests-of-justice hearing. For\nnon-conviction applications denied by the prosecutor, the person may appeal to the Superior Court within 30\ndays. The effect of relief: a restricted record does not appear on a GCIC background check seen by employers,\nlandlords, or the general public, and the person may state the record does not exist; but criminal justice agencies\nretain access, and the clerk's court file stays public until separately sealed under § 35-3-37(m).\n\nAGENT GUIDANCE\nTell users plainly: restriction hides the record from background checks but does not erase it, and the\ncourt file remains public until sealed in the separate § 35-3-37(m) step.\nFlag the decision-maker: non-conviction restriction runs through the prosecutor/GCIC; SB 288 conviction\nrestriction runs through the court with a 90-day prosecutor objection window.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 228,
+      "endLine": 256,
+      "text": "Georgia uses a mix of a GBI agency form (for non-conviction restriction) and court petitions (for SB 288\nconviction restriction and for sealing). The agent picks by pathway.\n\nNon-conviction restriction — GBI form\n• Request to Restrict Arrest Record — the GBI/GCIC application (used mainly for pre-July-2013 arrests, or\nto correct a record that was not auto-restricted). Section Three is completed by the prosecutor.\n• For post-July-2013 arrests, no form is needed if the qualifying disposition was entered into GCIC; the person\ncontacts the prosecutor to confirm.\n\nSB 288 misdemeanor-conviction restriction — court petition\n• Petition for Record Restriction and Sealing filed in the Superior (or State) Court of the county of\nconviction, citing § 35-3-37(j)(4), with a proposed order.\n• Attach the GCIC criminal history and proof that the sentence is complete and the four-year window is\nsatisfied.\n• Serve the prosecuting attorney, who has 90 days to object.\n\nSealing the clerk's file — separate motion\n• Motion/Petition to Seal Court Records under § 35-3-37(m), filed after restriction, asking the court to seal\nthe clerk of court's file with a proposed sealing order.\n\nAGENT GUIDANCE\nPick by pathway: GBI Request to Restrict for non-conviction (esp. pre-2013); a § 35-3-37(j)(4) court\npetition for SB 288 misdemeanors; a § 35-3-37(m) motion to seal the court file as the second step.\nAlways attach a current GCIC criminal history to a court petition, and pair each petition with a proposed\norder the judge can sign.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Non-conviction restriction (agency/prosecutor process)",
+      "category": "pathway_detail",
+      "startLine": 260,
+      "endLine": 272,
+      "text": "1 Obtain and review your GCIC criminal history to confirm each charge has a final, qualifying disposition.\n2 If the arrest was before July 1, 2013, get the Request to Restrict Arrest Record form from the arresting\nagency; if on/after July 1, 2013, contact the prosecutor to confirm automatic restriction.\n\n3 Submit the application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve\nor deny).\n\n4 If approved, the prosecutor enters the restriction code in the GCIC CCH interface, or the approved application\nplus the GCIC processing fee is forwarded to GCIC.\n5 GCIC processes complete applications (typically 2–3 weeks) and mails a completion letter. If the prosecutor\ndenies, appeal to the Superior Court within 30 days."
+    },
+    {
+      "title": "SB 288 conviction restriction (court process)",
+      "category": "pathway_detail",
+      "startLine": 273,
+      "endLine": 294,
+      "text": "1 Confirm eligibility: sentence complete, four conviction-free years, no pending charges, not an excluded\noffense, and within the two-misdemeanor lifetime cap.\n\n2 Prepare a Petition for Record Restriction and Sealing citing § 35-3-37(j)(4), attaching the GCIC history and\nproof of completion, plus a proposed order.\n\n3 File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).\n4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,\notherwise it holds an interests-of-justice hearing.\n\n5 If granted, the court orders GCIC and the arresting agency to restrict; then file the separate § 35-3-37(m)\nmotion to seal the clerk's court file.\n\nAGENT GUIDANCE\nIdentify the arrest date early — the July 1, 2013 line decides whether non-conviction restriction is\nautomatic or application-based.\nFor convictions, remember it is a two-step finish: court-ordered restriction, then a separate motion to seal\nthe clerk's file. Don't stop at restriction if the user wants the court record closed too.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 320,
+      "endLine": 347,
+      "text": "Item Amount Note\n\nGCIC restriction processing fee Set by GCIC Per application; payable to GBI by money order/certified check\n\nAutomatic restriction (≥ 7/1/2013) $0 No application, no fee\n\nSB 288 court petition filing fee ~$50–$250 Varies by county; per petition\n\nGCIC criminal history report Fee set by GCIC To review the record before applying\n\nAttorney fees (if represented) Varies Not required; Georgia Justice Project offers free help to eligible people\n\nBoard of Pardons application Varies Only for the pardon route to a felony\n\nThe cost depends entirely on pathway. Automatic non-conviction restriction (post-July-2013) costs nothing. A\npre-2013 non-conviction application carries the GCIC processing fee. An SB 288 conviction petition carries a\ncounty-set court filing fee, generally in the $50–$250 range. The Georgia Justice Project provides free\nrepresentation to eligible people who cannot afford an attorney.\n\nAGENT GUIDANCE\nLead with the free path: if a non-conviction arrest is post-July-2013, restriction should be automatic at no\ncost — the user mainly needs to confirm via their GCIC history.\nQuote SB 288 petition fees as a county-dependent range, and point low-income users to the Georgia\nJustice Project (404-827-... helpline) for free help.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Criminal history (GCIC) request process",
+      "category": "filing",
+      "startLine": 348,
+      "endLine": 351,
+      "text": "Reviewing the criminal history first is essential — it confirms each charge has a final qualifying disposition and\nreveals whether automatic restriction already occurred."
+    },
+    {
+      "title": "This is not an excluded offense: theft by shoplifting is",
+      "category": "exclusions",
+      "startLine": 411,
+      "endLine": 413,
+      "text": "expressly restrictable, and Petitioner has not previously\nrestricted two misdemeanor convictions."
+    },
+    {
+      "title": "Restriction and sealing serve the interests of justice:",
+      "category": "pathway_detail",
+      "startLine": 414,
+      "endLine": 421,
+      "text": "the harm to Petitioner outweighs the public interest in access.\nWHEREFORE Petitioner requests an order directing GCIC and the\narresting agency to RESTRICT this conviction and SEALING of the\nclerk's record under 35-3-37(m). GCIC history attached.\nServed on the District Attorney (90 days to object).\n\nExamples C & D — Other pathways"
+    },
+    {
+      "title": "AUTOMATIC RESTRICTION (≥ 7/1/2013 non-conviction):",
+      "category": "pathway_detail",
+      "startLine": 422,
+      "endLine": 430,
+      "text": "A 2020 charge dismissed/nolle prossed is restricted\nautomatically when the clerk or prosecutor enters the\ndisposition into GCIC. No application needed; confirm via the\nGCIC criminal history. A 35-3-37(m) sealing motion can still\nbe filed to close the clerk's court file.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "PARDONED FELONY (§ 35-3-37(j)(7)):",
+      "category": "pathway_detail",
+      "startLine": 431,
+      "endLine": 446,
+      "text": "A felony conviction pardoned by the State Board of Pardons and\nParoles may be restricted by petition if there is no new\noffense since the pardon and no pending charges — one of the\nfew routes to restrict a Georgia felony conviction.\n\nProposed Order (court pathways)\nEach court petition is accompanied by a proposed Order reciting the caption and directing the Georgia Crime\nInformation Center and the arresting agency to restrict the record under § 35-3-37, and, where sought, ordering\nthe Clerk of Court to seal the case file under § 35-3-37(m).\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Georgia statutes and common practice\nthe current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the\ntwo-step restriction-then-sealing process before relying on any rule here.\n\nGeorgia Record Restriction & Sealing — Agent Training Reference · LegalEase"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 19,
+      "decisionRules": 76,
+      "waitingRules": 10,
+      "exclusions": 30,
+      "sourceFiles": 6,
+      "officialForms": 3
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

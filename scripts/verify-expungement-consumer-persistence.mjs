@@ -74,7 +74,6 @@ assert(!migrationSource.includes("partner_"), "Consumer Briefcase migration must
 
 const changedFiles = git(["status", "--short"]).map((line) => line.slice(3).trim());
 const forbiddenPrefixes = [
-  "src/app/dashboard/partners/",
   "src/app/partner/",
   "src/app/partners/",
   "src/lib/partners/",

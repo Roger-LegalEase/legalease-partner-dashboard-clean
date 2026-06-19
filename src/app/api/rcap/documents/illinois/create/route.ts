@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createIllinoisDocumentPacket } from "@/lib/rcap/documents/illinois/repository";
-import type { IllinoisDocumentPacketInput } from "@/lib/rcap/documents/illinois/types";
+import { createIllinoisDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import type { IllinoisDocumentPacketInput } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
 export async function POST(request: Request) {

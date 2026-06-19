@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
+import { getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 import { renderRcapPacketPdf, rcapPacketPdfFilename, type RcapPacketPdfType } from "@/lib/rcap/documents/packet-pdf";
 
 export const runtime = "nodejs";

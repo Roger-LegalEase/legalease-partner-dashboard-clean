@@ -7,7 +7,8 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const failures = [];
 
 const records = readPromotionManifest();
-const selectorSource = readText("src/lib/rcap/all51-launch-selector.ts");
+const engineSource = readText("src/lib/rcap-engine/evaluator.ts");
+const registrySource = readText("src/lib/rcap-engine/profile-registry.ts");
 const launchGateSource = readText("scripts/rcap-enable-all51-launch.mjs");
 
 if (records.length !== 51) failures.push(`Expected 51 promotion records, found ${records.length}.`);
@@ -21,30 +22,24 @@ for (const record of records) {
 }
 
 for (const marker of [
-  "getAll51SelectableJurisdictions",
-  "evaluateAll51RcapSelector",
-  "paymentAllowedOutcomes",
+  "evaluateScreening",
   "\"packet_ready\"",
   "\"packet_ready_with_caution\"",
   "\"guidance_only\"",
   "\"not_yet\"",
   "\"needs_more_info\"",
-  "\"not_covered_yet\"",
+  "not_covered_yet",
   "\"needs_review\"",
   "\"hard_stop\"",
-  "pathType === \"blocked_form\"",
-  "pathType === \"packet\"",
-  "packetAvailable",
-  "isPaymentAllowedForOutcome(outcome)"
+  "requiredMissingQuestionIds",
+  "isPacketPlanFulfillmentReady"
 ]) {
-  assertIncludes(selectorSource, "src/lib/rcap/all51-launch-selector.ts", marker);
+  assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", marker);
 }
 
-if (selectorSource.includes("state_not_live")) failures.push("Selector must not contain a state_not_live branch.");
-if (!selectorSource.includes("return selectorResult(record.abbreviation, record.jurisdiction, \"guidance_only\"")) {
-  failures.push("Selector must default in-scope non-packet paths to guidance_only.");
-}
-if (!selectorSource.includes("export const paymentAllowedOutcomes: All51SelectorOutcome[] = [\"packet_ready\", \"packet_ready_with_caution\"]")) {
+assertIncludes(registrySource, "src/lib/rcap-engine/profile-registry.ts", "getAllJurisdictionProfiles");
+if (engineSource.includes("state_not_live")) failures.push("Engine must not contain a state_not_live branch.");
+if (!engineSource.includes("paymentAllowed = overrides.paymentAllowed === true && (resultCode === \"packet_ready\" || resultCode === \"packet_ready_with_caution\")")) {
   failures.push("paymentAllowed must be limited to packet_ready and packet_ready_with_caution.");
 }
 
@@ -81,11 +76,11 @@ console.log(`Live-enabled jurisdictions: ${records.filter((record) => record.liv
 console.log(`Promotion status live: ${records.filter((record) => record.promotionStatus === "live").length}`);
 console.log(`Partner RCAP approved: ${records.filter((record) => record.approvedChannels.partnerRcap).length}`);
 console.log(`Expungement.ai approved: ${records.filter((record) => record.approvedChannels.expungementAi).length}`);
-console.log("No state_not_live selector branch for U.S. states/DC: yes");
-console.log("Non-packet in-scope default: guidance_only");
+console.log("No state_not_live engine branch for U.S. states/DC: yes");
+console.log("Non-packet in-scope source routes: guidance_only");
 console.log("paymentAllowed limited to packet_ready / packet_ready_with_caution: yes");
 console.log("Partial state rollout prevented: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
@@ -113,11 +108,6 @@ function assertNoRestrictedChanges() {
     "src/lib/partners/partner-dashboard-rls",
     "src/lib/partners/partner-repository",
     "src/lib/partners/partner-service",
-    "src/lib/rcap/documents/mississippi/",
-    "src/lib/rcap/documents/illinois/",
-    "src/lib/rcap/documents/dc/",
-    "src/lib/rcap/documents/pennsylvania/",
-    "src/lib/rcap/documents/texas-harris/",
     "src/lib/stripe",
     "src/lib/billing",
     "supabase/",

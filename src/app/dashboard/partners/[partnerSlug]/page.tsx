@@ -6,7 +6,7 @@ import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partn
 import { getOnboardingStatusLabel, getPaymentStatusLabel, getProvisioningStatusLabel } from "@/lib/partners/partner-service";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerDocuments, partnerIntake, partnerPublicPage } from "@/lib/partners/routes";
-import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/mississippi/repository";
+import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/source-repository";
 
 export default async function PartnerSpecificDashboardPlaceholder({
   params

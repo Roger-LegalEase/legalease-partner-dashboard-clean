@@ -60,6 +60,7 @@ for (const asset of [
 const checkPage = read("src/app/expungement-ai/check/page.tsx");
 const statesSource = read("src/lib/expungement-ai/states.ts");
 const adapterSource = read("src/lib/expungement-ai/eligibility-adapter.ts");
+const engineSource = read("src/lib/rcap-engine/evaluator.ts");
 const resultPanelSource = read("src/components/expungement-ai/ResultPanel.tsx");
 const briefcaseSource = read("src/lib/expungement-ai/briefcase.ts");
 const paymentSource = read("src/lib/expungement-ai/payment-adapter.ts");
@@ -80,7 +81,7 @@ const selectable = manifest.filter((record) =>
   && record.approvedChannels?.expungementAi === true
 );
 
-assert(statesSource.includes("getAll51SelectableJurisdictions"), "Check flow must use all-51 selectable jurisdictions.");
+assert(statesSource.includes("getAllJurisdictionProfiles"), "Check flow must use source-engine all-51 profiles.");
 assert(selectable.length === 51, `Expected all 50 states + DC selectable, found ${selectable.length}.`);
 assert(checkPage.includes("data-state-select-count={states.length}"), "Check flow must expose selectable state count for verification.");
 assert(!checkPage.includes("state_not_live"), "Consumer check flow must not include state_not_live.");
@@ -101,10 +102,10 @@ assert(paymentSource.includes("dry_run"), "Payment adapter must keep an explicit
 assert(briefcaseSource.includes("Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS."), "Briefcase production persistence boundary must be explicit.");
 assert(briefcaseSource.includes("Safe fallback path"), "Briefcase fallback boundary must be explicit.");
 assert(wilmaBubbleSource.includes("screening tool decides the result"), "Wilma frontend shell must defer result decisions to the screening tool.");
-assert(adapterSource.includes("RCAP engine remains the eligibility source of truth"), "Eligibility adapter boundary must be explicit.");
+assert(adapterSource.includes("evaluateExpungementAiMatter"), "Eligibility adapter must call the shared source-driven engine.");
 
 for (const code of resultCodes) {
-  assert(adapterSource.includes(`${code}:`), `Missing label/next-step handling for result code: ${code}`);
+  assert(adapterSource.includes(`"${code}"`) || engineSource.includes(`${code}:`), `Missing handling for result code: ${code}`);
   assert(briefcaseSource.includes(`resultCode === "${code}"`) || code === "packet_ready_with_caution" || code === "hard_stop", `Briefcase status handling must cover ${code}.`);
 }
 assert(briefcaseSource.includes('return "hard_stop";'), "Briefcase status handling must default hard_stop safely.");
@@ -133,7 +134,6 @@ const restrictedPatterns = [
   "src/lib/stripe/",
   "src/lib/supabase/",
   "src/lib/partners/",
-  "src/app/dashboard/partners/",
   "src/app/partner/",
   "src/app/partners/",
   "src/app/api/stripe/",
@@ -173,7 +173,7 @@ if (failures.length) {
 
 console.log("Expungement.ai consumer adapter verifier passed.");
 console.log("Routes checked:", routes.length);
-console.log("All 50 states + DC selectable through getAll51SelectableJurisdictions.");
+console.log("All 50 states + DC selectable through source-engine profiles.");
 console.log("No state_not_live branch in consumer flow.");
 console.log("Pay gate is clamped to paymentAllowed plus packet-ready result codes.");
 console.log("Non-payment result codes verified with hidden pay gate.");

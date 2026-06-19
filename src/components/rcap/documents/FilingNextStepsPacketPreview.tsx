@@ -1,6 +1,6 @@
 import { ShieldCheck } from "lucide-react";
 import { userFacingWorkflowGaps } from "@/lib/rcap/documents/filing-next-steps";
-import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 
 export function FilingNextStepsPacketPreview({ packet }: { packet: RcapDocumentPacket }) {
   const nextSteps = packet.filingNextStepsPacket;

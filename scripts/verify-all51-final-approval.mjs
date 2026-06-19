@@ -55,7 +55,7 @@ console.log(`Approved for live: ${records.filter((record) => record.approvedForL
 console.log(`Partner RCAP approved: ${records.filter((record) => record.approvedChannels.partnerRcap).length}`);
 console.log(`Expungement.ai approved: ${records.filter((record) => record.approvedChannels.expungementAi).length}`);
 console.log("Public live routing unchanged except all-51 selector contract: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
@@ -83,11 +83,6 @@ function assertNoRestrictedChanges() {
     "src/lib/partners/partner-dashboard-rls",
     "src/lib/partners/partner-repository",
     "src/lib/partners/partner-service",
-    "src/lib/rcap/documents/mississippi/",
-    "src/lib/rcap/documents/illinois/",
-    "src/lib/rcap/documents/dc/",
-    "src/lib/rcap/documents/pennsylvania/",
-    "src/lib/rcap/documents/texas-harris/",
     "src/lib/stripe",
     "src/lib/billing",
     "supabase/",

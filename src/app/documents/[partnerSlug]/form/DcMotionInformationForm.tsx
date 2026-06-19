@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Briefcase, FileText, Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
-import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 
 type Draft = {
   petitionerFirstName: string;

@@ -14,7 +14,7 @@ import {
 import { getAllPartnerRecords } from "@/lib/partners/partner-repository";
 import { internalAdminDetail } from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
-import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/mississippi/repository";
+import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/source-repository";
 
 export default async function InternalPartnerAdminPage() {
   const access = await resolveInternalAdminPageAccess("/internal/partners/admin");

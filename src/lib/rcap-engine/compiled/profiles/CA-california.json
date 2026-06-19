@@ -1,0 +1,3562 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California",
+    "slug": "california"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase California /California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "sha256": "aaa36308e93cda52d803506b3da7da67235e1a692d95f945496127d9ea4f6ab4",
+        "sizeBytes": 35439,
+        "score": 1661,
+        "extractedChars": 29356
+      }
+    ],
+    "sourceCorpusSha256": "0fddd0751f1ac9d006244dd220f5eb99ba7cf2bbc3e0b3d26ec70b4680f789ac",
+    "sourceCorpusChars": 23854,
+    "allFolderFiles": [
+      {
+        "fileName": "CR-180.html",
+        "relativePath": "LegalEase California /CR-180.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "d7f6e46baece092e126b45d75c2ad7cd6570615ad65e65eb9c39193581049c6e",
+        "sizeBytes": 132802
+      },
+      {
+        "fileName": "CR-181.html",
+        "relativePath": "LegalEase California /CR-181.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "35a25e173bed43e6c70cd245390e3dbb1d30edc8b837d914e9ddfadc4212761f",
+        "sizeBytes": 132437
+      },
+      {
+        "fileName": "California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase California /California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "aaa36308e93cda52d803506b3da7da67235e1a692d95f945496127d9ea4f6ab4",
+        "sizeBytes": 35439
+      },
+      {
+        "fileName": "ca-dismissal-sealing-forms.html",
+        "relativePath": "LegalEase California /ca-dismissal-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "bcac0f5884ff22243b424f15dc3fe8c08725c8eeb0ff732f6059c2daad4eed6d",
+        "sizeBytes": 35654
+      },
+      {
+        "fileName": "find-forms.html",
+        "relativePath": "LegalEase California /find-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "68f45d5ae1a6242b796c2b8e20c8ca9283ef72811f0b2713506d887f58ed2b25",
+        "sizeBytes": 250519
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "set-aside",
+      "erasure",
+      "Clean Slate",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+      "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)",
+      "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+      "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)",
+      "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from California, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the California case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these California descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+        "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)",
+        "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+        "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)",
+        "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the California criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What California county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any California category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "Firearm or weapons",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in California was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "tool-1-dismissal-set-aside",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "tool-1-dismissal-set-aside",
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-4-arrest-record-sealing",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": []
+    }
+  ],
+  "pathways": [
+    {
+      "id": "tool-1-dismissal-set-aside",
+      "label": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+      "summary": "The classic California “expungement.” A person may petition to withdraw the plea (or set aside the verdict) and have the case dismissed if they (a) successfully completed probation (or earned early termination) and (b) are not currently charged, on probation, or serving a sentence for another offense. Variants extend the relief: 1203.4a (no-probation misdemeanors/infractions), 1203.41 (felonies sentenced to county jail under realignment), and 1203.42 (certain older felony prison sentences, in…",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "The classic California “expungement.” A person may petition to withdraw the plea (or set aside the verdict) and",
+        "have the case dismissed if they (a) successfully completed probation (or earned early termination) and (b) are",
+        "not currently charged, on probation, or serving a sentence for another offense. Variants extend the relief:",
+        "1203.4a (no-probation misdemeanors/infractions), 1203.41 (felonies sentenced to county jail under",
+        "realignment), and 1203.42 (certain older felony prison sentences, in the interests of justice). Effect: released",
+        "from “penalties and disabilities,” but NOT entitled to deny the conviction for licensing, public office, or"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "county",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ]
+    },
+    {
+      "id": "tool-2-automatic-relief",
+      "label": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)",
+      "summary": "Under AB 1076 (2019) and SB 731 (eff. July 1, 2023), the California DOJ reviews the statewide database monthly and grants “relief” to eligible records without any petition: arrests not leading to conviction, and most eligible convictions after the conviction-free period. Per the DOJ, this is a NOTATION limiting dissemination to most employers, not a dismissal/sealing of the DOJ record itself. SB 731 extended automatic relief to many felonies (including some that involved incarceration),…",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "Under AB 1076 (2019) and SB 731 (eff. July 1, 2023), the California DOJ reviews the statewide database",
+        "monthly and grants “relief” to eligible records without any petition: arrests not leading to conviction, and most",
+        "eligible convictions after the conviction-free period. Per the DOJ, this is a NOTATION limiting dissemination",
+        "to most employers, not a dismissal/sealing of the DOJ record itself. SB 731 extended automatic relief to many",
+        "felonies (including some that involved incarceration), excluding serious, violent, and sex-registration felonies."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ]
+    },
+    {
+      "id": "tool-3-petition-based-felony-sealing",
+      "label": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+      "summary": "For most felony convictions NOT requiring sex-offender registration, a person may petition to seal the conviction after a conviction-free period of four years following completion of sentence, where the court finds it in the interests of justice. This reaches felonies the automatic system does not clear and lets a person seek relief on their own timeline.",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "For most felony convictions NOT requiring sex-offender registration, a person may petition to seal the",
+        "conviction after a conviction-free period of four years following completion of sentence, where the court finds it",
+        "in the interests of justice. This reaches felonies the automatic system does not clear and lets a person seek relief"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "court"
+      ],
+      "caseOutcomes": [
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "conviction after a conviction-free period of four years following completion of sentence, where the court finds it"
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ]
+    },
+    {
+      "id": "tool-4-arrest-record-sealing",
+      "label": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)",
+      "summary": "A person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right unless a pattern of domestic violence/abuse or other exception applies; PC 851.87 shifts the burden to the prosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of factual innocence.",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "A person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right",
+        "unless a pattern of domestic violence/abuse or other exception applies; PC 851.87 shifts the burden to the",
+        "prosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": null,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ]
+    },
+    {
+      "id": "tool-5-proposition-64-marijuana-relief",
+      "label": "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)",
+      "summary": "Prop 64 (2016) lets people petition to dismiss/seal marijuana convictions that were decriminalized, or to redesignate felonies as misdemeanors/infractions. Much of this is now processed automatically by the DOJ and courts, but a petition remains available where automatic relief has not reached a record.",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "Prop 64 (2016) lets people petition to dismiss/seal marijuana convictions that were decriminalized, or to",
+        "redesignate felonies as misdemeanors/infractions. Much of this is now processed automatically by the DOJ and",
+        "courts, but a petition remains available where automatic relief has not reached a record.",
+        "Route by outcome. Arrest only → 851.91 sealing (or 851.8 factual innocence). Completed probation →",
+        "1203.4 dismissal (or the right variant). Felony past the 4-year mark → automatic relief or an SB 731",
+        "sealing petition. Marijuana → Prop 64. Then confirm automatic relief hasn't already handled it."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "court"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-68-certain-offenses-are-statutorily-ineligible-for-1203-4-",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Certain offenses are statutorily ineligible for 1203.4 relief even after probation (e.g., specified Vehicle Code and child-related sex offenses)."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-69-a-person-currently-charged-with-on-probation-for-or-ser",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A person currently charged with, on probation for, or serving a sentence for another offense is not eligible until that resolves."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-47-tool-matter-remedy-waiting-period-notes",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tool / matter Remedy Waiting period Notes"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-64-for-arrest-only-matters-there-is-usually-no-waiting-per",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "For arrest-only matters there is usually no waiting period — 851.91 sealing is available as a matter of"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-06-tool-2-automatic-relief-pc-851-93-arrests-1203-425-conv",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-10-to-most-employers-not-a-dismissal-sealing-of-the-doj-re",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "to most employers, not a dismissal/sealing of the DOJ record itself. SB 731 extended automatic relief to many"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-14-in-the-interests-of-justice-this-reaches-felonies-the-a",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "in the interests of justice. This reaches felonies the automatic system does not clear and lets a person seek relief"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-20-redesignate-felonies-as-misdemeanors-infractions-much-o",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "redesignate felonies as misdemeanors/infractions. Much of this is now processed automatically by the DOJ and"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-21-courts-but-a-petition-remains-available-where-automatic",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "courts, but a petition remains available where automatic relief has not reached a record."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-4-arrest-record-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-23-1203-4-dismissal-or-the-right-variant-felony-past-the-4",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "1203.4 dismissal (or the right variant). Felony past the 4-year mark → automatic relief or an SB 731"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-24-sealing-petition-marijuana-prop-64-then-confirm-automat",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "sealing petition. Marijuana → Prop 64. Then confirm automatic relief hasn't already handled it."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-26-office-firearms-automatic-relief-is-a-doj-non-dissemina",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "office/firearms), automatic relief is a DOJ non-dissemination notation, and only 851.8 factual innocence"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-33-eligible-misdemeanor-1203-425-relief-automatic-1-yr-aft",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Eligible misdemeanor 1203.425 Relief — automatic 1 yr after case ends"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-35-marijuana-conviction-prop-64-redesignate-dismiss-seal",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Marijuana conviction Prop 64 / Redesignate / dismiss / seal Mostly automatic"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-39-and-lottery-contracts-and-firearms-rights-are-not-resto",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "and Lottery contracts, and firearms rights are not restored. Automatic relief is a DOJ notation that stops"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-41-always-tell-the-user-what-the-chosen-tool-actually-does",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Always tell the user what the chosen tool actually does. Dismissal ≠ erasure; automatic relief ≠ dismissal;"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-43-if-a-record-is-automatic-relief-eligible-but-still-show",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "If a record is automatic-relief-eligible but still showing on a background check, the user can contact the"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-45-dismissal-under-1203-4-keys-to-probation-completion-rat",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissal under 1203.4 keys to probation completion rather than a fixed clock; automatic and petition-based"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-52-automatic-misdemeanor-relief-1-year-after-sb-731",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Automatic — misdemeanor Relief 1 year after SB 731"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-54-automatic-felony-relief-4-years-after-not-serious-viole",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "4 years"
+        },
+        "sourceConditionText": "Automatic — felony Relief 4 years after Not serious/violent/sex-reg."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-55-automatic-felony-arrest-seal-3-years-not-serious-violen",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Automatic — felony arrest, Seal 3 years Not serious/violent/sex-reg."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-59-the-four-year-felony-mark-is-the-key-number-under-sb-73",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "The four-year felony mark is the key number under SB 731 — it governs both automatic conviction relief and"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-62-automatic-relief-comes-faster-one-year-after-the-case-e",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "automatic relief comes faster (one year after the case ends), and arrest-only sealing under 851.91 generally has"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-65-the-automatic-and-petition-sealing-tools",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "the automatic and petition sealing tools."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-66-excluded-from-sealing-automatic-relief",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Excluded from sealing / automatic relief"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-75-are-long-statute-specific-and-periodically-amended-and-",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "are long, statute-specific, and periodically amended, and SB 731's automatic-relief eligibility has"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-01-tool-1-dismissal-set-aside-pc-1203-4-and-variants",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-02-the-classic-california-expungement-a-person-may-petitio",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The classic California “expungement.” A person may petition to withdraw the plea (or set aside the verdict) and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-4-arrest-record-sealing",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-03-have-the-case-dismissed-if-they-a-successfully-complete",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "have the case dismissed if they (a) successfully completed probation (or earned early termination) and (b) are"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-04-not-currently-charged-on-probation-or-serving-a-sentenc",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "not currently charged, on probation, or serving a sentence for another offense. Variants extend the relief:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-05-from-penalties-and-disabilities-but-not-entitled-to-den",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "from “penalties and disabilities,” but NOT entitled to deny the conviction for licensing, public office, or"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-07-under-ab-1076-2019-and-sb-731-eff-july-1-2023-the-cal",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Under AB 1076 (2019) and SB 731 (eff. July 1, 2023), the California DOJ reviews the statewide database"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-08-monthly-and-grants-relief-to-eligible-records-without-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "monthly and grants “relief” to eligible records without any petition: arrests not leading to conviction, and most"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-09-eligible-convictions-after-the-conviction-free-period-p",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "eligible convictions after the conviction-free period. Per the DOJ, this is a NOTATION limiting dissemination"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-11-tool-3-petition-based-felony-sealing-sb-731-pc-1203-49",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-12-for-most-felony-convictions-not-requiring-sex-offender-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "For most felony convictions NOT requiring sex-offender registration, a person may petition to seal the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-13-conviction-after-a-conviction-free-period-of-four-years",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "four years"
+        },
+        "sourceConditionText": "conviction after a conviction-free period of four years following completion of sentence, where the court finds it"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-16-a-person-arrested-but-not-convicted-may-seal-the-arrest",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-17-prosecutor-in-contested-cases-a-stronger-remedy-pc-851-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "prosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-18-tool-5-proposition-64-marijuana-relief-h-s-11361-8-1136",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-19-prop-64-2016-lets-people-petition-to-dismiss-seal-marij",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Prop 64 (2016) lets people petition to dismiss/seal marijuana convictions that were decriminalized, or to"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-22-route-by-outcome-arrest-only-851-91-sealing-or-851-8-fa",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "sourceConditionText": "Route by outcome. Arrest only → 851.91 sealing (or 851.8 factual innocence). Completed probation →"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-25-be-precise-about-effect-1203-4-is-a-set-aside-dismissal",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Be precise about effect: 1203.4 is a set-aside/dismissal (still disclosable for licensing/public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-27-outcome-determines-the-tool-and-whether-anything-must-b",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Outcome determines the tool and whether anything must be filed. This table is the agent's primary routing logic"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-28-arrest-no-conviction-851-91-seal-petition-some-auto-mat",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Arrest, no conviction 851.91 Seal — petition (some auto) Matter of right; or auto 3 yr (felony arrest)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-29-factual-innocence-851-8-seal-amp-destroy-petition-court",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Factual innocence 851.8 Seal &amp; destroy — petition Court finding"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-30-completed-probation-1203-4-dismiss-petition-on-completi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Completed probation 1203.4 Dismiss — petition On completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-31-misd-infraction-1203-4a-dismiss-petition-1-year",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Misd./infraction, 1203.4a Dismiss — petition ≈ 1 year"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-32-felony-county-jail-1203-41-dismiss-petition-per-statute",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "county",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Felony, county jail 1203.41 Dismiss — petition Per statute"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-34-eligible-felony-1203-425-sb-731-auto-or-petition-seal-4",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Eligible felony 1203.425 / SB 731 Auto or petition seal 4 yr conviction-free"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-36-serious-violent-not-sealable-pardon-route-categorical-b",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Serious/violent/ — Not sealable (pardon route) Categorical bar"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-37-effect-of-relief-varies-sharply-a-1203-4-dismissal-rele",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Effect of relief varies sharply. A 1203.4 dismissal releases the person from most penalties and disabilities and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-38-since-2019-limits-public-access-but-the-person-must-sti",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "(since 2019) limits public access, but the person must still disclose the conviction for licensing, public office,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-40-for-mandated-background-checks-pc-851-8-factual-innocen",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "for mandated background checks. PC 851.8 factual innocence is the only routine path to actual destruction."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-42-only-factual-innocence-destroys-misstating-this-is-the-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "only factual innocence destroys. Misstating this is the most common California error."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-4-arrest-record-sealing",
+        "tool-2-automatic-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-44-california-doj-to-correct-it-rather-than-filing-a-petit",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "California DOJ to correct it rather than filing a petition."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:195-237",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-46-sealing-use-conviction-free-periods-after-the-case-ends",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "sealing use conviction-free periods after the case ends. SB 1106 (2022) removed outstanding court debt as a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-48-1203-4-dismissal-set-aside-on-completion-of-or-early-te",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "1203.4 dismissal Set-aside / On completion of Or early termination granted"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-49-completed-probation-dismiss-probation",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(completed probation) dismiss probation"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-50-1203-4a-no-probation-dismiss-1-year-from-generally",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "1203.4a (no probation, Dismiss 1 year from Generally"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-51-1203-42-older-felony-dismiss-2-years-after-interests-of",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "sourceConditionText": "1203.42 (older felony Dismiss 2 years after Interests of justice"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-53-conviction-notation-case-ends",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction (notation) case ends"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-56-petition-felony-sealing-seal-4-years-after-completion-o",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "4 years"
+        },
+        "sourceConditionText": "Petition felony sealing Seal 4 years After completion of sentence"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-57-sb-731-1203-49-conviction-free",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "(SB 731 / 1203.49) conviction-free"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-58-arrest-no-conviction-seal-none-as-a-unless-an-exception",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Arrest, no conviction Seal None (as a Unless an exception applies"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-60-the-petition-route-measured-conviction-free-from-comple",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "the petition route, measured conviction-free from completion of the full sentence (incarceration, probation,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-61-parole-mandatory-supervision-fines-and-classes-a-new-co",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "parole, mandatory supervision, fines, and classes). A new conviction during the period resets it. Misdemeanor"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "rule-63-compute-the-felony-clock-conviction-free-from-completio",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Compute the felony clock conviction-free from completion of the FULL sentence, not the conviction date."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-157",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "rule-67-limits-on-1203-4-dismissal-specifically",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Limits on 1203.4 dismissal specifically"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-70-1203-4-does-not-restore-firearm-rights-a-governor-s-par",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "1203.4 does NOT restore firearm rights (a governor's pardon is required) and does NOT erase the conviction for licensing, public-office, or Lottery-contract questions."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "rule-71-open-pending-cases-disqualify-across-the-board-while-pe",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "pending_cases"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Open / pending cases disqualify across the board while pending."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-72-dmv-and-licensing-consequences-survive-a-1203-4-dismiss",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "DMV and licensing consequences survive a 1203.4 dismissal — it is not a cure-all."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-73-federal-and-out-of-state-convictions-are-not-reachable-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Federal and out-of-state convictions are not reachable by California relief."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief",
+        "tool-1-dismissal-set-aside",
+        "tool-5-proposition-64-marijuana-relief",
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "rule-74-sealed-relieved-convictions-still-count-as-priors-and-s",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Sealed/relieved convictions still count as priors and strikes for future sentencing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-76-phased-in-over-time-the-agent-must-map-each-conviction-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "phased in over time. The agent must map each conviction to its Penal Code section and check it"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-77-against-the-current-1192-7-c-667-5-c-290-lists-before",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "against the current 1192.7(c) / 667.5(c) / 290 lists before declaring eligibility — the offense label"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-78-filter-for-all-the-sealing-tools-run-every-felony-again",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "filter for all the sealing tools. Run every felony against it first."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194"
+    },
+    {
+      "id": "rule-79-not-erase-the-conviction-for-licensing-public-office-an",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "not erase the conviction for licensing/public office, and does not undo DMV consequences."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:158-194",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing",
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "route-tool-1-dismissal-set-aside",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "tool-1-dismissal-set-aside",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "county",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "county",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-1-dismissal-set-aside"
+      ]
+    },
+    {
+      "id": "route-tool-2-automatic-relief",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "tool-2-automatic-relief",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-2-automatic-relief"
+      ]
+    },
+    {
+      "id": "route-tool-3-petition-based-felony-sealing",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "tool-3-petition-based-felony-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-3-petition-based-felony-sealing"
+      ]
+    },
+    {
+      "id": "route-tool-4-arrest-record-sealing",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "tool-4-arrest-record-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-4-arrest-record-sealing"
+      ]
+    },
+    {
+      "id": "route-tool-5-proposition-64-marijuana-relief",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "tool-5-proposition-64-marijuana-relief",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "court"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "court"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "tool-5-proposition-64-marijuana-relief"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "conviction after a conviction-free period of four years following completion of sentence, where the court finds it",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "four years"
+      },
+      "anchor": "a conviction-free period of four years following completion of sentence, where the court finds it",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Tool / matter Remedy Waiting period Notes",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "1203.4a (no probation, Dismiss 1 year from Generally",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "Generally",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "1203.42 (older felony Dismiss 2 years after Interests of justice",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "Interests of justice",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Automatic — misdemeanor Relief 1 year after SB 731",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "SB 731",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Automatic — felony Relief 4 years after Not serious/violent/sex-reg.",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": "Not serious/violent/sex-reg",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Automatic — felony arrest, Seal 3 years Not serious/violent/sex-reg.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Petition felony sealing Seal 4 years After completion of sentence",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": "completion of sentence",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "automatic relief comes faster (one year after the case ends), and arrest-only sealing under 851.91 generally has",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the case ends), and arrest-only sealing under 851",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "For arrest-only matters there is usually no waiting period — 851.91 sealing is available as a matter of",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Tool / matter Remedy Waiting period Notes 1203.4 dismissal Set-aside / On completion of Or early termination granted (completed probation) dismiss probation 1203.4a (no probation, Dismiss 1 year from Generally misd./infraction) conviction 1203.42 (older felony Dismiss 2 years after Interests of justice prison sentence) completion Automatic — misdemeanor Relief 1 year after SB 731 conviction (notation) case ends Automatic — felony Relief 4 years after Not serious/violent/sex-reg. conviction (notation) case ends Automatic — felony arrest, Seal 3 years Not serious/violent/sex-reg. no charge Petition felony sealing Seal 4 years After completion of sentence (SB 731 / 1203.49) conviction-free Arrest, no conviction Seal None (as a Unless an exception applies (851.91) matter of right) The four-year felony mark is the key number under SB 731 — it governs both automatic conviction relief and the petition route, measured conviction-free from completion of the full sentence (incarceration, probation, parole, mandatory supervision, fines, and classes).",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "Generally misd",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Misdemeanor automatic relief comes faster (one year after the case ends), and arrest-only sealing under 851.91 generally has no wait.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the case ends), and arrest-only sealing under 851",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "For arrest-only matters there is usually no waiting period — 851.91 sealing is available as a matter of right unless an exception applies.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "California keys exclusions to offense seriousness and registration status. The same core exclusions run across",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "the automatic and petition sealing tools.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Excluded from sealing / automatic relief",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Serious felonies as listed in Penal Code § 1192.7(c).",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Violent felonies as listed in Penal Code § 667.5(c).",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Felonies requiring sex-offender registration under PC § 290 (and the underlying sex offenses).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Felonies punishable by life or death, and other top-tier offenses by statute.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Limits on 1203.4 dismissal specifically",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Certain offenses are statutorily ineligible for 1203.4 relief even after probation (e.g., specified Vehicle Code and child-related sex offenses).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "A person currently charged with, on probation for, or serving a sentence for another offense is not eligible until that resolves.",
+      "fieldsReferenced": [
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "1203.4 does NOT restore firearm rights (a governor's pardon is required) and does NOT erase the conviction for licensing, public-office, or Lottery-contract questions.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Open / pending cases disqualify across the board while pending.",
+      "fieldsReferenced": [
+        "pending_cases"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "DMV and licensing consequences survive a 1203.4 dismissal — it is not a cure-all.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Federal and out-of-state convictions are not reachable by California relief.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Sealed/relieved convictions still count as priors and strikes for future sentencing.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "The serious-felony (1192.7(c)) and violent-felony (667.5(c)) lists and the PC 290 registration set",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "are long, statute-specific, and periodically amended, and SB 731's automatic-relief eligibility has",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "phased in over time. The agent must map each conviction to its Penal Code section and check it",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "against the current 1192.7(c) / 667.5(c) / 290 lists before declaring eligibility — the offense label",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "The three-part exclusion — serious (1192.7(c)), violent (667.5(c)), sex-registration (290) — is the master",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "filter for all the sealing tools. Run every felony against it first.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "Correct the common misconception that 1203.4 “clears” everything: it does not restore gun rights, does",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "not erase the conviction for licensing/public office, and does not undo DMV consequences.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "Excluded from sealing / automatic relief • Serious felonies as listed in Penal Code § 1192.7(c). • Violent felonies as listed in Penal Code § 667.5(c). • Felonies requiring sex-offender registration under PC § 290 (and the underlying sex offenses). • Felonies punishable by life or death, and other top-tier offenses by statute.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "Limits on 1203.4 dismissal specifically • Certain offenses are statutorily ineligible for 1203.4 relief even after probation (e.g., specified Vehicle Code and child-related sex offenses). • A person currently charged with, on probation for, or serving a sentence for another offense is not eligible until that resolves. • 1203.4 does NOT restore firearm rights (a governor's pardon is required) and does NOT erase the conviction for licensing, public-office, or Lottery-contract questions.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "pending_cases",
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "tool-1-dismissal-set-aside",
+        "pathwayLabel": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "ca-dismissal-sealing-forms.html",
+            "relativePath": "LegalEase California /ca-dismissal-sealing-forms.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "bcac0f5884ff22243b424f15dc3fe8c08725c8eeb0ff732f6059c2daad4eed6d",
+            "sizeBytes": 35654
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "tool-2-automatic-relief",
+        "pathwayLabel": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "tool-3-petition-based-felony-sealing",
+        "pathwayLabel": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "tool-4-arrest-record-sealing",
+        "pathwayLabel": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "tool-5-proposition-64-marijuana-relief",
+        "pathwayLabel": "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "criminal_history",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "California uses Judicial Council statewide forms for the petition-based tools; automatic relief requires no form.",
+      "The forms are available at courts.ca.gov.",
+      "CR-180 — Petition for Dismissal (and Notice of Hearing). Identifies the case, the statute (1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of justice (attach MC-025 or MC-031 if more room is needed). Rev. Jan 1, 2024.",
+      "CR-181 — Order for Dismissal, the proposed order the judge signs. Rev. Jan 1, 2024.",
+      "The prosecuting attorney must be given 15 days' notice before relief is granted under 1203.4.",
+      "CR-409 — Petition to Seal Arrest and Related Records, with CR-410 Order, for arrests not resulting in conviction.",
+      "Factual-innocence sealing under 851.8 uses its own petition and a higher evidentiary showing.",
+      "No form for automatic relief (851.93 / 1203.425) — the DOJ processes it; the person verifies via their DOJ record.",
+      "Prop 64 relief is largely automatic; a petition under H&S 11361.8 remains available where a record was missed.",
+      "For dismissals, CR-180 (petition) and CR-181 (order) travel together — file both, and use the correct",
+      "= 1203.41). Build in the 15-day DA notice.",
+      "if a record was missed, contact the DOJ or file the residual petition.",
+      "Dismissal / set-aside (1203.4 and variants) • CR-180 — Petition for Dismissal (and Notice of Hearing).",
+      "Jan 1, 2024. • CR-181 — Order for Dismissal, the proposed order the judge signs.",
+      "Jan 1, 2024. • The prosecuting attorney must be given 15 days' notice before relief is granted under 1203.4.",
+      "Arrest-record sealing (851.91) • CR-409 — Petition to Seal Arrest and Related Records, with CR-410 Order, for arrests not resulting in conviction. • Factual-innocence sealing under 851.8 uses its own petition and a higher evidentiary showing.",
+      "Automatic relief and Prop 64 • No form for automatic relief (851.93 / 1203.425) — the DOJ processes it; the person verifies via their DOJ record. • Prop 64 relief is largely automatic; a petition under H&S 11361.8 remains available where a record was missed.",
+      "AGENT GUIDANCE For dismissals, CR-180 (petition) and CR-181 (order) travel together — file both, and use the correct statute box for the disposition (probation completed = 1203.4; no probation = 1203.4a; realignment felony = 1203.41).",
+      "Build in the 15-day DA notice.",
+      "Where relief is automatic, there is nothing to file — direct the user to verify via a DOJ record review and, if a record was missed, contact the DOJ or file the residual petition."
+    ],
+    "attachments": [
+      "CR-180 — Petition for Dismissal (and Notice of Hearing). Identifies the case, the statute (1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of justice (attach MC-025 or MC-031 if more room is needed). Rev. Jan 1, 2024.",
+      "statute box for the disposition (probation completed = 1203.4; no probation = 1203.4a; realignment felony",
+      "Identifies the case, the statute (1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of justice (attach MC-025 or MC-031 if more room is needed).",
+      "AGENT GUIDANCE For dismissals, CR-180 (petition) and CR-181 (order) travel together — file both, and use the correct statute box for the disposition (probation completed = 1203.4; no probation = 1203.4a; realignment felony = 1203.41).",
+      "1 Get your record. Obtain your California DOJ criminal history (and/or the court docket) to confirm the",
+      "disposition, the statute, and whether automatic relief has already been applied.",
+      "sealing; attach any interests-of-justice explanation.",
+      "Obtain your California DOJ criminal history (and/or the court docket) to confirm the disposition, the statute, and whether automatic relief has already been applied.",
+      "CR-180 + CR-181 for a dismissal (correct statute box), or CR-409 + CR-410 for arrest sealing; attach any interests-of-justice explanation."
+    ],
+    "filingDestinationRules": [
+      "The petition sequence (dismissal or sealing) in the Superior Court of the county of conviction:",
+      "4 File in the Superior Court of the county of conviction and pay the filing fee (or request a fee waiver, form",
+      "7 Order. If granted, the court signs CR-181 (or the sealing order); the clerk and DOJ update the record. For",
+      "Venue is the county of conviction's Superior Court — not the county of residence. A person with cases in",
+      "multiple counties files separately in each.",
+      "If granted, the court signs CR-181 (or the sealing order); the clerk and DOJ update the record.",
+      "AGENT GUIDANCE Venue is the county of conviction's Superior Court — not the county of residence.",
+      "A person with cases in multiple counties files separately in each.",
+      "County self-help variation. Local Superior Courts publish their own 1203.4 packets and fee schedules; some offer record-clearance clinics.",
+      "Local Superior Courts publish their own 1203.4 packets and fee schedules; some offer record-clearance clinics. • DOJ correction line."
+    ],
+    "serviceAndNoticeRules": [
+      "5 Serve the prosecuting attorney (District Attorney or city attorney). For 1203.4, the prosecutor must receive",
+      "at least 15 days' notice before relief is granted.",
+      "Lead with the 15-day DA notice on 1203.4 petitions and use the correct statute box; the wrong box (e.g.,",
+      "5 Serve the prosecuting attorney (District Attorney or city attorney).",
+      "For 1203.4, the prosecutor must receive at least 15 days' notice before relief is granted.",
+      "Lead with the 15-day DA notice on 1203.4 petitions and use the correct statute box; the wrong box (e.g., 1203.4 for a no-probation case that needs 1203.4a) is a common rejection reason.",
+      "CR-180 — Petition for Dismissal (and Notice of Hearing). Identifies the case, the statute (1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of justice (attach MC-025 or MC-031 if more room is needed). Rev. Jan 1, 2024.",
+      "The prosecuting attorney must be given 15 days' notice before relief is granted under 1203.4.",
+      "= 1203.41). Build in the 15-day DA notice.",
+      "Dismissal / set-aside (1203.4 and variants) • CR-180 — Petition for Dismissal (and Notice of Hearing).",
+      "Identifies the case, the statute (1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of justice (attach MC-025 or MC-031 if more room is needed).",
+      "Jan 1, 2024. • The prosecuting attorney must be given 15 days' notice before relief is granted under 1203.4.",
+      "Build in the 15-day DA notice.",
+      "15-day DA notice is mandatory before 1203.4 relief.",
+      "Match the statute box to the disposition and build in the 15-day DA notice; those two steps prevent most",
+      "1203.4 (probation completed), 1203.4a (no probation), 1203.41 (realignment felony), 1203.42 (older prison felony) are distinct; using the wrong one gets the petition denied. • 15-day DA notice is mandatory before 1203.4 relief. • Firearms not restored."
+    ],
+    "feeRules": [
+      "1203.4 dismissal petition ~$60–$150 per case County-set; some counties charge no fee for 1203.4",
+      "Arrest sealing (851.91) Filing fee varies County Superior Court",
+      "Automatic relief (851.93 / 1203.425) $0 DOJ processes; no filing",
+      "Prop 64 marijuana relief $0 Largely automatic",
+      "California DOJ record review ~$25 + Live Scan fee To confirm record / relief status",
+      "Fee waiver (FW-001) $0 For those unable to afford court costs",
+      "Attorney fees (if represented) Varies Not required; self-help and clinics available",
+      "Automatic relief and Prop 64 cost nothing. The petition-based dismissal fee is county-set and modest (often",
+      "$60–$150, with some counties waiving it for 1203.4), and a fee waiver (FW-001) is available for those who",
+      "cannot pay. The near-certain out-of-pocket cost is the DOJ record review (about $25 plus the Live Scan",
+      "fingerprint-rolling fee) used to confirm the record and what relief has already applied.",
+      "Lead with the free routes (automatic relief, Prop 64) and the modest, sometimes-waived 1203.4 fee;",
+      "surface FW-001 for cost-constrained users.",
+      "Budget the DOJ record-review cost (≈$25 + Live Scan) as the realistic baseline expense even when filing",
+      "Item Amount Note 1203.4 dismissal petition ~$60–$150 per case County-set; some counties charge no fee for 1203.4 Arrest sealing (851.91) Filing fee varies County Superior Court Automatic relief (851.93 / 1203.425) $0 DOJ processes; no filing Prop 64 marijuana relief $0 Largely automatic California DOJ record review ~$25 + Live Scan fee To confirm record / relief status Fee waiver (FW-001) $0 For those unable to afford court costs Attorney fees (if represented) Varies Not required; self-help and clinics available Automatic relief and Prop 64 cost nothing.",
+      "The petition-based dismissal fee is county-set and modest (often $60–$150, with some counties waiving it for 1203.4), and a fee waiver (FW-001) is available for those who cannot pay.",
+      "The near-certain out-of-pocket cost is the DOJ record review (about $25 plus the Live Scan fingerprint-rolling fee) used to confirm the record and what relief has already applied.",
+      "AGENT GUIDANCE Lead with the free routes (automatic relief, Prop 64) and the modest, sometimes-waived 1203.4 fee; surface FW-001 for cost-constrained users."
+    ],
+    "hearingAndObjectionRules": [
+      "6 Hearing / decision. Many dismissals are granted without a contested hearing if eligibility is clear; the court",
+      "may set a hearing if the DA objects or the statute requires an interests-of-justice finding.",
+      "6 Hearing / decision.",
+      "Many dismissals are granted without a contested hearing if eligibility is clear; the court may set a hearing if the DA objects or the statute requires an interests-of-justice finding."
+    ],
+    "postFilingRules": [
+      "The petition sequence (dismissal or sealing) in the Superior Court of the county of conviction:",
+      "2 Confirm the tool and eligibility. Dismissal vs. sealing, probation/sentence completion, the conviction-free",
+      "sealing; attach any interests-of-justice explanation.",
+      "7 Order. If granted, the court signs CR-181 (or the sealing order); the clerk and DOJ update the record. For",
+      "dismissals, the record is set aside and dismissed; for 851.91, the arrest is sealed.",
+      "Dismissal vs. sealing, probation/sentence completion, the conviction-free period, and the serious/violent/sex-registration exclusions.",
+      "CR-180 + CR-181 for a dismissal (correct statute box), or CR-409 + CR-410 for arrest sealing; attach any interests-of-justice explanation.",
+      "7 Order.",
+      "If granted, the court signs CR-181 (or the sealing order); the clerk and DOJ update the record.",
+      "For dismissals, the record is set aside and dismissed; for 851.91, the arrest is sealed."
+    ],
+    "formInventory": [
+      {
+        "fileName": "ca-dismissal-sealing-forms.html",
+        "relativePath": "LegalEase California /ca-dismissal-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "bcac0f5884ff22243b424f15dc3fe8c08725c8eeb0ff732f6059c2daad4eed6d",
+        "sizeBytes": 35654
+      },
+      {
+        "fileName": "find-forms.html",
+        "relativePath": "LegalEase California /find-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "68f45d5ae1a6242b796c2b8e20c8ca9283ef72811f0b2713506d887f58ed2b25",
+        "sizeBytes": 250519
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "CR-180.html",
+        "relativePath": "LegalEase California /CR-180.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "d7f6e46baece092e126b45d75c2ad7cd6570615ad65e65eb9c39193581049c6e",
+        "sizeBytes": 132802
+      },
+      {
+        "fileName": "CR-181.html",
+        "relativePath": "LegalEase California /CR-181.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "35a25e173bed43e6c70cd245390e3dbb1d30edc8b837d914e9ddfadc4212761f",
+        "sizeBytes": 132437
+      },
+      {
+        "fileName": "California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase California /California-Expungement-RecordRelief-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "aaa36308e93cda52d803506b3da7da67235e1a692d95f945496127d9ea4f6ab4",
+        "sizeBytes": 35439
+      },
+      {
+        "fileName": "ca-dismissal-sealing-forms.html",
+        "relativePath": "LegalEase California /ca-dismissal-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "bcac0f5884ff22243b424f15dc3fe8c08725c8eeb0ff732f6059c2daad4eed6d",
+        "sizeBytes": 35654
+      },
+      {
+        "fileName": "find-forms.html",
+        "relativePath": "LegalEase California /find-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "68f45d5ae1a6242b796c2b8e20c8ca9283ef72811f0b2713506d887f58ed2b25",
+        "sizeBytes": 250519
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use California-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 49,
+      "endLine": 70,
+      "text": "Statutory shorthand used throughout\n\nPC 1203.4 DISMISSAL / set-aside after successful probation (the classic “expungement”)\n\nPC 1203.4a Dismissal for misdemeanors/infractions where no probation was granted\n\nPC 1203.41 Dismissal for certain felonies sentenced to county jail (realignment)\n\nPC 1203.42 Dismissal for certain pre-realignment felony prison sentences (interests of justice)\n\nPC 1203.49 Sealing for human-trafficking victims; also the SB 731 felony-sealing framework\n\nPC 851.91 / 851.87 SEALING of arrest records that did not lead to conviction\n\nPC 851.8 Sealing &amp; destruction on a finding of FACTUAL INNOCENCE\n\nPC 851.93 / 1203.425 AUTOMATIC relief (arrests / convictions) — AB 1076 + SB 731 (DOJ notation)\n\nProp 64 / H&amp;S 11361.8 Marijuana redesignation, dismissal, and sealing"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 71,
+      "endLine": 114,
+      "text": "Five tools, considered in routing order.\n\nTool 1 — Dismissal / set-aside (PC 1203.4 and variants)\nThe classic California “expungement.” A person may petition to withdraw the plea (or set aside the verdict) and\nhave the case dismissed if they (a) successfully completed probation (or earned early termination) and (b) are\nnot currently charged, on probation, or serving a sentence for another offense. Variants extend the relief:\n1203.4a (no-probation misdemeanors/infractions), 1203.41 (felonies sentenced to county jail under\nrealignment), and 1203.42 (certain older felony prison sentences, in the interests of justice). Effect: released\nfrom “penalties and disabilities,” but NOT entitled to deny the conviction for licensing, public office, or\nfirearms.\n\nTool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)\nUnder AB 1076 (2019) and SB 731 (eff. July 1, 2023), the California DOJ reviews the statewide database\nmonthly and grants “relief” to eligible records without any petition: arrests not leading to conviction, and most\neligible convictions after the conviction-free period. Per the DOJ, this is a NOTATION limiting dissemination\nto most employers, not a dismissal/sealing of the DOJ record itself. SB 731 extended automatic relief to many\nfelonies (including some that involved incarceration), excluding serious, violent, and sex-registration felonies.\n\nTool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)\nFor most felony convictions NOT requiring sex-offender registration, a person may petition to seal the\nconviction after a conviction-free period of four years following completion of sentence, where the court finds it\nin the interests of justice. This reaches felonies the automatic system does not clear and lets a person seek relief\non their own timeline.\n\nTool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)\nA person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right\nunless a pattern of domestic violence/abuse or other exception applies; PC 851.87 shifts the burden to the\nprosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of\nfactual innocence.\n\nTool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)\nProp 64 (2016) lets people petition to dismiss/seal marijuana convictions that were decriminalized, or to\nredesignate felonies as misdemeanors/infractions. Much of this is now processed automatically by the DOJ and\ncourts, but a petition remains available where automatic relief has not reached a record.\n\nAGENT GUIDANCE\nRoute by outcome. Arrest only → 851.91 sealing (or 851.8 factual innocence). Completed probation →\n1203.4 dismissal (or the right variant). Felony past the 4-year mark → automatic relief or an SB 731\nsealing petition. Marijuana → Prop 64. Then confirm automatic relief hasn't already handled it.\nBe precise about effect: 1203.4 is a set-aside/dismissal (still disclosable for licensing/public\noffice/firearms), automatic relief is a DOJ non-dissemination notation, and only 851.8 factual innocence\napproaches true erasure."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 115,
+      "endLine": 157,
+      "text": "Dismissal under 1203.4 keys to probation completion rather than a fixed clock; automatic and petition-based\nsealing use conviction-free periods after the case ends. SB 1106 (2022) removed outstanding court debt as a\nbarrier to sealing.\n\nTool / matter Remedy Waiting period Notes\n\n1203.4 dismissal Set-aside / On completion of Or early termination granted\n(completed probation) dismiss probation\n\n1203.4a (no probation, Dismiss 1 year from Generally\nmisd./infraction) conviction\n\n1203.42 (older felony Dismiss 2 years after Interests of justice\nprison sentence) completion\n\nAutomatic — misdemeanor Relief 1 year after SB 731\nconviction (notation) case ends\n\nAutomatic — felony Relief 4 years after Not serious/violent/sex-reg.\nconviction (notation) case ends\n\nAutomatic — felony arrest, Seal 3 years Not serious/violent/sex-reg.\nno charge\n\nPetition felony sealing Seal 4 years After completion of sentence\n(SB 731 / 1203.49) conviction-free\n\nArrest, no conviction Seal None (as a Unless an exception applies\n(851.91) matter of right)\n\nThe four-year felony mark is the key number under SB 731 — it governs both automatic conviction relief and\nthe petition route, measured conviction-free from completion of the full sentence (incarceration, probation,\nparole, mandatory supervision, fines, and classes). A new conviction during the period resets it. Misdemeanor\nautomatic relief comes faster (one year after the case ends), and arrest-only sealing under 851.91 generally has\nno wait.\n\nAGENT GUIDANCE\nCompute the felony clock conviction-free from completion of the FULL sentence, not the conviction date.\nA new conviction resets it.\nFor arrest-only matters there is usually no waiting period — 851.91 sealing is available as a matter of\nright unless an exception applies."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 158,
+      "endLine": 194,
+      "text": "California keys exclusions to offense seriousness and registration status. The same core exclusions run across\nthe automatic and petition sealing tools.\n\nExcluded from sealing / automatic relief\n• Serious felonies as listed in Penal Code § 1192.7(c).\n• Violent felonies as listed in Penal Code § 667.5(c).\n• Felonies requiring sex-offender registration under PC § 290 (and the underlying sex offenses).\n• Felonies punishable by life or death, and other top-tier offenses by statute.\n\nLimits on 1203.4 dismissal specifically\n• Certain offenses are statutorily ineligible for 1203.4 relief even after probation (e.g., specified Vehicle Code\nand child-related sex offenses).\n• A person currently charged with, on probation for, or serving a sentence for another offense is not eligible\nuntil that resolves.\n• 1203.4 does NOT restore firearm rights (a governor's pardon is required) and does NOT erase the conviction\nfor licensing, public-office, or Lottery-contract questions.\n\nCommon limits\n• Open / pending cases disqualify across the board while pending.\n• DMV and licensing consequences survive a 1203.4 dismissal — it is not a cure-all.\n• Federal and out-of-state convictions are not reachable by California relief.\n• Sealed/relieved convictions still count as priors and strikes for future sentencing.\n\nVERIFY BEFORE RELYING\nThe serious-felony (1192.7(c)) and violent-felony (667.5(c)) lists and the PC 290 registration set\nare long, statute-specific, and periodically amended, and SB 731's automatic-relief eligibility has\nphased in over time. The agent must map each conviction to its Penal Code section and check it\nagainst the current 1192.7(c) / 667.5(c) / 290 lists before declaring eligibility — the offense label\nalone is not enough.\n\nAGENT GUIDANCE\nThe three-part exclusion — serious (1192.7(c)), violent (667.5(c)), sex-registration (290) — is the master\nfilter for all the sealing tools. Run every felony against it first.\nCorrect the common misconception that 1203.4 “clears” everything: it does not restore gun rights, does\nnot erase the conviction for licensing/public office, and does not undo DMV consequences."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 195,
+      "endLine": 237,
+      "text": "Outcome determines the tool and whether anything must be filed. This table is the agent's primary routing logic\nfor California.\n\nCase outcome Tool Route Condition / wait\n\nArrest, no conviction 851.91 Seal — petition (some auto) Matter of right; or auto 3 yr (felony arrest)\n\nFactual innocence 851.8 Seal &amp; destroy — petition Court finding\n\nCompleted probation 1203.4 Dismiss — petition On completion\n(misd. or felony)\n\nMisd./infraction, 1203.4a Dismiss — petition ≈ 1 year\nno probation\n\nFelony, county jail 1203.41 Dismiss — petition Per statute\n(realignment)\n\nEligible misdemeanor 1203.425 Relief — automatic 1 yr after case ends\nconviction\n\nEligible felony 1203.425 / SB 731 Auto or petition seal 4 yr conviction-free\nconviction\n\nMarijuana conviction Prop 64 / Redesignate / dismiss / seal Mostly automatic\n11361.8\n\nSerious/violent/ — Not sealable (pardon route) Categorical bar\nsex-reg. felony\n\nEffect of relief varies sharply. A 1203.4 dismissal releases the person from most penalties and disabilities and\n(since 2019) limits public access, but the person must still disclose the conviction for licensing, public office,\nand Lottery contracts, and firearms rights are not restored. Automatic relief is a DOJ notation that stops\ndissemination to most employers but leaves the record in the DOJ database, accessible to law enforcement and\nfor mandated background checks. PC 851.8 factual innocence is the only routine path to actual destruction.\n\nAGENT GUIDANCE\nAlways tell the user what the chosen tool actually does. Dismissal ≠ erasure; automatic relief ≠ dismissal;\nonly factual innocence destroys. Misstating this is the most common California error.\nIf a record is automatic-relief-eligible but still showing on a background check, the user can contact the\nCalifornia DOJ to correct it rather than filing a petition."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 238,
+      "endLine": 266,
+      "text": "California uses Judicial Council statewide forms for the petition-based tools; automatic relief requires no form.\nThe forms are available at courts.ca.gov.\n\nDismissal / set-aside (1203.4 and variants)\n• CR-180 — Petition for Dismissal (and Notice of Hearing). Identifies the case, the statute (1203.4 / 1203.4a /\n1203.41 / 1203.42 / 1203.49), and the relief sought; space to explain why dismissal serves the interests of\njustice (attach MC-025 or MC-031 if more room is needed). Rev. Jan 1, 2024.\n• CR-181 — Order for Dismissal, the proposed order the judge signs. Rev. Jan 1, 2024.\n• The prosecuting attorney must be given 15 days' notice before relief is granted under 1203.4.\n\nArrest-record sealing (851.91)\n• CR-409 — Petition to Seal Arrest and Related Records, with CR-410 Order, for arrests not resulting in\nconviction.\n• Factual-innocence sealing under 851.8 uses its own petition and a higher evidentiary showing.\n\nAutomatic relief and Prop 64\n• No form for automatic relief (851.93 / 1203.425) — the DOJ processes it; the person verifies via their DOJ\nrecord.\n• Prop 64 relief is largely automatic; a petition under H&S 11361.8 remains available where a record was\nmissed.\n\nAGENT GUIDANCE\nFor dismissals, CR-180 (petition) and CR-181 (order) travel together — file both, and use the correct\nstatute box for the disposition (probation completed = 1203.4; no probation = 1203.4a; realignment felony\n= 1203.41). Build in the 15-day DA notice.\nWhere relief is automatic, there is nothing to file — direct the user to verify via a DOJ record review and,\nif a record was missed, contact the DOJ or file the residual petition."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 267,
+      "endLine": 295,
+      "text": "The petition sequence (dismissal or sealing) in the Superior Court of the county of conviction:\n\n1 Get your record. Obtain your California DOJ criminal history (and/or the court docket) to confirm the\ndisposition, the statute, and whether automatic relief has already been applied.\n\n2 Confirm the tool and eligibility. Dismissal vs. sealing, probation/sentence completion, the conviction-free\nperiod, and the serious/violent/sex-registration exclusions.\n\n3 Complete the form. CR-180 + CR-181 for a dismissal (correct statute box), or CR-409 + CR-410 for arrest\nsealing; attach any interests-of-justice explanation.\n\n4 File in the Superior Court of the county of conviction and pay the filing fee (or request a fee waiver, form\nFW-001).\n5 Serve the prosecuting attorney (District Attorney or city attorney). For 1203.4, the prosecutor must receive\nat least 15 days' notice before relief is granted.\n\n6 Hearing / decision. Many dismissals are granted without a contested hearing if eligibility is clear; the court\nmay set a hearing if the DA objects or the statute requires an interests-of-justice finding.\n\n7 Order. If granted, the court signs CR-181 (or the sealing order); the clerk and DOJ update the record. For\ndismissals, the record is set aside and dismissed; for 851.91, the arrest is sealed.\n\nAGENT GUIDANCE\nVenue is the county of conviction's Superior Court — not the county of residence. A person with cases in\nmultiple counties files separately in each.\nLead with the 15-day DA notice on 1203.4 petitions and use the correct statute box; the wrong box (e.g.,\n1203.4 for a no-probation case that needs 1203.4a) is a common rejection reason."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 296,
+      "endLine": 319,
+      "text": "• “Expungement” is a misnomer. PC 1203.4 is a set-aside and dismissal, not erasure; the conviction persists\nfor licensing, public office, firearms, and sentencing. Always say so.\n• Automatic relief ≠ dismissal. Per the California DOJ, AB 1076/SB 731 relief is a notation limiting\ndissemination, and the record stays in the DOJ database for law-enforcement and mandated\nbackground-check use.\n• SB 731 phased in. Took effect July 1, 2023; the DOJ processes eligible records monthly, but backlogs mean\na record may be eligible yet not yet relieved — verify via a DOJ record review.\n• Statute box matters. 1203.4 (probation completed), 1203.4a (no probation), 1203.41 (realignment felony),\n1203.42 (older prison felony) are distinct; using the wrong one gets the petition denied.\n• 15-day DA notice is mandatory before 1203.4 relief.\n• Firearms not restored. Only a governor's pardon (or Certificate of Rehabilitation pathway) restores firearm\nrights lost to a felony.\n• County self-help variation. Local Superior Courts publish their own 1203.4 packets and fee schedules; some\noffer record-clearance clinics.\n• DOJ correction line. If automatic relief is owed but not reflected, the person can contact the California DOJ\nto fix the record.\n\nAGENT GUIDANCE\nHave users pull a DOJ record review to see what automatic relief already did before filing anything — it\navoids unnecessary petitions.\nMatch the statute box to the disposition and build in the 15-day DA notice; those two steps prevent most\n1203.4 rejections."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 320,
+      "endLine": 347,
+      "text": "Item Amount Note\n\n1203.4 dismissal petition ~$60–$150 per case County-set; some counties charge no fee for 1203.4\n\nArrest sealing (851.91) Filing fee varies County Superior Court\n\nAutomatic relief (851.93 / 1203.425) $0 DOJ processes; no filing\n\nProp 64 marijuana relief $0 Largely automatic\n\nCalifornia DOJ record review ~$25 + Live Scan fee To confirm record / relief status\n\nFee waiver (FW-001) $0 For those unable to afford court costs\n\nAttorney fees (if represented) Varies Not required; self-help and clinics available\n\nAutomatic relief and Prop 64 cost nothing. The petition-based dismissal fee is county-set and modest (often\n$60–$150, with some counties waiving it for 1203.4), and a fee waiver (FW-001) is available for those who\ncannot pay. The near-certain out-of-pocket cost is the DOJ record review (about $25 plus the Live Scan\nfingerprint-rolling fee) used to confirm the record and what relief has already applied.\n\nAGENT GUIDANCE\nLead with the free routes (automatic relief, Prop 64) and the modest, sometimes-waived 1203.4 fee;\nsurface FW-001 for cost-constrained users.\nBudget the DOJ record-review cost (≈$25 + Live Scan) as the realistic baseline expense even when filing\npro se."
+    },
+    {
+      "title": "Criminal history (DOJ) request process",
+      "category": "filing",
+      "startLine": 348,
+      "endLine": 351,
+      "text": "Reviewing the record first confirms the disposition and statute, computes the waiting period, and shows whether\nautomatic relief already applied — essential before filing."
+    },
+    {
+      "title": "Court records — Superior Court of the county of conviction",
+      "category": "pathway_detail",
+      "startLine": 358,
+      "endLine": 361,
+      "text": "• The county Superior Court holds the case docket and disposition needed to complete CR-180 and to confirm\nprobation completion and the statute."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 376,
+      "endLine": 394,
+      "text": "California petition-based relief uses Judicial Council forms (CR-180/CR-181 for dismissals). The examples\nbelow show structure and key recitals for the main tools plus the automatic pathway. Names, dates, and\nidentifiers are fictional and illustrative.\n\nExample A — CR-180 Petition for Dismissal (PC 1203.4), completed probation\nSUPERIOR COURT OF CALIFORNIA, COUNTY OF LOS ANGELES\nPEOPLE OF THE STATE OF CALIFORNIA v. ANDRE L. CARTER\nCase No. BA1234567 (Form CR-180)\n\nPETITION FOR DISMISSAL (Pen. Code, 1203.4)\n1. Petitioner was convicted of: PC 459 (commercial burglary),\na misdemeanor, on 03/14/2019.\n2. Petitioner was granted and successfully completed probation;\nprobation has ended.\n3. Petitioner is not now charged with, on probation for, or\nserving a sentence for any offense.\n4. Petitioner requests that the plea be withdrawn, a not-guilty\nplea entered, and the case dismissed under Pen. Code 1203.4."
+    },
+    {
+      "title": "AUTOMATIC RELIEF (PC 851.93 / 1203.425, AB 1076 + SB 731):",
+      "category": "pathway_detail",
+      "startLine": 421,
+      "endLine": 428,
+      "text": "An eligible felony conviction, conviction-free for 4 years\nafter completing the full sentence and not serious/violent/\nsex-registration, receives DOJ relief automatically (a\nnotation limiting dissemination). No petition; verify via a\n\nDOJ record review. If owed but missing, contact the DOJ."
+    },
+    {
+      "title": "PROP 64 MARIJUANA (H&S; 11361.8):",
+      "category": "pathway_detail",
+      "startLine": 429,
+      "endLine": 442,
+      "text": "A pre-2016 marijuana felony is redesignated/dismissed and\nsealed — largely automatic. A petition remains available if a\nrecord was missed by the automatic process.\n\nProposed Order (CR-181 / CR-410)\nEach petition is accompanied by a proposed Order. CR-181 (Order for Dismissal) sets aside the plea/verdict and\ndismisses the case under the cited Penal Code section; CR-410 orders the arrest and related records sealed under\nPC 851.91 and directs the DOJ and arresting agency to update their records.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes California statutes and common\ntreats automatic relief as a notation rather than erasure; the agent must verify the current text of the cited Penal Code sections, the\n1192.7(c) / 667.5(c) / 290 exclusion lists, the CR-180/181 and CR-409/410 forms, DOJ record-review procedures, and SB 731\nimplementation status before relying on any rule here."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 17,
+      "decisionRules": 85,
+      "waitingRules": 13,
+      "exclusions": 25,
+      "sourceFiles": 5,
+      "officialForms": 2
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

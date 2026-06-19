@@ -1,0 +1,1510 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "KS",
+    "name": "Kansas",
+    "slug": "kansas"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "relativePath": "LegalEase Kansas/Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "sha256": "dd1b80739a926a41156c324893bd4330ab666dbbd3a0b92665f52878623cc831",
+        "sizeBytes": 128248,
+        "score": 366,
+        "extractedChars": 2729
+      },
+      {
+        "fileName": "Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "relativePath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "sizeBytes": 234581,
+        "score": -49,
+        "extractedChars": 16103
+      }
+    ],
+    "sourceCorpusSha256": "c0bbc9c540a680f360113b8aee2ee5ac0f19ffda4958c8f3974366f68c150362",
+    "sourceCorpusChars": 12708,
+    "allFolderFiles": [
+      {
+        "fileName": "Criminal Cover Sheet 102025.pdf",
+        "relativePath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "sizeBytes": 126589
+      },
+      {
+        "fileName": "Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "relativePath": "LegalEase Kansas/Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "dd1b80739a926a41156c324893bd4330ab666dbbd3a0b92665f52878623cc831",
+        "sizeBytes": 128248
+      },
+      {
+        "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+        "sizeBytes": 19255
+      },
+      {
+        "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+        "sizeBytes": 126038
+      },
+      {
+        "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+        "sizeBytes": 67384
+      },
+      {
+        "fileName": "Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "relativePath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "sizeBytes": 234581
+      },
+      {
+        "fileName": "Kansas-Expungement-Forms.html",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "8c14f026f34f799798bed5989387152edf4bfa9d1edf62745228ec346c73dce2",
+        "sizeBytes": 34588
+      },
+      {
+        "fileName": "Kansas-Expungement-Reference.html",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "4225b9557c5cc5689d97e467710e627235557ad23064f337578e83dce15d8698",
+        "sizeBytes": 10901
+      },
+      {
+        "fileName": "Kansas-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "cb730ad65ca95ec091c010ee71b968fb6b9dc2193db82130a972d036b4a36404",
+        "sizeBytes": 8449
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement"
+    ],
+    "pathwayLabels": [
+      "Conviction or diversion expungement under K.S.A. 21-6614",
+      "Specialty-court completion route",
+      "Prostitution offense committed under coercion",
+      "Drug-offender registration relief coordinated with expungement"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "financial_obligations"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Kansas, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Kansas case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Kansas descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Conviction or diversion expungement under K.S.A. 21-6614",
+        "Specialty-court completion route",
+        "Prostitution offense committed under coercion",
+        "Drug-offender registration relief coordinated with expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What Kansas county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Kansas was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "conviction-or-diversion-216614",
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "conviction-or-diversion-216614",
+        "specialty-court-accelerated",
+        "prostitution-coercion"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "conviction-or-diversion-216614",
+      "label": "Conviction or diversion expungement under K.S.A. 21-6614",
+      "summary": "The petition identifies whether relief is requested for a conviction or diversion and includes arrest, charge, court, disposition, and final-discharge facts. The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision. The person must not have been convicted of a felony in the prior two years and no felony proceeding may be pending or being instituted. The offense cannot be one of the…",
+      "sourceRef": "manual_source_conversion:KS",
+      "ruleClauses": [
+        "The petition identifies whether relief is requested for a conviction or diversion and includes arrest, charge, court, disposition, and final-discharge facts.",
+        "The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision.",
+        "The person must not have been convicted of a felony in the prior two years and no felony proceeding may be pending or being instituted.",
+        "The offense cannot be one of the no-expungement offenses listed in K.S.A. 21-6614(e).",
+        "A person required to register as a sex or violent offender cannot receive expungement while registration is required.",
+        "The petition is filed in the county of arrest, followed by notice, a hearing, and proposed grant/denial orders."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "county",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "diversion_or_deferred",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision.",
+        "The person must not have been convicted of a felony in the prior two years and no felony proceeding may be pending or being instituted."
+      ],
+      "exclusionRules": [
+        "The offense cannot be one of the no-expungement offenses listed in K.S.A. 21-6614(e).",
+        "A person required to register as a sex or violent offender cannot receive expungement while registration is required."
+      ],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:KS"
+      ]
+    },
+    {
+      "id": "specialty-court-accelerated",
+      "label": "Specialty-court completion route",
+      "summary": "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years. No felony proceeding may be pending or being instituted. The backend must confirm the offense is otherwise eligible before offering the petition packet.",
+      "sourceRef": "manual_source_conversion:KS",
+      "ruleClauses": [
+        "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years.",
+        "No felony proceeding may be pending or being instituted.",
+        "The backend must confirm the offense is otherwise eligible before offering the petition packet."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:KS"
+      ]
+    },
+    {
+      "id": "prostitution-coercion",
+      "label": "Prostitution offense committed under coercion",
+      "summary": "The petition includes a specific coercion checkbox for a prostitution conviction or diversion. The source defines coercion through threats, restraint, schemes creating fear of harm, or abuse/threatened abuse of legal process. This route remains subject to the applicable statutory timing and filing process.",
+      "sourceRef": "manual_source_conversion:KS",
+      "ruleClauses": [
+        "The petition includes a specific coercion checkbox for a prostitution conviction or diversion.",
+        "The source defines coercion through threats, restraint, schemes creating fear of harm, or abuse/threatened abuse of legal process.",
+        "This route remains subject to the applicable statutory timing and filing process."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "financial_obligations"
+      ],
+      "caseOutcomes": [
+        "diversion_or_deferred",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:KS"
+      ]
+    },
+    {
+      "id": "drug-registration-relief-coordination",
+      "label": "Drug-offender registration relief coordinated with expungement",
+      "summary": "The source says a person registered as a drug offender may be able to seek registration relief and expungement together if all requirements are met. The frontend must treat this as a coordinated special route and not apply the sex/violent-offender bar automatically.",
+      "sourceRef": "manual_source_conversion:KS",
+      "ruleClauses": [
+        "The source says a person registered as a drug offender may be able to seek registration relief and expungement together if all requirements are met.",
+        "The frontend must treat this as a coordinated special route and not apply the sex/violent-offender bar automatically."
+      ],
+      "triggerFields": [
+        "offense_category"
+      ],
+      "caseOutcomes": [],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:KS"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-09-the-backend-must-confirm-the-offense-is-otherwise-eligi",
+      "priority": 40,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The backend must confirm the offense is otherwise eligible before offering the petition packet."
+      },
+      "then": {
+        "suggestedResultCode": "needs_more_info",
+        "frontendAction": "return_to_exact_missing_questions"
+      },
+      "sourceRef": "manual_source_conversion:KS:specialty-court-accelerated",
+      "candidatePathwayIds": [
+        "specialty-court-accelerated",
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-14-the-frontend-must-treat-this-as-a-coordinated-special-r",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The frontend must treat this as a coordinated special route and not apply the sex/violent-offender bar automatically."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:drug-registration-relief-coordination",
+      "candidatePathwayIds": [
+        "drug-registration-relief-coordination",
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-01-the-petition-identifies-whether-relief-is-requested-for",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "The petition identifies whether relief is requested for a conviction or diversion and includes arrest, charge, court, disposition, and final-discharge facts."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614",
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "id": "rule-02-the-form-provides-offense-dependent-one-three-five-or",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614",
+        "specialty-court-accelerated",
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "id": "rule-03-the-person-must-not-have-been-convicted-of-a-felony-in-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "The person must not have been convicted of a felony in the prior two years and no felony proceeding may be pending or being instituted."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614",
+        "specialty-court-accelerated",
+        "drug-registration-relief-coordination"
+      ]
+    },
+    {
+      "id": "rule-04-the-offense-cannot-be-one-of-the-no-expungement-offense",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The offense cannot be one of the no-expungement offenses listed in K.S.A. 21-6614(e)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-05-a-person-required-to-register-as-a-sex-or-violent-offen",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A person required to register as a sex or violent offender cannot receive expungement while registration is required."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614",
+        "drug-registration-relief-coordination"
+      ]
+    },
+    {
+      "id": "rule-06-the-petition-is-filed-in-the-county-of-arrest-followed-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "county"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition is filed in the county of arrest, followed by notice, a hearing, and proposed grant/denial orders."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:conviction-or-diversion-216614"
+    },
+    {
+      "id": "rule-07-the-form-provides-a-route-for-a-person-who-successfully",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "three years"
+        },
+        "sourceConditionText": "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:specialty-court-accelerated",
+      "candidatePathwayIds": [
+        "specialty-court-accelerated",
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-08-no-felony-proceeding-may-be-pending-or-being-instituted",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "No felony proceeding may be pending or being instituted."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:specialty-court-accelerated",
+      "candidatePathwayIds": [
+        "specialty-court-accelerated",
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-10-the-petition-includes-a-specific-coercion-checkbox-for-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "The petition includes a specific coercion checkbox for a prostitution conviction or diversion."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:prostitution-coercion",
+      "candidatePathwayIds": [
+        "prostitution-coercion",
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "rule-11-the-source-defines-coercion-through-threats-restraint-s",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source defines coercion through threats, restraint, schemes creating fear of harm, or abuse/threatened abuse of legal process."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:prostitution-coercion",
+      "candidatePathwayIds": [
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "id": "rule-12-this-route-remains-subject-to-the-applicable-statutory-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "This route remains subject to the applicable statutory timing and filing process."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:prostitution-coercion",
+      "candidatePathwayIds": [
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "id": "rule-13-the-source-says-a-person-registered-as-a-drug-offender-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source says a person registered as a drug offender may be able to seek registration relief and expungement together if all requirements are met."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:KS:drug-registration-relief-coordination",
+      "candidatePathwayIds": [
+        "drug-registration-relief-coordination",
+        "conviction-or-diversion-216614",
+        "specialty-court-accelerated"
+      ]
+    },
+    {
+      "id": "route-conviction-or-diversion-216614",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "conviction-or-diversion-216614",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "county",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "county",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction or diversion expungement under K.S.A. 21-6614"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:KS",
+      "candidatePathwayIds": [
+        "conviction-or-diversion-216614"
+      ]
+    },
+    {
+      "id": "route-specialty-court-accelerated",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "specialty-court-accelerated",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Specialty-court completion route"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:KS",
+      "candidatePathwayIds": [
+        "specialty-court-accelerated"
+      ]
+    },
+    {
+      "id": "route-prostitution-coercion",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "prostitution-coercion",
+        "requiredFields": [
+          "case_outcome",
+          "financial_obligations"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Prostitution offense committed under coercion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:KS",
+      "candidatePathwayIds": [
+        "prostitution-coercion"
+      ]
+    },
+    {
+      "id": "route-drug-registration-relief-coordination",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "drug-registration-relief-coordination",
+        "requiredFields": [
+          "offense_category"
+        ],
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Drug-offender registration relief coordinated with expungement"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "manual_source_conversion:KS",
+      "candidatePathwayIds": [
+        "drug-registration-relief-coordination"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision.",
+      "duration": null,
+      "anchor": "diversion completion, sentence satisfaction, or discharge from supervision",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "The person must not have been convicted of a felony in the prior two years and no felony proceeding may be pending or being instituted.",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "two years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "anchor": "three years",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The offense cannot be one of the no-expungement offenses listed in K.S.A. 21-6614(e).",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "A person required to register as a sex or violent offender cannot receive expungement while registration is required.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "conviction-or-diversion-216614",
+        "pathwayLabel": "Conviction or diversion expungement under K.S.A. 21-6614",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+            "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+            "sizeBytes": 67384
+          },
+          {
+            "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+            "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+            "sizeBytes": 126038
+          },
+          {
+            "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+            "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+            "sizeBytes": 19255
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "manual_source_conversion:KS"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "specialty-court-accelerated",
+        "pathwayLabel": "Specialty-court completion route",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:KS"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "prostitution-coercion",
+        "pathwayLabel": "Prostitution offense committed under coercion",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+            "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+            "sizeBytes": 67384
+          },
+          {
+            "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+            "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+            "sizeBytes": 126038
+          },
+          {
+            "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+            "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+            "sizeBytes": 19255
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "manual_source_conversion:KS"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "drug-registration-relief-coordination",
+        "pathwayLabel": "Drug-offender registration relief coordinated with expungement",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:KS"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ],
+    "sourceFormStatements": [],
+    "attachments": [],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [],
+    "feeRules": [],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [],
+    "formInventory": [
+      {
+        "fileName": "Criminal Cover Sheet 102025.pdf",
+        "relativePath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "sizeBytes": 126589
+      },
+      {
+        "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+        "sizeBytes": 19255
+      },
+      {
+        "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+        "sizeBytes": 126038
+      },
+      {
+        "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+        "sizeBytes": 67384
+      },
+      {
+        "fileName": "Kansas-Expungement-Forms.html",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "8c14f026f34f799798bed5989387152edf4bfa9d1edf62745228ec346c73dce2",
+        "sizeBytes": 34588
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Criminal Cover Sheet 102025.pdf",
+        "relativePath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "sizeBytes": 126589
+      },
+      {
+        "fileName": "Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "relativePath": "LegalEase Kansas/Instructions for Expungement of Conviction or Diverson 122016.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "dd1b80739a926a41156c324893bd4330ab666dbbd3a0b92665f52878623cc831",
+        "sizeBytes": 128248
+      },
+      {
+        "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+        "sizeBytes": 19255
+      },
+      {
+        "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+        "sizeBytes": 126038
+      },
+      {
+        "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+        "sizeBytes": 67384
+      },
+      {
+        "fileName": "Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "relativePath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "sizeBytes": 234581
+      },
+      {
+        "fileName": "Kansas-Expungement-Forms.html",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "8c14f026f34f799798bed5989387152edf4bfa9d1edf62745228ec346c73dce2",
+        "sizeBytes": 34588
+      },
+      {
+        "fileName": "Kansas-Expungement-Reference.html",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "4225b9557c5cc5689d97e467710e627235557ad23064f337578e83dce15d8698",
+        "sizeBytes": 10901
+      },
+      {
+        "fileName": "Kansas-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "cb730ad65ca95ec091c010ee71b968fb6b9dc2193db82130a972d036b4a36404",
+        "sizeBytes": 8449
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Kansas-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Complete the Petition for Expungement of Conviction or Diversion. Where your name is",
+      "category": "pathway_detail",
+      "startLine": 17,
+      "endLine": 19,
+      "text": "required, insert your full legal name."
+    },
+    {
+      "title": "Sign the Petition for Expungement of Conviction or Diversion. Your signature is your",
+      "category": "pathway_detail",
+      "startLine": 20,
+      "endLine": 27,
+      "text": "affirmation that all of the information in the petition is accurate to the best of your\nknowledge.\n\n4. File the original petition and required number of copies with the Clerk of the Court in the\ncounty in which you were arrested and pay the required docket fee. (You will need to check\nwith the Clerk to find out how many copies are required.)"
+    },
+    {
+      "title": "If you do not know the case number of the matter for which you are seeking expungement, you",
+      "category": "pathway_detail",
+      "startLine": 28,
+      "endLine": 38,
+      "text": "may obtain the case number from the Clerk of the Court when you file.\n\n6. Contact the Clerk of the Court or the Administrative Assistant of the judge to which the case\nhas been assigned, and ask for a date and time for a hearing before the court. Ask for the\ndivision or room number of the hearing as well.\n\n7. Complete the Notice of Hearing and make 2 additional copies. File the original notice and\ncopies with the Clerk of the Court who will send a copy to the office of the attorney who\nprosecuted your case and the arresting law enforcement agency."
+    },
+    {
+      "title": "Complete paragraphs numbered 1 through 4 of the Order for Expungement of Conviction or",
+      "category": "pathway_detail",
+      "startLine": 41,
+      "endLine": 44,
+      "text": "Diversion and paragraphs numbered 1 through 4 of the Order Denying Expungement of\nConviction or Diversion (just in case)."
+    },
+    {
+      "title": "Bring Order of Expungement of Conviction or Diversion Cover Sheet, Order for",
+      "category": "pathway_detail",
+      "startLine": 45,
+      "endLine": 73,
+      "text": "Expungement of Conviction or Diversion, and Order Denying Expungement of Conviction or\nDiversion to the hearing.\n\n11. Attend the hearing and answer any questions the court may have.\n\n===== SOURCE FILE: Petition for Expungement of Conviction or Diversion 82022.pdf =====\n\nIN THE JUDICIAL DISTRICT\nDISTRICT COURT OF COUNTY, KANSAS\n\nTHE STATE OF KANSAS\nCase No. _____________\nvs.\n\n_______________________________ [Name]\nDefendant\n\nPETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION\nPursuant to K.S.A. 21-6614.\n\nI respectfully request of the Court an order of expungement of my conviction and\n\nrelated arrest records OR diversion record and related arrest records. In support thereof, I state\n\nthe following:\n\n1. My full name is __________________________________________________."
+    },
+    {
+      "title": "My full name at the time of my arrest or conviction, if different than #1, was",
+      "category": "pathway_detail",
+      "startLine": 74,
+      "endLine": 99,
+      "text": "_______________________________________________________________.\n\n3. I am a _________________ [Race] _________ [Sex] born in _______[Year of Birth].\n\n4. I was arrested in ______________________ County, Kansas on ______________ [Date] by\n\n______________________________ [Law Enforcement Agency] and charged with the\n\ncrime of ___________________________________.\n\n5. I was convicted of __________________________________ on _____________ [Date].\n\nOR\n\nI was granted a diversion for the crime of ____________________________________ on\n\n_______________ [Date].\n\n6. The convicting court or diverting authority was _________________________________.\n\nRev. KSJC 08/2022 1\n\n7. The date of final discharge was _________________."
+    },
+    {
+      "title": "The conviction or diversion for which expungement is sought is not one of the offenses set",
+      "category": "pathway_detail",
+      "startLine": 140,
+      "endLine": 313,
+      "text": "out in K.S.A. 21-6614(e), for which no expungement is permitted.\n\nRev. KSJC 08/2022 2\n\nI affirm under penalty of perjury that the statements in this Petition are accurate to the best\n\nof my knowledge and I respectfully request that the Court set this matter for hearing and grant the\n\nexpungement.\n\n_________________________________________\nDefendant, Pro Se\nName (Print):______________________________\nAddress 1: ________________________________\nAddress 2: ________________________________\nCity, State, Zip: ____________________________\nTelephone Number: _________________________\nFax Number: _____________________________\nE-mail Address:___________________________\n\nRev. KSJC 08/2022 3\n\nAuthority\n\nK.S.A. 21-6614.\n\nNotes on Use\n\nA person may not receive an expungement for convictions of:\n• Rape • Voluntary manslaughter\n• Indecent liberties with a child • Involuntary manslaughter\n• Aggravated indecent liberties with a • Involuntary manslaughter while\nchild driving under the influence\n• Criminal sodomy • Sexual battery when the victim is less\n• Aggravated criminal sodomy than 18 years of age\n• Indecent solicitation of a child • Aggravated sexual battery\n• Aggravated indecent solicitation of a • Commercial driving under the\nchild influence, including any diversion\n• Sexual exploitation of a child for such violation\n• Internet trading in child pornography • Any comparable offense if the\n• Aggravated internet trading in child conviction was in effect at any time\npornography prior to July 1, 2011.\n• Aggravated incest\n• Endangering a child K.S.A. 21-6614(e).\n• Aggravated endangering a child\n• Abuse of a child\n• Capital murder\n• Murder in the first degree\n• Murder in the second degree\n\nA person who is required to register as a sex offender or violent offender under the Kansas\nOffender Registration Act may not receive an expungement for any conviction while the person\nis required to register. However, a person who is required to register as a drug offender under\nthe Kansas Offender Registration Act may be eligible to petition for relief from registration and\nfor expungement of the drug offense at the same time if all applicable requirements are met. See\nthe chart on the next page for the applicable time requirements for expungement of drug\noffenses. Forms to request relief from drug offender registration are also available on the\nJudicial Council website.\n\nPlease consult the chart on the next page if your crime is\nnot listed above.\n\nRev. KSJC 08/2022 4\n\nConviction Date when Time since Time since Time since Expungement K.S.A.\ncrime was sentence diversion discharged from Available with more\ncommitted completed completed probation, details\nOr Or community\ncorrectional services,\nparole, postrelease\nsupervision,\nconditional release or\nsuspended sentence\napplying for title of a Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nmotor vehicle under a\nfalse name or address\ncrime punishable as a Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nfelony wherein a motor\nvehicle was used\ncigarette or tobacco Not relevant 3 years 3 years 3 years Yes 21-6614(a)\ninfraction +\ndriving under the Prior to July 5 years 5 years 5 years Yes 21-4619\ninfluence – regardless of 1, 2006 (repealed\nnumber of offenses (see and\nK.S.A. 8-1567) transferred\nto 21-6614\n– L. 2010,\nCh. 136)\ndriving under the On or after 5 years 5 years 5 years Yes 21-6614(d)\ninfluence – 1st offense July 1, 2006\n(see K.S.A. 8-1567)\ndriving under the *On or after 10 years N/A 10 years Yes 21-6614(d)\ninfluence – 2nd or July 1, 2006\nsubsequent offense (see except those\nK.S.A. 8-1567) committed\non or after\nJuly 1, 2014,\nand prior to\nJuly 1, 2015\ndriving under the *On or after 7 years N/A 7 years Yes 21-6614(d)\ninfluence – 2nd or July 1, 2014, L. 2014,\nsubsequent offense (see and prior to Ch. 102 §\nK.S.A. 8-1567) July 1, 2015 6.\nL. 2015 Ch.\n71, § 4.\ndriving while canceled, Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nsuspended or revoked\nfailing to have motor Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nvehicle insurance\nfailing to stop at the Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nscene of an accident and\nperform required duties\nmisdemeanor+ Not relevant 3 years 3 years 3 years Yes 21-6614(a)\nnondrug crime ranked in On or after 5 years 5 years 5 years Yes 21-6614(c)\nseverity levels 1 through July 1, 1993\n5\nnondrug crime ranked in On or after 3 years 3 years 3 years Yes 21-6614(a)\nseverity levels 6 through July 1, 1993\n10+\nperjury Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nRev. KSJC 08/2022 5\n\nConviction Date when Time since Time since Time since Expungement K.S.A.\ncrime was sentence diversion discharged from Available with more\ncommitted completed completed probation, details\nOr Or community\ncorrectional services,\nparole, postrelease\nsupervision,\nconditional release or\nsuspended sentence\nprostitution Not relevant 1 year 1 year 1 year Yes 21-6614(b)\n+ Not relevant 3 years 3 years 3 years Yes 21-6614(a)\ntraffic infraction\nvehicular homicide Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nclass A, B, or C felony Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nclass D or E felony+ Not relevant 3 years 3 years 3 years Yes 21-6614(a)\nfelony ranked in severity Between 5 years 5 years 5 years Yes 21-6614(c)\nlevels 1 through 3 of July 1, 1993\ndrug grid and July 1,\n2012\nfelony ranked in severity On or after 5 years 5 years 5 years Yes 21-6614(c)\nlevels 1 through 4 of July 1, 2012\ndrug grid\nfelony ranked in severity Between 3 years 3 years 3 years Yes 21-6614(a)\nlevel 4 of drug grid+ July 1, 1993\nand July 1,\n2012\nfelony ranked in severity On or after 3 years 3 years 3 years Yes 21-6614(a)\nlevel 5 of drug grid+ July 1, 2012\noff-grid felony On or after 5 years 5 years 5 years Yes 21-6614(c)\nJuly 1, 1993\n\n* Based on State v. Anderson, 12 Kan. App. 2d 342, 744 P.2d 143 (1987), the law in effect at the time of the offense\napplies with regard to eligibility for expungement unless the current law is more beneficial to the defendant. The\ncurrent statute, K.S.A. 21-6614(d)(2), says a second or subsequent DUI conviction under K.S.A. 8-1567 cannot be\nexpunged until 10 or more years have elapsed, but from July 1, 2014, to June 30, 2015, the statute allowed any DUI\nconviction or diversion to be expunged after 7 years. L. 2014 Ch. 102, § 6, effective July 1, 2014; L. 2015 Ch. 71, §\n4, effective July 1, 2015. For a first DUI conviction or diversion, the current law, allowing expungement after 5 years,\napplies because it is more beneficial to a defendant than the 7 years required from July 1, 2014, to June 30, 2015. For\na second or subsequent DUI conviction, the current statute, K.S.A. 21-6614(d)(2), does not allow expungement until\n10 or more years have elapsed. Therefore, for second or subsequent DUIs that were committed on July 1, 2014,\nthrough June 30, 2015, the statute in effect at the time of the crime that allowed expungement after 7 years applies\nbecause it is more beneficial to the defendant.\n+\nCompletion of a Specialty Court Program\nA person who has completed the requirements of a specialty court program may petition for immediate expungement\nof any offense which is otherwise eligible for expungement after 3 years. This early expungement opportunity does\nnot apply to offenses for which expungement is not available or to offenses which require a 1, 5, 7 or 10-year waiting\nperiod.\n\nRev. KSJC 08/2022 6"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 4,
+      "questions": 12,
+      "decisionRules": 19,
+      "waitingRules": 3,
+      "exclusions": 2,
+      "sourceFiles": 9,
+      "officialForms": 5
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

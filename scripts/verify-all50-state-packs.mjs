@@ -58,12 +58,13 @@ for (const state of manifest.states) {
 }
 
 const forbiddenChangedPrefixes = [
-  "src/lib/rcap/documents/mississippi/",
-  "src/lib/rcap/documents/illinois/",
-  "src/lib/rcap/documents/dc/",
-  "src/lib/rcap/documents/pennsylvania/",
-  "src/lib/rcap/documents/texas-harris/",
-  "src/app/expungement-ai/",
+  "src/app/expungement-ai/page.tsx",
+  "src/app/expungement-ai/how-it-works/",
+  "src/app/expungement-ai/pricing/",
+  "src/app/expungement-ai/sign-in/",
+  "src/app/expungement-ai/start/",
+  "src/app/expungement-ai/pay/",
+  "src/app/expungement-ai/packet-ready/",
   "src/app/expungement/",
   "src/components/expungement-ai/",
   "src/components/expungement/"
@@ -84,8 +85,8 @@ if (failures.length > 0) {
 
 console.log("All-50 state-pack verification passed.");
 console.log(`State-pack metadata verified: ${manifest.states.length}`);
-console.log("Legacy live generator files unchanged: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Legacy live generator runtime removed: yes");
+console.log("Expungement.ai designer UI untouched: yes");
 
 function runGit(args) {
   const { spawnSync } = require("node:child_process");

@@ -1,0 +1,3545 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "AK",
+    "name": "Alaska",
+    "slug": "alaska"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Alaska-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase Alaska/Alaska-RecordRelief-Agent-Reference.pdf",
+        "sha256": "bc1d4a6d7ebbfdec21d95e017f33299c4d57b29d754c16ada19578b7599844e3",
+        "sizeBytes": 34263,
+        "score": 1661,
+        "extractedChars": 28394
+      }
+    ],
+    "sourceCorpusSha256": "8b11231dee9fe53f5a41a541dd07ff435778d94aa410ed6064783ecb5e6ea40a",
+    "sourceCorpusChars": 23747,
+    "allFolderFiles": [
+      {
+        "fileName": "Alaska-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase Alaska/Alaska-RecordRelief-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "bc1d4a6d7ebbfdec21d95e017f33299c4d57b29d754c16ada19578b7599844e3",
+        "sizeBytes": 34263
+      },
+      {
+        "fileName": "RequestToSealCrimInfo.pdf",
+        "relativePath": "LegalEase Alaska/RequestToSealCrimInfo.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+        "sizeBytes": 37708
+      },
+      {
+        "fileName": "ak-record-relief-forms.html",
+        "relativePath": "LegalEase Alaska/ak-record-relief-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+        "sizeBytes": 23366
+      },
+      {
+        "fileName": "background-checks.html",
+        "relativePath": "LegalEase Alaska/background-checks.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "037f23c79334d3a251e70cba598e78fa3bc7550062af90e4e9615ad56f213365",
+        "sizeBytes": 164194
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "set-aside",
+      "erasure",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Mechanism 1 — Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+      "Mechanism 2 — Sealing for mistaken identity / false accusation (AS 12.62.180)",
+      "Mechanism 4 — Juvenile records (AS 47.12.300) and the pardon backstop"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status",
+        "identity_error"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Alaska, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Alaska case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Misdemeanor conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Infraction or violation",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Alaska descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Set-aside after a Suspended Imposition of Sentence (AS 12.55.085)",
+        "Sealing for mistaken identity or false accusation (AS 12.62.180)",
+        "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)",
+        "Juvenile-record sealing (AS 47.12.300)",
+        "Executive-pardon backstop",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "identity_error",
+      "stage": "special_pathways",
+      "prompt": "Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Alaska criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Alaska category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "Domestic violence",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Alaska was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "mechanism-2-sealing-for-mistaken-identity-false-accusation"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "mechanism-2-sealing-for-mistaken-identity-false-accusation"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "mechanism-1-set-aside-after-suspended-imposition-of-sentence"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "mechanism-1-set-aside-after-suspended-imposition-of-sentence",
+        "mechanism-2-sealing-for-mistaken-identity-false-accusation",
+        "mechanism-4-juvenile-records-and-the-pardon-backstop"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "mechanism-4-juvenile-records-and-the-pardon-backstop"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "mechanism-4-juvenile-records-and-the-pardon-backstop"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "label": "Set-aside after a Suspended Imposition of Sentence (AS 12.55.085)",
+      "summary": "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders. On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes. It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials. Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3). 'Defendant received a…",
+      "sourceRef": "pathways:78-118; section:381-387; section:78-118; corpus-unit:30; corpus-unit:106; section:56-77; section:119-151; section:152-186",
+      "sourceEvidenceRefs": [
+        "pathways:78-118",
+        "section:381-387",
+        "section:78-118",
+        "corpus-unit:30",
+        "corpus-unit:106",
+        "section:56-77",
+        "section:119-151",
+        "section:152-186",
+        "section:187-222",
+        "section:252-278",
+        "section:223-251",
+        "corpus-unit:1",
+        "corpus-unit:11",
+        "corpus-unit:16",
+        "corpus-unit:20",
+        "corpus-unit:47",
+        "exclusions:152-186"
+      ],
+      "ruleClauses": [
+        "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders.",
+        "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes.",
+        "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials.",
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "'Defendant received a Suspended Imposition of Sentence and has",
+        "successfully completed probation. Defendant moves the Court to",
+        "SET ASIDE the conviction under AS 12.55.085(e) and to issue a",
+        "certificate.' (NOTE: this does NOT seal or expunge; the record",
+        "remains and may appear on background checks.)",
+        "There is no general expungement. The four real mechanisms, by situation:",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+        "Sealing for mistaken identity / false accusation (AS 12.62.180)",
+        "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation.",
+        "This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.",
+        "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.",
+        "This makes the record non-public on Courtview; it does not destroy the underlying record.",
+        "Juvenile records (AS 47.12.300) and the pardon backstop",
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase.",
+        "Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS",
+        "set-aside, mistaken-identity sealing, Courtview non-publication, or juvenile sealing — and explain what",
+        "Never describe an SIS set-aside as “expungement”; it leaves a record that can still surface on",
+        "background checks and as a sentencing prior.",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085) • A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders. • On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes. • It is NOT expungement.",
+        "Examples B, C & D — Other mechanisms B. SET-ASIDE AFTER SIS (AS 12.55.085(e)) — MOTION IN THE CASE: 'Defendant received a Suspended Imposition of Sentence and has successfully completed probation. Defendant moves the Court to SET ASIDE the conviction under AS 12.55.085(e) and to issue a certificate.' (NOTE: this does NOT seal or expunge; the record remains and may appear on background checks.)"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "criminal_history",
+        "disposition_date",
+        "age_at_offense",
+        "pardon_status",
+        "identity_error",
+        "record_type",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+        "jurisdiction; 5 years if charged as adult",
+        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing."
+      ],
+      "exclusionRules": [
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred.",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+        "Offenses with a mandatory minimum sentence that cannot be suspended.",
+        "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+        "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+        "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+        "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+        "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+        "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+        "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+        "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+        "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+        "case, Alaska currently offers no clearing beyond a governor's pardon."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "label": "Sealing for mistaken identity or false accusation (AS 12.62.180)",
+      "summary": "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a high bar and a narrow remedy — it is not a general path for clearing accurate records. A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence. Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40) The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were…",
+      "sourceRef": "pathways:78-118; section:388-393; section:56-77; section:78-118; section:152-186; section:252-278; exclusions:152-186; corpus-unit:11",
+      "sourceEvidenceRefs": [
+        "pathways:78-118",
+        "section:388-393",
+        "section:56-77",
+        "section:78-118",
+        "section:152-186",
+        "section:252-278",
+        "exclusions:152-186",
+        "corpus-unit:11",
+        "corpus-unit:16",
+        "corpus-unit:23",
+        "corpus-unit:32",
+        "corpus-unit:49",
+        "corpus-unit:58",
+        "corpus-unit:74",
+        "corpus-unit:107",
+        "section:187-222",
+        "section:223-251"
+      ],
+      "ruleClauses": [
+        "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation.",
+        "This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.",
+        "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.",
+        "This makes the record non-public on Courtview; it does not destroy the underlying record.",
+        "A written request to the head of the agency holding the record,",
+        "showing beyond a reasonable doubt that the record resulted from",
+        "mistaken identity or false accusation. If sealed, the person may",
+        "deny the existence of the information.",
+        "Statutory shorthand used throughout",
+        "AS 12.55.085 Suspended Imposition of Sentence (SIS) and SET-ASIDE of a conviction",
+        "AS 12.55.085(f) Offenses for which an SIS / set-aside is NOT available",
+        "AS 12.55.078 Suspended ENTRY of judgment (no conviction results) — once per lifetime",
+        "AS 12.62.180 SEALING of criminal justice information (mistaken identity / false accusation)",
+        "AS 22.35.030 Acquittal / dismissal records kept off the public Courtview website",
+        "Rule 40 Court rule governing what appears on the public Courtview index",
+        "AS 47.12.300 Sealing of JUVENILE records",
+        "Form TF-810 Request to exclude a case from Courtview (Admin. Rule 40 / AS 22.35.030)",
+        "Journey v. State 895 P.2d 955 (Alaska 1995) — set-aside is NOT expungement",
+        "There is no general expungement. The four real mechanisms, by situation:",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+        "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders.",
+        "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes.",
+        "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials.",
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "Sealing for mistaken identity / false accusation (AS 12.62.180)"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "identity_error",
+        "offense_level",
+        "sentence_completion_date",
+        "prior_relief",
+        "criminal_history",
+        "age_at_offense",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other",
+        "convicted_misdemeanor",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing."
+      ],
+      "exclusionRules": [
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+        "Offenses with a mandatory minimum sentence that cannot be suspended.",
+        "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+        "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+        "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+        "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+        "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+        "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+        "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+        "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+        "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+        "case, Alaska currently offers no clearing beyond a governor's pardon.",
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction generally cannot be cleared at all.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f)) • Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred. • Sexual offenses and offenses against children, as enumerated. • Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f). • Offenses with a mandatory minimum sentence that cannot be suspended."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+      "label": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)",
+      "summary": "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a high bar and a narrow remedy — it is not a general path for clearing accurate records. A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence. Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40) The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were…",
+      "sourceRef": "pathways:78-118; section:78-118; corpus-unit:33; section:119-151; section:223-251; corpus-unit:1; corpus-unit:64; corpus-unit:98",
+      "sourceEvidenceRefs": [
+        "pathways:78-118",
+        "section:78-118",
+        "corpus-unit:33",
+        "section:119-151",
+        "section:223-251",
+        "corpus-unit:1",
+        "corpus-unit:64",
+        "corpus-unit:98",
+        "corpus-unit:11",
+        "corpus-unit:114",
+        "section:279-301",
+        "section:56-77",
+        "section:152-186",
+        "section:357-368",
+        "section:187-222",
+        "corpus-unit:82",
+        "corpus-unit:105"
+      ],
+      "ruleClauses": [
+        "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation.",
+        "This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.",
+        "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.",
+        "This makes the record non-public on Courtview; it does not destroy the underlying record.",
+        "There is no general expungement. The four real mechanisms, by situation:",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+        "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders.",
+        "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes.",
+        "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials.",
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "Sealing for mistaken identity / false accusation (AS 12.62.180)",
+        "Juvenile records (AS 47.12.300) and the pardon backstop",
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase.",
+        "Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS",
+        "set-aside, mistaken-identity sealing, Courtview non-publication, or juvenile sealing — and explain what",
+        "Never describe an SIS set-aside as “expungement”; it leaves a record that can still surface on",
+        "background checks and as a sentencing prior.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin.",
+        "Alaska's mechanisms key off completing probation or a short confidentiality window rather than long",
+        "Mechanism Trigger / waiting period Authority",
+        "SIS set-aside On successful completion of the SIS probation AS 12.55.085(e)",
+        "period (clean for the term, often ≈ 1 year+)",
+        "Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b)",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "identity_error",
+        "offense_level",
+        "sentence_completion_date",
+        "criminal_history",
+        "age_at_offense",
+        "pardon_status",
+        "record_type",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other",
+        "convicted_misdemeanor",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "automatic_or_administrative",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "Mechanism Trigger / waiting period Authority",
+        "period (clean for the term, often ≈ 1 year+)",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+        "jurisdiction; 5 years if charged as adult",
+        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing."
+      ],
+      "exclusionRules": [
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+        "Offenses with a mandatory minimum sentence that cannot be suspended.",
+        "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+        "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+        "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+        "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+        "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+        "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+        "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+        "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+        "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+        "case, Alaska currently offers no clearing beyond a governor's pardon.",
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction generally cannot be cleared at all.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f)) • Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred. • Sexual offenses and offenses against children, as enumerated. • Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f). • Offenses with a mandatory minimum sentence that cannot be suspended."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "juvenile-record-sealing-as-47-12-300",
+      "label": "Juvenile-record sealing (AS 47.12.300)",
+      "summary": "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence. For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase. Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS Statutory shorthand used throughout AS 12.55.085 Suspended Imposition of Sentence (SIS) and SET-ASIDE of a conviction",
+      "sourceRef": "pathways:78-118; section:56-77; section:78-118; corpus-unit:26; corpus-unit:35; section:119-151; section:187-222; section:252-278",
+      "sourceEvidenceRefs": [
+        "pathways:78-118",
+        "section:56-77",
+        "section:78-118",
+        "corpus-unit:26",
+        "corpus-unit:35",
+        "section:119-151",
+        "section:187-222",
+        "section:252-278",
+        "case_outcomes:187-222",
+        "waiting_periods:119-151",
+        "corpus-unit:16",
+        "corpus-unit:43",
+        "corpus-unit:59",
+        "corpus-unit:75",
+        "corpus-unit:115"
+      ],
+      "ruleClauses": [
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase.",
+        "Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS",
+        "Statutory shorthand used throughout",
+        "AS 12.55.085 Suspended Imposition of Sentence (SIS) and SET-ASIDE of a conviction",
+        "AS 12.55.085(f) Offenses for which an SIS / set-aside is NOT available",
+        "AS 12.55.078 Suspended ENTRY of judgment (no conviction results) — once per lifetime",
+        "AS 12.62.180 SEALING of criminal justice information (mistaken identity / false accusation)",
+        "AS 22.35.030 Acquittal / dismissal records kept off the public Courtview website",
+        "Rule 40 Court rule governing what appears on the public Courtview index",
+        "AS 47.12.300 Sealing of JUVENILE records",
+        "Form TF-810 Request to exclude a case from Courtview (Admin. Rule 40 / AS 22.35.030)",
+        "Journey v. State 895 P.2d 955 (Alaska 1995) — set-aside is NOT expungement",
+        "There is no general expungement. The four real mechanisms, by situation:",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+        "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders.",
+        "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes.",
+        "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials.",
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "Sealing for mistaken identity / false accusation (AS 12.62.180)",
+        "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation.",
+        "This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.",
+        "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.",
+        "This makes the record non-public on Courtview; it does not destroy the underlying record.",
+        "Juvenile records (AS 47.12.300) and the pardon backstop"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "pardon_status",
+        "record_type",
+        "residency_or_location",
+        "offense_level",
+        "disposition_date",
+        "sentence_completion_date",
+        "prior_relief",
+        "criminal_history",
+        "identity_error"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "juvenile",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+        "jurisdiction; 5 years if charged as adult",
+        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing."
+      ],
+      "exclusionRules": [
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+        "Offenses with a mandatory minimum sentence that cannot be suspended.",
+        "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+        "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+        "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+        "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+        "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+        "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+        "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+        "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+        "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+        "case, Alaska currently offers no clearing beyond a governor's pardon.",
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction generally cannot be cleared at all.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f)) • Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred. • Sexual offenses and offenses against children, as enumerated. • Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f). • Offenses with a mandatory minimum sentence that cannot be suspended."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "executive-pardon-backstop",
+      "label": "Executive-pardon backstop",
+      "summary": "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence. For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase. Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS There is no general expungement. The four real mechanisms, by situation: Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+      "sourceRef": "pathways:78-118; section:78-118; corpus-unit:35; section:152-186; section:252-278; corpus-unit:108; exclusions:152-186; corpus-unit:17",
+      "sourceEvidenceRefs": [
+        "pathways:78-118",
+        "section:78-118",
+        "corpus-unit:35",
+        "section:152-186",
+        "section:252-278",
+        "corpus-unit:108",
+        "exclusions:152-186",
+        "corpus-unit:17",
+        "corpus-unit:51",
+        "corpus-unit:75"
+      ],
+      "ruleClauses": [
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase.",
+        "Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS",
+        "There is no general expungement. The four real mechanisms, by situation:",
+        "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)",
+        "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders.",
+        "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes.",
+        "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials.",
+        "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+        "Sealing for mistaken identity / false accusation (AS 12.62.180)",
+        "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation.",
+        "This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.",
+        "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence.",
+        "Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.",
+        "This makes the record non-public on Courtview; it does not destroy the underlying record.",
+        "Juvenile records (AS 47.12.300) and the pardon backstop",
+        "set-aside, mistaken-identity sealing, Courtview non-publication, or juvenile sealing — and explain what",
+        "Never describe an SIS set-aside as “expungement”; it leaves a record that can still surface on",
+        "background checks and as a sentencing prior.",
+        "Juvenile records (AS 47.12.300) and the pardon backstop • Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence. • For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase.",
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred.",
+        "Sexual offenses and offenses against children, as enumerated.",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f)."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "pardon_status",
+        "record_type",
+        "residency_or_location",
+        "offense_level",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "criminal_history",
+        "identity_error"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "pardon",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+        "jurisdiction; 5 years if charged as adult",
+        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing.",
+        "Juvenile records (AS 47.12.300) and the pardon backstop • Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence. • For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase."
+      ],
+      "exclusionRules": [
+        "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+        "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+        "Excluded from SIS / set-aside (AS 12.55.085(f))",
+        "Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred.",
+        "Sexual offenses and offenses against children, as enumerated.",
+        "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+        "Offenses with a mandatory minimum sentence that cannot be suspended.",
+        "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+        "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+        "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+        "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+        "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+        "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+        "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+        "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+        "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+        "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+        "case, Alaska currently offers no clearing beyond a governor's pardon."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-35-mechanism-trigger-waiting-period-authority",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Mechanism Trigger / waiting period Authority"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:119-151"
+    },
+    {
+      "id": "rule-12-removal-is-automatic-but-cases-sometimes-slip-through-f",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-43-rule-runs-on-a-simple-60-day-clock-from-the-acquittal-o",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "rule runs on a simple 60-day clock from the acquittal or dismissal and is meant to be automatic; the TF-810"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151"
+    },
+    {
+      "id": "rule-44-for-acquittals-dismissals-the-relief-should-be-automati",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ]
+    },
+    {
+      "id": "rule-01-there-is-no-general-expungement-the-four-real-mechanism",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "There is no general expungement. The four real mechanisms, by situation:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-02-mechanism-1-set-aside-after-suspended-imposition-of-sen",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Mechanism 1 — Set-aside after Suspended Imposition of Sentence (AS 12.55.085)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-03-a-court-may-grant-a-suspended-imposition-of-sentence-si",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level felonies, typically for younger or first-time offenders."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-04-on-successful-completion-of-probation-the-court-may-set",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "On successful completion of probation, the court may set aside the conviction and issue a certificate; the conviction then “ceases to have legal effect” for many purposes."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-05-it-is-not-expungement-the-record-is-not-sealed-or-destr",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on background checks, can be used as a prior for sentence enhancement, and can support license denials."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-06-certain-offenses-are-excluded-from-sis-set-aside-under-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-07-mechanism-2-sealing-for-mistaken-identity-false-accusat",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Mechanism 2 — Sealing for mistaken identity / false accusation (AS 12.62.180)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-08-a-person-may-ask-the-agency-that-maintains-the-record-t",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-09-a-person-whose-information-is-sealed-under-this-section",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300"
+      ]
+    },
+    {
+      "id": "rule-10-mechanism-3-confidentiality-of-acquittals-dismissals-as",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Mechanism 3 — Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-11-the-court-system-may-not-publish-on-the-public-courtvie",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300"
+      ]
+    },
+    {
+      "id": "rule-13-mechanism-4-juvenile-records-as-47-12-300-and-the-pardo",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile",
+          "pardon"
+        ],
+        "sourceConditionText": "Mechanism 4 — Juvenile records (AS 47.12.300) and the pardon backstop"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-14-most-juvenile-records-are-sealed-within-30-days-of-the-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "charge",
+          "age_at_offense",
+          "record_type",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 30,
+          "unit": "days",
+          "raw": "30 days"
+        },
+        "sourceConditionText": "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-15-for-an-ordinary-adult-conviction-that-fits-none-of-the-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-16-lead-with-honesty-alaska-has-no-general-expungement-ide",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Lead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-17-set-aside-mistaken-identity-sealing-courtview-non-publi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "set-aside, mistaken-identity sealing, Courtview non-publication, or juvenile sealing — and explain what"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-18-never-describe-an-sis-set-aside-as-expungement-it-leave",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Never describe an SIS set-aside as “expungement”; it leaves a record that can still surface on"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:78-118",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-19-acquittal-all-charges-courtview-non-pub-off-public-site",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "Acquittal (all charges) Courtview non-pub. Off public site at 60 days AS 22.35.030"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-20-all-charges-dismissed-courtview-non-pub-off-public-site",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "All charges dismissed Courtview non-pub. Off public site at 60 days AS 22.35.030"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-21-dismissed-after-suspended-courtview-non-pub-off-public-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Dismissed after suspended Courtview non-pub. Off public site; no conviction 12.55.078 / 22.35.030"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300"
+      ]
+    },
+    {
+      "id": "rule-22-conviction-w-sis-probation-set-aside-conviction-set-asi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction w/ SIS, probation Set-aside Conviction set aside (NOT erased) AS 12.55.085(e)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-23-record-from-mistaken-identity-sealing-sealed-may-deny-e",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Record from mistaken identity Sealing Sealed; may deny existence AS 12.62.180(b)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ]
+    },
+    {
+      "id": "rule-24-juvenile-adjudication-juvenile-sealing-sealed-at-18-rel",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile adjudication Juvenile sealing Sealed at 18 / release AS 47.12.300"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-25-ordinary-adult-conviction-no-clearing-pardon-only",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Ordinary adult conviction — No clearing; pardon only —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-26-effect-of-each-remedy-differs-sharply-a-sealed-record-1",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of each remedy differs sharply. A sealed record (12.62.180) is confidential and the person may deny its"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ]
+    },
+    {
+      "id": "rule-27-existence-and-the-underlying-arrest-charge-conviction-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "existence and the underlying arrest/charge/conviction. A set-aside conviction (12.55.085) is NOT sealed: it"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-28-remains-a-record-can-still-appear-on-background-checks-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "remains a record, can still appear on background checks, may be used as a sentencing aggravator, and the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ]
+    },
+    {
+      "id": "rule-29-alaska-courts-have-described-the-post-sis-dismissal-as-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "pardon"
+        ],
+        "sourceConditionText": "Alaska courts have described the post-SIS dismissal as “in the nature of a pardon, not a declaration of"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-30-innocence-courtview-non-publication-22-35-030-keeps-an-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "innocence.” Courtview non-publication (22.35.030) keeps an acquittal/dismissal off the public website but"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-31-does-not-destroy-the-record-held-by-agencies-the-agent-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "does not destroy the record held by agencies. The agent must convey these differences precisely."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-32-match-remedy-to-disposition-acquittal-dismissal-courtvi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Match remedy to disposition: acquittal/dismissal → Courtview non-publication (verify it happened); SIS"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-33-conviction-set-aside-explain-it-s-not-erasure-mistaken",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "identity_error"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction → set-aside (explain it's not erasure); mistaken identity → sealing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-34-only-a-sealed-record-or-a-non-public-courtview-entry-dr",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Only a sealed record (or a non-public Courtview entry) drops off public view; a set-aside conviction does"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:187-222",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-36-sis-set-aside-on-successful-completion-of-the-sis-proba",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "SIS set-aside On successful completion of the SIS probation AS 12.55.085(e)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-37-mistaken-identity-sealing-no-fixed-wait-proof-beyond-a-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-38-courtview-non-publication-60-days-after-acquittal-or-di",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-39-suspended-entry-of-judgment-on-completion-dismissal-w-o",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300"
+      ]
+    },
+    {
+      "id": "rule-40-juvenile-sealing-30-days-after-18th-birthday-release-of",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 30,
+          "unit": "days",
+          "raw": "30 days"
+        },
+        "sourceConditionText": "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-41-two-timing-points-matter-the-sis-set-aside-is-available",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Two timing points matter. The SIS set-aside is available only AFTER the person successfully completes the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-42-wait-but-the-conviction-is-not-set-aside-until-probatio",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "wait, but the conviction is not set aside until probation is done and the court acts. The Courtview confidentiality"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-45-and-only-file-tf-810-if-the-case-is-still-showing",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "and only file TF-810 if the case is still showing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151"
+    },
+    {
+      "id": "rule-46-for-an-sis-the-set-aside-comes-at-successful-completion",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "For an SIS, the set-aside comes at successful completion of probation; confirm probation is fully"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-47-complete-before-expecting-the-court-to-set-the-convicti",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "complete before expecting the court to set the conviction aside."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-151",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-48-the-biggest-limitation-is-structural-no-general-expunge",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-49-excluded-from-sis-set-aside-as-12-55-085-f",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Excluded from SIS / set-aside (AS 12.55.085(f))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-50-set-aside-is-not-erasure-even-when-granted-the-convicti",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-51-sealing-12-62-180-is-essentially-limited-to-mistaken-id",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-52-courtview-non-publication-only-hides-the-case-from-the-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "rule-53-the-sis-set-aside-exclusion-list-as-12-55-085-f-and-the",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "rule-54-would-if-enacted-add-genuine-expungement-destruction-of",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "would, if enacted, add genuine expungement/destruction of set-aside records and change this"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-55-picture-substantially-the-agent-must-verify-the-current",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "picture substantially. The agent must verify the current statutes and whether any reform has"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186"
+    },
+    {
+      "id": "rule-56-become-law-before-advising-and-must-not-assume-expungem",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "become law before advising — and must not assume expungement exists."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186"
+    },
+    {
+      "id": "rule-57-be-explicit-about-the-ceiling-for-a-valid-adult-convict",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "rule-58-case-alaska-currently-offers-no-clearing-beyond-a-gover",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "case, Alaska currently offers no clearing beyond a governor's pardon."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:152-186",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "juvenile-record-sealing-as-47-12-300",
+        "executive-pardon-backstop",
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "route-set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "criminal_history",
+          "disposition_date",
+          "age_at_offense",
+          "pardon_status",
+          "identity_error",
+          "record_type",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "criminal_history",
+          "disposition_date",
+          "age_at_offense",
+          "pardon_status",
+          "identity_error",
+          "record_type",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "juvenile"
+        ],
+        "sourceConditionText": "Set-aside after a Suspended Imposition of Sentence (AS 12.55.085)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:78-118; section:381-387; section:78-118; corpus-unit:30; corpus-unit:106; section:56-77; section:119-151; section:152-186",
+      "candidatePathwayIds": [
+        "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ]
+    },
+    {
+      "id": "route-sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "identity_error",
+          "offense_level",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history",
+          "age_at_offense",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "identity_error",
+          "offense_level",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other",
+          "convicted_misdemeanor",
+          "juvenile"
+        ],
+        "sourceConditionText": "Sealing for mistaken identity or false accusation (AS 12.62.180)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:78-118; section:388-393; section:56-77; section:78-118; section:152-186; section:252-278; exclusions:152-186; corpus-unit:11",
+      "candidatePathwayIds": [
+        "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+      ]
+    },
+    {
+      "id": "route-confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "identity_error",
+          "offense_level",
+          "sentence_completion_date",
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "identity_error",
+          "offense_level",
+          "sentence_completion_date",
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other",
+          "convicted_misdemeanor",
+          "juvenile"
+        ],
+        "sourceConditionText": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:78-118; section:78-118; corpus-unit:33; section:119-151; section:223-251; corpus-unit:1; corpus-unit:64; corpus-unit:98",
+      "candidatePathwayIds": [
+        "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ]
+    },
+    {
+      "id": "route-juvenile-record-sealing-as-47-12-300",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-record-sealing-as-47-12-300",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location",
+          "offense_level",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history",
+          "identity_error"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location",
+          "offense_level",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history",
+          "identity_error"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Juvenile-record sealing (AS 47.12.300)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:78-118; section:56-77; section:78-118; corpus-unit:26; corpus-unit:35; section:119-151; section:187-222; section:252-278",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-as-47-12-300"
+      ]
+    },
+    {
+      "id": "route-executive-pardon-backstop",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "executive-pardon-backstop",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "criminal_history",
+          "identity_error"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "pardon_status",
+          "record_type",
+          "residency_or_location",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "criminal_history",
+          "identity_error"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Executive-pardon backstop"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:78-118; section:78-118; corpus-unit:35; section:152-186; section:252-278; corpus-unit:108; exclusions:152-186; corpus-unit:17",
+      "candidatePathwayIds": [
+        "executive-pardon-backstop"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "a suspended entry of judgment (AS 12",
+      "fieldsReferenced": [
+        "case_outcome",
+        "disposition_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": "completing the sentence",
+      "fieldsReferenced": [
+        "court",
+        "charge",
+        "age_at_offense",
+        "record_type",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Mechanism Trigger / waiting period Authority",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "period (clean for the term, often ≈ 1 year+)",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "acquittal or dismissal AS 22",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": "18th birthday / release of AS 47",
+      "fieldsReferenced": [
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "jurisdiction; 5 years if charged as adult",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "acquittal or dismissal AS 22",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "court",
+        "charge",
+        "age_at_offense",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing.",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "generally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Excluded from SIS / set-aside (AS 12.55.085(f))",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Sexual offenses and offenses against children, as enumerated.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Offenses with a mandatory minimum sentence that cannot be suspended.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records.",
+      "fieldsReferenced": [
+        "identity_error"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list.",
+      "fieldsReferenced": [
+        "prior_relief",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+      "fieldsReferenced": [
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "The SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "exclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "would, if enacted, add genuine expungement/destruction of set-aside records and change this",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "picture substantially. The agent must verify the current statutes and whether any reform has",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "become law before advising — and must not assume expungement exists.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "Screen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "mandatory-minimum offenses are out.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "Be explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "case, Alaska currently offers no clearing beyond a governor's pardon.",
+      "fieldsReferenced": [
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction generally cannot be cleared at all.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "Excluded from SIS / set-aside (AS 12.55.085(f)) • Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is statutorily barred. • Sexual offenses and offenses against children, as enumerated. • Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f). • Offenses with a mandatory minimum sentence that cannot be suspended.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials. • Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a reasonable doubt — not a route for clearing valid records. • Courtview non-publication only hides the case from the public website — law enforcement and agencies retain the record, and it is limited to acquittals/dismissals. • Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense list. • Out-of-state and federal records are not reachable by Alaska's mechanisms.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "prior_relief",
+        "court",
+        "charge",
+        "identity_error",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "pathwayLabel": "Set-aside after a Suspended Imposition of Sentence (AS 12.55.085)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:78-118",
+          "section:381-387",
+          "section:78-118",
+          "corpus-unit:30",
+          "corpus-unit:106",
+          "section:56-77",
+          "section:119-151",
+          "section:152-186",
+          "section:187-222",
+          "section:252-278",
+          "section:223-251",
+          "corpus-unit:1",
+          "corpus-unit:11",
+          "corpus-unit:16",
+          "corpus-unit:20",
+          "corpus-unit:47",
+          "exclusions:152-186"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "pathwayLabel": "Sealing for mistaken identity or false accusation (AS 12.62.180)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:78-118",
+          "section:388-393",
+          "section:56-77",
+          "section:78-118",
+          "section:152-186",
+          "section:252-278",
+          "exclusions:152-186",
+          "corpus-unit:11",
+          "corpus-unit:16",
+          "corpus-unit:23",
+          "corpus-unit:32",
+          "corpus-unit:49",
+          "corpus-unit:58",
+          "corpus-unit:74",
+          "corpus-unit:107",
+          "section:187-222",
+          "section:223-251"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "pathwayLabel": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:78-118",
+          "section:78-118",
+          "corpus-unit:33",
+          "section:119-151",
+          "section:223-251",
+          "corpus-unit:1",
+          "corpus-unit:64",
+          "corpus-unit:98",
+          "corpus-unit:11",
+          "corpus-unit:114",
+          "section:279-301",
+          "section:56-77",
+          "section:152-186",
+          "section:357-368",
+          "section:187-222",
+          "corpus-unit:82",
+          "corpus-unit:105"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-record-sealing-as-47-12-300",
+        "pathwayLabel": "Juvenile-record sealing (AS 47.12.300)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:78-118",
+          "section:56-77",
+          "section:78-118",
+          "corpus-unit:26",
+          "corpus-unit:35",
+          "section:119-151",
+          "section:187-222",
+          "section:252-278",
+          "case_outcomes:187-222",
+          "waiting_periods:119-151",
+          "corpus-unit:16",
+          "corpus-unit:43",
+          "corpus-unit:59",
+          "corpus-unit:75",
+          "corpus-unit:115"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "executive-pardon-backstop",
+        "pathwayLabel": "Executive-pardon backstop",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:78-118",
+          "section:78-118",
+          "corpus-unit:35",
+          "section:152-186",
+          "section:252-278",
+          "corpus-unit:108",
+          "exclusions:152-186",
+          "corpus-unit:17",
+          "corpus-unit:51",
+          "corpus-unit:75"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "identity_error",
+      "jurisdiction",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "There is no “petition for expungement” in Alaska. The relevant filings are the Alaska Court System (TF) forms",
+      "Form TF-810 Request to exclude a case from Courtview (Admin. Rule 40 / AS 22.35.030) — acquittals, dismissals, completed SIS set-asid",
+      "Form TF-805 Request to remove only the person's NAME from the public index",
+      "Form TF-800 Request asking a judge to seal or make confidential a still-public case or document",
+      "SIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate",
+      "For an acquittal or dismissal that is still appearing on Courtview, Form TF-810 is the workhorse: it asks the",
+      "court to exclude the case from the public index, and the petitioner shows that 60 days have passed since the",
+      "motion in the underlying criminal case once probation is complete; the court issues a certificate that the person",
+      "is a written request to the agency that holds the record, not a court petition.",
+      "— pick the one that matches the need. There is no expungement petition.",
+      "For an SIS, the set-aside is a motion in the existing criminal case; for mistaken identity, it's a written",
+      "There is no “petition for expungement” in Alaska.",
+      "The relevant filings are the Alaska Court System (TF) forms and statutory requests.",
+      "Form / filing Use Form TF-810 Request to exclude a case from Courtview (Admin.",
+      "Rule 40 / AS 22.35.030) — acquittals, dismissals, completed SIS set-asid Form TF-805 Request to remove only the person's NAME from the public index Form TF-800 Request asking a judge to seal or make confidential a still-public case or document SIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate AS 12.62.180(b) request Written request to the agency head to seal mistaken-identity / false-accusation records For an acquittal or dismissal that is still appearing on Courtview, Form TF-810 is the workhorse: it asks the court to exclude the case from the public index, and the petitioner shows that 60 days have passed since the acquittal or dismissal and attaches proof.",
+      "For a conviction resolved through an SIS, the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk.",
+      "Mistaken-identity sealing under AS 12.62.180(b) is a written request to the agency that holds the record, not a court petition.",
+      "There is no expungement petition.",
+      "For an SIS, the set-aside is a motion in the existing criminal case; for mistaken identity, it's a written sealing request to the record-holding agency."
+    ],
+    "attachments": [
+      "SIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate",
+      "acquittal or dismissal and attaches proof. For a conviction resolved through an SIS, the set-aside is sought by",
+      "motion in the underlying criminal case once probation is complete; the court issues a certificate that the person",
+      "Rule 40 / AS 22.35.030) — acquittals, dismissals, completed SIS set-asid Form TF-805 Request to remove only the person's NAME from the public index Form TF-800 Request asking a judge to seal or make confidential a still-public case or document SIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate AS 12.62.180(b) request Written request to the agency head to seal mistaken-identity / false-accusation records For an acquittal or dismissal that is still appearing on Courtview, Form TF-810 is the workhorse: it asks the court to exclude the case from the public index, and the petitioner shows that 60 days have passed since the acquittal or dismissal and attaches proof.",
+      "For a conviction resolved through an SIS, the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk.",
+      "1 Identify the disposition. Acquittal/dismissal, SIS conviction, mistaken-identity record, or juvenile — this",
+      "3 If still public (acquittal/dismissal): complete Form TF-810 (or TF-805 / TF-800 as appropriate), attach",
+      "proof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was",
+      "court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the",
+      "File TF-810 with the trial court that handled the case; it's a short request with proof attached, not an",
+      "1 Identify the disposition.",
+      "3 If still public (acquittal/dismissal): complete Form TF-810 (or TF-805 / TF-800 as appropriate), attach proof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was filed.",
+      "4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the Department of Public Safety and the clerk.",
+      "AGENT GUIDANCE File TF-810 with the trial court that handled the case; it's a short request with proof attached, not an adversarial petition."
+    ],
+    "filingDestinationRules": [
+      "proof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was",
+      "4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the",
+      "Department of Public Safety and the clerk.",
+      "5 If mistaken identity / false accusation: submit a written request under AS 12.62.180(b) to the head of the",
+      "agency that maintains the record, with evidence establishing the error beyond a reasonable doubt.",
+      "File TF-810 with the trial court that handled the case; it's a short request with proof attached, not an",
+      "3 If still public (acquittal/dismissal): complete Form TF-810 (or TF-805 / TF-800 as appropriate), attach proof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was filed.",
+      "4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the Department of Public Safety and the clerk.",
+      "5 If mistaken identity / false accusation: submit a written request under AS 12.62.180(b) to the head of the agency that maintains the record, with evidence establishing the error beyond a reasonable doubt.",
+      "AGENT GUIDANCE File TF-810 with the trial court that handled the case; it's a short request with proof attached, not an adversarial petition."
+    ],
+    "serviceAndNoticeRules": [
+      "agency that maintains the record, with evidence establishing the error beyond a reasonable doubt.",
+      "5 If mistaken identity / false accusation: submit a written request under AS 12.62.180(b) to the head of the agency that maintains the record, with evidence establishing the error beyond a reasonable doubt.",
+      "AS 12.62.180(b) request Written request to the agency head to seal mistaken-identity / false-accusation records",
+      "is a written request to the agency that holds the record, not a court petition.",
+      "sealing request to the record-holding agency.",
+      "Rule 40 / AS 22.35.030) — acquittals, dismissals, completed SIS set-asid Form TF-805 Request to remove only the person's NAME from the public index Form TF-800 Request asking a judge to seal or make confidential a still-public case or document SIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate AS 12.62.180(b) request Written request to the agency head to seal mistaken-identity / false-accusation records For an acquittal or dismissal that is still appearing on Courtview, Form TF-810 is the workhorse: it asks the court to exclude the case from the public index, and the petitioner shows that 60 days have passed since the acquittal or dismissal and attaches proof.",
+      "Mistaken-identity sealing under AS 12.62.180(b) is a written request to the agency that holds the record, not a court petition.",
+      "For an SIS, the set-aside is a motion in the existing criminal case; for mistaken identity, it's a written sealing request to the record-holding agency."
+    ],
+    "feeRules": [
+      "Form TF-810 (Courtview exclusion) Typically $0 Administrative request to the court",
+      "SIS set-aside motion Court motion fees may apply Filed in the existing criminal case",
+      "AS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency",
+      "DPS criminal history record DPS fee To confirm what records exist",
+      "Attorney fees (if represented) Varies Not required; legal-aid clinics assist",
+      "Cost is generally low because the relief is limited. Removing an acquittal or dismissal from the public",
+      "Courtview index via Form TF-810 is an administrative request and typically carries no fee. An SIS set-aside is",
+      "handled within the existing criminal case. A mistaken-identity sealing request under AS 12.62.180(b) goes to",
+      "the agency that holds the record. The main out-of-pocket cost for most people is obtaining the Department of",
+      "Public Safety criminal history record to see what exists, and any attorney fees if they choose representation.",
+      "Because the remedies are narrow, the practical question is usually eligibility, not cost.",
+      "Reassure users that the Courtview exclusion (TF-810) is generally free — the limiting factor in Alaska is",
+      "what relief exists, not the fee.",
+      "Direct users to pull the DPS criminal history first so they know exactly what records they're dealing with.",
+      "Item Amount Note Form TF-810 (Courtview exclusion) Typically $0 Administrative request to the court SIS set-aside motion Court motion fees may apply Filed in the existing criminal case AS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency DPS criminal history record DPS fee To confirm what records exist Attorney fees (if represented) Varies Not required; legal-aid clinics assist Cost is generally low because the relief is limited.",
+      "Removing an acquittal or dismissal from the public Courtview index via Form TF-810 is an administrative request and typically carries no fee.",
+      "An SIS set-aside is handled within the existing criminal case.",
+      "A mistaken-identity sealing request under AS 12.62.180(b) goes to the agency that holds the record.",
+      "The main out-of-pocket cost for most people is obtaining the Department of Public Safety criminal history record to see what exists, and any attorney fees if they choose representation.",
+      "AGENT GUIDANCE Reassure users that the Courtview exclusion (TF-810) is generally free — the limiting factor in Alaska is what relief exists, not the fee."
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the",
+      "agency that maintains the record, with evidence establishing the error beyond a reasonable doubt.",
+      "6 If juvenile: confirm the record is sealed under AS 47.12.300; if not, raise it with the juvenile court.",
+      "4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the Department of Public Safety and the clerk.",
+      "5 If mistaken identity / false accusation: submit a written request under AS 12.62.180(b) to the head of the agency that maintains the record, with evidence establishing the error beyond a reasonable doubt."
+    ],
+    "formInventory": [
+      {
+        "fileName": "RequestToSealCrimInfo.pdf",
+        "relativePath": "LegalEase Alaska/RequestToSealCrimInfo.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+        "sizeBytes": 37708
+      },
+      {
+        "fileName": "ak-record-relief-forms.html",
+        "relativePath": "LegalEase Alaska/ak-record-relief-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+        "sizeBytes": 23366
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Alaska-RecordRelief-Agent-Reference.pdf",
+        "relativePath": "LegalEase Alaska/Alaska-RecordRelief-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "bc1d4a6d7ebbfdec21d95e017f33299c4d57b29d754c16ada19578b7599844e3",
+        "sizeBytes": 34263
+      },
+      {
+        "fileName": "RequestToSealCrimInfo.pdf",
+        "relativePath": "LegalEase Alaska/RequestToSealCrimInfo.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+        "sizeBytes": 37708
+      },
+      {
+        "fileName": "ak-record-relief-forms.html",
+        "relativePath": "LegalEase Alaska/ak-record-relief-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+        "sizeBytes": 23366
+      },
+      {
+        "fileName": "background-checks.html",
+        "relativePath": "LegalEase Alaska/background-checks.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "037f23c79334d3a251e70cba598e78fa3bc7550062af90e4e9615ad56f213365",
+        "sizeBytes": 164194
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Alaska-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample filings and completed examples",
+      "category": "samples",
+      "startLine": 56,
+      "endLine": 77,
+      "text": "Statutory shorthand used throughout\n\nAS 12.55.085 Suspended Imposition of Sentence (SIS) and SET-ASIDE of a conviction\n\nAS 12.55.085(f) Offenses for which an SIS / set-aside is NOT available\n\nAS 12.55.078 Suspended ENTRY of judgment (no conviction results) — once per lifetime\n\nAS 12.62.180 SEALING of criminal justice information (mistaken identity / false accusation)\n\nAS 22.35.030 Acquittal / dismissal records kept off the public Courtview website\n\nAdmin. Rule 40 Court rule governing what appears on the public Courtview index\n\nAS 47.12.300 Sealing of JUVENILE records\n\nForm TF-810 Request to exclude a case from Courtview (Admin. Rule 40 / AS 22.35.030)\n\nJourney v. State 895 P.2d 955 (Alaska 1995) — set-aside is NOT expungement"
+    },
+    {
+      "title": "Eligibility rules (what relief exists)",
+      "category": "pathways",
+      "startLine": 78,
+      "endLine": 118,
+      "text": "There is no general expungement. The four real mechanisms, by situation:\n\nMechanism 1 — Set-aside after Suspended Imposition of Sentence (AS 12.55.085)\n• A court may grant a Suspended Imposition of Sentence (SIS) for many misdemeanors and some lower-level\nfelonies, typically for younger or first-time offenders.\n• On successful completion of probation, the court may set aside the conviction and issue a certificate; the\nconviction then “ceases to have legal effect” for many purposes.\n• It is NOT expungement. The record is not sealed or destroyed; a set-aside conviction can still appear on\nbackground checks, can be used as a prior for sentence enhancement, and can support license denials.\n• Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).\n\nMechanism 2 — Sealing for mistaken identity / false accusation (AS 12.62.180)\n• A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable\ndoubt, resulted from mistaken identity or false accusation.\n• This is a high bar and a narrow remedy — it is not a general path for clearing accurate records.\n• A person whose information is sealed under this section may deny the existence of the information and of the\narrest, charge, conviction, or sentence.\n\nMechanism 3 — Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40)\n• The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed\nand the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in\nanother case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of\njudgment (AS 12.55.078).\n• Removal is automatic, but cases sometimes slip through — Form TF-810 asks the court to exclude such a\ncase; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.\n• This makes the record non-public on Courtview; it does not destroy the underlying record.\n\nMechanism 4 — Juvenile records (AS 47.12.300) and the pardon backstop\n• Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction\n(whichever is later); juveniles charged as adults generally seal five years after completing the sentence.\n• For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon\n(executive clemency), which forgives but does not erase.\n\nAGENT GUIDANCE\nLead with honesty: Alaska has no general expungement. Identify which narrow mechanism fits — SIS\nset-aside, mistaken-identity sealing, Courtview non-publication, or juvenile sealing — and explain what\neach does and does not do.\nNever describe an SIS set-aside as “expungement”; it leaves a record that can still surface on\nbackground checks and as a sentencing prior."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 119,
+      "endLine": 151,
+      "text": "Alaska's mechanisms key off completing probation or a short confidentiality window rather than long\npost-conviction waits.\n\nMechanism Trigger / waiting period Authority\n\nSIS set-aside On successful completion of the SIS probation AS 12.55.085(e)\nperiod (clean for the term, often ≈ 1 year+)\n\nMistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b)\n\nCourtview non-publication 60 days after acquittal or dismissal AS 22.35.030\n(acquittal / dismissal)\n\nSuspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078\n\nJuvenile sealing 30 days after 18th birthday / release of AS 47.12.300\njurisdiction; 5 years if charged as adult\n\nTwo timing points matter. The SIS set-aside is available only AFTER the person successfully completes the\nsuspended-imposition probation period without violation — there is no additional multi-year post-completion\nwait, but the conviction is not set aside until probation is done and the court acts. The Courtview confidentiality\nrule runs on a simple 60-day clock from the acquittal or dismissal and is meant to be automatic; the TF-810\nprocess exists only to correct cases the system failed to remove. A suspended ENTRY of judgment (AS\n12.55.078) is generally available only once in a lifetime, absent clear and convincing evidence of a high\nlikelihood of rehabilitation.\n\nAGENT GUIDANCE\nFor acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first\nand only file TF-810 if the case is still showing.\nFor an SIS, the set-aside comes at successful completion of probation; confirm probation is fully\ncomplete before expecting the court to set the conviction aside."
+    },
+    {
+      "title": "Disqualifying offenses / what cannot be cleared",
+      "category": "exclusions",
+      "startLine": 152,
+      "endLine": 186,
+      "text": "The biggest limitation is structural: no general expungement exists, so an ordinary accurate adult conviction\ngenerally cannot be cleared at all. Within the narrow mechanisms, additional exclusions apply.\n\nExcluded from SIS / set-aside (AS 12.55.085(f))\n• Serious and violent offenses — e.g., murder and other homicide offenses, and offenses where an SIS is\nstatutorily barred.\n• Sexual offenses and offenses against children, as enumerated.\n• Certain crimes involving domestic violence and other offenses specifically listed in AS 12.55.085(f).\n• Offenses with a mandatory minimum sentence that cannot be suspended.\n\nLimits across the mechanisms\n• Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior\n(AS 12.55.155(c)(8)), and may support licensing denials.\n• Sealing (12.62.180) is essentially limited to mistaken identity / false accusation proven beyond a\nreasonable doubt — not a route for clearing valid records.\n• Courtview non-publication only hides the case from the public website — law enforcement and agencies\nretain the record, and it is limited to acquittals/dismissals.\n• Suspended entry of judgment (12.55.078) is typically once per lifetime and has its own excluded-offense\nlist.\n• Out-of-state and federal records are not reachable by Alaska's mechanisms.\n\nVERIFY BEFORE RELYING\nThe SIS / set-aside exclusion list (AS 12.55.085(f)) and the suspended-entry-of-judgment\nexclusions (AS 12.55.078(f)) are specific and have been amended; the reform bills (HB 34, HB 203)\nwould, if enacted, add genuine expungement/destruction of set-aside records and change this\npicture substantially. The agent must verify the current statutes and whether any reform has\nbecome law before advising — and must not assume expungement exists.\n\nAGENT GUIDANCE\nScreen SIS eligibility against AS 12.55.085(f) — homicide, sex offenses, and certain DV and\nmandatory-minimum offenses are out.\nBe explicit about the ceiling: for a valid adult conviction that isn't SIS-eligible and isn't a mistaken-identity\ncase, Alaska currently offers no clearing beyond a governor's pardon."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 187,
+      "endLine": 222,
+      "text": "Disposition drives which (if any) mechanism applies. This table is the agent's primary routing logic for Alaska.\n\nCase outcome Mechanism Effect Authority\n\nAcquittal (all charges) Courtview non-pub. Off public site at 60 days AS 22.35.030\n\nAll charges dismissed Courtview non-pub. Off public site at 60 days AS 22.35.030\n\nDismissed after suspended Courtview non-pub. Off public site; no conviction 12.55.078 / 22.35.030\nentry of judgment\n\nConviction w/ SIS, probation Set-aside Conviction set aside (NOT erased) AS 12.55.085(e)\ncompleted\n\nRecord from mistaken identity Sealing Sealed; may deny existence AS 12.62.180(b)\n/ false accusation\n\nJuvenile adjudication Juvenile sealing Sealed at 18 / release AS 47.12.300\n\nOrdinary adult conviction — No clearing; pardon only —\n(no SIS, accurate)\n\nEffect of each remedy differs sharply. A sealed record (12.62.180) is confidential and the person may deny its\nexistence and the underlying arrest/charge/conviction. A set-aside conviction (12.55.085) is NOT sealed: it\nremains a record, can still appear on background checks, may be used as a sentencing aggravator, and the\nAlaska courts have described the post-SIS dismissal as “in the nature of a pardon, not a declaration of\ninnocence.” Courtview non-publication (22.35.030) keeps an acquittal/dismissal off the public website but\ndoes not destroy the record held by agencies. The agent must convey these differences precisely.\n\nAGENT GUIDANCE\nMatch remedy to disposition: acquittal/dismissal → Courtview non-publication (verify it happened); SIS\nconviction → set-aside (explain it's not erasure); mistaken identity → sealing.\nOnly a sealed record (or a non-public Courtview entry) drops off public view; a set-aside conviction does\nnot, so don't overpromise."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 223,
+      "endLine": 251,
+      "text": "There is no “petition for expungement” in Alaska. The relevant filings are the Alaska Court System (TF) forms\nand statutory requests.\n\nForm / filing Use\n\nForm TF-810 Request to exclude a case from Courtview (Admin. Rule 40 / AS 22.35.030) — acquittals, dismissals, completed SIS set-asid\n\nForm TF-805 Request to remove only the person's NAME from the public index\n\nForm TF-800 Request asking a judge to seal or make confidential a still-public case or document\n\nSIS / set-aside Motion in the criminal case for set-aside on completion of the SIS (AS 12.55.085(e)); the court issues a certificate\n\nAS 12.62.180(b) request Written request to the agency head to seal mistaken-identity / false-accusation records\n\nFor an acquittal or dismissal that is still appearing on Courtview, Form TF-810 is the workhorse: it asks the\ncourt to exclude the case from the public index, and the petitioner shows that 60 days have passed since the\nacquittal or dismissal and attaches proof. For a conviction resolved through an SIS, the set-aside is sought by\nmotion in the underlying criminal case once probation is complete; the court issues a certificate that the person\ncan provide to the Department of Public Safety and the clerk. Mistaken-identity sealing under AS 12.62.180(b)\nis a written request to the agency that holds the record, not a court petition.\n\nAGENT GUIDANCE\nFor acquittals/dismissals use TF-810 (whole case), TF-805 (name only), or TF-800 (ask a judge to seal)\n— pick the one that matches the need. There is no expungement petition.\nFor an SIS, the set-aside is a motion in the existing criminal case; for mistaken identity, it's a written\nsealing request to the record-holding agency."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 252,
+      "endLine": 278,
+      "text": "1 Identify the disposition. Acquittal/dismissal, SIS conviction, mistaken-identity record, or juvenile — this\ndetermines the mechanism (or that none applies).\n\n2 Check Courtview first. For an acquittal or dismissal, look up the case; if 60 days have passed and it is no\nlonger on the public index, no filing is needed.\n\n3 If still public (acquittal/dismissal): complete Form TF-810 (or TF-805 / TF-800 as appropriate), attach\nproof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was\nfiled.\n\n4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the\ncourt to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the\nDepartment of Public Safety and the clerk.\n5 If mistaken identity / false accusation: submit a written request under AS 12.62.180(b) to the head of the\nagency that maintains the record, with evidence establishing the error beyond a reasonable doubt.\n\n6 If juvenile: confirm the record is sealed under AS 47.12.300; if not, raise it with the juvenile court.\n7 If none fits: advise that Alaska provides no general clearing for the conviction and that a governor's pardon is\nthe only avenue; provide accurate expectations rather than a false path.\n\nAGENT GUIDANCE\nFile TF-810 with the trial court that handled the case; it's a short request with proof attached, not an\nadversarial petition.\nFor an SIS set-aside, the motion goes into the EXISTING criminal case once probation is complete —\nthere's no separate new action."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 279,
+      "endLine": 301,
+      "text": "• No general expungement. The defining feature of Alaska — Journey v. State confirms the set-aside law\ndoes not authorize expunging a record.\n• Set-aside ≠ sealing. An SIS set-aside leaves the record intact and visible on background checks; it is “in the\nnature of a pardon, not a declaration of innocence.”\n• Automatic Courtview removal. Acquittals and dismissals come off the public website at 60 days by rule —\nthe relief is automatic, with TF-810 only as a backstop.\n• Set-aside cases also leave Courtview. A completed SIS set-aside where all other charges resolved favorably\nis also removed from the public index under Admin. Rule 40(a)(13).\n• Marijuana and minor-alcohol carve-outs. Admin. Rule 40 also keeps certain old small-amount-marijuana\nconvictions and some under-21 alcohol offenses off the public index.\n• Sealing is essentially mistaken-identity only. AS 12.62.180(b) is not a general remedy.\n• Suspended entry of judgment (12.55.078) avoids a conviction entirely but is usually a once-per-lifetime\noption.\n• Reform pending. HB 34 / HB 203 would add real expungement/destruction of set-aside records — track\nwhether either becomes law.\n\nAGENT GUIDANCE\nThe single most important thing to get right in Alaska is not overpromising: distinguish non-publication\nand set-aside (record persists) from true sealing/expungement (which generally doesn't exist here).\nWatch the reform bills — if HB 34 or HB 203 is enacted, the set-aside-to-expungement picture changes\nand this reference will need updating."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 302,
+      "endLine": 326,
+      "text": "Item Amount Note\n\nForm TF-810 (Courtview exclusion) Typically $0 Administrative request to the court\n\nSIS set-aside motion Court motion fees may apply Filed in the existing criminal case\n\nAS 12.62.180(b) sealing request Agency-dependent Written request to the record-holding agency\n\nDPS criminal history record DPS fee To confirm what records exist\n\nAttorney fees (if represented) Varies Not required; legal-aid clinics assist\n\nCost is generally low because the relief is limited. Removing an acquittal or dismissal from the public\nCourtview index via Form TF-810 is an administrative request and typically carries no fee. An SIS set-aside is\nhandled within the existing criminal case. A mistaken-identity sealing request under AS 12.62.180(b) goes to\nthe agency that holds the record. The main out-of-pocket cost for most people is obtaining the Department of\nPublic Safety criminal history record to see what exists, and any attorney fees if they choose representation.\nBecause the remedies are narrow, the practical question is usually eligibility, not cost.\n\nAGENT GUIDANCE\nReassure users that the Courtview exclusion (TF-810) is generally free — the limiting factor in Alaska is\nwhat relief exists, not the fee.\nDirect users to pull the DPS criminal history first so they know exactly what records they're dealing with."
+    },
+    {
+      "title": "Criminal history (DPS / Courtview) request process",
+      "category": "filing",
+      "startLine": 327,
+      "endLine": 330,
+      "text": "Confirming the record establishes the disposition (which decides the mechanism) and whether a case is still\nappearing on the public index."
+    },
+    {
+      "title": "Sample filings and completed examples",
+      "category": "samples",
+      "startLine": 357,
+      "endLine": 368,
+      "text": "Because Alaska has no expungement petition, the examples below show the actual filings used. Names, dates,\nand identifiers are fictional and illustrative.\n\nExample A — Form TF-810 (exclude an acquittal/dismissal from Courtview)\nALASKA COURT SYSTEM — TRIAL COURT, THIRD JUDICIAL DISTRICT\nAT ANCHORAGE\nSTATE OF ALASKA v. ANDRE L. CARTER Case No. 3AN-23-01234CR\n\nREQUEST TO EXCLUDE CASE FROM COURTVIEW\n(Admin. Rule 40(a) / AS 22.35.030) — Form TF-810\n1. I am the defendant in the case above."
+    },
+    {
+      "title": "SET-ASIDE AFTER SIS (AS 12.55.085(e)) — MOTION IN THE CASE:",
+      "category": "pathway_detail",
+      "startLine": 381,
+      "endLine": 387,
+      "text": "'Defendant received a Suspended Imposition of Sentence and has\nsuccessfully completed probation. Defendant moves the Court to\nSET ASIDE the conviction under AS 12.55.085(e) and to issue a\ncertificate.' (NOTE: this does NOT seal or expunge; the record\nremains and may appear on background checks.)"
+    },
+    {
+      "title": "SEALING — MISTAKEN IDENTITY / FALSE ACCUSATION (AS 12.62.180(b)):",
+      "category": "pathway_detail",
+      "startLine": 388,
+      "endLine": 393,
+      "text": "A written request to the head of the agency holding the record,\nshowing beyond a reasonable doubt that the record resulted from\nmistaken identity or false accusation. If sealed, the person may\ndeny the existence of the information."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 17,
+      "decisionRules": 64,
+      "waitingRules": 10,
+      "exclusions": 25,
+      "sourceFiles": 4,
+      "officialForms": 2
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

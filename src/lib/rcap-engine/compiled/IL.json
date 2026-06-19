@@ -1,0 +1,291 @@
+{
+ "schemaVersion": "2.0.0",
+ "profileVersion": "2026-06-19-source-conversion-1",
+ "jurisdiction": {
+  "code": "IL",
+  "name": "Illinois",
+  "slug": "illinois"
+ },
+ "terminology": {
+  "primaryConsumerTerm": "expungement",
+  "allowedStateTerms": [
+   "expungement",
+   "sealing",
+   "Clean Slate",
+   "vacatur/vacation",
+   "pardon"
+  ]
+ },
+ "recordSourceLabel": "Illinois criminal history (ISP access and review) or court records",
+ "flowStages": [
+  {
+   "order": 1,
+   "id": "scope",
+   "screenType": "question_sequence"
+  },
+  {
+   "order": 2,
+   "id": "pathway_routing",
+   "screenType": "question_sequence"
+  },
+  {
+   "order": 3,
+   "id": "state_specific_eligibility",
+   "screenType": "conditional_question_sequence"
+  },
+  {
+   "order": 4,
+   "id": "special_pathways",
+   "screenType": "conditional_question_sequence"
+  },
+  {
+   "order": 5,
+   "id": "timing_and_completion",
+   "screenType": "conditional_question_sequence"
+  },
+  {
+   "order": 6,
+   "id": "exclusion_screen",
+   "screenType": "conditional_question_sequence"
+  },
+  {
+   "order": 7,
+   "id": "record_readiness",
+   "screenType": "record_help_or_question"
+  },
+  {
+   "order": 8,
+   "id": "case_details",
+   "screenType": "form_fields"
+  },
+  {
+   "order": 9,
+   "id": "evaluation",
+   "screenType": "progress_transition"
+  },
+  {
+   "order": 10,
+   "id": "result",
+   "screenType": "result_card"
+  },
+  {
+   "order": 11,
+   "id": "packet_information",
+   "screenType": "state_packet_form"
+  },
+  {
+   "order": 12,
+   "id": "checkout",
+   "screenType": "checkout"
+  },
+  {
+   "order": 13,
+   "id": "generation",
+   "screenType": "status"
+  },
+  {
+   "order": 14,
+   "id": "briefcase",
+   "screenType": "matter_timeline"
+  }
+ ],
+ "questions": [
+  {
+   "id": "ownership_scope",
+   "stage": "scope",
+   "prompt": "Are you asking about your own record?",
+   "type": "single_choice",
+   "required": true,
+   "contextOnly": false,
+   "options": [
+    "Yes",
+    "No",
+    "I am helping someone complete their own check"
+   ]
+  },
+  {
+   "id": "jurisdiction_scope",
+   "stage": "scope",
+   "prompt": "Is this a state or local matter from Illinois, rather than a federal matter?",
+   "type": "single_choice",
+   "required": true,
+   "contextOnly": false,
+   "options": [
+    "State or local",
+    "Federal",
+    "I am not sure"
+   ]
+  },
+  {
+   "id": "case_outcome",
+   "stage": "pathway_routing",
+   "prompt": "How did the Illinois case or record end?",
+   "type": "single_choice",
+   "required": true,
+   "contextOnly": false,
+   "options": [
+    "Arrest or citation with no charge filed",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    "Acquitted or found not guilty",
+    "Diversion, deferred disposition, supervision, or similar program",
+    "Misdemeanor conviction",
+    "Felony conviction",
+    "Other conviction or adjudication",
+    "Juvenile adjudication or offense committed as a minor",
+    "Pardoned conviction",
+    "I am not sure"
+   ]
+  },
+  {
+   "id": "offense_level",
+   "stage": "pathway_routing",
+   "prompt": "What level or type was the charge?",
+   "type": "single_choice",
+   "required": true,
+   "contextOnly": false,
+   "options": [
+    "Misdemeanor",
+    "Felony",
+    "Infraction or violation",
+    "Traffic or driving matter",
+    "Municipal or ordinance matter",
+    "I am not sure"
+   ]
+  },
+  {
+   "id": "possible_pathway_context",
+   "stage": "pathway_routing",
+   "prompt": "Do any of these Illinois descriptions sound close to your situation?",
+   "type": "single_choice",
+   "required": false,
+   "contextOnly": true,
+   "options": [
+    "Adult non-conviction expungement",
+    "Expungement after eligible supervision or qualified probation",
+    "Adult conviction sealing",
+    "Cannabis-specific automatic or petition expungement",
+    "Human-trafficking-survivor vacatur and expungement",
+    "Felony-prostitution relief",
+    "Criminal identity-theft / mistaken-identity relief",
+    "Juvenile automatic or petition expungement",
+    "Clean Slate automatic sealing",
+    "None of these / I am not sure"
+   ]
+  },
+  {
+   "id": "age_at_offense",
+   "stage": "pathway_routing",
+   "prompt": "How old were you when the offense or case began?",
+   "type": "number_or_range",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "trafficking_status",
+   "stage": "special_pathways",
+   "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+   "type": "yes_no_prefer_not_to_say",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "pardon_status",
+   "stage": "special_pathways",
+   "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+   "type": "yes_no_unsure",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "sentence_completion_date",
+   "stage": "timing_and_completion",
+   "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+   "type": "yes_no_unsure",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "disposition_date",
+   "stage": "timing_and_completion",
+   "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+   "type": "date_or_unknown",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "state_exclusion_categories",
+   "stage": "exclusion_screen",
+   "prompt": "Does the record involve any Illinois category that the source identifies as excluded or review-required?",
+   "type": "multi_select",
+   "required": true,
+   "contextOnly": false,
+   "options": [
+    "Violent offense",
+    "Sex offense or registration",
+    "Domestic violence",
+    "DUI/DWI or serious traffic",
+    "Other named excluded offense",
+    "None of these",
+    "I am not sure"
+   ]
+  },
+  {
+   "id": "record_documents",
+   "stage": "record_readiness",
+   "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+   "type": "yes_no_unsure",
+   "required": true,
+   "contextOnly": false,
+   "options": []
+  },
+  {
+   "id": "court",
+   "stage": "case_details",
+   "prompt": "Which court or agency handled the case?",
+   "type": "text",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "charge",
+   "stage": "case_details",
+   "prompt": "What charge, statute, or record description appears on the record?",
+   "type": "text_or_unknown",
+   "required": true,
+   "contextOnly": false,
+   "options": null
+  },
+  {
+   "id": "county_or_filing_location",
+   "stage": "case_details",
+   "prompt": "Where in Illinois was the case handled?",
+   "type": "text_or_unknown",
+   "required": true,
+   "contextOnly": false,
+   "options": []
+  },
+  {
+   "id": "case_identifier",
+   "stage": "case_details",
+   "prompt": "What case, docket, cause, or arrest number appears on the record?",
+   "type": "text_or_unknown",
+   "required": false,
+   "contextOnly": false,
+   "options": []
+  }
+ ],
+ "copyGuardrails": [
+  "Case outcome / record type First Wilma route Illinois treatment Released without charging Expungement or sealing Expunge available immediately unless excluded Dismissal Expungement or sealing Expunge available immediately unless excluded Acquittal / not guilty Expungement or sealing Expunge available immediately unless excluded Finding of no probable cause Expungement/sealing analysis Usually treated as non-conviction route Conviction vacated or reversed Expungement or sealing Expunge available immediately unless excluded Order of supervision successfully completed Expungement or sealing Expungement wait usually 2 years, sometimes 5 years or age 25 Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after successful termination Misdemeanor conviction Sealing Often sealable unless excluded Felony conviction Sealing Broadly sealable unless excluded; some serious felonies petition-only, not automatic Pardon authorizing expungement Expungement Petition to expunge after governor\u0019s pardon authorizes it Certificate of innocence Expungement Court granting certificate also enters expungement order Minor cannabis offense Automatic/pardon/court cannabis expungement Special cannabis routes Human trafficking-related offense Vacation + expungement or immediate sealing Survivor route under 5.2(h) Prior Class 4 felony prostitution conviction Automatic sealing and/or motion to vacate and expunge Special 5.2(j) route Juvenile record Juvenile expungement Separate automatic and petition routes under 705 ILCS 405/5-915 Federal or out-of-state case Not Illinois court relief Illinois courts cannot expunge/seal federal or out-of-state records Illinois Legal Aid confirms that Illinois courts cannot expunge or seal records from other states or federal cases, even if the federal case happened in Illinois. ( \"https://www.illinoislegalaid.org/legal-information/expunging-or-sealing-criminal-record-common-questions\")",
+  "For Illinois, train Wilma with this core logic: Start with adult vs juvenile, then disposition.Non-convictions generally expunge immediately unless excluded.Supervision can expunge after 2 years, 5 years, or age 25 depending on offense.Qualified probation can expunge after 5 years if successfully completed.Most convictions route to sealing, not expungement.Clean Slate automatic sealing is not immediate; users still file petitions if they want relief sooner.Cannabis, trafficking, felony prostitution, identity theft, pardons, and certificates of innocence have special routes.Do not promise relief until Wilma has the ISP RAP sheet, court dispositions, exact statutes, final disposition, sentence/supervision completion date, pending-charge status, and county/court information. ===== SOURCE FILE: Illinois-Expungement-Sealing-Agent-Reference.pdf ===== Illinois Expungement & Sealing Agent Training Reference A complete operational knowledge base for record-clearing eligibility, the expungement/sealing distinction, waiting periods, exclusions, forms, and filing under Illinois law.",
+  "Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for certain records) and removal of the drug-test requirement take effect June 30, 2026; and AUTOMATIC sealing does not begin until January 1, 2029, phasing in through 2034.",
+  "Until automatic sealing is live, the petition-based process remains the only route for most records.",
+  "The agent must not tell a user their record will be sealed automatically before 2029, and must verify which effective date applies to any given rule.",
+  "Use Illinois-specific remedy terminology returned by the profile; do not relabel every remedy as expungement."
+ ]
+}

@@ -63,7 +63,7 @@ console.log("Internal admin gate: source verified");
 console.log("Review artifact links: verified");
 console.log("Handoff detail links: verified");
 console.log("Public live routing unchanged: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai UI untouched: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 

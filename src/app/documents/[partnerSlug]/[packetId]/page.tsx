@@ -8,7 +8,7 @@ import { IllinoisDocumentPacketPreview } from "@/components/rcap/documents/illin
 import { PennsylvaniaDocumentPacketPreview } from "@/components/rcap/documents/pennsylvania/PennsylvaniaDocumentPacketPreview";
 import { TexasHarrisDocumentPacketPreview } from "@/components/rcap/documents/texas-harris/TexasHarrisDocumentPacketPreview";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
-import { getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
+import { getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 
 export default async function MississippiDocumentPacketPage({
   params

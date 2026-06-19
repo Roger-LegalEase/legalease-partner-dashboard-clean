@@ -1,0 +1,2206 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "WY",
+    "name": "Wyoming",
+    "slug": "wyoming"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "sha256": "e9273b28ff3e0b98d5672d11831c8d61a7054b75bc2f59b7b7f4f25d2fd79c7e",
+        "sizeBytes": 90666,
+        "score": 2724,
+        "extractedChars": 21513
+      }
+    ],
+    "sourceCorpusSha256": "8be51e84e828de3bece45e51b68744cc68ba6662c7db7991bba8d70a565e00aa",
+    "sourceCorpusChars": 21403,
+    "allFolderFiles": [
+      {
+        "fileName": "Expungement-Handout_05.01.25.pdf.html",
+        "relativePath": "LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "41d588637c99396b80bbc7d91b2ba73bde24d76c87c3f454767f6db731dbd457",
+        "sizeBytes": 932
+      },
+      {
+        "fileName": "Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "e9273b28ff3e0b98d5672d11831c8d61a7054b75bc2f59b7b7f4f25d2fd79c7e",
+        "sizeBytes": 90666
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "vacatur/vacation",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Adult non-conviction expungement - W.S. 7-13-1401",
+      "Misdemeanor conviction expungement - W.S. 7-13-1501",
+      "Felony conviction expungement - W.S. 7-13-1502",
+      "Human-trafficking victim vacatur - W.S. 6-2-708",
+      "Juvenile / minor expungement - W.S. 14-6-241"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "source_question_01_step-1-adult-or-juvenile-minor",
+        "source_question_02_was-this-an-adult-case-or-were-you-under",
+        "source_question_03_step-2-conviction-or-no-conviction",
+        "source_question_04_did-the-case-end-in-conviction-guilty-no",
+        "source_question_05_was-this-handled-through-deferred-prosec",
+        "source_question_06_did-the-offense-involve-a-gun-sex-offend",
+        "source_question_07_when-did-you-finish-probation-court-orde",
+        "prior_relief"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status",
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Wyoming, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Wyoming case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Traffic or driving matter",
+        "Municipal or ordinance matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Wyoming descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Adult non-conviction expungement - W.S. 7-13-1401",
+        "Misdemeanor conviction expungement - W.S. 7-13-1501",
+        "Felony conviction expungement - W.S. 7-13-1502",
+        "Human-trafficking victim vacatur - W.S. 6-2-708",
+        "Juvenile / minor expungement - W.S. 14-6-241",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "source_question_01_step-1-adult-or-juvenile-minor",
+      "stage": "state_specific_eligibility",
+      "prompt": "Step 1 - Adult or juvenile/minor?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_02_was-this-an-adult-case-or-were-you-under",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this an adult case, or were you under 18 when it happened?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_03_step-2-conviction-or-no-conviction",
+      "stage": "state_specific_eligibility",
+      "prompt": "Step 2 - Conviction or no conviction?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_04_did-the-case-end-in-conviction-guilty-no",
+      "stage": "state_specific_eligibility",
+      "prompt": "Did the case end in conviction/guilty/no contest, or was it dismissed, acquitted, declined, or never charged?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_05_was-this-handled-through-deferred-prosec",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this handled through deferred prosecution, first-offender treatment, probation before judgment, or a dismissal after completing probation?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_06_did-the-offense-involve-a-gun-sex-offend",
+      "stage": "state_specific_eligibility",
+      "prompt": "Did the offense involve a gun, sex-offender registration, violence, a child victim, domestic battery, weapons, escape, bribery, or harm to a patient by a health-care provider?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_07_when-did-you-finish-probation-court-orde",
+      "stage": "state_specific_eligibility",
+      "prompt": "When did you finish probation, court-ordered programs, and restitution?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "prior_relief",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you previously received record-clearing relief in Wyoming or elsewhere?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Wyoming was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "adult-non-conviction-expungement-w-s-7-13-1401",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "adult-non-conviction-expungement-w-s-7-13-1401",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "adult-non-conviction-expungement-w-s-7-13-1401",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "adult-non-conviction-expungement-w-s-7-13-1401",
+      "label": "Adult non-conviction expungement - W.S. 7-13-1401",
+      "summary": "This is the main route for arrest-only or dismissed cases. Wilma must confirm all of these: Requirement Wyoming rule Waiting period At least 180 days have passed since arrest or dismissal Pending charges No formal charges are pending when the petition is filed Incident result No conviction from any charge related to the incident, or no charges were filed, or all proceedings were dismissed Deferred-disposition bar No disposition under W.S. 7-13-301, W.S. 35-7-1037, or former W.S. 7-13-203 from…",
+      "sourceRef": "section:44-59",
+      "ruleClauses": [
+        "This is the main route for arrest-only or dismissed cases.",
+        "Wilma must confirm all of these:",
+        "Waiting period At least 180 days have passed since arrest or dismissal",
+        "Pending charges No formal charges are pending when the petition is filed",
+        "Incident result No conviction from any charge related to the incident, or no charges were filed, or all proceedings were dismissed",
+        "Deferred-disposition bar No disposition under W.S. 7-13-301, W.S. 35-7-1037, or former W.S. 7-13-203 from the incident",
+        "Filing fee No filing fee under 7-13-1401",
+        "Service Verified petition served on prosecuting attorney",
+        "Objection window Prosecutor has 20 days to object",
+        "Effect Court file sealed; certified order sent to DCI; person may answer as if arrest/charges did not occur unless law says otherwise",
+        "The statute requires the 180-day wait, no pending charges, no listed deferred dispositions, and a no-conviction/no-charge/dismissal result tied to the incident. It also provides no filing fee, a 20-day prosecutor objection window, and the right to respond as if the arrest/charges did not occur after expungement. (",
+        "\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")",
+        "Wilma trap: A Wyoming dismissal after a deferred prosecution is not automatically a 7-13-1401 expungement case. Section 7-13-1401 expressly excludes certain deferred dispositions from that non-conviction route. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "pending_cases",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Waiting period At least 180 days have passed since arrest or dismissal",
+        "Objection window Prosecutor has 20 days to object"
+      ],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "section:44-59"
+      ]
+    },
+    {
+      "id": "misdemeanor-conviction-expungement-w-s-7-13-1501",
+      "label": "Misdemeanor conviction expungement - W.S. 7-13-1501",
+      "summary": "A person who pled guilty, pled no contest, or was convicted of a Wyoming misdemeanor may petition the convicting court for expungement of records of conviction. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\") Eligibility checklist",
+      "sourceRef": "section:60-82",
+      "ruleClauses": [
+        "A person who pled guilty, pled no contest, or was convicted of a Wyoming misdemeanor may petition the convicting court for expungement of records of conviction. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")",
+        "Case type Misdemeanor guilty plea, no-contest plea, or conviction",
+        "Waiting period - status offense 1 year after expiration of sentence terms, including probation and court-ordered program completion",
+        "Waiting period - non-status offense 5 years after expiration of sentence terms, including probation and court-ordered program completion",
+        "Firearm bar Misdemeanor must not have involved use or attempted use of a firearm",
+        "Health-care provider bar Health-care provider convicted under W.S. 6-2-313 against a patient is not eligible",
+        "Danger finding Court must find petitioner is not a substantial danger to self, victim, or society",
+        "One-time limit Only one expungement under 7-13-1501",
+        "Service Verified petition served on prosecutor and DCI",
+        "Objection window Prosecutor/victim has 30 days to object",
+        "The statute sets the 5-year / 1-year timing rule, firearm bar, health-care provider bar, $100 filing fee, DCI/prosecutor service requirement, 30-day objection process, substantial-danger finding, and one-time limit. (",
+        "\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")",
+        "is conduct that would not be a crime if committed by an adult, with statutory exceptions. In plain English: it is usually something illegal because of the person\u0019s age/status, not because the conduct is criminal for everyone. (\"https://law.justia.com/codes/wyoming/title-7/chapter-1/section-7-1-107/?utm_source=chatgpt.com\")",
+        "Wilma trap: Do not assume all underage alcohol/nicotine/minor conduct is automatically a status offense for this statute. Verify the exact charge and statute."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "prior_relief",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Waiting period - status offense 1 year after expiration of sentence terms, including probation and court-ordered program completion",
+        "Waiting period - non-status offense 5 years after expiration of sentence terms, including probation and court-ordered program completion",
+        "Objection window Prosecutor/victim has 30 days to object"
+      ],
+      "exclusionRules": [
+        "Health-care provider bar Health-care provider convicted under W.S. 6-2-313 against a patient is not eligible"
+      ],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "section:60-82"
+      ]
+    },
+    {
+      "id": "felony-conviction-expungement-w-s-7-13-1502",
+      "label": "Felony conviction expungement - W.S. 7-13-1502",
+      "summary": "A person convicted of an eligible felony, or eligible felonies from the same occurrence or related course of events, may petition the convicting court. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\") Eligibility checklist",
+      "sourceRef": "section:83-119",
+      "ruleClauses": [
+        "A person convicted of an eligible felony, or eligible felonies from the same occurrence or related course of events, may petition the convicting court. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+        "Waiting period At least 10 years since sentence expiration, including probation",
+        "Court programs Any court-ordered program must be completed",
+        "Restitution Court-ordered restitution must be paid in full",
+        "Other felonies Other than the felony/felonies being expunged, petitioner must not have previously pled guilty, pled no contest, or been convicted of a felony",
+        "Firearm bar Felony must not have involved use or attempted use of a firearm, except certain Title 23 offenses",
+        "Danger finding Court must find petitioner is not a substantial danger to self, victim, or society",
+        "One-time limit Only one felony conviction expungement under this section",
+        "Service Verified petition served on prosecutor and DCI",
+        "Objection window Prosecutor/victim has 90 days to object",
+        "Effect on rights Expungement under 7-13-1502 restores rights removed because of the conviction",
+        "The statute sets the 10-year wait, restitution/program completion rules, other-felony bar, firearm bar, $300 fee, 90-day objection window, court sealing/DCI transmission, one-time limit, and restoration-of-rights language. (",
+        "\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+        "Wilma should flag likely ineligible/manual review if the felony is:",
+        "a violent felony under W.S. 6-1-104(a)(xii);",
+        "aggravated homicide by vehicle;",
+        "sexual assault or related sexual offense under W.S. 6-2-301 through 6-2-320;",
+        "certain domestic battery offenses;",
+        "aggravated assault/battery on a corrections or detention officer;",
+        "sexual exploitation of children;",
+        "endangering children with controlled substances;",
+        "escape from official detention / violent or armed escape;",
+        "weapons offenses under W.S. 6-8-101 or 6-8-102;",
+        "any offense subject to sex-offender registration under W.S. 7-19-302(g) through (j). (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
+        "prior_relief",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period At least 10 years since sentence expiration, including probation",
+        "Objection window Prosecutor/victim has 90 days to object"
+      ],
+      "exclusionRules": [
+        "Wilma should flag likely ineligible/manual review if the felony is:"
+      ],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:83-119"
+      ]
+    },
+    {
+      "id": "human-trafficking-victim-vacatur-w-s-6-2-708",
+      "label": "Human-trafficking victim vacatur - W.S. 6-2-708",
+      "summary": "Wyoming has a separate victim/survivor route. A human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim. At any time after conviction, the court that entered the conviction may vacate it if the person\u0019s participation in the offense resulted from being a victim. Official documentation creates a presumption, but is not required.…",
+      "sourceRef": "section:120-126",
+      "ruleClauses": [
+        "Wyoming has a separate victim/survivor route. A human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim. At any time after conviction, the court that entered the conviction may vacate it if the person\u0019s participation in the offense resulted from being a victim. Official documentation creates a presumption, but is not required. (\"https://law.justia.com/codes/wyoming/title-6/chapter-2/article-7/section-6-2-708/\")",
+        "Wilma trauma rule: Ask only what is necessary:",
+        "Was this charge connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you to do something connected to the case?",
+        "Then route to manual/legal review. Do not require graphic details."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "court",
+        "charge",
+        "trafficking_status"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": null,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:120-126"
+      ]
+    },
+    {
+      "id": "juvenile-minor-expungement-w-s-14-6-241",
+      "label": "Juvenile / minor expungement - W.S. 14-6-241",
+      "summary": "Wyoming juvenile/minor expungement is separate from adult expungement. Eligible categories include:",
+      "sourceRef": "section:127-148",
+      "ruleClauses": [
+        "Wyoming juvenile/minor expungement is separate from adult expungement.",
+        "Juvenile/minor record Court route",
+        "Juvenile delinquency adjudication other than violent felony Juvenile court petition after age of majority",
+        "Minor municipal ordinance conviction Municipal court petition",
+        "Minor misdemeanor conviction in circuit court Circuit court petition",
+        "Minor diversion or deferral Petition to court that ordered diversion/deferral",
+        "Minor arrest/charge/disposition ending in dismissal, declined prosecution, or no conviction/adjudication Petition to court",
+        "The statute allows a person adjudicated delinquent for a nonviolent felony-equivalent act to petition after reaching the age of majority, and also covers municipal ordinance convictions, minor misdemeanor circuit-court convictions, diversion/deferral, and non-conviction minor records. There is no filing fee for juvenile expungement petitions. (",
+        "\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")",
+        "person has reached age of majority;",
+        "record is not for a violent felony as defined by Wyoming law;",
+        "no felony conviction since adjudication;",
+        "no felony proceeding pending or being instituted;",
+        "rehabilitation has been attained to the satisfaction of the court or prosecuting attorney;",
+        "prosecutor was served and had the 20-day objection period. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")",
+        "After juvenile expungement, proceedings are deemed never to have occurred, and the person may answer accordingly. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "court",
+        "charge",
+        "age_at_offense"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "juvenile",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "section:127-148"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-05-successfully-completed-felony-deferred-prosecution-usua",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Successfully completed felony deferred prosecution Usually not eligible under felony conviction expungement Wyoming Supreme Court held 7-13-1502 applies to people with felony convictions; a completed deferral dismissed without conviction is not a felony conviction"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-01-arrest-no-charges-filed-w-s-7-13-1401-possible-after-18",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 180,
+          "unit": "days",
+          "raw": "180 days"
+        },
+        "sourceConditionText": "Arrest, no charges filed W.S. 7-13-1401 Possible after 180 days, if no pending charges and no disqualifying deferred disposition"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "adult-non-conviction-expungement-w-s-7-13-1401"
+      ]
+    },
+    {
+      "id": "rule-17-wyoming-has-real-expungement-but-adult-expungement-main",
+      "priority": 50,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "pending_cases",
+          "prior_relief",
+          "charge",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "duration": {
+          "value": 180,
+          "unit": "days",
+          "raw": "180 days"
+        },
+        "sourceConditionText": "Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "summary:280-282",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "felony-conviction-expungement-w-s-7-13-1502"
+      ]
+    },
+    {
+      "id": "rule-09-wyoming-does-not-automatically-expunge-most-records-the",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Wyoming does not automatically expunge most records. The Judicial Branch says users should not expect automatic expungement and must file a petition with the proper court. ("
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-02-charges-dismissed-acquitted-no-conviction-w-s-7-13-1401",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 180,
+          "unit": "days",
+          "raw": "180 days"
+        },
+        "sourceConditionText": "Charges dismissed / acquitted / no conviction W.S. 7-13-1401 Possible after 180 days from arrest or dismissal, if all charges from the incident ended without conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "adult-non-conviction-expungement-w-s-7-13-1401",
+        "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "id": "rule-03-guilty-plea-no-contest-plea-misdemeanor-conviction-w-s",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Guilty plea / no-contest plea / misdemeanor conviction W.S. 7-13-1501 Possible after 1 year for status offenses or 5 years for non-status offenses, if no firearm involvement and other rules satisfied"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-04-felony-conviction-w-s-7-13-1502-possible-after-10-years",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Felony conviction W.S. 7-13-1502 Possible after 10 years from sentence/program/restitution completion, if felony is not excluded"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-06-juvenile-delinquency-minor-municipal-minor-misdemeanor",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile delinquency / minor municipal / minor misdemeanor / juvenile diversion or deferral W.S. 14-6-241 Possible after age of majority, if no later felony, no pending felony case, and rehabilitation shown"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-07-human-trafficking-victim-conviction-w-s-6-2-708-vacatur",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking victim conviction W.S. 6-2-708 vacatur Court may vacate conviction at any time if participation resulted from trafficking victimization"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "adult-non-conviction-expungement-w-s-7-13-1401"
+      ]
+    },
+    {
+      "id": "rule-08-pardon-innocence-issue-separate-pardon-or-innocence-rou",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon / innocence issue Separate pardon or innocence route Not the normal expungement pathway; manual review"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-10-https-www-wyocourts-gov-legal-help-by-topic-expungement",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-22",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-11-adult-arrest-no-charge-dismissal-acquittal-180-days-aft",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 180,
+          "unit": "days",
+          "raw": "180 days"
+        },
+        "sourceConditionText": "Adult arrest/no charge/dismissal/acquittal 180 days after arrest or dismissal"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "adult-non-conviction-expungement-w-s-7-13-1401",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-12-adult-misdemeanor-status-offense-1-year-after-sentence-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Adult misdemeanor status offense 1 year after sentence/probation/program completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-13-adult-misdemeanor-non-status-offense-5-years-after-sent",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Adult misdemeanor non-status offense 5 years after sentence/probation/program completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-14-adult-felony-conviction-10-years-after-sentence-probati",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Adult felony conviction 10 years after sentence/probation/program completion and full restitution payment"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "felony-conviction-expungement-w-s-7-13-1502",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "rule-15-juvenile-delinquency-minor-record-after-reaching-age-of",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile delinquency/minor record After reaching age of majority"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "id": "rule-16-human-trafficking-victim-vacatur-any-time-after-convict",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking victim vacatur Any time after conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:199-210",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "juvenile-minor-expungement-w-s-14-6-241",
+        "felony-conviction-expungement-w-s-7-13-1502"
+      ]
+    },
+    {
+      "id": "route-adult-non-conviction-expungement-w-s-7-13-1401",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-non-conviction-expungement-w-s-7-13-1401",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "pending_cases",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "pending_cases",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult non-conviction expungement - W.S. 7-13-1401"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:44-59",
+      "candidatePathwayIds": [
+        "adult-non-conviction-expungement-w-s-7-13-1401"
+      ]
+    },
+    {
+      "id": "route-misdemeanor-conviction-expungement-w-s-7-13-1501",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "prior_relief",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "prior_relief",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Misdemeanor conviction expungement - W.S. 7-13-1501"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:60-82",
+      "candidatePathwayIds": [
+        "misdemeanor-conviction-expungement-w-s-7-13-1501"
+      ]
+    },
+    {
+      "id": "route-felony-conviction-expungement-w-s-7-13-1502",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "felony-conviction-expungement-w-s-7-13-1502",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Felony conviction expungement - W.S. 7-13-1502"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:83-119",
+      "candidatePathwayIds": [
+        "felony-conviction-expungement-w-s-7-13-1502"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-victim-vacatur-w-s-6-2-708",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "charge",
+          "trafficking_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "charge",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking victim vacatur - W.S. 6-2-708"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:120-126",
+      "candidatePathwayIds": [
+        "human-trafficking-victim-vacatur-w-s-6-2-708"
+      ]
+    },
+    {
+      "id": "route-juvenile-minor-expungement-w-s-14-6-241",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-minor-expungement-w-s-14-6-241",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "court",
+          "charge",
+          "age_at_offense"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "court",
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile / minor expungement - W.S. 14-6-241"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:127-148",
+      "candidatePathwayIds": [
+        "juvenile-minor-expungement-w-s-14-6-241"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Waiting period At least 180 days have passed since arrest or dismissal",
+      "duration": {
+        "value": 180,
+        "unit": "days",
+        "raw": "180 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Objection window Prosecutor has 20 days to object",
+      "duration": {
+        "value": 20,
+        "unit": "days",
+        "raw": "20 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Waiting period - status offense 1 year after expiration of sentence terms, including probation and court-ordered program completion",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "expiration of sentence terms, including probation and court-ordered program completion",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Waiting period - non-status offense 5 years after expiration of sentence terms, including probation and court-ordered program completion",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "expiration of sentence terms, including probation and court-ordered program completion",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Objection window Prosecutor/victim has 30 days to object",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Waiting period At least 10 years since sentence expiration, including probation",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Objection window Prosecutor/victim has 90 days to object",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Adult arrest/no charge/dismissal/acquittal 180 days after arrest or dismissal",
+      "duration": {
+        "value": 180,
+        "unit": "days",
+        "raw": "180 days"
+      },
+      "anchor": "arrest or dismissal",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Adult misdemeanor status offense 1 year after sentence/probation/program completion",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "sentence/probation/program completion",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Adult misdemeanor non-status offense 5 years after sentence/probation/program completion",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "sentence/probation/program completion",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Adult felony conviction 10 years after sentence/probation/program completion and full restitution payment",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "sentence/probation/program completion and full restitution payment",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "financial_obligations"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Prosecutor objection - 7-13-1401 20 days",
+      "duration": {
+        "value": 20,
+        "unit": "days",
+        "raw": "20 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Prosecutor/victim objection - misdemeanor 30 days",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Prosecutor/victim objection - felony 90 days",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Route Waiting period / timing Adult arrest/no charge/dismissal/acquittal 180 days after arrest or dismissal Adult misdemeanor status offense 1 year after sentence/probation/program completion Adult misdemeanor non-status offense 5 years after sentence/probation/program completion Adult felony conviction 10 years after sentence/probation/program completion and full restitution payment Juvenile delinquency/minor record After reaching age of majority Human-trafficking victim vacatur Any time after conviction Prosecutor objection - 7-13-1401 20 days Prosecutor/victim objection - misdemeanor 30 days Prosecutor/victim objection - felony 90 days",
+      "duration": {
+        "value": 180,
+        "unit": "days",
+        "raw": "180 days"
+      },
+      "anchor": "arrest or dismissal Adult misdemeanor status offense 1 year after sentence/probation/program complet",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
+        "charge",
+        "age_at_offense",
+        "trafficking_status"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization.",
+      "duration": {
+        "value": 180,
+        "unit": "days",
+        "raw": "180 days"
+      },
+      "anchor": "public dissemination",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "pending_cases",
+        "prior_relief",
+        "charge",
+        "age_at_offense",
+        "trafficking_status"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "For Wyoming, train Wilma with this core logic: Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization.",
+      "duration": {
+        "value": 180,
+        "unit": "days",
+        "raw": "180 days"
+      },
+      "anchor": "public dissemination",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "pending_cases",
+        "prior_relief",
+        "charge",
+        "age_at_offense",
+        "trafficking_status"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Health-care provider bar Health-care provider convicted under W.S. 6-2-313 against a patient is not eligible",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Wilma should flag likely ineligible/manual review if the felony is:",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "adult-non-conviction-expungement-w-s-7-13-1401",
+        "pathwayLabel": "Adult non-conviction expungement - W.S. 7-13-1401",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:44-59"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "pathwayLabel": "Misdemeanor conviction expungement - W.S. 7-13-1501",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:60-82"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
+        "pathwayLabel": "Felony conviction expungement - W.S. 7-13-1502",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:83-119"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-victim-vacatur-w-s-6-2-708",
+        "pathwayLabel": "Human-trafficking victim vacatur - W.S. 6-2-708",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:120-126"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-minor-expungement-w-s-14-6-241",
+        "pathwayLabel": "Juvenile / minor expungement - W.S. 14-6-241",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:127-148"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "prior_relief",
+      "sentence_completion_date",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "Wyoming\u0019s statewide self-help page does not appear to provide one complete mandatory petition packet; it lists an Expungement Handout and explains that the person prepares a Petition for Expungement and, if granted, an Order for Expungement for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+      "Adult non-conviction Petition for Expungement under W.S. 7-13-1401 + proposed Order for Expungement",
+      "Adult misdemeanor conviction Petition for Expungement of Records of Conviction under W.S. 7-13-1501 + proposed order",
+      "Adult felony conviction Petition for Expungement of Records of Conviction under W.S. 7-13-1502 + proposed order",
+      "Juvenile/minor record Petition for Expungement under W.S. 14-6-241 + proposed order",
+      "Human-trafficking victim relief Motion to Vacate Conviction under W.S. 6-2-708",
+      "Agent caution: County clerks, municipal courts, and circuit courts may have local templates. Wilma should not invent a statewide form number unless a specific court provides one.",
+      "Wyoming\u0019s statewide self-help page does not appear to provide one complete mandatory petition packet; it lists an Expungement Handout and explains that the person prepares a Petition for Expungement and, if granted, an Order for Expungement for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\") Wilma should look for: Route Document name Adult non-conviction Petition for Expungement under W.S.",
+      "7-13-1401 + proposed Order for Expungement Adult misdemeanor conviction Petition for Expungement of Records of Conviction under W.S.",
+      "7-13-1501 + proposed order Adult felony conviction Petition for Expungement of Records of Conviction under W.S.",
+      "7-13-1502 + proposed order Juvenile/minor record Petition for Expungement under W.S.",
+      "14-6-241 + proposed order Human-trafficking victim relief Motion to Vacate Conviction under W.S.",
+      "Wilma should not invent a statewide form number unless a specific court provides one."
+    ],
+    "attachments": [
+      "The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access. Wyoming Judicial Branch says the petitioner should have a proposed Order for Expungement ready for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+      "If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\") After order is granted The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access."
+    ],
+    "filingDestinationRules": [
+      "File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred. Serve the prosecuting attorney. No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown. There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and the Division of Criminal Investigation. Pay the $100 filing fee. Prosecutor must notify identifiable victims. If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and DCI. Pay the $300 filing fee. Prosecutor must notify identifiable victims. Objection window is 90 days. If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+      "The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access. Wyoming Judicial Branch says the petitioner should have a proposed Order for Expungement ready for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+      "Adult non-conviction - 7-13-1401 File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred.",
+      "No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown.",
+      "There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\") Adult misdemeanor - 7-13-1501 File a verified petition in the convicting court.",
+      "If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\") Adult felony - 7-13-1502 File a verified petition in the convicting court.",
+      "If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\") After order is granted The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access."
+    ],
+    "serviceAndNoticeRules": [
+      "File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred. Serve the prosecuting attorney. No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown. There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and the Division of Criminal Investigation. Pay the $100 filing fee. Prosecutor must notify identifiable victims. If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and DCI. Pay the $300 filing fee. Prosecutor must notify identifiable victims. Objection window is 90 days. If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+      "Serve the prosecuting attorney.",
+      "No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown.",
+      "Serve the prosecuting attorney and the Division of Criminal Investigation.",
+      "Prosecutor must notify identifiable victims.",
+      "If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\") Adult felony - 7-13-1502 File a verified petition in the convicting court.",
+      "Serve the prosecuting attorney and DCI."
+    ],
+    "feeRules": [
+      "Adult non-conviction under 7-13-1401 $0",
+      "Adult misdemeanor conviction under 7-13-1501 $100",
+      "Adult felony conviction under 7-13-1502 $300",
+      "Juvenile / minor under 14-6-241 $0",
+      "Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route",
+      "Route Fee Adult non-conviction under 7-13-1401 $0 Adult misdemeanor conviction under 7-13-1501 $100 Adult felony conviction under 7-13-1502 $300 Juvenile / minor under 14-6-241 $0 Human-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route"
+    ],
+    "hearingAndObjectionRules": [
+      "File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred. Serve the prosecuting attorney. No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown. There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and the Division of Criminal Investigation. Pay the $100 filing fee. Prosecutor must notify identifiable victims. If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and DCI. Pay the $300 filing fee. Prosecutor must notify identifiable victims. Objection window is 90 days. If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+      "No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown.",
+      "If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\") Adult felony - 7-13-1502 File a verified petition in the convicting court.",
+      "Objection window is 90 days.",
+      "If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\") After order is granted The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access."
+    ],
+    "postFilingRules": [
+      "File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred. Serve the prosecuting attorney. No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown. There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")",
+      "File a verified petition in the convicting court. Serve the prosecuting attorney and DCI. Pay the $300 filing fee. Prosecutor must notify identifiable victims. Objection window is 90 days. If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")",
+      "The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access. Wyoming Judicial Branch says the petitioner should have a proposed Order for Expungement ready for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+      "Adult non-conviction - 7-13-1401 File a verified Petition for Expungement in the court where the proceeding occurred or would have occurred.",
+      "No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown.",
+      "If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\") After order is granted The court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access.",
+      "Wyoming Judicial Branch says the petitioner should have a proposed Order for Expungement ready for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+      "Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization.",
+      "For Wyoming, train Wilma with this core logic: Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization."
+    ],
+    "formInventory": [
+      {
+        "fileName": "Expungement-Handout_05.01.25.pdf.html",
+        "relativePath": "LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "41d588637c99396b80bbc7d91b2ba73bde24d76c87c3f454767f6db731dbd457",
+        "sizeBytes": 932
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Expungement-Handout_05.01.25.pdf.html",
+        "relativePath": "LegalEase Wyoming/Expungement-Handout_05.01.25.pdf.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "41d588637c99396b80bbc7d91b2ba73bde24d76c87c3f454767f6db731dbd457",
+        "sizeBytes": 932
+      },
+      {
+        "fileName": "Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wyoming/Wyoming Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "e9273b28ff3e0b98d5672d11831c8d61a7054b75bc2f59b7b7f4f25d2fd79c7e",
+        "sizeBytes": 90666
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "6-2-708 vacatur Court may vacate conviction at any time if participation resulted from trafficking victimization Pardon / innocence issue Separate pardon or innocence route Not the normal expungement pathway; manual review Wyoming does not automatically expunge most records.",
+    "The Judicial Branch says users should not expect automatic expungement and must file a petition with the proper court. ( \"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")",
+    "It does not include local, state, or federal investigatory files used solely for criminal justice purposes. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\") Juvenile expungement Juvenile expungement is stronger.",
+    "14-6-241, juvenile expungement means permanently destroying or deleting physical and electronic records, documents, and images; if the minor\u0019s name appears in a broader list or index, the name must be obliterated/redacted. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\") Wilma rule: For Wyoming adults, say sealed from public access / removed from public dissemination, not destroyed everywhere.",
+    "Use Wyoming-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "How Wilma should route Wyoming cases",
+      "category": "overview",
+      "startLine": 9,
+      "endLine": 22,
+      "text": "User\u0019s case outcome First Wilma route Wyoming treatment\nArrest, no charges filed W.S. 7-13-1401 Possible after 180 days, if no pending charges and no disqualifying deferred disposition\nCharges dismissed / acquitted / no conviction W.S. 7-13-1401 Possible after 180 days from arrest or dismissal, if all charges from the incident ended without conviction\nGuilty plea / no-contest plea / misdemeanor conviction W.S. 7-13-1501 Possible after 1 year for status offenses or 5 years for non-status offenses, if no firearm involvement and other rules satisfied\nFelony conviction W.S. 7-13-1502 Possible after 10 years from sentence/program/restitution completion, if felony is not excluded\nSuccessfully completed felony deferred prosecution Usually not eligible under felony conviction expungement Wyoming Supreme Court held 7-13-1502 applies to people with felony convictions; a completed deferral dismissed without conviction is not a felony conviction\nJuvenile delinquency / minor municipal / minor misdemeanor / juvenile diversion or deferral W.S. 14-6-241 Possible after age of majority, if no later felony, no pending felony case, and rehabilitation shown\nHuman-trafficking victim conviction W.S. 6-2-708 vacatur Court may vacate conviction at any time if participation resulted from trafficking victimization\nPardon / innocence issue Separate pardon or innocence route Not the normal expungement pathway; manual review\nWyoming does not automatically expunge most records. The Judicial Branch says users should not expect automatic expungement and must file a petition with the proper court. (\n\n\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")"
+    },
+    {
+      "title": "Remedy definitions Wilma must understand",
+      "category": "remedy_definitions",
+      "startLine": 23,
+      "endLine": 32,
+      "text": "Adult expungement\nFor adult records under W.S. 7-13-1401, Wyoming defines expungement as classifying the record at the Division of Criminal Investigation so it is not available for dissemination except to state or federal criminal justice agencies for criminal justice purposes. It does not include local, state, or federal investigatory files used solely for criminal justice purposes. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")\nJuvenile expungement\nJuvenile expungement is stronger. Under W.S. 14-6-241, juvenile expungement means permanently destroying or deleting physical and electronic records, documents, and images; if the minor\u0019s name appears in a broader list or index, the name must be obliterated/redacted. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")\nWilma rule: For Wyoming adults, say\nsealed from public access / removed from public dissemination,\nnot\ndestroyed everywhere.\nFor juveniles, Wyoming uses stronger destruction/deletion language."
+    },
+    {
+      "title": "Official forms / filing documents Wilma should know",
+      "category": "forms",
+      "startLine": 33,
+      "endLine": 43,
+      "text": "Wyoming\u0019s statewide self-help page does not appear to provide one complete mandatory petition packet; it lists an Expungement Handout and explains that the person prepares a Petition for Expungement and, if granted, an Order for Expungement for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")\nWilma should look for:\n\nRoute Document name\nAdult non-conviction Petition for Expungement under W.S. 7-13-1401 + proposed Order for Expungement\nAdult misdemeanor conviction Petition for Expungement of Records of Conviction under W.S. 7-13-1501 + proposed order\nAdult felony conviction Petition for Expungement of Records of Conviction under W.S. 7-13-1502 + proposed order\nJuvenile/minor record Petition for Expungement under W.S. 14-6-241 + proposed order\nHuman-trafficking victim relief Motion to Vacate Conviction under W.S. 6-2-708\nAgent caution: County clerks, municipal courts, and circuit courts may have local templates. Wilma should not invent a statewide form number unless a specific court provides one."
+    },
+    {
+      "title": "Adult non-conviction expungement - W.S. 7-13-1401",
+      "category": "pathway_detail",
+      "startLine": 44,
+      "endLine": 59,
+      "text": "This is the main route for arrest-only or dismissed cases.\nWilma must confirm all of these:\nRequirement Wyoming rule\nWaiting period At least 180 days have passed since arrest or dismissal\nPending charges No formal charges are pending when the petition is filed\nIncident result No conviction from any charge related to the incident, or no charges were filed, or all proceedings were dismissed\nDeferred-disposition bar No disposition under W.S. 7-13-301, W.S. 35-7-1037, or former W.S. 7-13-203 from the incident\nFiling fee No filing fee under 7-13-1401\nService Verified petition served on prosecuting attorney\nObjection window Prosecutor has 20 days to object\nEffect Court file sealed; certified order sent to DCI; person may answer as if arrest/charges did not occur unless law says otherwise\nThe statute requires the 180-day wait, no pending charges, no listed deferred dispositions, and a no-conviction/no-charge/dismissal result tied to the incident. It also provides no filing fee, a 20-day prosecutor objection window, and the right to respond as if the arrest/charges did not occur after expungement. (\n\n\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")\nWilma trap: A Wyoming dismissal after a deferred prosecution is not automatically a 7-13-1401 expungement case. Section 7-13-1401 expressly excludes certain deferred dispositions from that non-conviction route. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")"
+    },
+    {
+      "title": "Misdemeanor conviction expungement - W.S. 7-13-1501",
+      "category": "pathway_detail",
+      "startLine": 60,
+      "endLine": 82,
+      "text": "A person who pled guilty, pled no contest, or was convicted of a Wyoming misdemeanor may petition the convicting court for expungement of records of conviction. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")\nEligibility checklist\n\nRequirement Rule\nCase type Misdemeanor guilty plea, no-contest plea, or conviction\nWaiting period - status offense 1 year after expiration of sentence terms, including probation and court-ordered program completion\nWaiting period - non-status offense 5 years after expiration of sentence terms, including probation and court-ordered program completion\nFirearm bar Misdemeanor must not have involved use or attempted use of a firearm\nHealth-care provider bar Health-care provider convicted under W.S. 6-2-313 against a patient is not eligible\nDanger finding Court must find petitioner is not a substantial danger to self, victim, or society\nOne-time limit Only one expungement under 7-13-1501\nFiling fee $100\nService Verified petition served on prosecutor and DCI\nObjection window Prosecutor/victim has 30 days to object\nThe statute sets the 5-year / 1-year timing rule, firearm bar, health-care provider bar, $100 filing fee, DCI/prosecutor service requirement, 30-day objection process, substantial-danger finding, and one-time limit. (\n\n\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")\nStatus offense definition\nA\nstatus offense\nis conduct that would not be a crime if committed by an adult, with statutory exceptions. In plain English: it is usually something illegal because of the person\u0019s age/status, not because the conduct is criminal for everyone. (\"https://law.justia.com/codes/wyoming/title-7/chapter-1/section-7-1-107/?utm_source=chatgpt.com\")\nWilma trap: Do not assume all underage alcohol/nicotine/minor conduct is automatically a status offense for this statute. Verify the exact charge and statute."
+    },
+    {
+      "title": "Felony conviction expungement - W.S. 7-13-1502",
+      "category": "pathway_detail",
+      "startLine": 83,
+      "endLine": 119,
+      "text": "A person convicted of an eligible felony, or eligible felonies from the same occurrence or related course of events, may petition the convicting court. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")\nEligibility checklist\n\nRequirement Rule\nWaiting period At least 10 years since sentence expiration, including probation\nCourt programs Any court-ordered program must be completed\nRestitution Court-ordered restitution must be paid in full\nOther felonies Other than the felony/felonies being expunged, petitioner must not have previously pled guilty, pled no contest, or been convicted of a felony\nFirearm bar Felony must not have involved use or attempted use of a firearm, except certain Title 23 offenses\nDanger finding Court must find petitioner is not a substantial danger to self, victim, or society\nOne-time limit Only one felony conviction expungement under this section\nFiling fee $300\nService Verified petition served on prosecutor and DCI\nObjection window Prosecutor/victim has 90 days to object\nEffect on rights Expungement under 7-13-1502 restores rights removed because of the conviction\nThe statute sets the 10-year wait, restitution/program completion rules, other-felony bar, firearm bar, $300 fee, 90-day objection window, court sealing/DCI transmission, one-time limit, and restoration-of-rights language. (\n\n\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")\nFelony exclusions\nWilma should flag likely ineligible/manual review if the felony is:\na violent felony under W.S. 6-1-104(a)(xii);\naggravated homicide by vehicle;\ndrug-induced homicide;\nsexual assault or related sexual offense under W.S. 6-2-301 through 6-2-320;\ncertain domestic battery offenses;\nchild abuse;\naggravated assault/battery on a corrections or detention officer;\nsexual exploitation of children;\nincest;\nendangering children with controlled substances;\nbribery;\ndisarming a peace officer;\nescape from official detention / violent or armed escape;\nweapons offenses under W.S. 6-8-101 or 6-8-102;\nany offense subject to sex-offender registration under W.S. 7-19-302(g) through (j). (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")\nWilma trap: Felony deferred prosecution is a danger zone. In Lynch v. State, the Wyoming Supreme Court held that 7-13-1502 applies to people convicted of felonies; a completed deferred prosecution where the guilty plea was withdrawn and the case dismissed did not create a felony conviction to expunge. (\"https://law.justia.com/cases/wyoming/supreme-court/2026/s-25-0140.html\")"
+    },
+    {
+      "title": "Human-trafficking victim vacatur - W.S. 6-2-708",
+      "category": "pathway_detail",
+      "startLine": 120,
+      "endLine": 126,
+      "text": "Wyoming has a separate victim/survivor route. A human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim. At any time after conviction, the court that entered the conviction may vacate it if the person\u0019s participation in the offense resulted from being a victim. Official documentation creates a presumption, but is not required. (\"https://law.justia.com/codes/wyoming/title-6/chapter-2/article-7/section-6-2-708/\")\nWilma trauma rule: Ask only what is necessary:\n\nWas this charge connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you to do something connected to the case?\n\nThen route to manual/legal review. Do not require graphic details."
+    },
+    {
+      "title": "Juvenile / minor expungement - W.S. 14-6-241",
+      "category": "pathway_detail",
+      "startLine": 127,
+      "endLine": 148,
+      "text": "Wyoming juvenile/minor expungement is separate from adult expungement.\nEligible categories include:\n\nJuvenile/minor record Court route\nJuvenile delinquency adjudication other than violent felony Juvenile court petition after age of majority\nMinor municipal ordinance conviction Municipal court petition\nMinor misdemeanor conviction in circuit court Circuit court petition\nMinor diversion or deferral Petition to court that ordered diversion/deferral\nMinor arrest/charge/disposition ending in dismissal, declined prosecution, or no conviction/adjudication Petition to court\nThe statute allows a person adjudicated delinquent for a nonviolent felony-equivalent act to petition after reaching the age of majority, and also covers municipal ordinance convictions, minor misdemeanor circuit-court convictions, diversion/deferral, and non-conviction minor records. There is no filing fee for juvenile expungement petitions. (\n\n\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")\nJuvenile requirements\nWilma must confirm:\nperson has reached age of majority;\nrecord is not for a violent felony as defined by Wyoming law;\nno felony conviction since adjudication;\nno felony proceeding pending or being instituted;\nrehabilitation has been attained to the satisfaction of the court or prosecuting attorney;\nprosecutor was served and had the 20-day objection period. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")\nAfter juvenile expungement, proceedings are deemed never to have occurred, and the person may answer accordingly. (\"https://law.justia.com/codes/wyoming/title-14/chapter-6/article-2/section-14-6-241/\")"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 149,
+      "endLine": 157,
+      "text": "Adult non-conviction - 7-13-1401\nFile a verified Petition for Expungement in the court where the proceeding occurred or would have occurred. Serve the prosecuting attorney. No order may issue until 20 days after service; if the prosecutor objects, the court sets a hearing; if no objection is filed, the court may enter the order summarily if eligibility is shown. There is no filing fee. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-14/section-7-13-1401/\")\nAdult misdemeanor - 7-13-1501\nFile a verified petition in the convicting court. Serve the prosecuting attorney and the Division of Criminal Investigation. Pay the $100 filing fee. Prosecutor must notify identifiable victims. If prosecutor or victim objects within 30 days, or if the petitioner objects to a DCI report requested by the court, the court sets a hearing. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1501/\")\nAdult felony - 7-13-1502\nFile a verified petition in the convicting court. Serve the prosecuting attorney and DCI. Pay the $300 filing fee. Prosecutor must notify identifiable victims. Objection window is 90 days. If no objection is filed, the court may enter the order summarily if eligibility is shown. (\"https://law.justia.com/codes/wyoming/title-7/chapter-13/article-15/section-7-13-1502/\")\nAfter order is granted\nThe court places the file under seal, sends the certified order to DCI, and related arrest/charge/disposition records in the state central repository are removed from public access. Wyoming Judicial Branch says the petitioner should have a proposed Order for Expungement ready for the judge\u0019s signature. (\"https://www.wyocourts.gov/legal-help-by-topic/expungements/\")"
+    },
+    {
+      "title": "Fees",
+      "category": "fees",
+      "startLine": 158,
+      "endLine": 165,
+      "text": "Route Fee\nAdult non-conviction under 7-13-1401 $0\nAdult misdemeanor conviction under 7-13-1501 $100\nAdult felony conviction under 7-13-1502 $300\nJuvenile / minor under 14-6-241 $0\nHuman-trafficking victim vacatur Verify with clerk; statute is a motion route, not a standard expungement filing-fee route"
+    },
+    {
+      "title": "Record request process",
+      "category": "filing",
+      "startLine": 166,
+      "endLine": 198,
+      "text": "Wilma should start with:\n\n1 Wyoming DCI criminal history;\n2 court docket from the convicting/dismissing court;\n3 certified disposition;\n4 sentencing order;\n5 probation/sentence completion proof;\n6 restitution payment proof;\n7 DCI or FBI record if the user needs broad background-check review.\nWyoming DCI explains that Wyoming criminal-history records are created when an arrest fingerprint card is submitted; if no arrest fingerprint card is submitted, the arrest will not be available on the state or FBI criminal-history record, and DCI cannot create an arrest event from court documents alone. (\"https://wyomingdci.wyo.gov/criminal-justice-information-services-cjis/criminal-records-unit?utm_source=chatgpt.com\")\nWilma should collect:\nfull legal name and prior names;\ndate of birth;\ncounty and court;\ncase number;\narrest date;\ncharge date;\noriginal charge and final charge;\nfinal disposition;\nwhether all charges from the incident ended without conviction;\nwhether there was a deferred prosecution/disposition under 7-13-301, 35-7-1037, or former 7-13-203;\nwhether the case was misdemeanor, felony, municipal, juvenile, diversion, or deferral;\nsentencing date;\nprobation completion date;\nprogram completion date;\nrestitution payment date;\nwhether firearm use or attempted use was involved;\nwhether any sex-offender registration was required;\nwhether any other felony plea/no-contest/conviction exists;\nwhether there are pending charges;\nwhether there are identifiable victims;\nwhether trafficking/coercion facts are present."
+    },
+    {
+      "title": "Waiting-period table",
+      "category": "waiting_periods",
+      "startLine": 199,
+      "endLine": 210,
+      "text": "Route Waiting period / timing\nAdult arrest/no charge/dismissal/acquittal 180 days after arrest or dismissal\nAdult misdemeanor status offense 1 year after sentence/probation/program completion\nAdult misdemeanor non-status offense 5 years after sentence/probation/program completion\nAdult felony conviction 10 years after sentence/probation/program completion and full restitution payment\nJuvenile delinquency/minor record After reaching age of majority\nHuman-trafficking victim vacatur Any time after conviction\nProsecutor objection - 7-13-1401 20 days\nProsecutor/victim objection - misdemeanor 30 days\nProsecutor/victim objection - felony 90 days"
+    },
+    {
+      "title": "Wilma intake decision tree",
+      "category": "intake_questions",
+      "startLine": 211,
+      "endLine": 279,
+      "text": "Step 1 - Adult or juvenile/minor?\nAsk:\n\nWas this an adult case, or were you under 18 when it happened?\n\nIf juvenile/minor, check 14-6-241 first.\nStep 2 - Conviction or no conviction?\nAsk:\n\nDid the case end in conviction/guilty/no contest, or was it dismissed, acquitted, declined, or never charged?\n\nNo conviction 7-13-1401 check.Misdemeanor conviction/plea 7-13-1501 check.Felony conviction 7-13-1502 check.\nStep 3 - Deferred disposition trap\nAsk:\n\nWas this handled through deferred prosecution, first-offender treatment, probation before judgment, or a dismissal after completing probation?\n\nIf yes, flag manual review. Wyoming treats deferred dispositions differently depending on whether the route is non-conviction, misdemeanor, felony, juvenile, or drug-specific.\nStep 4 - Firearm / sex / violence / victim checks\nAsk:\n\nDid the offense involve a gun, sex-offender registration, violence, a child victim, domestic battery, weapons, escape, bribery, or harm to a patient by a health-care provider?\n\nThese are major eligibility danger zones.\nStep 5 - Completion dates\nAsk:\n\nWhen did you finish probation, court-ordered programs, and restitution?\n\nFor misdemeanors and felonies, the clock runs from completion/expiration of sentence terms, not merely conviction date.\n14.\nDo not say eligible unless&\nrules\nWilma should not say\nyou are eligible\nunless:\nFor 7-13-1401\n\n180 days have passed;\nno formal charges are pending;\nall charges from the event ended without conviction, or none were filed, or all were dismissed;\nno disqualifying deferred disposition occurred;\npetition is in the correct court.\nFor 7-13-1501\nmisdemeanor conviction/plea is confirmed;\nstatus vs. non-status offense is confirmed;\n1-year or 5-year wait has passed;\nsentence/probation/programs are complete;\nno firearm use or attempted use;\nhealth-care provider/patient bar checked;\nno prior 7-13-1501 expungement;\nsubstantial-danger finding can plausibly be shown.\nFor 7-13-1502\nfelony conviction is confirmed;\n10 years have passed after sentence/probation/program completion and restitution payment;\nno other felony plea/no-contest/conviction outside the same expungement episode;\nfirearm use bar checked;\nexcluded felony list checked;\nsex-offender-registration bar checked;\nno prior 7-13-1502 expungement;\nsubstantial-danger finding can plausibly be shown.\nFor 14-6-241\nperson has reached age of majority;\noffense is not a violent felony;\nno later felony conviction;\nno pending felony case;\nrehabilitation can be shown;\nproper juvenile/municipal/circuit court identified."
+    },
+    {
+      "title": "Agent-facing summary",
+      "category": "summary",
+      "startLine": 280,
+      "endLine": 282,
+      "text": "For Wyoming, train Wilma with this core logic:\nWyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 year for status offenses, 5 years for non-status offenses, no firearm, one-time only.Felony conviction route = 7-13-1502, 10 years after completion/restitution, no other felony, no firearm, major exclusions, one-time only.Felony deferred prosecution is not treated as a felony conviction expungement route after Lynch.Juvenile/minor route = 14-6-241, stronger destruction/deletion language, no filing fee.Human-trafficking victim route = 6-2-708 vacatur, available any time after conviction if participation resulted from victimization."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 25,
+      "decisionRules": 23,
+      "waitingRules": 17,
+      "exclusions": 2,
+      "sourceFiles": 2,
+      "officialForms": 1
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

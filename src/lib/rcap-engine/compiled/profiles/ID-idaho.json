@@ -1,0 +1,1633 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "ID",
+    "name": "Idaho",
+    "slug": "idaho"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "1778008446796-Clean-Slate-Instructions.pdf",
+        "relativePath": "LegalEase Idaho/1778008446796-Clean-Slate-Instructions.pdf",
+        "sha256": "7020a6ed49dc473fa710402e3ee4e9d70b550fe635e8f9ce947c4057fcb463e1",
+        "sizeBytes": 321959,
+        "score": 376,
+        "extractedChars": 3650
+      },
+      {
+        "fileName": "ExpungmentApplication.pdf",
+        "relativePath": "LegalEase Idaho/ExpungmentApplication.pdf",
+        "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+        "sizeBytes": 145529,
+        "score": -53,
+        "extractedChars": 3457
+      }
+    ],
+    "sourceCorpusSha256": "bc7c1a12877b935fc0969821e0b293f574d0bda22d66bbc46f90efd25294866a",
+    "sourceCorpusChars": 6546,
+    "allFolderFiles": [
+      {
+        "fileName": "1778008446796-Clean-Slate-Instructions.pdf",
+        "relativePath": "LegalEase Idaho/1778008446796-Clean-Slate-Instructions.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "7020a6ed49dc473fa710402e3ee4e9d70b550fe635e8f9ce947c4057fcb463e1",
+        "sizeBytes": 321959
+      },
+      {
+        "fileName": "ExpungmentApplication.pdf",
+        "relativePath": "LegalEase Idaho/ExpungmentApplication.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+        "sizeBytes": 145529
+      },
+      {
+        "fileName": "Idaho-Expungement-Forms.html",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "527e4e41042f222a16b0bc9f1d98a57393aa31f733bedb07af3d403343388c16",
+        "sizeBytes": 14132
+      },
+      {
+        "fileName": "Idaho-Expungement-Reference.html",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "bf0dba4d50cb7a22f777ce20e689e998a4b996d550f4c3f0b8173e9325d438ca",
+        "sizeBytes": 9097
+      },
+      {
+        "fileName": "Idaho-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "2de04453d67f9de7883bb6e32666f5a6a2978f3886347c4d100800f99416fa90",
+        "sizeBytes": 7627
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "Clean Slate",
+      "shielding"
+    ],
+    "pathwayLabels": [
+      "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)",
+      "Clean Slate shielding from public disclosure",
+      "Withheld judgment / Idaho Code § 19-2604(1) review branch"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "prior_relief"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "financial_obligations",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Idaho, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Idaho case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Idaho descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)",
+        "Clean Slate shielding under Idaho Code § 67-3004(11)",
+        "Withheld-judgment / Idaho Code § 19-2604 review branch",
+        "Juvenile expungement",
+        "Human-trafficking-survivor vacatur and expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "prior_relief",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you previously received record-clearing relief in Idaho or elsewhere?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What Idaho county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Idaho was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "nonconviction-expungement"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "nonconviction-expungement"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "nonconviction-expungement",
+        "withheld-judgment-review"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "label": "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)",
+      "summary": "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police. A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing. This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source. The application requires charging documentation plus a certified acquittal or dismissal order; incomplete applications are returned. The source says a person convicted of a sex offense…",
+      "sourceRef": "manual_source_conversion:ID; section:15-111; corpus-unit:9; corpus-unit:6; manual_source_conversion:ID:withheld-judgment-review",
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:ID",
+        "section:15-111",
+        "corpus-unit:9",
+        "corpus-unit:6",
+        "manual_source_conversion:ID:withheld-judgment-review"
+      ],
+      "ruleClauses": [
+        "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+        "A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing.",
+        "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+        "The application requires charging documentation plus a certified acquittal or dismissal order; incomplete applications are returned.",
+        "The source says a person convicted of a sex offense should not submit this form.",
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "The frontend must route this answer to state-specific review or a separate remedy profile, not the § 67-3004(10) application.",
+        "The exact criminal charges, including the statute(s) you were charged under and whether an offense was a misdemeanor or a felony.",
+        "If applicable, the date that you were no longer under the supervision of probation or parole.",
+        "The date your sentence and all conditions were completed, including any fines and restitution paid.",
+        "Obtain the case number from the court, or the iCourt Portal at: https://mycourts.idaho.gov/. If",
+        "you cannot locate your case information or have any questions about your court record, contact",
+        "the court where the case was filed.",
+        "What offenses may be eligible for shielding?",
+        "Only non-violent, non-assaultive offenses are included in the Clean Slate Act for shielding records",
+        "from public disclosure. You can review eligibility under the Clean Slate Act in Idaho Code section",
+        "If you are unsure whether you meet the conditions for shielding your record from public",
+        "disclosure, you should consult with an attorney. Please note, you can only have one Clean Slate",
+        "Act shielding petition granted in your lifetime. You may want to seek legal advice for help",
+        "determining the timing and offense eligibility before filing.",
+        "Step 2. Complete the Petition Form",
+        "Fill out the Petition to Shield Records from Public Disclosure.",
+        "Type or fill out the Petition in black ink.",
+        "Fill in your contact information at the top of the Petition. Fill in the district, county, SAMPLE FORM",
+        "case number, and your name as the",
+        "Petitioner/Defendant. You can obtain this",
+        "information from the court if you do not",
+        "Mark the checkbox that applies to your situation."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "offense_level",
+        "sentence_completion_date",
+        "financial_obligations",
+        "prior_relief",
+        "criminal_history",
+        "case_number",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+        "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution."
+      ],
+      "exclusionRules": [
+        "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "you cannot locate your case information or have any questions about your court record, contact"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "clean-slate-shielding-under-idaho-code-67-3004-11",
+      "label": "Clean Slate shielding under Idaho Code § 67-3004(11)",
+      "summary": "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution. Only nonviolent, non-assaultive offenses covered by Idaho Code § 67-3004(11)(a)-(c) may qualify. Only one offense, or offenses from a single incident or transaction, may be shielded, and only one Clean Slate petition may be granted in a lifetime. The petition is filed in the county court where the underlying case was filed, with no filing fee. The court sets a hearing and notifies the petitioner and prosecuting attorney.",
+      "sourceRef": "manual_source_conversion:ID; corpus-unit:7; section:15-111; corpus-unit:2; manual_source_conversion:ID:clean-slate-shielding",
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:ID",
+        "corpus-unit:7",
+        "section:15-111",
+        "corpus-unit:2",
+        "manual_source_conversion:ID:clean-slate-shielding"
+      ],
+      "ruleClauses": [
+        "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution.",
+        "Only nonviolent, non-assaultive offenses covered by Idaho Code § 67-3004(11)(a)-(c) may qualify.",
+        "Only one offense, or offenses from a single incident or transaction, may be shielded, and only one Clean Slate petition may be granted in a lifetime.",
+        "The petition is filed in the county court where the underlying case was filed, with no filing fee.",
+        "The court sets a hearing and notifies the petitioner and prosecuting attorney.",
+        "Shielding prevents public access but does not destroy the records.",
+        "2. Clean Slate shielding One non-violent misdemeanor, or Court process; shield can be one felony drug-possession revoked on later conviction. I.C. conviction, after a 5-year wait §67-3004(11) from completion of sentence. One crime (or single-incident crimes) per lifetime.",
+        "The exact criminal charges, including the statute(s) you were charged under and whether an offense was a misdemeanor or a felony.",
+        "If applicable, the date that you were no longer under the supervision of probation or parole.",
+        "The date your sentence and all conditions were completed, including any fines and restitution paid.",
+        "Obtain the case number from the court, or the iCourt Portal at: https://mycourts.idaho.gov/. If",
+        "you cannot locate your case information or have any questions about your court record, contact",
+        "the court where the case was filed.",
+        "What offenses may be eligible for shielding?",
+        "Only non-violent, non-assaultive offenses are included in the Clean Slate Act for shielding records",
+        "from public disclosure. You can review eligibility under the Clean Slate Act in Idaho Code section",
+        "If you are unsure whether you meet the conditions for shielding your record from public",
+        "disclosure, you should consult with an attorney. Please note, you can only have one Clean Slate",
+        "Act shielding petition granted in your lifetime. You may want to seek legal advice for help",
+        "determining the timing and offense eligibility before filing.",
+        "Step 2. Complete the Petition Form",
+        "Fill out the Petition to Shield Records from Public Disclosure.",
+        "Type or fill out the Petition in black ink.",
+        "Fill in your contact information at the top of the Petition. Fill in the district, county, SAMPLE FORM",
+        "case number, and your name as the",
+        "Petitioner/Defendant. You can obtain this",
+        "information from the court if you do not",
+        "Mark the checkbox that applies to your situation."
+      ],
+      "triggerFields": [
+        "offense_category",
+        "financial_obligations",
+        "prior_relief",
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "case_number",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution.",
+        "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+        "2. Clean Slate shielding One non-violent misdemeanor, or Court process; shield can be one felony drug-possession revoked on later conviction. I.C. conviction, after a 5-year wait §67-3004(11) from completion of sentence. One crime (or single-incident crimes) per lifetime."
+      ],
+      "exclusionRules": [
+        "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "you cannot locate your case information or have any questions about your court record, contact"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "withheld-judgment-idaho-code-19-2604-review-branch",
+      "label": "Withheld-judgment / Idaho Code § 19-2604 review branch",
+      "summary": "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1). The frontend must route this answer to state-specific review or a separate remedy profile, not the § 67-3004(10) application. A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police. A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing. This route does…",
+      "sourceRef": "manual_source_conversion:ID; manual_source_conversion:ID:withheld-judgment-review; corpus-unit:10; section:15-111; manual_source_conversion:ID:nonconviction-expungement; corpus-unit:6; corpus-unit:17",
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:ID",
+        "manual_source_conversion:ID:withheld-judgment-review",
+        "corpus-unit:10",
+        "section:15-111",
+        "manual_source_conversion:ID:nonconviction-expungement",
+        "corpus-unit:6",
+        "corpus-unit:17"
+      ],
+      "ruleClauses": [
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "The frontend must route this answer to state-specific review or a separate remedy profile, not the § 67-3004(10) application.",
+        "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+        "A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing.",
+        "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+        "The application requires charging documentation plus a certified acquittal or dismissal order; incomplete applications are returned.",
+        "The source says a person convicted of a sex offense should not submit this form.",
+        "Arrested or served a criminal summons, and not charged by indictment or information within one (1) year; or • Acquitted of all offenses arising from the arrest or summons; or • Had all charges dismissed. Key exclusion: this does not apply to a dismissal granted under §19-2604(1) — i.e., where a conviction was entered and then a withheld judgment was later granted. A sex-offense record is also outside this process. Successful probationers seeking conviction relief should instead look at a §19-2604 set-aside, which dismisses the charge and restores civil rights but is not an expungement.",
+        "The exact criminal charges, including the statute(s) you were charged under and whether an offense was a misdemeanor or a felony.",
+        "If applicable, the date that you were no longer under the supervision of probation or parole.",
+        "The date your sentence and all conditions were completed, including any fines and restitution paid.",
+        "Obtain the case number from the court, or the iCourt Portal at: https://mycourts.idaho.gov/. If",
+        "you cannot locate your case information or have any questions about your court record, contact",
+        "the court where the case was filed.",
+        "What offenses may be eligible for shielding?",
+        "Only non-violent, non-assaultive offenses are included in the Clean Slate Act for shielding records",
+        "from public disclosure. You can review eligibility under the Clean Slate Act in Idaho Code section",
+        "If you are unsure whether you meet the conditions for shielding your record from public",
+        "disclosure, you should consult with an attorney. Please note, you can only have one Clean Slate",
+        "Act shielding petition granted in your lifetime. You may want to seek legal advice for help",
+        "determining the timing and offense eligibility before filing.",
+        "Step 2. Complete the Petition Form",
+        "Fill out the Petition to Shield Records from Public Disclosure.",
+        "Type or fill out the Petition in black ink.",
+        "Fill in your contact information at the top of the Petition. Fill in the district, county, SAMPLE FORM",
+        "case number, and your name as the",
+        "Petitioner/Defendant. You can obtain this",
+        "information from the court if you do not"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "offense_level",
+        "sentence_completion_date",
+        "financial_obligations",
+        "prior_relief",
+        "case_number",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "review",
+      "suggestedResultCode": "needs_review",
+      "waitingRules": [
+        "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+        "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution.",
+        "Arrested or served a criminal summons, and not charged by indictment or information within one (1) year; or • Acquitted of all offenses arising from the arrest or summons; or • Had all charges dismissed. Key exclusion: this does not apply to a dismissal granted under §19-2604(1) — i.e., where a conviction was entered and then a withheld judgment was later granted. A sex-offense record is also outside this process. Successful probationers seeking conviction relief should instead look at a §19-2604 set-aside, which dismisses the charge and restores civil rights but is not an expungement."
+      ],
+      "exclusionRules": [
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+        "Arrested or served a criminal summons, and not charged by indictment or information within one (1) year; or • Acquitted of all offenses arising from the arrest or summons; or • Had all charges dismissed. Key exclusion: this does not apply to a dismissal granted under §19-2604(1) — i.e., where a conviction was entered and then a withheld judgment was later granted. A sex-offense record is also outside this process. Successful probationers seeking conviction relief should instead look at a §19-2604 set-aside, which dismisses the charge and restores civil rights but is not an expungement.",
+        "you cannot locate your case information or have any questions about your court record, contact"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "juvenile-expungement",
+      "label": "Juvenile expungement",
+      "summary": "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking. Idaho — Record-Clearing Reference Pack Idaho has no general adult conviction expungement. Relief runs through four narrow, track-specific…",
+      "sourceRef": "corpus-unit:8; corpus-unit:2; corpus-unit:15",
+      "sourceEvidenceRefs": [
+        "corpus-unit:8",
+        "corpus-unit:2",
+        "corpus-unit:15"
+      ],
+      "ruleClauses": [
+        "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking.",
+        "Idaho — Record-Clearing Reference Pack Idaho has no general adult conviction expungement. Relief runs through four narrow, track-specific routes: ISP non-conviction expungement, Clean Slate shielding, juvenile expungement, and trafficking-survivor vacatur.",
+        "Record from under age 18 Track 3 — juvenile expungement petition (§20-525A)."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "age_at_offense",
+        "trafficking_status"
+      ],
+      "caseOutcomes": [
+        "diversion_or_deferred",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "human-trafficking-survivor-vacatur-and-expungement",
+      "label": "Human-trafficking-survivor vacatur and expungement",
+      "summary": "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking. Offense resulted from being trafficked Track 4 — vacatur and expungement (§67-3014). Administering bodies Primary statutes ISP form ISP…",
+      "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3",
+      "sourceEvidenceRefs": [
+        "corpus-unit:8",
+        "corpus-unit:16",
+        "corpus-unit:3"
+      ],
+      "ruleClauses": [
+        "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking.",
+        "Offense resulted from being trafficked Track 4 — vacatur and expungement (§67-3014).",
+        "Administering bodies Primary statutes ISP form ISP timeline Idaho State Police (BCI) & the courts I.C. §67-3004; §20-525A; §67-3014 BCI Expungement ~30 days Application"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "age_at_offense",
+        "trafficking_status"
+      ],
+      "caseOutcomes": [
+        "diversion_or_deferred",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "special",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Administering bodies Primary statutes ISP form ISP timeline Idaho State Police (BCI) & the courts I.C. §67-3004; §20-525A; §67-3014 BCI Expungement ~30 days Application"
+      ],
+      "exclusionRules": [
+        "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+        "3. Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments. Serious offenses excluded (murder, voluntary manslaughter, rape, arson, aggravated battery, drug trafficking, injury to a child). 4. Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-04-the-application-requires-charging-documentation-plus-a-",
+      "priority": 40,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "The application requires charging documentation plus a certified acquittal or dismissal order; incomplete applications are returned."
+      },
+      "then": {
+        "suggestedResultCode": "needs_more_info",
+        "frontendAction": "return_to_exact_missing_questions"
+      },
+      "sourceRef": "manual_source_conversion:ID:nonconviction-expungement",
+      "candidatePathwayIds": [
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "withheld-judgment-idaho-code-19-2604-review-branch"
+      ]
+    },
+    {
+      "id": "rule-06-the-source-requires-at-least-five-years-after-completio",
+      "priority": 50,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "five years"
+        },
+        "sourceConditionText": "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "withheld-judgment-idaho-code-19-2604-review-branch"
+      ]
+    },
+    {
+      "id": "rule-09-the-petition-is-filed-in-the-county-court-where-the-und",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "county",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition is filed in the county court where the underlying case was filed, with no filing fee."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "rule-01-a-person-arrested-or-served-with-a-criminal-summons-who",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:nonconviction-expungement",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "human-trafficking-survivor-vacatur-and-expungement"
+      ]
+    },
+    {
+      "id": "rule-02-a-person-acquitted-of-all-offenses-arising-from-the-inc",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:nonconviction-expungement",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "rule-03-this-route-does-not-apply-to-a-dismissal-granted-under-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:nonconviction-expungement",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "rule-05-the-source-says-a-person-convicted-of-a-sex-offense-sho",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The source says a person convicted of a sex offense should not submit this form."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:nonconviction-expungement",
+      "candidatePathwayIds": [
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "human-trafficking-survivor-vacatur-and-expungement",
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "rule-07-only-nonviolent-non-assaultive-offenses-covered-by-idah",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Only nonviolent, non-assaultive offenses covered by Idaho Code § 67-3004(11)(a)-(c) may qualify."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "juvenile-expungement"
+      ]
+    },
+    {
+      "id": "rule-08-only-one-offense-or-offenses-from-a-single-incident-or-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "prior_relief",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Only one offense, or offenses from a single incident or transaction, may be shielded, and only one Clean Slate petition may be granted in a lifetime."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "juvenile-expungement"
+      ]
+    },
+    {
+      "id": "rule-10-the-court-sets-a-hearing-and-notifies-the-petitioner-an",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The court sets a hearing and notifies the petitioner and prosecuting attorney."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "rule-11-shielding-prevents-public-access-but-does-not-destroy-t",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Shielding prevents public access but does not destroy the records."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+      ]
+    },
+    {
+      "id": "rule-12-the-idaho-state-police-expungement-application-expressl",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:withheld-judgment-review",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "juvenile-expungement",
+        "human-trafficking-survivor-vacatur-and-expungement"
+      ]
+    },
+    {
+      "id": "rule-13-the-frontend-must-route-this-answer-to-state-specific-r",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The frontend must route this answer to state-specific review or a separate remedy profile, not the § 67-3004(10) application."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:ID:withheld-judgment-review",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch",
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "human-trafficking-survivor-vacatur-and-expungement"
+      ]
+    },
+    {
+      "id": "route-non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history",
+          "case_number",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history",
+          "case_number",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:ID; section:15-111; corpus-unit:9; corpus-unit:6; manual_source_conversion:ID:withheld-judgment-review",
+      "candidatePathwayIds": [
+        "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+      ]
+    },
+    {
+      "id": "route-clean-slate-shielding-under-idaho-code-67-3004-11",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "requiredFields": [
+          "offense_category",
+          "financial_obligations",
+          "prior_relief",
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "case_number",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "offense_category",
+          "financial_obligations",
+          "prior_relief",
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "case_number",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Clean Slate shielding under Idaho Code § 67-3004(11)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:ID; corpus-unit:7; section:15-111; corpus-unit:2; manual_source_conversion:ID:clean-slate-shielding",
+      "candidatePathwayIds": [
+        "clean-slate-shielding-under-idaho-code-67-3004-11"
+      ]
+    },
+    {
+      "id": "route-withheld-judgment-idaho-code-19-2604-review-branch",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "case_number",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "case_number",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Withheld-judgment / Idaho Code § 19-2604 review branch"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "manual_source_conversion:ID; manual_source_conversion:ID:withheld-judgment-review; corpus-unit:10; section:15-111; manual_source_conversion:ID:nonconviction-expungement; corpus-unit:6; corpus-unit:17",
+      "candidatePathwayIds": [
+        "withheld-judgment-idaho-code-19-2604-review-branch"
+      ]
+    },
+    {
+      "id": "route-juvenile-expungement",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "corpus-unit:8; corpus-unit:2; corpus-unit:15",
+      "candidatePathwayIds": [
+        "juvenile-expungement"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-survivor-vacatur-and-expungement",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "juvenile"
+        ],
+        "sourceConditionText": "Human-trafficking-survivor vacatur and expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-vacatur-and-expungement"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "The source requires at least five years after completion of sentence, including probation, parole, fines, and restitution.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "five years"
+      },
+      "anchor": "completion of sentence, including probation, parole, fines, and restitution",
+      "fieldsReferenced": [
+        "financial_obligations"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "This route does not apply to a dismissal granted under Idaho Code § 19-2604(1), including the withheld-judgment situation described by the source.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1).",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "pathwayLabel": "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:ID",
+          "section:15-111",
+          "corpus-unit:9",
+          "corpus-unit:6",
+          "manual_source_conversion:ID:withheld-judgment-review"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "clean-slate-shielding-under-idaho-code-67-3004-11",
+        "pathwayLabel": "Clean Slate shielding under Idaho Code § 67-3004(11)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:ID",
+          "corpus-unit:7",
+          "section:15-111",
+          "corpus-unit:2",
+          "manual_source_conversion:ID:clean-slate-shielding"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+        "pathwayLabel": "Withheld-judgment / Idaho Code § 19-2604 review branch",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:ID",
+          "manual_source_conversion:ID:withheld-judgment-review",
+          "corpus-unit:10",
+          "section:15-111",
+          "manual_source_conversion:ID:nonconviction-expungement",
+          "corpus-unit:6",
+          "corpus-unit:17"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-expungement",
+        "pathwayLabel": "Juvenile expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "corpus-unit:8",
+          "corpus-unit:2",
+          "corpus-unit:15"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+        "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "corpus-unit:8",
+          "corpus-unit:16",
+          "corpus-unit:3"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "participant_full_legal_name",
+      "pathway_id",
+      "prior_relief"
+    ],
+    "sourceFormStatements": [],
+    "attachments": [],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [],
+    "feeRules": [],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [],
+    "formInventory": [
+      {
+        "fileName": "Idaho-Expungement-Forms.html",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "527e4e41042f222a16b0bc9f1d98a57393aa31f733bedb07af3d403343388c16",
+        "sizeBytes": 14132
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "1778008446796-Clean-Slate-Instructions.pdf",
+        "relativePath": "LegalEase Idaho/1778008446796-Clean-Slate-Instructions.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "7020a6ed49dc473fa710402e3ee4e9d70b550fe635e8f9ce947c4057fcb463e1",
+        "sizeBytes": 321959
+      },
+      {
+        "fileName": "ExpungmentApplication.pdf",
+        "relativePath": "LegalEase Idaho/ExpungmentApplication.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+        "sizeBytes": 145529
+      },
+      {
+        "fileName": "Idaho-Expungement-Forms.html",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "527e4e41042f222a16b0bc9f1d98a57393aa31f733bedb07af3d403343388c16",
+        "sizeBytes": 14132
+      },
+      {
+        "fileName": "Idaho-Expungement-Reference.html",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "bf0dba4d50cb7a22f777ce20e689e998a4b996d550f4c3f0b8173e9325d438ca",
+        "sizeBytes": 9097
+      },
+      {
+        "fileName": "Idaho-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "2de04453d67f9de7883bb6e32666f5a6a2978f3886347c4d100800f99416fa90",
+        "sizeBytes": 7627
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Idaho-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "The case number for the records you want to have shielded.",
+      "category": "pathway_detail",
+      "startLine": 15,
+      "endLine": 111,
+      "text": "2. The exact criminal charges, including the statute(s) you were charged under and whether an\noffense was a misdemeanor or a felony.\n3. If applicable, the date that you were no longer under the supervision of probation or parole.\n4. The date your sentence and all conditions were completed, including any fines and restitution\npaid.\n\nObtain the case number from the court, or the iCourt Portal at: https://mycourts.idaho.gov/. If\nyou cannot locate your case information or have any questions about your court record, contact\nthe court where the case was filed.\n\nWhat offenses may be eligible for shielding?\n\nOnly non-violent, non-assaultive offenses are included in the Clean Slate Act for shielding records\nfrom public disclosure. You can review eligibility under the Clean Slate Act in Idaho Code section\n67-3004(11)(a)-(c).\n\nIf you are unsure whether you meet the conditions for shielding your record from public\ndisclosure, you should consult with an attorney. Please note, you can only have one Clean Slate\nAct shielding petition granted in your lifetime. You may want to seek legal advice for help\ndetermining the timing and offense eligibility before filing.\n\n01/01/2024\n\nStep 2. Complete the Petition Form\n\nFill out the Petition to Shield Records from Public Disclosure.\n\n▪ Type or fill out the Petition in black ink.\n▪ Fill in your contact information at the top\nof the Petition. Fill in the district, county, SAMPLE FORM\n\ncase number, and your name as the\nPetitioner/Defendant. You can obtain this\ninformation from the court if you do not\nhave it.\n▪ Mark the checkbox that applies to your\nsituation.\n\nStep 3. File your Petition with the Court\n\nSign and date your Petition and make a copy for your records. To file, take your original document\nand copy and file it at the county court where the underlying criminal case was filed. Ask the court\nclerk to date stamp your copy. Or file your form online by creating an iCourt account at\nhttps://idaho.tylertech.cloud/OfsWeb . There is no filing fee to file your Petition.\n\nStep 4. Attend the Hearing on your Petition\n\nOnce your Petition is filed, the court will set a hearing date and notify you and the prosecuting\nattorney of the hearing date. You will receive a Notice of Hearing from the court. You can monitor\nthe status of your case on the iCourt Portal.\n\nTalk to an attorney. These instructions are not a substitute for legal advice. The laws and court rules are complex and\nfollowing these instructions will not guarantee you a favorable result. We always recommend you talk with an attorney\nbefore filing paperwork.\n\n01/01/2024\n\n===== SOURCE FILE: ExpungmentApplication.pdf =====\n\nIdaho State Police\nService since 1939\n\nBureau of Criminal Identification\n\nExpungement Application\nApplicant Name: ________________________________________________________________\n(last name) (first name) (middle initial)\nApplicant Date of Birth: ___________________________\nCurrent Address: ________________________________________________________________\nCity: ___________________________________________ State:__________ ZIP:___________\nTelephone Number: _______________________________\nI was charged for the crime of: ___________________________________________________\nI was arrested on: _________________________________________________ for this crime.\nIdaho Court Case Number: ________________________________________________________\nCounty of Court Case Number: ____________________________________________________\nCharge(s) applicant seeks to have expunged: _________________________________________\n_____________________________________________________________________________\nIdaho Code §67-3004(10) states: Any person who was arrested or served a criminal summons\nand who subsequently was not charged by indictment or information within one (1) year of the\narrest or summons and any person who was acquitted of all offenses arising from an arrest or\ncriminal summons, or who has had all charges dismissed, may have the fingerprint and\ncriminal history record taken in connection with the incident expunged pursuant to the\nperson’s written request directed to the department and may have the official court file\nthereof sealed. This provision shall not apply to any dismissal granted pursuant to section\n19-2604(1), Idaho Code.\n\nPLEASE NOTE: If the charge(s) submitted for expungement, resulted in a conviction and then\na withheld judgement was granted by a court, per Idaho Code section 19-2604(1), the\nexpungement process DOES NOT apply to you.\n\nApplicant’s Date of Acquittal or Dismissal: _________________________________\n\n1\n\nThe applicant must also include copies of the following documents with the application:\n1) A. Criminal citation, or"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 14,
+      "decisionRules": 19,
+      "waitingRules": 2,
+      "exclusions": 2,
+      "sourceFiles": 5,
+      "officialForms": 1
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

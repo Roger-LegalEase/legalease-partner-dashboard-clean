@@ -4,7 +4,7 @@ import { Briefcase, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { DocumentPacketActions } from "@/components/rcap/documents/DocumentPacketActions";
 import { FilingNextStepsPacketPreview } from "@/components/rcap/documents/FilingNextStepsPacketPreview";
-import type { RcapDocumentPacket } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 import { pennsylvaniaFieldLabels } from "@/lib/rcap/state-packs/pennsylvania/required-fields";
 
 export function PennsylvaniaDocumentPacketPreview({ packet }: { packet: RcapDocumentPacket }) {

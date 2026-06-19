@@ -161,14 +161,6 @@ export const STATES_PLUS_DC = [
   ["WY", "Wyoming"]
 ].map(([code, name]) => ({ code, name, slug: slugify(name) }));
 
-export const LEGACY_GENERATOR_DIRS = [
-  "src/lib/rcap/documents/mississippi",
-  "src/lib/rcap/documents/illinois",
-  "src/lib/rcap/documents/dc",
-  "src/lib/rcap/documents/pennsylvania",
-  "src/lib/rcap/documents/texas-harris"
-];
-
 const nameAliases = new Map([
   ["arkanas", "Arkansas"],
   ["arkanasa", "Arkansas"],
@@ -335,7 +327,7 @@ export function buildManifest(inventory) {
     expectedJurisdictionCount: STATES_PLUS_DC.length,
     buildStatuses: BUILD_STATUSES,
     loops: LOOP_DEFINITIONS,
-    legacyGeneratorsPreserved: LEGACY_GENERATOR_DIRS,
+    legacyGeneratorRuntimeRemoved: true,
     states: STATES_PLUS_DC.map((state) => {
       const source = inventory.states.find((entry) => entry.code === state.code) || emptySourceState(state);
       const hasResources = source.status === "resources_found";

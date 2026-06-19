@@ -1,0 +1,3042 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "AZ",
+    "name": "Arizona",
+    "slug": "arizona"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "relativePath": "LegalEase Arizona/Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "sha256": "218df0b2eed45f5b33e9f05d7000669ae20fb665ce9361929e122b1cb5c6ab8d",
+        "sizeBytes": 35785,
+        "score": 1661,
+        "extractedChars": 30676
+      }
+    ],
+    "sourceCorpusSha256": "b28a2fb648121254ef3d1296a6c4e90feaefd6e0321c4a38b9f34ae09c7f1c2d",
+    "sourceCorpusChars": 24882,
+    "allFolderFiles": [
+      {
+        "fileName": "AOCCREM1I-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM1I-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b",
+        "sizeBytes": 30120
+      },
+      {
+        "fileName": "AOCCREM2F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM2F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+        "sizeBytes": 72602
+      },
+      {
+        "fileName": "AOCCREM3F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM3F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+        "sizeBytes": 22738
+      },
+      {
+        "fileName": "AOCCREM4F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM4F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "2c528e7b64cbe161c195555521a6ee318b722bdde42feeafd72abf5f76725324",
+        "sizeBytes": 22596
+      },
+      {
+        "fileName": "Arizona-Petition-Forms.html",
+        "relativePath": "LegalEase Arizona/Arizona-Petition-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "728f1ab965b298c6800e83c3f66f56deec371cfcef23ade9121edc818c82615d",
+        "sizeBytes": 60641
+      },
+      {
+        "fileName": "Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "relativePath": "LegalEase Arizona/Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "218df0b2eed45f5b33e9f05d7000669ae20fb665ce9361929e122b1cb5c6ab8d",
+        "sizeBytes": 35785
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "set-aside",
+      "erasure",
+      "vacatur/vacation"
+    ],
+    "pathwayLabels": [
+      "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+      "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)",
+      "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "financial_obligations",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Arizona, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Arizona case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Arizona descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+        "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)",
+        "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Arizona criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Arizona category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "DUI/DWI or serious traffic",
+        "Firearm or weapons",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Arizona was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "remedy-1-record-sealing",
+      "label": "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+      "summary": "The broadest modern relief, effective January 1, 2023:",
+      "sourceRef": "pathways:76-118",
+      "ruleClauses": [
+        "The broadest modern relief, effective January 1, 2023:",
+        "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class).",
+        "Dismissals / acquittals — a person whose charges were dismissed, who was acquitted, or whose charge was reduced to a lesser eligible offense may petition to seal, generally right away.",
+        "Effect — records are hidden from public view; the person may state in most contexts that the"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class)."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:76-118"
+      ]
+    },
+    {
+      "id": "remedy-2-set-aside-of-a-conviction",
+      "label": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)",
+      "summary": "• Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period. • Effect — the judgment of guilt is vacated and the person is released from penalties and disabilities, but the record stays PUBLIC with a “set aside” annotation; the conviction can still be used in a later prosecution and remains on background checks. • Firearm rights are restored on set-aside except for a serious offense (§…",
+      "sourceRef": "pathways:76-118",
+      "ruleClauses": [
+        "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period.",
+        "Effect — the judgment of guilt is vacated and the person is released from penalties and disabilities, but the record stays PUBLIC with a “set aside” annotation; the conviction can still be used in a later prosecution and remains on background checks.",
+        "Firearm rights are restored on set-aside except for a serious offense (§ 13-706).",
+        "Certificate of Second Chance may be granted with the set-aside, easing occupational licensing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "criminal_history",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": null,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:76-118"
+      ]
+    },
+    {
+      "id": "remedy-3-marijuana-expungement",
+      "label": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)",
+      "summary": "• True EXPUNGEMENT — the record is erased and accessible only to law enforcement/courts in limited situations. • Limited to Prop-207 marijuana conduct: possessing/consuming/transporting 2.5 ounces or less (≤ 12.5 g concentrate); possessing/cultivating no more than six plants at a primary residence for personal use; and associated paraphernalia. • No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.",
+      "sourceRef": "pathways:76-118",
+      "ruleClauses": [
+        "True EXPUNGEMENT — the record is erased and accessible only to law enforcement/courts in limited situations.",
+        "Limited to Prop-207 marijuana conduct: possessing/consuming/transporting 2.5 ounces or less (≤ 12.5 g concentrate); possessing/cultivating no more than six plants at a primary residence for personal use; and associated paraphernalia.",
+        "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.",
+        "Check the marijuana path first — if the offense fits § 36-2862, expungement is the strongest, fastest, free",
+        "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting period passes."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.",
+        "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting period passes."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:76-118"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-27-dangerous-serious-sex-not-eligible",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Dangerous / serious / sex / — Not eligible —"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247"
+    },
+    {
+      "id": "rule-55-not-eligible-for-sealing-13-911-o",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Not eligible for SEALING (§ 13-911(O))"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-56-not-eligible-for-set-aside-13-905-k",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Not eligible for SET-ASIDE (§ 13-905(K))"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-03-convictions-a-person-convicted-of-an-eligible-offense-m",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class)."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-06-subsequent-felony-a-person-who-sealed-records-and-later",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "five years"
+        },
+        "sourceConditionText": "Subsequent felony — a person who sealed records and later commits a felony may seal the later case only after that offense's waiting period PLUS an additional five years."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-08-available-to-most-people-convicted-of-a-criminal-offens",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-15-no-waiting-period-and-filing-fees-are-waived-applies-to",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-17-otherwise-test-sealing-13-911-and-the-waiting-tier-use",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting period passes."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-38-remedy-offense-level-statute-waiting-period",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Remedy / offense level Statute Waiting period"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-49-stacks-someone-who-sealed-an-earlier-record-and-then-co",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "stacks: someone who sealed an earlier record and then commits a new felony must wait that new offense's class"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-59-only-the-prop-207-conduct-qualifies-2-5-oz-6-plants",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Only the Prop-207 conduct qualifies (≤ 2.5 oz / ≤ 6 plants / paraphernalia). A marijuana SALE offense is NOT expungeable under § 36-2862, though it may be SEALABLE under § 13-911 after the waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-01-remedy-1-record-sealing-a-r-s-13-911",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Remedy 1 — Record sealing (A.R.S. § 13-911)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-02-the-broadest-modern-relief-effective-january-1-2023",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The broadest modern relief, effective January 1, 2023:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-04-dismissals-acquittals-a-person-whose-charges-were-dismi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Dismissals / acquittals — a person whose charges were dismissed, who was acquitted, or whose charge was reduced to a lesser eligible offense may petition to seal, generally right away."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-05-effect-records-are-hidden-from-public-view-the-person-m",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Effect — records are hidden from public view; the person may state in most contexts that the arrest/conviction did not occur (with exceptions for certain sensitive positions/licenses). Law enforcement, courts, and certain agencies still have access."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-07-remedy-2-set-aside-of-a-conviction-a-r-s-13-905",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-09-effect-the-judgment-of-guilt-is-vacated-and-the-person-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Effect — the judgment of guilt is vacated and the person is released from penalties and disabilities, but the record stays PUBLIC with a “set aside” annotation; the conviction can still be used in a later prosecution and remains on background checks."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-10-firearm-rights-are-restored-on-set-aside-except-for-a-s",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Firearm rights are restored on set-aside except for a serious offense (§ 13-706)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-11-certificate-of-second-chance-may-be-granted-with-the-se",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Certificate of Second Chance may be granted with the set-aside, easing occupational licensing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-12-remedy-3-marijuana-expungement-a-r-s-36-2862-prop-207",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-13-true-expungement-the-record-is-erased-and-accessible-on",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "True EXPUNGEMENT — the record is erased and accessible only to law enforcement/courts in limited situations."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-14-limited-to-prop-207-marijuana-conduct-possessing-consum",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Limited to Prop-207 marijuana conduct: possessing/consuming/transporting 2.5 ounces or less (≤ 12.5 g concentrate); possessing/cultivating no more than six plants at a primary residence for personal use; and associated paraphernalia."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-16-check-the-marijuana-path-first-if-the-offense-fits-36-2",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Check the marijuana path first — if the offense fits § 36-2862, expungement is the strongest, fastest, free"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-18-arizona-record-relief-agent-training-reference-legaleas",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Arizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:76-118"
+    },
+    {
+      "id": "rule-19-marijuana-2-5-oz-6-plants-expungement-none-erased",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana ≤ 2.5 oz / ≤ 6 plants / Expungement None Erased"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-20-dismissed-acquitted-eligible-sealing-13-911-none-hid",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Dismissed / acquitted (eligible) Sealing (§ 13-911) None Hidden from public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-21-class-2-3-misdemeanor-conv-sealing-2-yrs-hidden-from-pu",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 2/3 misdemeanor conv. Sealing 2 yrs Hidden from public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-22-class-1-misdemeanor-conv-sealing-3-yrs-hidden-from-publ",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 1 misdemeanor conv. Sealing 3 yrs Hidden from public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-23-class-4-6-felony-conv-sealing-5-yrs-hidden-from-public",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 4–6 felony conv. Sealing 5 yrs Hidden from public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-24-class-2-3-felony-conv-sealing-10-yrs-hidden-from-public",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 2/3 felony conv. Sealing 10 yrs Hidden from public"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-25-eligible-conviction-immediate-set-aside-13-905-none-va",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Eligible conviction (immediate) Set-aside (§ 13-905) None Vacated, still visible"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-26-dui-conviction-set-aside-sealing-set-aside-none-mvd-rec",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "DUI conviction Set-aside / sealing Set-aside: none; MVD record persists"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-28-the-effects-differ-sharply-and-the-agent-must-state-the",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The effects differ sharply and the agent must state them precisely. Expungement (§ 36-2862) erases the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247"
+    },
+    {
+      "id": "rule-29-marijuana-record-sealing-13-911-hides-the-record-from-p",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "marijuana record. Sealing (§ 13-911) hides the record from public view and lets the person deny the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-30-arrest-conviction-in-most-contexts-while-criminal-justi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "arrest/conviction in most contexts, while criminal-justice agencies and certain sensitive employers retain access."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-31-set-aside-13-905-vacates-the-judgment-of-guilt-and-rele",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Set-aside (§ 13-905) vacates the judgment of guilt and releases penalties/disabilities, but the conviction remains"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-32-publicly-visible-with-a-set-aside-annotation-can-be-use",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "publicly visible with a “set aside” annotation, can be used as a prior, and (except for a marijuana SALE sealed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-33-under-13-911-h-where-the-person-must-still-disclose-on-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "under § 13-911(H), where the person must still disclose on applications) does not let the person deny it. None of"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-34-be-precise-on-effect-erased-marijuana-hidden-and-deniab",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Be precise on effect: erased (marijuana), hidden-and-deniable (sealing), or vacated-but-visible"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-35-set-aside-don-t-describe-a-set-aside-as-making-the-reco",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "(set-aside). Don't describe a set-aside as making the record disappear."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-36-for-someone-who-wants-the-conviction-truly-out-of-publi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "For someone who wants the conviction truly out of public view, sealing is the goal; set-aside is the bridge"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:205-247",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-37-only-sealing-has-class-based-waits-set-aside-has-none-a",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Only SEALING has class-based waits. Set-aside has none, and marijuana expungement has none. Sealing waits"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-39-marijuana-expungement-36-2862-none",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana expungement § 36-2862 None"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-40-set-aside-any-eligible-conviction-13-905-none-after-dis",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Set-aside (any eligible conviction) § 13-905 None (after discharge)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-41-sealing-dismissal-acquittal-13-911-none-right-away",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Sealing — dismissal / acquittal § 13-911 None (right away)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-42-sealing-class-2-or-3-misdemeanor-13-911-2-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "sourceConditionText": "Sealing — Class 2 or 3 misdemeanor § 13-911 2 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-43-sealing-class-1-misdemeanor-13-911-3-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Sealing — Class 1 misdemeanor § 13-911 3 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-44-sealing-class-4-5-or-6-felony-13-911-5-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Sealing — Class 4, 5, or 6 felony § 13-911 5 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-45-sealing-class-2-or-3-felony-13-911-10-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Sealing — Class 2 or 3 felony § 13-911 10 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-46-sealing-subsequent-felony-13-911-class-wait-5-addition",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sealing — subsequent felony § 13-911 Class wait + 5 additional years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-47-two-timing-points-matter-for-sealing-first-the-clock-st",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Two timing points matter for sealing. First, the clock starts when the person completes the NONMONETARY"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-48-conditions-of-probation-or-the-sentence-and-is-discharg",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "conditions of probation or the sentence and is discharged — but the person must also have paid all fines, fees,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-50-period-plus-five-more-years-before-sealing-it-set-aside",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "period PLUS five more years before sealing it. Set-aside, by contrast, can be sought as soon as the person is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-51-discharged-which-is-why-it-is-the-immediate-relief-opti",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "discharged, which is why it is the immediate-relief option while a sealing wait runs."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155"
+    },
+    {
+      "id": "rule-52-apply-the-sealing-tiers-by-class-2-yrs-class-2-3-misd-3",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Apply the sealing tiers by class: 2 yrs (Class 2/3 misd), 3 yrs (Class 1 misd), 5 yrs (Class 4–6 felony), 10"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155"
+    },
+    {
+      "id": "rule-53-yrs-class-2-3-felony-dismissals-acquittals-can-seal-imm",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "yrs (Class 2/3 felony); dismissals/acquittals can seal immediately."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-54-confirm-all-fines-fees-restitution-are-paid-before-coun",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Confirm all fines/fees/restitution are paid before counting a sealing wait as satisfied — and offer set-aside"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:119-155",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-57-certain-serious-driving-traffic-offenses-note-sb-1249-2",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Certain serious driving/traffic offenses (note: SB 1249 (2021) removed many traffic offenses from the set-aside exclusion)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-58-marijuana-expungement-36-2862-scope-limits",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana expungement (§ 36-2862) scope limits"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "rule-60-dui-and-mvd-records-persist-a-set-aside-or-sealing-does",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "DUI and MVD records persist. A set-aside or sealing does not rewrite ADOT/MVD driving history; DUI priors remain usable for enhancement."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-61-out-of-state-federal-convictions-are-not-reachable-by-a",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Out-of-state / federal convictions are not reachable by Arizona's remedies."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-62-the-exclusion-lists-are-defined-by-cross-referenced-sta",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The exclusion lists are defined by cross-referenced statutes (§§ 13-105, 13-705, 13-706, 13-3821,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-63-13-118-and-the-sealing-law-is-recent-eff-1-1-2023-and-s",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "13-118) and the sealing law is recent (eff. 1/1/2023) and still being interpreted; offense-class"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing",
+        "remedy-3-marijuana-expungement",
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "rule-64-mapping-is-decisive-the-agent-must-classify-the-arizona",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "mapping is decisive. The agent must classify the Arizona offense, screen it against the correct"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204"
+    },
+    {
+      "id": "rule-65-remedy-s-exclusions-and-verify-the-current-statute-befo",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "remedy's exclusions, and verify the current statute before declaring eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204"
+    },
+    {
+      "id": "rule-66-class-1-felonies-are-out-for-sealing-the-set-aside-list",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 1 felonies are out for sealing; the set-aside list overlaps but adds victim-under-15."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement",
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "rule-67-note-the-dui-mvd-carve-out-every-time-even-a-granted-se",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Note the DUI/MVD carve-out every time — even a granted set-aside or sealing leaves ADOT records"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-204",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction",
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "route-remedy-1-record-sealing",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "remedy-1-record-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Remedy 1 — Record sealing (A.R.S. § 13-911)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-1-record-sealing"
+      ]
+    },
+    {
+      "id": "route-remedy-2-set-aside-of-a-conviction",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "remedy-2-set-aside-of-a-conviction",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "criminal_history",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "criminal_history",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-2-set-aside-of-a-conviction"
+      ]
+    },
+    {
+      "id": "route-remedy-3-marijuana-expungement",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "remedy-3-marijuana-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:76-118",
+      "candidatePathwayIds": [
+        "remedy-3-marijuana-expungement"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class).",
+      "duration": null,
+      "anchor": "completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting period passes.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Remedy / offense level Statute Waiting period",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Set-aside (any eligible conviction) § 13-905 None (after discharge)",
+      "duration": null,
+      "anchor": "discharge)",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Sealing — Class 2 or 3 misdemeanor § 13-911 2 years",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Sealing — Class 1 misdemeanor § 13-911 3 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Sealing — Class 4, 5, or 6 felony § 13-911 5 years",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Sealing — Class 2 or 3 felony § 13-911 10 years",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "discharged, which is why it is the immediate-relief option while a sealing wait runs.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "yrs (Class 2/3 felony); dismissals/acquittals can seal immediately.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Remedy / offense level Statute Waiting period Marijuana expungement § 36-2862 None Set-aside (any eligible conviction) § 13-905 None (after discharge) Sealing — dismissal / acquittal § 13-911 None (right away) Sealing — Class 2 or 3 misdemeanor § 13-911 2 years Sealing — Class 1 misdemeanor § 13-911 3 years Sealing — Class 4, 5, or 6 felony § 13-911 5 years Sealing — Class 2 or 3 felony § 13-911 10 years Sealing — subsequent felony § 13-911 Class wait + 5 additional years Two timing points matter for sealing.",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "discharge) Sealing — dismissal / acquittal § 13-911 None (right away) Sealing — Class 2 or 3 misdeme",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Set-aside, by contrast, can be sought as soon as the person is discharged, which is why it is the immediate-relief option while a sealing wait runs.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "AGENT GUIDANCE Apply the sealing tiers by class: 2 yrs (Class 2/3 misd), 3 yrs (Class 1 misd), 5 yrs (Class 4–6 felony), 10 yrs (Class 2/3 felony); dismissals/acquittals can seal immediately.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Each remedy has its own exclusion list. Serious, dangerous, and sexual offenses are broadly excluded from both",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Not eligible for SEALING (§ 13-911(O))",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "A dangerous offense as defined in § 13-105.",
+      "fieldsReferenced": [
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "A dangerous crime against children as defined in § 13-705.",
+      "fieldsReferenced": [
+        "financial_obligations"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "A serious offense or violent or aggravated felony as defined in § 13-706.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Any offense with an element of the discharge, use, or threatening exhibition of a deadly weapon or dangerous instrument, or the knowing infliction of serious physical injury.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Any Class 1 felony (in Arizona, first- and second-degree murder).",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Offenses requiring sex-offender registration (§ 13-3821) or with a sexual-motivation finding (§ 13-118).",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Not eligible for SET-ASIDE (§ 13-905(K))",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "A dangerous offense; an offense requiring registration under § 13-3821; an offense with a sexual-motivation finding under § 13-118.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "A felony in which the victim is a minor under fifteen.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Certain serious driving/traffic offenses (note: SB 1249 (2021) removed many traffic offenses from the set-aside exclusion).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "An offense involving the infliction of serious physical injury or the use of a deadly weapon/dangerous instrument.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Marijuana expungement (§ 36-2862) scope limits",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Only the Prop-207 conduct qualifies (≤ 2.5 oz / ≤ 6 plants / paraphernalia). A marijuana SALE offense is NOT expungeable under § 36-2862, though it may be SEALABLE under § 13-911 after the waiting period.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "Limits that apply across remedies",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "DUI and MVD records persist. A set-aside or sealing does not rewrite ADOT/MVD driving history; DUI priors remain usable for enhancement.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "Out-of-state / federal convictions are not reachable by Arizona's remedies.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "Victim notification. Prosecutors and victims have statutory notice and input rights.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "The exclusion lists are defined by cross-referenced statutes (§§ 13-105, 13-705, 13-706, 13-3821,",
+      "fieldsReferenced": [
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "13-118) and the sealing law is recent (eff. 1/1/2023) and still being interpreted; offense-class",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "mapping is decisive. The agent must classify the Arizona offense, screen it against the correct",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "remedy's exclusions, and verify the current statute before declaring eligibility.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "Arizona Record Relief — Agent Training Reference · LegalEase / Wilma",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "Screen against the remedy that's being used: dangerous (§ 13-105), serious/violent/aggravated (§",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "13-706), dangerous crime against children (§ 13-705), deadly-weapon or serious-injury element, and",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-27",
+      "ruleText": "Class 1 felonies are out for sealing; the set-aside list overlaps but adds victim-under-15.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-28",
+      "ruleText": "Note the DUI/MVD carve-out every time — even a granted set-aside or sealing leaves ADOT records",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-29",
+      "ruleText": "Serious, dangerous, and sexual offenses are broadly excluded from both sealing and set-aside.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-30",
+      "ruleText": "Not eligible for SEALING (§ 13-911(O)) • A dangerous offense as defined in § 13-105. • A dangerous crime against children as defined in § 13-705. • A serious offense or violent or aggravated felony as defined in § 13-706. • Any offense with an element of the discharge, use, or threatening exhibition of a deadly weapon or dangerous instrument, or the knowing infliction of serious physical injury. • Any Class 1 felony (in Arizona, first- and second-degree murder). • Offenses requiring sex-offender registration (§ 13-3821) or with a sexual-motivation finding (§ 13-118).",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-31",
+      "ruleText": "Not eligible for SET-ASIDE (§ 13-905(K)) • A dangerous offense; an offense requiring registration under § 13-3821; an offense with a sexual-motivation finding under § 13-118. • A felony in which the victim is a minor under fifteen. • Certain serious driving/traffic offenses (note: SB 1249 (2021) removed many traffic offenses from the set-aside exclusion). • An offense involving the infliction of serious physical injury or the use of a deadly weapon/dangerous instrument.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "remedy-1-record-sealing",
+        "pathwayLabel": "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:76-118"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "remedy-2-set-aside-of-a-conviction",
+        "pathwayLabel": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:76-118"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "remedy-3-marijuana-expungement",
+        "pathwayLabel": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:76-118"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "residency_or_location"
+    ],
+    "sourceFormStatements": [
+      "Arizona uses Judicial Branch / Supreme Court (AOC) petition forms filed in the court that handled the case",
+      "(superior, justice, or municipal). Each remedy has its own petition and a companion order. The current form",
+      "AOCCRSL1F-091424 Petition to Seal Criminal Case Seal arrest, charging, and conviction records. Companion",
+      "AOCCRSL2F-091424 Order Regarding Petition to Seal Proposed order for the judge: grants, denies, or dismisses;",
+      "AOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of",
+      "AOC CR41FORM31B-0 Order re Set Aside & Restoration Proposed order carrying the Certificate of Second Chance",
+      "92921 of Firearm Rights (§§ 13-905 & and firearm-restoration findings. Note: the order revision",
+      "13-910) (092921) is newer than the application (010120).",
+      "AOC CREM2F-071221 Petition to Expunge Prop-207 conduct only (≤ 2.5 oz / ≤ 6 plants /",
+      "Marijuana-Related Offense paraphernalia). No fee, no waiting period. Dual petitioner /",
+      "the disposition, and the statutory basis. The sealing petition must show the nonmonetary conditions are",
+      "complete and the waiting period has passed; the set-aside application shows discharge from probation or",
+      "sentence; the marijuana expungement petition shows the offense fits § 36-2862. Prosecutors and victims",
+      "receive notice and may respond, and the court may hold a hearing before ruling.",
+      "Cite the form by number: sealing is AOCCRSL1F-091424 (with order AOCCRSL2F); set-aside is AOC CR41FORM31A",
+      "with order CR41FORM31B; marijuana expungement is AOC CREM2F. File in the court that handled the case.",
+      "On the set-aside application, request the Certificate of Second Chance and firearm-rights restoration where eligible — and",
+      "note the application form (010120) is a revision behind its own order (092921), so confirm the current version at",
+      "Arizona uses Judicial Branch / Supreme Court (AOC) petition forms filed in the court that handled the case (superior, justice, or municipal).",
+      "Each remedy has its own petition and a companion order.",
+      "The current form numbers are below.",
+      "Form no.",
+      "Form / filing Use AOCCRSL1F-091424 Petition to Seal Criminal Case Seal arrest, charging, and conviction records.",
+      "AOCCRSL2F-091424 Order Regarding Petition to Seal Proposed order for the judge: grants, denies, or dismisses; (§ 13-911) on grant directs the clerk and DPS to seal and notifies the prosecutor.",
+      "AOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of 10120 Conviction (§ 13-905) Second Chance and firearm-rights restoration.",
+      "AOC CR41FORM31B-0 Order re Set Aside & Restoration Proposed order carrying the Certificate of Second Chance 92921 of Firearm Rights (§§ 13-905 & and firearm-restoration findings.",
+      "Note: the order revision 13-910) (092921) is newer than the application (010120).",
+      "AOC CREM2F-071221 Petition to Expunge Prop-207 conduct only (≤ 2.5 oz / ≤ 6 plants / Marijuana-Related Offense paraphernalia).",
+      "Dual petitioner / Records (§ 36-2862) attorney signature blocks.",
+      "The sealing petition must show the nonmonetary conditions are complete and the waiting period has passed; the set-aside application shows discharge from probation or sentence; the marijuana expungement petition shows the offense fits § 36-2862.",
+      "Prosecutors and victims receive notice and may respond, and the court may hold a hearing before ruling.",
+      "AGENT GUIDANCE Cite the form by number: sealing is AOCCRSL1F-091424 (with order AOCCRSL2F); set-aside is AOC CR41FORM31A with order CR41FORM31B; marijuana expungement is AOC CREM2F.",
+      "On the set-aside application, request the Certificate of Second Chance and firearm-rights restoration where eligible — and note the application form (010120) is a revision behind its own order (092921), so confirm the current version at azcourts.gov before filing."
+    ],
+    "attachments": [
+      "AOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of",
+      "AOC CR41FORM31B-0 Order re Set Aside & Restoration Proposed order carrying the Certificate of Second Chance",
+      "the disposition, and the statutory basis. The sealing petition must show the nonmonetary conditions are",
+      "On the set-aside application, request the Certificate of Second Chance and firearm-rights restoration where eligible — and",
+      "AOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of 10120 Conviction (§ 13-905) Second Chance and firearm-rights restoration.",
+      "AOC CR41FORM31B-0 Order re Set Aside & Restoration Proposed order carrying the Certificate of Second Chance 92921 of Firearm Rights (§§ 13-905 & and firearm-restoration findings.",
+      "Each filing is made in the court of conviction or charge and identifies the case number, the offense and class, the disposition, and the statutory basis.",
+      "On the set-aside application, request the Certificate of Second Chance and firearm-rights restoration where eligible — and note the application form (010120) is a revision behind its own order (092921), so confirm the current version at azcourts.gov before filing.",
+      "1 Get the record. Pull the Arizona DPS criminal history (and the court docket) to confirm each charge, the",
+      "offense class, the disposition, and the sentence-completion/discharge dates.",
+      "Pull the Arizona DPS criminal history (and the court docket) to confirm each charge, the offense class, the disposition, and the sentence-completion/discharge dates."
+    ],
+    "filingDestinationRules": [
+      "5 File in the court that handled the case (superior, justice, or municipal). Marijuana expungement filing fees",
+      "File in the court of conviction/charge. Marijuana expungement is free; for sealing, make sure every",
+      "5 File in the court that handled the case (superior, justice, or municipal).",
+      "AGENT GUIDANCE File in the court of conviction/charge."
+    ],
+    "serviceAndNoticeRules": [
+      "6 Notice to the prosecutor and victim. Serve the prosecutor; victims have statutory notice and input rights —",
+      "7 Hearing / ruling. The court may rule on the petition with or without a hearing after any prosecutor/victim",
+      "Always handle prosecutor service and victim notice — missing the victim-notice step is a common cause",
+      "6 Notice to the prosecutor and victim.",
+      "Serve the prosecutor; victims have statutory notice and input rights — do not skip this, as it risks denial or delay.",
+      "The court may rule on the petition with or without a hearing after any prosecutor/victim response; if granted, the order directs sealing, set-aside, or expungement.",
+      "Always handle prosecutor service and victim notice — missing the victim-notice step is a common cause of denial or delay in Arizona.",
+      "paid, and the class waiting period elapsed; served on the",
+      "sentence; the marijuana expungement petition shows the offense fits § 36-2862. Prosecutors and victims",
+      "receive notice and may respond, and the court may hold a hearing before ruling.",
+      "Shows nonmonetary conditions complete, all monetary obligations paid, and the class waiting period elapsed; served on the prosecutor.",
+      "AOCCRSL2F-091424 Order Regarding Petition to Seal Proposed order for the judge: grants, denies, or dismisses; (§ 13-911) on grant directs the clerk and DPS to seal and notifies the prosecutor.",
+      "Prosecutors and victims receive notice and may respond, and the court may hold a hearing before ruling."
+    ],
+    "feeRules": [
+      "Marijuana expungement (§ 36-2862) $0 Filing fees waived by statute",
+      "Record sealing (§ 13-911) Court filing fee Fee waiver may be available",
+      "Set-aside (§ 13-905) Court filing fee Fee waiver may be available",
+      "Certificate of Second Chance Included w/ set-aside No separate petition needed",
+      "DPS criminal history record DPS fee To confirm offenses and dates",
+      "Attorney fees (if represented) Varies Not required; legal-aid clinics assist",
+      "Cost is modest and the marijuana path is free. Expungement of a Prop-207 marijuana offense under § 36-2862",
+      "carries no filing fee. Sealing and set-aside petitions carry the court's ordinary filing fee, but a fee waiver",
+      "may be available for those who cannot afford it. The main other cost is obtaining the DPS criminal history to confirm the offenses, classes, and dates, plus any attorney fees if the person chooses representation. Because sealing requires all monetary obligations (fines, fees, restitution) to be satisfied first, resolving outstanding court debt is often the practical prerequisite rather than the filing fee itself.",
+      "Lead with the free marijuana path where it fits. For sealing, the real gate is paying off court debt and",
+      "restitution, not the filing fee — and a fee waiver may cover the filing cost.",
+      "Pull the DPS criminal history first so the offense classes (which drive the sealing waits) are confirmed.",
+      "Arizona Record Relief — Agent Training Reference · LegalEase / Wilma",
+      "Item Amount Note Marijuana expungement (§ 36-2862) $0 Filing fees waived by statute Record sealing (§ 13-911) Court filing fee Fee waiver may be available Set-aside (§ 13-905) Court filing fee Fee waiver may be available Certificate of Second Chance Included w/ set-aside No separate petition needed DPS criminal history record DPS fee To confirm offenses and dates Attorney fees (if represented) Varies Not required; legal-aid clinics assist Cost is modest and the marijuana path is free.",
+      "Expungement of a Prop-207 marijuana offense under § 36-2862 carries no filing fee.",
+      "Sealing and set-aside petitions carry the court's ordinary filing fee, but a fee waiver (deferral) may be available for those who cannot afford it.",
+      "The main other cost is obtaining the DPS criminal history to confirm the offenses, classes, and dates, plus any attorney fees if the person chooses representation.",
+      "Because sealing requires all monetary obligations (fines, fees, restitution) to be satisfied first, resolving outstanding court debt is often the practical prerequisite rather than the filing fee itself.",
+      "AGENT GUIDANCE Lead with the free marijuana path where it fits.",
+      "For sealing, the real gate is paying off court debt and restitution, not the filing fee — and a fee waiver may cover the filing cost."
+    ],
+    "hearingAndObjectionRules": [
+      "7 Hearing / ruling. The court may rule on the petition with or without a hearing after any prosecutor/victim",
+      "7 Hearing / ruling.",
+      "The court may rule on the petition with or without a hearing after any prosecutor/victim response; if granted, the order directs sealing, set-aside, or expungement."
+    ],
+    "postFilingRules": [
+      "2 Pick the remedy. Marijuana within Prop 207 → § 36-2862 expungement; eligible conviction with the wait",
+      "satisfied → § 13-911 sealing; eligible conviction for immediate relief or sealing-ineligible → § 13-905",
+      "3 Confirm prerequisites. For sealing, all nonmonetary conditions complete, all fines/fees/restitution paid, and",
+      "4 Complete the petition and proposed order for the chosen remedy, citing the statute, the case number, and",
+      "5 File in the court that handled the case (superior, justice, or municipal). Marijuana expungement filing fees",
+      "are waived; sealing/set-aside may carry a fee or fee waiver.",
+      "response; if granted, the order directs sealing, set-aside, or expungement.",
+      "File in the court of conviction/charge. Marijuana expungement is free; for sealing, make sure every",
+      "Marijuana within Prop 207 → § 36-2862 expungement; eligible conviction with the wait satisfied → § 13-911 sealing; eligible conviction for immediate relief or sealing-ineligible → § 13-905 set-aside.",
+      "For sealing, all nonmonetary conditions complete, all fines/fees/restitution paid, and the class waiting period elapsed.",
+      "Marijuana expungement filing fees are waived; sealing/set-aside may carry a fee or fee waiver.",
+      "The court may rule on the petition with or without a hearing after any prosecutor/victim response; if granted, the order directs sealing, set-aside, or expungement.",
+      "Marijuana expungement is free; for sealing, make sure every monetary obligation is satisfied before filing."
+    ],
+    "formInventory": [
+      {
+        "fileName": "AOCCREM1I-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM1I-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b",
+        "sizeBytes": 30120
+      },
+      {
+        "fileName": "AOCCREM2F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM2F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+        "sizeBytes": 72602
+      },
+      {
+        "fileName": "AOCCREM3F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM3F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+        "sizeBytes": 22738
+      },
+      {
+        "fileName": "AOCCREM4F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM4F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "2c528e7b64cbe161c195555521a6ee318b722bdde42feeafd72abf5f76725324",
+        "sizeBytes": 22596
+      },
+      {
+        "fileName": "Arizona-Petition-Forms.html",
+        "relativePath": "LegalEase Arizona/Arizona-Petition-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "728f1ab965b298c6800e83c3f66f56deec371cfcef23ade9121edc818c82615d",
+        "sizeBytes": 60641
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "AOCCREM1I-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM1I-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b",
+        "sizeBytes": 30120
+      },
+      {
+        "fileName": "AOCCREM2F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM2F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+        "sizeBytes": 72602
+      },
+      {
+        "fileName": "AOCCREM3F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM3F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+        "sizeBytes": 22738
+      },
+      {
+        "fileName": "AOCCREM4F-071221.pdf",
+        "relativePath": "LegalEase Arizona/AOCCREM4F-071221.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "2c528e7b64cbe161c195555521a6ee318b722bdde42feeafd72abf5f76725324",
+        "sizeBytes": 22596
+      },
+      {
+        "fileName": "Arizona-Petition-Forms.html",
+        "relativePath": "LegalEase Arizona/Arizona-Petition-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "728f1ab965b298c6800e83c3f66f56deec371cfcef23ade9121edc818c82615d",
+        "sizeBytes": 60641
+      },
+      {
+        "fileName": "Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "relativePath": "LegalEase Arizona/Arizona-RecordRelief-Agent-Reference-2.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "218df0b2eed45f5b33e9f05d7000669ae20fb665ce9361929e122b1cb5c6ab8d",
+        "sizeBytes": 35785
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Arizona-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 52,
+      "endLine": 75,
+      "text": "Statutory shorthand used throughout\n\nA.R.S. § 13-911 Record SEALING of arrest, conviction, and sentencing records (eff. 1/1/2023)\n\nA.R.S. § 13-905 SET-ASIDE of a conviction; release from penalties; Certificate of Second Chance\n\nA.R.S. § 36-2862 EXPUNGEMENT of certain marijuana offenses (Proposition 207)\n\nA.R.S. § 13-910 Restoration of civil rights and firearm rights\n\nA.R.S. § 13-105 Defines DANGEROUS OFFENSE (sealing- and set-aside-excluded)\n\nA.R.S. § 13-705 Defines DANGEROUS CRIME AGAINST CHILDREN (sealing-excluded)\n\nA.R.S. § 13-706 Defines SERIOUS / violent / aggravated felony (sealing-excluded)\n\n§ 13-3821 / § 13-118 Sex-offender registration / finding of sexual motivation (excluded)\n\nCert. of Second Chance Issued with many set-asides; eases occupational licensing\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Eligibility rules (the three remedies)",
+      "category": "pathways",
+      "startLine": 76,
+      "endLine": 118,
+      "text": "Three separate remedies, each with its own eligibility logic.\n\nRemedy 1 — Record sealing (A.R.S. § 13-911)\nThe broadest modern relief, effective January 1, 2023:\n\n• Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing\nrecords after completing all NONMONETARY terms of the sentence and the applicable waiting period (by\noffense class).\n• Dismissals / acquittals — a person whose charges were dismissed, who was acquitted, or whose charge was\nreduced to a lesser eligible offense may petition to seal, generally right away.\n• Effect — records are hidden from public view; the person may state in most contexts that the\narrest/conviction did not occur (with exceptions for certain sensitive positions/licenses). Law enforcement,\ncourts, and certain agencies still have access.\n• Subsequent felony — a person who sealed records and later commits a felony may seal the later case only\nafter that offense's waiting period PLUS an additional five years.\n\nRemedy 2 — Set-aside of a conviction (A.R.S. § 13-905)\n• Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or\nsentence and discharge by the court — no waiting period.\n• Effect — the judgment of guilt is vacated and the person is released from penalties and disabilities, but the\nrecord stays PUBLIC with a “set aside” annotation; the conviction can still be used in a later prosecution and\nremains on background checks.\n• Firearm rights are restored on set-aside except for a serious offense (§ 13-706).\n• Certificate of Second Chance may be granted with the set-aside, easing occupational licensing.\n\nRemedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)\n• True EXPUNGEMENT — the record is erased and accessible only to law enforcement/courts in limited\nsituations.\n• Limited to Prop-207 marijuana conduct: possessing/consuming/transporting 2.5 ounces or less (≤ 12.5 g\nconcentrate); possessing/cultivating no more than six plants at a primary residence for personal use; and\nassociated paraphernalia.\n• No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.\n\nAGENT GUIDANCE\nCheck the marijuana path first — if the offense fits § 36-2862, expungement is the strongest, fastest, free\nremedy. Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate\nrelief or when sealing isn't available.\nRemember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting\nperiod passes.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 119,
+      "endLine": 155,
+      "text": "Only SEALING has class-based waits. Set-aside has none, and marijuana expungement has none. Sealing waits\nrun from completion of the NONMONETARY sentence conditions and discharge.\n\nRemedy / offense level Statute Waiting period\n\nMarijuana expungement § 36-2862 None\n\nSet-aside (any eligible conviction) § 13-905 None (after discharge)\n\nSealing — dismissal / acquittal § 13-911 None (right away)\n\nSealing — Class 2 or 3 misdemeanor § 13-911 2 years\n\nSealing — Class 1 misdemeanor § 13-911 3 years\n\nSealing — Class 4, 5, or 6 felony § 13-911 5 years\n\nSealing — Class 2 or 3 felony § 13-911 10 years\n\nSealing — subsequent felony § 13-911 Class wait + 5 additional years\n\nTwo timing points matter for sealing. First, the clock starts when the person completes the NONMONETARY\nconditions of probation or the sentence and is discharged — but the person must also have paid all fines, fees,\nand restitution to actually qualify (outstanding restitution is a common bar). Second, the subsequent-felony rule\nstacks: someone who sealed an earlier record and then commits a new felony must wait that new offense's class\nperiod PLUS five more years before sealing it. Set-aside, by contrast, can be sought as soon as the person is\ndischarged, which is why it is the immediate-relief option while a sealing wait runs.\n\nAGENT GUIDANCE\nApply the sealing tiers by class: 2 yrs (Class 2/3 misd), 3 yrs (Class 1 misd), 5 yrs (Class 4–6 felony), 10\nyrs (Class 2/3 felony); dismissals/acquittals can seal immediately.\nConfirm all fines/fees/restitution are paid before counting a sealing wait as satisfied — and offer set-aside\nin the meantime, since it has no wait.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Disqualifying / excluded offenses",
+      "category": "exclusions",
+      "startLine": 156,
+      "endLine": 204,
+      "text": "Each remedy has its own exclusion list. Serious, dangerous, and sexual offenses are broadly excluded from both\nsealing and set-aside.\n\nNot eligible for SEALING (§ 13-911(O))\n• A dangerous offense as defined in § 13-105.\n• A dangerous crime against children as defined in § 13-705.\n• A serious offense or violent or aggravated felony as defined in § 13-706.\n• Any offense with an element of the discharge, use, or threatening exhibition of a deadly weapon or\ndangerous instrument, or the knowing infliction of serious physical injury.\n• Any Class 1 felony (in Arizona, first- and second-degree murder).\n• Offenses requiring sex-offender registration (§ 13-3821) or with a sexual-motivation finding (§ 13-118).\n\nNot eligible for SET-ASIDE (§ 13-905(K))\n• A dangerous offense; an offense requiring registration under § 13-3821; an offense with a sexual-motivation\nfinding under § 13-118.\n• A felony in which the victim is a minor under fifteen.\n• Certain serious driving/traffic offenses (note: SB 1249 (2021) removed many traffic offenses from the\nset-aside exclusion).\n• An offense involving the infliction of serious physical injury or the use of a deadly weapon/dangerous\ninstrument.\n\nMarijuana expungement (§ 36-2862) scope limits\n• Only the Prop-207 conduct qualifies (≤ 2.5 oz / ≤ 6 plants / paraphernalia). A marijuana SALE offense is\nNOT expungeable under § 36-2862, though it may be SEALABLE under § 13-911 after the waiting period.\n\nLimits that apply across remedies\n• DUI and MVD records persist. A set-aside or sealing does not rewrite ADOT/MVD driving history; DUI\npriors remain usable for enhancement.\n• Out-of-state / federal convictions are not reachable by Arizona's remedies.\n• Victim notification. Prosecutors and victims have statutory notice and input rights.\n\nVERIFY BEFORE RELYING\nThe exclusion lists are defined by cross-referenced statutes (§§ 13-105, 13-705, 13-706, 13-3821,\n13-118) and the sealing law is recent (eff. 1/1/2023) and still being interpreted; offense-class\nmapping is decisive. The agent must classify the Arizona offense, screen it against the correct\nremedy's exclusions, and verify the current statute before declaring eligibility.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma\n\nAGENT GUIDANCE\nScreen against the remedy that's being used: dangerous (§ 13-105), serious/violent/aggravated (§\n13-706), dangerous crime against children (§ 13-705), deadly-weapon or serious-injury element, and\nClass 1 felonies are out for sealing; the set-aside list overlaps but adds victim-under-15.\nNote the DUI/MVD carve-out every time — even a granted set-aside or sealing leaves ADOT records\nand DUI priorability intact.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 205,
+      "endLine": 247,
+      "text": "Offense type and disposition drive which remedy applies. This table is the agent's primary routing logic for\nArizona.\n\nCase outcome / offense Remedy Wait Effect\n\nMarijuana ≤ 2.5 oz / ≤ 6 plants / Expungement None Erased\nparaphernalia (§ 36-2862)\n\nDismissed / acquitted (eligible) Sealing (§ 13-911) None Hidden from public\n\nClass 2/3 misdemeanor conv. Sealing 2 yrs Hidden from public\n\nClass 1 misdemeanor conv. Sealing 3 yrs Hidden from public\n\nClass 4–6 felony conv. Sealing 5 yrs Hidden from public\n\nClass 2/3 felony conv. Sealing 10 yrs Hidden from public\n\nEligible conviction (immediate) Set-aside (§ 13-905) None Vacated, still visible\n\nDUI conviction Set-aside / sealing Set-aside: none; MVD record persists\nseal: by class\n\nDangerous / serious / sex / — Not eligible —\nClass 1 felony\n\nThe effects differ sharply and the agent must state them precisely. Expungement (§ 36-2862) erases the\nmarijuana record. Sealing (§ 13-911) hides the record from public view and lets the person deny the\narrest/conviction in most contexts, while criminal-justice agencies and certain sensitive employers retain access.\nSet-aside (§ 13-905) vacates the judgment of guilt and releases penalties/disabilities, but the conviction remains\npublicly visible with a “set aside” annotation, can be used as a prior, and (except for a marijuana SALE sealed\nunder § 13-911(H), where the person must still disclose on applications) does not let the person deny it. None of\nthe three rewrites ADOT/MVD records.\n\nAGENT GUIDANCE\nBe precise on effect: erased (marijuana), hidden-and-deniable (sealing), or vacated-but-visible\n(set-aside). Don't describe a set-aside as making the record disappear.\nFor someone who wants the conviction truly out of public view, sealing is the goal; set-aside is the bridge\nuntil the sealing wait passes.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 248,
+      "endLine": 291,
+      "text": "Arizona uses Judicial Branch / Supreme Court (AOC) petition forms filed in the court that handled the case\n(superior, justice, or municipal). Each remedy has its own petition and a companion order. The current form\nnumbers are below.\n\nForm no. Form / filing Use\n\nAOCCRSL1F-091424 Petition to Seal Criminal Case Seal arrest, charging, and conviction records. Companion\nRecords (§ 13-911) 5-page instructions AOCCRSL1I-091424. Shows\nnonmonetary conditions complete, all monetary obligations\npaid, and the class waiting period elapsed; served on the\nprosecutor.\n\nAOCCRSL2F-091424 Order Regarding Petition to Seal Proposed order for the judge: grants, denies, or dismisses;\n(§ 13-911) on grant directs the clerk and DPS to seal and notifies the\nprosecutor. 3-year refile bar after a denial.\n\nAOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of\n10120 Conviction (§ 13-905) Second Chance and firearm-rights restoration. Five\nsections plus a self / authorization signature fork.\n\nAOC CR41FORM31B-0 Order re Set Aside & Restoration Proposed order carrying the Certificate of Second Chance\n92921 of Firearm Rights (§§ 13-905 & and firearm-restoration findings. Note: the order revision\n13-910) (092921) is newer than the application (010120).\n\nAOC CREM2F-071221 Petition to Expunge Prop-207 conduct only (≤ 2.5 oz / ≤ 6 plants /\nMarijuana-Related Offense paraphernalia). No fee, no waiting period. Dual petitioner /\nRecords (§ 36-2862) attorney signature blocks.\n\nEach filing is made in the court of conviction or charge and identifies the case number, the offense and class,\nthe disposition, and the statutory basis. The sealing petition must show the nonmonetary conditions are\ncomplete and the waiting period has passed; the set-aside application shows discharge from probation or\nsentence; the marijuana expungement petition shows the offense fits § 36-2862. Prosecutors and victims\nreceive notice and may respond, and the court may hold a hearing before ruling.\n\nAGENT GUIDANCE\nCite the form by number: sealing is AOCCRSL1F-091424 (with order AOCCRSL2F); set-aside is AOC CR41FORM31A\nwith order CR41FORM31B; marijuana expungement is AOC CREM2F. File in the court that handled the case.\nOn the set-aside application, request the Certificate of Second Chance and firearm-rights restoration where eligible — and\nnote the application form (010120) is a revision behind its own order (092921), so confirm the current version at\nazcourts.gov before filing.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 292,
+      "endLine": 322,
+      "text": "1 Get the record. Pull the Arizona DPS criminal history (and the court docket) to confirm each charge, the\noffense class, the disposition, and the sentence-completion/discharge dates.\n\n2 Pick the remedy. Marijuana within Prop 207 → § 36-2862 expungement; eligible conviction with the wait\nsatisfied → § 13-911 sealing; eligible conviction for immediate relief or sealing-ineligible → § 13-905\nset-aside. Screen the exclusions for the chosen remedy.\n\n3 Confirm prerequisites. For sealing, all nonmonetary conditions complete, all fines/fees/restitution paid, and\nthe class waiting period elapsed. For set-aside, discharge from probation/sentence. For marijuana, that the\noffense fits § 36-2862.\n\n4 Complete the petition and proposed order for the chosen remedy, citing the statute, the case number, and\nthe offense/class.\n5 File in the court that handled the case (superior, justice, or municipal). Marijuana expungement filing fees\nare waived; sealing/set-aside may carry a fee or fee waiver.\n\n6 Notice to the prosecutor and victim. Serve the prosecutor; victims have statutory notice and input rights —\ndo not skip this, as it risks denial or delay.\n\n7 Hearing / ruling. The court may rule on the petition with or without a hearing after any prosecutor/victim\nresponse; if granted, the order directs sealing, set-aside, or expungement.\n\nAGENT GUIDANCE\nFile in the court of conviction/charge. Marijuana expungement is free; for sealing, make sure every\nmonetary obligation is satisfied before filing.\nAlways handle prosecutor service and victim notice — missing the victim-notice step is a common cause\nof denial or delay in Arizona.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 323,
+      "endLine": 347,
+      "text": "• Three remedies, three effects. Expungement (marijuana, erased), sealing (hidden), set-aside (vacated but\nvisible). Using the wrong word with a client causes real confusion.\n• Sealing is new (1/1/2023). Created by SB 1294 (2021); pre-2023 guidance that says Arizona has “no\nexpungement” is now incomplete.\n• Set-aside leaves an annotation. The conviction still appears, marked “set aside” — it is not hidden and can\nbe a prior.\n• Sequence strategy. Set-aside now (no wait) for immediate benefit, then seal once the class waiting period\npasses.\n• Marijuana sale is different. Not expungeable under § 36-2862, but may be sealable under § 13-911 — and a\nsealed sale still requires disclosure on applications under § 13-911(H).\n• Firearm rights. Set-aside restores firearm rights except for serious offenses (§ 13-706); see also § 13-910\nrestoration.\n• DUI / MVD persist. ADOT driving records and DUI priorability survive any of these remedies.\n• Subsequent-felony stacking. Sealing a later felony after an earlier sealing requires the class wait plus five\nmore years.\n• Certificate of Second Chance. Often issued with a set-aside; helps with occupational licensing barriers.\n\nAGENT GUIDANCE\nThe most common Arizona mistake is conflating the three remedies — always name which one and what\nit does. Lead with marijuana expungement if it fits, then sealing, then set-aside.\nFlag the DUI/MVD carve-out and the marijuana-sale nuance proactively; both surprise people.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 348,
+      "endLine": 376,
+      "text": "Item Amount Note\n\nMarijuana expungement (§ 36-2862) $0 Filing fees waived by statute\n\nRecord sealing (§ 13-911) Court filing fee Fee waiver may be available\n\nSet-aside (§ 13-905) Court filing fee Fee waiver may be available\n\nCertificate of Second Chance Included w/ set-aside No separate petition needed\n\nDPS criminal history record DPS fee To confirm offenses and dates\n\nAttorney fees (if represented) Varies Not required; legal-aid clinics assist\n\nCost is modest and the marijuana path is free. Expungement of a Prop-207 marijuana offense under § 36-2862\ncarries no filing fee. Sealing and set-aside petitions carry the court's ordinary filing fee, but a fee waiver\n(deferral) may be available for those who cannot afford it. The main other cost is obtaining the DPS criminal\nhistory to confirm the offenses, classes, and dates, plus any attorney fees if the person chooses representation.\nBecause sealing requires all monetary obligations (fines, fees, restitution) to be satisfied first, resolving\noutstanding court debt is often the practical prerequisite rather than the filing fee itself.\n\nAGENT GUIDANCE\nLead with the free marijuana path where it fits. For sealing, the real gate is paying off court debt and\nrestitution, not the filing fee — and a fee waiver may cover the filing cost.\nPull the DPS criminal history first so the offense classes (which drive the sealing waits) are confirmed.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Criminal history (DPS) request process",
+      "category": "filing",
+      "startLine": 377,
+      "endLine": 380,
+      "text": "Confirming the record establishes the offense class (which decides the sealing wait), the disposition, and the\ndischarge dates."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 406,
+      "endLine": 417,
+      "text": "Arizona filings go to the court that handled the case. The examples below show structure and key recitals.\nNames, dates, and identifiers are fictional and illustrative.\n\nExample A — Petition to Seal Records (A.R.S. § 13-911)\nSUPERIOR COURT OF ARIZONA, MARICOPA COUNTY\nSTATE OF ARIZONA v. ANDRE L. CARTER No. CR2018-001234\n\nPETITION TO SEAL CASE RECORDS (A.R.S. § 13-911)\n1. Petitioner: Andre L. Carter; DOB 07/22/1992.\n2. On 03/14/2019 petitioner was convicted of Theft, a Class 6\nfelony (A.R.S. § 13-1802), in this case."
+    },
+    {
+      "title": "The offense is eligible for sealing (not a dangerous offense,",
+      "category": "pathway_detail",
+      "startLine": 418,
+      "endLine": 430,
+      "text": "dangerous crime against children, serious/violent/aggravated\nfelony, deadly-weapon or serious-injury offense, or Class 1\nfelony).\n4. Petitioner completed all NONMONETARY conditions and was\ndischarged on 04/01/2020, and has paid all fines, fees, and\nrestitution.\n5. More than FIVE years have passed (Class 4-6 felony tier).\n6. Petitioner requests an order sealing the arrest, conviction,\nand sentencing records under § 13-911. (Prosecutor served;\nvictim notified.)\n\nExamples B & C — Set-aside and marijuana expungement"
+    },
+    {
+      "title": "SET-ASIDE (A.R.S. § 13-905):",
+      "category": "pathway_detail",
+      "startLine": 431,
+      "endLine": 438,
+      "text": "'Having fulfilled the conditions of probation/sentence and\nbeen discharged, petitioner applies to SET ASIDE the judgment\nof guilt, to be released from penalties and disabilities, for\na CERTIFICATE OF SECOND CHANCE, and for restoration of firearm\nrights (offense not a serious offense under § 13-706).'\nNOTE: the conviction remains visible, annotated 'set aside.'"
+    },
+    {
+      "title": "MARIJUANA EXPUNGEMENT (A.R.S. § 36-2862, Prop 207):",
+      "category": "pathway_detail",
+      "startLine": 439,
+      "endLine": 459,
+      "text": "'Petitioner was arrested/charged/convicted of possessing 2.5\nounces or less of marijuana (§ 13-3405/Prop 207 conduct).\nPetitioner requests EXPUNGEMENT under § 36-2862.' No waiting\nperiod; filing fee waived; the record is erased on grant.\n\nWhat each order does\nA § 13-911 sealing order directs the court, DPS, and agencies to seal the arrest, conviction, and sentencing\nrecords, after which the person may deny the matter in most contexts. A § 13-905 set-aside order vacates the\njudgment of guilt and releases penalties (and may grant a Certificate of Second Chance and restore firearm\nrights), but the record stays public with a “set aside” note. A § 36-2862 expungement order erases the marijuana\nrecord. None of the three rewrites ADOT/MVD driving records.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Arizona's three record-relief remedies\nonly for certain marijuana offenses (§ 36-2862, Prop 207); each has distinct eligibility, waits, and effects, and DUI/MVD records\npersist. The agent must verify the current text of A.R.S. §§ 13-911, 13-905, 13-910, and 36-2862, the exclusion definitions, the\npetition forms, DPS processes, and current fees before relying on any rule here.\n\nArizona Record Relief — Agent Training Reference · LegalEase / Wilma"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 3,
+      "questions": 14,
+      "decisionRules": 71,
+      "waitingRules": 15,
+      "exclusions": 31,
+      "sourceFiles": 6,
+      "officialForms": 5
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

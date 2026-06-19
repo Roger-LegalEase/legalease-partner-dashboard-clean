@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createMississippiDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
-import type { MississippiDocumentPacketInput } from "@/lib/rcap/documents/mississippi/types";
+import { createMississippiDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import type { MississippiDocumentPacketInput } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
 export async function POST(request: Request) {

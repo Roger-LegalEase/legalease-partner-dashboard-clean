@@ -1,0 +1,3780 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "TN",
+    "name": "Tennessee",
+    "slug": "tennessee"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Tennessee-Expunction-Agent-Reference.pdf",
+        "relativePath": "LegalEase Tennesee/Tennessee-Expunction-Agent-Reference.pdf",
+        "sha256": "d39d374e5363161ea248e422119ee70d3a519566371b8953775d7587a0f46310",
+        "sizeBytes": 34683,
+        "score": 1661,
+        "extractedChars": 30199
+      }
+    ],
+    "sourceCorpusSha256": "899b21316c8191c393dbca3f8bc6482833976af28f5ac6912d2771d0c6c31085",
+    "sourceCorpusChars": 24989,
+    "allFolderFiles": [
+      {
+        "fileName": "EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e7d6aec0ccc69e10758f951e329550438940962173895d48b319646d60973a24",
+        "sizeBytes": 604128
+      },
+      {
+        "fileName": "REMOVAL_FORM_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/REMOVAL_FORM_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "35fd55445c361f20c33bed0cdf62b7a578c0985722d1f3b6612ae247c78b1453",
+        "sizeBytes": 405672
+      },
+      {
+        "fileName": "Tennessee-Expunction-Agent-Reference.pdf",
+        "relativePath": "LegalEase Tennesee/Tennessee-Expunction-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "d39d374e5363161ea248e422119ee70d3a519566371b8953775d7587a0f46310",
+        "sizeBytes": 34683
+      },
+      {
+        "fileName": "diversions-expungements.html",
+        "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+        "sizeBytes": 66848
+      },
+      {
+        "fileName": "expungements.html",
+        "relativePath": "LegalEase Tennesee/expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "140e5b65170add3c59fc3fa003fca71f0dffa15ef4585e642d1f093c55aaacfc",
+        "sizeBytes": 43630
+      },
+      {
+        "fileName": "tn-expunction-petition.html",
+        "relativePath": "LegalEase Tennesee/tn-expunction-petition.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "0ac73c18d2ec1a7a3997f551fcb596c969c6c9069073420989e624c539782901",
+        "sizeBytes": 19912
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "expunction",
+      "sealing",
+      "erasure",
+      "Clean Slate"
+    ],
+    "pathwayLabels": [
+      "Available at NO cost where the case did not result in a conviction",
+      "Pathway 2 — Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)",
+      "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,",
+      "Pathway 4 — Two-offense expunction (§ 40-32-101(k))"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "prior_relief"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Tennessee, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Tennessee case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Tennessee descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106",
+        "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313",
+        "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107",
+        "Pathway 4 — Two-offense expunction under § 40-32-101(k)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "prior_relief",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you previously received record-clearing relief in Tennessee or elsewhere?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Tennessee criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Tennessee category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "Domestic violence",
+        "DUI/DWI or serious traffic",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Tennessee was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "available-at-no-cost-where-the-case-did-not-result-in-a-conviction"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "available-at-no-cost-where-the-case-did-not-result-in-a-conviction"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "available-at-no-cost-where-the-case-did-not-result-in-a-conviction"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "available-at-no-cost-where-the-case-did-not-result-in-a-conviction",
+        "pathway-2-diversion-expunction"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "pathway-4-two-offense-expunction"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "pathway-4-two-offense-expunction"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "pathway-2-diversion-expunction",
+        "since-2012-tennessee-allows-expunction-of-certain-non-violent-non-dui",
+        "pathway-4-two-offense-expunction"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "label": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106",
+      "summary": "Four pathways, considered by how the case ended. Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106) Available at NO cost where the case did not result in a conviction: Charge dismissed (for a reason other than successful diversion completion). Nolle prosequi (prosecutor declined to proceed).",
+      "sourceRef": "section:71-119; pathways:71-119; corpus-unit:26",
+      "sourceEvidenceRefs": [
+        "section:71-119",
+        "pathways:71-119",
+        "corpus-unit:26"
+      ],
+      "ruleClauses": [
+        "Four pathways, considered by how the case ended.",
+        "Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+        "Available at NO cost where the case did not result in a conviction:",
+        "Charge dismissed (for a reason other than successful diversion completion).",
+        "Nolle prosequi (prosecutor declined to proceed).",
+        "Grand jury returned a no true bill (no indictment).",
+        "Not guilty verdict, by judge or jury, on all counts.",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)",
+        "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "A completed judicial diversion is not a conviction under Tennessee law.",
+        "Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)",
+        "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,",
+        "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary",
+        "Two-offense expunction (§ 40-32-101(k))",
+        "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one",
+        "felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under",
+        "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed",
+        "diversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107",
+        "expunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway.",
+        "Always tell users expunction is NOT automatic — a dismissal or completed diversion stays on",
+        "background checks until they file. This is the most common Tennessee misunderstanding.",
+        "Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106) Available at NO cost where the case did not result in a conviction:"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "financial_obligations",
+        "prior_relief",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and",
+        "diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee",
+        "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee",
+        "Misdemeanor conviction 5 years Sentence $100",
+        "Eligible Class E felony 5 years Sentence $100",
+        "Eligible Class C or D felony 10 years Sentence $100",
+        "Two-offense (k) — two misd. 5 years Most recent $100",
+        "Two-offense (k) — includes a 10 years Most recent $100",
+        "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole, fines, restitution, and court costs — then the waiting period runs from that completion.",
+        "Non-conviction and diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diversion None (after Discharge &amp; Clerk fee completion) dismissal Misdemeanor conviction 5 years Sentence $100 completion Eligible Class E felony 5 years Sentence $100 completion Eligible Class C or D felony 10 years Sentence $100 completion Two-offense (k) — two misd.",
+        "5 years Most recent $100 or Class E + misd. completion Two-offense (k) — includes a 10 years Most recent $100 Class C or D felony completion Two threshold facts the agent must check.",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed"
+      ],
+      "exclusionRules": [
+        "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are",
+        "categorically NOT eligible for conviction expunction, regardless of time elapsed:",
+        "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.",
+        "Sexual offenses and any offense requiring sex-offender registration.",
+        "Class A and Class B felonies (the most serious felony classes).",
+        "Violent offenses and crimes against the person enumerated in the statute.",
+        "Domestic violence assault convictions and certain offenses against children.",
+        "Eligible Class E felonies (illustrative)",
+        "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a",
+        "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows",
+        "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction.",
+        "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.",
+        "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+        "The eligible Class E felony list is defined by enumerated Code sections and has been expanded",
+        "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to",
+        "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it",
+        "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before",
+        "declaring eligibility — the offense label and class alone are not enough."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "label": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313",
+      "summary": "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to A…",
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:28",
+      "sourceEvidenceRefs": [
+        "pathways:71-119",
+        "section:71-119",
+        "corpus-unit:28"
+      ],
+      "ruleClauses": [
+        "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "A completed judicial diversion is not a conviction under Tennessee law.",
+        "Four pathways, considered by how the case ended.",
+        "Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+        "Available at NO cost where the case did not result in a conviction:",
+        "Charge dismissed (for a reason other than successful diversion completion).",
+        "Nolle prosequi (prosecutor declined to proceed).",
+        "Grand jury returned a no true bill (no indictment).",
+        "Not guilty verdict, by judge or jury, on all counts.",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)",
+        "Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)",
+        "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,",
+        "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary",
+        "Two-offense expunction (§ 40-32-101(k))",
+        "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one",
+        "felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under",
+        "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed",
+        "diversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107",
+        "expunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway.",
+        "Always tell users expunction is NOT automatic — a dismissal or completed diversion stays on",
+        "background checks until they file. This is the most common Tennessee misunderstanding.",
+        "Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial) Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still required."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "sentence_completion_date",
+        "offense_level",
+        "offense_category",
+        "disposition_date",
+        "financial_obligations",
+        "prior_relief",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "diversion_or_deferred",
+        "convicted_other",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and",
+        "diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee",
+        "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee",
+        "Misdemeanor conviction 5 years Sentence $100",
+        "Eligible Class E felony 5 years Sentence $100",
+        "Eligible Class C or D felony 10 years Sentence $100",
+        "Two-offense (k) — two misd. 5 years Most recent $100",
+        "Two-offense (k) — includes a 10 years Most recent $100",
+        "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole, fines, restitution, and court costs — then the waiting period runs from that completion.",
+        "Non-conviction and diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diversion None (after Discharge &amp; Clerk fee completion) dismissal Misdemeanor conviction 5 years Sentence $100 completion Eligible Class E felony 5 years Sentence $100 completion Eligible Class C or D felony 10 years Sentence $100 completion Two-offense (k) — two misd.",
+        "5 years Most recent $100 or Class E + misd. completion Two-offense (k) — includes a 10 years Most recent $100 Class C or D felony completion Two threshold facts the agent must check.",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed"
+      ],
+      "exclusionRules": [
+        "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are",
+        "categorically NOT eligible for conviction expunction, regardless of time elapsed:",
+        "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.",
+        "Sexual offenses and any offense requiring sex-offender registration.",
+        "Class A and Class B felonies (the most serious felony classes).",
+        "Violent offenses and crimes against the person enumerated in the statute.",
+        "Domestic violence assault convictions and certain offenses against children.",
+        "Eligible Class E felonies (illustrative)",
+        "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a",
+        "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows",
+        "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction.",
+        "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.",
+        "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+        "The eligible Class E felony list is defined by enumerated Code sections and has been expanded",
+        "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to",
+        "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it",
+        "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before",
+        "declaring eligibility — the offense label and class alone are not enough."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "label": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107",
+      "summary": "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary Four pathways, considered by how the case ended. Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:13; corpus-unit:32",
+      "sourceEvidenceRefs": [
+        "pathways:71-119",
+        "section:71-119",
+        "corpus-unit:13",
+        "corpus-unit:32"
+      ],
+      "ruleClauses": [
+        "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary",
+        "Four pathways, considered by how the case ended.",
+        "Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+        "Available at NO cost where the case did not result in a conviction:",
+        "Charge dismissed (for a reason other than successful diversion completion).",
+        "Nolle prosequi (prosecutor declined to proceed).",
+        "Grand jury returned a no true bill (no indictment).",
+        "Not guilty verdict, by judge or jury, on all counts.",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)",
+        "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "A completed judicial diversion is not a conviction under Tennessee law.",
+        "Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)",
+        "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,",
+        "Two-offense expunction (§ 40-32-101(k))",
+        "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one",
+        "felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under",
+        "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed",
+        "diversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107",
+        "expunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway.",
+        "Always tell users expunction is NOT automatic — a dismissal or completed diversion stays on",
+        "background checks until they file. This is the most common Tennessee misunderstanding.",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma Internal use · not legal advice · verify current law How the agent should use this document Tennessee has several pathways and the agent routes by how the case ended. (1) Non-conviction expunction (§ 40-32-101(a), now § 40-32-106) is FREE for charges that were dismissed, nolle prossed, returned a no-true-bill, ended in acquittal, or where the person was arrested and released without charge. (2) Diversion expunction follows successful completion of pretrial diversion (§ 40-15-105) or judicial diversion (§ 40-35-313) — but a petition is still required. (3) Eligible-conviction expunction (§ 40-32-101(g), now § 40-32-107) clears certain non-violent misdemeanors and Class E felonies after a waiting period and a $100 fee. (4) The two-offense pathway (§ 40-32-101(k)) lets a person clear up to two eligible offenses once in a…"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "prior_relief",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and",
+        "diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee",
+        "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee",
+        "Misdemeanor conviction 5 years Sentence $100",
+        "Eligible Class E felony 5 years Sentence $100",
+        "Eligible Class C or D felony 10 years Sentence $100",
+        "Two-offense (k) — two misd. 5 years Most recent $100",
+        "Two-offense (k) — includes a 10 years Most recent $100",
+        "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole, fines, restitution, and court costs — then the waiting period runs from that completion.",
+        "Non-conviction and diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diversion None (after Discharge &amp; Clerk fee completion) dismissal Misdemeanor conviction 5 years Sentence $100 completion Eligible Class E felony 5 years Sentence $100 completion Eligible Class C or D felony 10 years Sentence $100 completion Two-offense (k) — two misd.",
+        "5 years Most recent $100 or Class E + misd. completion Two-offense (k) — includes a 10 years Most recent $100 Class C or D felony completion Two threshold facts the agent must check.",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma Internal use · not legal advice · verify current law How the agent should use this document Tennessee has several pathways and the agent routes by how the case ended. (1) Non-conviction expunction (§ 40-32-101(a), now § 40-32-106) is FREE for charges that were dismissed, nolle prossed, returned a no-true-bill, ended in acquittal, or where the person was arrested and released without charge. (2) Diversion expunction follows successful completion of pretrial diversion (§ 40-15-105) or judicial diversion (§ 40-35-313) — but a petition is still required. (3) Eligible-conviction expunction (§ 40-32-101(g), now § 40-32-107) clears certain non-violent misdemeanors and Class E felonies after a waiting period and a $100 fee. (4) The two-offense pathway (§ 40-32-101(k)) lets a person clear up to two eligible offenses once in a…"
+      ],
+      "exclusionRules": [
+        "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are",
+        "categorically NOT eligible for conviction expunction, regardless of time elapsed:",
+        "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.",
+        "Sexual offenses and any offense requiring sex-offender registration.",
+        "Class A and Class B felonies (the most serious felony classes).",
+        "Violent offenses and crimes against the person enumerated in the statute.",
+        "Domestic violence assault convictions and certain offenses against children.",
+        "Eligible Class E felonies (illustrative)",
+        "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a",
+        "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows",
+        "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction.",
+        "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.",
+        "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+        "The eligible Class E felony list is defined by enumerated Code sections and has been expanded",
+        "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to",
+        "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it",
+        "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before",
+        "declaring eligibility — the offense label and class alone are not enough."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "pathway-4-two-offense-expunction-under-40-32-101-k",
+      "label": "Pathway 4 — Two-offense expunction under § 40-32-101(k)",
+      "summary": "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once. Four pathways, considered by how the case ended. Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:33",
+      "sourceEvidenceRefs": [
+        "pathways:71-119",
+        "section:71-119",
+        "corpus-unit:33"
+      ],
+      "ruleClauses": [
+        "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one",
+        "felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under",
+        "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+        "Four pathways, considered by how the case ended.",
+        "Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)",
+        "Available at NO cost where the case did not result in a conviction:",
+        "Charge dismissed (for a reason other than successful diversion completion).",
+        "Nolle prosequi (prosecutor declined to proceed).",
+        "Grand jury returned a no true bill (no indictment).",
+        "Not guilty verdict, by judge or jury, on all counts.",
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)",
+        "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "A completed judicial diversion is not a conviction under Tennessee law.",
+        "Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)",
+        "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,",
+        "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary",
+        "Two-offense expunction (§ 40-32-101(k))",
+        "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed",
+        "diversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107",
+        "expunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway.",
+        "Always tell users expunction is NOT automatic — a dismissal or completed diversion stays on",
+        "background checks until they file. This is the most common Tennessee misunderstanding.",
+        "Two-offense expunction (§ 40-32-101(k)) Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under (g) and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "prior_relief",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "financial_obligations",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+        "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+        "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and",
+        "diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee",
+        "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee",
+        "Misdemeanor conviction 5 years Sentence $100",
+        "Eligible Class E felony 5 years Sentence $100",
+        "Eligible Class C or D felony 10 years Sentence $100",
+        "Two-offense (k) — two misd. 5 years Most recent $100",
+        "Two-offense (k) — includes a 10 years Most recent $100",
+        "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole, fines, restitution, and court costs — then the waiting period runs from that completion.",
+        "Non-conviction and diversion expunctions have no level-based waiting period.",
+        "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diversion None (after Discharge &amp; Clerk fee completion) dismissal Misdemeanor conviction 5 years Sentence $100 completion Eligible Class E felony 5 years Sentence $100 completion Eligible Class C or D felony 10 years Sentence $100 completion Two-offense (k) — two misd.",
+        "5 years Most recent $100 or Class E + misd. completion Two-offense (k) — includes a 10 years Most recent $100 Class C or D felony completion Two threshold facts the agent must check.",
+        "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed"
+      ],
+      "exclusionRules": [
+        "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+        "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are",
+        "categorically NOT eligible for conviction expunction, regardless of time elapsed:",
+        "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.",
+        "Sexual offenses and any offense requiring sex-offender registration.",
+        "Class A and Class B felonies (the most serious felony classes).",
+        "Violent offenses and crimes against the person enumerated in the statute.",
+        "Domestic violence assault convictions and certain offenses against children.",
+        "Eligible Class E felonies (illustrative)",
+        "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a",
+        "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows",
+        "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction.",
+        "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.",
+        "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+        "The eligible Class E felony list is defined by enumerated Code sections and has been expanded",
+        "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to",
+        "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it",
+        "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-17-and-each-occurred-before-any-conviction-for-an-ineligib",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-32-dui-sexual-class-a-b-not-eligible",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "DUI / sexual / Class A-B — Not eligible —"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-53-other-conviction-of-any-kind-including-federal-offenses",
+      "priority": 20,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "other conviction of any kind — including federal offenses and out-of-state offenses that would be ineligible in"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-56-confirm-the-person-has-no-other-convictions-anywhere-a-",
+      "priority": 20,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Confirm the person has no other convictions anywhere; a single ineligible conviction elsewhere generally"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-59-categorically-not-eligible-for-conviction-expunction-re",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "categorically NOT eligible for conviction expunction, regardless of time elapsed:"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-65-any-other-conviction-on-the-record-in-state-federal-or-",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-67-diversion-eligibility-differs-judicial-diversion-is-bar",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-71-against-the-current-eligible-ineligible-lists-the-nashv",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-13-rebuttable-presumption-that-the-petition-should-be-gran",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "rebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-12-completed-the-entire-sentence-and-the-waiting-period-ha",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-42-fines-restitution-and-court-costs-then-the-waiting-peri",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-43-diversion-expunctions-have-no-level-based-waiting-perio",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "diversion expunctions have no level-based waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-44-pathway-matter-waiting-period-runs-from-fee",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pathway / matter Waiting period Runs from Fee"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-55-sentence-is-not-complete-and-the-clock-has-not-started",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "sentence is not complete and the clock has not started."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-22-always-tell-users-expunction-is-not-automatic-a-dismiss",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Always tell users expunction is NOT automatic — a dismissal or completed diversion stays on"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-01-pathway-1-non-conviction-expunction-free-40-32-101-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pathway 1 — Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-02-available-at-no-cost-where-the-case-did-not-result-in-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Available at NO cost where the case did not result in a conviction:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-03-charge-dismissed-for-a-reason-other-than-successful-div",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Charge dismissed (for a reason other than successful diversion completion)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-04-person-was-arrested-and-released-without-being-charged-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-05-pathway-2-diversion-expunction-40-15-105-pretrial-4",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pathway 2 — Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-06-two-distinct-diversion-programs-both-ending-in-expuncti",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Two distinct diversion programs, both ending in expunction after successful completion — but a petition is still"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-07-pretrial-diversion-suspends-prosecution-under-a-memoran",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 18,
+          "unit": "months",
+          "raw": "18 months"
+        },
+        "sourceConditionText": "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-08-a-completed-judicial-diversion-is-not-a-conviction-unde",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "A completed judicial diversion is not a conviction under Tennessee law."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-09-pathway-3-eligible-conviction-expunction-40-32-101-g",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pathway 3 — Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-10-since-2012-and-expanded-repeatedly-tennessee-allows-exp",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Since 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-11-non-sexual-convictions-most-misdemeanors-and-a-defined-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "non-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-14-pathway-4-two-offense-expunction-40-32-101-k",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pathway 4 — Two-offense expunction (§ 40-32-101(k))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-15-since-2017-an-eligible-petitioner-may-expunge-up-to-two",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Since 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-16-felony-and-one-misdemeanor-in-a-single-lifetime-use-pro",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "prior_relief",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "felony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-18-tennessee-expunction-agent-training-reference-legalease",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119"
+    },
+    {
+      "id": "rule-19-route-by-outcome-non-conviction-free-expunction-sometim",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Route by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-20-diversion-petition-to-expunge-pretrial-vs-judicial-diff",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "diversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-21-expunction-after-the-wait-two-eligible-offenses-the-onc",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "prior_relief",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "expunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-23-background-checks-until-they-file-this-is-the-most-comm",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "background checks until they file. This is the most common Tennessee misunderstanding."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:71-119"
+    },
+    {
+      "id": "rule-24-outcome-drives-the-pathway-the-cost-and-whether-a-petit",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Outcome drives the pathway, the cost, and whether a petition (vs. an immediate order) is needed. This table is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245"
+    },
+    {
+      "id": "rule-25-dismissed-nolle-no-40-32-101-a-petition-free-free",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissed / nolle / no § 40-32-101(a) Petition (free) Free / none"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-26-arrested-never-charged-40-32-101-a-petition-free-free",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Arrested, never charged § 40-32-101(a) Petition (free) Free / none"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-27-pretrial-diversion-completed-40-15-105-petition-order-t",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pretrial diversion completed § 40-15-105 Petition; order to TBI Clerk fee / none"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-28-judicial-diversion-completed-40-35-313-petition-after-d",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Judicial diversion completed § 40-35-313 Petition after dismissal Clerk fee / none"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-29-misdemeanor-class-e-g-107-petition-100-5-yrs",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanor / Class E § (g) / 107 Petition $100 / 5 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-30-class-c-or-d-felony-g-107-petition-100-10-yrs",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class C or D felony § (g) / 107 Petition $100 / 10 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-31-two-eligible-offenses-k-petition-once-in-lifetime-100",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "prior_relief",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Two eligible offenses § (k) Petition (once in lifetime) $100 / 5–10 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-33-effect-of-relief-a-tennessee-expunction-removes-and-des",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of relief: a Tennessee expunction removes and destroys the public records of the case, and the person is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-34-restored-in-the-eyes-of-the-law-to-the-status-they-held",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "restored in the eyes of the law to the status they held before the arrest — they may lawfully deny the arrest and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-35-charge-in-most-contexts-note-the-limits-federal-systems",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "charge in most contexts. Note the limits: federal systems and security-clearance background checks may still"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245"
+    },
+    {
+      "id": "rule-36-see-an-underlying-guilty-plea-e-g-from-a-diversion-and",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "see an underlying guilty plea (e.g., from a diversion), and the relief reaches Tennessee records only. If the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-37-petition-is-denied-the-person-may-reapply-after-two-yea",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "petition is denied, the person may reapply after two years."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-38-tennessee-expunction-is-real-erasure-of-the-state-recor",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tennessee expunction is real erasure of the state record — stronger than the 'sealing' of many states —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245"
+    },
+    {
+      "id": "rule-39-expectation-for-diversion-cases-especially",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "expectation for diversion cases especially."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245"
+    },
+    {
+      "id": "rule-40-if-a-petition-is-denied-advise-the-user-they-can-reappl",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "If a petition is denied, advise the user they can reapply after two years."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:204-245",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-41-conviction-expunction-requires-completion-of-the-entire",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-45-non-conviction-dismissed-none-free",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Non-conviction (dismissed, None — Free"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-46-nolle-no-true-bill-acquittal",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "nolle, no true bill, acquittal)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161"
+    },
+    {
+      "id": "rule-47-pretrial-judicial-diversion-none-after-discharge-amp-cl",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-48-misdemeanor-conviction-5-years-sentence-100",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Misdemeanor conviction 5 years Sentence $100"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-49-eligible-class-e-felony-5-years-sentence-100",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Eligible Class E felony 5 years Sentence $100"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-50-eligible-class-c-or-d-felony-10-years-sentence-100",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Eligible Class C or D felony 10 years Sentence $100"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-51-two-threshold-facts-the-agent-must-check-first-the-conv",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Two threshold facts the agent must check. First, the conviction must have occurred on or after November 1,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-52-1989-to-be-expungeable-under-the-conviction-pathway-sec",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "1989 to be expungeable under the conviction pathway. Second, at the time of filing the person must have no"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "rule-54-tennessee-except-the-offense-s-being-expunged-outstandi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tennessee — except the offense(s) being expunged. Outstanding fines, restitution, or court costs mean the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161"
+    },
+    {
+      "id": "rule-57-defeats-conviction-expunction-verify-the-offense-post-d",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "defeats conviction expunction. Verify the offense post-dates Nov 1, 1989."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:120-161",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-58-the-conviction-pathway-is-limited-to-non-violent-non-du",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "rule-60-dui-convictions-t-c-a-55-10-401-and-related-serious-tra",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-61-domestic-violence-assault-convictions-and-certain-offen",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Domestic violence assault convictions and certain offenses against children."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203"
+    },
+    {
+      "id": "rule-62-eligible-class-e-felonies-illustrative",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Eligible Class E felonies (illustrative)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "rule-63-among-the-class-e-felonies-that-are-eligible-theft-39-1",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-64-offenses-to-the-eligible-list-repeatedly-e-g-the-2021-e",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-66-prior-expunction-the-two-offense-k-pathway-may-be-used-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "prior_relief",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-68-the-eligible-class-e-felony-list-is-defined-by-enumerat",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The eligible Class E felony list is defined by enumerated Code sections and has been expanded"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-69-by-the-legislature-almost-yearly-the-2025-reorganizatio",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-70-40-32-107-the-agent-must-map-the-user-s-exact-offense-t",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "rule-72-class-a-b-felonies-are-out-only-specific-class-e-and-th",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class A/B felonies are out; only specific Class E (and the lower misdemeanors) qualify. Because the eligible list keeps expanding, check the current Nashville DA / TBI checklist rather than assuming a borderline Class E felony is in or out."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:162-203",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "route-pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:71-119; pathways:71-119; corpus-unit:26",
+      "candidatePathwayIds": [
+        "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ]
+    },
+    {
+      "id": "route-pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "requiredFields": [
+          "case_outcome",
+          "sentence_completion_date",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "financial_obligations",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:28",
+      "candidatePathwayIds": [
+        "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+      ]
+    },
+    {
+      "id": "route-pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "prior_relief",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:13; corpus-unit:32",
+      "candidatePathwayIds": [
+        "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+      ]
+    },
+    {
+      "id": "route-pathway-4-two-offense-expunction-under-40-32-101-k",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Pathway 4 — Two-offense expunction under § 40-32-101(k)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-119; section:71-119; corpus-unit:33",
+      "candidatePathwayIds": [
+        "pathway-4-two-offense-expunction-under-40-32-101-k"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "the fact, the person files a petition (no fee)",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the person does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to the TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO judgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18 months), and on successful completion discharges and dismisses the case, after which the person petitions to",
+      "duration": {
+        "value": 18,
+        "unit": "months",
+        "raw": "18 months"
+      },
+      "anchor": "which the person petitions to",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "completed the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "fines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and",
+      "duration": null,
+      "anchor": "that completion",
+      "fieldsReferenced": [
+        "case_outcome",
+        "financial_obligations",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "diversion expunctions have no level-based waiting period.",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Pathway / matter Waiting period Runs from Fee",
+      "duration": null,
+      "anchor": "Fee",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee",
+      "duration": null,
+      "anchor": "Discharge &amp",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Misdemeanor conviction 5 years Sentence $100",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Eligible Class E felony 5 years Sentence $100",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Eligible Class C or D felony 10 years Sentence $100",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Two-offense (k) — two misd. 5 years Most recent $100",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Two-offense (k) — includes a 10 years Most recent $100",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "the clock from starting. Misdemeanor and Class E = 5 years; Class C/D = 10 years.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "starting",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole, fines, restitution, and court costs — then the waiting period runs from that completion.",
+      "duration": null,
+      "anchor": "that completion",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "financial_obligations",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Non-conviction and diversion expunctions have no level-based waiting period.",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diversion None (after Discharge &amp; Clerk fee completion) dismissal Misdemeanor conviction 5 years Sentence $100 completion Eligible Class E felony 5 years Sentence $100 completion Eligible Class C or D felony 10 years Sentence $100 completion Two-offense (k) — two misd.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal) Pretrial / judicial diver",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "5 years Most recent $100 or Class E + misd. completion Two-offense (k) — includes a 10 years Most recent $100 Class C or D felony completion Two threshold facts the agent must check.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "Misdemeanor and Class E = 5 years; Class C/D = 10 years.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "categorically NOT eligible for conviction expunction, regardless of time elapsed:",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Sexual offenses and any offense requiring sex-offender registration.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Class A and Class B felonies (the most serious felony classes).",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Violent offenses and crimes against the person enumerated in the statute.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Vehicular assault / vehicular homicide and similar.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Domestic violence assault convictions and certain offenses against children.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Offenses committed by a public official in an official capacity.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Eligible Class E felonies (illustrative)",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Among the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "credit card (§ 39-14-118), vandalism, fraudulent/false insurance claims, and certain drug-possession offenses",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "(Schedule III/IV/V, or small amounts — under 0.5 grams — of Schedule II). The Legislature has added",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "offenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.",
+      "fieldsReferenced": [
+        "prior_relief",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "The eligible Class E felony list is defined by enumerated Code sections and has been expanded",
+      "fieldsReferenced": [
+        "offense_level",
+        "financial_obligations"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "by the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "declaring eligibility — the offense label and class alone are not enough.",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "DUI and sexual offenses are the two hard, permanent bars users most often misjudge — neither is ever",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "Class A/B felonies are out; only specific Class E (and the lower misdemeanors) qualify. Because the eligible list keeps expanding, check the current Nashville DA / TBI checklist rather than assuming a borderline Class E felony is in or out.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "The following are categorically NOT eligible for conviction expunction, regardless of time elapsed: • DUI convictions (T.C.A.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-27",
+      "ruleText": "Other categorical limits • Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars conviction expunction. • Prior expunction.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-28",
+      "ruleText": "Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI, vehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or any prior diversion.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-29",
+      "ruleText": "The agent must map the user's exact offense to its T.C.A. section and check it against the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before declaring eligibility — the offense label and class alone are not enough.",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-30",
+      "ruleText": "and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107) broadened this for offenses arising from the same incident or closely related charges. A person may use this two-offense option only once.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "pathwayLabel": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "diversions-expungements.html",
+            "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+            "sizeBytes": 66848
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:71-119",
+          "pathways:71-119",
+          "corpus-unit:26"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "pathwayLabel": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "diversions-expungements.html",
+            "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+            "sizeBytes": 66848
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:71-119",
+          "section:71-119",
+          "corpus-unit:28"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "pathwayLabel": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "diversions-expungements.html",
+            "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+            "sizeBytes": 66848
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:71-119",
+          "section:71-119",
+          "corpus-unit:13",
+          "corpus-unit:32"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pathway-4-two-offense-expunction-under-40-32-101-k",
+        "pathwayLabel": "Pathway 4 — Two-offense expunction under § 40-32-101(k)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "diversions-expungements.html",
+            "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+            "sizeBytes": 66848
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:71-119",
+          "section:71-119",
+          "corpus-unit:33"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "prior_relief",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "the Courts publish forms; the TBI also runs a request-for-certification step. A petition is required for every",
+      "pathway except the immediate at-acquittal order.",
+      "1 Petition / Order of Expungement — names the petitioner, date of birth, social security number, the offense",
+      "details, and the statutory basis. A TBI PDF-fillable form is available.",
+      "completes and submits a certification form to the TBI before entering the order; the TBI provides the",
+      "certificate to the clerk. (Not required for some non-conviction expunctions under §§ 40-32-106 / 109 unless",
+      "3 Diversion marking — pretrial diversion orders are marked “Suspension of Prosecution § 40-15-105”;",
+      "judicial diversion orders reference § 40-35-313.",
+      "Use the TBI PDF-fillable expungement order where available; electronic signatures are accepted via the",
+      "step precedes entry of the order.",
+      "Capture the state control number and the exact disposition early — the order cannot be completed",
+      "The TBI and the Administrative Office of the Courts publish forms; the TBI also runs a request-for-certification step.",
+      "A petition is required for every pathway except the immediate at-acquittal order.",
+      "Core components of an expunction filing 1 Petition / Order of Expungement — names the petitioner, date of birth, social security number, the offense to be expunged, the state control number (per § 8-4-115), the date and cause of the dismissal or the conviction details, and the statutory basis.",
+      "A TBI PDF-fillable form is available.",
+      "2 TBI request-for-certification (§ 40-32-102) — for conviction and diversion expunctions, the court completes and submits a certification form to the TBI before entering the order; the TBI provides the certificate to the clerk. (Not required for some non-conviction expunctions under §§ 40-32-106 / 109 unless the case came through diversion.) 3 Diversion marking — pretrial diversion orders are marked “Suspension of Prosecution § 40-15-105”; judicial diversion orders reference § 40-35-313.",
+      "AGENT GUIDANCE Use the TBI PDF-fillable expungement order where available; electronic signatures are accepted via the TBI FlexCheck process.",
+      "For conviction/diversion cases, remember the court's § 40-32-102 certification step precedes entry of the order."
+    ],
+    "attachments": [
+      "certificate to the clerk. (Not required for some non-conviction expunctions under §§ 40-32-106 / 109 unless",
+      "4 Proof of sentence completion — for conviction expunctions, documentation that all terms (including fines,",
+      "Capture the state control number and the exact disposition early — the order cannot be completed",
+      "2 TBI request-for-certification (§ 40-32-102) — for conviction and diversion expunctions, the court completes and submits a certification form to the TBI before entering the order; the TBI provides the certificate to the clerk. (Not required for some non-conviction expunctions under §§ 40-32-106 / 109 unless the case came through diversion.) 3 Diversion marking — pretrial diversion orders are marked “Suspension of Prosecution § 40-15-105”; judicial diversion orders reference § 40-35-313.",
+      "4 Proof of sentence completion — for conviction expunctions, documentation that all terms (including fines, restitution, and costs) are satisfied and the waiting period has run.",
+      "1 Get the record. Obtain a TBI criminal history and the court disposition to confirm the outcome, the statutory",
+      "offense, the disposition, and the statutory citation (confirm 40-32-101 vs. the reorganized 40-32-106/107 with",
+      "the case. Keep a certified copy of the order.",
+      "proof of sentence completion is presumptively granted.",
+      "Obtain a TBI criminal history and the court disposition to confirm the outcome, the statutory basis, sentence completion, and the state control number.",
+      "3 Prepare the petition / order of expungement (TBI fillable form) with the petitioner's identifiers, the offense, the disposition, and the statutory citation (confirm 40-32-101 vs. the reorganized 40-32-106/107 with the clerk).",
+      "Keep a certified copy of the order.",
+      "Lean on the rebuttable presumption for eligible convictions: a complete, well-documented petition with proof of sentence completion is presumptively granted."
+    ],
+    "filingDestinationRules": [
+      "4 File in the court where the case originated — the county criminal/circuit/general sessions court clerk —",
+      "and pay the fee ($100 for conviction expunction, discretionary with the clerk and payable in installments; free",
+      "6 Court certification to TBI. For conviction/diversion cases, the court submits the § 40-32-102 certification to",
+      "7 Destruction of records. On the granted order, the clerk and the TBI remove and destroy the public records of",
+      "Venue is the originating court's county — a person with cases in several counties files separately in each.",
+      "Confirm the right clerk (criminal, circuit, or general sessions) for the case.",
+      "3 Prepare the petition / order of expungement (TBI fillable form) with the petitioner's identifiers, the offense, the disposition, and the statutory citation (confirm 40-32-101 vs. the reorganized 40-32-106/107 with the clerk).",
+      "4 File in the court where the case originated — the county criminal/circuit/general sessions court clerk — and pay the fee ($100 for conviction expunction, discretionary with the clerk and payable in installments; free for non-conviction).",
+      "For conviction/diversion cases, the court submits the § 40-32-102 certification to the TBI and, once granted, must forward the expunction order to the TBI within thirty (30) days.",
+      "On the granted order, the clerk and the TBI remove and destroy the public records of the case.",
+      "AGENT GUIDANCE Venue is the originating court's county — a person with cases in several counties files separately in each.",
+      "The 2025 reorganization. § 40-32-101 was split into §§ 40-32-106 (non-conviction), 40-32-107 (conviction), and 40-32-108; the substance carried forward but citations changed — confirm with the clerk or DA which the county uses.",
+      "Not automatic. Unlike Clean Slate states, Tennessee has no automatic sealing; every clearance requires a filed petition (except the immediate order at a not-guilty verdict).",
+      "Fee history. The old $180 expunction fee was eliminated in 2019; the current conviction fee is $100, made discretionary with the clerk in 2021 and payable in installments — non-conviction expunction is always free.",
+      "Diversion is not erasure by itself. Completing pretrial or judicial diversion dismisses the case but leaves it visible until a separate expunction petition is filed.",
+      "§ 40-32-101 was split into §§ 40-32-106 (non-conviction), 40-32-107 (conviction), and 40-32-108; the substance carried forward but citations changed — confirm with the clerk or DA which the county uses. • Not automatic.",
+      "Unlike Clean Slate states, Tennessee has no automatic sealing; every clearance requires a filed petition (except the immediate order at a not-guilty verdict). • Immediate order at acquittal.",
+      "The old $180 expunction fee was eliminated in 2019; the current conviction fee is $100, made discretionary with the clerk in 2021 and payable in installments — non-conviction expunction is always free. • Diversion is not erasure by itself.",
+      "Completing pretrial or judicial diversion dismisses the case but leaves it visible until a separate expunction petition is filed. • TBI 30-day rule."
+    ],
+    "serviceAndNoticeRules": [
+      "5 DA review. The District Attorney may challenge the petition; for eligible convictions there is a rebuttable",
+      "The District Attorney may challenge the petition; for eligible convictions there is a rebuttable presumption in favor of granting."
+    ],
+    "feeRules": [
+      "Non-conviction expunction $0 Statute bars any fee (dismissed, nolle, no true bill, acquittal)",
+      "Conviction expunction (§ g / 107) $100 Discretionary with clerk since 2021; installments allowed",
+      "Two-offense expunction (§ k) $100 Single filing for up to two offenses",
+      "Diversion expunction Clerk fee Pretrial / judicial diversion completion",
+      "TBI criminal history (background check) TBI fee To confirm record before filing",
+      "Attorney fees (if represented) Varies Not required; legal-aid and DA expungement clinics exist",
+      "The cost picture is favorable. Non-conviction expunction is free by statute. The conviction-expunction fee",
+      "dropped from $180 to $100 in 2019, became discretionary with the court clerk in 2021, and may be paid in",
+      "installments — so a person who cannot pay up front can still proceed. The realistic out-of-pocket cost beyond",
+      "the filing fee is the TBI background-check fee used to confirm the record. Expungement clinics run by some",
+      "District Attorneys (e.g., Nashville) assist for free.",
+      "Lead with the free non-conviction route and the installment option for the $100 conviction fee; cost is",
+      "rarely a hard barrier in Tennessee. Point users to DA expungement clinics where available.",
+      "Budget the TBI background-check fee as the baseline expense for confirming the record before filing.",
+      "Tennessee Expunction — Agent Training Reference · LegalEase / Wilma",
+      "Item Amount Note Non-conviction expunction $0 Statute bars any fee (dismissed, nolle, no true bill, acquittal) Conviction expunction (§ g / 107) $100 Discretionary with clerk since 2021; installments allowed Two-offense expunction (§ k) $100 Single filing for up to two offenses Diversion expunction Clerk fee Pretrial / judicial diversion completion TBI criminal history (background check) TBI fee To confirm record before filing Attorney fees (if represented) Varies Not required; legal-aid and DA expungement clinics exist The cost picture is favorable.",
+      "Non-conviction expunction is free by statute.",
+      "The conviction-expunction fee dropped from $180 to $100 in 2019, became discretionary with the court clerk in 2021, and may be paid in installments — so a person who cannot pay up front can still proceed.",
+      "The realistic out-of-pocket cost beyond the filing fee is the TBI background-check fee used to confirm the record.",
+      "Expungement clinics run by some District Attorneys (e.g., Nashville) assist for free.",
+      "AGENT GUIDANCE Lead with the free non-conviction route and the installment option for the $100 conviction fee; cost is rarely a hard barrier in Tennessee.",
+      "Point users to DA expungement clinics where available."
+    ],
+    "hearingAndObjectionRules": [
+      "presumption in favor of granting. The judge may hold a hearing if contested.",
+      "The judge may hold a hearing if contested.",
+      "Rebuttable presumption to grant. For eligible convictions, § (g)(5)(B) creates a presumption the petition should be granted, shifting the practical burden to the DA to object.",
+      "For eligible convictions, § (g)(5)(B) creates a presumption the petition should be granted, shifting the practical burden to the DA to object. • One-time two-offense use."
+    ],
+    "postFilingRules": [
+      "3 Prepare the petition / order of expungement (TBI fillable form) with the petitioner's identifiers, the",
+      "the TBI and, once granted, must forward the expunction order to the TBI within thirty (30) days.",
+      "7 Destruction of records. On the granted order, the clerk and the TBI remove and destroy the public records of",
+      "the case. Keep a certified copy of the order.",
+      "3 Prepare the petition / order of expungement (TBI fillable form) with the petitioner's identifiers, the offense, the disposition, and the statutory citation (confirm 40-32-101 vs. the reorganized 40-32-106/107 with the clerk).",
+      "For conviction/diversion cases, the court submits the § 40-32-102 certification to the TBI and, once granted, must forward the expunction order to the TBI within thirty (30) days.",
+      "On the granted order, the clerk and the TBI remove and destroy the public records of the case.",
+      "Keep a certified copy of the order."
+    ],
+    "formInventory": [
+      {
+        "fileName": "EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e7d6aec0ccc69e10758f951e329550438940962173895d48b319646d60973a24",
+        "sizeBytes": 604128
+      },
+      {
+        "fileName": "REMOVAL_FORM_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/REMOVAL_FORM_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "35fd55445c361f20c33bed0cdf62b7a578c0985722d1f3b6612ae247c78b1453",
+        "sizeBytes": 405672
+      },
+      {
+        "fileName": "diversions-expungements.html",
+        "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+        "sizeBytes": 66848
+      },
+      {
+        "fileName": "expungements.html",
+        "relativePath": "LegalEase Tennesee/expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "140e5b65170add3c59fc3fa003fca71f0dffa15ef4585e642d1f093c55aaacfc",
+        "sizeBytes": 43630
+      },
+      {
+        "fileName": "tn-expunction-petition.html",
+        "relativePath": "LegalEase Tennesee/tn-expunction-petition.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "0ac73c18d2ec1a7a3997f551fcb596c969c6c9069073420989e624c539782901",
+        "sizeBytes": 19912
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/EXPUNGEMENT_ORDER_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e7d6aec0ccc69e10758f951e329550438940962173895d48b319646d60973a24",
+        "sizeBytes": 604128
+      },
+      {
+        "fileName": "REMOVAL_FORM_fillable050925.pdf",
+        "relativePath": "LegalEase Tennesee/REMOVAL_FORM_fillable050925.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "35fd55445c361f20c33bed0cdf62b7a578c0985722d1f3b6612ae247c78b1453",
+        "sizeBytes": 405672
+      },
+      {
+        "fileName": "Tennessee-Expunction-Agent-Reference.pdf",
+        "relativePath": "LegalEase Tennesee/Tennessee-Expunction-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "d39d374e5363161ea248e422119ee70d3a519566371b8953775d7587a0f46310",
+        "sizeBytes": 34683
+      },
+      {
+        "fileName": "diversions-expungements.html",
+        "relativePath": "LegalEase Tennesee/diversions-expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7",
+        "sizeBytes": 66848
+      },
+      {
+        "fileName": "expungements.html",
+        "relativePath": "LegalEase Tennesee/expungements.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "140e5b65170add3c59fc3fa003fca71f0dffa15ef4585e642d1f093c55aaacfc",
+        "sizeBytes": 43630
+      },
+      {
+        "fileName": "tn-expunction-petition.html",
+        "relativePath": "LegalEase Tennesee/tn-expunction-petition.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "0ac73c18d2ec1a7a3997f551fcb596c969c6c9069073420989e624c539782901",
+        "sizeBytes": 19912
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Tennessee-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 49,
+      "endLine": 70,
+      "text": "Statutory shorthand used throughout\n\nT.C.A. § 40-32-101(a) Free EXPUNCTION of non-conviction records (now also § 40-32-106)\n\n§ 40-32-101(g) Eligible-CONVICTION expunction — misdemeanors &amp; Class E felonies (now § 40-32-107)\n\n§ 40-32-101(k) TWO-OFFENSE pathway — up to two eligible offenses, once in a lifetime\n\n§ 40-32-102 TBI request-for-certification process before an expunction order is entered\n\n§ 40-15-105 PRETRIAL diversion — prosecution suspended by MOU; no guilty plea\n\n§ 40-35-313 JUDICIAL diversion — conditional guilty plea, no judgment of conviction entered\n\n2025 reorg. § 40-32-101 split into §§ 40-32-106 / 40-32-107 / 40-32-108\n\nTBI Tennessee Bureau of Investigation — maintains the state criminal history\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 71,
+      "endLine": 119,
+      "text": "Four pathways, considered by how the case ended.\n\nPathway 1 — Non-conviction expunction, free (§ 40-32-101(a) / § 40-32-106)\nAvailable at NO cost where the case did not result in a conviction:\n\n• Charge dismissed (for a reason other than successful diversion completion).\n• Nolle prosequi (prosecutor declined to proceed).\n• Grand jury returned a no true bill (no indictment).\n• Not guilty verdict, by judge or jury, on all counts.\n• Person was arrested and released without being charged.\nOn a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records\ndestroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi\nafter the fact, the person files a petition (no fee).\n\nPathway 2 — Diversion expunction (§ 40-15-105 pretrial / § 40-35-313 judicial)\nTwo distinct diversion programs, both ending in expunction after successful completion — but a petition is still\nrequired. Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA; the\nperson does not plead or get found guilty, and on completion asks the court to send an Order of Expungement to\nthe TBI (marked Suspension of Prosecution). Judicial diversion involves a conditional guilty plea with NO\njudgment of conviction entered; the court defers adjudication and places the person on probation (typically 6–18\nmonths), and on successful completion discharges and dismisses the case, after which the person petitions to\nexpunge. A completed judicial diversion is not a conviction under Tennessee law.\n\nPathway 3 — Eligible-conviction expunction (§ 40-32-101(g) / § 40-32-107)\nSince 2012 (and expanded repeatedly), Tennessee allows expunction of certain non-violent, non-DUI,\nnon-sexual convictions — most misdemeanors and a defined set of Class E felonies — after the person has\ncompleted the entire sentence and the waiting period has run. If the eligibility requirements are met, there is a\nrebuttable presumption that the petition should be granted. A $100 filing fee applies (now discretionary\nwith the clerk).\n\nPathway 4 — Two-offense expunction (§ 40-32-101(k))\nSince 2017, an “eligible petitioner” may expunge up to TWO offenses — either two misdemeanors, or one\nfelony and one misdemeanor — in a single lifetime use, provided each offense is independently eligible under\n(g) and each occurred before any conviction for an ineligible offense. The 2025 reorganization (§ 40-32-107)\nbroadened this for offenses arising from the same incident or closely related charges. A person may use this\ntwo-offense option only once.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma\n\nAGENT GUIDANCE\nRoute by outcome. Non-conviction → free expunction (sometimes immediate at acquittal). Completed\ndiversion → petition to expunge (pretrial vs. judicial differ in mechanics). Eligible conviction → (g)/107\nexpunction after the wait; two eligible offenses → the once-in-a-lifetime (k) pathway.\nAlways tell users expunction is NOT automatic — a dismissal or completed diversion stays on\nbackground checks until they file. This is the most common Tennessee misunderstanding.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 120,
+      "endLine": 161,
+      "text": "Conviction expunction requires completion of the ENTIRE sentence first — imprisonment, probation, parole,\nfines, restitution, and court costs — then the waiting period runs from that completion. Non-conviction and\ndiversion expunctions have no level-based waiting period.\n\nPathway / matter Waiting period Runs from Fee\n\nNon-conviction (dismissed, None — Free\nnolle, no true bill, acquittal)\n\nPretrial / judicial diversion None (after Discharge &amp; Clerk fee\ncompletion) dismissal\n\nMisdemeanor conviction 5 years Sentence $100\ncompletion\n\nEligible Class E felony 5 years Sentence $100\ncompletion\n\nEligible Class C or D felony 10 years Sentence $100\ncompletion\n\nTwo-offense (k) — two misd. 5 years Most recent $100\nor Class E + misd. completion\n\nTwo-offense (k) — includes a 10 years Most recent $100\nClass C or D felony completion\n\nTwo threshold facts the agent must check. First, the conviction must have occurred on or after November 1,\n1989 to be expungeable under the conviction pathway. Second, at the time of filing the person must have no\nother conviction of any kind — including federal offenses and out-of-state offenses that would be ineligible in\nTennessee — except the offense(s) being expunged. Outstanding fines, restitution, or court costs mean the\nsentence is not complete and the clock has not started.\n\nAGENT GUIDANCE\nCompute from completion of the ENTIRE sentence, including unpaid fines/restitution/costs — those stop\nthe clock from starting. Misdemeanor and Class E = 5 years; Class C/D = 10 years.\nConfirm the person has no other convictions anywhere; a single ineligible conviction elsewhere generally\ndefeats conviction expunction. Verify the offense post-dates Nov 1, 1989.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 162,
+      "endLine": 203,
+      "text": "The conviction pathway is limited to non-violent, non-DUI, non-sexual offenses. The following are\ncategorically NOT eligible for conviction expunction, regardless of time elapsed:\n\n• DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses.\n• Sexual offenses and any offense requiring sex-offender registration.\n• Class A and Class B felonies (the most serious felony classes).\n• Violent offenses and crimes against the person enumerated in the statute.\n• Vehicular assault / vehicular homicide and similar.\n• Domestic violence assault convictions and certain offenses against children.\n• Offenses committed by a public official in an official capacity.\n\nEligible Class E felonies (illustrative)\nAmong the Class E felonies that ARE eligible: theft (§ 39-14-103), forgery (§ 39-14-114), fraudulent use of a\ncredit card (§ 39-14-118), vandalism, fraudulent/false insurance claims, and certain drug-possession offenses\n(Schedule III/IV/V, or small amounts — under 0.5 grams — of Schedule II). The Legislature has added\noffenses to the eligible list repeatedly (e.g., the 2021 expansion adding dozens of offenses), so the list grows\nover time.\n\nOther categorical limits\n• Any other conviction on the record (in-state, federal, or out-of-state and ineligible here) generally bars\nconviction expunction.\n• Prior expunction. The two-offense (k) pathway may be used only once in a lifetime.\n• Diversion eligibility differs. Judicial diversion is barred for Class A/B felonies, sexual offenses, DUI,\nvehicular assault, and where the person has a prior felony or a prior Class A misdemeanor with jail time, or\nany prior diversion.\n\nVERIFY BEFORE RELYING\nThe eligible Class E felony list is defined by enumerated Code sections and has been expanded\nby the Legislature almost yearly; the 2025 reorganization also moved the conviction provisions to\n§ 40-32-107. The agent must map the user's exact offense to its T.C.A. section and check it\nagainst the current eligible/ineligible lists (the Nashville DA and TBI publish checklists) before\ndeclaring eligibility — the offense label and class alone are not enough.\n\nAGENT GUIDANCE\nDUI and sexual offenses are the two hard, permanent bars users most often misjudge — neither is ever\nexpungeable. Class A/B felonies are out; only specific Class E (and the lower misdemeanors) qualify.\nBecause the eligible list keeps expanding, check the current Nashville DA / TBI checklist rather than\nassuming a borderline Class E felony is in or out.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 204,
+      "endLine": 245,
+      "text": "Outcome drives the pathway, the cost, and whether a petition (vs. an immediate order) is needed. This table is\nthe agent's primary routing logic for Tennessee.\n\nCase outcome Pathway Route Cost / wait\n\nNot guilty on all counts § 40-32-101(a) Judge asks; immediate order Free / none\n\nDismissed / nolle / no § 40-32-101(a) Petition (free) Free / none\ntrue bill\n\nArrested, never charged § 40-32-101(a) Petition (free) Free / none\n\nPretrial diversion completed § 40-15-105 Petition; order to TBI Clerk fee / none\n\nJudicial diversion completed § 40-35-313 Petition after dismissal Clerk fee / none\n\nMisdemeanor / Class E § (g) / 107 Petition $100 / 5 yrs\nfelony conviction\n\nClass C or D felony § (g) / 107 Petition $100 / 10 yrs\n(eligible)\n\nTwo eligible offenses § (k) Petition (once in lifetime) $100 / 5–10 yrs\n\nDUI / sexual / Class A-B — Not eligible —\n/ violent\n\nEffect of relief: a Tennessee expunction removes and destroys the public records of the case, and the person is\nrestored in the eyes of the law to the status they held before the arrest — they may lawfully deny the arrest and\ncharge in most contexts. Note the limits: federal systems and security-clearance background checks may still\nsee an underlying guilty plea (e.g., from a diversion), and the relief reaches Tennessee records only. If the\npetition is denied, the person may reapply after two years.\n\nAGENT GUIDANCE\nTennessee expunction is real erasure of the state record — stronger than the 'sealing' of many states —\nbut it does not reach federal records or undo a guilty plea visible to federal clearance checks. Set that\nexpectation for diversion cases especially.\nIf a petition is denied, advise the user they can reapply after two years.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 246,
+      "endLine": 274,
+      "text": "Tennessee expunction is filed in the court where the case originated. The TBI and the Administrative Office of\nthe Courts publish forms; the TBI also runs a request-for-certification step. A petition is required for every\npathway except the immediate at-acquittal order.\n\nCore components of an expunction filing\n1 Petition / Order of Expungement — names the petitioner, date of birth, social security number, the offense\nto be expunged, the state control number (per § 8-4-115), the date and cause of the dismissal or the conviction\ndetails, and the statutory basis. A TBI PDF-fillable form is available.\n2 TBI request-for-certification (§ 40-32-102) — for conviction and diversion expunctions, the court\ncompletes and submits a certification form to the TBI before entering the order; the TBI provides the\ncertificate to the clerk. (Not required for some non-conviction expunctions under §§ 40-32-106 / 109 unless\nthe case came through diversion.)\n\n3 Diversion marking — pretrial diversion orders are marked “Suspension of Prosecution § 40-15-105”;\njudicial diversion orders reference § 40-35-313.\n\n4 Proof of sentence completion — for conviction expunctions, documentation that all terms (including fines,\nrestitution, and costs) are satisfied and the waiting period has run.\n\nAGENT GUIDANCE\nUse the TBI PDF-fillable expungement order where available; electronic signatures are accepted via the\nTBI FlexCheck process. For conviction/diversion cases, remember the court's § 40-32-102 certification\nstep precedes entry of the order.\nCapture the state control number and the exact disposition early — the order cannot be completed\nwithout them.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 275,
+      "endLine": 306,
+      "text": "1 Get the record. Obtain a TBI criminal history and the court disposition to confirm the outcome, the statutory\nbasis, sentence completion, and the state control number.\n\n2 Confirm the pathway and eligibility. Non-conviction vs. diversion vs. conviction; the eligible-offense lists;\nthe waiting period from full sentence completion; the no-other-conviction requirement; and the Nov 1, 1989\ndate for conviction expunction.\n\n3 Prepare the petition / order of expungement (TBI fillable form) with the petitioner's identifiers, the\noffense, the disposition, and the statutory citation (confirm 40-32-101 vs. the reorganized 40-32-106/107 with\nthe clerk).\n4 File in the court where the case originated — the county criminal/circuit/general sessions court clerk —\nand pay the fee ($100 for conviction expunction, discretionary with the clerk and payable in installments; free\nfor non-conviction).\n\n5 DA review. The District Attorney may challenge the petition; for eligible convictions there is a rebuttable\npresumption in favor of granting. The judge may hold a hearing if contested.\n\n6 Court certification to TBI. For conviction/diversion cases, the court submits the § 40-32-102 certification to\nthe TBI and, once granted, must forward the expunction order to the TBI within thirty (30) days.\n\n7 Destruction of records. On the granted order, the clerk and the TBI remove and destroy the public records of\nthe case. Keep a certified copy of the order.\n\nAGENT GUIDANCE\nVenue is the originating court's county — a person with cases in several counties files separately in each.\nConfirm the right clerk (criminal, circuit, or general sessions) for the case.\nLean on the rebuttable presumption for eligible convictions: a complete, well-documented petition with\nproof of sentence completion is presumptively granted.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 307,
+      "endLine": 332,
+      "text": "• The 2025 reorganization. § 40-32-101 was split into §§ 40-32-106 (non-conviction), 40-32-107\n(conviction), and 40-32-108; the substance carried forward but citations changed — confirm with the clerk or\nDA which the county uses.\n• Not automatic. Unlike Clean Slate states, Tennessee has no automatic sealing; every clearance requires a\nfiled petition (except the immediate order at a not-guilty verdict).\n• Immediate order at acquittal. On a not-guilty verdict on all counts, the judge must ask the person if they\nwant records destroyed and can order it on the spot — no petition.\n• Rebuttable presumption to grant. For eligible convictions, § (g)(5)(B) creates a presumption the petition\nshould be granted, shifting the practical burden to the DA to object.\n• One-time two-offense use. The (k) pathway is a once-in-a-lifetime option; using it forecloses a later second\nuse.\n• Fee history. The old $180 expunction fee was eliminated in 2019; the current conviction fee is $100, made\ndiscretionary with the clerk in 2021 and payable in installments — non-conviction expunction is always free.\n• Diversion is not erasure by itself. Completing pretrial or judicial diversion dismisses the case but leaves it\nvisible until a separate expunction petition is filed.\n• TBI 30-day rule. The court must forward a granted expunction order to the TBI within 30 days.\n\nAGENT GUIDANCE\nConfirm the statutory citation with the county before drafting — the 2025 renumbering means forms may\nshow 40-32-101 or 40-32-106/107.\nFor diversion users, stress the separate expunction petition: completing diversion is not the same as\nclearing the record.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 333,
+      "endLine": 360,
+      "text": "Item Amount Note\n\nNon-conviction expunction $0 Statute bars any fee (dismissed, nolle, no true bill, acquittal)\n\nConviction expunction (§ g / 107) $100 Discretionary with clerk since 2021; installments allowed\n\nTwo-offense expunction (§ k) $100 Single filing for up to two offenses\n\nDiversion expunction Clerk fee Pretrial / judicial diversion completion\n\nTBI criminal history (background check) TBI fee To confirm record before filing\n\nAttorney fees (if represented) Varies Not required; legal-aid and DA expungement clinics exist\n\nThe cost picture is favorable. Non-conviction expunction is free by statute. The conviction-expunction fee\ndropped from $180 to $100 in 2019, became discretionary with the court clerk in 2021, and may be paid in\ninstallments — so a person who cannot pay up front can still proceed. The realistic out-of-pocket cost beyond\nthe filing fee is the TBI background-check fee used to confirm the record. Expungement clinics run by some\nDistrict Attorneys (e.g., Nashville) assist for free.\n\nAGENT GUIDANCE\nLead with the free non-conviction route and the installment option for the $100 conviction fee; cost is\nrarely a hard barrier in Tennessee. Point users to DA expungement clinics where available.\nBudget the TBI background-check fee as the baseline expense for confirming the record before filing.\n\nTennessee Expunction — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Criminal history (TBI) request process",
+      "category": "filing",
+      "startLine": 361,
+      "endLine": 364,
+      "text": "Reviewing the record first confirms the disposition, the state control number, and sentence completion, and\nreveals any other conviction that would bar conviction expunction."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 391,
+      "endLine": 406,
+      "text": "Tennessee expunction is filed on a petition/order in the originating court. The examples below show structure\nand key recitals for the main pathways. Names, dates, and identifiers are fictional and illustrative.\n\nExample A — Petition / Order of Expunction, eligible conviction (§ 40-32-101(g) / 107)\nIN THE CRIMINAL COURT FOR DAVIDSON COUNTY, TENNESSEE\nSTATE OF TENNESSEE v. ANDRE L. CARTER Case No. 2018-A-1234\n\nPETITION FOR EXPUNCTION (T.C.A. 40-32-101(g) / 40-32-107)\n1. Petitioner: Andre L. Carter; DOB 07/22/1992; SSN XXX-XX-4471;\nState Control No. TN01234567.\n2. Offense: Theft of property (Class E felony), T.C.A. 39-14-103,\nconvicted 03/14/2019; the offense occurred after 11/01/1989.\n3. Petitioner completed the entire sentence -- probation, fines,\nrestitution, and court costs -- on 03/14/2020.\n4. More than five (5) years have elapsed since completion."
+    },
+    {
+      "title": "NON-CONVICTION EXPUNCTION (40-32-101(a) / 40-32-106) — FREE:",
+      "category": "pathway_detail",
+      "startLine": 419,
+      "endLine": 425,
+      "text": "A charge dismissed / nolle prossed / no-true-billed, or an\nacquittal, is expunged at no cost. On a not-guilty verdict on\nall counts, the judge asks the person and may order destruction\nIMMEDIATELY -- no petition. For a later dismissal, file the\nfree petition."
+    },
+    {
+      "title": "JUDICIAL DIVERSION (40-35-313):",
+      "category": "pathway_detail",
+      "startLine": 426,
+      "endLine": 431,
+      "text": "Conditional guilty plea, no judgment of conviction entered;\non completing probation the case is dismissed. The person then\nPETITIONS to expunge (a clerk fee applies). Completed judicial\ndiversion is not a conviction under Tennessee law."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 4,
+      "questions": 16,
+      "decisionRules": 77,
+      "waitingRules": 18,
+      "exclusions": 30,
+      "sourceFiles": 6,
+      "officialForms": 5
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}
