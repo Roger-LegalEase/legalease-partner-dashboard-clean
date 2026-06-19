@@ -10,6 +10,10 @@
  *   text | text_or_unknown | date_or_unknown | number_or_range
  * Any unknown/future type degrades to a calm, non-blocking fallback (never a crash, never a
  * silently-skipped required answer that fakes a result).
+ *
+ * Accessibility: the prompt is a real heading (`<h1>`, one per screen). Choice groups and inputs
+ * are named by it via `aria-labelledby`, with the contextOnly note and error text linked via
+ * `aria-describedby`. Errors use `role="alert"`.
  */
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
@@ -32,18 +36,16 @@ export function QuestionField({
   error?: string | null;
 }) {
   const fieldId = `q-${question.id}`;
+  const promptId = `${fieldId}-prompt`;
   const errorId = error ? `${fieldId}-error` : undefined;
   const contextId = question.contextOnly ? `${fieldId}-context` : undefined;
   const describedBy = [contextId, errorId].filter(Boolean).join(" ") || undefined;
   const optional = question.contextOnly || !question.required;
 
-  // Prompt is phrasing content (safe inside <legend>/<label>); the contextOnly banner is a
-  // block element and must render as a sibling, never nested inside the label/legend.
-  const promptNode = (
-    <PromptText prompt={question.prompt} optional={optional} contextOnly={question.contextOnly} />
+  const heading = (
+    <PromptHeading id={promptId} prompt={question.prompt} optional={optional} contextOnly={question.contextOnly} />
   );
   const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
-
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
       {error}
@@ -64,8 +66,8 @@ export function QuestionField({
       if (options.length === 0) return <MalformedQuestion prompt={question.prompt} />;
 
       return (
-        <fieldset className="grid gap-3">
-          <legend className="contents">{promptNode}</legend>
+        <div className="grid gap-3">
+          {heading}
           {bannerNode}
           <OptionGroup
             mode="single"
@@ -73,11 +75,12 @@ export function QuestionField({
             options={options}
             value={typeof value === "string" ? value : ""}
             onChange={(next) => onChange(next)}
+            ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}
             invalid={Boolean(error)}
           />
           {errorNode}
-        </fieldset>
+        </div>
       );
     }
 
@@ -86,8 +89,8 @@ export function QuestionField({
       if (options.length === 0) return <MalformedQuestion prompt={question.prompt} />;
 
       return (
-        <fieldset className="grid gap-3">
-          <legend className="contents">{promptNode}</legend>
+        <div className="grid gap-3">
+          {heading}
           {bannerNode}
           <OptionGroup
             mode="multi"
@@ -95,18 +98,19 @@ export function QuestionField({
             options={options}
             value={Array.isArray(value) ? value : []}
             onChange={(next) => onChange(next)}
+            ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}
             invalid={Boolean(error)}
           />
           {errorNode}
-        </fieldset>
+        </div>
       );
     }
 
     case "text":
       return (
         <div className="grid gap-3">
-          <label htmlFor={fieldId} className="contents">{promptNode}</label>
+          {heading}
           {bannerNode}
           <input
             id={fieldId}
@@ -114,6 +118,7 @@ export function QuestionField({
             type="text"
             value={typeof value === "string" ? value : ""}
             onChange={(event) => onChange(event.target.value)}
+            aria-labelledby={promptId}
             aria-describedby={describedBy}
             aria-invalid={Boolean(error) || undefined}
           />
@@ -127,7 +132,7 @@ export function QuestionField({
       const config = OR_UNKNOWN_CONFIG[question.type as keyof typeof OR_UNKNOWN_CONFIG];
       return (
         <div className="grid gap-3">
-          <label htmlFor={fieldId} className="contents">{promptNode}</label>
+          {heading}
           {bannerNode}
           <OrUnknownField
             id={fieldId}
@@ -136,6 +141,7 @@ export function QuestionField({
             placeholder={config.placeholder}
             value={readOrUnknown(value)}
             onChange={(next: OrUnknownValue) => onChange(next)}
+            ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}
             invalid={Boolean(error)}
           />
@@ -157,29 +163,31 @@ const OR_UNKNOWN_CONFIG = {
   date_or_unknown: { inputType: "date" as const, unknownLabel: "I don't know the date", placeholder: undefined }
 };
 
-function PromptText({
+function PromptHeading({
+  id,
   prompt,
   optional,
   contextOnly
 }: {
+  id: string;
   prompt: string;
   optional: boolean;
   contextOnly: boolean;
 }) {
   return (
-    <span className="block">
-      <span className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</span>
+    <h1 id={id} className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">
+      {prompt}
       {optional && !contextOnly ? (
         <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#8A93A6]">Optional</span>
       ) : null}
-    </span>
+    </h1>
   );
 }
 
 function MalformedQuestion({ prompt }: { prompt: string }) {
   return (
     <div className="grid gap-2">
-      <span className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</span>
+      <h1 className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</h1>
       <p className="rounded-xl border border-[#F4D9C7] bg-[#FDF1E8] px-4 py-3 text-[13px] leading-6 text-[#9A3412]">
         We could not show this question right now. You can continue, and a reviewer will follow up if
         this detail is needed.

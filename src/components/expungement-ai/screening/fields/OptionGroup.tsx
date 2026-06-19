@@ -15,6 +15,7 @@ type SingleProps = {
   value: string;
   onChange: (value: string) => void;
   name: string;
+  ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
 };
@@ -25,6 +26,7 @@ type MultiProps = {
   value: string[];
   onChange: (value: string[]) => void;
   name: string;
+  ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
 };
@@ -51,7 +53,12 @@ export function OptionGroup(props: OptionGroupProps) {
   }
 
   return (
-    <div className="grid gap-2" role={props.mode === "single" ? "radiogroup" : "group"}>
+    <div
+      className="grid gap-2"
+      role={props.mode === "single" ? "radiogroup" : "group"}
+      aria-labelledby={props.ariaLabelledBy}
+      aria-describedby={props.ariaDescribedBy}
+    >
       {props.options.map((option, index) => {
         const id = `${groupId}-${index}`;
         const checked = isChecked(option);

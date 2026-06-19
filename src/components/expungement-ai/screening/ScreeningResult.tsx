@@ -140,17 +140,17 @@ export function ScreeningResult({
           <button
             type="button"
             onClick={onPacketAction}
-            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)]"
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            Generate my packet — $50
+            Generate my packet ($50)
           </button>
         ) : null}
         {missing.length > 0 ? (
           <button
             type="button"
             onClick={() => onEditAnswers(missing[0])}
-            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)]"
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             Add these details
           </button>
@@ -158,7 +158,7 @@ export function ScreeningResult({
         <button
           type="button"
           onClick={() => onEditAnswers()}
-          className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1]"
+          className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
           Edit my answers
         </button>
@@ -211,7 +211,7 @@ export function EvaluatingState() {
         <p className="text-base font-bold text-[#0B1320]">Reviewing your answers…</p>
       </div>
       <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-        This only takes a moment. We are checking what you told us — we do not guess, and nothing here
+        This only takes a moment. We are checking what you told us. We do not guess, and nothing here
         is a decision yet.
       </p>
     </div>
@@ -244,21 +244,21 @@ export function EvaluationErrorState({
       </h1>
       <p className="mt-3 text-sm leading-6 text-[#5A6275]">
         {malformed
-          ? "The result came back in a form we did not expect, so we stopped rather than show you something that might be wrong. Your answers are not lost — please try again."
+          ? "The result came back in a form we did not expect, so we stopped rather than show you something that might be wrong. Your answers are not lost. Please try again."
           : "This was a connection problem, not a decision about your record. Please try again in a moment."}
       </p>
       <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
         <button
           type="button"
           onClick={onRetry}
-          className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)]"
+          className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
         >
           Try again
         </button>
         <button
           type="button"
           onClick={onEditAnswers}
-          className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1]"
+          className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
           Back to my answers
         </button>

@@ -17,6 +17,7 @@ export function OrUnknownField({
   placeholder,
   value,
   onChange,
+  ariaLabelledBy,
   ariaDescribedBy,
   invalid
 }: {
@@ -26,6 +27,7 @@ export function OrUnknownField({
   placeholder?: string;
   value: OrUnknownValue;
   onChange: (value: OrUnknownValue) => void;
+  ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
 }) {
@@ -43,6 +45,7 @@ export function OrUnknownField({
         value={value.value ?? ""}
         disabled={isUnknown}
         onChange={(event) => onChange({ value: event.target.value, unknown: false })}
+        aria-labelledby={ariaLabelledBy}
         aria-describedby={ariaDescribedBy}
         aria-invalid={invalid || undefined}
       />

@@ -88,7 +88,7 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
     badge: "Extra care",
     tone: "care",
     blurb:
-      "This record may not qualify for self-help filing right now. That is not the end of the road — a legal aid office or an attorney can review your specific situation.",
+      "This record may not qualify for self-help filing right now. That is not the end of the road. A legal aid office or an attorney can review your specific situation.",
     showCallout: true
   },
   completed: {
