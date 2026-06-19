@@ -9,6 +9,10 @@ function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
 }
 
+function readJson(file) {
+  return JSON.parse(read(file));
+}
+
 function exists(file) {
   return fs.existsSync(path.join(root, file));
 }
@@ -45,8 +49,19 @@ const payPage = read("src/app/expungement-ai/pay/page.tsx");
 const resultPanel = read("src/components/expungement-ai/ResultPanel.tsx");
 const wilmaBubble = read("src/components/expungement-ai/WilmaBubble.tsx");
 const statesSource = read("src/lib/expungement-ai/states.ts");
-const selectorSource = read("src/lib/rcap/all51-launch-selector.ts");
 const promotionManifest = read("src/lib/rcap/state-promotion-manifest.ts");
+const profileRegistry = read("src/lib/rcap-engine/profile-registry.ts");
+const publicProfileProjection = read("src/lib/rcap-engine/public-profile-projection.ts");
+const evaluatorSource = read("src/lib/rcap-engine/evaluator.ts");
+const packetPlannerSource = read("src/lib/rcap-engine/packet-planner.ts");
+const expungementAiAdapterSource = read("src/lib/rcap-engine/expungement-ai-adapter.ts");
+const eligibilityAdapterSource = read("src/lib/expungement-ai/eligibility-adapter.ts");
+const paymentAdapterSource = read("src/lib/expungement-ai/payment-adapter.ts");
+const profileRoute = read("src/app/api/expungement-ai/profiles/[state]/route.ts");
+const evaluateRoute = read("src/app/api/expungement-ai/evaluate/route.ts");
+const compiledPublicProfiles = readJson("src/lib/rcap-engine/compiled/all51.json");
+const compiledProfileFiles = fs.readdirSync(path.join(root, "src/lib/rcap-engine/compiled/profiles")).filter((file) => file.endsWith(".json")).sort();
+const compiledProfiles = compiledProfileFiles.map((file) => readJson(`src/lib/rcap-engine/compiled/profiles/${file}`));
 const flowPrototypePath = "design-handoff/expungement-ai-frontend/files-6/Expungement-Flow-Prototype.html";
 const flowPrototype = exists(flowPrototypePath) ? read(flowPrototypePath) : "";
 const publicExpungementSources = [
@@ -272,9 +287,38 @@ for (const branch of ["needs_more_info", "not_yet", "guidance_only", "not_covere
 assert(resultPanel.includes("nonPaymentBranchesNeverShowPayGate"), "Result panel must expose non-payment branch pay-gate guard for verifier coverage.");
 assert(!resultPanel.includes("data-result-code"), "Result panel must not render raw result-code markers.");
 
-assert(statesSource.includes("getAll51SelectableJurisdictions"), "Consumer state options must use all51 live jurisdiction source.");
-assert(selectorSource.includes("return statePromotionManifest.filter") && selectorSource.includes('record.liveEnabled && record.promotionStatus === "live"'), "All51 selector must source live states from the manifest.");
-assert(!selectorSource.includes('"state_not_live"'), "Selector must not expose a state_not_live launch branch.");
+assert(!exists("src/lib/rcap/all51-launch-selector.ts"), "Deleted all51 launch selector must not be restored.");
+assert(statesSource.includes("getAllJurisdictionProfiles"), "Consumer state options must use source-engine jurisdiction profiles.");
+assert(profileRegistry.includes("src/lib/rcap-engine/compiled") && profileRegistry.includes("getAllJurisdictionProfiles"), "Profile registry must load compiled source-engine profiles.");
+assert(profileRegistry.includes("getProfileByJurisdiction") && profileRegistry.includes("normalizeJurisdictionCode"), "Profile registry must resolve individual jurisdictions.");
+assert(publicProfileProjection.includes("projectPublicProfile") && publicProfileProjection.includes("orderedDecisionRules") === false, "Public projection must not expose internal decision rules.");
+assert(profileRoute.includes("getProfileByJurisdiction") && profileRoute.includes("projectPublicProfile"), "Profile API must return source-engine public profiles.");
+assert(evaluateRoute.includes("evaluateExpungementAiMatter"), "Evaluate API must call the source-engine Expungement.ai adapter.");
+assert(expungementAiAdapterSource.includes("evaluateScreening") && expungementAiAdapterSource.includes("ScreeningEvaluationRequest"), "Expungement.ai adapter must delegate to the source-engine evaluator.");
+assert(eligibilityAdapterSource.includes("getProfileByJurisdiction") && eligibilityAdapterSource.includes("evaluateExpungementAiMatter"), "Consumer eligibility adapter must use source-engine profiles and evaluator.");
+assert(eligibilityAdapterSource.includes("isConsumerPaymentAllowed") && eligibilityAdapterSource.includes('resultCode === "packet_ready"') && eligibilityAdapterSource.includes('resultCode === "packet_ready_with_caution"'), "Consumer eligibility adapter must clamp payment to packet-ready result codes.");
+assert(paymentAdapterSource.includes("assertCheckoutAllowed") && paymentAdapterSource.includes("isConsumerPaymentAllowed"), "Consumer checkout must reuse the source-engine payment clamp.");
+assert(!profileRoute.includes("all51-launch-selector") && !evaluateRoute.includes("all51-launch-selector") && !eligibilityAdapterSource.includes("all51-launch-selector"), "Profile/evaluate consumer API must not depend on the deleted all51 launch selector.");
+assert(compiledProfileFiles.length === 51, `Expected 51 compiled source-engine profiles, found ${compiledProfileFiles.length}.`);
+assert(Object.keys(compiledPublicProfiles).length === 51, `Expected 51 public source-engine profiles, found ${Object.keys(compiledPublicProfiles).length}.`);
+assert(compiledProfiles.every((profile) => profile.packetGenerator?.legacyGeneratorAllowed === false), "Every source-engine profile must disable legacy generator routing.");
+assert(compiledProfiles.every((profile) => profile.packetGenerator?.genericLegalFallbackAllowed === false), "Every source-engine profile must disable generic legal fallback routing.");
+assert(evaluatorSource.includes("UnsupportedJurisdictionError") && !evaluatorSource.includes('"state_not_live"'), "Evaluator must reject unsupported jurisdictions without a state_not_live launch branch.");
+assert(evaluatorSource.includes("paymentAllowed = overrides.paymentAllowed === true") && evaluatorSource.includes('resultCode === "packet_ready"') && evaluatorSource.includes('resultCode === "packet_ready_with_caution"'), "Evaluator paymentAllowed must be clamped to packet-ready results.");
+assert(packetPlannerSource.includes("isPacketPlanFulfillmentReady") && packetPlannerSource.includes('plan.mode === "automatic_relief_verification_and_guidance"'), "Packet planner must block guidance-only packet fulfillment.");
+assertNoActiveRuntimeReference([
+  "@/lib/rcap/documents/mississippi",
+  "@/lib/rcap/documents/illinois",
+  "@/lib/rcap/documents/dc",
+  "@/lib/rcap/documents/pennsylvania",
+  "@/lib/rcap/documents/texas-harris",
+  "@/lib/rcap/all51-launch-selector",
+  "legacyGeneratorFor",
+  "renderLegacyGeneratorPacket",
+  "renderAll51FallbackPacket",
+  "genericLegalFallbackAllowed: true",
+  "legacyGeneratorAllowed: true"
+]);
 assert((promotionManifest.match(/"abbreviation":/g) ?? []).length >= 51, "State promotion manifest must include all 50 states plus DC.");
 
 assert(wilmaBubble.includes("data-wilma-surface"), "Wilma surface marker missing.");
@@ -389,3 +433,23 @@ console.log("Expungement.ai launch polish verification passed.");
 console.log("Favicon/app icon, contact route, support route/API, support links, docs, and smoke checks are present.");
 console.log("Support workflow validates and redacts input, creates or enqueues LegalEase OS support items, and does not expose secrets.");
 console.log("Partner dashboard, partner billing, Stripe partner invoice flow, Supabase global auth/RLS/session, RCAP all51 engine, and legacy generators are untouched.");
+
+function assertNoActiveRuntimeReference(forbiddenMarkers) {
+  const runtimeFiles = listFiles(path.join(root, "src"))
+    .filter((file) => /\.(ts|tsx)$/.test(file))
+    .filter((file) => !file.includes("/rcap-engine/compiled/"));
+  for (const filePath of runtimeFiles) {
+    const source = fs.readFileSync(filePath, "utf8");
+    for (const marker of forbiddenMarkers) {
+      assert(!source.includes(marker), `Active runtime reintroduced forbidden marker ${marker} in ${path.relative(root, filePath)}.`);
+    }
+  }
+}
+
+function listFiles(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const absolute = path.join(dir, entry.name);
+    return entry.isDirectory() ? listFiles(absolute) : [absolute];
+  });
+}
