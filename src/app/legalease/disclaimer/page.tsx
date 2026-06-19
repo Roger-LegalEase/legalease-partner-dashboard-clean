@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { LegalDocument } from "../LegalDocument";
-import { disclaimerSections } from "@/lib/legalease/legal-content";
+import { HandoffHtml } from "../HandoffHtml";
 
 export const metadata: Metadata = {
   title: "LegalEase Website Disclaimer",
@@ -8,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function LegalEaseDisclaimerPage() {
-  return <LegalDocument title="LegalEase Website Disclaimer" updated="June 18, 2026" sections={disclaimerSections} />;
+  return <HandoffHtml file="disclaimer.html" />;
 }

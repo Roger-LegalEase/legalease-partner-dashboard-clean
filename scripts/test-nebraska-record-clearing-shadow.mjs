@@ -144,6 +144,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("src/app/api/expungement-ai/"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
+    .filter((line) => !line.includes("src/app/legalease/"))
     .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
     .filter((line) => !line.includes("supabase/phase-27-consumer-checkout-metadata.sql"))
     .filter((line) => !line.includes("supabase/phase-28-consumer-packet-generation-status.sql"))

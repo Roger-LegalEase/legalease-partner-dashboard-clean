@@ -5,16 +5,18 @@ import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 
 export function ConsumerPageShell({
   children,
-  wilmaContext
+  wilmaContext,
+  showWilma = true
 }: {
   children: ReactNode;
   wilmaContext: WilmaPageContext;
+  showWilma?: boolean;
 }) {
   return (
-    <main className="min-h-screen bg-[#F7F3EC] text-[#0B1320]">
+    <main className="min-h-screen bg-[#FBFAF7] text-[#0B1320]">
       <ConsumerNav />
       {children}
-      <WilmaBubble context={wilmaContext} />
+      {showWilma ? <WilmaBubble context={wilmaContext} /> : null}
     </main>
   );
 }

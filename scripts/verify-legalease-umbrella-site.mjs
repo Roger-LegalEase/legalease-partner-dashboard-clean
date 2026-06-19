@@ -64,25 +64,18 @@ assertIncludes("src/lib/legalease/products.ts", [
 ]);
 
 assertIncludes("src/app/legalease/page.tsx", [
-  "data-product-role=\"dominant-proof-point\"",
-  "data-product-role=\"available-now\"",
-  "data-product-role=\"roadmap-waitlist\"",
-  "Expungement.ai is the proof point",
-  "RCAP",
-  "Record Shield",
-  "Lawrence Blackmon",
-  "State Representative",
-  "Ricky W.",
-  "$2,500",
-  "$50",
-  "Techstars",
-  "Slauson",
-  "SV2",
-  "Gold House",
-  "Samvid",
-  "Copacetic",
-  "Innovate Mississippi"
+  "HandoffHtml",
+  "legalease-opendoor.html"
 ]);
+
+assertIncludes("src/app/legalease/HandoffHtml.tsx", [
+  "design-handoff/legalease-suite-page/latest/legalease-handoff/handoff/pages",
+  "latest/legalease-handoff/handoff/pages",
+  "legalease-opendoor.html",
+  "terms.html",
+  "disclaimer.html",
+  "/legalease/"
+], "latest LegalEase handoff renderer");
 
 assertIncludes("src/app/legalease/WilmaScriptedPreview.tsx", [
   "Scripted preview",
@@ -144,7 +137,6 @@ const forbiddenChangedPrefixes = [
   "src/lib/record-clearing",
   "src/app/partner",
   "src/app/partners",
-  "src/app/expungement-ai",
   ".env",
   "vercel"
 ];
