@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { EngineProfile, ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, PublicJurisdictionProfile, ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 
 export function answerText(value: ScreeningAnswerValue | undefined) {
   if (value === undefined || value === null) return "";
@@ -35,7 +35,34 @@ export function requiredMissingQuestionIds(profile: EngineProfile, answers: Reco
     .map((question) => question.id);
 }
 
+export function requiredMissingPublicQuestionIds(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>) {
+  const publicIds = publicQuestionIdSet(publicProfile);
+  return publicProfile.questions
+    .filter((question) => publicIds.has(question.id))
+    .filter((question) => question.required && question.contextOnly !== true)
+    .filter((question) => !hasAnswer(answers[question.id]))
+    .map((question) => question.id);
+}
+
 export function validateAnswerQuestionIds(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
   const valid = new Set(profile.questions.map((question) => question.id));
   return Object.keys(answers).filter((questionId) => !valid.has(questionId));
+}
+
+export function validatePublicAnswerQuestionIds(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>) {
+  const valid = publicQuestionIdSet(publicProfile);
+  return Object.keys(answers).filter((questionId) => !valid.has(questionId));
+}
+
+function hasAnswer(value: ScreeningAnswerValue | undefined) {
+  if (value === undefined || value === null) return false;
+  if (Array.isArray(value)) return value.length > 0;
+  return String(value).trim() !== "";
+}
+
+function publicQuestionIdSet(publicProfile: PublicJurisdictionProfile) {
+  return new Set([
+    ...publicProfile.questions.map((question) => question.id),
+    ...publicProfile.flowStages.flatMap((stage) => stage.questionIds)
+  ]);
 }

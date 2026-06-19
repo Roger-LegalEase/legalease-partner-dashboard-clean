@@ -26,11 +26,15 @@ const packetSummary = readJson(path.join(compiledRoot, "packet-build-summary.jso
 const finalValidation = readJson(path.join(compiledRoot, "all51-final-validation.json"));
 const designerAll51 = readJson(path.join(compiledRoot, "all51.json"));
 const designerIllinois = readJson(path.join(compiledRoot, "IL.json"));
+const evaluatorSource = fs.readFileSync(path.join(root, "src/lib/rcap-engine/evaluator.ts"), "utf8");
+const answerNormalizationSource = fs.readFileSync(path.join(root, "src/lib/rcap-engine/answer-normalization.ts"), "utf8");
 
 assert(profileFiles.length === 51, `Expected 51 compiled profiles, found ${profileFiles.length}.`);
 assert(packetSummary.jurisdictions === 51, "Packet summary must report 51 jurisdictions.");
 assert(finalValidation.passed === true, "Source packet final validation must be passed.");
 assert(finalValidation.metrics?.profiles === 51, "Final validation must cover 51 profiles.");
+assert(evaluatorSource.includes("projectPublicProfile") && evaluatorSource.includes("requiredMissingPublicQuestionIds") && evaluatorSource.includes("validatePublicAnswerQuestionIds"), "Evaluator must validate and require only projected public profile question ids.");
+assert(answerNormalizationSource.includes("requiredMissingPublicQuestionIds") && answerNormalizationSource.includes("validatePublicAnswerQuestionIds"), "Answer normalization must expose public profile gates.");
 
 const codes = new Set();
 const slugs = new Set();
@@ -109,6 +113,8 @@ assert(exclusionRules === packetSummary.exclusionRules, `Exclusion-rule count mi
 
 const ilProjection = projectPublic(profiles.find((profile) => profile.jurisdiction.code === "IL"));
 assert(JSON.stringify(ilProjection.questions.map((q) => q.id)) === JSON.stringify(designerIllinois.questions.map((q) => q.id)), "Illinois projection question ordering differs from IL designer fixture.");
+assertPublicQuestionGate("IL");
+assertPublicQuestionGate("MS");
 
 const runtimeFiles = listFiles(path.join(root, "src"))
   .filter((file) => /\.(ts|tsx)$/.test(file))
@@ -176,6 +182,82 @@ function readJson(file) {
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
+}
+
+function assertPublicQuestionGate(code) {
+  const profile = profiles.find((candidate) => candidate.jurisdiction.code === code);
+  const publicProfile = designerAll51[code] ?? projectPublic(profile);
+  const publicAnswers = publicRequiredAnswers(publicProfile);
+  const sourceRequiredMissing = requiredMissing(profile, publicAnswers);
+  const publicMissing = requiredMissing(publicProfile, publicAnswers);
+  const hiddenMissing = publicMissing.filter((id) => id.startsWith("source_question_"));
+  const sourceMissing = sourceRequiredMissing.filter((id) => id.startsWith("source_question_"));
+
+  assert(sourceMissing.length > 0, `${code} fixture must include hidden source questions to prove the public/internal boundary.`);
+  assert(publicMissing.length === 0, `${code} completed public answers should not have missing public questions: ${publicMissing.join(", ")}`);
+  assert(hiddenMissing.length === 0, `${code} public missing gate must not demand source_question_* ids.`);
+
+  const firstRequired = publicProfile.questions.find((question) => question.required && question.contextOnly !== true);
+  if (firstRequired) {
+    const missingOne = { ...publicAnswers };
+    delete missingOne[firstRequired.id];
+    const missingOneIds = requiredMissing(publicProfile, missingOne);
+    assert(missingOneIds.includes(firstRequired.id), `${code} public required question ${firstRequired.id} must still be enforced.`);
+  }
+
+  const invalidPublicIds = validatePublicAnswerIds(publicProfile, {
+    ...publicAnswers,
+    definitely_not_a_public_question: "bad"
+  });
+  assert(invalidPublicIds.includes("definitely_not_a_public_question"), `${code} invalid public question ids must still be rejected.`);
+}
+
+function publicRequiredAnswers(publicProfile) {
+  return Object.fromEntries(publicProfile.questions
+    .filter((question) => question.required && question.contextOnly !== true)
+    .map((question) => [question.id, sampleAnswer(question.id)]));
+}
+
+function sampleAnswer(questionId) {
+  if (questionId === "ownership_scope") return "yes";
+  if (questionId === "jurisdiction_scope") return "state_or_local";
+  if (questionId === "case_outcome") return "conviction";
+  if (questionId === "offense_level") return "misdemeanor";
+  if (questionId === "state_exclusion_categories") return ["none of these"];
+  if (questionId === "pending_cases") return "no";
+  if (questionId === "sentence_completion_date") return "yes";
+  if (questionId === "disposition_date") return "2018-01-01";
+  if (questionId === "arrest_date") return "2017-01-01";
+  if (questionId === "record_documents") return "court docket";
+  if (questionId.includes("county")) return "Cook County";
+  if (questionId === "court") return "Circuit Court";
+  if (questionId === "charge") return "Misdemeanor charge";
+  return "answered";
+}
+
+function requiredMissing(publicProfile, answers) {
+  const publicIds = new Set([
+    ...publicProfile.questions.map((question) => question.id),
+    ...publicProfile.flowStages.flatMap((stage) => stage.questionIds ?? [])
+  ]);
+  return publicProfile.questions
+    .filter((question) => publicIds.has(question.id))
+    .filter((question) => question.required && question.contextOnly !== true)
+    .filter((question) => {
+      const value = answers[question.id];
+      if (value === undefined || value === null) return true;
+      if (Array.isArray(value)) return value.length === 0;
+      return String(value).trim() === "";
+    })
+    .map((question) => question.id);
+}
+
+function validatePublicAnswerIds(publicProfile, answers) {
+  const valid = new Set([
+    ...publicProfile.questions.map((question) => question.id),
+    ...publicProfile.flowStages.flatMap((stage) => stage.questionIds ?? [])
+  ]);
+  return Object.keys(answers).filter((questionId) => !valid.has(questionId));
 }
 
 function projectPublic(profile) {

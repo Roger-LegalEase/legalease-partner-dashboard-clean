@@ -1,10 +1,11 @@
 import "server-only";
 
 import crypto from "node:crypto";
-import { answerText, isAffirmative, isNegative, isUnknownAnswer, requiredMissingQuestionIds, validateAnswerQuestionIds } from "@/lib/rcap-engine/answer-normalization";
+import { answerText, isAffirmative, isNegative, isUnknownAnswer, requiredMissingPublicQuestionIds, validatePublicAnswerQuestionIds } from "@/lib/rcap-engine/answer-normalization";
 import type { EngineProfile, ScreeningAnswerValue, ScreeningEvaluation, ScreeningEvaluationRequest, ScreeningReason, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
+import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 
 export class UnsupportedJurisdictionError extends Error {
   constructor(readonly jurisdiction: string) {
@@ -34,7 +35,8 @@ export function evaluateScreening(request: ScreeningEvaluationRequest): Screenin
   const version = assertProfileVersion(profile, request.profileVersion);
   if (!version.ok) throw new ProfileVersionMismatchError(version.currentProfileVersion);
 
-  const invalidQuestionIds = validateAnswerQuestionIds(profile, request.answers);
+  const publicProfile = projectPublicProfile(profile);
+  const invalidQuestionIds = validatePublicAnswerQuestionIds(publicProfile, request.answers);
   if (invalidQuestionIds.length > 0) throw new InvalidAnswerError(invalidQuestionIds);
 
   return evaluateAgainstProfile(profile, request);
@@ -58,9 +60,10 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const hardStop = hardStopReason(profile, answers);
   if (hardStop) return result(profile, request, "hard_stop", [hardStop]);
 
-  const missingQuestionIds = requiredMissingQuestionIds(profile, answers);
+  const publicProfile = projectPublicProfile(profile);
+  const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers);
   if (missingQuestionIds.length > 0) {
-    return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required source-defined facts are missing.")], {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds
     });
   }
