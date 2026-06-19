@@ -8,6 +8,11 @@ export async function proxy(request: NextRequest) {
     return hostRouting;
   }
 
+  const staticLandingRouting = routeStaticLandingPath(request);
+  if (staticLandingRouting) {
+    return staticLandingRouting;
+  }
+
   if (request.nextUrl.pathname === "/p/we-must-vote") {
     return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
   }
@@ -135,7 +140,7 @@ function expungementAiPath(pathname: string) {
     return null;
   }
 
-  return pathname === "/" ? "/expungement-ai" : `/expungement-ai${pathname}`;
+  return pathname === "/" ? "/static/expungement-ai/index.html" : `/expungement-ai${pathname}`;
 }
 
 function legalEasePath(pathname: string) {
@@ -144,15 +149,33 @@ function legalEasePath(pathname: string) {
     return null;
   }
 
-  return pathname === "/" ? "/legalease" : `/legalease${pathname}`;
+  return pathname === "/" ? "/static/legalease/index.html" : `/legalease${pathname}`;
 }
 
 function isStaticOrFrameworkPath(pathname: string) {
   return pathname.startsWith("/_next/") ||
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/static/") ||
     pathname === "/favicon.ico" ||
     pathname.startsWith("/favicon") ||
     pathname === "/robots.txt" ||
-    pathname === "/sitemap.xml";
+    pathname === "/sitemap.xml" ||
+    isAssetPath(pathname);
+}
+
+function routeStaticLandingPath(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  if (pathname !== "/expungement-ai" && pathname !== "/legalease") {
+    return null;
+  }
+
+  const url = request.nextUrl.clone();
+  url.pathname = pathname === "/expungement-ai" ? "/static/expungement-ai/index.html" : "/static/legalease/index.html";
+  return NextResponse.rewrite(url);
+}
+
+function isAssetPath(pathname: string) {
+  return /\.(?:avif|css|gif|ico|jpeg|jpg|js|json|map|mp3|mp4|pdf|png|svg|txt|webmanifest|webp|woff|woff2)$/i.test(pathname);
 }
 
 function isPassthroughPath(pathname: string) {

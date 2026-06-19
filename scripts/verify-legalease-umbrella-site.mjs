@@ -50,6 +50,7 @@ for (const route of requiredRoutes) exists(route);
 exists("public/legalease/brand/og-card.png");
 exists("public/legalease/logos/legalease-wordmark.png");
 exists("public/legalease/wilma/wilma-avatar.png");
+exists("public/static/legalease/index.html");
 exists("docs/LEGALEASE_UMBRELLA_SITE.md");
 exists("docs/sql/phase-32-legalease-umbrella-correspondence.sql");
 
@@ -63,10 +64,36 @@ assertIncludes("src/lib/legalease/products.ts", [
   "The Fresh Start Network"
 ]);
 
-assertIncludes("src/app/legalease/page.tsx", [
+assertIncludes("src/proxy.ts", [
+  'pathname !== "/expungement-ai" && pathname !== "/legalease"',
+  '"/static/legalease/index.html"',
+  'host === "legalease.com" || host === "legalease.law"'
+], "LegalEase static landing rewrite");
+
+assertNotIncludes("src/app/legalease/page.tsx", [
   "HandoffHtml",
   "legalease-opendoor.html"
-]);
+], "LegalEase landing app-shell placeholder");
+
+assertIncludes("public/static/legalease/index.html", [
+  "<!DOCTYPE html>",
+  "<style>",
+  "<script>",
+  'href="/legalease/contact"',
+  'href="/legalease/waitlist',
+  'href="/legalease/terms"',
+  'href="/legalease/disclaimer"',
+  'href="/expungement-ai"'
+], "static LegalEase handoff");
+
+assertNotIncludes("public/static/legalease/index.html", [
+  "../assets/",
+  "contact.html",
+  "terms.html",
+  "disclaimer.html",
+  "legalease-opendoor.html",
+  'href="https://expungement.ai"'
+], "static LegalEase handoff links");
 
 assertIncludes("src/app/legalease/HandoffHtml.tsx", [
   "design-handoff/legalease-suite-page/latest/legalease-handoff/handoff/pages",
