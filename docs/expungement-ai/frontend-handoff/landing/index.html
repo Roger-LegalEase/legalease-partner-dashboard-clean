@@ -1,0 +1,344 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Expungement.ai</title><link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{font-family:'Sora',-apple-system,sans-serif}
+  .hero{position:relative;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;background-color:#6E94B0}
+  .hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center 24%}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(13,25,60,.48) 0%, rgba(13,25,60,.24) 34%, rgba(13,25,60,.05) 55%);}
+  
+
+
+  .textpanel{position:relative;display:flex;flex-direction:column;align-items:center;padding:34px 30px 30px;border-radius:28px;
+    background:radial-gradient(120% 130% at 50% 30%, rgba(10,16,38,.52), rgba(10,16,38,.26) 60%, rgba(10,16,38,0) 100%);
+    -webkit-backdrop-filter:saturate(110%);backdrop-filter:saturate(110%)}
+  @media(min-width:640px){.textpanel{padding:40px 48px 36px}}
+  .wrap{flex:1;padding-bottom:8vh;position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 20px 0}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(8px);color:#fff;font-size:12.5px;font-weight:600;padding:7px 15px;border-radius:999px;margin-bottom:20px;animation:fu .8s ease both;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+  .eyebrow svg{width:14px;height:14px;color:#3DE0B5}
+  h1{color:#fff;font-weight:800;line-height:1.02;letter-spacing:-.03em;font-size:40px;text-shadow:0 4px 28px rgba(5,10,28,.85),0 2px 8px rgba(5,10,28,.7),0 1px 2px rgba(5,10,28,.6);animation:fu .8s ease both;max-width:18ch}
+  @media(min-width:640px){h1{font-size:58px}}@media(min-width:1024px){h1{font-size:74px}}
+  h1 .price{color:#FFD9B0}
+  h1 .strike{color:rgba(255,255,255,.6);text-decoration:line-through;text-decoration-thickness:3px}
+  .sub{color:#fff;font-size:17px;font-weight:500;line-height:1.5;max-width:34ch;margin-top:16px;text-shadow:0 2px 16px rgba(5,10,28,.8),0 1px 3px rgba(5,10,28,.7);animation:fu .8s ease both;animation-delay:.1s}
+  @media(min-width:1024px){.sub{font-size:19px}}
+  .microcopy{margin-top:14px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 8px rgba(8,15,40,.5);animation:fu .8s ease both;animation-delay:.28s}
+  .secondary{margin-top:15px;animation:fu .8s ease both;animation-delay:.34s}
+  .secondary a{color:#fff;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-shadow:0 1px 8px rgba(8,15,40,.5)}
+  .trust{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 24px;animation:fu .8s ease both;animation-delay:.42s}
+  .trust .t{display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;font-weight:600;text-shadow:0 1px 8px rgba(8,15,40,.5)}
+  .trust .t svg{width:15px;height:15px;color:#3DE0B5}
+  
+
+
+  
+
+
+  
+  .sky{position:absolute;top:0;left:0;right:0;height:52%;z-index:2;pointer-events:none;overflow:visible}
+  .cloud{position:absolute;will-change:transform;opacity:0}
+  .cloud .p{position:absolute;border-radius:50%;background:radial-gradient(circle at 42% 40%, rgba(255,255,255,.96), rgba(255,255,255,.78) 38%, rgba(255,255,255,.32) 62%, rgba(255,255,255,0) 75%);filter:blur(4px)}
+  .c1{top:12%;width:340px;height:120px;animation:drift 90s linear infinite}
+  .c2{top:27%;width:240px;height:88px;animation:drift 120s linear infinite;animation-delay:-60s}
+  .c3{top:6%;width:440px;height:150px;animation:drift 150s linear infinite;animation-delay:-110s}
+  .c4{top:35%;width:180px;height:70px;animation:drift 105s linear infinite;animation-delay:-42s}
+  @keyframes drift{0%{transform:translateX(-48vw)}9%{opacity:.9}90%{opacity:.9}100%{transform:translateX(135vw)}}
+
+  @keyframes fu{from{opacity:0;transform:translateY(22px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+  
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;transition:background .3s ease, box-shadow .3s ease, padding .3s ease;animation:fd .7s ease both}
+  @media(min-width:1024px){.nav{padding:18px 44px}}
+  .nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(12px);box-shadow:0 1px 0 rgba(15,31,92,.08),0 8px 30px rgba(15,31,92,.06);padding-top:12px;padding-bottom:12px}
+  .nav .brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 12px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .brand{color:#0B1320;text-shadow:none}
+  .nav .brand svg.logomark{width:30px;height:25px;flex-shrink:0}
+  .navlinks{display:none;gap:30px;align-items:center}@media(min-width:768px){.navlinks{display:flex}}
+  .navlinks a{font-size:13.5px;color:rgba(255,255,255,.92);text-decoration:none;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .navlinks a{color:#475067;text-shadow:none}
+  .nav.scrolled .navlinks a:hover{color:#0B1320}
+  .navright{display:none;align-items:center;gap:16px}@media(min-width:768px){.navright{display:flex}}
+  .navlogin{color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .navlogin{color:#475067;text-shadow:none}
+  .navcta{display:inline-flex;align-items:center;gap:7px;background:#FF3B00;color:#fff;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:10px;text-decoration:none;box-shadow:0 6px 16px rgba(255,59,0,.35);transition:background .2s}
+  .navcta:hover{background:#d93200}
+  .navtoggle{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;padding:0 9px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:11px;cursor:pointer;backdrop-filter:blur(8px)}
+  .navtoggle span{display:block;height:2px;width:100%;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+  .nav.scrolled .navtoggle{background:#0B13200d;border-color:#0B13201f}
+  .nav.scrolled .navtoggle span{background:#0B1320}
+  @media(min-width:768px){.navtoggle{display:none}}
+  .nav.open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav.open .navtoggle span:nth-child(2){opacity:0}
+  .nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobilemenu{position:fixed;top:0;right:0;z-index:49;width:min(82vw,320px);height:100dvh;background:#fff;box-shadow:-12px 0 40px rgba(15,31,92,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:88px 28px 28px;gap:4px}
+  .nav.open ~ .mobilemenu{transform:none}
+  .mobilemenu a{color:#0B1320;font-size:17px;font-weight:600;text-decoration:none;padding:14px 0;border-bottom:1px solid #EEF1F6}
+  .mobilemenu .mcta{margin-top:18px;background:#FF3B00;color:#fff;text-align:center;border-radius:12px;padding:15px;border:none;box-shadow:0 8px 22px rgba(255,59,0,.32)}
+  .menuscrim{position:fixed;inset:0;z-index:48;background:rgba(11,19,38,.45);opacity:0;pointer-events:none;transition:opacity .3s}
+  .nav.open ~ .menuscrim{opacity:1;pointer-events:auto}
+  @media(min-width:768px){.mobilemenu,.menuscrim{display:none}}
+
+  @keyframes fd{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;transform:translateY(50px)}to{opacity:.96;transform:none}}
+  @media(prefers-reduced-motion:reduce){.cloud,.crown,.go,.bigcta{animation:none!important}}
+</style></head><body><section class="hero" id="top">
+  <picture>
+    <source type="image/webp" srcset="hero-800.webp 800w, hero-1500.webp 1500w" sizes="100vw">
+    <img class="hero-bg" src="hero-1500.jpg" srcset="hero-1500.jpg 1500w" sizes="100vw"
+         width="1500" height="1000" fetchpriority="high" decoding="async"
+         alt="A sunrise over an open landscape, evoking a fresh start.">
+  </picture>
+  <div class="sky"><div class="cloud c1"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div><div class="cloud c2"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div><div class="cloud c3"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div><div class="cloud c4"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div></div><nav class="nav" id="nav">
+    <a href="#top" class="brand"><svg class="logomark" viewBox="0 0 192 158" width="30" height="25" aria-hidden="true"><defs><clipPath id="arch"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#arch)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#0B1320" class="arch"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#F7F8FA" class="archgap"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg> Expungement.ai</a>
+    <div class="navlinks"><a href="#how-it-works">How it works</a><a href="#pricing">Pricing</a><a href="#trust">Why trust us</a><a href="#faq">FAQ</a></div>
+    <div class="navright"><a href="#" class="navlogin">Log in</a><a href="#start" class="navcta">Start free &#8594;</a></div>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu"><span></span><span></span><span></span></button>
+  </nav>
+  <aside class="mobilemenu" id="mobilemenu" aria-hidden="true">
+    <a href="#how-it-works">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#trust">Why trust us</a>
+    <a href="#faq">FAQ</a>
+    <a href="#">Log in</a>
+    <a href="#start" class="mcta">Check if you qualify, free &#8594;</a>
+  </aside>
+  <div class="menuscrim" id="menuscrim"></div>
+  <div class="wrap"><div class="textpanel">
+    <span class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg> Attorney-built record clearing</span>
+    <h1>Clear your record.<br><span class="price">$50</span>, not <span class="strike">$1,500</span>.</h1>
+    <p class="sub">A lawyer charges thousands. We prepare the same documents a lawyer would file, show you the exact steps, and guide you through every one. Free to check if you qualify.</p>
+    
+    <a href="#" class="bigcta" style="margin-top:28px;display:inline-flex;align-items:center;gap:10px;background:#FF3B00;color:#fff;font-size:18px;font-weight:700;padding:18px 38px;border-radius:14px;text-decoration:none;box-shadow:0 10px 30px rgba(255,59,0,.5);animation:pulseBtn 2.6s ease-in-out infinite">Start free &#8594;</a>
+    <style>@keyframes pulseBtn{0%,100%{box-shadow:0 10px 30px rgba(255,59,0,.5)}50%{box-shadow:0 10px 44px rgba(255,59,0,.85)}}.bigcta:hover{background:#d93200}</style>
+    <div class="microcopy">&#10003; Takes 3 minutes &nbsp;&middot;&nbsp; No account needed &nbsp;&middot;&nbsp; Free until you file</div>
+
+    <div class="secondary"><a href="#">See how it works &#8594;</a></div>
+    <div class="trust">
+      <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Now live in 5 states &middot; more every month</div>
+      <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg> Built by a defense attorney &amp; state lawmaker</div>
+    </div>
+    </div></div>
+  </section>
+<!-- HOW IT WORKS -->
+<section id="how-it-works" style="background:#F7F3EC;padding:90px 20px 100px">
+ <div style="max-width:760px;margin:0 auto">
+  <p style="color:#00A99D;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;text-align:center">How it works</p>
+  <h2 style="color:#0B1320;font-weight:800;font-size:34px;line-height:1.1;letter-spacing:-.02em;text-align:center;max-width:20ch;margin:0 auto">Three steps. No lawyer. No guesswork.</h2>
+
+  <div class="journey" style="position:relative;margin-top:56px;padding-left:8px">
+   <!-- the drawing connector line -->
+   <div class="jline-track" style="position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:rgba(15,31,92,.10);border-radius:3px"></div>
+   <div class="jline" style="position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:linear-gradient(180deg,#00A99D,#FF3B00);border-radius:3px;transform:scaleY(0);transform-origin:top;transition:transform 1.1s cubic-bezier(.4,0,.2,1)"></div>
+
+   <div class="jstep" data-i="0" style="position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 42px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;transition-delay:0.15s">
+      <div class="jnode" style="position:relative;z-index:2;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#fff;border:3px solid #00A99D;display:grid;place-items:center;font-weight:800;font-size:22px;color:#00A99D;box-shadow:0 6px 18px rgba(15,31,92,.10)">1</div>
+      <div style="background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px">
+        <h3 style="color:#0B1320;font-weight:700;font-size:19px">Check if you qualify</h3>
+        <p style="margin-top:8px;color:#5A6275;font-size:15px;line-height:1.6">Dismissed charges, old misdemeanors, arrests that never led to conviction: many records can be cleared. Answer a few plain questions, free, and find out where you stand.</p>
+      </div>
+    </div><div class="jstep" data-i="1" style="position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 42px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;transition-delay:0.33s">
+      <div class="jnode" style="position:relative;z-index:2;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#fff;border:3px solid #1B7FB8;display:grid;place-items:center;font-weight:800;font-size:22px;color:#1B7FB8;box-shadow:0 6px 18px rgba(15,31,92,.10)">2</div>
+      <div style="background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px">
+        <h3 style="color:#0B1320;font-weight:700;font-size:19px">We prepare your paperwork</h3>
+        <p style="margin-top:8px;color:#5A6275;font-size:15px;line-height:1.6">We build the exact documents your court needs, filled out and ready, plus a clear checklist of what to gather before you go.</p>
+      </div>
+    </div><div class="jstep" data-i="2" style="position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 0;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;transition-delay:0.51s">
+      <div class="jnode" style="position:relative;z-index:2;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#fff;border:3px solid #FF3B00;display:grid;place-items:center;font-weight:800;font-size:22px;color:#FF3B00;box-shadow:0 6px 18px rgba(15,31,92,.10)">3</div>
+      <div style="background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px">
+        <h3 style="color:#0B1320;font-weight:700;font-size:19px">You file it, we guide you</h3>
+        <p style="margin-top:8px;color:#5A6275;font-size:15px;line-height:1.6">We walk you through filing step by step: where to go, what to bring, what to expect. You’re never left guessing, and help is one tap away.</p>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section style="background:#0B1320;padding:80px 20px;overflow:hidden">
+ <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center">
+  <div>
+   <p style="color:#2BC4B6;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Your Briefcase</p>
+   <h2 style="color:#fff;font-weight:800;font-size:38px;line-height:1.1;letter-spacing:-.02em">Everything in one place, so you always know what&#39;s next.</h2>
+   <p style="margin-top:20px;color:rgba(255,255,255,.7);font-size:16px;line-height:1.6;max-width:44ch">No legal jargon, no guessing. Your Briefcase shows where each case stands, what&#39;s ready, and the one thing to do next. Your documents live inside, prepared and waiting.</p>
+   <ul style="margin-top:28px;list-style:none;padding:0"><li style="display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:#2BC4B6;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>See where every case stands at a glance</li><li style="display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:#2BC4B6;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Your prepared documents, ready to download and file</li><li style="display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:#2BC4B6;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Step-by-step filing instructions for your exact court</li><li style="display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:#2BC4B6;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Wilma on call to explain anything in plain language</li></ul>
+  </div>
+  <div style="border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45)"><div style="background:#FBFCFE;text-align:left">
+  <div style="background:#EEF1F6;border-bottom:1px solid #E2E6EE;padding:10px 16px;display:flex;align-items:center;gap:12px">
+    <div style="display:flex;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#ff5f57"></span><span style="width:10px;height:10px;border-radius:50%;background:#febc2e"></span><span style="width:10px;height:10px;border-radius:50%;background:#28c840"></span></div>
+    <div style="flex:1;text-align:center;font-size:10px;color:#6B7280">expungement.ai/briefcase</div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);background:#F5F7FA;border-bottom:1px solid #ECEFF4">
+    <div style="padding:12px 14px;border-right:1px solid #ECEFF4"><div style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#9AA3B2;font-weight:600">Matters</div><div style="font-size:20px;font-weight:700;color:#0B1320">2</div><div style="font-size:9px;color:#8A93A6">In progress</div></div>
+    <div style="padding:12px 14px;border-right:1px solid #ECEFF4"><div style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#9AA3B2;font-weight:600">Ready</div><div style="font-size:20px;font-weight:700;color:#00A99D">1</div><div style="font-size:9px;color:#8A93A6">To file</div></div>
+    <div style="padding:12px 14px;border-right:1px solid #ECEFF4"><div style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#9AA3B2;font-weight:600">Docs</div><div style="font-size:20px;font-weight:700;color:#0B1320">6</div><div style="font-size:9px;color:#8A93A6">Prepared</div></div>
+    <div style="padding:12px 14px"><div style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#9AA3B2;font-weight:600">States</div><div style="font-size:20px;font-weight:700;color:#0B1320">2</div><div style="font-size:9px;color:#8A93A6">PA &middot; IL</div></div></div>
+  <div style="padding:16px">
+    <div style="border-radius:12px;background:linear-gradient(135deg,#0B1320,#1B2B80);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div><div style="font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:#7FE9DE;font-weight:600;margin-bottom:4px">Your next step</div><div style="font-size:13px;font-weight:600;color:#fff">File your Philadelphia petition</div><div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:1px">Packet complete &middot; here&#39;s how</div></div>
+      <div style="background:#FF3B00;color:#fff;font-size:10px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap">How to file &#8594;</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+      <div style="border-radius:10px;background:#fff;border:1px solid #ECEFF4;padding:12px 14px"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:12px"><div><div style="font-size:12px;font-weight:600;color:#0B1320">Disorderly conduct</div><div style="font-size:9px;color:#8A93A6;margin-top:2px">Philadelphia, PA &middot; dismissed 2020</div></div><span style="font-size:8px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;color:#00A99D;background:#00A99D1f">Ready to file</span></div><div style="display:flex;align-items:center"><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#3DD598;border:1.5px solid #3DD598;color:#fff">&#10003;</div><div style="height:1.5px;flex:1;margin:0 2px;background:#3DD598"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#3DD598;border:1.5px solid #3DD598;color:#fff">&#10003;</div><div style="height:1.5px;flex:1;margin:0 2px;background:#3DD598"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid #FF3B00;color:#FF3B00">3</div><div style="height:1.5px;flex:1;margin:0 2px;background:#E2E6EE"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid #D4DAE4;color:#9AA3B2">4</div><div style="height:1.5px;flex:1;margin:0 2px;background:#E2E6EE"></div></div><div style="display:flex;align-items:center;"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid #D4DAE4;color:#9AA3B2">5</div></div></div></div>
+      <div style="border-radius:10px;background:#fff;border:1px solid #ECEFF4;padding:12px 14px"><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:12px"><div><div style="font-size:12px;font-weight:600;color:#0B1320">Possession</div><div style="font-size:9px;color:#8A93A6;margin-top:2px">Cook County, IL &middot; filed Apr 2026</div></div><span style="font-size:8px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;color:#C7861B;background:#C7861B1f">With the court</span></div><div style="display:flex;align-items:center"><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#3DD598;border:1.5px solid #3DD598;color:#fff">&#10003;</div><div style="height:1.5px;flex:1;margin:0 2px;background:#3DD598"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#3DD598;border:1.5px solid #3DD598;color:#fff">&#10003;</div><div style="height:1.5px;flex:1;margin:0 2px;background:#3DD598"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#3DD598;border:1.5px solid #3DD598;color:#fff">&#10003;</div><div style="height:1.5px;flex:1;margin:0 2px;background:#3DD598"></div></div><div style="display:flex;align-items:center;flex:1"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid #FF3B00;color:#FF3B00">4</div><div style="height:1.5px;flex:1;margin:0 2px;background:#E2E6EE"></div></div><div style="display:flex;align-items:center;"><div style="width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid #D4DAE4;color:#9AA3B2">5</div></div></div></div>
+    </div></div></div></div>
+ </div></section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:#F7F3EC;padding:80px 20px">
+ <div style="max-width:720px;margin:0 auto;text-align:center">
+  <p style="color:#00A99D;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Pricing</p>
+  <h2 style="color:#0B1320;font-weight:800;font-size:38px;line-height:1.1;letter-spacing:-.02em">One flat price. No surprises.</h2>
+  <div style="margin-top:40px;background:#fff;border-radius:24px;padding:48px 36px;box-shadow:0 20px 50px rgba(15,31,92,.08)">
+   <div style="display:flex;align-items:flex-end;justify-content:center;gap:12px"><span style="color:#0B1320;font-weight:800;font-size:64px;line-height:1">$50</span><span style="color:#9AA3B2;text-decoration:line-through;font-size:24px;font-weight:700;margin-bottom:8px">$1,500</span></div>
+   <p style="margin-top:8px;color:#5A6275;font-size:15px">per case, all-in. Less than a lawyer typically charges.</p><p style="margin-top:6px;color:#00A99D;font-size:14px;font-weight:600">Free to start. You only pay when you&#39;re ready to file.</p>
+   <div style="margin-top:32px;text-align:left;max-width:440px;margin-left:auto;margin-right:auto">
+    <div style="display:flex;align-items:flex-start;gap:12px;color:#1A1D26;font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#00A99D26;color:#00A99D;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Free to check if you qualify. Pay nothing until you file.</div><div style="display:flex;align-items:flex-start;gap:12px;color:#1A1D26;font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#00A99D26;color:#00A99D;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>All your court documents, prepared and ready</div><div style="display:flex;align-items:flex-start;gap:12px;color:#1A1D26;font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#00A99D26;color:#00A99D;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Filing instructions specific to your court</div><div style="display:flex;align-items:flex-start;gap:12px;color:#1A1D26;font-size:15px;margin-bottom:14px"><span style="margin-top:2px;width:20px;height:20px;border-radius:50%;background:#00A99D26;color:#00A99D;display:grid;place-items:center;flex-shrink:0;font-size:11px">&#10003;</span>Wilma guidance from start to finish</div>
+   </div>
+   <a href="#" style="margin-top:36px;display:inline-flex;align-items:center;gap:10px;background:#FF3B00;color:#fff;font-size:16px;font-weight:700;padding:16px 32px;border-radius:14px;text-decoration:none;box-shadow:0 8px 24px rgba(255,59,0,.38)">Check if you qualify, free &#8594;</a>
+   <p style="margin-top:16px;color:#8A93A6;font-size:13px">Can&#39;t afford the filing fee? Many courts waive it. We&#39;ll show you how to ask.</p>
+  </div></div></section>
+
+<!-- CREDIBILITY -->
+<section id="trust" style="background:#fff;padding:80px 20px">
+ <div style="max-width:880px;margin:0 auto">
+  <div style="background:#F7F3EC;border-radius:24px;padding:48px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+   <div role="img" aria-label="Verified, attorney-reviewed" style="width:80px;height:80px;border-radius:18px;background:#0B1320;display:grid;place-items:center;flex-shrink:0">
+     <svg viewBox="0 0 64 64" style="width:46px;height:46px" aria-hidden="true"><path d="M32 5 L53 12 V32 C53 46 44 56 32 60 C20 56 11 46 11 32 V12 Z" fill="#1B2B80" stroke="#3DE0B5" stroke-width="3"/><path d="M23 33 L29 39 L42 24" fill="none" stroke="#3DE0B5" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   </div>
+   <div style="flex:1;min-width:260px">
+    <p style="color:#00A99D;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Why you can trust this</p>
+    <h2 style="color:#0B1320;font-weight:800;font-size:32px;line-height:1.15;letter-spacing:-.02em">Built by a criminal defense attorney and state lawmaker.</h2>
+    <p style="margin-top:16px;color:#5A6275;font-size:16px;line-height:1.65">Every document and every step is grounded in the actual law of your state, reviewed by attorneys who do this work. We don&#39;t cut corners with your record. A defective filing lands on a real person, and that person is you.</p>
+    <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 24px">
+     <span style="display:flex;align-items:center;gap:8px;color:#0B1320;font-size:14px;font-weight:600"><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5" style="width:16px;height:16px"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg>Criminal defense attorney</span><span style="display:flex;align-items:center;gap:8px;color:#0B1320;font-size:14px;font-weight:600"><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5" style="width:16px;height:16px"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg>Sitting state legislator</span><span style="display:flex;align-items:center;gap:8px;color:#0B1320;font-size:14px;font-weight:600"><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5" style="width:16px;height:16px"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg>Attorney-reviewed in every state we serve</span>
+    </div></div></div></div></section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#F7F3EC;padding:80px 20px">
+ <div style="max-width:720px;margin:0 auto">
+  <p style="color:#00A99D;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;text-align:center">Questions</p>
+  <h2 style="color:#0B1320;font-weight:800;font-size:34px;line-height:1.1;letter-spacing:-.02em;text-align:center">The things people ask before they start</h2>
+  <div style="margin-top:44px;display:flex;flex-direction:column;gap:14px">
+
+   <details class="faq" open>
+    <summary>Is this actually legit, or too good to be true?</summary>
+    <p>It&#39;s legit, and it&#39;s legal. You&#39;re allowed to clear your own record without a lawyer; most people just never do because the paperwork and court steps are confusing. We prepare the same documents a lawyer would prepare and walk you through filing them yourself. That&#39;s why it&#39;s $50 instead of thousands: you do the filing, we do the hard part.</p>
+   </details>
+
+   <details class="faq">
+    <summary>Will this work for my record and my state?</summary>
+    <p>It depends on your charges and your state&#39;s law, which is exactly what the free eligibility check is for. We&#39;re live in five states today and adding more every month. Answer a few plain questions and we&#39;ll tell you honestly where you stand, before you pay anything.</p>
+   </details>
+
+   <details class="faq">
+    <summary>Are you lawyers? Is this legal advice?</summary>
+    <p>No. Expungement.ai is not a law firm and does not give legal advice or represent you. We provide self-help document preparation and plain-language guidance, built and reviewed by a criminal defense attorney in every state we serve. If you want someone to advise you on your specific situation, you should talk to a licensed attorney.</p>
+   </details>
+
+   <details class="faq">
+    <summary>What if my petition gets denied?</summary>
+    <p>The free check is designed to flag cases that aren&#39;t likely to qualify before you spend a dollar, so you&#39;re not paying to file something that won&#39;t land. No one can promise a court outcome, and we won&#39;t pretend otherwise. What we can do is make sure your paperwork is complete, correct, and filed the way your court expects.</p>
+   </details>
+
+   <details class="faq">
+    <summary>When do I pay, and what does the $50 cover?</summary>
+    <p>Nothing until you&#39;re ready to file. Checking eligibility and seeing your options is free. The $50 is one flat price per case and covers all your prepared court documents and step-by-step filing instructions for your specific court. Courts may charge their own filing fee; many will waive it, and we show you how to ask.</p>
+   </details>
+
+   <details class="faq">
+    <summary>Is my information private?</summary>
+    <p>Yes. What you share stays private and is never sold. You don&#39;t even need an account to check if you qualify.</p>
+   </details>
+
+  </div>
+ </div>
+ <style>
+  .faq{background:#fff;border-radius:14px;border:1px solid #ECE6DA;overflow:hidden;transition:box-shadow .2s}
+  .faq[open]{box-shadow:0 8px 28px rgba(15,31,92,.07)}
+  .faq summary{list-style:none;cursor:pointer;padding:20px 24px;font-size:16.5px;font-weight:700;color:#0B1320;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:24px;font-weight:600;color:#00A99D;line-height:1;flex-shrink:0;transition:transform .2s}
+  .faq[open] summary::after{transform:rotate(45deg)}
+  .faq p{padding:0 24px 22px;margin:0;color:#5A6275;font-size:15px;line-height:1.65}
+  .faq summary:focus-visible{outline:2px solid #00A99D;outline-offset:-2px;border-radius:14px}
+ </style>
+</section>
+
+<!-- FINAL CTA -->
+<section style="background:#0B1320;padding:80px 20px;text-align:center">
+ <div style="max-width:640px;margin:0 auto">
+  <h2 style="color:#fff;font-weight:800;font-size:44px;line-height:1.08;letter-spacing:-.02em">Your record doesn&#39;t have to follow you.</h2>
+  <p style="margin-top:20px;color:rgba(255,255,255,.75);font-size:17px;line-height:1.6">Find out if you qualify in about 3 minutes. It&#39;s free to check, and you pay nothing until you&#39;re ready to file.</p>
+  <a href="#" style="margin-top:36px;display:inline-flex;align-items:center;gap:10px;background:#FF3B00;color:#fff;font-size:18px;font-weight:700;padding:18px 40px;border-radius:14px;text-decoration:none;box-shadow:0 10px 30px rgba(255,59,0,.5)">Start free &#8594;</a>
+  <p style="margin-top:16px;color:rgba(255,255,255,.55);font-size:13px">Expungement.ai prepares your documents and guides you. We are not a law firm and this is not legal advice.</p>
+ </div></section>
+
+<!-- FOOTER -->
+<footer style="background:#0B1326;padding:56px 20px 40px">
+ <div style="max-width:1000px;margin:0 auto">
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:space-between">
+   <div style="max-width:360px">
+    <a href="#top" style="display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px;text-decoration:none">
+     <svg viewBox="0 0 192 158" style="width:26px;height:21px" aria-hidden="true"><defs><clipPath id="archf"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#archf)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#1B2B40"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#0B1326"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>
+     Expungement.ai
+    </a>
+    <p style="margin-top:14px;color:rgba(255,255,255,.5);font-size:13px;line-height:1.6">Clear your record yourself, with attorney-built paperwork and step-by-step guidance.</p>
+    <div style="margin-top:18px;display:flex;gap:12px">
+     <a href="https://instagram.com/expungement.ai" aria-label="Instagram" style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.7);text-decoration:none;transition:background .2s">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" style="width:17px;height:17px"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+     </a>
+     <a href="https://x.com/expungementai" aria-label="X" style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.7);text-decoration:none;transition:background .2s">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+     </a>
+     <a href="https://linkedin.com/company/expungement-ai" aria-label="LinkedIn" style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.7);text-decoration:none;transition:background .2s">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.36 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+     </a>
+     <a href="https://facebook.com/expungementai" aria-label="Facebook" style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.7);text-decoration:none;transition:background .2s">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.03 4.39 11.03 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79v8.44C19.61 23.1 24 18.1 24 12.07z"/></svg>
+     </a>
+    </div>
+   </div>
+   <div style="display:flex;gap:56px;flex-wrap:wrap">
+    <div>
+     <div style="color:rgba(255,255,255,.4);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">Product</div>
+     <a href="#how-it-works" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none;margin-bottom:11px">How it works</a>
+     <a href="#pricing" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none;margin-bottom:11px">Pricing</a>
+     <a href="#start" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none">Check if you qualify</a>
+    </div>
+    <div>
+     <div style="color:rgba(255,255,255,.4);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">Legal</div>
+     <a href="/privacy" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none;margin-bottom:11px">Privacy policy</a>
+     <a href="/terms" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none;margin-bottom:11px">Terms of service</a>
+     <a href="mailto:help@expungement.ai" style="display:block;color:rgba(255,255,255,.8);font-size:14px;text-decoration:none">Contact us</a>
+    </div>
+   </div>
+  </div>
+
+  <!-- UPL disclaimer: load-bearing -->
+  <div style="margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)">
+   <p style="color:rgba(255,255,255,.45);font-size:12.5px;line-height:1.7;max-width:760px">
+    Expungement.ai is not a law firm and is not a substitute for the advice of an attorney. We provide self-help document preparation and general information, not legal advice, and we do not represent you or file on your behalf. Using this site does not create an attorney-client relationship. Eligibility and outcomes depend on your individual circumstances and your state&#39;s laws. If you need legal advice, consult a licensed attorney in your state.
+   </p>
+  </div>
+
+  <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+   <p style="color:rgba(255,255,255,.35);font-size:12.5px">&copy; 2026 Expungement.ai. All rights reserved.</p>
+   <p style="color:rgba(255,255,255,.35);font-size:12.5px">Your information stays private and is never sold.</p>
+  </div>
+ </div>
+</footer>
+
+<script>
+  (function(){var nav=document.getElementById('nav');function onScroll(){if(window.scrollY>40){nav.classList.add('scrolled');}else{nav.classList.remove('scrolled');}}window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var tgl=document.getElementById('navtoggle'),scrim=document.getElementById('menuscrim'),menu=document.getElementById('mobilemenu');
+  function setMenu(open){nav.classList.toggle('open',open);tgl.setAttribute('aria-expanded',open);tgl.setAttribute('aria-label',open?'Close menu':'Open menu');menu.setAttribute('aria-hidden',!open);document.body.style.overflow=open?'hidden':'';}
+  tgl.addEventListener('click',function(){setMenu(!nav.classList.contains('open'));});
+  scrim.addEventListener('click',function(){setMenu(false);});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length>1){var el=document.querySelector(id);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'});}}});});})();
+
+  (function(){
+    var sec=document.getElementById('how-it-works');if(!sec)return;
+    var line=sec.querySelector('.jline');var steps=sec.querySelectorAll('.jstep');
+    var fired=false;
+    function reveal(){if(fired)return;var r=sec.getBoundingClientRect();if(r.top < window.innerHeight*0.8){fired=true;if(line)line.style.transform='scaleY(1)';steps.forEach(function(s){s.style.opacity='1';s.style.transform='none';});}}
+    window.addEventListener('scroll',reveal,{passive:true});reveal();
+  })();
+</script></body></html>

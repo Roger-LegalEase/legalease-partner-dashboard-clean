@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expungement.ai — Record Clearing Check</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1320; --navy2:#16223a; --slate:#475A6E; --mist:#E6ECF2;
+  --orange:#FF3B00; --orange-d:#d93200; --teal:#0E9C8E; --teal-l:#3DE0B5;
+  --cream:#F7F3EC; --paper:#FBFAF7; --ink:#0B1320; --muted:#5A6275; --hint:#8A93A6;
+  --line:#ECE6DA; --line2:#E4E8EF; --ok:#138a5e; --warn:#9a6b00; --red:#E5484D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:'Sora',-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.app{min-height:100vh;display:flex;flex-direction:column}
+
+/* top progress rail — the signature: a path forward through stages */
+.rail{position:sticky;top:0;z-index:30;background:rgba(251,250,247,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line2)}
+.rail-in{max-width:760px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--navy);text-decoration:none;flex-shrink:0}
+.brand svg{width:28px;height:23px}
+.brand .ai{color:var(--orange)}
+.track{flex:1;height:6px;background:var(--mist);border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;background:linear-gradient(90deg,var(--orange),#ff6a3d);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.railpct{font-size:11px;font-weight:700;color:var(--hint);white-space:nowrap;letter-spacing:.04em}
+
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;padding:40px 20px 130px}
+.screen{width:100%;max-width:600px;animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+.statebadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--slate);background:var(--mist);padding:5px 11px;border-radius:8px;letter-spacing:.02em}
+.qnum{font-size:12px;font-weight:700;color:var(--hint);letter-spacing:.06em;margin-bottom:14px}
+h1.q{font-size:27px;font-weight:800;line-height:1.14;letter-spacing:-.02em;color:var(--navy)}
+@media(min-width:640px){h1.q{font-size:31px}}
+.sub{font-size:15px;color:var(--muted);margin-top:12px;line-height:1.55}
+
+.opts{display:flex;flex-direction:column;gap:11px;margin-top:30px}
+.opt{display:flex;align-items:center;gap:15px;text-align:left;width:100%;padding:18px 20px;border:1.5px solid var(--line2);
+  border-radius:14px;background:#fff;font-size:16px;font-weight:600;color:var(--navy);transition:border-color .15s,background .15s,transform .1s}
+.opt:hover{border-color:var(--slate);background:#fff}
+.opt:active{transform:scale(.992)}
+.opt.sel{border-color:var(--orange);background:#FFF4F0}
+.opt .tick{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;display:grid;place-items:center;transition:.15s}
+.opt.sel .tick{border-color:var(--orange);background:var(--orange)}
+.opt .tick svg{width:12px;height:12px;color:#fff;opacity:0}
+.opt.sel .tick svg{opacity:1}
+.opt.multi .tick{border-radius:6px}
+
+.field{margin-top:26px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px}
+.field input,.field select{width:100%;padding:15px 16px;border:1.5px solid var(--line2);border-radius:12px;font-family:inherit;font-size:16px;color:var(--navy);background:#fff}
+.field input:focus,.field select:focus{outline:none;border-color:var(--slate)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+
+.context-flag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--teal);background:#E7F7F4;padding:6px 12px;border-radius:99px;margin-bottom:18px}
+.context-flag svg{width:13px;height:13px}
+
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:32px;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:700;font-size:16px;padding:15px 26px;border-radius:13px;transition:transform .1s,background .2s,box-shadow .2s}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:19px;height:19px;flex-shrink:0}
+.foot-note svg{width:13px;height:13px}
+.eyebrow svg{width:14px;height:14px}
+.context-flag svg{width:13px;height:13px}
+.reasons li svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.incl li svg{width:17px;height:17px}
+.tag svg{width:13px;height:13px}
+.result-icon svg{width:32px;height:32px}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 26px rgba(255,59,0,.26)}
+.btn-primary:hover{background:var(--orange-d)}
+.btn-primary[disabled]{opacity:.4;pointer-events:none;box-shadow:none}
+.btn-ghost{background:#fff;border:1px solid var(--line2);color:var(--navy)}
+.btn-ghost:hover{background:var(--mist)}
+.btn-block{width:100%}
+.back{font-size:14px;font-weight:600;color:var(--muted);padding:8px 4px}
+.back:hover{color:var(--navy)}
+.skip{display:block;margin:16px auto 0;font-size:13.5px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.skip:hover{color:var(--navy)}
+
+.foot-note{text-align:center;font-size:12px;color:var(--hint);margin-top:22px;display:flex;align-items:center;justify-content:center;gap:6px}
+.foot-note svg{width:13px;height:13px}
+
+/* card-ish containers for result/packet */
+.card{background:#fff;border:1px solid var(--line2);border-radius:20px;padding:34px}
+.result-icon{width:60px;height:60px;border-radius:17px;display:grid;place-items:center;margin-bottom:22px}
+.result-icon svg{width:32px;height:32px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:6px 13px;border-radius:99px}
+.reasons{list-style:none;margin:22px 0 0;display:flex;flex-direction:column;gap:11px}
+.reasons li{display:flex;gap:11px;font-size:14.5px;color:var(--slate);line-height:1.5}
+.reasons li svg{width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--teal)}
+.disc{margin-top:24px;padding:15px 17px;background:var(--cream);border-radius:12px;font-size:12.5px;color:var(--muted);line-height:1.6}
+.pathway{display:inline-block;font-size:12.5px;font-weight:700;color:var(--slate);background:var(--mist);padding:6px 12px;border-radius:8px;margin-top:16px}
+.pricebox{border:1.5px solid var(--line2);border-radius:16px;overflow:hidden;margin-top:24px}
+.pricebox .top{background:var(--navy);color:#fff;padding:22px 24px;display:flex;align-items:baseline;justify-content:space-between}
+.pricebox .amt{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.pricebox .amt span{font-size:14px;font-weight:600;color:#9AA8B8;margin-left:6px}
+.incl{list-style:none;padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+.incl li{display:flex;gap:11px;font-size:14px;color:var(--navy);font-weight:500}
+.incl li svg{width:17px;height:17px;color:var(--teal);flex-shrink:0;margin-top:1px}
+.spinner{width:44px;height:44px;border:4px solid var(--mist);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.devbar{position:fixed;bottom:0;left:0;z-index:50;background:var(--navy);color:#fff;padding:8px 12px;border-top-right-radius:12px;font-size:11px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.devbar b{color:var(--orange);text-transform:uppercase;letter-spacing:.05em;font-size:10px}
+.devbar select{background:#16223a;color:#fff;border:1px solid #2a3a52;border-radius:6px;padding:4px 7px;font-family:inherit;font-size:11px}
+.devbar button{color:#9AA8B8;font-size:11px;padding:3px 7px;border-radius:6px}
+.devbar button:hover{background:#16223a;color:#fff}
+.contract-note{position:fixed;bottom:0;right:0;z-index:50;font-size:10px;color:var(--hint);padding:8px 12px;max-width:280px;text-align:right}
+@media(max-width:680px){.contract-note{display:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script id="profile-IL" type="application/json">{"schemaVersion": "2.0.0", "profileVersion": "2026-06-19-source-conversion-1", "jurisdiction": {"code": "IL", "name": "Illinois", "slug": "illinois"}, "terminology": {"primaryConsumerTerm": "expungement", "allowedStateTerms": ["expungement", "sealing", "Clean Slate", "vacatur/vacation", "pardon"]}, "recordSourceLabel": "Illinois criminal history (ISP access and review) or court records", "flowStages": [{"order": 1, "id": "scope", "screenType": "question_sequence"}, {"order": 2, "id": "pathway_routing", "screenType": "question_sequence"}, {"order": 3, "id": "state_specific_eligibility", "screenType": "conditional_question_sequence"}, {"order": 4, "id": "special_pathways", "screenType": "conditional_question_sequence"}, {"order": 5, "id": "timing_and_completion", "screenType": "conditional_question_sequence"}, {"order": 6, "id": "exclusion_screen", "screenType": "conditional_question_sequence"}, {"order": 7, "id": "record_readiness", "screenType": "record_help_or_question"}, {"order": 8, "id": "case_details", "screenType": "form_fields"}, {"order": 9, "id": "evaluation", "screenType": "progress_transition"}, {"order": 10, "id": "result", "screenType": "result_card"}, {"order": 11, "id": "packet_information", "screenType": "state_packet_form"}, {"order": 12, "id": "checkout", "screenType": "checkout"}, {"order": 13, "id": "generation", "screenType": "status"}, {"order": 14, "id": "briefcase", "screenType": "matter_timeline"}], "questions": [{"id": "ownership_scope", "stage": "scope", "prompt": "Are you asking about your own record?", "type": "single_choice", "required": true, "contextOnly": false, "options": ["Yes", "No", "I am helping someone complete their own check"]}, {"id": "jurisdiction_scope", "stage": "scope", "prompt": "Is this a state or local matter from Illinois, rather than a federal matter?", "type": "single_choice", "required": true, "contextOnly": false, "options": ["State or local", "Federal", "I am not sure"]}, {"id": "case_outcome", "stage": "pathway_routing", "prompt": "How did the Illinois case or record end?", "type": "single_choice", "required": true, "contextOnly": false, "options": ["Arrest or citation with no charge filed", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Acquitted or found not guilty", "Diversion, deferred disposition, supervision, or similar program", "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor", "Pardoned conviction", "I am not sure"]}, {"id": "offense_level", "stage": "pathway_routing", "prompt": "What level or type was the charge?", "type": "single_choice", "required": true, "contextOnly": false, "options": ["Misdemeanor", "Felony", "Infraction or violation", "Traffic or driving matter", "Municipal or ordinance matter", "I am not sure"]}, {"id": "possible_pathway_context", "stage": "pathway_routing", "prompt": "Do any of these Illinois descriptions sound close to your situation?", "type": "single_choice", "required": false, "contextOnly": true, "options": ["Adult non-conviction expungement", "Expungement after eligible supervision or qualified probation", "Adult conviction sealing", "Cannabis-specific automatic or petition expungement", "Human-trafficking-survivor vacatur and expungement", "Felony-prostitution relief", "Criminal identity-theft / mistaken-identity relief", "Juvenile automatic or petition expungement", "Clean Slate automatic sealing", "None of these / I am not sure"]}, {"id": "age_at_offense", "stage": "pathway_routing", "prompt": "How old were you when the offense or case began?", "type": "number_or_range", "required": true, "contextOnly": false, "options": null}, {"id": "trafficking_status", "stage": "special_pathways", "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?", "type": "yes_no_prefer_not_to_say", "required": true, "contextOnly": false, "options": null}, {"id": "pardon_status", "stage": "special_pathways", "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?", "type": "yes_no_unsure", "required": true, "contextOnly": false, "options": null}, {"id": "sentence_completion_date", "stage": "timing_and_completion", "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?", "type": "yes_no_unsure", "required": true, "contextOnly": false, "options": null}, {"id": "disposition_date", "stage": "timing_and_completion", "prompt": "When was the case disposed of, dismissed, completed, or discharged?", "type": "date_or_unknown", "required": true, "contextOnly": false, "options": null}, {"id": "state_exclusion_categories", "stage": "exclusion_screen", "prompt": "Does the record involve any Illinois category that the source identifies as excluded or review-required?", "type": "multi_select", "required": true, "contextOnly": false, "options": ["Violent offense", "Sex offense or registration", "Domestic violence", "DUI/DWI or serious traffic", "Other named excluded offense", "None of these", "I am not sure"]}, {"id": "record_documents", "stage": "record_readiness", "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?", "type": "yes_no_unsure", "required": true, "contextOnly": false, "options": []}, {"id": "court", "stage": "case_details", "prompt": "Which court or agency handled the case?", "type": "text", "required": true, "contextOnly": false, "options": null}, {"id": "charge", "stage": "case_details", "prompt": "What charge, statute, or record description appears on the record?", "type": "text_or_unknown", "required": true, "contextOnly": false, "options": null}, {"id": "county_or_filing_location", "stage": "case_details", "prompt": "Where in Illinois was the case handled?", "type": "text_or_unknown", "required": true, "contextOnly": false, "options": []}, {"id": "case_identifier", "stage": "case_details", "prompt": "What case, docket, cause, or arrest number appears on the record?", "type": "text_or_unknown", "required": false, "contextOnly": false, "options": []}], "copyGuardrails": ["Case outcome / record type First Wilma route Illinois treatment Released without charging Expungement or sealing Expunge available immediately unless excluded Dismissal Expungement or sealing Expunge available immediately unless excluded Acquittal / not guilty Expungement or sealing Expunge available immediately unless excluded Finding of no probable cause Expungement/sealing analysis Usually treated as non-conviction route Conviction vacated or reversed Expungement or sealing Expunge available immediately unless excluded Order of supervision successfully completed Expungement or sealing Expungement wait usually 2 years, sometimes 5 years or age 25 Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after successful termination Misdemeanor conviction Sealing Often sealable unless excluded Felony conviction Sealing Broadly sealable unless excluded; some serious felonies petition-only, not automatic Pardon authorizing expungement Expungement Petition to expunge after governor\u0019s pardon authorizes it Certificate of innocence Expungement Court granting certificate also enters expungement order Minor cannabis offense Automatic/pardon/court cannabis expungement Special cannabis routes Human trafficking-related offense Vacation + expungement or immediate sealing Survivor route under 5.2(h) Prior Class 4 felony prostitution conviction Automatic sealing and/or motion to vacate and expunge Special 5.2(j) route Juvenile record Juvenile expungement Separate automatic and petition routes under 705 ILCS 405/5-915 Federal or out-of-state case Not Illinois court relief Illinois courts cannot expunge/seal federal or out-of-state records Illinois Legal Aid confirms that Illinois courts cannot expunge or seal records from other states or federal cases, even if the federal case happened in Illinois. ( \"https://www.illinoislegalaid.org/legal-information/expunging-or-sealing-criminal-record-common-questions\")", "For Illinois, train Wilma with this core logic: Start with adult vs juvenile, then disposition.Non-convictions generally expunge immediately unless excluded.Supervision can expunge after 2 years, 5 years, or age 25 depending on offense.Qualified probation can expunge after 5 years if successfully completed.Most convictions route to sealing, not expungement.Clean Slate automatic sealing is not immediate; users still file petitions if they want relief sooner.Cannabis, trafficking, felony prostitution, identity theft, pardons, and certificates of innocence have special routes.Do not promise relief until Wilma has the ISP RAP sheet, court dispositions, exact statutes, final disposition, sentence/supervision completion date, pending-charge status, and county/court information. ===== SOURCE FILE: Illinois-Expungement-Sealing-Agent-Reference.pdf ===== Illinois Expungement & Sealing Agent Training Reference A complete operational knowledge base for record-clearing eligibility, the expungement/sealing distinction, waiting periods, exclusions, forms, and filing under Illinois law.", "Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for certain records) and removal of the drug-test requirement take effect June 30, 2026; and AUTOMATIC sealing does not begin until January 1, 2029, phasing in through 2034.", "Until automatic sealing is live, the petition-based process remains the only route for most records.", "The agent must not tell a user their record will be sealed automatically before 2029, and must verify which effective date applies to any given rule.", "Use Illinois-specific remedy terminology returned by the profile; do not relabel every remedy as expungement."]}</script>
+
+<script>
+/* =====================================================================
+   Expungement.ai — profile-driven screening flow (FRONT-END ONLY)
+   The frontend renders the jurisdiction profile and the engine's result.
+   It NEVER evaluates eligibility. Rules live in the Codex backend.
+   This file demonstrates the contract with one real profile (Illinois)
+   and a clearly-marked MOCK /evaluate. Swap mockEvaluate -> real POST.
+   ===================================================================== */
+
+var PROFILE = JSON.parse(document.getElementById('profile-IL').textContent);
+
+var I = {
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M14 3H6v18h12V8z"/></svg>',
+  help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>'
+};
+function logo(){return '<svg viewBox="0 0 192 158" aria-hidden="true"><defs><clipPath id="lc"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#lc)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#0B1320"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#FBFAF7"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>';}
+
+/* ---- which profile questions are rendered as their own screen ----
+   We render the consumer questions in flowStage order. Raw source_question_
+   rows are the backend's evaluation surface and are NOT shown as screens. */
+function screenQuestions(){
+  var stageRank={}; PROFILE.flowStages.forEach(function(s){stageRank[s.id]=s.order;});
+  return PROFILE.questions.slice().sort(function(a,b){
+    return (stageRank[a.stage]||99)-(stageRank[b.stage]||99);
+  });
+}
+
+var S = { i:0, answers:{}, screen:'flow', result:null, devForce:'' };
+var QS = screenQuestions();
+
+function setVal(id,v){ S.answers[id]=v; render(); }
+function pick(id,v){ S.answers[id]=v; setTimeout(next,150); render(); }
+function toggleMulti(id,v){
+  var arr=S.answers[id]||[]; var k=arr.indexOf(v);
+  if(k>=0)arr.splice(k,1); else arr.push(v);
+  S.answers[id]=arr; render();
+}
+function answered(q){
+  var v=S.answers[q.id];
+  if(q.type==='multi_select') return Array.isArray(v)&&v.length>0;
+  if(q.contextOnly) return true;             // optional, never blocks
+  if(q.stage==='case_details') return true;  // identifiers optional
+  return v!==undefined && v!=='';
+}
+function next(){ if(S.i<QS.length-1){S.i++;render();window.scrollTo(0,0);} else {S.screen='evaluating';render();runEvaluate();} }
+function back(){ if(S.i>0){S.i--;render();} }
+
+/* ====== MOCK /evaluate — REPLACE WITH: POST /api/expungement-ai/evaluate ======
+   Returns the ScreeningEvaluation contract shape. The real engine in Codex
+   evaluates the 100 ordered Illinois rules; this mock approximates a result
+   so the UI is demonstrable. The UI does not depend on HOW this is computed. */
+function mockEvaluate(answers){
+  var force=S.devForce;
+  var label=PROFILE.terminology.primaryConsumerTerm;
+  function res(code,extra){return Object.assign({
+    jurisdiction:PROFILE.jurisdiction.name, profileVersion:PROFILE.profileVersion,
+    matterId:'demo', resultCode:code, userLabel:'', reasons:[], missingQuestionIds:[],
+    cautions:[], nextSteps:[], paymentAllowed:(code==='packet_ready'||code==='packet_ready_with_caution'),
+    packetPlan:null, disclaimer:'Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.'
+  },extra);}
+  if(force) return forced(force,res);
+  var o=answers.case_outcome, own=answers.ownership_scope, juris=answers.jurisdiction_scope;
+  if(own && own.indexOf('No')===0) return res('hard_stop',{userLabel:'We can only help the person whose record it is.',
+    reasons:[{code:'ownership',text:'This check is for your own record.'}],
+    nextSteps:['The record holder can start their own free check.']});
+  if(juris==='Federal') return res('hard_stop',{userLabel:'Illinois courts can\u2019t clear a federal record.',
+    reasons:[{code:'federal',text:'Federal matters run through a different system.'}],
+    nextSteps:['Talk to a licensed attorney about federal options.']});
+  if(!o) return res('needs_more_info',{userLabel:'We need a few more details.',
+    missingQuestionIds:['case_outcome'], reasons:[{code:'missing',text:'A few answers are still missing.'}],
+    nextSteps:['Add the missing details to continue.']});
+  if(answers.sentence_completion_date==='No') return res('not_yet',{userLabel:'You may need to wait.',
+    reasons:[{code:'timing',text:'The sentence or supervision isn\u2019t complete yet.'}],
+    nextSteps:['Finish the remaining requirements, then check again.']});
+  var excl=answers.state_exclusion_categories||[];
+  if(excl.indexOf('Sex offense or registration')>=0) return res('needs_review',{userLabel:'This needs a closer look.',
+    reasons:[{code:'exclusion',text:'This category often involves special Illinois rules.'}],
+    nextSteps:['Save your answers for review.']});
+  var nonconv=(o.indexOf('Dismissed')===0||o.indexOf('Acquitted')===0||o.indexOf('Arrest')===0);
+  if(nonconv) return res('packet_ready',{userLabel:'You may be able to clear this record.',
+    pathwayId:'adult-expungement-eligibility',
+    reasons:[{code:'nonconv',text:'Illinois often treats non-conviction records as the clearest path.'},
+             {code:'scope',text:'Your answers point to a supported Illinois pathway.'}],
+    nextSteps:['Generate your Illinois packet and review the filing steps.'],
+    packetPlan:{pathwayId:'adult-expungement-eligibility',mode:'official_form_overlay_or_source_form_set',
+      formMappingStatus:'source_candidate_identified',sourceFormIds:['IL-expungement-petition'],
+      requiredInputIds:['court','case_identifier'],sourceRuleRefs:['IL-R012']}});
+  return res('packet_ready_with_caution',{userLabel:'You may have an Illinois sealing path.',
+    pathwayId:'adult-sealing-eligibility',
+    reasons:[{code:'conv',text:'Most Illinois convictions route to sealing rather than expungement.'},
+             {code:'discretion',text:'The court still decides, so review the packet carefully.'}],
+    cautions:['Court approval is not guaranteed.'],
+    nextSteps:['You can generate a packet, but review it carefully before filing.'],
+    packetPlan:{pathwayId:'adult-sealing-eligibility',mode:'state_specific_custom_packet_from_source_rules',
+      formMappingStatus:'custom_or_manual_mapping_required',sourceFormIds:[],
+      requiredInputIds:['court','case_identifier','charge'],sourceRuleRefs:['IL-R044']}});
+}
+function forced(code,res){
+  var m={packet_ready:'You may be able to clear this record.',packet_ready_with_caution:'You may have a sealing path.',
+    needs_more_info:'We need a few more details.',not_yet:'You may need to wait.',guidance_only:'We can give you next steps for Illinois.',
+    not_covered_yet:'We don\u2019t support this record type yet.',likely_not_eligible:'This record may not qualify.',
+    needs_review:'This needs a closer look.',hard_stop:'We can\u2019t help with this record type.'};
+  return res(code,{userLabel:m[code],reasons:[{code:'demo',text:'Forced via the demo picker to preview this screen.'}],
+    nextSteps:['(demo)'],packetPlan:(code==='packet_ready'||code==='packet_ready_with_caution')?{pathwayId:'demo',mode:'official_form_overlay_or_source_form_set',formMappingStatus:'source_candidate_identified',sourceFormIds:[],requiredInputIds:[],sourceRuleRefs:[]}:null});
+}
+function runEvaluate(){ setTimeout(function(){ S.result=mockEvaluate(S.answers); S.screen='result'; render(); window.scrollTo(0,0); }, 1300); }
+
+/* ===================== RENDER ===================== */
+function railPct(){
+  if(S.screen==='result')return 100; if(S.screen==='evaluating')return 96;
+  if(S.screen==='packet'||S.screen==='checkout')return 100;
+  return Math.round((S.i/QS.length)*88)+6;
+}
+function rail(){
+  return '<div class="rail"><div class="rail-in">'
+    +'<a class="brand" href="#" onclick="return false">'+logo()+'<span>Expungement<span class="ai">.ai</span></span></a>'
+    +'<div class="track"><i style="width:'+railPct()+'%"></i></div>'
+    +'<span class="railpct">'+(PROFILE.jurisdiction.code)+'</span></div></div>';
+}
+
+function questionScreen(){
+  var q=QS[S.i];
+  var body='';
+  var multi=(q.type==='multi_select');
+  if(q.options && q.options.length){
+    body='<div class="opts">'+q.options.map(function(o){
+      var lab=(typeof o==='string')?o:(o.label||o.value);
+      var val=(typeof o==='string')?o:(o.value||o.label);
+      var sel=multi?((S.answers[q.id]||[]).indexOf(val)>=0):(S.answers[q.id]===val);
+      var fn=multi?("toggleMulti('"+q.id+"',"+JSON.stringify(val).replace(/"/g,'&quot;')+")"):("pick('"+q.id+"',"+JSON.stringify(val).replace(/"/g,'&quot;')+")");
+      return '<button class="opt'+(multi?' multi':'')+(sel?' sel':'')+'" onclick="'+fn+'"><span class="tick">'+I.check+'</span><span>'+lab+'</span></button>';
+    }).join('')+'</div>';
+  } else if(q.type==='date_or_unknown'||q.type==='date'){
+    body='<div class="field"><input type="date" value="'+(S.answers[q.id]||'')+'" onchange="setVal(\''+q.id+'\',this.value)"></div>'
+      +'<button class="skip" onclick="setVal(\''+q.id+'\',\'unknown\');next()">I don\u2019t know the exact date</button>';
+  } else if(q.type==='number_or_range'){
+    body='<div class="field"><input type="number" inputmode="numeric" placeholder="Age in years" value="'+(S.answers[q.id]||'')+'" oninput="setVal(\''+q.id+'\',this.value)"></div>'
+      +'<button class="skip" onclick="setVal(\''+q.id+'\',\'unknown\');next()">I\u2019m not sure</button>';
+  } else if(q.stage==='case_details'){
+    // group all case_details into one form screen on the first such question
+    body=caseDetailsForm();
+  } else {
+    body='<div class="field"><input type="text" placeholder="Type your answer" value="'+(S.answers[q.id]||'')+'" oninput="setVal(\''+q.id+'\',this.value)"></div>'
+      +'<button class="skip" onclick="setVal(\''+q.id+'\',\'unknown\');next()">I don\u2019t have this</button>';
+  }
+  var canNext=answered(q);
+  var last=(S.i===QS.length-1);
+  return '<div class="screen">'
+    +'<div class="qnum">Step '+(S.i+1)+' of '+QS.length+(q.required?'':' · optional')+'</div>'
+    +(q.contextOnly?'<div class="context-flag">'+I.info+' Optional context. This does not decide your result.</div>':'')
+    +'<h1 class="q">'+q.prompt+'</h1>'
+    +(stageNote(q)?'<p class="sub">'+stageNote(q)+'</p>':'')
+    +body
+    +'<div class="nav">'
+    +(S.i>0?'<button class="back" onclick="back()">\u2190 Back</button>':'<span></span>')
+    +'<button class="btn btn-primary" '+(canNext?'':'disabled')+' onclick="next()">'+(last?'See my result':'Continue')+' '+I.arrow+'</button>'
+    +'</div>'
+    +'<div class="foot-note">'+I.lock+' Saved privately as you go. We never sell your information.</div>'
+    +'</div>';
+}
+function stageNote(q){
+  if(q.stage==='scope') return 'This tells us whether Illinois can help with this record.';
+  if(q.id==='case_outcome') return 'These options are specific to Illinois.';
+  if(q.stage==='record_readiness') return 'This is the record Illinois uses to prepare and check your case.';
+  if(q.stage==='exclusion_screen') return 'Some Illinois categories follow special rules. Select any that apply.';
+  return '';
+}
+function caseDetailsForm(){
+  var fields=QS.filter(function(q){return q.stage==='case_details';});
+  return '<div class="grid2" style="margin-top:26px">'+fields.map(function(q){
+    var labels={court:'Court or agency',charge:'Charge or statute',county_or_filing_location:'Where in Illinois',case_identifier:'Case or docket number'};
+    return '<div class="field" style="margin-top:0"><label>'+(labels[q.id]||q.id)+'</label>'
+      +'<input type="text" placeholder="optional" value="'+(S.answers[q.id]||'')+'" oninput="setVal(\''+q.id+'\',this.value)"></div>';
+  }).join('')+'</div>';
+}
+
+function evaluatingScreen(){
+  return '<div class="screen" style="text-align:center;padding-top:60px"><div class="spinner"></div>'
+    +'<h1 class="q" style="margin-top:28px;font-size:22px">Checking your answers against Illinois rules\u2026</h1>'
+    +'<p class="sub">This is an estimate, not a legal decision.</p></div>';
+}
+
+var RESULT_UI={
+  packet_ready:{ic:I.check,c:'var(--teal)',bg:'#E7F7F4',tag:'Packet ready',tbg:'#E7F7F4',tfg:'#0E7a6e'},
+  packet_ready_with_caution:{ic:I.doc,c:'var(--warn)',bg:'#FBF3E0',tag:'Possible path',tbg:'#FBF3E0',tfg:'#9a6b00'},
+  needs_more_info:{ic:I.info,c:'var(--slate)',bg:'#EDF1F6',tag:'Almost there',tbg:'#EDF1F6',tfg:'#475A6E'},
+  not_yet:{ic:I.clock,c:'var(--slate)',bg:'#EDF1F6',tag:'Not yet',tbg:'#EDF1F6',tfg:'#475A6E'},
+  guidance_only:{ic:I.info,c:'var(--teal)',bg:'#E7F7F4',tag:'Guidance saved',tbg:'#E7F7F4',tfg:'#0E7a6e'},
+  not_covered_yet:{ic:I.info,c:'var(--slate)',bg:'#EDF1F6',tag:'Not covered yet',tbg:'#EDF1F6',tfg:'#475A6E'},
+  likely_not_eligible:{ic:I.info,c:'var(--muted)',bg:'#F0F1F4',tag:'May not qualify',tbg:'#F0F1F4',tfg:'#5A6275'},
+  needs_review:{ic:I.help,c:'var(--slate)',bg:'#EDF1F6',tag:'Needs review',tbg:'#EDF1F6',tfg:'#475A6E'},
+  hard_stop:{ic:I.info,c:'var(--muted)',bg:'#F0F1F4',tag:'Out of scope',tbg:'#F0F1F4',tfg:'#5A6275'}
+};
+function resultScreen(){
+  var r=S.result,u=RESULT_UI[r.resultCode]||RESULT_UI.needs_review;
+  var reasons=(r.reasons||[]).map(function(x){return '<li>'+I.check+(x.text||x)+'</li>';}).join('');
+  var h='<div class="screen"><div class="card">'
+    +'<div class="result-icon" style="background:'+u.bg+'"><span style="color:'+u.c+'">'+u.ic+'</span></div>'
+    +'<span class="tag" style="background:'+u.tbg+';color:'+u.tfg+'">'+u.tag+'</span>'
+    +'<h1 class="q" style="margin-top:14px;font-size:25px">'+r.userLabel+'</h1>';
+  if(r.pathwayId) h+='<div class="pathway">'+PROFILE.jurisdiction.name+' \u00b7 '+r.pathwayId.replace(/-/g,' ')+'</div>';
+  if(reasons) h+='<ul class="reasons">'+reasons+'</ul>';
+  h+='<div class="nav" style="display:block">';
+  if(r.paymentAllowed){
+    h+='<button class="btn btn-primary btn-block" onclick="S.screen=\'packet\';render()">Continue to my packet '+I.arrow+'</button>';
+  } else {
+    h+='<button class="btn btn-ghost btn-block" onclick="alert(\'Saved to your Briefcase.\')">Save to my Briefcase</button>';
+  }
+  h+='</div>';
+  h+='<div class="disc">'+r.disclaimer+(r.paymentAllowed?' You are paying for packet preparation and filing instructions, not a promised outcome.':'')+'</div>';
+  h+='</div></div>';
+  return h;
+}
+function packetScreen(){
+  var r=S.result, pp=r.packetPlan||{};
+  return '<div class="screen"><div class="card">'
+    +'<div class="eyebrow">'+I.doc+' Step 2 of 2</div>'
+    +'<h1 class="q" style="margin-top:12px;font-size:25px">Generate your Illinois packet</h1>'
+    +'<p class="sub">Prepared from your answers for the '+(r.pathwayId||'').replace(/-/g,' ')+' pathway.</p>'
+    +'<div class="pricebox"><div class="top"><div class="amt">$50<span>one-time</span></div>'
+    +'<div style="text-align:right;font-size:12px;font-weight:600;color:var(--teal-l)">Illinois<br>'+(pp.mode==='state_specific_custom_packet_from_source_rules'?'Custom packet':'Official form set')+'</div></div>'
+    +'<ul class="incl">'
+    +'<li>'+I.check+' Your Illinois forms, prepared from your answers</li>'
+    +'<li>'+I.check+' Step-by-step filing instructions for your court</li>'
+    +'<li>'+I.check+' Filing checklist (sign, copy, file, serve)</li>'
+    +'<li>'+I.check+' Fee-waiver guidance where available</li>'
+    +'</ul></div>'
+    +'<div class="nav" style="display:block">'
+    +'<button class="btn btn-primary btn-block" onclick="alert(\'In production: Stripe checkout, then the backend generates the packet from packetPlan.\')">Pay $50 and generate my packet</button>'
+    +'<button class="skip" onclick="S.screen=\'result\';render()">\u2190 Back to my result</button></div>'
+    +'<div class="disc">'+r.disclaimer+' Review everything carefully before filing.</div>'
+    +'</div></div>';
+}
+
+function devBar(){
+  var codes=Object.keys(RESULT_UI);
+  var opts=codes.map(function(c){return '<option value="'+c+'"'+(S.devForce===c?' selected':'')+'>'+c+'</option>';}).join('');
+  return '<div class="devbar"><b>Demo</b>'
+    +'<select onchange="S.devForce=this.value"><option value="">Mock from answers</option>'+opts+'</select>'
+    +'<button onclick="if(!S.answers.case_outcome)S.answers.case_outcome=\'Dismissed, no-billed, nolle prosequi, or not prosecuted\';S.screen=\'evaluating\';render();runEvaluate()">Jump to result \u2192</button>'
+    +'<button onclick="S={i:0,answers:{},screen:\'flow\',result:null,devForce:\'\'};render()">Reset</button></div>';
+}
+
+function render(){
+  var main='';
+  if(S.screen==='flow') main=questionScreen();
+  else if(S.screen==='evaluating') main=evaluatingScreen();
+  else if(S.screen==='result') main=resultScreen();
+  else if(S.screen==='packet') main=packetScreen();
+  document.getElementById('app').innerHTML=rail()+'<div class="stage">'+main+'</div>'
+    +devBar()
+    +'<div class="contract-note">Front-end demo. Results come from a MOCK /evaluate; the Codex engine replaces it. Profile: Illinois, '+QS.length+' screens from the real packet.</div>';
+}
+render();
+</script>
+</body>
+</html>

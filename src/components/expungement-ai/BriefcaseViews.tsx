@@ -3,6 +3,25 @@ import { CalendarDays, CheckCircle2, CreditCard, Download, FileText, ListChecks,
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import { matterCarePresentation, type MatterTone } from "@/lib/expungement-ai/frontend/briefcase-presentation";
+
+const TONE_BADGE: Record<MatterTone, string> = {
+  positive: "bg-[#00A99D]/10 text-[#007A72]",
+  info: "bg-[#EEF2F7] text-[#334155]",
+  wait: "bg-[#EEF2F7] text-[#334155]",
+  attention: "bg-[#FDF1E8] text-[#9A3412]",
+  care: "bg-[#F3ECFB] text-[#5B3FA0]",
+  neutral: "bg-[#EEF2F7] text-[#334155]"
+};
+
+const TONE_CALLOUT: Record<MatterTone, string> = {
+  positive: "border-[#CFEAE6] bg-[#F4FBFA] text-[#0B5C54]",
+  info: "border-[#E4E8EF] bg-[#FBFCFE] text-[#475A6E]",
+  wait: "border-[#E4E8EF] bg-[#FBFCFE] text-[#475A6E]",
+  attention: "border-[#F4D9C7] bg-[#FDF1E8] text-[#9A3412]",
+  care: "border-[#E4D7F5] bg-[#F7F2FD] text-[#4C3585]",
+  neutral: "border-[#E4E8EF] bg-[#FBFCFE] text-[#475A6E]"
+};
 
 export function BriefcaseAuthGate() {
   return (
@@ -132,12 +151,16 @@ function BriefcaseSection({
   );
 }
 
-function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
+export function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
   const artifact = packetArtifactFor(item);
   const isGuidanceOnly = item.status === "guidance_saved" || item.resultCode === "guidance_only" || item.packetType === "guidance_packet";
+  const care = matterCarePresentation(item);
+  // Guidance-only keeps its established "Guidance saved" badge/marker; other matters use the
+  // status-forward care presentation. The frontend renders the engine's status; it never decides.
+  const badgeLabel = isGuidanceOnly ? "Guidance saved" : care.badge;
 
   return (
-    <article className="rounded-[18px] border border-[#ECEFF4] bg-[#FBFCFE] p-4" data-briefcase-guidance-state={isGuidanceOnly ? "Guidance saved" : undefined}>
+    <article className="rounded-[18px] border border-[#ECEFF4] bg-[#FBFCFE] p-4" data-briefcase-guidance-state={isGuidanceOnly ? "Guidance saved" : undefined} data-briefcase-care-state={care.careState}>
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-extrabold">{item.title}</p>
@@ -157,12 +180,20 @@ function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
             {item.receiptUrl ? <p>Receipt: {item.receiptUrl}</p> : null}
           </div>
         </div>
-        <span className="w-fit rounded-full bg-[#00A99D]/10 px-3 py-1 text-xs font-extrabold text-[#007A72]">{isGuidanceOnly ? "Guidance saved" : item.status.replaceAll("_", " ")}</span>
+        <span className={`w-fit rounded-full px-3 py-1 text-xs font-extrabold ${TONE_BADGE[care.tone]}`}>{badgeLabel}</span>
       </div>
-      {isGuidanceOnly ? <h3 className="mt-4 text-sm font-extrabold text-[#0B1320]">Next steps</h3> : null}
+      {!isGuidanceOnly && care.showCallout ? (
+        <p className={`mt-4 rounded-xl border px-3 py-2 text-sm leading-6 ${TONE_CALLOUT[care.tone]}`}>{care.blurb}</p>
+      ) : null}
+      {item.nextSteps.length ? <h3 className="mt-4 text-sm font-extrabold text-[#0B1320]">Next steps</h3> : null}
       <ul className="mt-3 space-y-1 text-sm leading-6 text-[#5A6275]">
         {item.nextSteps.map((step) => <li key={step}>{step}</li>)}
       </ul>
+      {care.careState === "waiting" ? (
+        <Link className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-[#D9DEE8] px-4 text-sm font-bold" href="/briefcase/reminders">
+          <CalendarDays className="h-4 w-4" aria-hidden="true" /> Set a reminder
+        </Link>
+      ) : null}
       {artifact && !isGuidanceOnly ? (
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-4 text-sm font-bold text-white" href={artifact.downloadPath}>
