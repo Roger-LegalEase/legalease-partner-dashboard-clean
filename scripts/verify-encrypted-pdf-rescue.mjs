@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { assertSourceEngineChangeScope } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -98,41 +98,7 @@ console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes")
 console.log("Restricted production/auth/billing files untouched: yes");
 
 function assertNoRestrictedChanges() {
-  const changedFiles = changedFilesAgainstMain();
-  const forbiddenPrefixes = [
-    "src/app/auth/",
-    "src/app/internal/billing/",
-    "src/lib/auth/",
-    "src/lib/partners/billing",
-    "src/lib/partners/session-partner",
-    "src/lib/partners/partner-dashboard-rls",
-    "src/lib/partners/partner-repository",
-    "src/lib/partners/partner-service",
-    "src/lib/rcap/documents/mississippi/",
-    "src/lib/rcap/documents/illinois/",
-    "src/lib/rcap/documents/dc/",
-    "src/lib/rcap/documents/pennsylvania/",
-    "src/lib/rcap/documents/texas-harris/",
-    "src/lib/stripe",
-    "src/lib/billing",
-    "supabase/",
-    "vercel",
-    ".env",
-    ".github/workflows/deploy",
-    "src/app/expungement/",
-    "src/components/expungement/"
-  ];
-  const allowedConsumerPersistenceFiles = new Set([
-    "supabase/phase-26-consumer-briefcase-items.sql",
-    "supabase/phase-27-consumer-checkout-metadata.sql",
-    "supabase/phase-28-consumer-packet-generation-status.sql",
-    "supabase/phase-29-consumer-wilma-telemetry.sql",
-    "supabase/phase-31-legalease-os-support-queue.sql"
-  ]);
-  const forbidden = changedFiles
-    .filter((file) => !allowedConsumerPersistenceFiles.has(file))
-    .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
-  if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
+  assertSourceEngineChangeScope({ rootDir, failures });
 }
 
 function assertFile(relativePath) {
@@ -151,40 +117,4 @@ function readOptionalText(relativePath) {
   const filePath = path.join(rootDir, relativePath);
   if (!fs.existsSync(filePath)) return "";
   return fs.readFileSync(filePath, "utf8");
-}
-
-function git(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 && result.error && !result.stdout) throw result.error;
-  return (result.stdout || "").split(/\r?\n/).filter(Boolean);
-}
-
-function gitOneLine(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 || (result.error && !result.stdout)) return null;
-  return result.stdout.trim() || null;
-}
-
-function changedFilesAgainstMain() {
-  const baseRef = resolveMainBaseRef();
-  if (!baseRef) {
-    failures.push("Could not resolve origin/main or main for restricted-file comparison.");
-    return [];
-  }
-  const mergeBase = gitOneLine(["merge-base", "HEAD", baseRef]);
-  if (!mergeBase) {
-    failures.push(`Could not compute merge base between HEAD and ${baseRef}.`);
-    return [];
-  }
-  return git(["diff", "--name-only", mergeBase, "HEAD"]);
-}
-
-function resolveMainBaseRef() {
-  for (const candidate of [
-    ["refs/remotes/origin/main", "origin/main"],
-    ["refs/heads/main", "main"]
-  ]) {
-    if (gitOneLine(["rev-parse", "--verify", `${candidate[0]}^{commit}`])) return candidate[1];
-  }
-  return null;
 }

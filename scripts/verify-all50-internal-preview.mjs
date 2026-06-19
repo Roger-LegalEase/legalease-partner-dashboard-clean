@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { assertSourceEngineChangeScope } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -109,65 +109,21 @@ function assertGateBeforeDataRead(source, label) {
 }
 
 function assertNoRestrictedChanges() {
-  const changedFiles = changedFilesAgainstMain();
-  const allowedExpungementAiLaunchSupportFiles = new Set([
-    "src/app/api/expungement-ai/support/route.ts",
-    "src/app/api/health/route.ts",
-    "src/app/briefcase/[packetId]/page.tsx",
-    "src/app/expungement-ai/contact/page.tsx",
-    "src/app/expungement-ai/layout.tsx",
-    "src/app/expungement-ai/packet-ready/page.tsx",
-    "src/app/expungement-ai/support/page.tsx",
-    "src/components/expungement-ai/BriefcaseShell.tsx",
-    "src/components/expungement-ai/BriefcaseViews.tsx",
-    "src/components/expungement-ai/ConsumerNav.tsx",
-    "src/components/expungement-ai/SupportRequestForm.tsx",
-    "src/lib/expungement-ai/support-os-adapter.ts",
-    "supabase/phase-31-legalease-os-support-queue.sql",
-    "docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md",
-    "docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md",
-    "public/favicon.svg",
-    "public/apple-touch-icon.svg",
-    "scripts/verify-expungement-production-readiness.mjs",
-    "scripts/verify-expungement-launch-polish.mjs",
-    "package.json",
-    ".github/workflows/expungement-ai-consumer-adapter.yml",
-    ".github/workflows/rcap-all50-handoff.yml"
-  ]);
-  const forbiddenPrefixes = [
-    "src/app/api/",
-    "src/app/auth/",
-    "src/app/p/",
-    "src/app/intake/",
-    "src/app/documents/",
-    "src/app/briefcase/",
-    "src/app/partner/",
-    "src/app/partners/",
-    "src/app/request-pilot/",
-    "src/app/internal/billing/",
-    "src/lib/auth/",
-    "src/lib/partners/billing",
-    "src/lib/partners/session-partner",
-    "src/lib/partners/partner-dashboard-rls",
-    "src/lib/partners/partner-repository",
-    "src/lib/partners/partner-service",
-    "src/lib/rcap/documents/mississippi/",
-    "src/lib/rcap/documents/illinois/",
-    "src/lib/rcap/documents/dc/",
-    "src/lib/rcap/documents/pennsylvania/",
-    "src/lib/rcap/documents/texas-harris/",
-    "supabase/",
-    "vercel",
-    ".env",
-    "src/app/expungement-ai/",
-    "src/app/expungement/",
-    "src/components/expungement-ai/",
-    "src/components/expungement/"
-  ];
-  const forbidden = changedFiles
-    .filter((file) => !allowedExpungementAiLaunchSupportFiles.has(file))
-    .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
-  if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
+  assertSourceEngineChangeScope({
+    rootDir,
+    failures,
+    extraForbiddenPrefixes: [
+      "src/app/api/",
+      "src/app/p/",
+      "src/app/intake/",
+      "src/app/briefcase/",
+      "src/app/partner/",
+      "src/app/partners/",
+      "src/app/request-pilot/",
+      "src/app/expungement-ai/",
+      "src/components/expungement-ai/"
+    ]
+  });
 }
 
 function assertFile(relativePath) {
@@ -184,39 +140,4 @@ function readJson(relativePath) {
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
-}
-
-function git(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.error && !result.stdout) throw result.error;
-  return (result.stdout || "").split(/\r?\n/).filter(Boolean);
-}
-
-function gitOneLine(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 || result.error) return null;
-  return result.stdout.trim() || null;
-}
-
-function changedFilesAgainstMain() {
-  const baseRef = resolveMainBaseRef();
-  if (!baseRef) {
-    failures.push("Could not resolve origin/main or main for restricted-file comparison.");
-    return [];
-  }
-
-  const mergeBase = gitOneLine(["merge-base", "HEAD", baseRef]);
-  if (!mergeBase) {
-    failures.push(`Could not compute merge base between HEAD and ${baseRef}.`);
-    return [];
-  }
-
-  return git(["diff", "--name-only", mergeBase, "HEAD"]);
-}
-
-function resolveMainBaseRef() {
-  for (const ref of ["origin/main", "main"]) {
-    if (gitOneLine(["rev-parse", "--verify", `${ref}^{commit}`])) return ref;
-  }
-  return null;
 }

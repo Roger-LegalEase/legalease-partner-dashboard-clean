@@ -118,12 +118,22 @@ function assertWorkflowUsesDetector() {
 
 function assertRestrictedFileChecksStillExist() {
   const detector = readText("scripts/detect-ci-scope.mjs");
+  const scopeHelper = readText("scripts/source-engine-change-scope.mjs");
   for (const marker of [
     "changedFilesAgainstBase",
     "isProductBranchPrefix",
     "using branch-prefix backup"
   ]) {
     if (!detector.includes(marker)) failures.push(`CI scope detector missing marker: ${marker}`);
+  }
+
+  for (const marker of [
+    "assertSourceEngineChangeScope",
+    "productionForbiddenPrefixes",
+    "legacy generators may only be removed",
+    "Restricted files changed"
+  ]) {
+    if (!scopeHelper.includes(marker)) failures.push(`source-engine scope helper missing restricted-file marker: ${marker}`);
   }
 
   for (const file of [
@@ -133,8 +143,7 @@ function assertRestrictedFileChecksStillExist() {
     const source = readText(file);
     for (const marker of [
       "assertNoRestrictedChanges",
-      "forbiddenPrefixes",
-      "Restricted files changed"
+      "assertSourceEngineChangeScope"
     ]) {
       if (!source.includes(marker)) failures.push(`${file} missing restricted-file marker: ${marker}`);
     }
