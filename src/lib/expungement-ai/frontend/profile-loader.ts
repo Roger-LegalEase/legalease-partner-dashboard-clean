@@ -30,9 +30,29 @@ export function normalizeStateKey(state: string): string {
   return state.trim().toUpperCase();
 }
 
-/** The list of jurisdictions available from the mock source (50 states + DC). */
+/** The list of jurisdiction codes available from the mock source (50 states + DC). */
 export function listAvailableStateKeys(): string[] {
   return Object.keys(PROFILES_BY_STATE).sort();
+}
+
+export type JurisdictionListItem = { code: string; name: string; slug: string };
+
+/**
+ * The selectable jurisdictions for the state picker, with display names, sorted by name. Derived
+ * from the profile source so the picker and the flow always agree. Reads each profile's
+ * `jurisdiction` block defensively, falling back to the map key if a name is missing.
+ */
+export function listAvailableJurisdictions(): JurisdictionListItem[] {
+  return Object.entries(PROFILES_BY_STATE)
+    .map(([key, raw]) => {
+      const jurisdiction = (raw as { jurisdiction?: Partial<JurisdictionListItem> } | null)?.jurisdiction;
+      return {
+        code: jurisdiction?.code ?? key,
+        name: jurisdiction?.name ?? key,
+        slug: jurisdiction?.slug ?? key.toLowerCase()
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /**

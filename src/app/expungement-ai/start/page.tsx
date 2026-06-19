@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Briefcase, FileText, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell";
@@ -19,6 +20,11 @@ export default function StartPage() {
           <div className="mx-auto mt-7 max-w-sm">
             <FlowButton href="/expungement-ai/check">Start free &rarr;</FlowButton>
           </div>
+          <p className="mt-3 text-[13px] font-semibold">
+            <Link className="text-[#0E9C8E] underline underline-offset-4" href="/expungement-ai/screening">
+              Or try the new guided all-51 check
+            </Link>
+          </p>
           <p className="mt-4 text-[12.5px] leading-6 text-[#8A93A6]">Takes about 3 minutes. No card to check. This is legal information, not legal advice.</p>
         </div>
 

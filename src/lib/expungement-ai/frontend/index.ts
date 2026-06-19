@@ -18,8 +18,10 @@ export {
 export {
   loadJurisdictionProfile,
   listAvailableStateKeys,
+  listAvailableJurisdictions,
   normalizeStateKey,
-  type LoadProfileResult
+  type LoadProfileResult,
+  type JurisdictionListItem
 } from "./profile-loader";
 export {
   evaluateScreening,
