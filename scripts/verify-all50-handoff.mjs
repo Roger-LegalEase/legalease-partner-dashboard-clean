@@ -104,7 +104,7 @@ console.log(`Source freshness pending: ${summary.sourceFreshnessPending}`);
 console.log(`Review artifact root path: ${summary.reviewArtifactRootPath}`);
 console.log("Recommended review order: verified");
 console.log("Public live routing unchanged: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai UI untouched: yes");
 
 function assertNoRestrictedChanges() {

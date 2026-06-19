@@ -90,7 +90,7 @@ console.log(`Expungement.ai channel enabled: ${records.filter((record) => record
 console.log("Batch approval dry-run/apply safety: verified");
 console.log("Batch approval is not launch: verified");
 console.log("Public live routing unchanged: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai UI untouched: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 

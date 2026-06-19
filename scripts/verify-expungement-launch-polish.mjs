@@ -238,7 +238,7 @@ assert(exists(flowPrototypePath), "Expungement flow prototype handoff file is mi
 assert(flowPrototype.includes("Expungement.ai") && flowPrototype.includes("paymentAllowed") && flowPrototype.includes("Briefcase"), "Expungement flow prototype must remain available as behavioral source.");
 assert(resultPanel.includes("Expungement-Flow-Prototype.html"), "Result panel must reference the flow prototype behavioral source.");
 
-assert(checkPage.includes('name="pathType" type="hidden"') && !checkPage.includes("<select") || checkPage.includes('name="pathType" type="hidden"'), "Adapter path value, if present, must be hidden and not a public selector.");
+assert(!checkPage.includes('name="pathType"'), "Consumer check flow must not include hidden legal path shortcuts.");
 for (const page of [
   ["start", startPage],
   ["check", checkPage],

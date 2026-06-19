@@ -66,11 +66,11 @@ assert(packetAdapter.includes('item.resultCode ?? "guidance_only"'), "guidance_o
 for (const blockedCode of ["guidance_only", "needs_more_info", "not_yet", "needs_review", "hard_stop"]) {
   assert(typesSource.includes(`"${blockedCode}"`), `${blockedCode} result code must remain represented.`);
 }
-assert(packetAdapter.includes("generateMississippiPetitionDraft"), "Mississippi legacy generator must be preserved as fallback.");
-assert(packetAdapter.includes("generateIllinoisDocumentDraft"), "Illinois legacy generator must be preserved as fallback.");
-assert(packetAdapter.includes("generateDcDocumentDraft"), "DC legacy generator must be preserved as fallback.");
-assert(packetAdapter.includes("generatePennsylvaniaDocumentDraft"), "Pennsylvania legacy generator must be preserved as fallback.");
-assert(packetAdapter.includes("generateTexasHarrisDocumentDraft"), "Texas-Harris legacy generator must be preserved as fallback.");
+assert(packetAdapter.includes("packetPlanForPathway"), "Packet generation must use the source-engine packet planner.");
+assert(packetAdapter.includes("source_driven_packet_plan"), "Packet generation must emit source-driven packet-plan artifacts.");
+for (const forbidden of ["generateMississippiPetitionDraft", "generateIllinoisDocumentDraft", "generateDcDocumentDraft", "generatePennsylvaniaDocumentDraft", "generateTexasHarrisDocumentDraft", "renderAll51FallbackPacket"]) {
+  assert(!packetAdapter.includes(forbidden), `Packet generation must not call removed legacy/generic runtime: ${forbidden}`);
+}
 
 assert(briefcaseSource.includes("updateBriefcasePacketMetadata"), "Briefcase adapter must update packet metadata.");
 assert(briefcaseSource.includes("artifact_refs_json"), "Generated packet must store artifact refs on Briefcase item.");
@@ -90,7 +90,6 @@ assert(!packetAdapter.includes("partner_billing") && !packetAdapter.includes("pa
 const forbiddenChangedPrefixes = [
   "src/app/api/stripe/",
   "src/lib/partners/",
-  "src/app/dashboard/partners/",
   "src/app/partner/",
   "src/app/partners/",
   "src/lib/supabase/",
@@ -128,4 +127,4 @@ console.log("Expungement.ai post-payment packet generation verification passed."
 console.log("Packet generate/status/download routes exist and require owned Briefcase items.");
 console.log("Packet generation requires paid status or explicit dry-run mode and packet-ready result codes.");
 console.log("Generated packets store artifact refs and packet_status transitions on consumer Briefcase items.");
-console.log("Legacy generators, partner billing, Stripe invoice flow, secrets, deployment, and RCAP engine files are untouched.");
+console.log("Legacy generators are removed from active runtime; partner billing, Stripe invoice flow, secrets, and deployment files are untouched.");

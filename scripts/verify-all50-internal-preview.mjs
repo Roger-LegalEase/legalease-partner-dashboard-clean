@@ -91,7 +91,7 @@ console.log(`Jurisdictions surfaced: ${buildManifest.states.length}`);
 console.log(`Blocked forms surfaced: ${overlayManifest.summary.blockedForms}`);
 console.log("Internal admin gate: source verified");
 console.log("Public live routing unchanged: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai UI untouched: yes");
 
 function assertGateBeforeDataRead(source, label) {

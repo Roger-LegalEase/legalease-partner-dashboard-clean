@@ -94,7 +94,7 @@ assert(failedStatusIndex !== -1 && emitFailureIndex > failedStatusIndex, "fulfil
 
 const packetEventHelpers = packetSource.slice(
   packetSource.indexOf("async function emitPacketGeneratedEvent"),
-  packetSource.indexOf("function renderLegacyGeneratorPacket")
+  packetSource.indexOf("function renderSourceDrivenPacket")
 );
 for (const forbidden of [
   "leadEmail",

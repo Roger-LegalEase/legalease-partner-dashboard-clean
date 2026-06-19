@@ -69,12 +69,12 @@ if (stillBlocked.length > 0 && manifest.summary.blockedEncrypted < stillBlocked.
 const stateDowngrades = manifest.states.filter((state) => state.guidanceOnlyBecauseEncryptedPdf === true || state.status === "guidance_only");
 if (stateDowngrades.length > 0) failures.push(`No entire state may be downgraded to guidance_only because of blocked forms: ${stateDowngrades.map((state) => state.jurisdictionCode).join(", ")}`);
 
-const selectorSource = readOptionalText("src/lib/rcap/all51-launch-selector.ts");
-if (selectorSource) {
-  assertIncludes(selectorSource, "src/lib/rcap/all51-launch-selector.ts", "pathType === \"blocked_form\"");
-  assertIncludes(selectorSource, "src/lib/rcap/all51-launch-selector.ts", "\"guidance_only\"");
-  assertIncludes(selectorSource, "src/lib/rcap/all51-launch-selector.ts", "paymentAllowedOutcomes");
-  assertIncludes(selectorSource, "src/lib/rcap/all51-launch-selector.ts", "[\"packet_ready\", \"packet_ready_with_caution\"]");
+const engineSource = readOptionalText("src/lib/rcap-engine/evaluator.ts");
+if (engineSource) {
+  assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", "\"guidance_only\"");
+  assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", "\"packet_ready\"");
+  assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", "\"packet_ready_with_caution\"");
+  assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", "isPacketPlanFulfillmentReady");
 }
 
 assertNoRestrictedChanges();
@@ -93,7 +93,7 @@ console.log("Original source PDFs overwritten: no");
 console.log("Blocked paths fallback to guidance_only: verified");
 console.log("paymentAllowed false for guidance_only: verified");
 console.log("No entire state downgraded to guidance_only by one blocked form: yes");
-console.log("Legacy generators preserved: yes");
+console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai consumer UI changes allowed by adapter branch: yes");
 console.log("Restricted production/auth/billing files untouched: yes");
 
