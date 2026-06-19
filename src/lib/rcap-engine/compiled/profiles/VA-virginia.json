@@ -1,0 +1,3400 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "VA",
+    "name": "Virginia",
+    "slug": "virginia"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Virginia /Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "sha256": "990ce8eb14d35dbbfd87d737ffc39bc43b5545b4926fc5298d1f7fcbe89cb6be",
+        "sizeBytes": 36188,
+        "score": 1661,
+        "extractedChars": 30764
+      }
+    ],
+    "sourceCorpusSha256": "4cce42f8cc75df591b733566250beeaad7bce3b7e54b6d1a6d5f0c917e515647",
+    "sourceCorpusChars": 25217,
+    "allFolderFiles": [
+      {
+        "fileName": "Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Virginia /Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "990ce8eb14d35dbbfd87d737ffc39bc43b5545b4926fc5298d1f7fcbe89cb6be",
+        "sizeBytes": 36188
+      },
+      {
+        "fileName": "cc1473.pdf",
+        "relativePath": "LegalEase Virginia /cc1473.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+        "sizeBytes": 31540
+      },
+      {
+        "fileName": "cc1473inst.pdf",
+        "relativePath": "LegalEase Virginia /cc1473inst.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+        "sizeBytes": 20802
+      },
+      {
+        "fileName": "va-expungement-sealing-forms.html",
+        "relativePath": "LegalEase Virginia /va-expungement-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+        "sizeBytes": 19347
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure",
+      "vacatur/vacation",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Regime 1 — Expungement (§ 19.2-392.2), available now",
+      "Automatic sealing (§ 19.2-392.7) — no filing",
+      "Petition-based sealing (§ 19.2-392.12 / .12:1)"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status",
+        "pardon_status",
+        "identity_error"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Virginia, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Virginia case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Virginia descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Regime 1 — Expungement (§ 19.2-392.2), available now",
+        "Automatic sealing (§ 19.2-392.7) — no filing",
+        "Petition-based sealing (§ 19.2-392.12 / .12:1)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "identity_error",
+      "stage": "special_pathways",
+      "prompt": "Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Virginia category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "Domestic violence",
+        "DUI/DWI or serious traffic",
+        "Firearm or weapons",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Virginia was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "regime-1-expungement-available-now"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "regime-1-expungement-available-now",
+      "label": "Regime 1 — Expungement (§ 19.2-392.2), available now",
+      "summary": "A petition in circuit court to expunge police and court records, limited to:",
+      "sourceRef": "pathways:73-114",
+      "ruleClauses": [
+        "A petition in circuit court to expunge police and court records, limited to:",
+        "Acquittal (found not guilty).",
+        "Nolle prosequi (Commonwealth dropped the charge).",
+        "Otherwise dismissed — but courts read this narrowly: a charge dismissed after a finding of facts sufficient for guilt or a deferred disposition (e.g., first-offender drug dismissal under § 18.2-251) is generally NOT “otherwise dismissed” and not expungeable (Commonwealth v. Dotson).",
+        "Absolute pardon for innocence (§ 19.2-392.2(I)).",
+        "Writ of actual innocence — a vacated conviction (§ 19.2-392.2(J)).",
+        "Cases where the person's identity was used by another (identity theft)."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "court",
+        "charge",
+        "pardon_status",
+        "identity_error",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "pardon"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-114"
+      ]
+    },
+    {
+      "id": "automatic-sealing-no-filing",
+      "label": "Automatic sealing (§ 19.2-392.7) — no filing",
+      "summary": "• Misdemeanor NON-convictions; all marijuana-possession records (non-convictions, deferred dismissals, and convictions under former § 18.2-250.1); deferred dismissals for underage alcohol and marijuana. • NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions (excluding traffic infractions). • Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no convictions/deferred dismissals and no…",
+      "sourceRef": "pathways:73-114",
+      "ruleClauses": [
+        "Misdemeanor NON-convictions; all marijuana-possession records (non-convictions, deferred dismissals, and convictions under former § 18.2-250.1); deferred dismissals for underage alcohol and marijuana.",
+        "NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions (excluding traffic infractions).",
+        "Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no convictions/deferred dismissals and no arrest in the last 3 years has all non-conviction records sealed."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions (excluding traffic infractions).",
+        "Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no convictions/deferred dismissals and no arrest in the last 3 years has all non-conviction records sealed."
+      ],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-114"
+      ]
+    },
+    {
+      "id": "petition-based-sealing",
+      "label": "Petition-based sealing (§ 19.2-392.12 / .12:1)",
+      "summary": "• A person convicted of, or who had deferred-and-dismissed, a misdemeanor, a Class 5 or 6 felony, or a larceny felony under § 18.2-95 may petition the circuit court to seal it (subject to the exclusion list and felony-history bars). • An ancillary matter (probation/parole violation, contempt, failure to appear, bail appeal) tied to the charge may be sealed with it — a key 2025 fix (e.g., a grand-larceny conviction and a later probation-violation can be sealed together). • Petition sealing also…",
+      "sourceRef": "pathways:73-114",
+      "ruleClauses": [
+        "A person convicted of, or who had deferred-and-dismissed, a misdemeanor, a Class 5 or 6 felony, or a larceny felony under § 18.2-95 may petition the circuit court to seal it (subject to the exclusion list and felony-history bars).",
+        "An ancillary matter (probation/parole violation, contempt, failure to appear, bail appeal) tied to the charge may be sealed with it — a key 2025 fix (e.g., a grand-larceny conviction and a later probation-violation can be sealed together).",
+        "Petition sealing also backstops automatic sealing where the automatic process did not reach a record.",
+        "Check the DATE first. Before July 1, 2026, only § 19.2-392.2 expungement (non-convictions) is available",
+        "— there is no conviction relief yet. From July 1, 2026, the Chapter 23.2 sealing system opens automatic",
+        "and petition pathways for many convictions.",
+        "Use the right word: EXPUNGEMENT removes the record; SEALING restricts access (police/courts still",
+        "see it). A denied sealing petition does not bar a later § 19.2-392.2 expungement, and vice versa."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-114"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-31-class-1-4-felony-excluded-not-eligible-pardon-route-onl",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Class 1-4 felony / excluded — Not eligible Pardon route only"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-67-sealing-is-barred-for-class-1-2-3-and-4-felonies-and-ma",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sealing is barred for Class 1, 2, 3, and 4 felonies and many unclassified felonies, and the statute specifically"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:156-196"
+    },
+    {
+      "id": "rule-69-same-date-rule-a-charge-cannot-be-sealed-by-petition-if",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Same-date rule. A charge cannot be sealed by petition if it was finalized on the same date as a conviction or deferred dismissal that is itself ineligible for sealing."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-40-expungement-of-non-convictions-has-no-waiting-period-th",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Expungement of non-convictions has no waiting period. The sealing system's waits (from July 1, 2026) run"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-42-pathway-matter-mechanism-waiting-period-notes",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pathway / matter Mechanism Waiting period Notes"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:115-155"
+    },
+    {
+      "id": "rule-08-a-mixed-automatic-petition-system-far-broader-than-expu",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "A mixed automatic/petition system far broader than expungement:"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-09-automatic-sealing-19-2-392-7-no-filing",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Automatic sealing (§ 19.2-392.7) — no filing:"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-11-nine-enumerated-misdemeanor-conviction-types-sealed-aut",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions (excluding traffic infractions)."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-12-traffic-infractions-automatically-sealed-after-11-years",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 11,
+          "unit": "years",
+          "raw": "11 years"
+        },
+        "sourceConditionText": "Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no convictions/deferred dismissals and no arrest in the last 3 years has all non-conviction records sealed."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-16-petition-sealing-also-backstops-automatic-sealing-where",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Petition sealing also backstops automatic sealing where the automatic process did not reach a record."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-18-there-is-no-conviction-relief-yet-from-july-1-2026-the",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "— there is no conviction relief yet. From July 1, 2026, the Chapter 23.2 sealing system opens automatic"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-26-misdemeanor-non-conviction-auto-seal-automatic-from-7-1",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Misdemeanor non-conviction Auto-seal Automatic From 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-27-marijuana-possession-auto-seal-automatic-from-7-1-2026",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana possession Auto-seal Automatic From 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-28-9-enumerated-misdemeanor-auto-seal-automatic-7-yrs-from",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "9 enumerated misdemeanor Auto-seal Automatic, 7 yrs From 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-34-offense-and-automatically-sealed-categories-are-handled",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "offense and automatically sealed categories are handled without a court order. A denied sealing order is without"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-46-misdemeanor-non-conviction-auto-seal-none-automatic",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Misdemeanor non-conviction Auto-seal None Automatic"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-01-regime-1-expungement-19-2-392-2-available-now",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Regime 1 — Expungement (§ 19.2-392.2), available now"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-02-a-petition-in-circuit-court-to-expunge-police-and-court",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A petition in circuit court to expunge police and court records, limited to:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-03-acquittal-found-not-guilty",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal (found not guilty)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-04-otherwise-dismissed-but-courts-read-this-narrowly-a-cha",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Otherwise dismissed — but courts read this narrowly: a charge dismissed after a finding of facts sufficient for guilt or a deferred disposition (e.g., first-offender drug dismissal under § 18.2-251) is generally NOT “otherwise dismissed” and not expungeable (Commonwealth v. Dotson)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-05-absolute-pardon-for-innocence-19-2-392-2-i",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Absolute pardon for innocence (§ 19.2-392.2(I))."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-06-writ-of-actual-innocence-a-vacated-conviction-19-2-392",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Writ of actual innocence — a vacated conviction (§ 19.2-392.2(J))."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-07-regime-2-sealing-chapter-23-2-effective-july-1-2026",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Regime 2 — Sealing (Chapter 23.2), effective July 1, 2026"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-10-misdemeanor-non-convictions-all-marijuana-possession-re",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Misdemeanor NON-convictions; all marijuana-possession records (non-convictions, deferred dismissals, and convictions under former § 18.2-250.1); deferred dismissals for underage alcohol and marijuana."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-13-petition-based-sealing-19-2-392-12-12-1",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Petition-based sealing (§ 19.2-392.12 / .12:1):"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-14-a-person-convicted-of-or-who-had-deferred-and-dismissed",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "A person convicted of, or who had deferred-and-dismissed, a misdemeanor, a Class 5 or 6 felony, or a larceny felony under § 18.2-95 may petition the circuit court to seal it (subject to the exclusion list and felony-history bars)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-15-an-ancillary-matter-probation-parole-violation-contempt",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "An ancillary matter (probation/parole violation, contempt, failure to appear, bail appeal) tied to the charge may be sealed with it — a key 2025 fix (e.g., a grand-larceny conviction and a later probation-violation can be sealed together)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-17-check-the-date-first-before-july-1-2026-only-19-2-392-2",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Check the DATE first. Before July 1, 2026, only § 19.2-392.2 expungement (non-convictions) is available"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-19-and-petition-pathways-for-many-convictions",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "and petition pathways for many convictions."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114"
+    },
+    {
+      "id": "rule-20-use-the-right-word-expungement-removes-the-record-seali",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Use the right word: EXPUNGEMENT removes the record; SEALING restricts access (police/courts still"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-21-see-it-a-denied-sealing-petition-does-not-bar-a-later-1",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "see it). A denied sealing petition does not bar a later § 19.2-392.2 expungement, and vice versa."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-22-acquittal-nolle-prosequi-expungement-petition-circuit-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal / nolle prosequi / Expungement Petition (circuit court) Available now; no wait"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-23-actual-innocence-absolute-expungement-petition-now-vaca",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Actual innocence / absolute Expungement Petition Now; vacated/pardoned"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-24-deferred-first-offender-sealing-not-expungeable-seal",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Deferred / first-offender — / Sealing Not expungeable; seal Per Dotson"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-25-dismissal-e-g-18-2-251-from-7-1-2026",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "dismissal (e.g., 18.2-251) from 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-29-other-misdemeanor-conviction-sealing-petition-7-yrs-fro",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Other misdemeanor conviction Sealing Petition, 7 yrs From 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-30-class-5-6-felony-or-18-2-95-sealing-petition-10-yrs-fro",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 5/6 felony or 18.2-95 Sealing Petition, 10 yrs From 7/1/2026"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-32-effect-of-relief-an-expungement-removes-the-police-and-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Effect of relief: an EXPUNGEMENT removes the police and court records of a non-conviction. SEALING"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-33-remain-available-to-courts-law-enforcement-and-certain-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "remain available to courts, law enforcement, and certain government entities; a sealed marijuana-possession"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-35-prejudice-and-does-not-bar-a-later-19-2-392-2-expungeme",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "prejudice and does not bar a later § 19.2-392.2 expungement; conversely, getting a sealing order does not bar"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-36-state-the-mechanism-and-its-effect-precisely-expungemen",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "State the mechanism and its effect precisely: expungement removes a non-conviction; sealing (from"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-37-7-1-2026-restricts-access-to-many-convictions-but-is-no",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "7/1/2026) restricts access to many convictions but is not erasure and is still visible to police and courts."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-38-if-a-deferred-first-offender-dismissal-is-involved-set-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "If a deferred/first-offender dismissal is involved, set expectations: it is generally not expungeable now,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-39-but-may-be-sealable-once-the-new-system-is-live",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "but may be sealable once the new system is live."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:197-238",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-41-from-conviction-or-release-whichever-is-later-and-requi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "from conviction or release, whichever is later, and require a clean record during the period."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-43-acquittal-nolle-prosequi-expungement-none-available-now",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal / nolle prosequi / Expungement None Available now"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-44-otherwise-dismissed-19-2-392-2",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "otherwise dismissed (§ 19.2-392.2)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-45-actual-innocence-absolute-expungement-none-19-2-392-2-i",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Actual innocence / absolute Expungement None § 19.2-392.2(I)/(J)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-47-marijuana-records-auto-seal-none-incl-former-18-2-250-1",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana records Auto-seal None Incl. former § 18.2-250.1"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-48-9-enumerated-misdemeanor-auto-seal-7-years-no-new-convi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "9 enumerated misdemeanor Auto-seal 7 years No new conviction in period"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-49-traffic-infractions-auto-seal-11-years-criminal-traffic",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 11,
+          "unit": "years",
+          "raw": "11 years"
+        },
+        "sourceConditionText": "Traffic infractions Auto-seal 11 years Criminal traffic excluded"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-50-petition-misdemeanor-petition-7-years-no-new-conviction",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Petition: misdemeanor Petition 7 years No new conviction (non-traffic)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-51-conviction-deferred-19-2-392-12",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction / deferred (§ 19.2-392.12)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-52-petition-class-5-6-felony-or-petition-10-years-from-con",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Petition: Class 5/6 felony or Petition 10 years From conviction/release, later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-53-in-addition-to-the-per-offense-wait-the-petition-system",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "In addition to the per-offense wait, the petition system imposes felony-history bars that look at the WHOLE"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-54-record-the-petitioner-must-a-never-have-been-convicted-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "record: the petitioner must (a) never have been convicted of a Class 1 or 2 felony or any felony punishable by"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-55-life-b-not-have-been-convicted-of-a-class-3-or-4-felony",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 20,
+          "unit": "years",
+          "raw": "20 years"
+        },
+        "sourceConditionText": "life; (b) not have been convicted of a Class 3 or 4 felony within the past 20 years; and (c) not have been"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-56-convicted-of-any-other-felony-within-the-past-10-years-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "convicted of any other felony within the past 10 years of the petition. The misdemeanor petition wait is 7"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-57-conviction-free-years-the-felony-class-5-6-or-larceny-w",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "conviction-free years; the felony (Class 5/6 or larceny) wait is 10 years from conviction or release, whichever is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-58-for-petition-sealing-apply-both-the-per-offense-wait-7-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "For petition sealing, apply BOTH the per-offense wait (7 yrs misdemeanor / 10 yrs felony) AND the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-59-a-later-disqualifying-felony-defeats-the-petition",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "A later disqualifying felony defeats the petition."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-60-expungement-of-non-convictions-has-no-wait-a-person-acq",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Expungement of non-convictions has no wait — a person acquitted yesterday can file today."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:115-155",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "rule-61-expungement-s-main-limit-is-that-it-does-not-reach-conv",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Expungement's main limit is that it does not reach convictions or deferred dismissals at all. The sealing system"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing",
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-62-not-reachable-by-expungement-19-2-392-2",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Not reachable by expungement (§ 19.2-392.2)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-63-any-conviction-other-than-one-vacated-by-actual-innocen",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Any conviction (other than one vacated by actual innocence or covered by an absolute pardon)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "rule-64-deferred-first-offender-dismissals-after-a-finding-of-f",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Deferred / first-offender dismissals after a finding of facts sufficient for guilt (e.g., § 18.2-251 drug"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "automatic-sealing-no-filing",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-65-not-otherwise-dismissed-under-dotson",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "— not “otherwise dismissed” under Dotson."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now",
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-66-excluded-from-sealing-19-2-392-12-from-7-1-2026",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Excluded from sealing (§ 19.2-392.12, from 7/1/2026)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-68-sex-crimes-and-offenses-requiring-registration-sex-traf",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sex crimes and offenses requiring registration; sex trafficking."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196"
+    },
+    {
+      "id": "rule-70-out-of-state-federal-records-are-not-reachable-by-virgi",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "residency_or_location"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Out-of-state / federal records are not reachable by Virginia relief."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196"
+    },
+    {
+      "id": "rule-71-the-ancillary-matter-relief-and-none-of-the-sealing-sys",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "the ancillary-matter relief, and none of the sealing system is operational before July 1, 2026. The"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-72-agent-must-map-each-offense-to-its-code-section-apply-t",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "agent must map each offense to its Code section, apply the exclusion list and the same-date rule,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-73-and-confirm-the-law-is-in-effect-before-declaring-a-con",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "and confirm the law is in effect before declaring a conviction sealable."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-74-for-convictions-screen-against-the-long-exclusion-list-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "For convictions, screen against the long exclusion list (DUI, sex, violent, firearm, domestic, protective"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-75-order-hate-crime-etc-and-the-felony-history-bars-before",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "order, hate crime, etc.) AND the felony-history bars before indicating sealing is possible — and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-76-remember-none-of-it-works-before-7-1-2026",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "remember none of it works before 7/1/2026."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-77-for-the-present-pre-7-1-2026-be-honest-that-virginia-of",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "For the present (pre-7/1/2026), be honest that Virginia offers NO conviction relief by expungement; only"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "rule-78-non-convictions-can-be-cleared-right-now",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "non-convictions can be cleared right now."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:156-196",
+      "candidatePathwayIds": [
+        "petition-based-sealing",
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "route-regime-1-expungement-available-now",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "regime-1-expungement-available-now",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "court",
+          "charge",
+          "pardon_status",
+          "identity_error",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "court",
+          "charge",
+          "pardon_status",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Regime 1 — Expungement (§ 19.2-392.2), available now"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "regime-1-expungement-available-now"
+      ]
+    },
+    {
+      "id": "route-automatic-sealing-no-filing",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-sealing-no-filing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Automatic sealing (§ 19.2-392.7) — no filing"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "automatic-sealing-no-filing"
+      ]
+    },
+    {
+      "id": "route-petition-based-sealing",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "petition-based-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Petition-based sealing (§ 19.2-392.12 / .12:1)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-114",
+      "candidatePathwayIds": [
+        "petition-based-sealing"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions (excluding traffic infractions).",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "conviction with no new convictions (excluding traffic infractions)",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no convictions/deferred dismissals and no arrest in the last 3 years has all non-conviction records sealed.",
+      "duration": {
+        "value": 11,
+        "unit": "years",
+        "raw": "11 years"
+      },
+      "anchor": "11 years",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "record_type"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Expungement of non-convictions has no waiting period. The sealing system's waits (from July 1, 2026) run",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "July 1, 2026) run",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Pathway / matter Mechanism Waiting period Notes",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "9 enumerated misdemeanor Auto-seal 7 years No new conviction in period",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Traffic infractions Auto-seal 11 years Criminal traffic excluded",
+      "duration": {
+        "value": 11,
+        "unit": "years",
+        "raw": "11 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Petition: misdemeanor Petition 7 years No new conviction (non-traffic)",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Petition: Class 5/6 felony or Petition 10 years From conviction/release, later",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "conviction/release, later",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "life; (b) not have been convicted of a Class 3 or 4 felony within the past 20 years; and (c) not have been",
+      "duration": {
+        "value": 20,
+        "unit": "years",
+        "raw": "20 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "convicted of any other felony within the past 10 years of the petition. The misdemeanor petition wait is 7",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "conviction-free years; the felony (Class 5/6 or larceny) wait is 10 years from conviction or release, whichever is",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "conviction or release, whichever is",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Expungement of non-convictions has no waiting period.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Pathway / matter Mechanism Waiting period Notes Acquittal / nolle prosequi / Expungement None Available now otherwise dismissed (§ 19.2-392.2) Actual innocence / absolute Expungement None § 19.2-392.2(I)/(J) pardon Misdemeanor non-conviction Auto-seal None Automatic (7/1/2026) Marijuana records Auto-seal None Incl. former § 18.2-250.1 9 enumerated misdemeanor Auto-seal 7 years No new conviction in period convictions Traffic infractions Auto-seal 11 years Criminal traffic excluded Petition: misdemeanor Petition 7 years No new conviction (non-traffic) conviction / deferred (§ 19.2-392.12) Petition: Class 5/6 felony or Petition 10 years From conviction/release, later § 18.2-95 larceny felony In addition to the per-offense wait, the petition system imposes felony-history bars that look at the WHOLE record: the petitioner must (a) never have been convicted of a Class 1 or 2 felony or any felony punishable by life; (b) not have been convicted of a Class 3 or 4 felony within the past 20 years; and (c) not have been convicted of any other felony within the past 10 years of the petition.",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "conviction/release, later § 18",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge",
+        "pardon_status"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "The misdemeanor petition wait is 7 conviction-free years; the felony (Class 5/6 or larceny) wait is 10 years from conviction or release, whichever is later.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "conviction or release, whichever is later",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Expungement's main limit is that it does not reach convictions or deferred dismissals at all. The sealing system",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "has an extensive exclusion list.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Not reachable by expungement (§ 19.2-392.2)",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Any conviction (other than one vacated by actual innocence or covered by an absolute pardon).",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Deferred / first-offender dismissals after a finding of facts sufficient for guilt (e.g., § 18.2-251 drug",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "— not “otherwise dismissed” under Dotson.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Excluded from sealing (§ 19.2-392.12, from 7/1/2026)",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Sealing is barred for Class 1, 2, 3, and 4 felonies and many unclassified felonies, and the statute specifically",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Certain DUI / vehicular offenses named in the statute (§§ 18.2-36.1, 18.2-36.2, 18.2-51.4, 18.2-51.5, 18.2-57.2, 18.2-266, 46.2-341.24).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Sex crimes and offenses requiring registration; sex trafficking.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge",
+        "trafficking_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Violent felonies; felonies involving the use of a firearm.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Assault/abuse of a family or household member (domestic) and protective-order violations.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "Hate crimes; animal cruelty; election-law offenses; date-rape-drug offenses.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Not guilty by reason of insanity dispositions; dangerous/vicious dog offenses.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Felony-history and structural bars",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "Never a Class 1/2 felony or a life-punishable felony; no Class 3/4 felony in the past 20 years; no other felony in the past 10 years (Section 2).",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "Same-date rule. A charge cannot be sealed by petition if it was finalized on the same date as a conviction or deferred dismissal that is itself ineligible for sealing.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "Out-of-state / federal records are not reachable by Virginia relief.",
+      "fieldsReferenced": [
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "The § 19.2-392.12 exclusion list runs to roughly 19 provisions and the felony-history bars look at",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "the entire record; the 2025 amendments (SB 1466 / HB 2723) both added exclusions and added",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "the ancillary-matter relief, and none of the sealing system is operational before July 1, 2026. The",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "agent must map each offense to its Code section, apply the exclusion list and the same-date rule,",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "and confirm the law is in effect before declaring a conviction sealable.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "For convictions, screen against the long exclusion list (DUI, sex, violent, firearm, domestic, protective",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "order, hate crime, etc.) AND the felony-history bars before indicating sealing is possible — and",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "remember none of it works before 7/1/2026.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-27",
+      "ruleText": "For the present (pre-7/1/2026), be honest that Virginia offers NO conviction relief by expungement; only",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-28",
+      "ruleText": "non-convictions can be cleared right now.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-29",
+      "ruleText": "Excluded from sealing (§ 19.2-392.12, from 7/1/2026) Sealing is barred for Class 1, 2, 3, and 4 felonies and many unclassified felonies, and the statute specifically excludes (among others): • Certain DUI / vehicular offenses named in the statute (§§ 18.2-36.1, 18.2-36.2, 18.2-51.4, 18.2-51.5, 18.2-57.2, 18.2-266, 46.2-341.24). • Sex crimes and offenses requiring registration; sex trafficking. • Violent felonies; felonies involving the use of a firearm. • Assault/abuse of a family or household member (domestic) and protective-order violations. • Hate crimes; animal cruelty; election-law offenses; date-rape-drug offenses. • Not guilty by reason of insanity dispositions; dangerous/vicious dog offenses.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge",
+        "trafficking_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-30",
+      "ruleText": "A charge cannot be sealed by petition if it was finalized on the same date as a conviction or deferred dismissal that is itself ineligible for sealing. • Out-of-state / federal records are not reachable by Virginia relief.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "regime-1-expungement-available-now",
+        "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:73-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-sealing-no-filing",
+        "pathwayLabel": "Automatic sealing (§ 19.2-392.7) — no filing",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "pathways:73-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "petition-based-sealing",
+        "pathwayLabel": "Petition-based sealing (§ 19.2-392.12 / .12:1)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:73-114"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "identity_error",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "residency_or_location",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "Expungement uses an existing circuit-court petition and a State Police fingerprint step. The sealing system's",
+      "forms are being developed by the Office of the Executive Secretary of the Supreme Court of Virginia for the",
+      "Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 and identifying the charge, disposition, and arrest data.",
+      "Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the petition, fingerprints, and a copy of the criminal-history record to the court.",
+      "Proposed Order of Expungement for the court's signature.",
+      "Petition for Sealing under § 19.2-392.12 (or .12:1) filed in the circuit court, identifying the charge/conviction, any ancillary matter, and the statutory basis. No court fees or costs are charged for the petition.",
+      "Automatic sealing requires NO form — the State Police and courts process eligible records.",
+      "Forms will be published by the Office of the Executive Secretary; verify the official form at filing time.",
+      "Right now, use the § 19.2-392.2 expungement petition with the fingerprint/State Police step for",
+      "For sealing, wait for the OES forms and the 7/1/2026 effective date; automatic sealing needs no filing,",
+      "and petition sealing carries no court fee.",
+      "The sealing system's forms are being developed by the Office of the Executive Secretary of the Supreme Court of Virginia for the July 1, 2026 launch.",
+      "Expungement (§ 19.2-392.2) — available now • Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 and identifying the charge, disposition, and arrest data. • Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the petition, fingerprints, and a copy of the criminal-history record to the court. • Proposed Order of Expungement for the court's signature. • The Commonwealth's Attorney is served and may object; the court applies the “manifest injustice” standard for misdemeanors and certain cases.",
+      "Sealing (Chapter 23.2) — from July 1, 2026 • Petition for Sealing under § 19.2-392.12 (or .12:1) filed in the circuit court, identifying the charge/conviction, any ancillary matter, and the statutory basis.",
+      "No court fees or costs are charged for the petition. • Automatic sealing requires NO form — the State Police and courts process eligible records. • Forms will be published by the Office of the Executive Secretary; verify the official form at filing time.",
+      "AGENT GUIDANCE Right now, use the § 19.2-392.2 expungement petition with the fingerprint/State Police step for non-convictions.",
+      "For sealing, wait for the OES forms and the 7/1/2026 effective date; automatic sealing needs no filing, and petition sealing carries no court fee."
+    ],
+    "attachments": [
+      "Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 and identifying the charge, disposition, and arrest data.",
+      "Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the petition, fingerprints, and a copy of the criminal-history record to the court.",
+      "Expungement (§ 19.2-392.2) — available now • Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 and identifying the charge, disposition, and arrest data. • Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the petition, fingerprints, and a copy of the criminal-history record to the court. • Proposed Order of Expungement for the court's signature. • The Commonwealth's Attorney is served and may object; the court applies the “manifest injustice” standard for misdemeanors and certain cases.",
+      "1 Get the record. Request your Virginia State Police (CCRE) criminal history and confirm the charge, the",
+      "disposition, and the arrest/disposition dates.",
+      "2 Confirm eligibility. For expungement, the disposition must be a non-conviction (acquittal, nolle prosequi,",
+      "Police, which expunges or seals the record. Keep a certified copy of the order.",
+      "Request your Virginia State Police (CCRE) criminal history and confirm the charge, the disposition, and the arrest/disposition dates.",
+      "For expungement, the disposition must be a non-conviction (acquittal, nolle prosequi, otherwise dismissed) or an actual-innocence/absolute-pardon case — not a deferred dismissal.",
+      "Keep a certified copy of the order."
+    ],
+    "filingDestinationRules": [
+      "3 Prepare the petition and proposed order in the circuit court of the city/county where the charge was",
+      "4 File and get fingerprinted. For expungement, file the petition and obtain a fingerprint card; the State Police",
+      "Commonwealth's responses are maintained under seal by the clerk.",
+      "7 Order to State Police. On a granted order, the clerk forwards an electronic copy/notification to the State",
+      "Venue is the circuit court of the city/county where the charge was disposed — even for a General District",
+      "Court case, expungement/sealing is handled in the circuit court.",
+      "3 Prepare the petition and proposed order in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 (expungement) or § 19.2-392.12 (sealing).",
+      "4 File and get fingerprinted.",
+      "For expungement, file the petition and obtain a fingerprint card; the State Police forward the petition, prints, and criminal-history copy to the court.",
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the Commonwealth's responses are maintained under seal by the clerk.",
+      "On a granted order, the clerk forwards an electronic copy/notification to the State Police, which expunges or seals the record.",
+      "AGENT GUIDANCE Venue is the circuit court of the city/county where the charge was disposed — even for a General District Court case, expungement/sealing is handled in the circuit court.",
+      "Everything goes to circuit court. Even district-court charges are expunged/sealed by the circuit court of that city/county.",
+      "Dotson, a deferred/first-offender dismissal after a finding of guilt is NOT expungeable — a frequent misunderstanding. • Everything goes to circuit court.",
+      "Even district-court charges are expunged/sealed by the circuit court of that city/county. • Fingerprint + State Police step."
+    ],
+    "serviceAndNoticeRules": [
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the",
+      "Commonwealth's responses are maintained under seal by the clerk.",
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the Commonwealth's responses are maintained under seal by the clerk.",
+      "The Commonwealth's Attorney is served and may object; the court applies the “manifest injustice” standard for misdemeanors and certain cases.",
+      "non-convictions. Build in service on the Commonwealth's Attorney.",
+      "Expungement (§ 19.2-392.2) — available now • Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 and identifying the charge, disposition, and arrest data. • Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the petition, fingerprints, and a copy of the criminal-history record to the court. • Proposed Order of Expungement for the court's signature. • The Commonwealth's Attorney is served and may object; the court applies the “manifest injustice” standard for misdemeanors and certain cases.",
+      "Build in service on the Commonwealth's Attorney.",
+      "“Otherwise dismissed” is narrow. Under Commonwealth v. Dotson, a deferred/first-offender dismissal after a finding of guilt is NOT expungeable — a frequent misunderstanding.",
+      "Under Commonwealth v."
+    ],
+    "feeRules": [
+      "Expungement petition (§ 19.2-392.2) Circuit court filing fee Plus a fingerprinting fee",
+      "Sealing petition (§ 19.2-392.12) $0 No court fees or costs (from 7/1/2026)",
+      "Fingerprinting (expungement) Local agency fee Required for State Police processing",
+      "Virginia State Police criminal history VSP fee To confirm record before filing",
+      "Attorney fees (if represented) Varies Not required; legal-aid clinics assist (no appointed counsel for se",
+      "Costs differ by regime. An expungement petition carries the circuit-court civil filing fee plus a local",
+      "fingerprinting fee. The new sealing system charges NO court fees or costs for a petition, and automatic sealing",
+      "is free. The realistic baseline expense in both regimes is the Virginia State Police criminal-history request used",
+      "to confirm the record. Note the 2025 law removed the right to court-appointed counsel for indigent sealing",
+      "petitioners, so free help comes from legal-aid organizations and clinics rather than appointed counsel.",
+      "Tell users sealing petitions are free of court costs (from 7/1/2026) and automatic sealing costs nothing;",
+      "the expungement petition has a filing fee plus fingerprinting.",
+      "Point indigent users to legal-aid clinics — the 2025 law removed appointed counsel for sealing petitions,",
+      "so there is no court-appointed lawyer for these.",
+      "Virginia Expungement & Record Sealing — Agent Training Reference ·12",
+      "Item Amount Note Expungement petition (§ 19.2-392.2) Circuit court filing fee Plus a fingerprinting fee Sealing petition (§ 19.2-392.12) $0 No court fees or costs (from 7/1/2026) Automatic sealing $0 No filing Fingerprinting (expungement) Local agency fee Required for State Police processing Virginia State Police criminal history VSP fee To confirm record before filing Attorney fees (if represented) Varies Not required; legal-aid clinics assist (no appointed counsel for se Costs differ by regime.",
+      "An expungement petition carries the circuit-court civil filing fee plus a local fingerprinting fee.",
+      "The new sealing system charges NO court fees or costs for a petition, and automatic sealing is free.",
+      "The realistic baseline expense in both regimes is the Virginia State Police criminal-history request used to confirm the record.",
+      "Note the 2025 law removed the right to court-appointed counsel for indigent sealing petitioners, so free help comes from legal-aid organizations and clinics rather than appointed counsel.",
+      "AGENT GUIDANCE Tell users sealing petitions are free of court costs (from 7/1/2026) and automatic sealing costs nothing; the expungement petition has a filing fee plus fingerprinting.",
+      "Point indigent users to legal-aid clinics — the 2025 law removed appointed counsel for sealing petitions, so there is no court-appointed lawyer for these."
+    ],
+    "hearingAndObjectionRules": [
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the",
+      "6 Hearing / standard. For expungement the court applies the statutory standard (often “manifest injustice” for",
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the Commonwealth's responses are maintained under seal by the clerk.",
+      "6 Hearing / standard."
+    ],
+    "postFilingRules": [
+      "Expungement sequence (available now); the sealing-petition sequence parallels it from July 1, 2026:",
+      "2 Confirm eligibility. For expungement, the disposition must be a non-conviction (acquittal, nolle prosequi,",
+      "otherwise dismissed) or an actual-innocence/absolute-pardon case — not a deferred dismissal. For sealing",
+      "3 Prepare the petition and proposed order in the circuit court of the city/county where the charge was",
+      "disposed, citing § 19.2-392.2 (expungement) or § 19.2-392.12 (sealing).",
+      "4 File and get fingerprinted. For expungement, file the petition and obtain a fingerprint card; the State Police",
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the",
+      "Commonwealth's responses are maintained under seal by the clerk.",
+      "6 Hearing / standard. For expungement the court applies the statutory standard (often “manifest injustice” for",
+      "misdemeanors); for sealing, the court enters an order if the statutory conditions are met. A denial is without",
+      "7 Order to State Police. On a granted order, the clerk forwards an electronic copy/notification to the State",
+      "Police, which expunges or seals the record. Keep a certified copy of the order.",
+      "Court case, expungement/sealing is handled in the circuit court.",
+      "The fingerprint + State Police step is mandatory for expungement and is the most common source of",
+      "Virginia Expungement & Record Sealing — Agent Training Reference ·10",
+      "For expungement, the disposition must be a non-conviction (acquittal, nolle prosequi, otherwise dismissed) or an actual-innocence/absolute-pardon case — not a deferred dismissal.",
+      "For sealing (from 7/1/2026), check the offense type, the wait, the exclusion list, and the felony-history bars.",
+      "3 Prepare the petition and proposed order in the circuit court of the city/county where the charge was disposed, citing § 19.2-392.2 (expungement) or § 19.2-392.12 (sealing).",
+      "For expungement, file the petition and obtain a fingerprint card; the State Police forward the petition, prints, and criminal-history copy to the court.",
+      "5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the Commonwealth's responses are maintained under seal by the clerk.",
+      "For expungement the court applies the statutory standard (often “manifest injustice” for misdemeanors); for sealing, the court enters an order if the statutory conditions are met.",
+      "7 Order to State Police.",
+      "On a granted order, the clerk forwards an electronic copy/notification to the State Police, which expunges or seals the record.",
+      "Keep a certified copy of the order.",
+      "AGENT GUIDANCE Venue is the circuit court of the city/county where the charge was disposed — even for a General District Court case, expungement/sealing is handled in the circuit court.",
+      "The fingerprint + State Police step is mandatory for expungement and is the most common source of delay; start the criminal-history request early."
+    ],
+    "formInventory": [
+      {
+        "fileName": "cc1473.pdf",
+        "relativePath": "LegalEase Virginia /cc1473.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+        "sizeBytes": 31540
+      },
+      {
+        "fileName": "cc1473inst.pdf",
+        "relativePath": "LegalEase Virginia /cc1473inst.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+        "sizeBytes": 20802
+      },
+      {
+        "fileName": "va-expungement-sealing-forms.html",
+        "relativePath": "LegalEase Virginia /va-expungement-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+        "sizeBytes": 19347
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Virginia /Virginia-Expungement-Sealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "990ce8eb14d35dbbfd87d737ffc39bc43b5545b4926fc5298d1f7fcbe89cb6be",
+        "sizeBytes": 36188
+      },
+      {
+        "fileName": "cc1473.pdf",
+        "relativePath": "LegalEase Virginia /cc1473.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+        "sizeBytes": 31540
+      },
+      {
+        "fileName": "cc1473inst.pdf",
+        "relativePath": "LegalEase Virginia /cc1473inst.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+        "sizeBytes": 20802
+      },
+      {
+        "fileName": "va-expungement-sealing-forms.html",
+        "relativePath": "LegalEase Virginia /va-expungement-sealing-forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+        "sizeBytes": 19347
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Virginia-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 53,
+      "endLine": 72,
+      "text": "Statutory shorthand used throughout\n\n§ 19.2-392.2 EXPUNGEMENT of police/court records — non-convictions (in effect NOW)\n\n§ 19.2-392.2(I)/(J) Expungement for absolute pardon (I) and writ of actual innocence (J)\n\nCh. 23.2 / §§ 19.2-392.5+ SEALING system — automatic &amp; petition (EFFECTIVE JULY 1, 2026)\n\n§ 19.2-392.7 AUTOMATIC sealing categories (non-convictions, 9 misd. types, marijuana)\n\n§ 19.2-392.12 PETITION sealing of convictions / deferred dismissals (eff. 7/1/2026)\n\n§ 19.2-392.12:1 Petition sealing where automatic sealing did not occur (eff. 7/1/2026)\n\n“ancillary matter” Probation/parole violation, contempt, failure to appear, bail appeal — sealable with the charge\n\nState Police (VSP) Virginia State Police Central Criminal Records Exchange (CCRE) — holds the record"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 73,
+      "endLine": 114,
+      "text": "Two regimes, routed by date and disposition.\n\nRegime 1 — Expungement (§ 19.2-392.2), available now\nA petition in circuit court to expunge police and court records, limited to:\n\n• Acquittal (found not guilty).\n• Nolle prosequi (Commonwealth dropped the charge).\n• Otherwise dismissed — but courts read this narrowly: a charge dismissed after a finding of facts sufficient\nfor guilt or a deferred disposition (e.g., first-offender drug dismissal under § 18.2-251) is generally NOT\n“otherwise dismissed” and not expungeable (Commonwealth v. Dotson).\n• Absolute pardon for innocence (§ 19.2-392.2(I)).\n• Writ of actual innocence — a vacated conviction (§ 19.2-392.2(J)).\n• Cases where the person's identity was used by another (identity theft).\n\nRegime 2 — Sealing (Chapter 23.2), effective July 1, 2026\nA mixed automatic/petition system far broader than expungement:\n\nAutomatic sealing (§ 19.2-392.7) — no filing:\n• Misdemeanor NON-convictions; all marijuana-possession records (non-convictions, deferred dismissals, and\nconvictions under former § 18.2-250.1); deferred dismissals for underage alcohol and marijuana.\n• NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no\nnew convictions (excluding traffic infractions).\n• Traffic infractions automatically sealed after 11 years; and a clean-record sweep — a person with no\nconvictions/deferred dismissals and no arrest in the last 3 years has all non-conviction records sealed.\n\nPetition-based sealing (§ 19.2-392.12 / .12:1):\n• A person convicted of, or who had deferred-and-dismissed, a misdemeanor, a Class 5 or 6 felony, or a\nlarceny felony under § 18.2-95 may petition the circuit court to seal it (subject to the exclusion list and\nfelony-history bars).\n• An ancillary matter (probation/parole violation, contempt, failure to appear, bail appeal) tied to the charge\nmay be sealed with it — a key 2025 fix (e.g., a grand-larceny conviction and a later probation-violation can\nbe sealed together).\n• Petition sealing also backstops automatic sealing where the automatic process did not reach a record.\n\nAGENT GUIDANCE\nCheck the DATE first. Before July 1, 2026, only § 19.2-392.2 expungement (non-convictions) is available\n— there is no conviction relief yet. From July 1, 2026, the Chapter 23.2 sealing system opens automatic\nand petition pathways for many convictions.\nUse the right word: EXPUNGEMENT removes the record; SEALING restricts access (police/courts still\nsee it). A denied sealing petition does not bar a later § 19.2-392.2 expungement, and vice versa."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 115,
+      "endLine": 155,
+      "text": "Expungement of non-convictions has no waiting period. The sealing system's waits (from July 1, 2026) run\nfrom conviction or release, whichever is later, and require a clean record during the period.\n\nPathway / matter Mechanism Waiting period Notes\n\nAcquittal / nolle prosequi / Expungement None Available now\notherwise dismissed (§ 19.2-392.2)\n\nActual innocence / absolute Expungement None § 19.2-392.2(I)/(J)\npardon\n\nMisdemeanor non-conviction Auto-seal None Automatic\n(7/1/2026)\n\nMarijuana records Auto-seal None Incl. former § 18.2-250.1\n\n9 enumerated misdemeanor Auto-seal 7 years No new conviction in period\nconvictions\n\nTraffic infractions Auto-seal 11 years Criminal traffic excluded\n\nPetition: misdemeanor Petition 7 years No new conviction (non-traffic)\nconviction / deferred (§ 19.2-392.12)\n\nPetition: Class 5/6 felony or Petition 10 years From conviction/release, later\n§ 18.2-95 larceny felony\n\nIn addition to the per-offense wait, the petition system imposes felony-history bars that look at the WHOLE\nrecord: the petitioner must (a) never have been convicted of a Class 1 or 2 felony or any felony punishable by\nlife; (b) not have been convicted of a Class 3 or 4 felony within the past 20 years; and (c) not have been\nconvicted of any other felony within the past 10 years of the petition. The misdemeanor petition wait is 7\nconviction-free years; the felony (Class 5/6 or larceny) wait is 10 years from conviction or release, whichever is\nlater.\n\nAGENT GUIDANCE\nFor petition sealing, apply BOTH the per-offense wait (7 yrs misdemeanor / 10 yrs felony) AND the\nwhole-record felony-history bars (never Class 1/2 or life; no Class 3/4 in 20 yrs; no other felony in 10 yrs).\nA later disqualifying felony defeats the petition.\nExpungement of non-convictions has no wait — a person acquitted yesterday can file today."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 156,
+      "endLine": 196,
+      "text": "Expungement's main limit is that it does not reach convictions or deferred dismissals at all. The sealing system\nhas an extensive exclusion list.\n\nNot reachable by expungement (§ 19.2-392.2)\n• Any conviction (other than one vacated by actual innocence or covered by an absolute pardon).\n• Deferred / first-offender dismissals after a finding of facts sufficient for guilt (e.g., § 18.2-251 drug\ndismissals) — not “otherwise dismissed” under Dotson.\n\nExcluded from sealing (§ 19.2-392.12, from 7/1/2026)\nSealing is barred for Class 1, 2, 3, and 4 felonies and many unclassified felonies, and the statute specifically\nexcludes (among others):\n• Certain DUI / vehicular offenses named in the statute (§§ 18.2-36.1, 18.2-36.2, 18.2-51.4, 18.2-51.5,\n18.2-57.2, 18.2-266, 46.2-341.24).\n• Sex crimes and offenses requiring registration; sex trafficking.\n• Violent felonies; felonies involving the use of a firearm.\n• Assault/abuse of a family or household member (domestic) and protective-order violations.\n• Hate crimes; animal cruelty; election-law offenses; date-rape-drug offenses.\n• Not guilty by reason of insanity dispositions; dangerous/vicious dog offenses.\n\nFelony-history and structural bars\n• Never a Class 1/2 felony or a life-punishable felony; no Class 3/4 felony in the past 20 years; no other felony\nin the past 10 years (Section 2).\n• Same-date rule. A charge cannot be sealed by petition if it was finalized on the same date as a conviction or\ndeferred dismissal that is itself ineligible for sealing.\n• Out-of-state / federal records are not reachable by Virginia relief.\n\nVERIFY BEFORE RELYING\nThe § 19.2-392.12 exclusion list runs to roughly 19 provisions and the felony-history bars look at\nthe entire record; the 2025 amendments (SB 1466 / HB 2723) both added exclusions and added\nthe ancillary-matter relief, and none of the sealing system is operational before July 1, 2026. The\nagent must map each offense to its Code section, apply the exclusion list and the same-date rule,\nand confirm the law is in effect before declaring a conviction sealable.\n\nAGENT GUIDANCE\nFor convictions, screen against the long exclusion list (DUI, sex, violent, firearm, domestic, protective\norder, hate crime, etc.) AND the felony-history bars before indicating sealing is possible — and\nremember none of it works before 7/1/2026.\nFor the present (pre-7/1/2026), be honest that Virginia offers NO conviction relief by expungement; only\nnon-convictions can be cleared right now."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 197,
+      "endLine": 238,
+      "text": "Outcome and date drive the mechanism. This table is the agent's primary routing logic for Virginia.\n\nCase outcome Mechanism Route When / condition\n\nAcquittal / nolle prosequi / Expungement Petition (circuit court) Available now; no wait\notherwise dismissed\n\nActual innocence / absolute Expungement Petition Now; vacated/pardoned\npardon\n\nDeferred / first-offender — / Sealing Not expungeable; seal Per Dotson\ndismissal (e.g., 18.2-251) from 7/1/2026\n\nMisdemeanor non-conviction Auto-seal Automatic From 7/1/2026\n\nMarijuana possession Auto-seal Automatic From 7/1/2026\n\n9 enumerated misdemeanor Auto-seal Automatic, 7 yrs From 7/1/2026\nconvictions\n\nOther misdemeanor conviction Sealing Petition, 7 yrs From 7/1/2026\n\nClass 5/6 felony or 18.2-95 Sealing Petition, 10 yrs From 7/1/2026\nlarceny felony\n\nClass 1-4 felony / excluded — Not eligible Pardon route only\noffense\n\nEffect of relief: an EXPUNGEMENT removes the police and court records of a non-conviction. SEALING\n(from 7/1/2026) restricts access — records are removed from public view and most background checks but\nremain available to courts, law enforcement, and certain government entities; a sealed marijuana-possession\noffense and automatically sealed categories are handled without a court order. A denied sealing order is without\nprejudice and does not bar a later § 19.2-392.2 expungement; conversely, getting a sealing order does not bar\nseeking expungement.\n\nAGENT GUIDANCE\nState the mechanism and its effect precisely: expungement removes a non-conviction; sealing (from\n7/1/2026) restricts access to many convictions but is not erasure and is still visible to police and courts.\nIf a deferred/first-offender dismissal is involved, set expectations: it is generally not expungeable now,\nbut may be sealable once the new system is live."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 239,
+      "endLine": 265,
+      "text": "Expungement uses an existing circuit-court petition and a State Police fingerprint step. The sealing system's\nforms are being developed by the Office of the Executive Secretary of the Supreme Court of Virginia for the\nJuly 1, 2026 launch.\n\nExpungement (§ 19.2-392.2) — available now\n• Petition for Expungement filed in the circuit court of the city/county where the charge was disposed, citing\n§ 19.2-392.2 and identifying the charge, disposition, and arrest data.\n• Fingerprint card / State Police processing: the petitioner is fingerprinted and the State Police forward the\npetition, fingerprints, and a copy of the criminal-history record to the court.\n• Proposed Order of Expungement for the court's signature.\n• The Commonwealth's Attorney is served and may object; the court applies the “manifest injustice” standard\nfor misdemeanors and certain cases.\n\nSealing (Chapter 23.2) — from July 1, 2026\n• Petition for Sealing under § 19.2-392.12 (or .12:1) filed in the circuit court, identifying the\ncharge/conviction, any ancillary matter, and the statutory basis. No court fees or costs are charged for the\npetition.\n• Automatic sealing requires NO form — the State Police and courts process eligible records.\n• Forms will be published by the Office of the Executive Secretary; verify the official form at filing time.\n\nAGENT GUIDANCE\nRight now, use the § 19.2-392.2 expungement petition with the fingerprint/State Police step for\nnon-convictions. Build in service on the Commonwealth's Attorney.\nFor sealing, wait for the OES forms and the 7/1/2026 effective date; automatic sealing needs no filing,\nand petition sealing carries no court fee."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 266,
+      "endLine": 298,
+      "text": "Expungement sequence (available now); the sealing-petition sequence parallels it from July 1, 2026:\n\n1 Get the record. Request your Virginia State Police (CCRE) criminal history and confirm the charge, the\ndisposition, and the arrest/disposition dates.\n\n2 Confirm eligibility. For expungement, the disposition must be a non-conviction (acquittal, nolle prosequi,\notherwise dismissed) or an actual-innocence/absolute-pardon case — not a deferred dismissal. For sealing\n(from 7/1/2026), check the offense type, the wait, the exclusion list, and the felony-history bars.\n\n3 Prepare the petition and proposed order in the circuit court of the city/county where the charge was\ndisposed, citing § 19.2-392.2 (expungement) or § 19.2-392.12 (sealing).\n\n4 File and get fingerprinted. For expungement, file the petition and obtain a fingerprint card; the State Police\nforward the petition, prints, and criminal-history copy to the court.\n5 Serve the Commonwealth's Attorney, who may consent or object; sealing petitions and the\nCommonwealth's responses are maintained under seal by the clerk.\n\n6 Hearing / standard. For expungement the court applies the statutory standard (often “manifest injustice” for\nmisdemeanors); for sealing, the court enters an order if the statutory conditions are met. A denial is without\nprejudice.\n\n7 Order to State Police. On a granted order, the clerk forwards an electronic copy/notification to the State\nPolice, which expunges or seals the record. Keep a certified copy of the order.\n\nAGENT GUIDANCE\nVenue is the circuit court of the city/county where the charge was disposed — even for a General District\nCourt case, expungement/sealing is handled in the circuit court.\nThe fingerprint + State Police step is mandatory for expungement and is the most common source of\ndelay; start the criminal-history request early.\n\nVirginia Expungement & Record Sealing — Agent Training Reference ·10"
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 299,
+      "endLine": 324,
+      "text": "• The July 1, 2026 cliff. The entire sealing system (automatic + petition) is enacted but NOT operational until\n7/1/2026; before then, only § 19.2-392.2 expungement (non-convictions) exists.\n• Expungement ≠ sealing. Expungement removes a non-conviction; sealing restricts access to many\nconvictions. They are separate statutes with separate standards, and one does not bar the other.\n• “Otherwise dismissed” is narrow. Under Commonwealth v. Dotson, a deferred/first-offender dismissal\nafter a finding of guilt is NOT expungeable — a frequent misunderstanding.\n• Everything goes to circuit court. Even district-court charges are expunged/sealed by the circuit court of that\ncity/county.\n• Fingerprint + State Police step. Expungement requires fingerprinting and State Police processing of the\npetition and criminal-history copy.\n• Ancillary matters (2025). Probation-violation, contempt, failure-to-appear, and bail-appeal matters can now\nbe sealed along with the underlying charge — a major fix.\n• Felony-history bars. Petition sealing looks at the whole record (Class 1/2/life ever; Class 3/4 in 20 yrs; any\nfelony in 10 yrs), not just the target offense.\n• No fee for sealing petitions; the 2025 law also removed the right to appointed counsel for indigent sealing\npetitioners.\n\nAGENT GUIDANCE\nAlways anchor advice to the date: pre-7/1/2026 = expungement of non-convictions only; on/after = the\nfull sealing system. Verify the system is live before promising conviction relief.\nCorrect the Dotson misconception early: a first-offender drug dismissal is not expungeable now, though it\nmay be sealable once the new law is in effect.\n\nVirginia Expungement & Record Sealing — Agent Training Reference ·11"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 325,
+      "endLine": 353,
+      "text": "Item Amount Note\n\nExpungement petition (§ 19.2-392.2) Circuit court filing fee Plus a fingerprinting fee\n\nSealing petition (§ 19.2-392.12) $0 No court fees or costs (from 7/1/2026)\n\nAutomatic sealing $0 No filing\n\nFingerprinting (expungement) Local agency fee Required for State Police processing\n\nVirginia State Police criminal history VSP fee To confirm record before filing\n\nAttorney fees (if represented) Varies Not required; legal-aid clinics assist (no appointed counsel for se\n\nCosts differ by regime. An expungement petition carries the circuit-court civil filing fee plus a local\nfingerprinting fee. The new sealing system charges NO court fees or costs for a petition, and automatic sealing\nis free. The realistic baseline expense in both regimes is the Virginia State Police criminal-history request used\nto confirm the record. Note the 2025 law removed the right to court-appointed counsel for indigent sealing\npetitioners, so free help comes from legal-aid organizations and clinics rather than appointed counsel.\n\nAGENT GUIDANCE\nTell users sealing petitions are free of court costs (from 7/1/2026) and automatic sealing costs nothing;\nthe expungement petition has a filing fee plus fingerprinting.\nPoint indigent users to legal-aid clinics — the 2025 law removed appointed counsel for sealing petitions,\nso there is no court-appointed lawyer for these.\n\nVirginia Expungement & Record Sealing — Agent Training Reference ·12"
+    },
+    {
+      "title": "Criminal history (State Police) request process",
+      "category": "filing",
+      "startLine": 354,
+      "endLine": 357,
+      "text": "Confirming the record first establishes the disposition (critical for the expungement vs. sealing routing) and the\ndates that start any waiting period."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 385,
+      "endLine": 403,
+      "text": "Virginia relief is filed on a circuit-court petition. The examples below show structure and key recitals for\nexpungement (now) and sealing (from 7/1/2026). Names, dates, and identifiers are fictional and illustrative.\n\nExample A — Petition for Expungement (§ 19.2-392.2), non-conviction\nVIRGINIA: IN THE CIRCUIT COURT OF THE CITY OF RICHMOND\nIN RE: ANDRE L. CARTER Case No. CL26-001234\n\nPETITION FOR EXPUNGEMENT OF POLICE AND COURT RECORDS\n(Va. Code 19.2-392.2)\n1. Petitioner: Andre L. Carter; DOB 07/22/1992; SSN XXX-XX-4471.\n2. On 03/02/2024 petitioner was charged in the General District\nCourt of the City of Richmond with petit larceny\n(Va. Code 18.2-96).\n3. Disposition: the charge was NOLLE PROSEQUI on 06/15/2024\n(a non-conviction).\n4. Petitioner has been fingerprinted; the Virginia State Police\nwill forward this petition, the fingerprints, and a copy of\npetitioner's criminal history record to this Court."
+    },
+    {
+      "title": "More than seven (7) years have passed since the conviction",
+      "category": "pathway_detail",
+      "startLine": 421,
+      "endLine": 437,
+      "text": "and petitioner has no new convictions (excluding traffic\ninfractions) in that period.\n4. Felony-history bars satisfied: petitioner has never been\nconvicted of a Class 1/2 or life felony, no Class 3/4 felony\nin 20 years, and no other felony in the last 10 years.\n5. The offense is not on the 19.2-392.12 exclusion list (not a\nDUI, sex, violent, firearm, domestic, protective-order, hate-\ncrime, or other excluded offense).\n6. Petitioner also requests sealing of the related ancillary\nmatter (a 2018 probation-violation) under 19.2-392.5.\nNo court fees or costs are charged. WHEREFORE petitioner requests\nan Order sealing the conviction and ancillary matter.\n\nVirginia Expungement & Record Sealing — Agent Training Reference ·14\n\nExamples C & D — Automatic pathways (no filing, from 7/1/2026)"
+    },
+    {
+      "title": "AUTOMATIC SEALING (§ 19.2-392.7):",
+      "category": "pathway_detail",
+      "startLine": 438,
+      "endLine": 444,
+      "text": "A misdemeanor non-conviction, a marijuana-possession record,\nor one of the 9 enumerated misdemeanor convictions (7 years\nconviction-free) is sealed AUTOMATICALLY by the State Police\nand courts -- no petition. Traffic infractions auto-seal after\n11 years."
+    },
+    {
+      "title": "DEFERRED-DISMISSAL TRAP:",
+      "category": "pathway_detail",
+      "startLine": 445,
+      "endLine": 462,
+      "text": "A first-offender drug dismissal under 18.2-251 is NOT\n'otherwise dismissed,' so it cannot be EXPUNGED now (Dotson).\nFrom 7/1/2026 it may be SEALED by petition under 19.2-392.12\ninstead.\n\nProposed Order\nEach petition is accompanied by a proposed Order. The Order of Expungement directs the Virginia State Police\nand the court clerk to expunge the police and court records of the non-conviction; the Order of Sealing (from\n7/1/2026) directs that the records be sealed and forwards an electronic notification to the State Police, with the\norder itself maintained under seal.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Virginia statutes and common\nwas amended in 2025 (SB 1466 / HB 2723); until then only § 19.2-392.2 expungement of non-convictions is available. The agent\nmust verify the current effective status, the eligible/excluded offense lists, the felony-history bars, the official forms, and State\nPolice request processes before relying on any rule here.\n\nVirginia Expungement & Record Sealing — Agent Training Reference ·15"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 3,
+      "questions": 15,
+      "decisionRules": 82,
+      "waitingRules": 14,
+      "exclusions": 30,
+      "sourceFiles": 4,
+      "officialForms": 3
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

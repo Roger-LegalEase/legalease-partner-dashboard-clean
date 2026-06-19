@@ -1,0 +1,2039 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "WI",
+    "name": "Wisconsin",
+    "slug": "wisconsin"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "sha256": "9820df02d4a81ce2ed0aa4b6a0b5c6ce487f6e17a18971472f221a49cca1bdb8",
+        "sizeBytes": 68388,
+        "score": 2723,
+        "extractedChars": 19471
+      }
+    ],
+    "sourceCorpusSha256": "4d37dcf1cefebaafd920ba517f344c5030e78c9b5f97ccfeba5b74190f86f5f3",
+    "sourceCorpusChars": 19436,
+    "allFolderFiles": [
+      {
+        "fileName": "Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "9820df02d4a81ce2ed0aa4b6a0b5c6ce487f6e17a18971472f221a49cca1bdb8",
+        "sizeBytes": 68388
+      },
+      {
+        "fileName": "CR-266_en.doc",
+        "relativePath": "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+        "extension": ".doc",
+        "kind": "official_form_or_packet",
+        "sha256": "50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787",
+        "sizeBytes": 25647
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "expunction",
+      "sealing",
+      "set-aside",
+      "erasure",
+      "vacatur/vacation",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Adult conviction expungement - Wis. Stat. 973.015",
+      "Adult non-conviction / arrest-only records",
+      "Human-trafficking / prostitution relief - 973.015(2m)",
+      "Juvenile adjudication expungement - Wis. Stat. 938.355(4m)",
+      "Pardon route",
+      "Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "source_question_01_step-1-adult-conviction-juvenile-adjudic",
+        "source_question_02_was-this-an-adult-conviction-juvenile-ad",
+        "source_question_03_were-you-under-25-when-the-offense-happe",
+        "source_question_04_were-all-charges-from-that-arrest-dismis",
+        "source_question_05_are-you-at-least-17-and-did-you-complete",
+        "source_question_06_ask-gently",
+        "source_question_07_was-the-prostitution-related-case-connec"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status",
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Wisconsin, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Wisconsin case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Wisconsin descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Adult conviction expungement under Wis. Stat. § 973.015",
+        "Adult non-conviction / arrest-only record correction or removal",
+        "Human-trafficking / prostitution relief under § 973.015(2m)",
+        "Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)",
+        "Executive-pardon guidance",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "source_question_01_step-1-adult-conviction-juvenile-adjudic",
+      "stage": "state_specific_eligibility",
+      "prompt": "Step 1 - Adult conviction, juvenile adjudication, or non-conviction?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_02_was-this-an-adult-conviction-juvenile-ad",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this an adult conviction, juvenile adjudication, dismissed/no-file/not-guilty arrest, or are you not sure?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_03_were-you-under-25-when-the-offense-happe",
+      "stage": "state_specific_eligibility",
+      "prompt": "Were you under 25 when the offense happened, and did the judge order expungement at sentencing?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_04_were-all-charges-from-that-arrest-dismis",
+      "stage": "state_specific_eligibility",
+      "prompt": "Were all charges from that arrest dismissed, not filed, or resolved not guilty?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_05_are-you-at-least-17-and-did-you-complete",
+      "stage": "state_specific_eligibility",
+      "prompt": "Are you at least 17, and did you complete the dispositional order?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_06_ask-gently",
+      "stage": "state_specific_eligibility",
+      "prompt": "Ask gently:",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_07_was-the-prostitution-related-case-connec",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was the prostitution-related case connected to trafficking, coercion, exploitation, or someone forcing or directing what happened?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Wisconsin criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Wisconsin was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "adult-non-conviction-arrest-only-records"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "human-trafficking-prostitution-relief-973-015"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": []
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "adult-conviction-expungement-wis-stat-973-015",
+        "adult-non-conviction-arrest-only-records",
+        "human-trafficking-prostitution-relief-973-015"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "juvenile-adjudication-expungement-wis-stat-938-355"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "pardon-route",
+        "juvenile-delinquency-adjudication-938-355-jd-1780-petition-after-reaching-age-17"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "adult-conviction-expungement-under-wis-stat-973-015",
+      "label": "Adult conviction expungement under Wis. Stat. § 973.015",
+      "summary": "For most adult criminal convictions, Wilma should check all of these: Age Person was under 25 at the time of the offense Offense severity Maximum imprisonment for the offense was 6 years or less Timing of order Court ordered expungement at sentencing Court finding Court found the person would benefit and society would not be harmed",
+      "sourceRef": "section:44-77; section:86-94; section:237-239; corpus-unit:21; corpus-unit:35; summary:237-239; corpus-unit:93",
+      "sourceEvidenceRefs": [
+        "section:44-77",
+        "section:86-94",
+        "section:237-239",
+        "corpus-unit:21",
+        "corpus-unit:35",
+        "summary:237-239",
+        "corpus-unit:93"
+      ],
+      "ruleClauses": [
+        "For most adult criminal convictions, Wilma should check all of these:",
+        "Age Person was under 25 at the time of the offense",
+        "Offense severity Maximum imprisonment for the offense was 6 years or less",
+        "Timing of order Court ordered expungement at sentencing",
+        "Court finding Court found the person would benefit and society would not be harmed",
+        "Successful completion No subsequent conviction before completion; probation not revoked; probation conditions satisfied",
+        "Sentence completion Sentence must be fully completed before expungement takes effect",
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Mandatory youthful invasion-of-privacy route",
+        "If the offense was certain invasion-of-privacy conduct under Wis. Stat. 942.08(2)(b), (c), (d), or (3) and the person was under 18 when it was committed, the court shall order expungement at sentencing upon successful completion. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "For Class H felonies, the court may not order expungement if the person has a prior felony, if the offense is a violent offense, or if the offense is stalking, certain child-abuse offenses, or sexual assault by school staff. For Class I felonies, the court may not order expungement if the person has a prior felony, if the offense is violent, or if the offense is concealing the death of a child. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "The at sentencing trap This is the biggest Wisconsin issue.",
+        "At your sentencing hearing, did the judge specifically order that the record would be expunged after successful completion of the sentence?",
+        "If the answer is yes, Wilma checks sentence completion and the correct execution path.",
+        "If the answer is no, Wilma should say:",
+        "Wisconsin usually requires adult expungement to be ordered at sentencing. If it was not ordered then, there may not be a later petition route for that conviction, unless a special trafficking-victim route applies.",
+        "Wisconsin case law cited under 973.015 states that",
+        "means when sentence is imposed, and that nothing in the statute lets the circuit court revisit the expungement decision later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Wisconsin non-convictions are not handled through 973.015 adult conviction expungement. They route through DOJ-CIB fingerprint/arrest removal.",
+        "A person may qualify for arrest fingerprint record removal if they were:",
+        "arrested and released without charge;",
+        "had the charges dismissed by the court or prosecutor;",
+        "or no charges were filed by the prosecutor.",
+        "Wisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, has no fee, and if the removed Wisconsin arrest information had been forwarded to the FBI, the FBI will be contacted to remove it from the FBI record.",
+        "Wilma caution: All charges from that arrest event must be cleared. If one charge from the same arrest resulted in conviction, DOJ-CIB removal may be blocked.",
+        "For Wisconsin, train Wilma with this core logic:",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "age_at_offense",
+        "disposition_date",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "dismissed",
+        "convicted_felony",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Offense severity Maximum imprisonment for the offense was 6 years or less",
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "exclusionRules": [
+        "Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures",
+        "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+        "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+        "Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\") 1.",
+        "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+        "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "adult-non-conviction-arrest-only-record-correction-or-removal",
+      "label": "Adult non-conviction / arrest-only record correction or removal",
+      "summary": "Wisconsin non-convictions are not handled through 973.015 adult conviction expungement. They route through DOJ-CIB fingerprint/arrest removal. A person may qualify for arrest fingerprint record removal if they were: arrested and released without charge; had the charges dismissed by the court or prosecutor; or no charges were filed by the prosecutor.",
+      "sourceRef": "section:86-94; corpus-unit:35",
+      "sourceEvidenceRefs": [
+        "section:86-94",
+        "corpus-unit:35"
+      ],
+      "ruleClauses": [
+        "Wisconsin non-convictions are not handled through 973.015 adult conviction expungement. They route through DOJ-CIB fingerprint/arrest removal.",
+        "A person may qualify for arrest fingerprint record removal if they were:",
+        "arrested and released without charge;",
+        "had the charges dismissed by the court or prosecutor;",
+        "or no charges were filed by the prosecutor.",
+        "Wisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, has no fee, and if the removed Wisconsin arrest information had been forwarded to the FBI, the FBI will be contacted to remove it from the FBI record.",
+        "Wilma caution: All charges from that arrest event must be cleared. If one charge from the same arrest resulted in conviction, DOJ-CIB removal may be blocked.",
+        "Adult non-conviction / arrest-only records Wisconsin non-convictions are not handled through 973.015 adult conviction expungement."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "exclusionRules": [
+        "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+        "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+        "Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\") 1.",
+        "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+        "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "human-trafficking-prostitution-relief-under-973-015-2m",
+      "label": "Human-trafficking / prostitution relief under § 973.015(2m)",
+      "summary": "Wisconsin has a special route for people convicted, adjudicated delinquent, or found not guilty by reason of mental disease or defect for prostitution under 944.30, if the offense was committed as a result of being a victim of trafficking for purposes of a commercial sex act. The person may move the court to vacate the conviction/adjudication/finding or expunge the record if: the person was a trafficking victim for commercial sex; the 944.30 violation resulted from that trafficking; the motion includes facts and may include court records, immigration-related certifications, official government documentation, or other credible evidence;",
+      "sourceRef": "section:95-108; corpus-unit:41",
+      "sourceEvidenceRefs": [
+        "section:95-108",
+        "corpus-unit:41"
+      ],
+      "ruleClauses": [
+        "Wisconsin has a special route for people convicted, adjudicated delinquent, or found not guilty by reason of mental disease or defect for prostitution under 944.30, if the offense was committed as a result of being a victim of trafficking for purposes of a commercial sex act.",
+        "The person may move the court to vacate the conviction/adjudication/finding or expunge the record if:",
+        "the person was a trafficking victim for commercial sex;",
+        "the 944.30 violation resulted from that trafficking;",
+        "the motion includes facts and may include court records, immigration-related certifications, official government documentation, or other credible evidence;",
+        "the motion was made with due diligence, considering safety concerns;",
+        "the district attorney is served or notified and has an opportunity to respond;",
+        "the court finds the person will benefit and society will not be harmed. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Wilma trauma rule: Do not force details. Ask only:",
+        "Was this prostitution-related case connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you?",
+        "Then route to manual/legal review.",
+        "Human-trafficking / prostitution relief \u0014 973.015(2m) Wisconsin has a special route for people convicted, adjudicated delinquent, or found not guilty by reason of mental disease or defect for prostitution under 944.30, if the offense was committed as a result of being a victim of trafficking for purposes of a commercial sex act."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "trafficking_status",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "acquitted",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "special",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "exclusionRules": [
+        "Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures",
+        "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+        "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+        "Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\") 1.",
+        "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+        "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "label": "Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)",
+      "summary": "A juvenile adjudicated delinquent may petition after reaching age 17 to expunge the court record of the adjudication. The court may expunge if the juvenile satisfactorily completed the dispositional order, the juvenile will benefit, and society will not be harmed. (\"https://docs.legis.wisconsin.gov/statutes/statutes/938/VI/355/4m?view=section&utm_source=chatgpt.com\") The official juvenile form is JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney. The form summary explains that a juvenile adjudicated delinquent after reaching age 17 may petition, and that the court looks at satisfactory…",
+      "sourceRef": "section:109-112; section:237-239; corpus-unit:5; corpus-unit:45; summary:237-239; corpus-unit:93",
+      "sourceEvidenceRefs": [
+        "section:109-112",
+        "section:237-239",
+        "corpus-unit:5",
+        "corpus-unit:45",
+        "summary:237-239",
+        "corpus-unit:93"
+      ],
+      "ruleClauses": [
+        "A juvenile adjudicated delinquent may petition after reaching age 17 to expunge the court record of the adjudication. The court may expunge if the juvenile satisfactorily completed the dispositional order, the juvenile will benefit, and society will not be harmed. (\"https://docs.legis.wisconsin.gov/statutes/statutes/938/VI/355/4m?view=section&utm_source=chatgpt.com\")",
+        "The official juvenile form is JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney. The form summary explains that a juvenile adjudicated delinquent after reaching age 17 may petition, and that the court looks at satisfactory completion, benefit to the juvenile, and whether society would be harmed. (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=JD-1780\") (\"https://www.wicourts.gov/formdisplay/JD-1780_summary.pdf?formNumber=JD-1780&formType=Summary&formatId=2&language=en&utm_source=chatgpt.com\")",
+        "Wilma caution: Juvenile expungement removes the court\u0019s record of adjudication, but juvenile records are already treated differently from adult public CCAP/WCCA records. Do not oversell it as wiping every agency record.",
+        "For Wisconsin, train Wilma with this core logic:",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "938.355(4m) for juvenile adjudication expungement; Wis.",
+        "Juvenile adjudication expungement \u0014 Wis.",
+        "Agent-facing summary For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "record_type",
+        "offense_category",
+        "sentence_completion_date",
+        "criminal_history"
+      ],
+      "caseOutcomes": [
+        "juvenile",
+        "dismissed",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Offense severity Maximum imprisonment for the offense was 6 years or less",
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "Agent-facing summary For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "exclusionRules": [
+        "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+        "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+        "Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\") 1.",
+        "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+        "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "executive-pardon-guidance",
+      "label": "Executive-pardon guidance",
+      "summary": "A Wisconsin pardon is separate from expungement. Wisconsin DOJ says a pardon will not remove the arrest from the criminal history record; the disposition will show that a Governor\u0019s pardon was issued and may restore certain rights. do not say the record is expunged. Route to pardon notation, rights restoration, and criminal-history update review. Pardon route A Wisconsin pardon is separate from expungement.",
+      "sourceRef": "section:113-117; corpus-unit:50",
+      "sourceEvidenceRefs": [
+        "section:113-117",
+        "corpus-unit:50"
+      ],
+      "ruleClauses": [
+        "A Wisconsin pardon is separate from expungement. Wisconsin DOJ says a pardon will not remove the arrest from the criminal history record; the disposition will show that a Governor\u0019s pardon was issued and may restore certain rights.",
+        "do not say the record is expunged. Route to pardon notation, rights restoration, and criminal-history update review.",
+        "Pardon route A Wisconsin pardon is separate from expungement."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "criminal_history",
+        "pardon_status"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "pardon",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+        "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+        "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      ],
+      "exclusionRules": [
+        "Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures",
+        "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+        "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+        "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+        "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+        "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-01-adult-conviction-user-was-under-25-at-offense-judge-ord",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015",
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "adult-non-conviction-arrest-only-record-correction-or-removal"
+      ]
+    },
+    {
+      "id": "rule-02-adult-conviction-user-was-under-25-but-judge-did-not-or",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015",
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "executive-pardon-guidance"
+      ]
+    },
+    {
+      "id": "rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-04-adult-conviction-with-probation-incarceration-and-expun",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-05-adult-conviction-with-no-probation-and-no-jail-prison-e",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-06-prostitution-conviction-adjudication-ngi-finding-tied-t",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-07-arrest-with-no-charge-dismissal-acquittal-or-cleared-th",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "executive-pardon-guidance"
+      ]
+    },
+    {
+      "id": "rule-08-juvenile-delinquency-adjudication-938-355-4m-jd-1780-pe",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m"
+      ]
+    },
+    {
+      "id": "rule-09-pardon-pardon-notation-rights-restoration-not-expungeme",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "criminal_history",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "executive-pardon-guidance",
+        "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-10-civil-forfeiture-traffic-citation-small-claims-civil-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-19",
+      "candidatePathwayIds": [
+        "executive-pardon-guidance",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "adult-non-conviction-arrest-only-record-correction-or-removal"
+      ]
+    },
+    {
+      "id": "rule-11-adult-973-015-expungement-must-be-ordered-at-sentencing",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Adult 973.015 expungement Must be ordered at sentencing; takes effect after successful sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015",
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "adult-non-conviction-arrest-only-record-correction-or-removal"
+      ]
+    },
+    {
+      "id": "rule-12-adult-conviction-with-probation-incarceration-certifica",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction with probation/incarceration Certificate of discharge triggers court expungement after successful completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m"
+      ]
+    },
+    {
+      "id": "rule-13-adult-conviction-with-no-probation-incarceration-use-cr",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction with no probation/incarceration Use CR-266 after successful completion, if expungement was ordered at sentencing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015",
+        "human-trafficking-prostitution-relief-under-973-015-2m"
+      ]
+    },
+    {
+      "id": "rule-14-youthful-invasion-of-privacy-mandatory-route-ordered-at",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Youthful invasion-of-privacy mandatory route Ordered at sentencing if statutory criteria met; effective after successful completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-15-trafficking-victim-prostitution-route-motion-may-be-fil",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Trafficking-victim prostitution route Motion may be filed after conviction/adjudication/NGI finding, subject to due-diligence and safety considerations"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-16-doj-cib-arrest-fingerprint-removal-after-release-withou",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "DOJ-CIB arrest fingerprint removal After release without charge, no-file, dismissal, acquittal, or other clearing of all charges from arrest event"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "executive-pardon-guidance"
+      ]
+    },
+    {
+      "id": "rule-17-juvenile-adjudication-petition-after-reaching-age-17-an",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile adjudication Petition after reaching age 17 and satisfactorily completing dispositional order"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:118-127",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "rule-18-wisconsin-expungement-is-narrow-adult-conviction-expung",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history",
+          "court",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other",
+          "juvenile"
+        ],
+        "duration": {
+          "value": 6,
+          "unit": "years",
+          "raw": "6 years"
+        },
+        "sourceConditionText": "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:237-239",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "human-trafficking-prostitution-relief-under-973-015-2m",
+        "adult-conviction-expungement-under-wis-stat-973-015",
+        "adult-non-conviction-arrest-only-record-correction-or-removal"
+      ]
+    },
+    {
+      "id": "route-adult-conviction-expungement-under-wis-stat-973-015",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-conviction-expungement-under-wis-stat-973-015",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "age_at_offense",
+          "disposition_date",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "age_at_offense",
+          "disposition_date",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "dismissed",
+          "convicted_felony",
+          "juvenile"
+        ],
+        "sourceConditionText": "Adult conviction expungement under Wis. Stat. § 973.015"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:44-77; section:86-94; section:237-239; corpus-unit:21; corpus-unit:35; summary:237-239; corpus-unit:93",
+      "candidatePathwayIds": [
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
+    },
+    {
+      "id": "route-adult-non-conviction-arrest-only-record-correction-or-removal",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult non-conviction / arrest-only record correction or removal"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:86-94; corpus-unit:35",
+      "candidatePathwayIds": [
+        "adult-non-conviction-arrest-only-record-correction-or-removal"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-prostitution-relief-under-973-015-2m",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-prostitution-relief-under-973-015-2m",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "trafficking_status",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "trafficking_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking / prostitution relief under § 973.015(2m)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:95-108; corpus-unit:41",
+      "candidatePathwayIds": [
+        "human-trafficking-prostitution-relief-under-973-015-2m"
+      ]
+    },
+    {
+      "id": "route-juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "record_type",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "record_type",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "juvenile",
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:109-112; section:237-239; corpus-unit:5; corpus-unit:45; summary:237-239; corpus-unit:93",
+      "candidatePathwayIds": [
+        "juvenile-adjudication-expungement-under-wis-stat-938-355-4m"
+      ]
+    },
+    {
+      "id": "route-executive-pardon-guidance",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "executive-pardon-guidance",
+        "requiredFields": [
+          "case_outcome",
+          "criminal_history",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history",
+          "pardon_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Executive-pardon guidance"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:113-117; corpus-unit:50",
+      "candidatePathwayIds": [
+        "executive-pardon-guidance"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Offense severity Maximum imprisonment for the offense was 6 years or less",
+      "duration": {
+        "value": 6,
+        "unit": "years",
+        "raw": "6 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Wisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (",
+      "duration": {
+        "value": 6,
+        "unit": "years",
+        "raw": "6 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+      "duration": {
+        "value": 6,
+        "unit": "years",
+        "raw": "6 years"
+      },
+      "anchor": "age 17 and completed disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "sentence_completion_date",
+        "criminal_history",
+        "court",
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+      "duration": {
+        "value": 6,
+        "unit": "years",
+        "raw": "6 years"
+      },
+      "anchor": "age 17 and completed disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "sentence_completion_date",
+        "criminal_history",
+        "court",
+        "age_at_offense"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Coverage: Wisconsin statewidePrimary remedy: Limited expungement / expunctionPrimary statutes: Wis. Stat. 973.015 for adult/youthful convictions and trafficking-victim prostitution relief; Wis. Stat. 938.355(4m) for juvenile adjudication expungement; Wis. Stat. 165.84 / DOJ-CIB process for removal of arrest fingerprint records.Core warning: Wisconsin is one of the narrowest expungement states. Adult expungement usually must be ordered at sentencing. If the judge did not order expungement at sentencing, Wilma should treat the adult conviction as likely not expungeable later, unless the case fits the human-trafficking/prostitution route. Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "criminal_history",
+        "court",
+        "charge",
+        "age_at_offense"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "This is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "criminal_history",
+        "court",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Wisconsin case law says the expungement decision under 973.015 must be made at sentencing, and courts generally cannot revisit it later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\") 1.",
+      "fieldsReferenced": [
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "How Wilma should route Wisconsin cases User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures 2.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "criminal_history",
+        "court",
+        "charge",
+        "age_at_offense",
+        "trafficking_status",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "criminal_history",
+        "court",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "adult-conviction-expungement-under-wis-stat-973-015",
+        "pathwayLabel": "Adult conviction expungement under Wis. Stat. § 973.015",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "CR-266_en.doc",
+            "relativePath": "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+            "extension": ".doc",
+            "kind": "official_form_or_packet",
+            "sha256": "50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787",
+            "sizeBytes": 25647
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:44-77",
+          "section:86-94",
+          "section:237-239",
+          "corpus-unit:21",
+          "corpus-unit:35",
+          "summary:237-239",
+          "corpus-unit:93"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "pathwayLabel": "Adult non-conviction / arrest-only record correction or removal",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:86-94",
+          "corpus-unit:35"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-prostitution-relief-under-973-015-2m",
+        "pathwayLabel": "Human-trafficking / prostitution relief under § 973.015(2m)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:95-108",
+          "corpus-unit:41"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "pathwayLabel": "Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "CR-266_en.doc",
+            "relativePath": "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+            "extension": ".doc",
+            "kind": "official_form_or_packet",
+            "sha256": "50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787",
+            "sizeBytes": 25647
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:109-112",
+          "section:237-239",
+          "corpus-unit:5",
+          "corpus-unit:45",
+          "summary:237-239",
+          "corpus-unit:93"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "executive-pardon-guidance",
+        "pathwayLabel": "Executive-pardon guidance",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:113-117",
+          "corpus-unit:50"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "sentence_completion_date",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "Adult conviction, no probation and no jail/prison CR-266 - Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration",
+      "Adult order for CR-266 route CR-267 - Order on Petition to Expunge Court Record of Conviction - Non-Probation/Non-Incarceration",
+      "Adult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step",
+      "Juvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney",
+      "DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form",
+      "The Wisconsin Court System lists CR-266 as the official adult petition for expunging the court record of an adult conviction in non-probation/non-incarceration cases, and CR-267 as the corresponding court order. (",
+      "\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")",
+      "Route Official form / document Adult conviction, no probation and no jail/prison CR-266 - Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration Adult order for CR-266 route CR-267 - Order on Petition to Expunge Court Record of Conviction - Non-Probation/Non-Incarceration Adult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step Juvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney DOJ arrest fingerprint removal DJ-LE-250B - Fingerprint Record Removal Request DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form The Wisconsin Court System lists CR-266 as the official adult petition for expunging the court record of an adult conviction in non-probation/non-incarceration cases, and CR-267 as the corresponding court order. ( \"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")"
+    ],
+    "attachments": [
+      "Adult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step",
+      "DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form",
+      "Route Official form / document Adult conviction, no probation and no jail/prison CR-266 - Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration Adult order for CR-266 route CR-267 - Order on Petition to Expunge Court Record of Conviction - Non-Probation/Non-Incarceration Adult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step Juvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney DOJ arrest fingerprint removal DJ-LE-250B - Fingerprint Record Removal Request DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form The Wisconsin Court System lists CR-266 as the official adult petition for expunging the court record of an adult conviction in non-probation/non-incarceration cases, and CR-267 as the corresponding court order. ( \"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")",
+      "2 Wisconsin DOJ-CIB criminal history for fingerprint-supported arrest/conviction information.",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\")",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\") Wilma should collect: full name and prior names; date of birth; county and circuit court case number; arrest date; offense date; exact charge and statute; offense class; maximum possible imprisonment; age at offense; sentencing date; whether the judge ordered expungement at sentencing; sentence type: probation, jail, prison, fine, restitution, community service, supervision; sentence completion date; whether probation was revoked; whether any subsequent conviction occurred before sentence completion; whether the case was dismissed, no-filed, or acquitted; whether all charges from the arrest event were cleared; whether the case involved traffic/DOT records, civil forfeiture, OWI, violent offense, stalking, child abuse, sex offense, school-staff sexual assault, concealing death of child, or trafficking/prostitution facts."
+    ],
+    "filingDestinationRules": [
+      "1 Wisconsin Circuit Court Access / court docket for the case details.",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\")",
+      "county and circuit court case number;",
+      "whether the case was dismissed, no-filed, or acquitted;",
+      "Wilma should start with two records: 1 Wisconsin Circuit Court Access / court docket for the case details.",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\") Wilma should collect: full name and prior names; date of birth; county and circuit court case number; arrest date; offense date; exact charge and statute; offense class; maximum possible imprisonment; age at offense; sentencing date; whether the judge ordered expungement at sentencing; sentence type: probation, jail, prison, fine, restitution, community service, supervision; sentence completion date; whether probation was revoked; whether any subsequent conviction occurred before sentence completion; whether the case was dismissed, no-filed, or acquitted; whether all charges from the arrest event were cleared; whether the case involved traffic/DOT records, civil forfeiture, OWI, violent offense, stalking, child abuse, sex offense, school-staff sexual assault, concealing death of child, or trafficking/prostitution facts."
+    ],
+    "serviceAndNoticeRules": [
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\")",
+      "sentence type: probation, jail, prison, fine, restitution, community service, supervision;",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\") Wilma should collect: full name and prior names; date of birth; county and circuit court case number; arrest date; offense date; exact charge and statute; offense class; maximum possible imprisonment; age at offense; sentencing date; whether the judge ordered expungement at sentencing; sentence type: probation, jail, prison, fine, restitution, community service, supervision; sentence completion date; whether probation was revoked; whether any subsequent conviction occurred before sentence completion; whether the case was dismissed, no-filed, or acquitted; whether all charges from the arrest event were cleared; whether the case involved traffic/DOT records, civil forfeiture, OWI, violent offense, stalking, child abuse, sex offense, school-staff sexual assault, concealing death of child, or trafficking/prostitution facts.",
+      "Juvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney",
+      "\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")",
+      "Route Official form / document Adult conviction, no probation and no jail/prison CR-266 - Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration Adult order for CR-266 route CR-267 - Order on Petition to Expunge Court Record of Conviction - Non-Probation/Non-Incarceration Adult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step Juvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney DOJ arrest fingerprint removal DJ-LE-250B - Fingerprint Record Removal Request DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form The Wisconsin Court System lists CR-266 as the official adult petition for expunging the court record of an adult conviction in non-probation/non-incarceration cases, and CR-267 as the corresponding court order. ( \"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")"
+    ],
+    "feeRules": [
+      "CR-266 adult court petition Verify with clerk; many expungement execution steps are handled in existing criminal case",
+      "DOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required",
+      "DOJ-CIB criminal background check Fee-based through WORCS",
+      "Juvenile JD-1780 Verify with juvenile clerk",
+      "Certified dispositions County-dependent",
+      "Item Fee note CR-266 adult court petition Verify with clerk; many expungement execution steps are handled in existing criminal case DOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required DOJ-CIB criminal background check Fee-based through WORCS Juvenile JD-1780 Verify with juvenile clerk Certified dispositions County-dependent"
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\")",
+      "whether the judge ordered expungement at sentencing;",
+      "Wisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\") Wilma should collect: full name and prior names; date of birth; county and circuit court case number; arrest date; offense date; exact charge and statute; offense class; maximum possible imprisonment; age at offense; sentencing date; whether the judge ordered expungement at sentencing; sentence type: probation, jail, prison, fine, restitution, community service, supervision; sentence completion date; whether probation was revoked; whether any subsequent conviction occurred before sentence completion; whether the case was dismissed, no-filed, or acquitted; whether all charges from the arrest event were cleared; whether the case involved traffic/DOT records, civil forfeiture, OWI, violent offense, stalking, child abuse, sex offense, school-staff sexual assault, concealing death of child, or trafficking/prostitution facts.",
+      "Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+      "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+    ],
+    "formInventory": [
+      {
+        "fileName": "CR-266_en.doc",
+        "relativePath": "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+        "extension": ".doc",
+        "kind": "official_form_or_packet",
+        "sha256": "50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787",
+        "sizeBytes": 25647
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Wisconsin/Wisconsin Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "9820df02d4a81ce2ed0aa4b6a0b5c6ce487f6e17a18971472f221a49cca1bdb8",
+        "sizeBytes": 68388
+      },
+      {
+        "fileName": "CR-266_en.doc",
+        "relativePath": "LegalEase Wisconsin/forms-download/CR-266_en.doc",
+        "extension": ".doc",
+        "kind": "official_form_or_packet",
+        "sha256": "50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787",
+        "sizeBytes": 25647
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "User\u0019s case outcome First Wilma route Wisconsin treatment Adult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion Adult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later Adult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing Adult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court Adult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence Prostitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven Arrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement Juvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition Pardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history Civil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures",
+    "It does notvacate the conviction, set it aside, or erase every government record.",
+    "Wilma rule: In Wisconsin, never say your record will be wiped from everywhere.",
+    "For Wisconsin, train Wilma with this core logic: Wisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records.",
+    "Use Wisconsin-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "How Wilma should route Wisconsin cases",
+      "category": "overview",
+      "startLine": 7,
+      "endLine": 19,
+      "text": "User\u0019s case outcome First Wilma route Wisconsin treatment\nAdult conviction, user was under 25 at offense, judge ordered expungement at sentencing 973.015 adult expungement Expungement occurs after successful sentence completion\nAdult conviction, user was under 25, but judge did not order expungement at sentencing Usually no adult expungement route Manual review only; court generally cannot add it later\nAdult misdemeanor or Class H/I felony, under 25, sentencing pending Ask for expungement at sentencing Must be requested and ordered at sentencing\nAdult conviction with probation/incarceration and expungement already ordered Certificate-of-discharge process DOC/detaining authority forwards certificate to court\nAdult conviction with no probation and no jail/prison, expungement already ordered CR-266 petition route Used after successful completion of sentence\nProstitution conviction/adjudication/NGI finding tied to sex trafficking 973.015(2m) motion Court may vacate or expunge if trafficking nexus proven\nArrest with no charge, dismissal, acquittal, or cleared through court DOJ-CIB fingerprint arrest removal Use DJ-LE-250B; not the same as court expungement\nJuvenile delinquency adjudication 938.355(4m) / JD-1780 Petition after reaching age 17 and completing disposition\nPardon Pardon notation / rights restoration, not expungement Pardon does not remove the arrest from DOJ criminal history\nCivil forfeiture / traffic citation / small claims / civil case No expungement under criminal expungement statute Wisconsin expungement statute does not cover civil forfeitures"
+    },
+    {
+      "title": "Remedy definitions Wilma must understand",
+      "category": "remedy_definitions",
+      "startLine": 20,
+      "endLine": 31,
+      "text": "Wisconsin expungement\nWisconsin expungement usually removes/seals the court record of the conviction from public court access. It does notvacate the conviction, set it aside, or erase every government record. The official CR-266 form warns that only the court record of conviction is expunged; police, Crime Information Bureau, law enforcement, and district attorney records are not affected, and the conviction is not vacated or set aside. (\n\n\"https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en\")\nDOJ-CIB arrest fingerprint removal\nThis is separate from court expungement. Wisconsin DOJ says arrest fingerprint information may be removed when the person was released without charge or cleared through court proceedings, but a conviction ordered expunged by a court cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest for removal.\nWilma rule: In Wisconsin, never say\nyour record will be wiped from everywhere.\nSay:\nThe court record may be expunged from public court access, but DOJ-CIB, police, prosecutor, DOT, FBI, and private-background records may require separate review or may remain."
+    },
+    {
+      "title": "Official forms Wilma should know",
+      "category": "forms",
+      "startLine": 32,
+      "endLine": 43,
+      "text": "Route Official form / document\nAdult conviction, no probation and no jail/prison CR-266 - Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration\nAdult order for CR-266 route CR-267 - Order on Petition to Expunge Court Record of Conviction - Non-Probation/Non-Incarceration\nAdult conviction with probation/incarceration DOC/detaining authority certificate of discharge process, not CR-266 as first step\nJuvenile adjudication JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney\nDOJ arrest fingerprint removal DJ-LE-250B - Fingerprint Record Removal Request\nDOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form\nThe Wisconsin Court System lists CR-266 as the official adult petition for expunging the court record of an adult conviction in non-probation/non-incarceration cases, and CR-267 as the corresponding court order. (\n\n\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266\") (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267&utm_source=chatgpt.com\") The Wisconsin DOJ criminal-history forms page lists DJ-LE-250B for fingerprint record removal and DJ-LE-247 for challenging or correcting criminal-history information. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx\")"
+    },
+    {
+      "title": "Adult conviction expungement - Wis. Stat. 973.015",
+      "category": "pathway_detail",
+      "startLine": 44,
+      "endLine": 77,
+      "text": "Basic eligibility\nFor most adult criminal convictions, Wilma should check all of these:\n\nRequirement Wisconsin rule\nAge Person was under 25 at the time of the offense\nOffense severity Maximum imprisonment for the offense was 6 years or less\nTiming of order Court ordered expungement at sentencing\nCourt finding Court found the person would benefit and society would not be harmed\nSuccessful completion No subsequent conviction before completion; probation not revoked; probation conditions satisfied\nSentence completion Sentence must be fully completed before expungement takes effect\nWisconsin 973.015 allows the sentencing court to order expungement at the time of sentencing for a person under 25 whose offense carries a maximum imprisonment of 6 years or less, if the court finds the person will benefit and society will not be harmed. (\n\n\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")\nMandatory youthful invasion-of-privacy route\nIf the offense was certain invasion-of-privacy conduct under Wis. Stat. 942.08(2)(b), (c), (d), or (3) and the person was under 18 when it was committed, the court shall order expungement at sentencing upon successful completion. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")\nFelony exclusions\nFor Class H felonies, the court may not order expungement if the person has a prior felony, if the offense is a violent offense, or if the offense is stalking, certain child-abuse offenses, or sexual assault by school staff. For Class I felonies, the court may not order expungement if the person has a prior felony, if the offense is violent, or if the offense is concealing the death of a child. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")\n5. The\nat sentencing\ntrap\nThis is the biggest Wisconsin issue.\nWilma should ask:\n\nAt your sentencing hearing, did the judge specifically order that the record would be expunged after successful completion of the sentence?\n\nIf the answer is yes, Wilma checks sentence completion and the correct execution path.\nIf the answer is no, Wilma should say:\n\nWisconsin usually requires adult expungement to be ordered at sentencing. If it was not ordered then, there may not be a later petition route for that conviction, unless a special trafficking-victim route applies.\n\nWisconsin case law cited under 973.015 states that\nat the time of sentencing\nmeans when sentence is imposed, and that nothing in the statute lets the circuit court revisit the expungement decision later. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")"
+    },
+    {
+      "title": "Adult non-conviction / arrest-only records",
+      "category": "pathway_detail",
+      "startLine": 86,
+      "endLine": 94,
+      "text": "Wisconsin non-convictions are not handled through 973.015 adult conviction expungement. They route through DOJ-CIB fingerprint/arrest removal.\nA person may qualify for arrest fingerprint record removal if they were:\narrested and released without charge;\nfound not guilty;\nhad the charges dismissed by the court or prosecutor;\nor no charges were filed by the prosecutor.\nWisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, has no fee, and if the removed Wisconsin arrest information had been forwarded to the FBI, the FBI will be contacted to remove it from the FBI record.\nWilma caution: All charges from that arrest event must be cleared. If one charge from the same arrest resulted in conviction, DOJ-CIB removal may be blocked."
+    },
+    {
+      "title": "Human-trafficking / prostitution relief - 973.015(2m)",
+      "category": "pathway_detail",
+      "startLine": 95,
+      "endLine": 108,
+      "text": "Wisconsin has a special route for people convicted, adjudicated delinquent, or found not guilty by reason of mental disease or defect for prostitution under 944.30, if the offense was committed as a result of being a victim of trafficking for purposes of a commercial sex act.\nThe person may move the court to vacate the conviction/adjudication/finding or expunge the record if:\nthe person was a trafficking victim for commercial sex;\nthe 944.30 violation resulted from that trafficking;\nthe motion includes facts and may include court records, immigration-related certifications, official government documentation, or other credible evidence;\nthe motion was made with due diligence, considering safety concerns;\nthe district attorney is served or notified and has an opportunity to respond;\nthe court finds the person will benefit and society will not be harmed. (\"https://law.justia.com/codes/wisconsin/chapter-973/section-973-015/\")\nWilma trauma rule: Do not force details. Ask only:\n\nWas this prostitution-related case connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you?\n\nThen route to manual/legal review."
+    },
+    {
+      "title": "Juvenile adjudication expungement - Wis. Stat. 938.355(4m)",
+      "category": "pathway_detail",
+      "startLine": 109,
+      "endLine": 112,
+      "text": "A juvenile adjudicated delinquent may petition after reaching age 17 to expunge the court record of the adjudication. The court may expunge if the juvenile satisfactorily completed the dispositional order, the juvenile will benefit, and society will not be harmed. (\"https://docs.legis.wisconsin.gov/statutes/statutes/938/VI/355/4m?view=section&utm_source=chatgpt.com\")\nThe official juvenile form is JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney. The form summary explains that a juvenile adjudicated delinquent after reaching age 17 may petition, and that the court looks at satisfactory completion, benefit to the juvenile, and whether society would be harmed. (\"https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=JD-1780\") (\"https://www.wicourts.gov/formdisplay/JD-1780_summary.pdf?formNumber=JD-1780&formType=Summary&formatId=2&language=en&utm_source=chatgpt.com\")\nWilma caution: Juvenile expungement removes the court\u0019s record of adjudication, but juvenile records are already treated differently from adult public CCAP/WCCA records. Do not oversell it as wiping every agency record."
+    },
+    {
+      "title": "Pardon route",
+      "category": "pathway_detail",
+      "startLine": 113,
+      "endLine": 117,
+      "text": "A Wisconsin pardon is separate from expungement. Wisconsin DOJ says a pardon will not remove the arrest from the criminal history record; the disposition will show that a Governor\u0019s pardon was issued and may restore certain rights.\nWilma rule: If the user says\nI was pardoned,\ndo not say the record is expunged. Route to pardon notation, rights restoration, and criminal-history update review."
+    },
+    {
+      "title": "Waiting-period table",
+      "category": "waiting_periods",
+      "startLine": 118,
+      "endLine": 127,
+      "text": "Route Timing\nAdult 973.015 expungement Must be ordered at sentencing; takes effect after successful sentence completion\nAdult conviction with probation/incarceration Certificate of discharge triggers court expungement after successful completion\nAdult conviction with no probation/incarceration Use CR-266 after successful completion, if expungement was ordered at sentencing\nYouthful invasion-of-privacy mandatory route Ordered at sentencing if statutory criteria met; effective after successful completion\nTrafficking-victim prostitution route Motion may be filed after conviction/adjudication/NGI finding, subject to due-diligence and safety considerations\nDOJ-CIB arrest fingerprint removal After release without charge, no-file, dismissal, acquittal, or other clearing of all charges from arrest event\nJuvenile adjudication Petition after reaching age 17 and satisfactorily completing dispositional order"
+    },
+    {
+      "title": "Filing workflow",
+      "category": "filing",
+      "startLine": 128,
+      "endLine": 151,
+      "text": "Adult conviction where expungement was ordered at sentencing\n\n1 Confirm the sentencing court ordered expungement.\n2 Confirm sentence was successfully completed.\n3 Confirm no subsequent conviction occurred before completion.\n4 If probation/incarceration existed, verify the certificate of discharge was sent to the clerk.\n5 If no probation/incarceration existed, prepare CR-266 and proposed CR-267.\n6 File in the same circuit court case.\n7 Confirm the court record is sealed/removed from WCCA/CCAP public access.\nArrest-only / dismissed / not guilty / no-file\n1 Get the DOJ criminal-history record.\n2 Confirm the arrest event and all charges tied to that fingerprint card.\n3 Collect disposition/no-prosecution documents.\n4 Complete DJ-LE-250B with required fingerprint.\n5 Submit to Wisconsin DOJ-CIB.\n6 If FBI record was involved, confirm DOJ transmitted the removal.\nJuvenile adjudication\n1 Confirm age 17 or older.\n2 Confirm dispositional order completed.\n3 Prepare JD-1780.\n4 Seek district attorney recommendation if required by local practice/form.\n5 File in the juvenile court case.\n6 Attend hearing if required."
+    },
+    {
+      "title": "Record request process",
+      "category": "filing",
+      "startLine": 152,
+      "endLine": 175,
+      "text": "Wilma should start with two records:\n1 Wisconsin Circuit Court Access / court docket for the case details.\n2 Wisconsin DOJ-CIB criminal history for fingerprint-supported arrest/conviction information.\nWisconsin DOJ says its Centralized Criminal History database contains demographic data, arrest/charge information, final dispositions, sentences, DNA registrations, and DOC admission/release notices; it is based on arrest fingerprint cards submitted by law enforcement. (\"https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx\")\nWilma should collect:\nfull name and prior names;\ndate of birth;\ncounty and circuit court case number;\narrest date;\noffense date;\nexact charge and statute;\noffense class;\nmaximum possible imprisonment;\nage at offense;\nsentencing date;\nwhether the judge ordered expungement at sentencing;\nsentence type: probation, jail, prison, fine, restitution, community service, supervision;\nsentence completion date;\nwhether probation was revoked;\nwhether any subsequent conviction occurred before sentence completion;\nwhether the case was dismissed, no-filed, or acquitted;\nwhether all charges from the arrest event were cleared;\nwhether the case involved traffic/DOT records, civil forfeiture, OWI, violent offense, stalking, child abuse, sex offense, school-staff sexual assault, concealing death of child, or trafficking/prostitution facts."
+    },
+    {
+      "title": "Fees",
+      "category": "fees",
+      "startLine": 176,
+      "endLine": 183,
+      "text": "Item Fee note\nCR-266 adult court petition Verify with clerk; many expungement execution steps are handled in existing criminal case\nDOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required\nDOJ-CIB criminal background check Fee-based through WORCS\nJuvenile JD-1780 Verify with juvenile clerk\nCertified dispositions County-dependent"
+    },
+    {
+      "title": "Wilma intake decision tree",
+      "category": "intake_questions",
+      "startLine": 184,
+      "endLine": 236,
+      "text": "Step 1 - Adult conviction, juvenile adjudication, or non-conviction?\nAsk:\n\nWas this an adult conviction, juvenile adjudication, dismissed/no-file/not-guilty arrest, or are you not sure?\n\nStep 2 - If adult conviction\nAsk:\n\nWere you under 25 when the offense happened, and did the judge order expungement at sentencing?\n\nIf no order at sentencing, likely no standard adult route.If yes, check successful completion.\nStep 3 - If non-conviction\nAsk:\n\nWere all charges from that arrest dismissed, not filed, or resolved not guilty?\n\nIf yes, route to DOJ-CIB DJ-LE-250B.If one charge resulted in conviction, fingerprint removal may be blocked.\nStep 4 - If juvenile\nAsk:\n\nAre you at least 17, and did you complete the dispositional order?\n\nIf yes, route to JD-1780.\nStep 5 - If prostitution / trafficking\nAsk gently:\n\nWas the prostitution-related case connected to trafficking, coercion, exploitation, or someone forcing or directing what happened?\n\nIf yes, route to manual/legal review under 973.015(2m).\n16.\nDo not say eligible unless&\nrules\nWilma should not say\nyou are eligible\nfor adult Wisconsin expungement unless:\n\nage at offense was under 25;\noffense carried maximum imprisonment of 6 years or less;\nno exclusion applies;\nthe judge ordered expungement at sentencing;\nsentence was successfully completed;\nno subsequent conviction occurred before completion;\nprobation was not revoked;\nprobation conditions were satisfied.\nWilma should not say DOJ arrest removal is available unless:\nthe arrest resulted in no charge, dismissal, acquittal, or court clearing;\nall charges from the arrest fingerprint event were cleared;\nthe user can submit fingerprint identification and supporting documentation.\nWilma should not say juvenile expungement is available unless:\nthe person is at least 17;\nthe juvenile dispositional order was completed;\nthe court can find benefit to the juvenile and no harm to society."
+    },
+    {
+      "title": "Agent-facing summary",
+      "category": "summary",
+      "startLine": 237,
+      "endLine": 239,
+      "text": "For Wisconsin, train Wilma with this core logic:\nWisconsin expungement is narrow.Adult conviction expungement must usually be ordered at sentencing.Under 25 + max imprisonment 6 years or less is only the starting point; the sentencing order is the make-or-break fact.Successful completion means no subsequent conviction, no probation revocation, and all probation conditions satisfied.CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.Dismissed/no-file/not-guilty arrests route to DOJ-CIB fingerprint removal, not court expungement.Juvenile adjudication expungement uses JD-1780 after age 17 and completed disposition.Trafficking-victim prostitution relief is a special manual-review route.Never promise that Wisconsin expungement removes DOJ-CIB, police, DA, DOT, FBI, or private-background records."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 23,
+      "decisionRules": 24,
+      "waitingRules": 4,
+      "exclusions": 7,
+      "sourceFiles": 2,
+      "officialForms": 1
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

@@ -1,0 +1,3459 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "OR",
+    "name": "Oregon",
+    "slug": "oregon"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Oregon/Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "sha256": "ee9b7ae8dd78839dbfae04494f72f4342a40a49463fe3fd7ad8e053f3777f3e7",
+        "sizeBytes": 32667,
+        "score": 1661,
+        "extractedChars": 27439
+      }
+    ],
+    "sourceCorpusSha256": "c24020602e6fbf2f0b66e16d300b99397596cfe6b754f393e480e945d00a74cd",
+    "sourceCorpusChars": 22897,
+    "allFolderFiles": [
+      {
+        "fileName": "CriminalSetAside_AdultCases2.pdf",
+        "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+        "sizeBytes": 253599
+      },
+      {
+        "fileName": "Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Oregon/Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "ee9b7ae8dd78839dbfae04494f72f4342a40a49463fe3fd7ad8e053f3777f3e7",
+        "sizeBytes": 32667
+      },
+      {
+        "fileName": "or-setaside-motion.html",
+        "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+        "sizeBytes": 17520
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "set-aside"
+    ],
+    "pathwayLabels": [
+      "More than five (5) years have elapsed since conviction/",
+      "MARIJUANA (pre-July 1, 2015)",
+      "Situation A — Arrests and charges without conviction (137.225(1)(c))",
+      "Situation B — Convictions (137.225(1)(a))",
+      "Following decriminalization, Oregon greatly expanded set-asides for marijuana offenses. For set-aside"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Oregon, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Oregon case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "Municipal or ordinance matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Oregon descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+        "Set-aside of eligible convictions under ORS 137.225(1)(a)",
+        "Marijuana-specific set-aside / redesignation",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What Oregon county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Oregon category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Sex offense or registration",
+        "DUI/DWI or serious traffic",
+        "Firearm or weapons",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Oregon was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "situation-a-arrests-and-charges-without-conviction"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "marijuana",
+        "situation-a-arrests-and-charges-without-conviction",
+        "following-decriminalization-oregon-greatly-expanded-set-asides-for-marijuana-off"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "situation-a-arrests-and-charges-without-conviction",
+        "following-decriminalization-oregon-greatly-expanded-set-asides-for-marijuana-off"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "situation-b-convictions"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "more-than-five-years-have-elapsed-since-conviction"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "more-than-five-years-have-elapsed-since-conviction",
+        "marijuana",
+        "situation-a-arrests-and-charges-without-conviction",
+        "situation-b-convictions",
+        "following-decriminalization-oregon-greatly-expanded-set-asides-for-marijuana-off"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "label": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+      "summary": "The most accessible relief, with short or no waiting periods: Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction). Acquittal (found not guilty) — may be set aside at any time. Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year). No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+      "sourceRef": "pathways:72-107; section:72-107; corpus-unit:28",
+      "sourceEvidenceRefs": [
+        "pathways:72-107",
+        "section:72-107",
+        "corpus-unit:28"
+      ],
+      "ruleClauses": [
+        "The most accessible relief, with short or no waiting periods:",
+        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "Acquittal (found not guilty) — may be set aside at any time.",
+        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+        "One statute, two broad situations, routed by disposition.",
+        "Arrests and charges without conviction (137.225(1)(c))",
+        "Convictions (137.225(1)(a))",
+        "A person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation,",
+        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+        "period (Section 2), provided they have no new conviction during that period. Eligible offenses include most",
+        "misdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases,",
+        "Schedule I drug-possession offenses, and violations. A person still under supervision has not completed the",
+        "sentence and is not yet eligible.",
+        "Following decriminalization, Oregon greatly expanded set-asides for marijuana offenses. For set-aside",
+        "purposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today,",
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "marijuana-possession judgments have been given expiration relief by statute.",
+        "Route by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest →",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "For marijuana, reclassify pre-July-2015 offenses to today's level before assessing eligibility — it often",
+        "shortens or eliminates the wait.",
+        "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+        "Arrests and charges without conviction (137.225(1)(c)) The most accessible relief, with short or no waiting periods:"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "convicted_other",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The most accessible relief, with short or no waiting periods:",
+        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+        "release (the Class C felony waiting period).",
+        "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
+        "makes it eligible immediately or after a much shorter wait.",
+        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "Disposition / offense class Waiting period Measured from",
+        "Arrest, no charges filed 60 days DA's notice declining to prosecute",
+        "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
+        "Class A misdemeanor 3 years Conviction or release, later",
+        "Class C felony 5 years Conviction or release, later",
+        "Class B felony 7 years Conviction or release, later",
+        "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is"
+      ],
+      "exclusionRules": [
+        "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),",
+        "Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside).",
+        "Sex offenses requiring registration under ORS 163A.010 and most other sex crimes.",
+        "Class A felonies (with limited marijuana-related exceptions).",
+        "Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar.",
+        "New conviction during the waiting period (other than a same-episode conviction) resets eligibility.",
+        "Pending charges. A person under charge for any crime when the motion is pending is not eligible.",
+        "Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the sentence is not complete and the clock has not started.",
+        "Federal or out-of-state convictions are not reachable by ORS 137.225.",
+        "Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate restoration process is required.",
+        "The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been",
+        "amended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in",
+        "subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction",
+        "The agent must map the offense to its ORS class, check the current eligibility lists, and verify the dismissed-charge timing before declaring eligibility.",
+        "Traffic/DUII, registrable sex offenses, Class A felonies, and serious person crimes are the hard",
+        "Set expectations on firearms: a set-aside seals the record but, under current OSP policy, does not",
+        "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+        "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6), (10)). • Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside). • Sex offenses requiring registration under ORS 163A.010 and most other sex crimes. • Class A felonies (with limited marijuana-related exceptions). • Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar. • Aggravated vehicular homicide and other enumerated serious offenses. • Crimes against vulnerable victims (certain offenses against children or dependent persons). • Criminal mistreatment and certain offenses against family/household members, as enumerated."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+      "label": "Set-aside of eligible convictions under ORS 137.225(1)(a)",
+      "summary": "A person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation, post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting period (Section 2), provided they have no new conviction during that period. Eligible offenses include most misdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases, Schedule I drug-possession offenses, and violations. A person still under supervision has not completed the",
+      "sourceRef": "pathways:72-107; section:72-107; corpus-unit:30",
+      "sourceEvidenceRefs": [
+        "pathways:72-107",
+        "section:72-107",
+        "corpus-unit:30"
+      ],
+      "ruleClauses": [
+        "A person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation,",
+        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+        "period (Section 2), provided they have no new conviction during that period. Eligible offenses include most",
+        "misdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases,",
+        "Schedule I drug-possession offenses, and violations. A person still under supervision has not completed the",
+        "sentence and is not yet eligible.",
+        "One statute, two broad situations, routed by disposition.",
+        "Arrests and charges without conviction (137.225(1)(c))",
+        "The most accessible relief, with short or no waiting periods:",
+        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "Acquittal (found not guilty) — may be set aside at any time.",
+        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+        "Convictions (137.225(1)(a))",
+        "Following decriminalization, Oregon greatly expanded set-asides for marijuana offenses. For set-aside",
+        "purposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today,",
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "marijuana-possession judgments have been given expiration relief by statute.",
+        "Route by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest →",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "For marijuana, reclassify pre-July-2015 offenses to today's level before assessing eligibility — it often",
+        "shortens or eliminates the wait.",
+        "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+        "Convictions (137.225(1)(a)) A person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation, post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting period (Section 2), provided they have no new conviction during that period. Eligible offenses include most misdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases, Schedule I drug-possession offenses, and violations. A person still under supervision has not completed the sentence and is not yet eligible."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
+        "disposition_date"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+        "release (the Class C felony waiting period).",
+        "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
+        "makes it eligible immediately or after a much shorter wait.",
+        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+        "The most accessible relief, with short or no waiting periods:",
+        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "Disposition / offense class Waiting period Measured from",
+        "Arrest, no charges filed 60 days DA's notice declining to prosecute",
+        "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
+        "Class A misdemeanor 3 years Conviction or release, later",
+        "Class C felony 5 years Conviction or release, later",
+        "Class B felony 7 years Conviction or release, later",
+        "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is"
+      ],
+      "exclusionRules": [
+        "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),",
+        "Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside).",
+        "Sex offenses requiring registration under ORS 163A.010 and most other sex crimes.",
+        "Class A felonies (with limited marijuana-related exceptions).",
+        "Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar.",
+        "New conviction during the waiting period (other than a same-episode conviction) resets eligibility.",
+        "Pending charges. A person under charge for any crime when the motion is pending is not eligible.",
+        "Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the sentence is not complete and the clock has not started.",
+        "Federal or out-of-state convictions are not reachable by ORS 137.225.",
+        "Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate restoration process is required.",
+        "The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been",
+        "amended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in",
+        "subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction",
+        "The agent must map the offense to its ORS class, check the current eligibility lists, and verify the dismissed-charge timing before declaring eligibility.",
+        "Traffic/DUII, registrable sex offenses, Class A felonies, and serious person crimes are the hard",
+        "Set expectations on firearms: a set-aside seals the record but, under current OSP policy, does not",
+        "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+        "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6), (10)). • Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside). • Sex offenses requiring registration under ORS 163A.010 and most other sex crimes. • Class A felonies (with limited marijuana-related exceptions). • Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar. • Aggravated vehicular homicide and other enumerated serious offenses. • Crimes against vulnerable victims (certain offenses against children or dependent persons). • Criminal mistreatment and certain offenses against family/household members, as enumerated."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "marijuana-specific-set-aside-redesignation",
+      "label": "Marijuana-specific set-aside / redesignation",
+      "summary": "purposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today, which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court marijuana-possession judgments have been given expiration relief by statute. Route by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest → 60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+      "sourceRef": "pathways:72-107; section:405-423; section:280-305; section:72-107; corpus-unit:31; corpus-unit:81; corpus-unit:110",
+      "sourceEvidenceRefs": [
+        "pathways:72-107",
+        "section:405-423",
+        "section:280-305",
+        "section:72-107",
+        "corpus-unit:31",
+        "corpus-unit:81",
+        "corpus-unit:110"
+      ],
+      "ruleClauses": [
+        "purposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today,",
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "marijuana-possession judgments have been given expiration relief by statute.",
+        "Route by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest →",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "For marijuana, reclassify pre-July-2015 offenses to today's level before assessing eligibility — it often",
+        "shortens or eliminates the wait.",
+        "A pre-7/1/2015 marijuana offense is reclassified to the level",
+        "it would carry today for set-aside purposes, which often",
+        "makes it eligible immediately or after a much shorter wait.",
+        "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+        "The motion is accompanied by a proposed Order to Set Aside. On entry, the order directs that the record of the",
+        "arrest, citation, charge, or conviction be set aside and sealed, directs the Oregon State Police to seal its records,",
+        "and provides that under ORS 137.225(8)(b) the offense is deemed not to have occurred.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Oregon's set-aside statute and",
+        "in 2024–2025; a drafting quirk has affected some dismissed serious charges, and a set-aside does not restore firearm rights under",
+        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+        "OSP request processes, and county procedures before relying on any rule here.",
+        "One statute, one remedy. Oregon has no separate sealing vs. expungement tracks — ORS 137.225 sets aside AND seals, and the offense is then deemed never to have occurred.",
+        "SB 397 reset the timelines. Effective 1/1/2022 it cut most waits (e.g., Class B felony to 7 years), removed most filing fees, and ended the old flat 10-year wait for anyone with multiple convictions — older guides are unreliable.",
+        "Same-episode convictions don't disqualify. A second conviction from the same criminal episode is not a disqualifying “other conviction” during the waiting period.",
+        "The dismissed-serious-charge quirk. A drafting error in subsection (9) has at times forced some dismissed serious charges to wait the full conviction period rather than being set aside promptly — verify current treatment.",
+        "Firearms not restored. Per 2024 OSP policy, a set-aside does not restore firearm rights; a separate restoration is required.",
+        "Fingerprint + OSP step is mandatory for convictions and is the main source of delay.",
+        "Processing times vary widely by county — some have run close to two years.",
+        "Marijuana reclassification. Pre-July-2015 marijuana offenses are reclassified to today's level for set-aside purposes, often making them eligible immediately.",
+        "Rely on the current statute, not older summaries — SB 397 and the 2024–2025 amendments changed",
+        "the waits and eligibility substantially."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "offense_level",
+        "criminal_history",
+        "identity_error"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+        "makes it eligible immediately or after a much shorter wait.",
+        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+        "release (the Class C felony waiting period).",
+        "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
+        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+        "Disposition / offense class Waiting period Measured from",
+        "Arrest, no charges filed 60 days DA's notice declining to prosecute",
+        "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
+        "Class A misdemeanor 3 years Conviction or release, later",
+        "Class C felony 5 years Conviction or release, later",
+        "Class B felony 7 years Conviction or release, later",
+        "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is",
+        "“other conviction” during the waiting period. The old regime forced a flat 10-year wait whenever a person had"
+      ],
+      "exclusionRules": [
+        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+        "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),",
+        "Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside).",
+        "Sex offenses requiring registration under ORS 163A.010 and most other sex crimes.",
+        "Aggravated vehicular homicide and other enumerated serious offenses.",
+        "Criminal mistreatment and certain offenses against family/household members, as enumerated.",
+        "New conviction during the waiting period (other than a same-episode conviction) resets eligibility.",
+        "Pending charges. A person under charge for any crime when the motion is pending is not eligible.",
+        "Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the sentence is not complete and the clock has not started.",
+        "Federal or out-of-state convictions are not reachable by ORS 137.225.",
+        "Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate restoration process is required.",
+        "The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been",
+        "amended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in",
+        "subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction",
+        "The agent must map the offense to its ORS class, check the current eligibility lists, and verify the dismissed-charge timing before declaring eligibility.",
+        "Traffic/DUII, registrable sex offenses, Class A felonies, and serious person crimes are the hard",
+        "categorical bars — screen for these first; they don't clear with time.",
+        "Set expectations on firearms: a set-aside seals the record but, under current OSP policy, does not"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-31-traffic-duii-sex-reg-ineligible-categorical-bar",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Traffic / DUII / sex-reg. / — Ineligible Categorical bar"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223"
+    },
+    {
+      "id": "rule-56-traffic-offenses-including-standard-duii-convictions-ca",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside)."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-59-pending-charges-a-person-under-charge-for-any-crime-whe",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Pending charges. A person under charge for any crime when the motion is pending is not eligible."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-63-the-eligible-ineligible-line-in-ors-137-225-5-6-is-defi",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "financial_obligations",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-02-the-most-accessible-relief-with-short-or-no-waiting-per",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "The most accessible relief, with short or no waiting periods:"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-03-dismissed-charge-may-be-set-aside-generally-with-little",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction)."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-13-sentence-and-is-not-yet-eligible",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "sentence and is not yet eligible."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-22-case-outcome-route-waiting-period-note",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Case outcome Route Waiting period Note"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-40-disposition-offense-class-waiting-period-measured-from",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Disposition / offense class Waiting period Measured from"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-47-a-central-sb-397-improvement-is-how-multiple-conviction",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-50-other-conviction-during-the-waiting-period-the-old-regi",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "“other conviction” during the waiting period. The old regime forced a flat 10-year wait whenever a person had"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-51-more-than-one-conviction-even-from-one-case-that-is-gon",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "more than one conviction, even from one case; that is gone. The waiting period is keyed to the highest"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-58-new-conviction-during-the-waiting-period-other-than-a-s",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "New conviction during the waiting period (other than a same-episode conviction) resets eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-60-sentence-not-complete-still-being-on-probation-or-post-",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the sentence is not complete and the clock has not started."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-01-situation-a-arrests-and-charges-without-conviction-137-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Situation A — Arrests and charges without conviction (137.225(1)(c))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-04-acquittal-found-not-guilty-may-be-set-aside-at-any-time",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal (found not guilty) — may be set aside at any time."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-05-arrest-with-no-charges-filed-may-be-set-aside-60-days-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-06-no-requirement-post-sb-397-of-being-arrest-free-for-thr",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "three years"
+        },
+        "sourceConditionText": "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-07-situation-b-convictions-137-225-1-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Situation B — Convictions (137.225(1)(a))"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-08-a-person-convicted-of-an-eligible-offense-who-has-fully",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-09-post-prison-supervision-and-restitution-may-move-to-set",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-10-period-section-2-provided-they-have-no-new-conviction-d",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "period (Section 2), provided they have no new conviction during that period. Eligible offenses include most"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-11-misdemeanors-class-c-felonies-many-class-b-felonies-cla",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "misdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-12-schedule-i-drug-possession-offenses-and-violations-a-pe",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Schedule I drug-possession offenses, and violations. A person still under supervision has not completed the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-14-following-decriminalization-oregon-greatly-expanded-set",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Following decriminalization, Oregon greatly expanded set-asides for marijuana offenses. For set-aside"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-15-purposes-marijuana-offenses-committed-before-july-1-201",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "purposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-16-which-makes-many-of-them-eligible-far-sooner-or-immedia",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-17-marijuana-possession-judgments-have-been-given-expirati",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "marijuana-possession judgments have been given expiration relief by statute."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-18-route-by-disposition-dismissal-set-aside-with-little-no",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Route by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest →"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-19-60-days-after-the-da-declines-conviction-complete-the-s",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "60 days after the DA declines; conviction → complete the sentence, then the class-based wait."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-20-for-marijuana-reclassify-pre-july-2015-offenses-to-toda",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "For marijuana, reclassify pre-July-2015 offenses to today's level before assessing eligibility — it often"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-21-oregon-set-aside-expungement-agent-training-reference",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:72-107",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-23-charge-dismissed-set-aside-little-none-verify-serious-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Charge dismissed Set aside Little / none Verify serious-charge quirk"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-24-acquittal-not-guilty-set-aside-any-time",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal (not guilty) Set aside Any time —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-25-arrest-no-charges-filed-set-aside-60-days-after-da-decl",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "Arrest, no charges filed Set aside 60 days After DA declines"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-26-class-b-c-misdemeanor-set-aside-1-year-eligible-offense",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Class B/C misdemeanor, Set aside 1 year Eligible offense"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-27-class-a-misdemeanor-set-aside-3-years-eligible-offense",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Class A misdemeanor Set aside 3 years Eligible offense"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-28-class-c-felony-set-aside-5-years-eligible-offense",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Class C felony Set aside 5 years Eligible offense"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-29-class-b-felony-set-aside-7-years-eligible-e-g-many-drug",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Class B felony Set aside 7 years Eligible (e.g., many drug felonies)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-30-marijuana-pre-7-1-2015-set-aside-reclassified-often-imm",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Marijuana (pre-7/1/2015) Set aside Reclassified Often immediate / shorter"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-32-effect-of-relief-when-the-court-grants-the-motion-it-en",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of relief: when the court grants the motion, it enters an order setting aside and sealing the record, and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223"
+    },
+    {
+      "id": "rule-33-under-ors-137-225-8-b-the-arrest-citation-charge-or-con",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "under ORS 137.225(8)(b) the arrest, citation, charge, or conviction is “deemed not to have occurred.” The"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-34-person-may-then-lawfully-answer-that-they-were-never-ar",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "person may then lawfully answer that they were never arrested, cited, or convicted of that offense on most"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-35-tell-users-the-set-aside-is-strong-the-event-is-legally",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tell users the set-aside is strong: the event is legally deemed never to have occurred and they may deny"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-36-match-the-waiting-tier-to-the-highest-offense-class-in-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Match the waiting tier to the highest offense class in the motion, and confirm no disqualifying new"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "rule-37-conviction-same-episode-convictions-excepted",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction (same-episode convictions excepted)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:184-223",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-38-conviction-waits-run-from-the-date-of-conviction-or-rel",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction waits run from the date of conviction or release from imprisonment, whichever is later, and the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143"
+    },
+    {
+      "id": "rule-39-person-must-have-no-other-conviction-during-the-period-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "person must have no other conviction during the period. SB 397 cut these substantially."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-41-dismissed-charge-little-none-dismissal-verify-the-serio",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissed charge Little / none Dismissal (verify the serious-charge quirk)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-42-arrest-no-charges-filed-60-days-da-s-notice-declining-t",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "sourceConditionText": "Arrest, no charges filed 60 days DA's notice declining to prosecute"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-43-class-b-or-c-misdemeanor-1-year-conviction-finding-or-r",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Class B or C misdemeanor, 1 year Conviction/finding or release, later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-44-class-a-misdemeanor-3-years-conviction-or-release-later",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Class A misdemeanor 3 years Conviction or release, later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-45-class-c-felony-5-years-conviction-or-release-later",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Class C felony 5 years Conviction or release, later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-46-class-b-felony-7-years-conviction-or-release-later",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Class B felony 7 years Conviction or release, later"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-48-measured-from-the-most-recent-eligible-conviction-and-i",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "measured from the most recent eligible conviction, and — importantly — a conviction arising from the SAME"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-49-criminal-episode-or-same-course-of-conduct-as-the-offen",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "criminal episode (or same course of conduct) as the offense being set aside does NOT count as a disqualifying"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-52-applicable-class-among-the-convictions-a-person-seeks-t",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "applicable class among the convictions a person seeks to set aside."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-53-yrs-class-c-felony-7-yrs-class-b-felony-measured-from",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "yrs (Class C felony), 7 yrs (Class B felony), measured from conviction or release, whichever is later."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-54-don-t-let-a-same-episode-second-conviction-scare-a-user",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Don't let a same-episode second conviction scare a user off — SB 397 says it doesn't count as a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-55-disqualifying-other-conviction-confirm-sentence-complet",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "disqualifying other conviction. Confirm sentence completion (including restitution) before the clock starts."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:108-143",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-57-class-a-felonies-with-limited-marijuana-related-excepti",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class A felonies (with limited marijuana-related exceptions)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-61-federal-or-out-of-state-convictions-are-not-reachable-b",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Federal or out-of-state convictions are not reachable by ORS 137.225."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "rule-62-firearms-as-of-2024-oregon-state-police-policy-a-set-as",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate restoration process is required."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-64-subsection-9-has-at-times-forced-some-dismissed-serious",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-65-the-agent-must-map-the-offense-to-its-ors-class-check-t",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "The agent must map the offense to its ORS class, check the current eligibility lists, and verify the dismissed-charge timing before declaring eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "rule-66-set-expectations-on-firearms-a-set-aside-seals-the-reco",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Set expectations on firearms: a set-aside seals the record but, under current OSP policy, does not"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:144-183",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "route-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "convicted_other",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:72-107; section:72-107; corpus-unit:28",
+      "candidatePathwayIds": [
+        "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+      ]
+    },
+    {
+      "id": "route-set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "disposition_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "disposition_date"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Set-aside of eligible convictions under ORS 137.225(1)(a)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:72-107; section:72-107; corpus-unit:30",
+      "candidatePathwayIds": [
+        "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ]
+    },
+    {
+      "id": "route-marijuana-specific-set-aside-redesignation",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "marijuana-specific-set-aside-redesignation",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "criminal_history",
+          "identity_error"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "offense_level",
+          "criminal_history",
+          "identity_error"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Marijuana-specific set-aside / redesignation"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:72-107; section:405-423; section:280-305; section:72-107; corpus-unit:31; corpus-unit:81; corpus-unit:110",
+      "candidatePathwayIds": [
+        "marijuana-specific-set-aside-redesignation"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "release (the Class C felony waiting period).",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "makes it eligible immediately or after a much shorter wait.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "a much shorter wait",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "The most accessible relief, with short or no waiting periods:",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "disposition_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year)",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
+      "duration": null,
+      "anchor": "the applicable waiting",
+      "fieldsReferenced": [
+        "case_outcome",
+        "financial_obligations"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "the DA declines",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Disposition / offense class Waiting period Measured from",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Arrest, no charges filed 60 days DA's notice declining to prosecute",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Class A misdemeanor 3 years Conviction or release, later",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "Class C felony 5 years Conviction or release, later",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "Class B felony 7 years Conviction or release, later",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-19",
+      "ruleText": "“other conviction” during the waiting period. The old regime forced a flat 10-year wait whenever a person had",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-20",
+      "ruleText": "more than one conviction, even from one case; that is gone. The waiting period is keyed to the highest",
+      "duration": null,
+      "anchor": "one case",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-21",
+      "ruleText": "Disposition / offense class Waiting period Measured from Dismissed charge Little / none Dismissal (verify the serious-charge quirk) Acquittal None (any time) — Arrest, no charges filed 60 days DA's notice declining to prosecute Class B or C misdemeanor, 1 year Conviction/finding or release, later violation, contempt finding Class A misdemeanor 3 years Conviction or release, later Class C felony 5 years Conviction or release, later Class B felony 7 years Conviction or release, later A central SB 397 improvement is how MULTIPLE convictions are treated.",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "Dismissed charge Little / none Dismissal (verify the serious-charge quirk) Acquittal None (any time)",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-22",
+      "ruleText": "The single waiting period is measured from the most recent eligible conviction, and — importantly — a conviction arising from the SAME criminal episode (or same course of conduct) as the offense being set aside does NOT count as a disqualifying “other conviction” during the waiting period.",
+      "duration": null,
+      "anchor": "the most recent eligible conviction, and — importantly — a conviction arising from the SAME criminal",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-23",
+      "ruleText": "The waiting period is keyed to the highest applicable class among the convictions a person seeks to set aside.",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),",
+      "fieldsReferenced": [
+        "sentence_completion_date"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside).",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Sex offenses requiring registration under ORS 163A.010 and most other sex crimes.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Class A felonies (with limited marijuana-related exceptions).",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Aggravated vehicular homicide and other enumerated serious offenses.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Crimes against vulnerable victims (certain offenses against children or dependent persons).",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Criminal mistreatment and certain offenses against family/household members, as enumerated.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "New conviction during the waiting period (other than a same-episode conviction) resets eligibility.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Pending charges. A person under charge for any crime when the motion is pending is not eligible.",
+      "fieldsReferenced": [
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the sentence is not complete and the clock has not started.",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "financial_obligations"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Federal or out-of-state convictions are not reachable by ORS 137.225.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate restoration process is required.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been",
+      "fieldsReferenced": [
+        "offense_level",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "amended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "The agent must map the offense to its ORS class, check the current eligibility lists, and verify the dismissed-charge timing before declaring eligibility.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "Traffic/DUII, registrable sex offenses, Class A felonies, and serious person crimes are the hard",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "categorical bars — screen for these first; they don't clear with time.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "Set expectations on firearms: a set-aside seals the record but, under current OSP policy, does not",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "restore gun rights — that needs a separate process.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6), (10)). • Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is dismissed is treated differently, but a DUII conviction cannot be set aside). • Sex offenses requiring registration under ORS 163A.010 and most other sex crimes. • Class A felonies (with limited marijuana-related exceptions). • Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault causing serious physical injury, and similar. • Aggravated vehicular homicide and other enumerated serious offenses. • Crimes against vulnerable victims (certain offenses against children or dependent persons). • Criminal mistreatment and certain offenses against family/household members, as enumerated.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "A person under charge for any crime when the motion is pending is not eligible. • Sentence not complete.",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "VERIFY BEFORE RELYING The eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been amended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in subsection (9) has at times forced some DISMISSED serious charges to wait the full conviction period.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "or-setaside-motion.html",
+            "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+            "sizeBytes": 17520
+          },
+          {
+            "fileName": "CriminalSetAside_AdultCases2.pdf",
+            "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+            "sizeBytes": 253599
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:72-107",
+          "section:72-107",
+          "corpus-unit:28"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "pathwayLabel": "Set-aside of eligible convictions under ORS 137.225(1)(a)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "or-setaside-motion.html",
+            "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+            "sizeBytes": 17520
+          },
+          {
+            "fileName": "CriminalSetAside_AdultCases2.pdf",
+            "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+            "sizeBytes": 253599
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:72-107",
+          "section:72-107",
+          "corpus-unit:30"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "marijuana-specific-set-aside-redesignation",
+        "pathwayLabel": "Marijuana-specific set-aside / redesignation",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "or-setaside-motion.html",
+            "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+            "sizeBytes": 17520
+          },
+          {
+            "fileName": "CriminalSetAside_AdultCases2.pdf",
+            "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+            "sizeBytes": 253599
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:72-107",
+          "section:405-423",
+          "section:280-305",
+          "section:72-107",
+          "corpus-unit:31",
+          "corpus-unit:81",
+          "corpus-unit:110"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "Oregon relief is by a motion to set aside filed in the circuit court where the conviction was entered or the",
+      "1 Motion and Affidavit to Set Aside (ORS 137.225) — identifies the case, the offense, the disposition, the",
+      "2 Proposed Order to Set Aside — the order the judge signs; on entry the record is set aside and sealed and the",
+      "4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and",
+      "Use the county's set-aside packet where available; pair the Motion/Affidavit with the proposed Order, and",
+      "Core components of a set-aside filing 1 Motion and Affidavit to Set Aside (ORS 137.225) — identifies the case, the offense, the disposition, the statutory basis, and recites the eligibility facts (sentence completed, waiting period elapsed, no new conviction, no pending charges).",
+      "2 Proposed Order to Set Aside — the order the judge signs; on entry the record is set aside and sealed and the offense is deemed not to have occurred.",
+      "3 Fingerprint card + Oregon State Police record check — for convictions, a set of fingerprints is submitted to the OSP with the statutory fee so the State Police can confirm the criminal history; the OSP and DA receive copies of the motion.",
+      "4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and proof of service on the prosecuting attorney.",
+      "AGENT GUIDANCE Use the county's set-aside packet where available; pair the Motion/Affidavit with the proposed Order, and for convictions include the OSP fingerprint card and fee so the State Police can run the record check."
+    ],
+    "attachments": [
+      "1 Motion and Affidavit to Set Aside (ORS 137.225) — identifies the case, the offense, the disposition, the",
+      "to the OSP with the statutory fee so the State Police can confirm the criminal history; the OSP and DA",
+      "4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and",
+      "proof of service on the prosecuting attorney.",
+      "Serve the prosecuting attorney and keep proof; the DA has a window to object and may request a",
+      "Core components of a set-aside filing 1 Motion and Affidavit to Set Aside (ORS 137.225) — identifies the case, the offense, the disposition, the statutory basis, and recites the eligibility facts (sentence completed, waiting period elapsed, no new conviction, no pending charges).",
+      "3 Fingerprint card + Oregon State Police record check — for convictions, a set of fingerprints is submitted to the OSP with the statutory fee so the State Police can confirm the criminal history; the OSP and DA receive copies of the motion.",
+      "4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and proof of service on the prosecuting attorney.",
+      "1 Get the record. Obtain your Oregon State Police (LEDS) criminal history and the court disposition to",
+      "confirm the offense class, the disposition, sentence-completion dates, and any other convictions.",
+      "5 Serve the prosecuting attorney (district attorney or city attorney) with a copy of the motion.",
+      "seal the record and the offense is deemed not to have occurred. Keep a certified copy of the order.",
+      "Obtain your Oregon State Police (LEDS) criminal history and the court disposition to confirm the offense class, the disposition, sentence-completion dates, and any other convictions.",
+      "Keep a certified copy of the order."
+    ],
+    "filingDestinationRules": [
+      "4 File in the circuit court where the conviction was entered or the citation issued, and submit the fingerprints",
+      "7 Order and sealing. If granted, the court enters the Order to Set Aside; the clerk and the Oregon State Police",
+      "Venue is the circuit court of the county where the conviction was entered or the citation issued — a",
+      "person with cases in several counties files separately in each.",
+      "4 File in the circuit court where the conviction was entered or the citation issued, and submit the fingerprints + fee to the Oregon State Police (SB 397 eliminated the court filing fee for many set-asides; a residual OSP/processing fee around $33 may apply per conviction).",
+      "If granted, the court enters the Order to Set Aside; the clerk and the Oregon State Police seal the record and the offense is deemed not to have occurred.",
+      "AGENT GUIDANCE Venue is the circuit court of the county where the conviction was entered or the citation issued — a person with cases in several counties files separately in each."
+    ],
+    "serviceAndNoticeRules": [
+      "5 Serve the prosecuting attorney (district attorney or city attorney) with a copy of the motion.",
+      "6 DA review / hearing. The prosecutor has a statutory period to object; if there is no objection many courts",
+      "The prosecutor has a statutory period to object; if there is no objection many courts grant on the papers, and if the DA objects the court holds a hearing.",
+      "proof of service on the prosecuting attorney.",
+      "Serve the prosecuting attorney and keep proof; the DA has a window to object and may request a",
+      "4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and proof of service on the prosecuting attorney."
+    ],
+    "feeRules": [
+      "Court filing fee (many set-asides) $0 SB 397 eliminated most court filing fees",
+      "OSP fingerprint / processing fee ~$33 per conviction Residual fee for the State Police record check",
+      "Arrest / dismissed-charge set-aside Often $0 No court fee",
+      "Oregon State Police (LEDS) record OSP fee To confirm record before filing",
+      "Attorney fees (if represented) Varies Not required; legal-aid and set-aside clinics assist",
+      "SB 397 made Oregon set-asides far cheaper by eliminating most court filing fees (a reported saving of roughly",
+      "$281 per case). What typically remains is the Oregon State Police fingerprint/processing fee (around $33 per",
+      "for the record check, plus the cost of obtaining the LEDS criminal history to confirm eligibility. Set-asides of arrests and dismissed charges are often free. Legal-aid organizations and periodic set-aside clinics assist people who cannot afford a lawyer.",
+      "Lead with the good news: most court filing fees were eliminated by SB 397, so the main cost is the ~$33",
+      "OSP processing fee per conviction plus the record-check fee.",
+      "Arrest and dismissed-charge set-asides are usually free — cost should rarely deter a non-conviction",
+      "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+      "Item Amount Note Court filing fee (many set-asides) $0 SB 397 eliminated most court filing fees OSP fingerprint / processing fee ~$33 per conviction Residual fee for the State Police record check Arrest / dismissed-charge set-aside Often $0 No court fee Oregon State Police (LEDS) record OSP fee To confirm record before filing Attorney fees (if represented) Varies Not required; legal-aid and set-aside clinics assist SB 397 made Oregon set-asides far cheaper by eliminating most court filing fees (a reported saving of roughly $281 per case).",
+      "What typically remains is the Oregon State Police fingerprint/processing fee (around $33 per conviction) for the record check, plus the cost of obtaining the LEDS criminal history to confirm eligibility.",
+      "Set-asides of arrests and dismissed charges are often free.",
+      "Legal-aid organizations and periodic set-aside clinics assist people who cannot afford a lawyer.",
+      "AGENT GUIDANCE Lead with the good news: most court filing fees were eliminated by SB 397, so the main cost is the ~$33 OSP processing fee per conviction plus the record-check fee."
+    ],
+    "hearingAndObjectionRules": [
+      "6 DA review / hearing. The prosecutor has a statutory period to object; if there is no objection many courts",
+      "grant on the papers, and if the DA objects the court holds a hearing.",
+      "6 DA review / hearing.",
+      "The prosecutor has a statutory period to object; if there is no objection many courts grant on the papers, and if the DA objects the court holds a hearing."
+    ],
+    "postFilingRules": [
+      "3 Prepare the Motion, Affidavit, and proposed Order citing ORS 137.225, with the eligibility recitals; for",
+      "7 Order and sealing. If granted, the court enters the Order to Set Aside; the clerk and the Oregon State Police",
+      "seal the record and the offense is deemed not to have occurred. Keep a certified copy of the order.",
+      "Oregon Set-Aside (Expungement) — Agent Training Reference · LegalEase",
+      "3 Prepare the Motion, Affidavit, and proposed Order citing ORS 137.225, with the eligibility recitals; for convictions, complete the OSP fingerprint card.",
+      "7 Order and sealing.",
+      "If granted, the court enters the Order to Set Aside; the clerk and the Oregon State Police seal the record and the offense is deemed not to have occurred.",
+      "Keep a certified copy of the order."
+    ],
+    "formInventory": [
+      {
+        "fileName": "CriminalSetAside_AdultCases2.pdf",
+        "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+        "sizeBytes": 253599
+      },
+      {
+        "fileName": "or-setaside-motion.html",
+        "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+        "sizeBytes": 17520
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "CriminalSetAside_AdultCases2.pdf",
+        "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+        "sizeBytes": 253599
+      },
+      {
+        "fileName": "Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Oregon/Oregon-SetAside-Expungement-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "ee9b7ae8dd78839dbfae04494f72f4342a40a49463fe3fd7ad8e053f3777f3e7",
+        "sizeBytes": 32667
+      },
+      {
+        "fileName": "or-setaside-motion.html",
+        "relativePath": "LegalEase Oregon/or-setaside-motion.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
+        "sizeBytes": 17520
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Oregon-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 72,
+      "endLine": 107,
+      "text": "One statute, two broad situations, routed by disposition.\n\nSituation A — Arrests and charges without conviction (137.225(1)(c))\nThe most accessible relief, with short or no waiting periods:\n\n• Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk\ncaution: some dismissed serious charges have at times been forced to wait the same period as a conviction).\n• Acquittal (found not guilty) — may be set aside at any time.\n• Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no\ncharge will be pursued (SB 397 cut this from one year).\n• No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to\nset aside an uncharged arrest.\n\nSituation B — Convictions (137.225(1)(a))\nA person convicted of an eligible offense who has FULLY completed the sentence (all incarceration, probation,\npost-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting\nperiod (Section 2), provided they have no new conviction during that period. Eligible offenses include most\nmisdemeanors, Class C felonies, many Class B felonies, Class A marijuana/racketeering in some cases,\nSchedule I drug-possession offenses, and violations. A person still under supervision has not completed the\nsentence and is not yet eligible.\n\nMarijuana relief\nFollowing decriminalization, Oregon greatly expanded set-asides for marijuana offenses. For set-aside\npurposes, marijuana offenses committed before July 1, 2015 are reclassified to the level they would carry today,\nwhich makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court\nmarijuana-possession judgments have been given expiration relief by statute.\n\nAGENT GUIDANCE\nRoute by disposition. Dismissal → set aside with little/no wait; acquittal → any time; uncharged arrest →\n60 days after the DA declines; conviction → complete the sentence, then the class-based wait.\nFor marijuana, reclassify pre-July-2015 offenses to today's level before assessing eligibility — it often\nshortens or eliminates the wait.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 108,
+      "endLine": 143,
+      "text": "Conviction waits run from the date of conviction or release from imprisonment, whichever is later, and the\nperson must have no other conviction during the period. SB 397 cut these substantially.\n\nDisposition / offense class Waiting period Measured from\n\nDismissed charge Little / none Dismissal (verify the serious-charge quirk)\n\nAcquittal None (any time) —\n\nArrest, no charges filed 60 days DA's notice declining to prosecute\n\nClass B or C misdemeanor, 1 year Conviction/finding or release, later\nviolation, contempt finding\n\nClass A misdemeanor 3 years Conviction or release, later\n\nClass C felony 5 years Conviction or release, later\n\nClass B felony 7 years Conviction or release, later\n\nA central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is\nmeasured from the most recent eligible conviction, and — importantly — a conviction arising from the SAME\ncriminal episode (or same course of conduct) as the offense being set aside does NOT count as a disqualifying\n“other conviction” during the waiting period. The old regime forced a flat 10-year wait whenever a person had\nmore than one conviction, even from one case; that is gone. The waiting period is keyed to the highest\napplicable class among the convictions a person seeks to set aside.\n\nAGENT GUIDANCE\nUse the class tiers: 1 yr (Class B/C misdemeanor, violation, contempt), 3 yrs (Class A misdemeanor), 5\nyrs (Class C felony), 7 yrs (Class B felony), measured from conviction or release, whichever is later.\nDon't let a same-episode second conviction scare a user off — SB 397 says it doesn't count as a\ndisqualifying other conviction. Confirm sentence completion (including restitution) before the clock starts.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 144,
+      "endLine": 183,
+      "text": "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),\n(10)).\n\n• Traffic offenses, including standard DUII convictions — categorically ineligible (a DUII diversion that is\ndismissed is treated differently, but a DUII conviction cannot be set aside).\n• Sex offenses requiring registration under ORS 163A.010 and most other sex crimes.\n• Class A felonies (with limited marijuana-related exceptions).\n• Serious person crimes / violent offenses — murder, manslaughter, criminally negligent homicide, assault\ncausing serious physical injury, and similar.\n• Aggravated vehicular homicide and other enumerated serious offenses.\n• Crimes against vulnerable victims (certain offenses against children or dependent persons).\n• Criminal mistreatment and certain offenses against family/household members, as enumerated.\n\nRecord / timing disqualifiers\n• New conviction during the waiting period (other than a same-episode conviction) resets eligibility.\n• Pending charges. A person under charge for any crime when the motion is pending is not eligible.\n• Sentence not complete. Still being on probation or post-prison supervision (or owing restitution) means the\nsentence is not complete and the clock has not started.\n• Federal or out-of-state convictions are not reachable by ORS 137.225.\n\nImportant effect limit\n• Firearms. As of 2024 Oregon State Police policy, a set-aside does NOT restore firearm rights; a separate\nrestoration process is required.\n\nVERIFY BEFORE RELYING\nThe eligible/ineligible line in ORS 137.225(5)–(6) is defined by offense and class and has been\namended repeatedly (2021 SB 397, plus 2024–2025 changes), and a known drafting quirk in\nsubsection (9) has at times forced some DISMISSED serious charges to wait the full conviction\nperiod. The agent must map the offense to its ORS class, check the current eligibility lists, and\nverify the dismissed-charge timing before declaring eligibility.\n\nAGENT GUIDANCE\nTraffic/DUII, registrable sex offenses, Class A felonies, and serious person crimes are the hard\ncategorical bars — screen for these first; they don't clear with time.\nSet expectations on firearms: a set-aside seals the record but, under current OSP policy, does not\nrestore gun rights — that needs a separate process.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 184,
+      "endLine": 223,
+      "text": "Disposition and offense class drive the timing and eligibility. This table is the agent's primary routing logic for\nOregon.\n\nCase outcome Route Waiting period Note\n\nCharge dismissed Set aside Little / none Verify serious-charge quirk\n\nAcquittal (not guilty) Set aside Any time —\n\nArrest, no charges filed Set aside 60 days After DA declines\n\nClass B/C misdemeanor, Set aside 1 year Eligible offense\nviolation, contempt\n\nClass A misdemeanor Set aside 3 years Eligible offense\n\nClass C felony Set aside 5 years Eligible offense\n\nClass B felony Set aside 7 years Eligible (e.g., many drug felonies)\n\nMarijuana (pre-7/1/2015) Set aside Reclassified Often immediate / shorter\n\nTraffic / DUII / sex-reg. / — Ineligible Categorical bar\nClass A felony / person crime\n\nEffect of relief: when the court grants the motion, it enters an order setting aside and sealing the record, and\nunder ORS 137.225(8)(b) the arrest, citation, charge, or conviction is “deemed not to have occurred.” The\nperson may then lawfully answer that they were never arrested, cited, or convicted of that offense on most\napplications. The order reaches Oregon court and law-enforcement records (OSP/LEDS); it does not reach\nfederal or other states' records, and — per current OSP policy — it does not restore firearm rights.\n\nAGENT GUIDANCE\nTell users the set-aside is strong: the event is legally deemed never to have occurred and they may deny\nit on most applications. But it reaches only Oregon records and doesn't restore firearm rights.\nMatch the waiting tier to the highest offense class in the motion, and confirm no disqualifying new\nconviction (same-episode convictions excepted).\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 224,
+      "endLine": 250,
+      "text": "Oregon relief is by a motion to set aside filed in the circuit court where the conviction was entered or the\ncitation issued. The Oregon Judicial Department and many county courts publish set-aside packets; a State\nPolice fingerprint/record step is required for convictions.\n\nCore components of a set-aside filing\n1 Motion and Affidavit to Set Aside (ORS 137.225) — identifies the case, the offense, the disposition, the\nstatutory basis, and recites the eligibility facts (sentence completed, waiting period elapsed, no new\nconviction, no pending charges).\n\n2 Proposed Order to Set Aside — the order the judge signs; on entry the record is set aside and sealed and the\noffense is deemed not to have occurred.\n3 Fingerprint card + Oregon State Police record check — for convictions, a set of fingerprints is submitted\nto the OSP with the statutory fee so the State Police can confirm the criminal history; the OSP and DA\nreceive copies of the motion.\n\n4 Certificate of completion / proof of sentence completion where needed (e.g., probation discharge), and\nproof of service on the prosecuting attorney.\n\nAGENT GUIDANCE\nUse the county's set-aside packet where available; pair the Motion/Affidavit with the proposed Order, and\nfor convictions include the OSP fingerprint card and fee so the State Police can run the record check.\nServe the prosecuting attorney and keep proof; the DA has a window to object and may request a\nhearing.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 251,
+      "endLine": 279,
+      "text": "1 Get the record. Obtain your Oregon State Police (LEDS) criminal history and the court disposition to\nconfirm the offense class, the disposition, sentence-completion dates, and any other convictions.\n\n2 Confirm eligibility. Arrest/charge vs. conviction; the class-based waiting period; sentence completion\n(including restitution and supervision); no disqualifying new conviction; and that the offense is not\ncategorically excluded.\n\n3 Prepare the Motion, Affidavit, and proposed Order citing ORS 137.225, with the eligibility recitals; for\nconvictions, complete the OSP fingerprint card.\n\n4 File in the circuit court where the conviction was entered or the citation issued, and submit the fingerprints\n+ fee to the Oregon State Police (SB 397 eliminated the court filing fee for many set-asides; a residual\nOSP/processing fee around $33 may apply per conviction).\n5 Serve the prosecuting attorney (district attorney or city attorney) with a copy of the motion.\n6 DA review / hearing. The prosecutor has a statutory period to object; if there is no objection many courts\ngrant on the papers, and if the DA objects the court holds a hearing.\n\n7 Order and sealing. If granted, the court enters the Order to Set Aside; the clerk and the Oregon State Police\nseal the record and the offense is deemed not to have occurred. Keep a certified copy of the order.\n\nAGENT GUIDANCE\nVenue is the circuit court of the county where the conviction was entered or the citation issued — a\nperson with cases in several counties files separately in each.\nThe OSP fingerprint/record step is the usual bottleneck and processing can take many months in some\ncounties; start the LEDS request and fingerprinting early.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 280,
+      "endLine": 305,
+      "text": "• One statute, one remedy. Oregon has no separate sealing vs. expungement tracks — ORS 137.225 sets aside\nAND seals, and the offense is then deemed never to have occurred.\n• SB 397 reset the timelines. Effective 1/1/2022 it cut most waits (e.g., Class B felony to 7 years), removed\nmost filing fees, and ended the old flat 10-year wait for anyone with multiple convictions — older guides are\nunreliable.\n• Same-episode convictions don't disqualify. A second conviction from the same criminal episode is not a\ndisqualifying “other conviction” during the waiting period.\n• The dismissed-serious-charge quirk. A drafting error in subsection (9) has at times forced some dismissed\nserious charges to wait the full conviction period rather than being set aside promptly — verify current\ntreatment.\n• Firearms not restored. Per 2024 OSP policy, a set-aside does not restore firearm rights; a separate\nrestoration is required.\n• Fingerprint + OSP step is mandatory for convictions and is the main source of delay.\n• Processing times vary widely by county — some have run close to two years.\n• Marijuana reclassification. Pre-July-2015 marijuana offenses are reclassified to today's level for set-aside\npurposes, often making them eligible immediately.\n\nAGENT GUIDANCE\nRely on the current statute, not older summaries — SB 397 and the 2024–2025 amendments changed\nthe waits and eligibility substantially.\nFlag two expectations up front: long county processing times, and that a set-aside won't restore gun\nrights.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 306,
+      "endLine": 332,
+      "text": "Item Amount Note\n\nCourt filing fee (many set-asides) $0 SB 397 eliminated most court filing fees\n\nOSP fingerprint / processing fee ~$33 per conviction Residual fee for the State Police record check\n\nArrest / dismissed-charge set-aside Often $0 No court fee\n\nOregon State Police (LEDS) record OSP fee To confirm record before filing\n\nAttorney fees (if represented) Varies Not required; legal-aid and set-aside clinics assist\n\nSB 397 made Oregon set-asides far cheaper by eliminating most court filing fees (a reported saving of roughly\n$281 per case). What typically remains is the Oregon State Police fingerprint/processing fee (around $33 per\nconviction) for the record check, plus the cost of obtaining the LEDS criminal history to confirm eligibility.\nSet-asides of arrests and dismissed charges are often free. Legal-aid organizations and periodic set-aside clinics\nassist people who cannot afford a lawyer.\n\nAGENT GUIDANCE\nLead with the good news: most court filing fees were eliminated by SB 397, so the main cost is the ~$33\nOSP processing fee per conviction plus the record-check fee.\nArrest and dismissed-charge set-asides are usually free — cost should rarely deter a non-conviction\nfiling.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Criminal history (State Police) request process",
+      "category": "filing",
+      "startLine": 333,
+      "endLine": 336,
+      "text": "Confirming the record first establishes the offense class (which sets the waiting tier), the disposition, and the\nsentence-completion dates that start the clock."
+    },
+    {
+      "title": "More than five (5) years have elapsed since conviction/",
+      "category": "pathway_detail",
+      "startLine": 378,
+      "endLine": 382,
+      "text": "release (the Class C felony waiting period).\n5. Defendant has not been convicted of any other offense during\nthe waiting period (any same-episode conviction does not\ncount), and has no criminal charge pending."
+    },
+    {
+      "title": "MARIJUANA (pre-July 1, 2015):",
+      "category": "pathway_detail",
+      "startLine": 405,
+      "endLine": 423,
+      "text": "A pre-7/1/2015 marijuana offense is reclassified to the level\nit would carry today for set-aside purposes, which often\nmakes it eligible immediately or after a much shorter wait.\n\nOrder to Set Aside\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase\n\nThe motion is accompanied by a proposed Order to Set Aside. On entry, the order directs that the record of the\narrest, citation, charge, or conviction be set aside and sealed, directs the Oregon State Police to seal its records,\nand provides that under ORS 137.225(8)(b) the offense is deemed not to have occurred.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Oregon's set-aside statute and\nin 2024–2025; a drafting quirk has affected some dismissed serious charges, and a set-aside does not restore firearm rights under\ncurrent OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,\nOSP request processes, and county procedures before relying on any rule here.\n\nOregon Set-Aside (Expungement) — Agent Training Reference · LegalEase"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 3,
+      "questions": 16,
+      "decisionRules": 70,
+      "waitingRules": 23,
+      "exclusions": 26,
+      "sourceFiles": 3,
+      "officialForms": 2
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

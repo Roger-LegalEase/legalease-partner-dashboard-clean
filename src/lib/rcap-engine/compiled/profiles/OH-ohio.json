@@ -1,0 +1,2951 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "OH",
+    "name": "Ohio",
+    "slug": "ohio"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Ohio/Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "sha256": "2e6c2859e33a125f12f9f0b4778b730012c7c4f6807a014f30c1ca0b559916e8",
+        "sizeBytes": 81040,
+        "score": 2724,
+        "extractedChars": 22406
+      }
+    ],
+    "sourceCorpusSha256": "0109b1358bbee282e159113ced5f86734a6c0cf281c51aca4c3703dedb4552e7",
+    "sourceCorpusChars": 22314,
+    "allFolderFiles": [
+      {
+        "fileName": "Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "relativePath": "LegalEase Ohio/Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "10272aa95c86f55b5a2d4deba20e3f2fa039de45563eeebd0a9f5d3f5c907571",
+        "sizeBytes": 130936
+      },
+      {
+        "fileName": "Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Ohio/Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "2e6c2859e33a125f12f9f0b4778b730012c7c4f6807a014f30c1ca0b559916e8",
+        "sizeBytes": 81040
+      },
+      {
+        "fileName": "SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "relativePath": "LegalEase Ohio/SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "5a14cc82fdd6251fe5d69157e6e0f38e3ff11f0c495c99687640686d735d6206",
+        "sizeBytes": 26035
+      },
+      {
+        "fileName": "SealingorExpunging%20Inst_202504091343476141.pdf",
+        "relativePath": "LegalEase Ohio/SealingorExpunging%20Inst_202504091343476141.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "574bc7e7a97295dcaf3cb31f24be44cbd9d43348d062090a6135b959d4439aa6",
+        "sizeBytes": 292418
+      },
+      {
+        "fileName": "SysServ_CQE_sample_petition.pdf",
+        "relativePath": "LegalEase Ohio/SysServ_CQE_sample_petition.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "33618d64200e60faa92e4eb587f4e2b6aa1ddf3dd466c3c873c56b809b85ac5c",
+        "sizeBytes": 1443665
+      },
+      {
+        "fileName": "sealingsExpungementsRequest.pdf",
+        "relativePath": "LegalEase Ohio/sealingsExpungementsRequest.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "sizeBytes": 235789
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Adult conviction sealing / expungement - 2953.32",
+      "Marijuana / hashish possession expungement - 2953.321",
+      "Human-trafficking survivor conviction expungement - 2953.36",
+      "Certain firearm/carry convictions - 2953.35",
+      "Juvenile sealing and expungement",
+      "Certain marijuana/hashish possession records Expungement under 2953.321 New specific route effective March 20, 2026",
+      "Certain old firearm/carry convictions Expungement under 2953.35 Special narrow route"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status",
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "pending_cases"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Ohio, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Ohio case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "Municipal or ordinance matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Ohio descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32",
+        "Adult non-conviction sealing or expungement under § 2953.33",
+        "Marijuana / hashish possession expungement under § 2953.321",
+        "Human-trafficking-survivor conviction expungement under § 2953.36",
+        "Human-trafficking-survivor non-conviction expungement under § 2953.521",
+        "Certain firearm / carry conviction expungement under § 2953.35",
+        "Juvenile sealing and expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Ohio was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "marijuana-hashish-possession-expungement-2953-321",
+        "juvenile-sealing-and-expungement",
+        "certain-marijuana-hashish-possession-records-expungement-under-2953-321-new-spec"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "certain-marijuana-hashish-possession-records-expungement-under-2953-321-new-spec"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "juvenile-sealing-and-expungement"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "adult-conviction-sealing-expungement-2953-32",
+        "human-trafficking-survivor-conviction-expungement-2953-36"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "adult-conviction-sealing-expungement-2953-32"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "adult-conviction-sealing-expungement-2953-32",
+        "marijuana-hashish-possession-expungement-2953-321",
+        "human-trafficking-survivor-conviction-expungement-2953-36",
+        "certain-firearm-carry-convictions-2953-35",
+        "certain-marijuana-hashish-possession-records-expungement-under-2953-321-new-spec"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "adult-conviction-sealing-expungement-2953-32",
+        "certain-firearm-carry-convictions-2953-35",
+        "juvenile-sealing-and-expungement",
+        "certain-old-firearm-carry-convictions-expungement-under-2953-35-special-narrow-r"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "label": "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32",
+      "summary": "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\") Sealing - 1 or 2 F3 convictions 3 years after final discharge Sealing - F4, F5, or misdemeanor 1 year after final discharge Sealing - soliciting improper compensation under 2921.43 7 years after final discharge…",
+      "sourceRef": "section:52-84; corpus-unit:18",
+      "sourceEvidenceRefs": [
+        "section:52-84",
+        "corpus-unit:18"
+      ],
+      "ruleClauses": [
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+        "Sealing - soliciting improper compensation under 2921.43 7 years after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Sealing - minor misdemeanor 6 months after final discharge",
+        "Expungement - misdemeanor 1 year after final discharge",
+        "Expungement - minor misdemeanor 6 months after final discharge",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - sealing Any time after bail forfeiture entry",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "These timing rules come from 2953.32(B). (",
+        "\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma should flag likely ineligible or manual review if the conviction is:",
+        "most traffic/motor-vehicle chapters: Chapters 4506, 4507, 4510, 4511, or 4549, or substantially similar municipal ordinances;",
+        "felony offense of violence that is not a sexually oriented offense;",
+        "sexually oriented offense while subject to Chapter 2950 registration;",
+        "offense where the victim was under 13, except nonsupport under 2919.21;",
+        "M1 or M2 domestic violence under 2919.25 or similar municipal ordinance;",
+        "F3 where the person has too many other convictions under the statute\u0019s F3 counting rule. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Some offenses are sealable but not expungeable, including M3/M4 domestic violence under 2919.25 and protection-order violations under 2919.27 or substantially similar municipal ordinances. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma rule: Never count cases by memory. Ask for the full docket list and disposition dates.",
+        "\"https://www.ohiolegalhelp.org/topic/seal-criminal-record\") 4. Adult conviction sealing / expungement \u0014 2953.32 Basic eligibility route An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\") Waiting periods \u0014 convictions"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases",
+        "residency_or_location",
+        "offense_category",
+        "disposition_date"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+        "Sealing - soliciting improper compensation under 2921.43 7 years after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Sealing - minor misdemeanor 6 months after final discharge",
+        "Expungement - misdemeanor 1 year after final discharge",
+        "Expungement - minor misdemeanor 6 months after final discharge",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+        "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify"
+      ],
+      "exclusionRules": [
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma should flag likely ineligible or manual review if the conviction is:",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "\"https://www.ohiolegalhelp.org/topic/seal-criminal-record\") 4. Adult conviction sealing / expungement \u0014 2953.32 Basic eligibility route An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\") Waiting periods \u0014 convictions"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "label": "Adult non-conviction sealing or expungement under § 2953.33",
+      "summary": "Ohio\u0019s non-conviction route covers not guilty findings, dismissals, grand jury no bills, and pardons. Not guilty Any time after entry Dismissal Any time after dismissal entry, subject to limitations and multiple-charge rules No bill Usually 2 years after grand jury reports the no bill Governor pardon Any time after absolute/partial pardon, or after pardon conditions are met",
+      "sourceRef": "section:85-99; corpus-unit:23",
+      "sourceEvidenceRefs": [
+        "section:85-99",
+        "corpus-unit:23"
+      ],
+      "ruleClauses": [
+        "Ohio\u0019s non-conviction route covers not guilty findings, dismissals, grand jury no bills, and pardons.",
+        "Not guilty Any time after entry",
+        "Dismissal Any time after dismissal entry, subject to limitations and multiple-charge rules",
+        "No bill Usually 2 years after grand jury reports the no bill",
+        "Governor pardon Any time after absolute/partial pardon, or after pardon conditions are met",
+        "For dismissals, the court must determine whether the dismissal was with or without prejudice; if without prejudice, it must determine whether the statute of limitations has expired. The court also checks pending proceedings, prosecutor objections, and whether the person\u0019s interest outweighs legitimate government needs. (",
+        "\"https://codes.ohio.gov/ohio-revised-code/section-2953.33\")",
+        "Wilma rule: A dismissal is not always simple. If it was dismissed without prejudice and the statute of limitations has not expired, do not tell the user the record is ready.",
+        "Multiple charges from the same act - 2953.61 Ohio has a trap rule for mixed-disposition cases. If a person was charged with two or more offenses from the same act and at least one charge has a different final disposition than the others, they generally cannot seal or expunge only part of the record until they can seal/expunge all related charges. There is a limited exception for certain traffic convictions, but the court cannot order only a portion of those records sealed or expunged. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.61\") Wilma rule: If one incident produced multiple charges, ask for every charge and every disposition before routing.",
+        "Non-conviction sealing / expungement \u0014 2953.33 Ohio\u0019s non-conviction route covers not guilty findings, dismissals, grand jury no bills, and pardons."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "pending_cases",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - soliciting improper compensation under 2921.43 7 years after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+        "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify",
+        "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense",
+        "Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded",
+        "Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor",
+        "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+      ],
+      "exclusionRules": [
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "Multiple charges from the same act - 2953.61 Ohio has a trap rule for mixed-disposition cases. If a person was charged with two or more offenses from the same act and at least one charge has a different final disposition than the others, they generally cannot seal or expunge only part of the record until they can seal/expunge all related charges. There is a limited exception for certain traffic convictions, but the court cannot order only a portion of those records sealed or expunged. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.61\") Wilma rule: If one incident produced multiple charges, ask for every charge and every disposition before routing."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "marijuana-hashish-possession-expungement-under-2953-321",
+      "label": "Marijuana / hashish possession expungement under § 2953.321",
+      "summary": "Ohio has a specific marijuana/hashish possession expungement route effective March 20, 2026. It applies to certain dismissed, convicted, or guilty-plea records involving specified marijuana or hashish possession offenses under 2925.11, including hashish possession of not more than 15 grams for certain divisions. The person applies to the sentencing court, and the application must identify the applicant, offense, date, court, evidence of eligibility, and request expungement. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\") The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s…",
+      "sourceRef": "section:100-103; corpus-unit:30",
+      "sourceEvidenceRefs": [
+        "section:100-103",
+        "corpus-unit:30"
+      ],
+      "ruleClauses": [
+        "Ohio has a specific marijuana/hashish possession expungement route effective March 20, 2026. It applies to certain dismissed, convicted, or guilty-plea records involving specified marijuana or hashish possession offenses under 2925.11, including hashish possession of not more than 15 grams for certain divisions. The person applies to the sentencing court, and the application must identify the applicant, offense, date, court, evidence of eligibility, and request expungement. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "Wilma rule: Do not route every marijuana case here. Confirm the exact 2925.11 division, substance, amount, and whether the conviction/dismissal/plea occurred before the effective date of the section.",
+        "Marijuana / hashish possession expungement \u0014 2953.321 Ohio has a specific marijuana/hashish possession expungement route effective March 20, 2026."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense",
+        "Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded",
+        "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted",
+        "Case type Sealing wait Expungement wait Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge Misdemeanor conviction 1 year after final discharge 1 year after final discharge F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date 2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense Not guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor Marijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met Human-trafficking survivor conviction Specific expungement route Any time Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+      ],
+      "exclusionRules": [
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "human-trafficking-survivor-conviction-expungement-under-2953-36",
+      "label": "Human-trafficking-survivor conviction expungement under § 2953.36",
+      "summary": "Ohio allows expungement of certain convictions where the person\u0019s participation in the offense resulted from being a victim of human trafficking. It covers people convicted of prostitution-related offenses under 2907.24, 2907.241, or 2907.25, and also people convicted of a misdemeanor or F4/F5 whose participation resulted from trafficking victimization. The application may be filed at any time and can request relief for more than one offense, though the court considers each offense separately. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\") The evidentiary standard depends on the route: preponderance of the evidence for the…",
+      "sourceRef": "section:104-109; overview:9-23; section:9-23; corpus-unit:7; corpus-unit:35",
+      "sourceEvidenceRefs": [
+        "section:104-109",
+        "overview:9-23",
+        "section:9-23",
+        "corpus-unit:7",
+        "corpus-unit:35"
+      ],
+      "ruleClauses": [
+        "Ohio allows expungement of certain convictions where the person\u0019s participation in the offense resulted from being a victim of human trafficking. It covers people convicted of prostitution-related offenses under 2907.24, 2907.241, or 2907.25, and also people convicted of a misdemeanor or F4/F5 whose participation resulted from trafficking victimization. The application may be filed at any time and can request relief for more than one offense, though the court considers each offense separately. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Was this charge connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you to do something connected to the case?",
+        "Human-trafficking survivor conviction Expungement under 2953.36 Can apply any time; standard depends on offense category",
+        "Human-trafficking survivor dismissal/not guilty Expungement under 2953.521 Can apply any time after dismissal/not-guilty entry",
+        "User\u0019s case outcome First Wilma route Ohio treatment",
+        "Adult conviction - eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only",
+        "Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review",
+        "Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules",
+        "Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report",
+        "Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met",
+        "Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any time after entry; expungement generally after 1 year, or 6 months for minor misdemeanor",
+        "Certain marijuana/hashish possession records Expungement under 2953.321 New specific route effective March 20, 2026",
+        "Certain old firearm/carry convictions Expungement under 2953.35 Special narrow route",
+        "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356",
+        "User\u0019s case outcome First Wilma route Ohio treatment Adult conviction \u0014 eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any…",
+        "Human-trafficking survivor conviction expungement \u0014 2953.36 Ohio allows expungement of certain convictions where the person\u0019s participation in the offense resulted from being a victim of human trafficking."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "trafficking_status",
+        "age_at_offense",
+        "pardon_status",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other",
+        "dismissed",
+        "acquitted",
+        "convicted_felony",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "special",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Sealing - minor misdemeanor 6 months after final discharge",
+        "Expungement - misdemeanor 1 year after final discharge",
+        "Expungement - minor misdemeanor 6 months after final discharge",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+        "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify",
+        "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense"
+      ],
+      "exclusionRules": [
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma should flag likely ineligible or manual review if the conviction is:",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only",
+        "Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review",
+        "User\u0019s case outcome First Wilma route Ohio treatment Adult conviction \u0014 eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any…"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+      "label": "Human-trafficking-survivor non-conviction expungement under § 2953.521",
+      "summary": "A person found not guilty or named in a dismissed complaint, indictment, or information may seek expungement if the case resulted from the person being a victim of human trafficking. The application may be filed any time after the not-guilty or dismissal entry. The court checks trafficking connection by preponderance of the evidence, dismissal prejudice/statute-of-limitations issues, pending criminal proceedings, prosecutor objections, and government-interest balancing. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.521\") Human-trafficking survivor non-conviction expungement \u0014 2953.521 A person found not guilty or named in a…",
+      "sourceRef": "section:110-111; corpus-unit:40; overview:9-23; summary:215-217; waiting_periods:166-180",
+      "sourceEvidenceRefs": [
+        "section:110-111",
+        "corpus-unit:40",
+        "overview:9-23",
+        "summary:215-217",
+        "waiting_periods:166-180"
+      ],
+      "ruleClauses": [
+        "A person found not guilty or named in a dismissed complaint, indictment, or information may seek expungement if the case resulted from the person being a victim of human trafficking. The application may be filed any time after the not-guilty or dismissal entry. The court checks trafficking connection by preponderance of the evidence, dismissal prejudice/statute-of-limitations issues, pending criminal proceedings, prosecutor objections, and government-interest balancing. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.521\")",
+        "Human-trafficking survivor non-conviction expungement \u0014 2953.521 A person found not guilty or named in a dismissed complaint, indictment, or information may seek expungement if the case resulted from the person being a victim of human trafficking.",
+        "Human-trafficking survivor dismissal/not guilty Expungement under 2953.521 Can apply any time after dismissal/not-guilty entry",
+        "Human-trafficking survivor conviction Expungement under 2953.36 Can apply any time; standard depends on offense category",
+        "Ohio has both sealing and expungement.Convictions route through 2953.32 unless a special statute applies.Dismissals/not-guilty/no-bill route through 2953.33.F1/F2, felony violence, active sex-offender registration, most traffic, theft in office, domestic violence, protection order, victim-under-13, and some F3 patterns are major danger zones.Marijuana/hashish now has a special 2026 expungement path.Human-trafficking survivor relief is broad and trauma-sensitive.Juvenile records are separate and often seal first, then expunge later.Do not promise relief until Wilma has the docket, exact statute, disposition, final discharge date, and pending-charge status.",
+        "Human-trafficking survivor conviction Specific expungement route Any time",
+        "Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report",
+        "Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules",
+        "Adult conviction - eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "age_at_offense",
+        "trafficking_status",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "special",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+        "Sealing - soliciting improper compensation under 2921.43 7 years after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Sealing - minor misdemeanor 6 months after final discharge",
+        "Expungement - misdemeanor 1 year after final discharge",
+        "Expungement - minor misdemeanor 6 months after final discharge",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+        "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify"
+      ],
+      "exclusionRules": [
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma should flag likely ineligible or manual review if the conviction is:",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "certain-firearm-carry-conviction-expungement-under-2953-35",
+      "label": "Certain firearm / carry conviction expungement under § 2953.35",
+      "summary": "Ohio has a narrow expungement route for certain older firearm/carry-related convictions, including specified former versions of 2923.16 and 2923.12. The application is filed in the sentencing court; the court checks whether the conduct would no longer violate the relevant provision, considers prosecutor objections, and weighs the applicant\u0019s interest against government needs. The fee is $50 unless indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.35\") Wilma rule: Do not treat this as a general firearm expungement. It is tied to specific old statutory versions and authorization language. Prosecutor application for low-level…",
+      "sourceRef": "section:112-121; overview:9-23; section:9-23; corpus-unit:7; corpus-unit:43",
+      "sourceEvidenceRefs": [
+        "section:112-121",
+        "overview:9-23",
+        "section:9-23",
+        "corpus-unit:7",
+        "corpus-unit:43"
+      ],
+      "ruleClauses": [
+        "Ohio has a narrow expungement route for certain older firearm/carry-related convictions, including specified former versions of 2923.16 and 2923.12. The application is filed in the sentencing court; the court checks whether the conduct would no longer violate the relevant provision, considers prosecutor objections, and weighs the applicant\u0019s interest against government needs. The fee is $50 unless indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.35\")",
+        "Wilma rule: Do not treat this as a general firearm expungement. It is tied to specific old statutory versions and authorization language.",
+        "Prosecutor application for low-level controlled substance offenses - 2953.39 For a low-level controlled substance offense, the prosecutor may apply to the sentencing court to seal or expunge the record.",
+        "Low-level controlled substance offense",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "Wilma rule: This is a prosecutor-initiated pathway, not the normal user-filed application. Flag it as",
+        "ask prosecutor / legal aid review.",
+        "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356",
+        "User\u0019s case outcome First Wilma route Ohio treatment",
+        "Adult conviction - eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only",
+        "Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review",
+        "Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules",
+        "Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report",
+        "Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met",
+        "Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any time after entry; expungement generally after 1 year, or 6 months for minor misdemeanor",
+        "Certain marijuana/hashish possession records Expungement under 2953.321 New specific route effective March 20, 2026",
+        "Human-trafficking survivor conviction Expungement under 2953.36 Can apply any time; standard depends on offense category",
+        "Human-trafficking survivor dismissal/not guilty Expungement under 2953.521 Can apply any time after dismissal/not-guilty entry",
+        "Certain old firearm/carry convictions Expungement under 2953.35 Special narrow route",
+        "User\u0019s case outcome First Wilma route Ohio treatment Adult conviction \u0014 eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any…",
+        "Certain firearm/carry convictions \u0014 2953.35 Ohio has a narrow expungement route for certain older firearm/carry-related convictions, including specified former versions of 2923.16 and 2923.12."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "age_at_offense",
+        "record_type",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+        "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Sealing - minor misdemeanor 6 months after final discharge",
+        "Expungement - misdemeanor 1 year after final discharge",
+        "Expungement - minor misdemeanor 6 months after final discharge",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+        "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify",
+        "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense"
+      ],
+      "exclusionRules": [
+        "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356",
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "Wilma should flag likely ineligible or manual review if the conviction is:",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only",
+        "Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review",
+        "User\u0019s case outcome First Wilma route Ohio treatment Adult conviction \u0014 eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any…"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "juvenile-sealing-and-expungement",
+      "label": "Juvenile sealing and expungement",
+      "summary": "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\") For juvenile expungement, 2151.358 requires the juvenile…",
+      "sourceRef": "section:122-124; corpus-unit:51",
+      "sourceEvidenceRefs": [
+        "section:122-124",
+        "corpus-unit:51"
+      ],
+      "ruleClauses": [
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Juvenile sealing and expungement Juvenile records use separate law."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+        "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+        "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify",
+        "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted",
+        "Case type Sealing wait Expungement wait Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge Misdemeanor conviction 1 year after final discharge 1 year after final discharge F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date 2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense Not guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor Marijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met Human-trafficking survivor conviction Specific expungement route Any time Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+      ],
+      "exclusionRules": [
+        "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+        "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+        "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+        "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-02-adult-f1-or-f2-conviction-usually-ineligible-under-norm",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "rule-03-adult-felony-offense-of-violence-usually-ineligible-und",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Adult felony offense of violence Usually ineligible under normal 2953.32 Manual review"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-12-juvenile-record-juvenile-sealing-under-2151-356-later-e",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "juvenile-sealing-and-expungement",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521"
+      ]
+    },
+    {
+      "id": "rule-01-adult-conviction-eligible-misdemeanor-f4-f5-some-f3-sea",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction - eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+      ]
+    },
+    {
+      "id": "rule-04-dismissal-not-guilty-non-conviction-sealing-or-expungem",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Dismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "sourceConditionText": "Grand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-06-governor-pardon-sealing-under-2953-33-may-apply-after-p",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Governor pardon Sealing under 2953.33 May apply after pardon or after conditions are met"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "juvenile-sealing-and-expungement",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-07-misdemeanor-bail-forfeiture-sealing-expungement-under-2",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Misdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any time after entry; expungement generally after 1 year, or 6 months for minor misdemeanor"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+      ]
+    },
+    {
+      "id": "rule-08-certain-marijuana-hashish-possession-records-expungemen",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Certain marijuana/hashish possession records Expungement under 2953.321 New specific route effective March 20, 2026"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "rule-09-human-trafficking-survivor-conviction-expungement-under",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking survivor conviction Expungement under 2953.36 Can apply any time; standard depends on offense category"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33"
+      ]
+    },
+    {
+      "id": "rule-10-human-trafficking-survivor-dismissal-not-guilty-expunge",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Human-trafficking survivor dismissal/not guilty Expungement under 2953.521 Can apply any time after dismissal/not-guilty entry"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-11-certain-old-firearm-carry-convictions-expungement-under",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Certain old firearm/carry convictions Expungement under 2953.35 Special narrow route"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-23",
+      "candidatePathwayIds": [
+        "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-13-case-type-sealing-wait-expungement-wait",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Case type Sealing wait Expungement wait"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180"
+    },
+    {
+      "id": "rule-14-minor-misdemeanor-conviction-6-months-after-final-disch",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "juvenile"
+        ],
+        "duration": {
+          "value": 6,
+          "unit": "months",
+          "raw": "6 months"
+        },
+        "sourceConditionText": "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-15-misdemeanor-conviction-1-year-after-final-discharge-1-y",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Misdemeanor conviction 1 year after final discharge 1 year after final discharge"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-16-f4-f5-conviction-1-year-after-final-discharge-10-years-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33"
+      ]
+    },
+    {
+      "id": "rule-17-one-or-two-f3-convictions-3-years-after-final-discharge",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "rule-18-2921-43-soliciting-improper-compensation-7-years-after-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "juvenile-sealing-and-expungement",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-19-former-chapter-2950-registration-case-5-years-after-reg",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "rule-20-not-guilty-dismissal-any-time-after-entry-subject-to-di",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Not guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-21-grand-jury-no-bill-2-years-after-no-bill-report-same-ro",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "sourceConditionText": "Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-22-misdemeanor-bail-forfeiture-any-time-after-entry-1-year",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+      ]
+    },
+    {
+      "id": "rule-23-marijuana-hashish-2953-321-specific-expungement-route-a",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "rule-24-human-trafficking-survivor-conviction-specific-expungem",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking survivor conviction Specific expungement route Any time"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "rule-25-juvenile-sealed-record-juvenile-sealing-first-expunged-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "juvenile-sealing-and-expungement",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "rule-26-ohio-has-both-sealing-and-expungement-convictions-route",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "charge",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Ohio has both sealing and expungement.Convictions route through 2953.32 unless a special statute applies.Dismissals/not-guilty/no-bill route through 2953.33.F1/F2, felony violence, active sex-offender registration, most traffic, theft in office, domestic violence, protection order, victim-under-13, and some F3 patterns are major danger zones.Marijuana/hashish now has a special 2026 expungement path.Human-trafficking survivor relief is broad and trauma-sensitive.Juvenile records are separate and often seal first, then expunge later.Do not promise relief until Wilma has the docket, exact statute, disposition, final discharge date, and pending-charge status."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:215-217",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "marijuana-hashish-possession-expungement-under-2953-321",
+        "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "route-adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "residency_or_location",
+          "offense_category",
+          "disposition_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases",
+          "residency_or_location",
+          "offense_category",
+          "disposition_date"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:52-84; corpus-unit:18",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+      ]
+    },
+    {
+      "id": "route-adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "pending_cases",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "pending_cases",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult non-conviction sealing or expungement under § 2953.33"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:85-99; corpus-unit:23",
+      "candidatePathwayIds": [
+        "adult-non-conviction-sealing-or-expungement-under-2953-33"
+      ]
+    },
+    {
+      "id": "route-marijuana-hashish-possession-expungement-under-2953-321",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "marijuana-hashish-possession-expungement-under-2953-321",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Marijuana / hashish possession expungement under § 2953.321"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:100-103; corpus-unit:30",
+      "candidatePathwayIds": [
+        "marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-survivor-conviction-expungement-under-2953-36",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "trafficking_status",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "trafficking_status",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other",
+          "dismissed",
+          "acquitted",
+          "convicted_felony",
+          "juvenile"
+        ],
+        "sourceConditionText": "Human-trafficking-survivor conviction expungement under § 2953.36"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:104-109; overview:9-23; section:9-23; corpus-unit:7; corpus-unit:35",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-conviction-expungement-under-2953-36"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "age_at_offense",
+          "trafficking_status",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "age_at_offense",
+          "trafficking_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Human-trafficking-survivor non-conviction expungement under § 2953.521"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:110-111; corpus-unit:40; overview:9-23; summary:215-217; waiting_periods:166-180",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-non-conviction-expungement-under-2953-521"
+      ]
+    },
+    {
+      "id": "route-certain-firearm-carry-conviction-expungement-under-2953-35",
+      "priority": 85,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "age_at_offense",
+          "record_type",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "age_at_offense",
+          "record_type",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Certain firearm / carry conviction expungement under § 2953.35"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:112-121; overview:9-23; section:9-23; corpus-unit:7; corpus-unit:43",
+      "candidatePathwayIds": [
+        "certain-firearm-carry-conviction-expungement-under-2953-35"
+      ]
+    },
+    {
+      "id": "route-juvenile-sealing-and-expungement",
+      "priority": 86,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-sealing-and-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile sealing and expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:122-124; corpus-unit:51",
+      "candidatePathwayIds": [
+        "juvenile-sealing-and-expungement"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Sealing - 1 or 2 F3 convictions 3 years after final discharge",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Sealing - F4, F5, or misdemeanor 1 year after final discharge",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Sealing - soliciting improper compensation under 2921.43 7 years after final discharge",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Sealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "registration requirements end or terminate",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Sealing - minor misdemeanor 6 months after final discharge",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "6 months"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Expungement - misdemeanor 1 year after final discharge",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Expungement - minor misdemeanor 6 months after final discharge",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "6 months"
+      },
+      "anchor": "final discharge",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "the date the person first becomes eligible to apply for sealing for that felony",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Misdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "entry",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+      "duration": {
+        "value": 3,
+        "unit": "months",
+        "raw": "three months"
+      },
+      "anchor": "the same indictment, plea, or official proceeding involving related acts within three months may cou",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": "filing",
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
+      "duration": null,
+      "anchor": "the corresponding 2953",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "five years"
+      },
+      "anchor": "the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier",
+      "fieldsReferenced": [
+        "court",
+        "age_at_offense",
+        "record_type"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "6 months"
+      },
+      "anchor": "final discharge 6 months after final discharge",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Misdemeanor conviction 1 year after final discharge 1 year after final discharge",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "final discharge 1 year after final discharge",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "final discharge 10 years after sealing eligibility date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "final discharge 10 years after sealing eligibility date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "final discharge Treat as felony expungement timing if felony",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-19",
+      "ruleText": "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "registration ends/terminates Verify statute and offense",
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-20",
+      "ruleText": "Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "no-bill report Same route under 2953",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-21",
+      "ruleText": "Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "entry 1 year after entry, or 6 months for minor misdemeanor",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-22",
+      "ruleText": "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "sealing or by age 23, whichever earlier, unless earlier application granted",
+      "fieldsReferenced": [
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-23",
+      "ruleText": "Case type Sealing wait Expungement wait Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge Misdemeanor conviction 1 year after final discharge 1 year after final discharge F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date 2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense Not guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor Marijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met Human-trafficking survivor conviction Specific expungement route Any time Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "6 months"
+      },
+      "anchor": "final discharge 6 months after final discharge Misdemeanor conviction 1 year after final discharge 1",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "charge",
+        "age_at_offense"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "court",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Wilma should flag likely ineligible or manual review if the conviction is:",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "The evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "charge",
+        "age_at_offense",
+        "record_type"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Juvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356",
+      "fieldsReferenced": [
+        "case_outcome",
+        "age_at_offense",
+        "record_type"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "pathwayLabel": "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:52-84",
+          "corpus-unit:18"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "pathwayLabel": "Adult non-conviction sealing or expungement under § 2953.33",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:85-99",
+          "corpus-unit:23"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "marijuana-hashish-possession-expungement-under-2953-321",
+        "pathwayLabel": "Marijuana / hashish possession expungement under § 2953.321",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:100-103",
+          "corpus-unit:30"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "pathwayLabel": "Human-trafficking-survivor conviction expungement under § 2953.36",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:104-109",
+          "overview:9-23",
+          "section:9-23",
+          "corpus-unit:7",
+          "corpus-unit:35"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "pathwayLabel": "Human-trafficking-survivor non-conviction expungement under § 2953.521",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:110-111",
+          "corpus-unit:40",
+          "overview:9-23",
+          "summary:215-217",
+          "waiting_periods:166-180"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "certain-firearm-carry-conviction-expungement-under-2953-35",
+        "pathwayLabel": "Certain firearm / carry conviction expungement under § 2953.35",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:112-121",
+          "overview:9-23",
+          "section:9-23",
+          "corpus-unit:7",
+          "corpus-unit:43"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-sealing-and-expungement",
+        "pathwayLabel": "Juvenile sealing and expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:122-124",
+          "corpus-unit:51"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "Ohio does not have one mandatory statewide form packet for every court. Wilma should use generic form names, then route the user to the court where the case was filed for that court\u0019s packet.",
+      "Route Form name Wilma should look for",
+      "Adult conviction sealing/expungement Application to Seal/Expunge Criminal Record or similar local court form",
+      "Dismissal / not guilty / no bill Application to Seal/Expunge Official Records After Dismissal, Not Guilty Finding, or No Bill or similar local form",
+      "Marijuana/hashish expungement Application for Expungement of Marijuana or Hashish Possession Offense",
+      "Human-trafficking survivor conviction Application to Expunge Conviction as Victim of Human Trafficking",
+      "Juvenile sealing Juvenile court Application to Seal Juvenile Record",
+      "Juvenile expungement Juvenile court Application to Expunge Sealed Juvenile Record",
+      "BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI",
+      "Ohio Legal Help says to get the application forms from the court where the charge was filed and warns that courts may have different packets for convictions and non-convictions. The Ohio Attorney General says signed sealing orders should be sent to BCI with the sealing/expungement request form. (",
+      "Ohio does not have one mandatory statewide form packet for every court.",
+      "Wilma should use generic form names, then route the user to the court where the case was filed for that court\u0019s packet.",
+      "Route Form name Wilma should look for Adult conviction sealing/expungement Application to Seal/Expunge Criminal Record or similar local court form Dismissal / not guilty / no bill Application to Seal/Expunge Official Records After Dismissal, Not Guilty Finding, or No Bill or similar local form Marijuana/hashish expungement Application for Expungement of Marijuana or Hashish Possession Offense Human-trafficking survivor conviction Application to Expunge Conviction as Victim of Human Trafficking Juvenile sealing Juvenile court Application to Seal Juvenile Record Juvenile expungement Juvenile court Application to Expunge Sealed Juvenile Record BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI Ohio Legal Help says to get the application forms from the court where the charge was filed and warns that courts may have different packets for convictions and non-convictions.",
+      "The Ohio Attorney General says signed sealing orders should be sent to BCI with the sealing/expungement request form. ( \"https://www.ohiolegalhelp.org/topic/seal-criminal-record\")"
+    ],
+    "attachments": [
+      "BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI",
+      "Route Form name Wilma should look for Adult conviction sealing/expungement Application to Seal/Expunge Criminal Record or similar local court form Dismissal / not guilty / no bill Application to Seal/Expunge Official Records After Dismissal, Not Guilty Finding, or No Bill or similar local form Marijuana/hashish expungement Application for Expungement of Marijuana or Hashish Possession Offense Human-trafficking survivor conviction Application to Expunge Conviction as Victim of Human Trafficking Juvenile sealing Juvenile court Application to Seal Juvenile Record Juvenile expungement Juvenile court Application to Expunge Sealed Juvenile Record BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI Ohio Legal Help says to get the application forms from the court where the charge was filed and warns that courts may have different packets for convictions and non-convictions.",
+      "Wilma should tell the user to start with a complete Ohio BCI criminal history and the docket from every court involved. The Ohio Attorney General says a person can request their own computerized BCI criminal history by submitting identifying information, fingerprints, signed consent, and a $22 payment. BCI also has a free",
+      "Wilma should tell the user to start with a complete Ohio BCI criminal history and the docket from every court involved.",
+      "The Ohio Attorney General says a person can request their own computerized BCI criminal history by submitting identifying information, fingerprints, signed consent, and a $22 payment.",
+      "BCI also has a free Challenge & Review process for disputing inaccurate or incomplete Ohio criminal-history records. (\"https://www.ohioattorneygeneral.gov/Individuals-and-Families/Consumers/Requesting-Your-Own-Criminal-Records\") Collect: full legal name and prior names; date of birth; county and court; case number; arrest date; each charge and statute; each final disposition; offense degree; conviction/sentence date; final discharge date; whether all fines that are part of the sentence were paid; probation, parole, PRC, or supervision completion date; whether there are open warrants or pending charges; whether there are multiple charges from the same incident; victim age; whether the offense involved violence, sex-offender registration, domestic violence, protection order, traffic/motor vehicle, or public office/theft in office; whether trafficking, coercion, or exploitation was involved."
+    ],
+    "filingDestinationRules": [
+      "Wilma should tell the user to start with a complete Ohio BCI criminal history and the docket from every court involved. The Ohio Attorney General says a person can request their own computerized BCI criminal history by submitting identifying information, fingerprints, signed consent, and a $22 payment. BCI also has a free",
+      "The Ohio Attorney General says a person can request their own computerized BCI criminal history by submitting identifying information, fingerprints, signed consent, and a $22 payment."
+    ],
+    "serviceAndNoticeRules": [
+      "BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI",
+      "Route Form name Wilma should look for Adult conviction sealing/expungement Application to Seal/Expunge Criminal Record or similar local court form Dismissal / not guilty / no bill Application to Seal/Expunge Official Records After Dismissal, Not Guilty Finding, or No Bill or similar local form Marijuana/hashish expungement Application for Expungement of Marijuana or Hashish Possession Offense Human-trafficking survivor conviction Application to Expunge Conviction as Victim of Human Trafficking Juvenile sealing Juvenile court Application to Seal Juvenile Record Juvenile expungement Juvenile court Application to Expunge Sealed Juvenile Record BCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI Ohio Legal Help says to get the application forms from the court where the charge was filed and warns that courts may have different packets for convictions and non-convictions."
+    ],
+    "feeRules": [
+      "2953.32 conviction/bail forfeiture sealing or expungement $50 application fee unless indigent, plus possible local court fee up to $50",
+      "Dismissal / not guilty / no bill sealing Ohio Legal Help says no fee",
+      "2953.321 marijuana/hashish expungement $50 unless indigent",
+      "2953.35 firearm/carry expungement $50 unless indigent",
+      "2953.36 trafficking survivor conviction expungement $50 unless indigent",
+      "Juvenile sealing/expungement No filing fee under juvenile sealing statute",
+      "The current 2953.32 fee provision allows a $50 application fee and a possible local court fee of not more than $50; Ohio Legal Help says there is no fee for dismissals, not-guilty cases, or no-bill charges. (",
+      "\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
+      "Route Fee 2953.32 conviction/bail forfeiture sealing or expungement $50 application fee unless indigent, plus possible local court fee up to $50 Dismissal / not guilty / no bill sealing Ohio Legal Help says no fee 2953.321 marijuana/hashish expungement $50 unless indigent 2953.35 firearm/carry expungement $50 unless indigent 2953.36 trafficking survivor conviction expungement $50 unless indigent Juvenile sealing/expungement No filing fee under juvenile sealing statute The current 2953.32 fee provision allows a $50 application fee and a possible local court fee of not more than $50; Ohio Legal Help says there is no fee for dismissals, not-guilty cases, or no-bill charges. ( \"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")"
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "whether the offense involved violence, sex-offender registration, domestic violence, protection order, traffic/motor vehicle, or public office/theft in office;",
+      "BCI also has a free Challenge & Review process for disputing inaccurate or incomplete Ohio criminal-history records. (\"https://www.ohioattorneygeneral.gov/Individuals-and-Families/Consumers/Requesting-Your-Own-Criminal-Records\") Collect: full legal name and prior names; date of birth; county and court; case number; arrest date; each charge and statute; each final disposition; offense degree; conviction/sentence date; final discharge date; whether all fines that are part of the sentence were paid; probation, parole, PRC, or supervision completion date; whether there are open warrants or pending charges; whether there are multiple charges from the same incident; victim age; whether the offense involved violence, sex-offender registration, domestic violence, protection order, traffic/motor vehicle, or public office/theft in office; whether trafficking, coercion, or exploitation was involved.",
+      "Ohio has both sealing and expungement.Convictions route through 2953.32 unless a special statute applies.Dismissals/not-guilty/no-bill route through 2953.33.F1/F2, felony violence, active sex-offender registration, most traffic, theft in office, domestic violence, protection order, victim-under-13, and some F3 patterns are major danger zones.Marijuana/hashish now has a special 2026 expungement path.Human-trafficking survivor relief is broad and trauma-sensitive.Juvenile records are separate and often seal first, then expunge later.Do not promise relief until Wilma has the docket, exact statute, disposition, final discharge date, and pending-charge status.",
+      "For Ohio, train Wilma with this core logic: Ohio has both sealing and expungement.Convictions route through 2953.32 unless a special statute applies.Dismissals/not-guilty/no-bill route through 2953.33.F1/F2, felony violence, active sex-offender registration, most traffic, theft in office, domestic violence, protection order, victim-under-13, and some F3 patterns are major danger zones.Marijuana/hashish now has a special 2026 expungement path.Human-trafficking survivor relief is broad and trauma-sensitive.Juvenile records are separate and often seal first, then expunge later.Do not promise relief until Wilma has the docket, exact statute, disposition, final discharge date, and pending-charge status."
+    ],
+    "formInventory": [
+      {
+        "fileName": "Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "relativePath": "LegalEase Ohio/Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "10272aa95c86f55b5a2d4deba20e3f2fa039de45563eeebd0a9f5d3f5c907571",
+        "sizeBytes": 130936
+      },
+      {
+        "fileName": "SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "relativePath": "LegalEase Ohio/SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "5a14cc82fdd6251fe5d69157e6e0f38e3ff11f0c495c99687640686d735d6206",
+        "sizeBytes": 26035
+      },
+      {
+        "fileName": "SealingorExpunging%20Inst_202504091343476141.pdf",
+        "relativePath": "LegalEase Ohio/SealingorExpunging%20Inst_202504091343476141.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "574bc7e7a97295dcaf3cb31f24be44cbd9d43348d062090a6135b959d4439aa6",
+        "sizeBytes": 292418
+      },
+      {
+        "fileName": "SysServ_CQE_sample_petition.pdf",
+        "relativePath": "LegalEase Ohio/SysServ_CQE_sample_petition.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "33618d64200e60faa92e4eb587f4e2b6aa1ddf3dd466c3c873c56b809b85ac5c",
+        "sizeBytes": 1443665
+      },
+      {
+        "fileName": "sealingsExpungementsRequest.pdf",
+        "relativePath": "LegalEase Ohio/sealingsExpungementsRequest.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "sizeBytes": 235789
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "relativePath": "LegalEase Ohio/Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "10272aa95c86f55b5a2d4deba20e3f2fa039de45563eeebd0a9f5d3f5c907571",
+        "sizeBytes": 130936
+      },
+      {
+        "fileName": "Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase Ohio/Ohio Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "2e6c2859e33a125f12f9f0b4778b730012c7c4f6807a014f30c1ca0b559916e8",
+        "sizeBytes": 81040
+      },
+      {
+        "fileName": "SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "relativePath": "LegalEase Ohio/SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "5a14cc82fdd6251fe5d69157e6e0f38e3ff11f0c495c99687640686d735d6206",
+        "sizeBytes": 26035
+      },
+      {
+        "fileName": "SealingorExpunging%20Inst_202504091343476141.pdf",
+        "relativePath": "LegalEase Ohio/SealingorExpunging%20Inst_202504091343476141.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "574bc7e7a97295dcaf3cb31f24be44cbd9d43348d062090a6135b959d4439aa6",
+        "sizeBytes": 292418
+      },
+      {
+        "fileName": "SysServ_CQE_sample_petition.pdf",
+        "relativePath": "LegalEase Ohio/SysServ_CQE_sample_petition.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "33618d64200e60faa92e4eb587f4e2b6aa1ddf3dd466c3c873c56b809b85ac5c",
+        "sizeBytes": 1443665
+      },
+      {
+        "fileName": "sealingsExpungementsRequest.pdf",
+        "relativePath": "LegalEase Ohio/sealingsExpungementsRequest.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "sizeBytes": 235789
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Sealing Sealing makes the record private from most employers, landlords, schools, and the general public, but it does not erase or delete the record.",
+    "Use Ohio-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "How Wilma should route Ohio cases",
+      "category": "overview",
+      "startLine": 9,
+      "endLine": 23,
+      "text": "User\u0019s case outcome First Wilma route Ohio treatment\nAdult conviction - eligible misdemeanor, F4, F5, some F3 Sealing or expungement under 2953.32 Waiting period depends on offense level and whether sealing or expungement is requested\nAdult F1 or F2 conviction Usually ineligible under normal 2953.32 Manual review for special routes only\nAdult felony offense of violence Usually ineligible under normal 2953.32 Manual review\nDismissal / not guilty Non-conviction sealing or expungement under 2953.33 Can generally apply immediately after dismissal/not-guilty entry, subject to multiple-charge and limitations rules\nGrand jury no bill Non-conviction sealing or expungement under 2953.33 Usually after 2 years from the no-bill report\nGovernor pardon Sealing under 2953.33 May apply after pardon or after conditions are met\nMisdemeanor bail forfeiture Sealing/expungement under 2953.32 Sealing any time after entry; expungement generally after 1 year, or 6 months for minor misdemeanor\nCertain marijuana/hashish possession records Expungement under 2953.321 New specific route effective March 20, 2026\nHuman-trafficking survivor conviction Expungement under 2953.36 Can apply any time; standard depends on offense category\nHuman-trafficking survivor dismissal/not guilty Expungement under 2953.521 Can apply any time after dismissal/not-guilty entry\nCertain old firearm/carry convictions Expungement under 2953.35 Special narrow route\nJuvenile record Juvenile sealing under 2151.356, later expungement under 2151.358 Murder, aggravated murder, and rape adjudications cannot be sealed under 2151.356"
+    },
+    {
+      "title": "Remedy definitions Wilma must understand",
+      "category": "remedy_definitions",
+      "startLine": 24,
+      "endLine": 37,
+      "text": "Sealing\nSealing makes the record private from most employers, landlords, schools, and the general public, but it does not erase or delete the record. Ohio Legal Help states that a sealed record still exists and may still be seen by certain employers, licensing boards, prosecutors, judges, and police. (\n\n\"https://www.ohiolegalhelp.org/topic/seal-criminal-record\")\nExpungement\nOhio law treats expungement as stronger than sealing. Under 2953.31,\nexpunge\nfor many Ohio expungement sections means to destroy, delete, and erase a record so it is permanently irretrievable. For 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification/disqualification, while other entities receiving notice must destroy, delete, and erase the record. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.31\")\nWilma rule: Do not say\ncompletely gone from everywhere.\nSay:\nExpungement is stronger than sealing and generally requires agencies to destroy/delete/erase the record, but Ohio law still contains specific exceptions, including limited BCI retention for some conviction expungements."
+    },
+    {
+      "title": "Official forms Wilma should know",
+      "category": "forms",
+      "startLine": 38,
+      "endLine": 51,
+      "text": "Ohio does not have one mandatory statewide form packet for every court. Wilma should use generic form names, then route the user to the court where the case was filed for that court\u0019s packet.\n\nRoute Form name Wilma should look for\nAdult conviction sealing/expungement Application to Seal/Expunge Criminal Record or similar local court form\nDismissal / not guilty / no bill Application to Seal/Expunge Official Records After Dismissal, Not Guilty Finding, or No Bill or similar local form\nMarijuana/hashish expungement Application for Expungement of Marijuana or Hashish Possession Offense\nHuman-trafficking survivor conviction Application to Expunge Conviction as Victim of Human Trafficking\nJuvenile sealing Juvenile court Application to Seal Juvenile Record\nJuvenile expungement Juvenile court Application to Expunge Sealed Juvenile Record\nBCI order processing BCI Sealings and/or Expungements Request form, attached by the court/agency when sending the signed order to BCI\nOhio Legal Help says to get the application forms from the court where the charge was filed and warns that courts may have different packets for convictions and non-convictions. The Ohio Attorney General says signed sealing orders should be sent to BCI with the sealing/expungement request form. (\n\n\"https://www.ohiolegalhelp.org/topic/seal-criminal-record\")"
+    },
+    {
+      "title": "Adult conviction sealing / expungement - 2953.32",
+      "category": "pathway_detail",
+      "startLine": 52,
+      "endLine": 84,
+      "text": "Basic eligibility route\nAn eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nWaiting periods - convictions\n\nRoute Waiting period\nSealing - 1 or 2 F3 convictions 3 years after final discharge\nSealing - F4, F5, or misdemeanor 1 year after final discharge\nSealing - soliciting improper compensation under 2921.43 7 years after final discharge\nSealing - person formerly subject to Chapter 2950 registration 5 years after registration requirements end or terminate\nSealing - minor misdemeanor 6 months after final discharge\nExpungement - misdemeanor 1 year after final discharge\nExpungement - minor misdemeanor 6 months after final discharge\nExpungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony\nMisdemeanor bail forfeiture - sealing Any time after bail forfeiture entry\nMisdemeanor bail forfeiture - expungement Generally 1 year after entry; 6 months for minor misdemeanor\nThese timing rules come from 2953.32(B). (\n\n\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nMajor conviction disqualifiers\nWilma should flag likely ineligible or manual review if the conviction is:\nmost traffic/motor-vehicle chapters: Chapters 4506, 4507, 4510, 4511, or 4549, or substantially similar municipal ordinances;\nfelony offense of violence that is not a sexually oriented offense;\nsexually oriented offense while subject to Chapter 2950 registration;\noffense where the victim was under 13, except nonsupport under 2919.21;\ntheft in office under 2921.41;\nF1 or F2;\nM1 or M2 domestic violence under 2919.25 or similar municipal ordinance;\nF3 where the person has too many other convictions under the statute\u0019s F3 counting rule. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nSome offenses are sealable but not expungeable, including M3/M4 domestic violence under 2919.25 and protection-order violations under 2919.27 or substantially similar municipal ordinances. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nCounting convictions\nOhio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nWilma rule: Never count cases by memory. Ask for the full docket list and disposition dates."
+    },
+    {
+      "title": "Non-conviction sealing / expungement - 2953.33",
+      "category": "pathway_detail",
+      "startLine": 85,
+      "endLine": 99,
+      "text": "Ohio\u0019s non-conviction route covers not guilty findings, dismissals, grand jury no bills, and pardons.\n\nOutcome Timing\nNot guilty Any time after entry\nDismissal Any time after dismissal entry, subject to limitations and multiple-charge rules\nNo bill Usually 2 years after grand jury reports the no bill\nGovernor pardon Any time after absolute/partial pardon, or after pardon conditions are met\nFor dismissals, the court must determine whether the dismissal was with or without prejudice; if without prejudice, it must determine whether the statute of limitations has expired. The court also checks pending proceedings, prosecutor objections, and whether the person\u0019s interest outweighs legitimate government needs. (\n\n\"https://codes.ohio.gov/ohio-revised-code/section-2953.33\")\nWilma rule: A dismissal is not always simple. If it was dismissed without prejudice and the statute of limitations has not expired, do not tell the user the record is ready.\n6. Multiple charges from the same act - 2953.61\nOhio has a trap rule for mixed-disposition cases. If a person was charged with two or more offenses from the same act and at least one charge has a different final disposition than the others, they generally cannot seal or expunge only part of the record until they can seal/expunge all related charges. There is a limited exception for certain traffic convictions, but the court cannot order only a portion of those records sealed or expunged. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.61\")\nWilma rule: If one incident produced multiple charges, ask for every charge and every disposition before routing."
+    },
+    {
+      "title": "Marijuana / hashish possession expungement - 2953.321",
+      "category": "pathway_detail",
+      "startLine": 100,
+      "endLine": 103,
+      "text": "Ohio has a specific marijuana/hashish possession expungement route effective March 20, 2026. It applies to certain dismissed, convicted, or guilty-plea records involving specified marijuana or hashish possession offenses under 2925.11, including hashish possession of not more than 15 grams for certain divisions. The person applies to the sentencing court, and the application must identify the applicant, offense, date, court, evidence of eligibility, and request expungement. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")\nThe hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")\nWilma rule: Do not route every marijuana case here. Confirm the exact 2925.11 division, substance, amount, and whether the conviction/dismissal/plea occurred before the effective date of the section."
+    },
+    {
+      "title": "Human-trafficking survivor conviction expungement - 2953.36",
+      "category": "pathway_detail",
+      "startLine": 104,
+      "endLine": 109,
+      "text": "Ohio allows expungement of certain convictions where the person\u0019s participation in the offense resulted from being a victim of human trafficking. It covers people convicted of prostitution-related offenses under 2907.24, 2907.241, or 2907.25, and also people convicted of a misdemeanor or F4/F5 whose participation resulted from trafficking victimization. The application may be filed at any time and can request relief for more than one offense, though the court considers each offense separately. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")\nThe evidentiary standard depends on the route: preponderance of the evidence for the prostitution-related category and clear and convincing evidence for the broader misdemeanor/F4/F5 category. The statute excludes expungement for aggravated murder, murder, and rape convictions under 2903.01, 2903.02, and 2907.02. If granted, the record cannot be used for a criminal-record check, and the applicant/court may reply that no record exists. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.36\")\nWilma trauma rule: Ask gently:\nWas this charge connected to trafficking, coercion, exploitation, survival circumstances, or someone forcing or directing you to do something connected to the case?"
+    },
+    {
+      "title": "Human-trafficking survivor non-conviction expungement - 2953.521",
+      "category": "pathway_detail",
+      "startLine": 110,
+      "endLine": 111,
+      "text": "A person found not guilty or named in a dismissed complaint, indictment, or information may seek expungement if the case resulted from the person being a victim of human trafficking. The application may be filed any time after the not-guilty or dismissal entry. The court checks trafficking connection by preponderance of the evidence, dismissal prejudice/statute-of-limitations issues, pending criminal proceedings, prosecutor objections, and government-interest balancing. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.521\")"
+    },
+    {
+      "title": "Certain firearm/carry convictions - 2953.35",
+      "category": "pathway_detail",
+      "startLine": 112,
+      "endLine": 121,
+      "text": "Ohio has a narrow expungement route for certain older firearm/carry-related convictions, including specified former versions of 2923.16 and 2923.12. The application is filed in the sentencing court; the court checks whether the conduct would no longer violate the relevant provision, considers prosecutor objections, and weighs the applicant\u0019s interest against government needs. The fee is $50 unless indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.35\")\nWilma rule: Do not treat this as a general firearm expungement. It is tied to specific old statutory versions and authorization language.\n11. Prosecutor application for low-level controlled substance offenses - 2953.39\nFor a low-level controlled substance offense, the prosecutor may apply to the sentencing court to seal or expunge the record.\nLow-level controlled substance offense\nmeans certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")\nWilma rule: This is a prosecutor-initiated pathway, not the normal user-filed application. Flag it as\nask prosecutor / legal aid review."
+    },
+    {
+      "title": "Juvenile sealing and expungement",
+      "category": "pathway_detail",
+      "startLine": 122,
+      "endLine": 124,
+      "text": "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings. For other eligible juvenile records, the court can seal on its own motion or on application once timing requirements are met, and there is no filing fee. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.356\")\nFor juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 125,
+      "endLine": 131,
+      "text": "Adult conviction / bail forfeiture\nFile in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction. The court schedules a hearing, notifies the prosecutor at least 60 days before the hearing, and holds the hearing 45-90 days after filing. The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")\nNon-conviction\nFile in the court where the case was pending, dismissed, resulted in not guilty, or where the grand jury no bill was reported. The court holds a hearing 45-90 days after filing, and the prosecutor may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.33\")\nAfter order is granted\nFor conviction/bail forfeiture sealing or expungement, the court forwards the order and fingerprint record to BCI, or orders fingerprinting if required. The Ohio Attorney General also instructs that signed sealing orders should be sent to BCI with the sealing/expungement request form and may be faxed or emailed to BCI. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")"
+    },
+    {
+      "title": "Fees",
+      "category": "fees",
+      "startLine": 132,
+      "endLine": 143,
+      "text": "Route Fee\n2953.32 conviction/bail forfeiture sealing or expungement $50 application fee unless indigent, plus possible local court fee up to $50\nDismissal / not guilty / no bill sealing Ohio Legal Help says no fee\n2953.321 marijuana/hashish expungement $50 unless indigent\n2953.35 firearm/carry expungement $50 unless indigent\n2953.36 trafficking survivor conviction expungement $50 unless indigent\nJuvenile sealing/expungement No filing fee under juvenile sealing statute\nThe current 2953.32 fee provision allows a $50 application fee and a possible local court fee of not more than $50; Ohio Legal Help says there is no fee for dismissals, not-guilty cases, or no-bill charges. (\n\n\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")"
+    },
+    {
+      "title": "Record request process",
+      "category": "filing",
+      "startLine": 144,
+      "endLine": 165,
+      "text": "Wilma should tell the user to start with a complete Ohio BCI criminal history and the docket from every court involved. The Ohio Attorney General says a person can request their own computerized BCI criminal history by submitting identifying information, fingerprints, signed consent, and a $22 payment. BCI also has a free\nChallenge & Review\nprocess for disputing inaccurate or incomplete Ohio criminal-history records. (\"https://www.ohioattorneygeneral.gov/Individuals-and-Families/Consumers/Requesting-Your-Own-Criminal-Records\")\nCollect:\nfull legal name and prior names;\ndate of birth;\ncounty and court;\ncase number;\narrest date;\neach charge and statute;\neach final disposition;\noffense degree;\nconviction/sentence date;\nfinal discharge date;\nwhether all fines that are part of the sentence were paid;\nprobation, parole, PRC, or supervision completion date;\nwhether there are open warrants or pending charges;\nwhether there are multiple charges from the same incident;\nvictim age;\nwhether the offense involved violence, sex-offender registration, domestic violence, protection order, traffic/motor vehicle, or public office/theft in office;\nwhether trafficking, coercion, or exploitation was involved."
+    },
+    {
+      "title": "Wilma waiting-period table",
+      "category": "waiting_periods",
+      "startLine": 166,
+      "endLine": 180,
+      "text": "Case type Sealing wait Expungement wait\nMinor misdemeanor conviction 6 months after final discharge 6 months after final discharge\nMisdemeanor conviction 1 year after final discharge 1 year after final discharge\nF4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date\nOne or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date\n2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify\nFormer Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense\nNot guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded\nGrand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded\nMisdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor\nMarijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met\nHuman-trafficking survivor conviction Specific expungement route Any time\nJuvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+    },
+    {
+      "title": "Wilma intake decision tree",
+      "category": "intake_questions",
+      "startLine": 181,
+      "endLine": 214,
+      "text": "Step 1 - Adult or juvenile?If juvenile, route to 2151.356 / 2151.358. If adult, continue.\nStep 2 - Conviction or non-conviction?If dismissal, not guilty, no bill, or pardon, route to 2953.33. If conviction, route to 2953.32 first unless a special route applies.\nStep 3 - Check hard exclusions.Ask about F1/F2, felony violence, traffic/motor vehicle, victim under 13, sex-offender registration, domestic violence, protection order, theft in office, and F3 conviction count.\nStep 4 - Check timing.Use final discharge, not just conviction date. Confirm probation, parole, PRC, incarceration, and sentence-related fines.\nStep 5 - Check pending cases.Any pending criminal proceeding blocks ordinary 2953.32 relief.\nStep 6 - Check special routes.Ask about marijuana/hashish possession, human trafficking, old firearm/carry convictions, and low-level controlled-substance prosecutor motion.\n18. Wilma\ndo not say eligible unless&\nrules\nWilma should not say\nyou are eligible\nunless these are confirmed:\n\nexact charge statute and offense degree;\nexact disposition;\nfinal discharge date;\npending charges/warrants status;\nfull list of Ohio, out-of-state, and federal convictions;\nwhether charges came from one incident;\nwhether any exclusion applies;\nwhether the user wants sealing or expungement;\nwhether the waiting period has passed;\nwhether the court form is the correct local court form.\nUse safer language:\n\nThis looks like a possible sealing route.\n\nThis may be eligible for expungement, but the docket and statute need verification.\n\nBecause this involves multiple charges from one incident, Wilma needs all dispositions before routing.\n\nThis is likely manual review because Ohio excludes or limits this offense category."
+    },
+    {
+      "title": "Agent-facing summary",
+      "category": "summary",
+      "startLine": 215,
+      "endLine": 217,
+      "text": "For Ohio, train Wilma with this core logic:\nOhio has both sealing and expungement.Convictions route through 2953.32 unless a special statute applies.Dismissals/not-guilty/no-bill route through 2953.33.F1/F2, felony violence, active sex-offender registration, most traffic, theft in office, domestic violence, protection order, victim-under-13, and some F3 patterns are major danger zones.Marijuana/hashish now has a special 2026 expungement path.Human-trafficking survivor relief is broad and trauma-sensitive.Juvenile records are separate and often seal first, then expunge later.Do not promise relief until Wilma has the docket, exact statute, disposition, final discharge date, and pending-charge status."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 7,
+      "questions": 15,
+      "decisionRules": 34,
+      "waitingRules": 23,
+      "exclusions": 5,
+      "sourceFiles": 6,
+      "officialForms": 5
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}
