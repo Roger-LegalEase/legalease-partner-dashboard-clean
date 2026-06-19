@@ -31,7 +31,9 @@ for (const marker of [
   "not_covered_yet",
   "\"needs_review\"",
   "\"hard_stop\"",
-  "requiredMissingQuestionIds",
+  "projectPublicProfile",
+  "requiredMissingPublicQuestionIds",
+  "validatePublicAnswerQuestionIds",
   "isPacketPlanFulfillmentReady"
 ]) {
   assertIncludes(engineSource, "src/lib/rcap-engine/evaluator.ts", marker);
