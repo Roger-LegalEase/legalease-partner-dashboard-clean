@@ -2,11 +2,12 @@
  * Frontend-owned adapter boundary for the Expungement.ai consumer flow.
  *
  * The whole frontend talks to the engine through exactly two functions exported here:
- *   - `loadJurisdictionProfile(state)`  -> GET  /api/expungement-ai/profiles/{state}
- *   - `evaluateScreening(request, ctx)` -> POST /api/expungement-ai/evaluate
+ *   - `loadJurisdictionProfile(state)` -> GET  /api/expungement-ai/profiles/{state}
+ *   - `evaluateScreening(request)`      -> POST /api/expungement-ai/evaluate
  *
- * Both are mocked on this branch; the swap to live endpoints is isolated to the two adapter
- * files. See `./contracts.ts` for the (temporary) shared contract mirror.
+ * Both are now wired live to the source engine; the live/mock switch stays isolated to the two
+ * adapter files. See `./contracts.ts` for the temporary shared contract mirror (reconciled with
+ * `@/lib/rcap-engine/contracts` via compile-time checks).
  */
 export * from "./contracts";
 export {
@@ -25,7 +26,6 @@ export {
 } from "./profile-loader";
 export {
   evaluateScreening,
-  type EvaluateContext,
   type EvaluateScreeningResult
 } from "./evaluate";
 export {

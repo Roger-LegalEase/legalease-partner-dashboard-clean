@@ -81,19 +81,21 @@ export const jurisdictionProfileSchema = z
 /* Evaluation request + response                                       */
 /* ------------------------------------------------------------------ */
 
-export const answerValueSchema: z.ZodType = z.union([
+// Wire answer value the engine accepts (ScreeningAnswerValue).
+export const screeningAnswerValueSchema: z.ZodType = z.union([
   z.string(),
   z.array(z.string()),
   z.number(),
-  z.object({ value: z.union([z.string(), z.number(), z.null()]).optional(), unknown: z.boolean().optional() }).passthrough(),
+  z.boolean(),
   z.null()
 ]);
 
 export const evaluateRequestSchema = z
   .object({
+    jurisdiction: z.string().min(1),
     profileVersion: z.string().min(1),
     matterId: z.string().min(1),
-    normalizedAnswers: z.record(z.string(), answerValueSchema)
+    answers: z.record(z.string(), screeningAnswerValueSchema)
   })
   .passthrough();
 

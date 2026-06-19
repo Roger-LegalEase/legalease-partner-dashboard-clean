@@ -75,17 +75,26 @@ assert(
   "isPaymentAllowed must require paymentAllowed true plus a packet-ready code."
 );
 
-// 5. Live endpoint flags must stay disabled on this branch.
-assert(read(`${FE}/profile-loader.ts`).includes("USE_LIVE_PROFILE_ENDPOINT = false"), "Profile live endpoint flag must be false.");
-assert(read(`${FE}/evaluate.ts`).includes("USE_LIVE_EVALUATE_ENDPOINT = false"), "Evaluate live endpoint flag must be false.");
+// 5. Live endpoint wiring is active, pointed at the real source-engine routes.
+const loaderSrc = read(`${FE}/profile-loader.ts`);
+const evaluateSrc = read(`${FE}/evaluate.ts`);
+assert(loaderSrc.includes("USE_LIVE_PROFILE_ENDPOINT = true"), "Profile live endpoint flag must be true.");
+assert(evaluateSrc.includes("USE_LIVE_EVALUATE_ENDPOINT = true"), "Evaluate live endpoint flag must be true.");
+assert(loaderSrc.includes("`/api/expungement-ai/profiles/${encodeURIComponent(key)}`"), "Profile loader must call the real profiles endpoint.");
+assert(evaluateSrc.includes('"/api/expungement-ai/evaluate"'), "Evaluate adapter must call the real evaluate endpoint.");
 
-// 6. Mock evaluator returns a fixed safe needs_review and never allows payment.
+// 6. Mock evaluator is retained as a fixed safe needs_review fallback that never allows payment.
 const fixtures = read(`${FE}/fixtures.ts`);
 assert(fixtures.includes('SAFE_FALLBACK_RESULT_CODE = "needs_review"'), "Mock fallback must be needs_review.");
 assert(
   fixtures.includes("resultCode: SAFE_FALLBACK_RESULT_CODE") && fixtures.includes("paymentAllowed: false"),
   "Mock needs_review must not allow payment."
 );
+
+// 6a. Request shape matches the engine contract (jurisdiction + answers).
+const contractsSrc = read(`${FE}/contracts.ts`);
+assert(contractsSrc.includes("answers: Record<string, ScreeningAnswerValue>"), "EvaluateRequest must use the engine answers shape.");
+assert(contractsSrc.includes('from "@/lib/rcap-engine/contracts"'), "Contract mirror must reconcile against the engine contract.");
 
 // 7. contextOnly never blocks Continue.
 const answers = read(`${SC}/answers.ts`);
@@ -133,7 +142,7 @@ if (failures.length) {
 }
 
 console.log("Expungement.ai frontend all51 verification passed.");
-console.log(`Profiles: ${codes.length} (50 states + DC).`);
+console.log(`Profiles (picker index): ${codes.length} (50 states + DC).`);
 console.log(`Question types handled: ${questionTypes.length} (covers ${dataTypes.size} used in data).`);
 console.log(`Result screens: ${resultCodes.length}.`);
-console.log("Live endpoint flags disabled; mock returns fixed needs_review; payment clamped; no answer leakage; dev galleries production-blocked.");
+console.log("Live endpoints wired (profiles + evaluate); request matches engine contract; safe mock fallback retained; payment clamped; no answer leakage; dev galleries production-blocked.");

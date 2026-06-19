@@ -2,34 +2,25 @@
  * Adapter: evaluate a completed screening.
  *
  * This is the SECOND of the two integration points between the frontend and the engine.
- * Swapping the mock for the live endpoint must be limited to this file.
+ * The live/mock switch is confined to this file.
  *
- *   Production: POST /api/expungement-ai/evaluate
- *   This branch: a non-evaluating mock that returns a fixed, safe `needs_review` result.
+ *   Live (now active): POST /api/expungement-ai/evaluate  (source-engine deterministic evaluator)
+ *   Mock (fallback):   a non-evaluating fixture that returns a fixed, safe `needs_review` result.
  *
- * SAFETY (non-negotiable): the mock contains NO legal rules and infers NOTHING from the
- * answers. It does not read `normalizedAnswers` to choose an outcome. The frontend never
- * decides eligibility; it renders whatever the engine returns. There is deliberately no query
- * parameter, branch selector, or hidden input that can force a different result or
- * `paymentAllowed`.
+ * SAFETY (non-negotiable): the frontend never decides eligibility. It sends the collected answers
+ * and renders whatever `ScreeningEvaluation` the engine returns. The mock contains NO legal rules.
+ * There is deliberately no query parameter, branch selector, or hidden input that can force a
+ * result or `paymentAllowed`.
  *
- * Every response (mock or live) is validated against the contract before it is returned, so a
- * malformed live response can never become a packet-ready or payment-allowed state.
+ * Every response (live or mock) is validated against the contract before it is returned, so a
+ * malformed response can never become a packet-ready or payment-allowed state.
  */
 import { type EvaluateRequest, type ScreeningEvaluation } from "./contracts";
 import { buildNeedsReviewEvaluation } from "./fixtures";
 import { parseScreeningEvaluation } from "./schemas";
 
-/**
- * Flip to `true` only once Codex's `/evaluate` endpoint is live and the backend branch has
- * merged to `main`. Until then the non-evaluating mock stands in.
- */
-const USE_LIVE_EVALUATE_ENDPOINT = false;
-
-export type EvaluateContext = {
-  /** The jurisdiction code echoed back onto the result (e.g. "IL"). */
-  jurisdiction: string;
-};
+/** Live wiring active: the request goes to the real `/evaluate` endpoint. */
+const USE_LIVE_EVALUATE_ENDPOINT = true;
 
 /**
  * Discriminated result so the UI can show distinct, calm states:
@@ -46,17 +37,12 @@ export type EvaluateScreeningResult =
  * Evaluate a screening. Returns a discriminated result so callers render a calm error state
  * instead of catching exceptions.
  *
- * @param request  The frozen request shape: { profileVersion, matterId, normalizedAnswers }.
- * @param context  Display context (jurisdiction code) used only to label the mock result; the
- *                 live engine returns its own jurisdiction and this is ignored once live.
+ * @param request The frozen request shape: { jurisdiction, profileVersion, matterId, answers }.
  */
-export async function evaluateScreening(
-  request: EvaluateRequest,
-  context: EvaluateContext
-): Promise<EvaluateScreeningResult> {
+export async function evaluateScreening(request: EvaluateRequest): Promise<EvaluateScreeningResult> {
   const raw = USE_LIVE_EVALUATE_ENDPOINT
     ? await postLiveEvaluation(request)
-    : { ok: true as const, value: runMockEvaluation(request, context) };
+    : { ok: true as const, value: runMockEvaluation(request) };
 
   if (!raw.ok) {
     return { ok: false, kind: "api_error", error: raw.error };
@@ -71,22 +57,22 @@ export async function evaluateScreening(
 }
 
 /**
- * The mock evaluator. It returns the SAME fixed safe result for every input. It intentionally
- * does not inspect `request.normalizedAnswers`; answers are referenced only to echo the matter
- * id / profile version, never to derive an outcome.
+ * The mock evaluator (kept for offline/fallback use behind the flag). It returns the SAME fixed
+ * safe result for every input and never inspects `answers` to derive an outcome.
  */
-function runMockEvaluation(request: EvaluateRequest, context: EvaluateContext): ScreeningEvaluation {
+function runMockEvaluation(request: EvaluateRequest): ScreeningEvaluation {
   return buildNeedsReviewEvaluation({
-    jurisdiction: context.jurisdiction,
+    jurisdiction: request.jurisdiction,
     profileVersion: request.profileVersion,
     matterId: request.matterId
   });
 }
 
 /**
- * Live evaluation POST. Not active on this branch (guarded by `USE_LIVE_EVALUATE_ENDPOINT`).
- * The response is validated by `evaluateScreening` before render; the engine's live response is
- * the source of truth for legal outcomes.
+ * Live evaluation POST. The response is validated by `evaluateScreening` before render; the
+ * engine's live response is the source of truth for legal outcomes. Non-2xx responses (including
+ * 404 unsupported_jurisdiction, 409 profile_version_mismatch, 400 invalid_question_ids) surface
+ * as a calm, retryable error; they never become a result.
  */
 async function postLiveEvaluation(
   request: EvaluateRequest

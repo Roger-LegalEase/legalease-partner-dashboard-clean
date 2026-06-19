@@ -8,7 +8,11 @@
  * Answers are held in memory by the flow component and never written to URLs, analytics,
  * localStorage, or logs (sensitive-answer constraint).
  */
-import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import type {
+  AnswerValue,
+  ProfileQuestion,
+  ScreeningAnswerValue
+} from "@/lib/expungement-ai/frontend/contracts";
 
 /** The "or unknown" / "prefer not to say" value shape used by open-text/number/date fields. */
 export type OrUnknownValue = { value?: string; unknown?: boolean };
@@ -59,4 +63,39 @@ export function blocksContinue(question: ProfileQuestion, value: AnswerValue | u
   if (question.contextOnly) return false;
   if (!question.required) return false;
   return !hasAnswer(question, value);
+}
+
+/**
+ * The token sent for an "unknown" / "prefer not to say" answer. It is non-empty (so the engine
+ * does not treat a required question as missing) and contains a phrase the engine recognizes as
+ * unknown. The frontend never decides anything from this; it just reports what the user said.
+ */
+const UNKNOWN_WIRE_VALUE = "I am not sure";
+
+/**
+ * Convert the UI answer map into the wire shape the engine accepts
+ * (`Record<string, ScreeningAnswerValue>`). Unanswered/empty entries are omitted so they do not
+ * masquerade as answers; the "or unknown" toggle becomes a recognizable non-empty token. This is
+ * a pure shape transform, not a routing decision.
+ */
+export function toScreeningAnswers(
+  answers: Record<string, AnswerValue>
+): Record<string, ScreeningAnswerValue> {
+  const out: Record<string, ScreeningAnswerValue> = {};
+  for (const [id, value] of Object.entries(answers)) {
+    const wire = toWireValue(value);
+    if (wire !== undefined) out[id] = wire;
+  }
+  return out;
+}
+
+function toWireValue(value: AnswerValue | undefined): ScreeningAnswerValue | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (typeof value === "string") return value.trim() === "" ? undefined : value;
+  if (typeof value === "number") return value;
+  if (Array.isArray(value)) return value.length > 0 ? value : undefined;
+  const orUnknown = readOrUnknown(value);
+  if (orUnknown.unknown === true) return UNKNOWN_WIRE_VALUE;
+  if (typeof orUnknown.value === "string" && orUnknown.value.trim() !== "") return orUnknown.value;
+  return undefined;
 }

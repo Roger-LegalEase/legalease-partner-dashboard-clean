@@ -112,9 +112,10 @@ export type JurisdictionProfile = {
 /* ------------------------------------------------------------------ */
 
 /**
- * A single normalized answer value. The frontend collects answers and the engine evaluates
- * them; the frontend never infers a result from these. `{ value, unknown }` models the
- * "or unknown" / "prefer not to say" affordances on several question types.
+ * UI-side answer value held in component state while the user fills the flow. `{ value, unknown }`
+ * models the "or unknown" / "prefer not to say" affordances on the open field types. This is the
+ * frontend's working shape; it is converted to the wire shape (`ScreeningAnswerValue`) before the
+ * request is sent (see `toScreeningAnswers`).
  */
 export type AnswerValue =
   | string
@@ -123,12 +124,22 @@ export type AnswerValue =
   | { value?: string | number | null; unknown?: boolean }
   | null;
 
-export type NormalizedAnswers = Record<string, AnswerValue>;
+/**
+ * The wire answer value the engine accepts (matches `ScreeningAnswerValue` in
+ * `src/lib/rcap-engine/contracts.ts`). The engine stringifies values for routing; "unknown"
+ * affordances are sent as a recognizable non-empty token, never an object.
+ */
+export type ScreeningAnswerValue = string | string[] | number | boolean | null;
 
+/**
+ * The frozen evaluate request shape (matches the engine's `ScreeningEvaluationRequest`).
+ *   POST /api/expungement-ai/evaluate
+ */
 export type EvaluateRequest = {
+  jurisdiction: string;
   profileVersion: string;
   matterId: string;
-  normalizedAnswers: NormalizedAnswers;
+  answers: Record<string, ScreeningAnswerValue>;
 };
 
 /** The nine result codes. The engine returns exactly one; the frontend renders it. */
@@ -217,3 +228,25 @@ export function isPaymentAllowed(
     (PAYMENT_ELIGIBLE_RESULT_CODES as readonly string[]).includes(evaluation.resultCode)
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Compile-time reconciliation with the canonical engine contract      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The engine's canonical contract now lives on `main` at `src/lib/rcap-engine/contracts.ts`.
+ * These type-only checks fail the build if this frontend mirror drifts from it, so the mirror
+ * stays honest until it can be replaced by a direct import. (Type-only import: erased at runtime,
+ * safe in the client bundle.)
+ */
+import type {
+  ScreeningEvaluation as EngineScreeningEvaluation,
+  ScreeningEvaluationRequest as EngineScreeningEvaluationRequest
+} from "@/lib/rcap-engine/contracts";
+
+type Expect<T extends true> = T;
+type MutuallyAssignable<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
+
+// Exported so they count as "used"; their only purpose is to fail typecheck on contract drift.
+export type EvaluationMatchesEngine = Expect<MutuallyAssignable<ScreeningEvaluation, EngineScreeningEvaluation>>;
+export type RequestMatchesEngine = Expect<MutuallyAssignable<EvaluateRequest, EngineScreeningEvaluationRequest>>;

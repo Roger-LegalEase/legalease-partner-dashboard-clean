@@ -31,7 +31,7 @@ import {
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
-import { blocksContinue } from "@/components/expungement-ai/screening/answers";
+import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
@@ -124,16 +124,14 @@ export function ScreeningFlow({ state }: { state: string }) {
   async function runEvaluation() {
     setPhase("evaluating");
     setEvalError(null);
-    // The engine evaluates; we only send the collected answers. Answers stay in memory and are
-    // never placed in the URL, logs, or storage. The mock returns a fixed safe needs_review.
-    const result = await evaluateScreening(
-      {
-        profileVersion: profile.profileVersion,
-        matterId: matterIdRef.current,
-        normalizedAnswers: answers
-      },
-      { jurisdiction: profile.jurisdiction.code }
-    );
+    // The engine evaluates; we only send the collected answers (converted to the wire shape).
+    // Answers stay in memory and are never placed in the URL, logs, or storage.
+    const result = await evaluateScreening({
+      jurisdiction: profile.jurisdiction.code,
+      profileVersion: profile.profileVersion,
+      matterId: matterIdRef.current,
+      answers: toScreeningAnswers(answers)
+    });
     if (result.ok) {
       setEvaluation(result.data);
       setPhase("result");

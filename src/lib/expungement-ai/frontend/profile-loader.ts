@@ -16,10 +16,12 @@ import { parseJurisdictionProfile, type ParseResult } from "./schemas";
 import all51 from "./profiles/all51.json";
 
 /**
- * Flip to `true` only once Codex's `/profiles/{state}` endpoint is live and the backend branch
- * has merged to `main`. Until then the bundled mock profiles stand in.
+ * Live wiring active: profiles load from GET /api/expungement-ai/profiles/{state} (the source
+ * engine's public projection). The bundled `all51.json` is retained only as the static
+ * jurisdiction index for the state picker and for missing/unknown classification, not for the
+ * flow itself.
  */
-const USE_LIVE_PROFILE_ENDPOINT = false;
+const USE_LIVE_PROFILE_ENDPOINT = true;
 
 const PROFILES_BY_STATE = all51 as Record<string, unknown>;
 
