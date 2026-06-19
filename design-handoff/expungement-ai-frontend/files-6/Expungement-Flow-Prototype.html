@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expungement.ai — Briefcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1320; --navy2:#1B2B40; --slate:#475A6E; --mist:#E6ECF2;
+  --orange:#FF3B00; --orange-d:#d93200; --teal:#0E9C8E; --teal-l:#3DE0B5;
+  --cream:#F7F3EC; --paper:#FBFAF7; --ink:#0B1320; --muted:#5A6275; --hint:#8A93A6;
+  --line:#ECE6DA; --line2:#E4E8EF; --ok:#138a5e; --warn:#9a6b00;
+  --r:14px; --r-lg:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:'Sora',-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit}
+.hidden{display:none!important}
+
+/* ---------- App shell ---------- */
+.app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;background:rgba(251,250,247,.9);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;color:var(--navy);text-decoration:none}
+.brand svg{width:30px;height:25px;flex-shrink:0}
+.brand .ai{color:var(--orange)}
+.topnav{display:flex;align-items:center;gap:8px}
+.topnav a,.topnav button{font-size:13.5px;font-weight:600;color:var(--muted);padding:8px 12px;border-radius:10px;text-decoration:none}
+.topnav a:hover,.topnav button:hover{background:var(--mist);color:var(--navy)}
+.topnav .pill{background:var(--orange);color:#fff;padding:9px 16px}
+.topnav .pill:hover{background:var(--orange-d);color:#fff}
+.topnav .ghost{border:1px solid var(--line2)}
+@media(max-width:680px){.topnav a.hide-sm,.topnav button.hide-sm{display:none}}
+
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;padding:32px 20px 120px}
+.screen{width:100%;max-width:680px;animation:fade .4s ease both}
+.screen.wide{max-width:1000px}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- Typography ---------- */
+h1.big{font-size:34px;font-weight:800;line-height:1.08;letter-spacing:-.02em;color:var(--navy)}
+@media(min-width:640px){h1.big{font-size:42px}}
+.lead{font-size:17px;color:var(--muted);margin-top:14px;line-height:1.55}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+.eyebrow svg{width:14px;height:14px}
+
+/* ---------- Cards / panels ---------- */
+.card{background:#fff;border:1px solid var(--line2);border-radius:var(--r-lg);padding:30px}
+@media(min-width:640px){.card{padding:38px}}
+.note{font-size:12.5px;color:var(--hint);line-height:1.55}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:700;font-size:16px;
+  padding:16px 26px;border-radius:13px;transition:transform .12s ease,background .2s ease,box-shadow .2s ease;width:100%}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 26px rgba(255,59,0,.28)}
+.btn-primary:hover{background:var(--orange-d)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:#152033}
+.btn-ghost{background:#fff;border:1px solid var(--line2);color:var(--navy);box-shadow:none}
+.btn-ghost:hover{background:var(--mist)}
+.btn-sm{font-size:14px;padding:11px 16px;width:auto;border-radius:11px}
+.btn-link{color:var(--muted);font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px;width:auto;padding:6px}
+.btn-link:hover{color:var(--navy)}
+.btnrow{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.btnrow.inline{flex-direction:row;flex-wrap:wrap;align-items:center}
+
+/* ---------- Progress ---------- */
+.progress{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.progress .bar{flex:1;height:7px;background:var(--mist);border-radius:99px;overflow:hidden}
+.progress .bar i{display:block;height:100%;background:var(--orange);border-radius:99px;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.progress .lbl{font-size:12px;font-weight:600;color:var(--hint);white-space:nowrap}
+
+/* ---------- Question options ---------- */
+.qhead{margin-bottom:24px}
+.qhead h2{font-size:25px;font-weight:700;letter-spacing:-.01em;color:var(--navy);line-height:1.18}
+.qhead p{font-size:14.5px;color:var(--muted);margin-top:8px}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;padding:17px 18px;border:1.5px solid var(--line2);
+  border-radius:13px;background:#fff;font-size:16px;font-weight:600;color:var(--navy);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--slate);background:var(--paper)}
+.opt.sel{border-color:var(--orange);background:#FFF4F0}
+.opt .tick{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;display:grid;place-items:center}
+.opt.sel .tick{border-color:var(--orange);background:var(--orange)}
+.opt.sel .tick svg{width:12px;height:12px;color:#fff}
+.opt .tick svg{opacity:0}
+.opt.sel .tick svg{opacity:1}
+.opt small{display:block;font-size:12.5px;font-weight:500;color:var(--hint);margin-top:3px}
+
+/* select + inputs */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:7px}
+.field input,.field select{width:100%;padding:14px 15px;border:1.5px solid var(--line2);border-radius:12px;font-family:inherit;font-size:15.5px;color:var(--navy);background:#fff}
+.field input:focus,.field select:focus{outline:none;border-color:var(--slate)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+
+/* ---------- Result cards ---------- */
+.result-icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;margin-bottom:22px}
+.result-icon svg{width:34px;height:34px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px;letter-spacing:.02em}
+.reasons{list-style:none;margin:22px 0 0;display:flex;flex-direction:column;gap:10px}
+.reasons li{display:flex;gap:11px;font-size:14.5px;color:var(--slate);line-height:1.5}
+.reasons li svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.saved-chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--teal);
+  background:#E7F7F4;padding:8px 13px;border-radius:99px;margin-top:24px}
+.saved-chip svg{width:15px;height:15px}
+.disc{margin-top:24px;padding:15px 17px;background:var(--cream);border-radius:12px;font-size:12.5px;color:var(--muted);line-height:1.6}
+
+/* ---------- Pay gate ---------- */
+.pricebox{border:1.5px solid var(--line2);border-radius:16px;overflow:hidden;margin-top:24px}
+.pricebox .top{background:var(--navy);color:#fff;padding:24px 26px;display:flex;align-items:baseline;justify-content:space-between}
+.pricebox .top .amt{font-size:38px;font-weight:800;letter-spacing:-.02em}
+.pricebox .top .amt span{font-size:15px;font-weight:600;color:#9AA8B8;margin-left:6px}
+.pricebox .top .state{font-size:13px;font-weight:600;color:var(--teal-l);text-align:right}
+.incl{list-style:none;padding:22px 26px;display:flex;flex-direction:column;gap:13px}
+.incl li{display:flex;gap:12px;font-size:14.5px;color:var(--navy);font-weight:500}
+.incl li svg{width:18px;height:18px;color:var(--teal);flex-shrink:0;margin-top:1px}
+.fakepay{margin-top:18px;padding:18px;border:1px dashed var(--line2);border-radius:13px;background:var(--paper)}
+.fakepay .row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--hint);font-weight:600}
+.fakepay .ccline{display:flex;gap:10px;margin-top:12px}
+
+/* ---------- Briefcase dashboard ---------- */
+.bc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.bc-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;border-bottom:1px solid var(--line2)}
+.bc-tab{font-size:14px;font-weight:600;color:var(--muted);padding:11px 15px;border-bottom:2.5px solid transparent;margin-bottom:-1px}
+.bc-tab.active{color:var(--navy);border-color:var(--orange)}
+.bc-tab:hover{color:var(--navy)}
+.item{display:flex;align-items:center;gap:16px;padding:18px;border:1px solid var(--line2);border-radius:14px;background:#fff;margin-bottom:12px}
+.item .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex-shrink:0}
+.item .ico svg{width:22px;height:22px}
+.item .meta{flex:1;min-width:0}
+.item .meta h4{font-size:15.5px;font-weight:700;color:var(--navy)}
+.item .meta p{font-size:13px;color:var(--muted);margin-top:3px}
+.item .status{font-size:12px;font-weight:700;padding:5px 11px;border-radius:99px;white-space:nowrap}
+.empty{text-align:center;padding:50px 20px;color:var(--hint)}
+.empty svg{width:46px;height:46px;color:var(--line);margin-bottom:14px}
+.empty h3{font-size:17px;color:var(--slate);font-weight:700;margin-bottom:6px}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:2px}
+.checklist li{display:flex;gap:14px;padding:15px 4px;border-bottom:1px solid var(--line2);font-size:15px;color:var(--navy)}
+.checklist li:last-child{border-bottom:none}
+.checklist .cbx{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);flex-shrink:0;display:grid;place-items:center;cursor:pointer}
+.checklist .cbx.done{background:var(--teal);border-color:var(--teal)}
+.checklist .cbx svg{width:13px;height:13px;color:#fff;opacity:0}
+.checklist .cbx.done svg{opacity:1}
+.checklist li.done span{color:var(--hint);text-decoration:line-through}
+
+/* ---------- Wilma ---------- */
+.wilma-bubble{position:fixed;bottom:22px;right:22px;z-index:60;display:flex;align-items:center;gap:11px;
+  background:var(--navy);color:#fff;padding:13px 18px 13px 14px;border-radius:99px;box-shadow:0 12px 34px rgba(11,19,32,.3);font-weight:600;font-size:14px}
+.wilma-bubble:hover{background:#152033}
+.wilma-av{width:30px;height:30px;border-radius:50%;background:var(--teal);display:grid;place-items:center;flex-shrink:0;font-weight:800;font-size:13px;color:#04211d}
+.wilma-panel{position:fixed;bottom:22px;right:22px;z-index:61;width:min(92vw,380px);height:min(72vh,560px);
+  background:#fff;border-radius:20px;box-shadow:0 24px 60px rgba(11,19,32,.32);display:flex;flex-direction:column;overflow:hidden;animation:fade .25s ease both}
+.wilma-top{background:var(--navy);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.wilma-top .wilma-av{width:36px;height:36px;font-size:15px}
+.wilma-top h4{font-size:15px;font-weight:700}
+.wilma-top p{font-size:11.5px;color:#9AA8B8;font-weight:500}
+.wilma-top .x{margin-left:auto;color:#9AA8B8;padding:4px}
+.wilma-top .x:hover{color:#fff}
+.wilma-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.wmsg{max-width:84%;padding:12px 15px;border-radius:15px;font-size:14px;line-height:1.5}
+.wmsg.w{background:#fff;border:1px solid var(--line2);color:var(--navy);align-self:flex-start;border-bottom-left-radius:5px}
+.wmsg.u{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.wmsg.w .disc-mini{display:block;margin-top:7px;font-size:11px;color:var(--hint)}
+.wreport-row{margin-top:8px}
+.wreport{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--hint);background:none;padding:3px 0}
+.wreport svg{width:13px;height:13px}
+.wreport:hover{color:var(--muted)}
+.wreport.done{color:var(--teal);cursor:default}
+.wilma-bubble.wilma-off{background:#3A4254}
+.wilma-bubble.wilma-off:hover{background:#454e63}
+.wilma-bubble.wilma-off .wilma-av{background:#5A6275}
+.wilma-sugg{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;background:var(--paper)}
+.wsug{font-size:12.5px;font-weight:600;color:var(--teal);background:#E7F7F4;border-radius:99px;padding:8px 13px}
+.wsug:hover{background:#d4f0eb}
+.wilma-input{display:flex;gap:9px;padding:14px 16px;border-top:1px solid var(--line2);background:#fff}
+.wilma-input input{flex:1;border:1.5px solid var(--line2);border-radius:11px;padding:11px 13px;font-family:inherit;font-size:14px}
+.wilma-input input:focus{outline:none;border-color:var(--teal)}
+.wilma-input button{background:var(--teal);color:#fff;width:42px;border-radius:11px;display:grid;place-items:center;flex-shrink:0}
+.wilma-input button svg{width:18px;height:18px}
+
+/* ---------- Dev branch picker ---------- */
+.devbar{position:fixed;bottom:0;left:0;z-index:55;background:var(--navy);color:#fff;padding:8px 12px;border-top-right-radius:12px;
+  font-size:11px;display:flex;align-items:center;gap:8px;max-width:100vw;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.2)}
+.devbar b{color:var(--orange);letter-spacing:.04em;text-transform:uppercase;font-size:10px}
+.devbar select{background:#1B2B40;color:#fff;border:1px solid #2a3a52;border-radius:7px;padding:5px 8px;font-family:inherit;font-size:11px}
+.devbar button{color:#9AA8B8;font-size:11px;padding:4px 8px;border-radius:6px}
+.devbar button:hover{background:#1B2B40;color:#fff}
+
+/* misc helpers */
+.center{text-align:center}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}
+.divider{height:1px;background:var(--line2);margin:26px 0}
+.spinner{width:46px;height:46px;border:4px solid var(--mist);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.statebadge{display:inline-block;font-size:12px;font-weight:700;color:var(--slate);background:var(--mist);padding:5px 11px;border-radius:8px}
+
+/* inline icon sizing — constrain any loose SVG that isn't explicitly sized elsewhere */
+.btn svg{width:19px;height:19px;flex-shrink:0}
+.btn-link svg{width:15px;height:15px;vertical-align:-2px}
+.note svg{width:13px;height:13px;vertical-align:-2px;display:inline}
+.disc svg{width:14px;height:14px;vertical-align:-2px;display:inline}
+.fakepay .row svg{width:14px;height:14px}
+.saved-chip svg{width:15px;height:15px}
+.eyebrow svg{width:14px;height:14px}
+.result-icon span{display:grid;place-items:center;width:34px;height:34px}
+.result-icon span svg{width:34px;height:34px}
+.item .ico span{display:grid;place-items:center;width:22px;height:22px}
+.item .ico span svg{width:22px;height:22px}
+.tag svg{width:13px;height:13px}
+.incl li svg{width:18px;height:18px}
+.reasons li svg{width:18px;height:18px}
+.wilma-input button svg{width:18px;height:18px}
+.wilma-top .x svg{width:18px;height:18px}
+.empty svg{width:46px;height:46px}
+.checklist .cbx svg{width:13px;height:13px}
+.opt .tick svg{width:12px;height:12px}
+.miniico svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+/* =========================================================
+   EXPUNGEMENT.AI — customer-facing flow prototype
+   In-memory state only (resets on reload).
+   The mock engine returns the same shape as the real
+   ExpungementAiEligibilityResult object the backend will send.
+   ========================================================= */
+
+/* ---------- Logo (sunrise-over-road mark) ---------- */
+function logoSVG(dark){
+  var arch = dark ? '#1B2B40' : '#0B1320';
+  var gap  = dark ? '#0B1320' : '#FBFAF7';
+  return '<svg viewBox="0 0 192 158" aria-hidden="true"><defs><clipPath id="lc'+(dark?'d':'l')+'"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs>'
+    +'<g clip-path="url(#lc'+(dark?'d':'l')+')">'
+    +'<path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="'+arch+'"/>'
+    +'<circle cx="96" cy="92" r="27" fill="#FF3B00"/>'
+    +'<path d="M16 110 L176 110 L176 154 L16 154 Z" fill="'+gap+'"/>'
+    +'<path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/>'
+    +'<path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/>'
+    +'<path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>';
+}
+
+/* ---------- tiny icon set ---------- */
+var I = {
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6z"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  map:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M14 3H6v18h12V8z"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  ban:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>',
+  brief:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-3-6-7-2z"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  receipt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18l2-1 2 1 2-1 2 1 2-1 2 1V3l-2 1-2-1-2 1-2-1-2 1z"/><path d="M9 8h6M9 12h6"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></svg>'
+};
+
+/* ---------- branch definitions (all 10) ---------- */
+var BRANCHES = {
+  packet_ready: {
+    label:'You may be eligible to clear this record.',
+    sub:'Based on your answers, we can prepare a self-help filing packet for your state.',
+    icon:I.check, color:'var(--teal)', bg:'#E7F7F4', tagText:'Packet ready', tagBg:'#E7F7F4', tagFg:'#0E7a6e',
+    pay:true,
+  },
+  packet_ready_with_caution: {
+    label:'You may have a record-clearing path.',
+    sub:'Your answers suggest a possible path. The court makes the final decision.',
+    icon:I.shield, color:'var(--warn)', bg:'#FBF3E0', tagText:'Possible path', tagBg:'#FBF3E0', tagFg:'#9a6b00',
+    pay:true, caution:true,
+  },
+  needs_more_info: {
+    label:'We need a few more details before we can generate your packet.',
+    sub:'You\u2019re close. A few missing answers are all that\u2019s left.',
+    icon:I.info, color:'var(--slate)', bg:'#EDF1F6', tagText:'Almost there', tagBg:'#EDF1F6', tagFg:'#475A6E',
+    pay:false, primaryCTA:'Add missing details', secondaryCTA:'Save and come back', email:true,
+  },
+  not_yet: {
+    label:'You may need to wait before filing.',
+    sub:'This may become available later. We can remind you when it may be time to check again.',
+    icon:I.clock, color:'var(--slate)', bg:'#EDF1F6', tagText:'Not yet', tagBg:'#EDF1F6', tagFg:'#475A6E',
+    pay:false, primaryCTA:'Send me a reminder', secondaryCTA:'See what needs to happen first', email:true, reminder:true,
+  },
+  state_not_live: {
+    label:'We\u2019re not live in your state yet.',
+    sub:'We\u2019re expanding every month. We\u2019ll let you know the moment your state opens.',
+    icon:I.map, color:'var(--slate)', bg:'#EDF1F6', tagText:'Coming soon', tagBg:'#EDF1F6', tagFg:'#475A6E',
+    pay:false, primaryCTA:'Notify me when my state launches', secondaryCTA:'Get general record-clearing info', email:true,
+  },
+  not_covered_yet: {
+    label:'We don\u2019t support this record type yet.',
+    sub:'We\u2019re adding more record types and pathways. We\u2019ll tell you if this becomes available.',
+    icon:I.map, color:'var(--slate)', bg:'#EDF1F6', tagText:'Not covered yet', tagBg:'#EDF1F6', tagFg:'#475A6E',
+    pay:false, primaryCTA:'Join the update list', secondaryCTA:'See general next steps', email:true,
+  },
+  likely_not_eligible: {
+    label:'This record may not qualify based on your answers.',
+    sub:'This is not a final legal decision. It means your answers don\u2019t match a packet we can support right now.',
+    icon:I.ban, color:'var(--muted)', bg:'#F0F1F4', tagText:'May not qualify', tagBg:'#F0F1F4', tagFg:'#5A6275',
+    pay:false, primaryCTA:'See why', secondaryCTA:'Save my results', email:true, emailSoft:true,
+  },
+  needs_review: {
+    label:'This situation needs review before a packet is generated.',
+    sub:'We don\u2019t want to generate the wrong packet for you. Your answers suggest this needs a closer look first.',
+    icon:I.help, color:'var(--slate)', bg:'#EDF1F6', tagText:'Needs review', tagBg:'#EDF1F6', tagFg:'#475A6E',
+    pay:false, primaryCTA:'Save my answers', secondaryCTA:'Join review list', email:true,
+  },
+  guidance_only: {
+    label:'We can give you next steps for your state.',
+    sub:'We support your state. Based on your answers, we can give you record-clearing next steps, but we can\u2019t generate a filing packet for this path yet. We saved your guidance to your Briefcase so you can come back anytime.',
+    icon:I.map, color:'var(--teal)', bg:'#E7F7F4', tagText:'Guidance saved', tagBg:'#E7F7F4', tagFg:'#0E7a6e',
+    pay:false, primaryCTA:'Save next steps to my Briefcase', secondaryCTA:'Email me my next steps', email:true,
+  },
+  hard_stop: {
+    label:'We can\u2019t help with this type of record.',
+    sub:'This tool prepares self-help packets for supported state record types. This situation falls outside what we can generate.',
+    icon:I.ban, color:'var(--muted)', bg:'#F0F1F4', tagText:'Out of scope', tagBg:'#F0F1F4', tagFg:'#5A6275',
+    pay:false, primaryCTA:'Find legal help', secondaryCTA:null, email:false,
+  }
+};
+
+/* All 50 states + DC are LIVE. There is no "state not live" branch and no state-level packet
+   gate. Packet-readiness is a property of the PATH (outcome + charge + answers), not the state.
+   Default: an in-scope path with enough info and no blocker is packet-ready.
+   Guidance-only is the exception, for the rare paths with no packet template.
+
+   In production the engine decides this and returns paymentAllowed; the front end just honors
+   it. The list below is the prototype's editable stand-in so the mock can demo guidance_only
+   realistically. Each rule matches on the path the answers describe, not the state. */
+var GUIDANCE_ONLY_PATHS = [
+  // category + level combinations the mock treats as "in scope but no packet template yet"
+  { match:function(a){ return a.level==='ordinance'; },
+    why:'Municipal and ordinance matters are often too county-specific for a generated packet.' },
+  { match:function(a){ return a.category==='dui' && a.outcome==='conviction'; },
+    why:'DUI conviction clearing varies widely and isn\u2019t on a generated-packet path yet.' }
+  // Add real non-packetable path rules here. Everything not matched defaults to packet-ready.
+];
+function pathIsGuidanceOnly(a){
+  for(var i=0;i<GUIDANCE_ONLY_PATHS.length;i++){ if(GUIDANCE_ONLY_PATHS[i].match(a)) return GUIDANCE_ONLY_PATHS[i]; }
+  return null;
+}
+
+var ALL_STATES = [
+  'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
+  'District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+  'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota',
+  'Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey',
+  'New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon',
+  'Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah',
+  'Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+];
+
+/* ---------- mock engine: answers -> result object ---------- */
+function runEngine(a){
+  var disclaimer = 'Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.';
+  function base(code, extra){
+    var b = BRANCHES[code];
+    return Object.assign({
+      resultCode:code, userLabel:b.label, state:a.state||'your state',
+      pathwayLabel:null, confidence:'medium', paymentAllowed:!!b.pay,
+      priceCents:b.pay?5000:undefined, packetType:b.pay?'official_pdf_overlay':undefined,
+      reasons:[], missingInfo:[], nextSteps:[], emailCaptureRecommended:!!b.email,
+      reminderRecommended:!!b.reminder, disclaimer:disclaimer
+    }, extra||{});
+  }
+
+  function guidance(why){
+    return base('guidance_only',{ packetType:'guidance_packet', confidence:'medium',
+      reasons:[ why || 'This path is in scope, but it doesn\u2019t produce a filing packet yet.',
+                'You can still get clear, state-specific next steps.' ],
+      nextSteps:['Review the next steps we saved to your Briefcase.',
+                 'Gather your court and case details.',
+                 'Come back if packet generation opens for this path.'] });
+  }
+
+  // ---- decision order (matches the engine spec exactly) ----
+
+  // 1. outside record-clearing scope -> hard_stop
+  if(a.federal==='not_me'){
+    return base('hard_stop',{confidence:'blocked',
+      reasons:['You\u2019re asking about someone else\u2019s record.',
+               'We can only prepare a packet for the person whose record it is.'],
+      nextSteps:['The record holder can start their own free check here.']});
+  }
+  if(a.federal==='federal'){
+    return base('hard_stop',{confidence:'blocked',
+      reasons:['Federal records run through a different system than state record clearing.',
+               'Our self-help packets don\u2019t apply to federal matters.'],
+      nextSteps:['Talk to a licensed attorney about federal record options.']});
+  }
+
+  // 2. missing required facts -> needs_more_info
+  var missing = [];
+  if(!a.state) missing.push('State');
+  if(a.outcome==='unsure'||!a.outcome) missing.push('How the case ended');
+  if(a.level==='unsure') missing.push('Charge level');
+  if(a.outcome==='conviction' && a.fines==='no') missing.push('Whether fines, restitution, or court costs are paid');
+  if(a.pending==='unsure') missing.push('Whether any case is still open');
+  if(missing.length){
+    return base('needs_more_info',{confidence:'low', missingInfo:missing,
+      reasons:['We\u2019re close. A few answers are still missing.',
+               'We need them to match the right packet for you.'],
+      nextSteps:['Add the missing details to continue your check.']});
+  }
+
+  // 3. timing / completion problem -> not_yet
+  if(a.pending==='yes'){
+    return base('not_yet',{
+      reasons:['You have a pending case.','Most states won\u2019t allow filing while a case is open.'],
+      nextSteps:['We can remind you once the pending case resolves.']});
+  }
+  if(a.outcome==='conviction' && a.sentence==='no'){
+    return base('not_yet',{
+      reasons:['The record is a conviction and the sentence isn\u2019t complete yet.',
+               'A waiting period usually starts after the sentence is finished.'],
+      nextSteps:['Finish sentence requirements.','Set a reminder for when the clean period may pass.']});
+  }
+
+  // 4. too complex / low confidence -> needs_review
+  if(a.category==='sex'){
+    return base('needs_review',{confidence:'low',
+      reasons:['This offense category often involves registry rules and court discretion.',
+               'We want a closer look before preparing anything.'],
+      nextSteps:['Save your answers.','Join the review list for when this is available.']});
+  }
+
+  // 5. unsupported record type -> not_covered_yet
+  //    (none triggered by the current question set beyond federal/not-me handled above;
+  //     real engine maps juvenile, registry, out-of-state, multi-state, DMV-only here.)
+
+  // 6. apparent disqualifier -> likely_not_eligible
+  //    (the mock has no hard disqualifier from the current questions; real engine maps
+  //     excluded categories, conviction-count limits, unsatisfiable waiting rules here.)
+
+  // 7. in scope but no packet template for THIS path -> guidance_only (the exception)
+  var g = pathIsGuidanceOnly(a);
+  if(g) return guidance(g.why);
+
+  // 8. packetable but discretionary / uncertain -> packet_ready_with_caution
+  var label = pathwayFor(a);
+  if(a.outcome==='conviction'){
+    return base('packet_ready_with_caution',{confidence:'medium', pathwayLabel:label,
+      reasons:['Your answers point to a packetable path.',
+               'Court approval for a conviction is discretionary, so the court still decides.',
+               (a.level==='felony'?'Felony cases can draw more scrutiny; review your packet carefully.':'A prosecutor or court objection may still matter.')],
+      nextSteps:['You can generate a packet, but review it carefully before filing.']});
+  }
+  if(a.fines==='no' || a.sentence==='no' || a.level==='unsure'){
+    return base('packet_ready_with_caution',{confidence:'medium', pathwayLabel:label,
+      reasons:['Your answers point to a packetable path.',
+               'One detail is still a little uncertain, so review the packet closely before filing.'],
+      nextSteps:['You can generate a packet, but double-check the uncertain detail first.']});
+  }
+
+  // 9. default -> packet_ready
+  return base('packet_ready',{confidence:'high', pathwayLabel:label,
+    reasons:['Your answers point to a clear, packetable path.',
+             'No obvious disqualifier or timing blocker.',
+             'We can prepare your filing packet now.'],
+    nextSteps:['Generate your packet and review the filing steps.']});
+}
+
+/* human-readable pathway label from the answers */
+function pathwayFor(a){
+  var s = a.state || 'your state';
+  if(['dismissed','acquitted','nolle','arrest'].indexOf(a.outcome)>=0) return s+' expungement (non-conviction)';
+  if(a.outcome==='deferred') return s+' expungement (diversion / deferred)';
+  if(a.outcome==='conviction') return s+(a.level==='felony'?' felony':' misdemeanor')+' expungement';
+  return s+' record clearing';
+}
+
+/* ===================== QUESTIONS ===================== */
+var QUESTIONS = [
+  { key:'state', type:'select', q:'Which state is the record in?',
+    p:'The state determines the law, the forms, and the filing steps.',
+    options:function(){ return ALL_STATES.map(function(s){return {v:s,l:s};}); } },
+  { key:'federal', type:'opt', q:'Is this a state or local record?',
+    p:'We prepare packets for state and local records, not federal matters.',
+    options:[ {v:'state',l:'State or local record'}, {v:'federal',l:'Federal record'},
+      {v:'not_me',l:'I\u2019m asking about someone else\u2019s record'}, {v:'unsure',l:'I\u2019m not sure'} ] },
+  { key:'outcome', type:'opt', q:'How did the case end?',
+    p:'Pick the outcome that best matches what happened.',
+    options:[ {v:'arrest',l:'Arrest only',s:'No charges filed'}, {v:'dismissed',l:'Dismissed'},
+      {v:'acquitted',l:'Acquitted',s:'Found not guilty'}, {v:'nolle',l:'No prosecution / nolle prosequi'},
+      {v:'deferred',l:'Diversion / deferred / probation before judgment'},
+      {v:'conviction',l:'Conviction'}, {v:'unsure',l:'I\u2019m not sure'} ] },
+  { key:'level', type:'opt', q:'What level was the charge?',
+    options:[ {v:'misdemeanor',l:'Misdemeanor'}, {v:'felony',l:'Felony'},
+      {v:'traffic',l:'Traffic'}, {v:'ordinance',l:'Ordinance / municipal'}, {v:'unsure',l:'I\u2019m not sure'} ] },
+  { key:'category', type:'opt', q:'What was the charge about?',
+    options:[ {v:'drug',l:'Drug'}, {v:'theft',l:'Theft / property'}, {v:'assault',l:'Assault / violence'},
+      {v:'dui',l:'DUI / DWI'}, {v:'sex',l:'Sex offense'}, {v:'dv',l:'Domestic violence'},
+      {v:'firearm',l:'Firearm / weapons'}, {v:'other',l:'Other / not sure'} ] },
+  { key:'date', type:'date', q:'When did the case end?',
+    p:'The disposition or completion date. A best estimate is fine.' },
+  { key:'pending', type:'opt', q:'Do you have any pending or open cases right now?',
+    options:[ {v:'no',l:'No open cases'}, {v:'yes',l:'Yes, I have a pending case'}, {v:'unsure',l:'I\u2019m not sure'} ] },
+  { key:'sentence', type:'opt', q:'Have you finished everything the sentence required?',
+    p:'Probation, parole, classes, community service, and any conditions.',
+    options:[ {v:'yes',l:'Yes, all complete'}, {v:'no',l:'Not yet'}, {v:'na',l:'There was no sentence'} ] },
+  { key:'fines', type:'opt', q:'Are any fines, restitution, or court costs still owed?',
+    p:'Some states require these paid before you can file.',
+    options:[ {v:'paid',l:'All paid'}, {v:'no',l:'Still owe some'}, {v:'na',l:'None were ordered'} ] },
+  { key:'details', type:'details', q:'Any case details you have handy?',
+    p:'Optional. These help us fill the forms. You can skip and add them later.' }
+];
+
+/* ===================== HELPERS ===================== */
+function el(html){ var d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function go(screen){ S.screen=screen; render(); window.scrollTo(0,0); }
+function fmtDate(d){ d=d||new Date(); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+
+/* ===================== TOPBAR ===================== */
+function topbar(){
+  var loggedIn = !!S.user;
+  var nav = loggedIn
+    ? '<a href="#" onclick="go(\'briefcase\');return false">My Briefcase</a>'
+      +'<button class="hide-sm" onclick="startCheck()">Start new check</button>'
+      +'<button class="ghost hide-sm" onclick="signOut()">Sign out</button>'
+    : '<a class="hide-sm" href="#" onclick="return false">How it works</a>'
+      +'<a class="hide-sm" href="#" onclick="return false">Pricing</a>'
+      +'<button class="hide-sm" onclick="go(\'auth\')">Sign in</button>'
+      +'<button class="pill" onclick="startFree()">Start free</button>';
+  return '<div class="topbar"><a class="brand" href="#" onclick="go(S.user?\'briefcase\':\'landing\');return false">'
+    + logoSVG(false) + '<span>Expungement<span class="ai">.ai</span></span></a>'
+    + '<nav class="topnav">'+nav+'</nav></div>';
+}
+
+/* ===================== SCREENS ===================== */
+function landingScreen(){
+  return '<div class="screen center" style="padding-top:30px">'
+    + '<span class="eyebrow">'+I.shield+' Attorney-built record clearing</span>'
+    + '<h1 class="big mt16">Clear your record.<br>$50, not $1,500.</h1>'
+    + '<p class="lead" style="max-width:48ch;margin-left:auto;margin-right:auto">Check for a possible record-clearing path and save your progress in your private Briefcase. Free to check. You only pay when there\u2019s a packet to generate.</p>'
+    + '<div class="btnrow" style="max-width:340px;margin-left:auto;margin-right:auto">'
+    + '<button class="btn btn-primary" onclick="startFree()">Start free '+I.arrow+'</button></div>'
+    + '<p class="note mt16">Takes about 3 minutes \u00b7 No card to check \u00b7 Private to you</p>'
+    + '<div class="divider"></div>'
+    + '<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;text-align:left">'
+    + miniCard(I.shield,'Attorney-reviewed','Every packet is built on the real law of your state.')
+    + miniCard(I.brief,'Your Briefcase','Answers, packets, receipts, and reminders in one private place.')
+    + miniCard(I.doc,'Self-help packet','The documents and filing steps. The court makes the final call.')
+    + '</div></div>';
+}
+function miniCard(ic,t,b){
+  return '<div class="card" style="flex:1;min-width:200px;padding:22px"><div class="miniico" style="color:var(--teal)">'+ic+'</div>'
+    +'<h4 style="font-size:15px;font-weight:700;margin-top:12px;color:var(--navy)">'+t+'</h4>'
+    +'<p style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5">'+b+'</p></div>';
+}
+
+function authScreen(){
+  return '<div class="screen" style="max-width:460px;padding-top:20px">'
+    + '<div class="card">'
+    + '<div class="result-icon" style="background:var(--navy)"><span style="color:#fff;width:34px;height:34px">'+I.brief+'</span></div>'
+    + '<h1 style="font-size:26px;font-weight:800;color:var(--navy)">Create your free Briefcase</h1>'
+    + '<p class="lead" style="font-size:15px;margin-top:10px">We\u2019ll save your answers, results, packets, receipts, and filing checklist in one private place.</p>'
+    + '<div class="field mt24"><label>Email address</label><input id="authEmail" type="email" placeholder="you@email.com" value=""></div>'
+    + '<div class="btnrow" style="margin-top:8px">'
+    + '<button class="btn btn-navy" onclick="createBriefcase()">Continue with email</button>'
+    + '<button class="btn btn-ghost" onclick="createBriefcase(\'google\')">Continue with Google</button>'
+    + '</div>'
+    + '<p class="note center mt16">Already have a Briefcase? <a href="#" style="color:var(--navy);font-weight:600" onclick="createBriefcase();return false">Sign in</a></p>'
+    + '<div class="disc" style="margin-top:20px">'+I.lock+' This is a secure personal workspace, not a legal portal. We never sell your information.</div>'
+    + '</div></div>';
+}
+
+function checkScreen(){
+  var q = QUESTIONS[S.step];
+  var pct = Math.round((S.step/(QUESTIONS.length))*100)+8;
+  var body='';
+  if(q.type==='select'){
+    var opts = q.options().map(function(o){return '<option value="'+o.v+'"'+(S.answers[q.key]===o.v?' selected':'')+'>'+o.l+'</option>';}).join('');
+    body = '<div class="field"><select id="qsel" onchange="setAnswer(\''+q.key+'\',this.value)"><option value="">Choose your state\u2026</option>'+opts+'</select></div>';
+  } else if(q.type==='opt'){
+    body = '<div class="opts">'+ q.options.map(function(o){
+      var sel = S.answers[q.key]===o.v;
+      return '<button class="opt'+(sel?' sel':'')+'" onclick="pickOpt(\''+q.key+'\',\''+o.v+'\')"><span class="tick">'+I.check+'</span><span>'+o.l+(o.s?'<small>'+o.s+'</small>':'')+'</span></button>';
+    }).join('') +'</div>';
+  } else if(q.type==='date'){
+    body = '<div class="field"><input id="qdate" type="date" onchange="setAnswer(\''+q.key+'\',this.value)" value="'+(S.answers[q.key]||'')+'"></div>'
+      +'<button class="btn-link" onclick="setAnswer(\''+q.key+'\',\'unsure\');nextStep()">I don\u2019t remember the exact date</button>';
+  } else if(q.type==='details'){
+    body = '<div class="grid2">'
+      +'<div class="field"><label>County</label><input placeholder="e.g. Cook" onchange="setDetail(\'county\',this.value)"></div>'
+      +'<div class="field"><label>Court name</label><input placeholder="optional" onchange="setDetail(\'court\',this.value)"></div>'
+      +'<div class="field"><label>Case number</label><input placeholder="optional" onchange="setDetail(\'case\',this.value)"></div>'
+      +'<div class="field"><label>Charge name</label><input placeholder="optional" onchange="setDetail(\'charge\',this.value)"></div>'
+      +'</div>';
+  }
+  var canNext = q.type==='details' || q.type==='date' || (S.answers[q.key]!==undefined && S.answers[q.key]!=='');
+  var nextLbl = (S.step===QUESTIONS.length-1)?'See my result':'Continue';
+  return '<div class="screen" style="max-width:560px">'
+    + '<div class="progress"><div class="bar"><i style="width:'+pct+'%"></i></div><span class="lbl">'+(S.step+1)+' of '+QUESTIONS.length+'</span></div>'
+    + '<div class="card">'
+    + '<div class="qhead"><span class="statebadge" style="'+(S.answers.state?'':'display:none')+'">'+(S.answers.state||'')+'</span>'
+    + '<h2 style="margin-top:'+(S.answers.state&&q.key!=='state'?'12px':'0')+'">'+q.q+'</h2>'+(q.p?'<p>'+q.p+'</p>':'')+'</div>'
+    + body
+    + '<div class="btnrow inline" style="justify-content:space-between">'
+    + (S.step>0?'<button class="btn-link" onclick="prevStep()">\u2190 Back</button>':'<span></span>')
+    + '<button class="btn btn-primary" style="width:auto;min-width:160px;'+(canNext?'':'opacity:.45;pointer-events:none')+'" onclick="nextStep()">'+nextLbl+' '+I.arrow+'</button>'
+    + '</div></div>'
+    + '<p class="note center mt16">'+I.lock+' Saved privately to your Briefcase as you go.</p>'
+    + '</div>';
+}
+
+function thinkingScreen(){
+  setTimeout(function(){ computeResult(); }, 1400);
+  return '<div class="screen center" style="padding-top:80px"><div class="spinner"></div>'
+    + '<h2 style="font-size:20px;font-weight:700;color:var(--navy);margin-top:26px">Checking your answers against '+(S.answers.state||'your state')+'\u2019s rules\u2026</h2>'
+    + '<p class="note mt8">This is an estimate, not a legal decision.</p></div>';
+}
+
+function resultScreen(){
+  var r = S.result, b = BRANCHES[r.resultCode];
+  var reasons = r.reasons.map(function(x){return '<li><span style="color:'+b.color+'">'+I.check+'</span>'+x+'</li>';}).join('');
+  var html = '<div class="screen"><div class="card">'
+    + '<div class="result-icon" style="background:'+b.bg+'"><span style="color:'+b.color+'">'+b.icon+'</span></div>'
+    + '<span class="tag" style="background:'+b.tagBg+';color:'+b.tagFg+'">'+b.tagText+'</span>'
+    + '<h1 style="font-size:27px;font-weight:800;color:var(--navy);margin-top:14px;line-height:1.15">'+r.userLabel+'</h1>'
+    + '<p class="lead" style="font-size:15.5px">'+b.sub+'</p>';
+  if(r.pathwayLabel) html += '<p class="statebadge mt16">'+r.pathwayLabel+'</p>';
+  if(reasons) html += '<ul class="reasons">'+reasons+'</ul>';
+  if(r.missingInfo && r.missingInfo.length){
+    html += '<div class="disc" style="background:#EDF1F6"><b style="color:var(--navy)">Still needed:</b> '+r.missingInfo.join(', ')+'.</div>';
+  }
+
+  // CTA block by branch
+  html += '<div class="btnrow">';
+  if(r.paymentAllowed){
+    html += '<button class="btn btn-primary" onclick="go(\'pay\')">Generate my packet \u2014 $50</button>';
+    html += '<button class="btn btn-ghost" onclick="openWilma(\'whats included\')">Review what this packet includes</button>';
+  } else {
+    html += '<button class="btn btn-navy" onclick="branchPrimary()">'+b.primaryCTA+'</button>';
+    if(b.secondaryCTA) html += '<button class="btn btn-ghost" onclick="branchSecondary()">'+b.secondaryCTA+'</button>';
+    if(r.resultCode==='guidance_only'){
+      html += '<div class="btnrow inline" style="margin-top:0">'
+        + '<button class="btn btn-ghost" style="flex:1" onclick="openWilma(\'explain my next steps\')">Ask Wilma to explain this</button>'
+        + '<button class="btn btn-ghost" style="flex:1" onclick="startCheck()">Start another check</button></div>';
+    }
+  }
+  html += '</div>';
+
+  html += '<div class="saved-chip">'+I.brief+' Saved to your Briefcase</div> '
+    + '<a href="#" class="btn-link" style="margin-left:6px" onclick="go(\'briefcase\');return false">View in Briefcase</a>';
+  html += '<div class="disc">'+r.disclaimer+(r.paymentAllowed?' You are paying for packet preparation and filing instructions, not a promised outcome. Review everything carefully before filing.':'')+'</div>';
+  html += '</div></div>';
+  return html;
+}
+
+function payScreen(){
+  var r = S.result;
+  return '<div class="screen"><div class="card">'
+    + '<span class="eyebrow">'+I.doc+' Step 2 of 2</span>'
+    + '<h1 style="font-size:26px;font-weight:800;color:var(--navy);margin-top:12px">Generate your record-clearing packet</h1>'
+    + '<p class="lead" style="font-size:15px">Based on your answers, we can prepare a self-help packet for '+(r.pathwayLabel||r.state)+'.</p>'
+    + '<div class="pricebox"><div class="top"><div class="amt">$50<span>one-time</span></div><div class="state">'+r.state+'<br>'+(r.packetType==='custom_pleading'?'Custom pleading':'Official form packet')+'</div></div>'
+    + '<ul class="incl">'
+    + '<li>'+I.check+' Your state-specific packet, filled from your answers</li>'
+    + '<li>'+I.check+' Step-by-step filing instructions for your court</li>'
+    + '<li>'+I.check+' Filing checklist (sign, notarize, copy, serve)</li>'
+    + '<li>'+I.check+' Clerk filing guidance and fee-waiver notes where available</li>'
+    + '</ul></div>'
+    + '<div class="fakepay"><div class="row">'+I.lock+' Secure payment \u00b7 prototype (no real charge)</div>'
+    + '<div class="ccline"><input class="field" style="flex:2" placeholder="Card number" disabled><input style="flex:1" class="field" placeholder="MM/YY" disabled><input style="flex:1" class="field" placeholder="CVC" disabled></div></div>'
+    + '<div class="btnrow"><button class="btn btn-primary" onclick="payNow()">Pay $50 and generate my packet</button>'
+    + '<button class="btn-link" style="margin:0 auto" onclick="go(\'result\')">\u2190 Back to my result</button></div>'
+    + '<div class="disc">You are paying for packet preparation and filing instructions. Court approval is not guaranteed. Expungement.ai is not a law firm and does not provide legal advice.</div>'
+    + '</div></div>';
+}
+
+function confirmScreen(){
+  setTimeout(function(){ generatePacket(); }, 1600);
+  return '<div class="screen center" style="padding-top:70px">'
+    + '<div class="result-icon" style="background:#E7F7F4;margin:0 auto 22px"><span style="color:var(--teal)">'+I.check+'</span></div>'
+    + '<h1 style="font-size:26px;font-weight:800;color:var(--navy)">Payment confirmed</h1>'
+    + '<p class="lead">Your packet is being generated now and will be saved in your Briefcase.</p>'
+    + '<div class="spinner" style="margin-top:30px"></div></div>';
+}
+
+function packetScreen(){
+  var pk = S.briefcase.packets[0];
+  return '<div class="screen"><div class="card">'
+    + '<div class="result-icon" style="background:#E7F7F4"><span style="color:var(--teal)">'+I.doc+'</span></div>'
+    + '<h1 style="font-size:27px;font-weight:800;color:var(--navy)">Your packet is ready</h1>'
+    + '<p class="lead" style="font-size:15.5px">Download your record-clearing packet and review the filing steps before submitting anything to the court.</p>'
+    + '<div class="item" style="margin-top:24px;background:var(--paper)"><div class="ico" style="background:var(--navy)"><span style="color:#fff">'+I.doc+'</span></div>'
+    + '<div class="meta"><h4>'+pk.name+'</h4><p>'+pk.state+' \u00b7 generated '+pk.date+'</p></div></div>'
+    + '<div class="btnrow">'
+    + '<button class="btn btn-primary" onclick="fakeDownload()">'+I.download+' Download packet</button>'
+    + '<div class="btnrow inline" style="margin-top:0">'
+    + '<button class="btn btn-ghost" style="flex:1" onclick="go(\'briefcase\');S.bcTab=\'checklist\';render()">View filing checklist</button>'
+    + '<button class="btn btn-ghost" style="flex:1" onclick="alert(\'A copy would be emailed to \'+S.user.email)">Email me a copy</button>'
+    + '</div>'
+    + '<button class="btn btn-ghost" onclick="openWilma(\'walk me through filing\')">Ask Wilma about next steps</button>'
+    + '</div>'
+    + '<div class="saved-chip">'+I.brief+' Saved to your Briefcase</div>'
+    + '<div class="disc">Review all information carefully before filing. Court approval is not guaranteed. Expungement.ai is not a law firm and does not provide legal advice.</div>'
+    + '</div></div>';
+}
+
+/* ===================== BRIEFCASE ===================== */
+function briefcaseScreen(){
+  var tabs = [['checks','My Checks'],['packets','My Packets'],['checklist','Filing Checklist'],['reminders','Reminders'],['payments','Payments'],['wilma','Wilma']];
+  var tabHtml = tabs.map(function(t){return '<button class="bc-tab'+(S.bcTab===t[0]?' active':'')+'" onclick="S.bcTab=\''+t[0]+'\';render()">'+t[1]+'</button>';}).join('');
+  return '<div class="screen wide">'
+    + '<div class="bc-head"><div><span class="eyebrow">'+I.brief+' Your private workspace</span>'
+    + '<h1 class="big" style="font-size:32px;margin-top:8px">Briefcase</h1>'
+    + '<p class="note" style="margin-top:6px">'+S.user.email+'</p></div>'
+    + '<button class="btn btn-primary btn-sm" onclick="startCheck()">Start new check</button></div>'
+    + '<div class="bc-tabs">'+tabHtml+'</div>'
+    + '<div id="bcBody">'+briefcaseBody()+'</div></div>';
+}
+function briefcaseBody(){
+  var bc = S.briefcase;
+  if(S.bcTab==='checks'){
+    if(!bc.checks.length) return emptyState(I.shield,'No checks yet','Start a free eligibility check and it\u2019ll be saved here.');
+    return bc.checks.map(function(c){
+      var b = BRANCHES[c.resultCode];
+      return item(b.icon,b.color,b.bg, c.state+(c.pathwayLabel?' \u00b7 '+c.pathwayLabel:''), 'Updated '+c.date, b.tagText, b.tagBg, b.tagFg);
+    }).join('');
+  }
+  if(S.bcTab==='packets'){
+    if(!bc.packets.length) return emptyState(I.doc,'No packets yet','When you generate a packet it lands here with its receipt and checklist.');
+    return bc.packets.map(function(p){
+      return '<div class="item"><div class="ico" style="background:var(--navy)"><span style="color:#fff">'+I.doc+'</span></div>'
+        +'<div class="meta"><h4>'+p.name+'</h4><p>'+p.state+' \u00b7 '+p.date+'</p></div>'
+        +'<button class="btn btn-ghost btn-sm" onclick="fakeDownload()">'+I.download+' Download</button></div>';
+    }).join('');
+  }
+  if(S.bcTab==='checklist'){
+    if(!bc.packets.length) return emptyState(I.check,'No filing checklist yet','Your checklist appears once you generate a packet.');
+    var steps = ['Review your packet end to end','Sign where the forms indicate','Notarize if your court requires it',
+      'Make copies for your records','File with the clerk or court','Pay the filing fee or request a fee waiver',
+      'Serve the prosecutor or agency if required','Track the court\u2019s response'];
+    return '<div class="card"><ul class="checklist">'+steps.map(function(s,i){
+      var done = !!S.checklistDone[i];
+      return '<li class="'+(done?'done':'')+'"><span class="cbx'+(done?' done':'')+'" onclick="toggleCheck('+i+')">'+I.check+'</span><span>'+s+'</span></li>';
+    }).join('')+'</ul><div class="disc">Review all information carefully before filing. Court approval is not guaranteed.</div></div>';
+  }
+  if(S.bcTab==='reminders'){
+    if(!bc.reminders.length) return emptyState(I.bell,'No reminders set','We\u2019ll add reminders for waiting periods, state launches, and filing follow-ups.');
+    return bc.reminders.map(function(r){
+      return item(I.bell,'var(--warn)','#FBF3E0', r.title, r.detail, 'Reminder','#FBF3E0','#9a6b00');
+    }).join('');
+  }
+  if(S.bcTab==='payments'){
+    if(!bc.payments.length) return emptyState(I.receipt,'No payments yet','Your $50 packet receipts are stored here.');
+    return bc.payments.map(function(p){
+      return '<div class="item"><div class="ico" style="background:#E7F7F4"><span style="color:var(--teal)">'+I.receipt+'</span></div>'
+        +'<div class="meta"><h4>$50.00 \u00b7 '+p.name+'</h4><p>'+p.date+' \u00b7 Receipt '+p.id+'</p></div>'
+        +'<span class="status" style="background:#E7F7F4;color:#0E7a6e">Paid</span></div>';
+    }).join('');
+  }
+  if(S.bcTab==='wilma'){
+    if(!bc.wilma.length) return emptyState(I.help,'No saved conversations','Threads with Wilma you choose to save will show up here.');
+    return bc.wilma.map(function(w){ return item(I.help,'var(--teal)','#E7F7F4', w.title, w.date, 'Thread','#E7F7F4','#0E7a6e'); }).join('');
+  }
+}
+function item(ic,col,bg,title,sub,status,sBg,sFg){
+  return '<div class="item"><div class="ico" style="background:'+bg+'"><span style="color:'+col+'">'+ic+'</span></div>'
+    +'<div class="meta"><h4>'+title+'</h4><p>'+sub+'</p></div>'
+    +(status?'<span class="status" style="background:'+sBg+';color:'+sFg+'">'+status+'</span>':'')+'</div>';
+}
+function emptyState(ic,t,b){ return '<div class="empty">'+ic+'<h3>'+t+'</h3><p class="note">'+b+'</p></div>'; }
+
+/* ===================== ACTIONS ===================== */
+function startFree(){ if(S.user){ startCheck(); } else { go('auth'); } }
+function createBriefcase(method){
+  var email = (document.getElementById('authEmail')||{}).value || (method==='google'?'you@gmail.com':'you@email.com');
+  S.user = { email: email };
+  startCheck();
+}
+function signOut(){ S.user=null; go('landing'); }
+function startCheck(){ S.step=0; S.answers={}; S.result=null; go('check'); }
+
+function setAnswer(k,v){ S.answers[k]=v; render(); }
+function pickOpt(k,v){ S.answers[k]=v; setTimeout(nextStep,160); render(); }
+function setDetail(k,v){ S.answers.details=S.answers.details||{}; S.answers.details[k]=v; }
+function nextStep(){
+  if(S.step < QUESTIONS.length-1){ S.step++; render(); window.scrollTo(0,0); }
+  else { go('thinking'); }
+}
+function prevStep(){ if(S.step>0){ S.step--; render(); } }
+
+function computeResult(){
+  var r = S.devForce ? forceResult(S.devForce) : runEngine(S.answers);
+  S.result = r;
+  // every result saves a check, even when there's no packet
+  var checkTitle = (r.resultCode==='guidance_only') ? 'Record-clearing next steps' : (r.pathwayLabel || r.state+' record clearing');
+  S.briefcase.checks.unshift({ state:r.state, pathwayLabel:r.resultCode==='guidance_only'?'Record-clearing next steps':r.pathwayLabel, resultCode:r.resultCode, date:fmtDate() });
+  if(r.reminderRecommended){
+    S.briefcase.reminders.unshift({ title:'Check again for '+r.state, detail:'We\u2019ll remind you when it may be time.' });
+  }
+  go('result');
+}
+function forceResult(code){
+  var saved = S.answers.state; var a = Object.assign({}, S.answers);
+  a.state = saved || 'Illinois';
+  // build a representative result for the forced branch
+  var r = runEngine(a);
+  if(r.resultCode!==code){
+    var b=BRANCHES[code];
+    r = { resultCode:code, userLabel:b.label, state:a.state, pathwayLabel:(b.pay?a.state+' expungement':null),
+      confidence:'medium', paymentAllowed:!!b.pay, priceCents:b.pay?5000:undefined,
+      packetType:b.pay?'official_pdf_overlay':undefined,
+      reasons:['(demo) This is the '+b.tagText+' result screen.','Forced via the branch picker for review.'],
+      missingInfo: code==='needs_more_info'?['Charge level','Completion date']:[],
+      nextSteps:[], emailCaptureRecommended:!!b.email, reminderRecommended:!!b.reminder,
+      disclaimer:'Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.' };
+  }
+  return r;
+}
+
+function branchPrimary(){
+  var code=S.result.resultCode, b=BRANCHES[code];
+  if(code==='needs_more_info'){ S.step=0; go('check'); return; }
+  if(code==='hard_stop'){ alert('We\u2019d point you to local legal aid and your state bar\u2019s lawyer referral service here.'); return; }
+  if(code==='guidance_only'){ alert('Your next steps are saved to your Briefcase as \u201cRecord-clearing next steps.\u201d'); go('briefcase'); return; }
+  alert('Saved. We\u2019ll reach out at '+S.user.email+'.\n("'+b.primaryCTA+'")');
+  go('briefcase');
+}
+function branchSecondary(){
+  var b=BRANCHES[S.result.resultCode];
+  openWilma(b.secondaryCTA||'explain this');
+}
+
+function payNow(){
+  go('confirm');
+}
+function generatePacket(){
+  var r=S.result;
+  var pkName = (r.pathwayLabel||r.state+' record clearing')+' packet';
+  S.briefcase.packets.unshift({ name:pkName, state:r.state, date:fmtDate() });
+  S.briefcase.payments.unshift({ name:pkName, date:fmtDate(), id:'EXP-'+Math.floor(100000+Math.random()*899999) });
+  // update the latest check status to "packet generated"
+  go('packet');
+}
+function fakeDownload(){ alert('In production this downloads the generated PDF packet.\n(Prototype: no file attached.)'); }
+function toggleCheck(i){ S.checklistDone[i]=!S.checklistDone[i]; render(); }
+
+/* ===================== WILMA ===================== */
+var wilmaOpen=false, wilmaThread=[];
+var WILMA_SUGG = {
+  landing:['How does this work?','Is this legal advice?','What does $50 cover?'],
+  check:['Need help answering this?','What does this question mean?'],
+  result:['Explain this result','What are my options?'],
+  pay:['What\u2019s included?','Why isn\u2019t approval guaranteed?'],
+  packet:['Walk me through the filing checklist','What do I file first?'],
+  briefcase:['Help with one of my checks','What\u2019s my next step?']
+};
+function wilmaContextLine(){
+  return ({ landing:'Your LegalEase guide', check:'Need help answering this?', result:'Want me to explain this result?',
+    pay:'Want to know what\u2019s included?', packet:'Want me to walk you through filing?',
+    briefcase:'Need help with a saved check?', auth:'Your LegalEase guide', confirm:'Your LegalEase guide', thinking:'Your LegalEase guide' })[S.screen] || 'Your LegalEase guide';
+}
+function wilmaReply(q){
+  q=(q||'').toLowerCase();
+  if(q.indexOf('legal advice')>=0||q.indexOf('lawyer')>=0)
+    return 'I\u2019m your LegalEase guide, not a lawyer, and this isn\u2019t legal advice. I can explain what things mean and help you understand the steps in plain English.<span class="disc-mini">This is not legal advice.</span>';
+  if(q.indexOf('$50')>=0||q.indexOf('included')>=0||q.indexOf('cover')>=0)
+    return 'The $50 generates your state-specific packet: the filled forms, filing instructions for your court, and a checklist for signing, copying, and filing. It pays for preparing the packet, not a guaranteed outcome.<span class="disc-mini">Court approval is not guaranteed.</span>';
+  if(q.indexOf('guarantee')>=0||q.indexOf('approval')>=0)
+    return 'The court always makes the final decision. We prepare the documents and show you how to file them correctly, which is the part most people get stuck on.<span class="disc-mini">This is not legal advice.</span>';
+  if(q.indexOf('filing')>=0||q.indexOf('checklist')>=0||q.indexOf('next step')>=0||q.indexOf('file first')>=0)
+    return 'Start by reading the whole packet once. Then sign where marked, make copies, and take it to the clerk for your court. Your checklist in the Briefcase walks through each step in order.<span class="disc-mini">This is not legal advice.</span>';
+  if(q.indexOf('how')>=0&&q.indexOf('work')>=0)
+    return 'Three steps: you answer a few questions for free, we estimate whether there may be a path, and if there is, $50 generates a self-help packet you file yourself. Everything saves to your Briefcase.<span class="disc-mini">This is not legal advice.</span>';
+  if(q.indexOf('result')>=0||q.indexOf('explain')>=0)
+    return 'Your result is based only on the answers you gave, matched against your state\u2019s rules. It\u2019s an estimate of whether there may be a path, not a final decision.<span class="disc-mini">This is not legal advice.</span>';
+  return 'I can explain what this means, help you understand the next steps, and point to where things appear in your packet. What would you like to know?<span class="disc-mini">This is not legal advice.</span>';
+}
+function openWilma(seed){
+  wilmaOpen=true;
+  if(!wilmaThread.length){ wilmaThread.push({r:'w',t:'Hi, I\u2019m Wilma, your LegalEase guide. I can explain things in plain English. I\u2019m not a lawyer and this isn\u2019t legal advice.'}); }
+  render();
+  if(seed){ setTimeout(function(){ wilmaSend(seed); },120); }
+}
+function closeWilma(){ wilmaOpen=false; render(); }
+function wilmaSend(text){
+  var inp=document.getElementById('wilmaInput');
+  text = text || (inp?inp.value:''); if(!text) return;
+  wilmaThread.push({r:'u',t:text});
+  wilmaThread.push({r:'w',t:wilmaReply(text)});
+  render();
+  setTimeout(function(){ var b=document.getElementById('wilmaBody'); if(b)b.scrollTop=b.scrollHeight; },30);
+}
+function wilmaWidget(){
+  // Kill-switch: server-side flag in production. When off, Wilma is gone but the tool keeps working.
+  if(!S.wilmaEnabled){
+    if(!wilmaOpen){
+      return '<button class="wilma-bubble wilma-off" onclick="openWilma()"><span class="wilma-av">W</span>Wilma is resting</button>';
+    }
+    return '<div class="wilma-panel"><div class="wilma-top"><span class="wilma-av">W</span><div><h4>Wilma</h4><p>Taking a quick break</p></div><button class="x" onclick="closeWilma()">'+I.x+'</button></div>'
+      + '<div class="wilma-body" style="justify-content:center;align-items:center;text-align:center;gap:14px">'
+      + '<div style="width:46px;height:46px;border-radius:50%;background:var(--mist);display:grid;place-items:center;color:var(--hint)">'+I.help+'</div>'
+      + '<p style="font-size:14.5px;color:var(--navy);font-weight:600;max-width:24ch">Wilma\u2019s taking a quick break.</p>'
+      + '<p style="font-size:13px;color:var(--muted);max-width:30ch;line-height:1.5">The screening tool and your Briefcase have everything you need to keep going.</p>'
+      + '</div></div>';
+  }
+  if(!wilmaOpen){
+    return '<button class="wilma-bubble" onclick="openWilma()"><span class="wilma-av">W</span>'+wilmaContextLine()+'</button>';
+  }
+  var msgs = wilmaThread.map(function(m,i){
+    if(m.r==='u') return '<div class="wmsg u">'+m.t+'</div>';
+    var reported = m.reported;
+    var reportBtn = '<button class="wreport'+(reported?' done':'')+'" onclick="reportWilma('+i+')" '+(reported?'disabled':'')+'>'
+      + (reported ? I.check+' Reported, thank you' : I.flag+' Report this response')+'</button>';
+    return '<div class="wmsg w">'+m.t+'<div class="wreport-row">'+reportBtn+'</div></div>';
+  }).join('');
+  var sugg = (WILMA_SUGG[S.screen]||WILMA_SUGG.landing).map(function(s){return '<button class="wsug" onclick="wilmaSend(\''+s.replace(/'/g,"\\'")+'\')">'+s+'</button>';}).join('');
+  return '<div class="wilma-panel"><div class="wilma-top"><span class="wilma-av">W</span><div><h4>Wilma</h4><p>Your LegalEase guide \u00b7 not a lawyer</p></div><button class="x" onclick="closeWilma()">'+I.x+'</button></div>'
+    + '<div class="wilma-body" id="wilmaBody">'+msgs+'</div>'
+    + '<div class="wilma-sugg">'+sugg+'</div>'
+    + '<div class="wilma-input"><input id="wilmaInput" placeholder="Ask Wilma\u2026" onkeydown="if(event.key===\'Enter\')wilmaSend()"><button onclick="wilmaSend()">'+I.send+'</button></div></div>';
+}
+function reportWilma(i){
+  var m = wilmaThread[i]; if(!m || m.reported) return;
+  m.reported = true;
+  S.wilmaReports.unshift({ text:m.t, screen:S.screen, when:fmtDate() });
+  render();
+  setTimeout(function(){ var b=document.getElementById('wilmaBody'); if(b)b.scrollTop=b.scrollHeight; },30);
+}
+
+/* ===================== DEV BAR ===================== */
+function devBar(){
+  var opts = Object.keys(BRANCHES).filter(function(k){return k!=='state_not_live';}).map(function(k){return '<option value="'+k+'"'+(S.devForce===k?' selected':'')+'>'+BRANCHES[k].tagText+' ('+k+')</option>';}).join('');
+  return '<div class="devbar"><b>Demo</b>'
+    + '<select onchange="S.devForce=this.value"><option value="">Use real mock logic</option>'+opts+'</select>'
+    + '<button onclick="jumpResult()">Jump to result \u2192</button>'
+    + '<button onclick="toggleWilma()">Wilma: '+(S.wilmaEnabled?'ON':'OFF')+'</button>'
+    + (S.wilmaReports.length?'<button onclick="alert(S.wilmaReports.length+\' reported response(s) in the review queue.\')">Reports: '+S.wilmaReports.length+'</button>':'')
+    + '<button onclick="resetAll()">Reset</button></div>';
+}
+function toggleWilma(){ S.wilmaEnabled=!S.wilmaEnabled; render(); }
+function jumpResult(){
+  if(!S.user){ S.user={email:'demo@email.com'}; }
+  if(!S.answers.state){ S.answers.state='Illinois'; }
+  go('thinking');
+}
+function resetAll(){
+  S = { screen:'landing', user:null, step:0, answers:{}, result:null, bcTab:'checks',
+    briefcase:{checks:[],packets:[],reminders:[],payments:[],wilma:[]}, checklistDone:{},
+    wilmaEnabled:true, wilmaReports:[], devForce:'' };
+  wilmaOpen=false; wilmaThread=[]; render();
+}
+
+/* ===================== RENDER ===================== */
+function render(){
+  var main='';
+  switch(S.screen){
+    case 'landing': main=landingScreen(); break;
+    case 'auth': main=authScreen(); break;
+    case 'check': main=checkScreen(); break;
+    case 'thinking': main=thinkingScreen(); break;
+    case 'result': main=resultScreen(); break;
+    case 'pay': main=payScreen(); break;
+    case 'confirm': main=confirmScreen(); break;
+    case 'packet': main=packetScreen(); break;
+    case 'briefcase': main=briefcaseScreen(); break;
+    default: main=landingScreen();
+  }
+  document.getElementById('app').innerHTML =
+    topbar() + '<div class="stage">'+main+'</div>' + wilmaWidget() + devBar();
+}
+var S = {
+  screen:'landing',        // landing | auth | check | thinking | result | pay | confirm | packet | briefcase
+  user:null,               // {email}
+  step:0,                  // question index
+  answers:{},
+  result:null,
+  bcTab:'checks',
+  briefcase:{ checks:[], packets:[], reminders:[], payments:[], wilma:[] },
+  checklistDone:{},
+  wilmaEnabled:true,       // server-side feature flag in production; mirrored here for the demo
+  wilmaReports:[],         // mock review-queue feed (server-side in production)
+  devForce:''              // forced branch code or ''
+};
+render();
+</script>
+</body>
+</html>

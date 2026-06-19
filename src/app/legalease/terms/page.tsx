@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { LegalDocument } from "../LegalDocument";
-import { termsSections } from "@/lib/legalease/legal-content";
+import { HandoffHtml } from "../HandoffHtml";
 
 export const metadata: Metadata = {
   title: "LegalEase Terms and Conditions",
@@ -8,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function LegalEaseTermsPage() {
-  return <LegalDocument title="LegalEase Terms and Conditions" updated="June 18, 2026" sections={termsSections} />;
+  return <HandoffHtml file="terms.html" />;
 }

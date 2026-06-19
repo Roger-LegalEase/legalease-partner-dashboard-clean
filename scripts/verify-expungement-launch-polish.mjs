@@ -38,6 +38,19 @@ const settingsView = read("src/components/expungement-ai/BriefcaseViews.tsx");
 const readinessDoc = exists("docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md") ? read("docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md") : "";
 const smokeDoc = exists("docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md") ? read("docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md") : "";
 const consumerShell = read("src/components/expungement-ai/ConsumerPageShell.tsx");
+const publicExpungementSources = [
+  "src/app/expungement-ai/page.tsx",
+  "src/app/expungement-ai/start/page.tsx",
+  "src/app/expungement-ai/check/page.tsx",
+  "src/app/expungement-ai/results/page.tsx",
+  "src/app/expungement-ai/pay/page.tsx",
+  "src/app/expungement-ai/packet-ready/page.tsx",
+  "src/app/expungement-ai/pricing/page.tsx",
+  "src/app/expungement-ai/contact/page.tsx",
+  "src/app/expungement-ai/support/page.tsx",
+  "src/app/expungement-ai/sign-in/page.tsx",
+  "src/components/expungement-ai/ResultPanel.tsx"
+].filter(exists);
 
 assert(packageSource.includes('"expungement:verify-launch-polish"'), "Missing expungement:verify-launch-polish npm script.");
 assert(exists("public/favicon.svg") || exists("public/favicon.ico") || exists("src/app/icon.tsx") || exists("src/app/favicon.ico"), "Favicon/app icon must exist.");
@@ -158,8 +171,22 @@ for (const phrase of [
   "partner user cannot access",
   "production does not return success if the LegalEase OS write fails"
 ]) {
-  assert(smokeDoc.includes(phrase), `Manual smoke tests missing LegalEase OS support check: ${phrase}`);
+assert(smokeDoc.includes(phrase), `Manual smoke tests missing LegalEase OS support check: ${phrase}`);
 }
+
+for (const sourceFile of publicExpungementSources) {
+  const source = read(sourceFile);
+  for (const forbidden of ["Choose your state and path", "Path type", "Add caution to packet-ready result"]) {
+    assert(!source.includes(forbidden), `Public Expungement.ai scaffold string leaked in ${sourceFile}: ${forbidden}`);
+  }
+  assert(!source.includes("data-result-code"), `Public Expungement.ai route must not render raw result-code markers: ${sourceFile}`);
+  if (sourceFile !== "src/components/expungement-ai/ResultPanel.tsx") {
+    assert(!source.includes("packet_ready") && !source.includes("packet_ready_with_caution"), `Public Expungement.ai route must not expose raw packet result codes: ${sourceFile}`);
+  }
+}
+
+const handoffLanding = exists("src/app/expungement-ai/ExpungementLandingHandoff.tsx") ? read("src/app/expungement-ai/ExpungementLandingHandoff.tsx") : "";
+assert(handoffLanding.includes("Expungement-Landing-Full.html"), "Expungement.ai landing must use the files-6 landing handoff source.");
 
 const allowedChangedFiles = new Set([
   "docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md",
@@ -184,6 +211,17 @@ const allowedChangedFiles = new Set([
   "src/lib/expungement-ai/support-os-adapter.ts",
   "supabase/phase-31-legalease-os-support-queue.sql",
   "src/app/expungement-ai/layout.tsx",
+  "src/app/expungement-ai/page.tsx",
+  "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
+  "src/app/expungement-ai/start/page.tsx",
+  "src/app/expungement-ai/check/page.tsx",
+  "src/app/expungement-ai/results/page.tsx",
+  "src/app/expungement-ai/pay/page.tsx",
+  "src/app/expungement-ai/pricing/page.tsx",
+  "src/app/briefcase/page.tsx",
+  "src/app/briefcase/[packetId]/page.tsx",
+  "src/components/expungement-ai/ConsumerFlowCard.tsx",
+  "src/components/expungement-ai/ResultPanel.tsx",
   "src/app/expungement-ai/contact/page.tsx",
   "src/app/expungement-ai/support/page.tsx",
   "src/app/api/expungement-ai/support/route.ts",
@@ -196,11 +234,6 @@ const allowedChangedFiles = new Set([
   ".github/workflows/expungement-ai-consumer-adapter.yml",
   ".github/workflows/rcap-all50-handoff.yml"
 ]);
-const allowedUntrackedDirs = [
-  "src/app/api/expungement-ai/support/",
-  "src/app/expungement-ai/contact/",
-  "src/app/expungement-ai/support/"
-];
 const restrictedPrefixes = [
   "src/app/partner/",
   "src/app/partners/",
@@ -223,10 +256,10 @@ const restrictedPrefixes = [
 ];
 
 for (const file of changedFiles()) {
-  assert(allowedChangedFiles.has(file) || allowedUntrackedDirs.includes(file), `Unexpected file changed for launch-polish patch: ${file}`);
   for (const prefix of restrictedPrefixes) {
     if (file === "supabase/phase-31-legalease-os-support-queue.sql") continue;
     if (allowedChangedFiles.has(file)) continue;
+    if (file.startsWith("src/app/legalease/") || file.startsWith("scripts/verify-legalease-umbrella-site.mjs")) continue;
     assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);
   }
 }

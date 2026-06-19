@@ -47,49 +47,56 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="le-success">
+      <div className="success show">
+        <div className="ring">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1F8F88" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </div>
         <h2>Message sent.</h2>
-        <p>Thanks for reaching out. We will reply to your email soon.</p>
-        <a className="le-button secondary" href="/legalease">
-          Back to LegalEase
+        <p>Thanks for reaching out. We&apos;ll reply to your email soon.</p>
+        <a className="home" href="/legalease">
+          &larr; Back to LegalEase
         </a>
       </div>
     );
   }
 
   return (
-    <form onSubmit={submit}>
-      <div className="le-form-label">What brings you here?</div>
-      <div className="le-choice-grid">
+    <form className="form" onSubmit={submit}>
+      <div className="flabel">What brings you here?</div>
+      <div className="topics">
         {topics.map((item) => (
-          <button className={`le-choice ${topic === item.id ? "selected" : ""}`} type="button" key={item.id} onClick={() => setTopic(item.id)}>
-            <strong>{item.label}</strong>
+          <button className={`topic ${topic === item.id ? "sel" : ""}`} type="button" key={item.id} onClick={() => setTopic(item.id)}>
+            {item.label}
           </button>
         ))}
       </div>
-      <div className="le-field-grid">
-        <div className="le-field">
+      <div className="row2">
+        <div className="field">
           <label htmlFor="name">Name</label>
           <input id="name" name="name" autoComplete="name" required placeholder="First and last" />
         </div>
-        <div className="le-field">
+        <div className="field">
           <label htmlFor="email">Email</label>
           <input id="email" name="email" type="email" autoComplete="email" required placeholder="you@example.com" />
         </div>
       </div>
-      <div className="le-field">
-        <label htmlFor="organization">Organization optional</label>
+      <div className="field">
+        <label htmlFor="organization">
+          Organization <span style={{ textTransform: "none", letterSpacing: 0, color: "var(--silver-soft)" }}>(optional)</span>
+        </label>
         <input id="organization" name="organization" placeholder="Company, clinic, or outlet" />
       </div>
-      <div className="le-field">
+      <div className="field">
         <label htmlFor="message">Message</label>
         <textarea id="message" name="message" required placeholder="How can we help?" />
       </div>
-      <button className="le-button le-submit" disabled={status === "submitting"} type="submit">
+      <button className="submit" disabled={status === "submitting"} type="submit">
         {status === "submitting" ? "Sending..." : "Send message"}
       </button>
-      <p className="le-form-note">We read every message and reply to the email you give us. Operational routing goes through LegalEase OS.</p>
-      {error ? <div className="le-form-error">{error}</div> : null}
+      <p className="fineprint">We read every message and reply to the email you give us.</p>
+      {error ? <div className="msg show">{error}</div> : null}
     </form>
   );
 }

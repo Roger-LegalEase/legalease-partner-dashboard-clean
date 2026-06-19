@@ -46,11 +46,11 @@ export default async function PacketReadyPage({
             <>
               <p className="text-xs font-bold uppercase text-[#00A99D]">Payment confirmed {checkoutMode === "dry_run" ? "(dry-run)" : ""}</p>
               <h1 className="mt-3 text-4xl font-extrabold">Your packet is ready</h1>
-              <p className="mt-3 text-sm leading-6 text-[#5A6275]">Payment status and packet artifact are saved to Briefcase item {confirmed.id}.</p>
+              <p className="mt-3 text-sm leading-6 text-[#5A6275]">Payment status and packet artifact are saved to your Briefcase.</p>
               <div className="mt-5 rounded-md bg-[#F7F3EC] p-4 text-sm leading-6 text-[#5A6275]">
                 <p className="font-bold text-[#0B1320]">{packet.artifactRefs.fileName}</p>
                 <p>Jurisdiction: {confirmed.state}</p>
-                <p>Pathway: {confirmed.pathwayLabel ?? confirmed.resultCode}</p>
+                <p>Pathway: {confirmed.pathwayLabel ?? "Record clearing packet"}</p>
                 <p>Generated: {new Date(packet.artifactRefs.generatedAt).toLocaleString()}</p>
                 {confirmed.receiptUrl ? <p>Receipt: {confirmed.receiptUrl}</p> : null}
               </div>
