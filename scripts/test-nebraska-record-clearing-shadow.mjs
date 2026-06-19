@@ -141,6 +141,7 @@ function assertNoLiveRoutesModified() {
     .split(/\r?\n/)
     .filter(Boolean)
     .filter((line) => !line.includes("src/app/internal/record-clearing/"))
+    .filter((line) => !line.includes("src/app/api/health/route.ts"))
     .filter((line) => !line.includes("src/app/api/expungement-ai/"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))

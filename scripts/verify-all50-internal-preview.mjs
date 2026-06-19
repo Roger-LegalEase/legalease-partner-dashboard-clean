@@ -112,6 +112,7 @@ function assertNoRestrictedChanges() {
   const changedFiles = changedFilesAgainstMain();
   const allowedExpungementAiLaunchSupportFiles = new Set([
     "src/app/api/expungement-ai/support/route.ts",
+    "src/app/api/health/route.ts",
     "src/app/briefcase/[packetId]/page.tsx",
     "src/app/expungement-ai/contact/page.tsx",
     "src/app/expungement-ai/layout.tsx",

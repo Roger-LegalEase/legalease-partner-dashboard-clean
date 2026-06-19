@@ -9,6 +9,7 @@ import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
 import { getBriefcaseItem, updateBriefcasePacketMetadata } from "@/lib/expungement-ai/briefcase";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "local_fallback";
@@ -34,14 +35,22 @@ export type ConsumerPacketDownload = {
   body: string;
 };
 
+type PacketGenerationEventOptions = Pick<LegalEaseOsEventOptions, "configEnv" | "fetcher" | "now">;
+
 export async function generatePaidConsumerPacket({
   userId,
   briefcaseItemId,
-  dryRunMode = false
+  dryRunMode = false,
+  legalEaseOsConfigEnv,
+  legalEaseOsFetch,
+  now
 }: {
   userId: string;
   briefcaseItemId: string;
   dryRunMode?: boolean;
+  legalEaseOsConfigEnv?: LegalEaseOsEventOptions["configEnv"];
+  legalEaseOsFetch?: LegalEaseOsEventOptions["fetcher"];
+  now?: LegalEaseOsEventOptions["now"];
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   assertPacketGenerationAllowed(item, dryRunMode);
@@ -57,9 +66,19 @@ export async function generatePaidConsumerPacket({
   try {
     const artifactRefs = buildConsumerPacketArtifact(item);
     await attachPacketToBriefcaseItem({ userId, item, artifactRefs });
+    await emitPacketGeneratedEvent(item, artifactRefs, {
+      configEnv: legalEaseOsConfigEnv,
+      fetcher: legalEaseOsFetch,
+      now
+    });
     return { packetStatus: "ready", artifactRefs, canDownload: true };
   } catch (error) {
     await updateBriefcasePacketMetadata(userId, item.id, { packetStatus: "failed" });
+    await emitPacketGenerationFailureHealthEvent(item, {
+      configEnv: legalEaseOsConfigEnv,
+      fetcher: legalEaseOsFetch,
+      now
+    });
     throw new ConsumerPacketGenerationError(error instanceof Error ? error.message : "Packet generation failed.");
   }
 }
@@ -149,6 +168,63 @@ function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacke
     ...(legacy ? { legacyGenerator: legacy } : {}),
     downloadPath: `/api/expungement-ai/packet/download?briefcaseItemId=${encodeURIComponent(item.id)}`,
     text
+  };
+}
+
+async function emitPacketGeneratedEvent(
+  item: ConsumerBriefcaseItem,
+  artifactRefs: ConsumerPacketArtifactRefs,
+  options: PacketGenerationEventOptions
+) {
+  await emitLegalEaseOsEvent({
+    event_type: "packet.generated",
+    source_system: "expungement_ai",
+    subject_type: "packet_generation",
+    subject_ref: `consumer_packet:${item.id}:${artifactRefs.source}`,
+    jurisdiction: item.state,
+    pathway_key: item.resultCode,
+    packet_type: item.packetType ?? artifactRefs.legacyGenerator ?? artifactRefs.source,
+    metrics: {
+      reason_code_count: 0,
+      next_step_count: item.nextSteps.length,
+      has_packet_artifact: true,
+      generator_source: artifactRefs.source
+    },
+    summary: "Document-prep packet generation completed.",
+    recommended_operator_action: "Review packet generation trends if failures increase.",
+    pii_classification: "hashed_reference_only"
+  }, legalEaseOsEventOptions(options));
+}
+
+async function emitPacketGenerationFailureHealthEvent(
+  item: ConsumerBriefcaseItem,
+  options: PacketGenerationEventOptions
+) {
+  await emitLegalEaseOsEvent({
+    event_type: "engine.health_changed",
+    source_system: "expungement_ai",
+    subject_type: "packet_generation",
+    subject_ref: `consumer_packet_failure:${item.id}:${item.packetType ?? item.resultCode ?? "packet"}`,
+    jurisdiction: item.state,
+    pathway_key: item.resultCode,
+    packet_type: item.packetType,
+    metrics: {
+      status: "fulfillment_failed",
+      reason_code_count: 0,
+      next_step_count: item.nextSteps.length,
+      failure_stage: "packet_generation"
+    },
+    summary: "Document-prep fulfillment failed before packet completion.",
+    recommended_operator_action: "Review fulfillment health and retry manually if needed.",
+    pii_classification: "hashed_reference_only"
+  }, legalEaseOsEventOptions(options));
+}
+
+function legalEaseOsEventOptions(options: PacketGenerationEventOptions): LegalEaseOsEventOptions {
+  return {
+    ...(options.configEnv ? { configEnv: options.configEnv } : {}),
+    ...(options.fetcher ? { fetcher: options.fetcher } : {}),
+    ...(options.now ? { now: options.now } : {})
   };
 }
 
