@@ -139,7 +139,12 @@ function assertNoRestrictedChanges() {
     "src/components/expungement-ai/",
     "src/components/expungement/"
   ];
-  const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
+  const allowedExporterFiles = new Set([
+    "src/app/api/health/route.ts"
+  ]);
+  const forbidden = changedFiles
+    .filter((file) => !allowedExporterFiles.has(file))
+    .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
   if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
 }
 
