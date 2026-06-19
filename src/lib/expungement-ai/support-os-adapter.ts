@@ -21,6 +21,7 @@ export type CreateLegalEaseOsSupportItemInput = {
   userId?: string;
   briefcaseItemId?: string;
   routeSubmittedFrom: string;
+  sourceDomain?: string | null;
   userAgent?: string;
   legalAdviceWarningAcknowledged?: boolean;
 };
@@ -41,6 +42,12 @@ export type LegalEaseOsSupportQueuePayload = {
   user_agent: string | null;
   metadata_json: {
     product: "Expungement.ai";
+    source_product: "expungement_ai";
+    source_domain: string | null;
+    source_route: string;
+    workflow_type: string;
+    loop_category: string;
+    open_state: "new";
     legal_advice_warning_acknowledged: boolean;
     payment_issue: boolean;
     packet_issue: boolean;
@@ -114,6 +121,12 @@ export function buildSupportQueuePayload(input: CreateLegalEaseOsSupportItemInpu
     user_agent: input.userAgent ?? null,
     metadata_json: {
       product: "Expungement.ai",
+      source_product: "expungement_ai",
+      source_domain: cap(input.sourceDomain ?? null, 120) || null,
+      source_route: input.routeSubmittedFrom,
+      workflow_type: "support_request",
+      loop_category: loopCategoryFor(category),
+      open_state: "new",
       legal_advice_warning_acknowledged: input.legalAdviceWarningAcknowledged === true,
       payment_issue: category === "payment_receipt",
       packet_issue: category === "packet_download",
@@ -154,4 +167,14 @@ export function redactSupportMessage(input: string) {
 
 function priorityFor(message: string): LegalEaseOsSupportPriority {
   return /\b(deadline|hearing|court date|tomorrow|today|urgent)\b/i.test(message) ? "urgent" : "normal";
+}
+
+function loopCategoryFor(category: LegalEaseOsSupportCategory) {
+  if (category === "payment_receipt") return "payment_exception";
+  if (category === "packet_download") return "packet_exception";
+  return "support_triage";
+}
+
+function cap(value: string | null | undefined, length: number) {
+  return (value ?? "").replace(/[\r\n\t]/g, " ").trim().slice(0, length);
 }

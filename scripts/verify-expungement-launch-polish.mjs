@@ -231,6 +231,8 @@ const allowedChangedFiles = new Set([
   "src/components/expungement-ai/BriefcaseViews.tsx",
   "src/components/expungement-ai/ConsumerNav.tsx",
   "src/components/expungement-ai/SupportRequestForm.tsx",
+  "src/app/api/rcap/intake/start/route.ts",
+  "src/app/api/rcap/intake/complete/route.ts",
   ".github/workflows/expungement-ai-consumer-adapter.yml",
   ".github/workflows/rcap-all50-handoff.yml"
 ]);

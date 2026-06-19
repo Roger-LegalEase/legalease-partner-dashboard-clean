@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLegalEaseOsSupportItem, normalizeSupportCategory } from "@/lib/expungement-ai/support-os-adapter";
+import { sourceDomainFromRequest } from "@/lib/legalease/launch-os-events";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 
 export const runtime = "nodejs";
@@ -54,6 +55,7 @@ export async function POST(request: NextRequest) {
     userId: auth.userId,
     briefcaseItemId: briefcaseItemId || undefined,
     routeSubmittedFrom,
+    sourceDomain: sourceDomainFromRequest(request),
     userAgent: request.headers.get("user-agent") ?? undefined,
     legalAdviceWarningAcknowledged: body?.legalAdviceWarningAcknowledged === true
   });

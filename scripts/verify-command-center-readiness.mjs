@@ -87,7 +87,6 @@ function verifySourceShape() {
     "src/app/p/we-must-vote",
     "src/app/intake/we-must-vote",
     "src/app/request-pilot",
-    "src/app/api/request-pilot",
     "src/app/internal/pilot-requests",
     "src/app/api/internal/pilot-requests/status",
     "src/app/dashboard/partners",
@@ -126,6 +125,18 @@ function verifySourceShape() {
 
   if (restrictedDiff.trim()) {
     failures.push(`Restricted routes were modified:\n${restrictedDiff}`);
+  }
+
+  const requestPilotSource = readSource("src/app/api/request-pilot/route.ts");
+  for (const marker of [
+    "createLaunchOsEvent",
+    'sourceProduct: "rcap_partner"',
+    'loopCategory: "partner_followup"',
+    "os_mirror_failed"
+  ]) {
+    if (!requestPilotSource.includes(marker)) {
+      failures.push(`/api/request-pilot launch OS mirror is missing marker: ${marker}.`);
+    }
   }
 
   if (publicReadinessRoutes.length > 0) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { createLaunchOsEvent, sourceDomainFromRequest } from "@/lib/legalease/launch-os-events";
 import { checkPilotRequestRateLimit } from "@/lib/request-pilot/rate-limit";
 import { checkSharedPilotRequestRateLimit, derivePilotRequestRateLimitBucket, safeBucketPrefix } from "@/lib/request-pilot/shared-rate-limit";
 import { capRequestMetadata, validatePilotRequestPayload } from "@/lib/request-pilot/validation";
@@ -141,6 +142,28 @@ export async function POST(request: Request) {
   if (error) {
     logSecurityError({ event: "pilot_request insert fail", route: "/api/request-pilot", outcome: "db_error", requestId, error });
     return NextResponse.json({ ok: false, error: "Unable to submit request." }, { status: 500 });
+  }
+
+  const osEvent = await createLaunchOsEvent({
+    sourceProduct: "rcap_partner",
+    sourceDomain: sourceDomainFromRequest(request),
+    sourceRoute: "/api/request-pilot",
+    workflowType: "partner_pilot_request",
+    loopCategory: "partner_followup",
+    email: validation.data.email,
+    message: `Partner pilot request submitted by ${validation.data.organization_name} for ${validation.data.state_or_jurisdiction}.`,
+    userAgent: request.headers.get("user-agent"),
+    metadata: {
+      organization_type: validation.data.organization_type,
+      state_or_jurisdiction: validation.data.state_or_jurisdiction,
+      interested_workflow: validation.data.interested_workflow ?? null,
+      consent_to_contact: validation.data.consent_to_contact
+    }
+  });
+
+  if (!osEvent.ok) {
+    logSecurityError({ event: "pilot_request os mirror fail", route: "/api/request-pilot", outcome: "os_mirror_failed", requestId });
+    return NextResponse.json({ ok: false, error: "Request intake is temporarily unavailable. Please try again later." }, { status: 503 });
   }
 
   logSecurityInfo({ event: "pilot_request insert ok", route: "/api/request-pilot", outcome: "ok", requestId });

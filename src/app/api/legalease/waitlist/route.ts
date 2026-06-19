@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { submitLegalEaseCorrespondence } from "@/lib/legalease/correspondence";
+import { sourceDomainFromRequest } from "@/lib/legalease/launch-os-events";
 import { isLegalEaseProductId, productNameFor } from "@/lib/legalease/products";
 
 export const runtime = "nodejs";
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
     product,
     productName: productNameFor(product),
     route: "/legalease/waitlist",
+    sourceDomain: sourceDomainFromRequest(request),
     userAgent: request.headers.get("user-agent")
   });
 

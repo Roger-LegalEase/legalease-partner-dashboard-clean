@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { submitLegalEaseCorrespondence } from "@/lib/legalease/correspondence";
+import { sourceDomainFromRequest } from "@/lib/legalease/launch-os-events";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -39,6 +40,7 @@ export async function POST(request: Request) {
     topicLabel: topics.get(topic),
     message,
     route: "/legalease/contact",
+    sourceDomain: sourceDomainFromRequest(request),
     userAgent: request.headers.get("user-agent")
   });
 

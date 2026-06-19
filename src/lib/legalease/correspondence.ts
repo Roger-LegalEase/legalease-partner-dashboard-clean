@@ -13,6 +13,7 @@ export type LegalEaseCorrespondencePayload = {
   organization?: string;
   message?: string;
   route: string;
+  sourceDomain?: string | null;
   userAgent?: string | null;
 };
 
@@ -51,6 +52,12 @@ export async function submitLegalEaseCorrespondence(payload: LegalEaseCorrespond
       topic: payload.topic,
       topic_label: payload.topicLabel,
       organization: cap(payload.organization, 160),
+      source_product: "legalease",
+      source_domain: cap(payload.sourceDomain, 120) || null,
+      source_route: payload.route,
+      workflow_type: payload.source === "waitlist" ? "waitlist_request" : "contact_request",
+      loop_category: payload.source === "waitlist" ? "waitlist_followup" : "support_triage",
+      open_state: "new",
       operational_source: "legalease_os"
     }
   });
