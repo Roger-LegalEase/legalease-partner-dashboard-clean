@@ -3,6 +3,11 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 export async function proxy(request: NextRequest) {
+  const hostRouting = routePublicProductHost(request);
+  if (hostRouting) {
+    return hostRouting;
+  }
+
   if (request.nextUrl.pathname === "/p/we-must-vote") {
     return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
   }
@@ -40,8 +45,126 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/internal/:path*", "/p/we-must-vote", "/sign-in", "/briefcase", "/briefcase/:path*", "/partner/dashboard", "/partner/dashboard/:path*", "/sign-out"]
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"]
 };
+
+function routePublicProductHost(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  if (isStaticOrFrameworkPath(pathname)) {
+    return null;
+  }
+
+  const host = normalizeHost(request.headers.get("host"));
+  const canonicalHost = canonicalPublicHost(host);
+
+  if (canonicalHost && canonicalHost !== host) {
+    const url = request.nextUrl.clone();
+    url.hostname = canonicalHost;
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (isPassthroughPath(pathname)) {
+    return null;
+  }
+
+  const mappedPath = productPathForHost(host, pathname);
+  if (!mappedPath || mappedPath === pathname) {
+    return null;
+  }
+
+  const url = request.nextUrl.clone();
+  url.pathname = mappedPath;
+  if (host === "cleartherecord.org" && pathname === "/") {
+    return NextResponse.redirect(url, 307);
+  }
+
+  return NextResponse.rewrite(url);
+}
+
+function normalizeHost(hostHeader: string | null) {
+  return (hostHeader ?? "").split(":")[0]?.toLowerCase() ?? "";
+}
+
+function canonicalPublicHost(host: string) {
+  const canonicalHosts: Record<string, string> = {
+    "www.legaleasepartner.com": "legaleasepartner.com",
+    "www.expungement.ai": "expungement.ai",
+    "www.legalease.com": "legalease.com",
+    "www.legalease.law": "legalease.law",
+    "www.cleartherecord.org": "cleartherecord.org"
+  };
+
+  return canonicalHosts[host] ?? null;
+}
+
+function productPathForHost(host: string, pathname: string) {
+  if (host === "legaleasepartner.com") {
+    return pathname === "/" ? "/partners" : null;
+  }
+
+  if (host === "expungement.ai") {
+    return expungementAiPath(pathname);
+  }
+
+  if (host === "legalease.com" || host === "legalease.law") {
+    return legalEasePath(pathname);
+  }
+
+  if (host === "cleartherecord.org") {
+    return pathname === "/" ? "/internal/command-center/readiness" : null;
+  }
+
+  return null;
+}
+
+function expungementAiPath(pathname: string) {
+  const cleanPaths = new Set([
+    "/",
+    "/start",
+    "/check",
+    "/results",
+    "/pay",
+    "/packet-ready",
+    "/pricing",
+    "/contact",
+    "/support",
+    "/sign-in"
+  ]);
+
+  if (!cleanPaths.has(pathname)) {
+    return null;
+  }
+
+  return pathname === "/" ? "/expungement-ai" : `/expungement-ai${pathname}`;
+}
+
+function legalEasePath(pathname: string) {
+  const cleanPaths = new Set(["/", "/contact", "/waitlist", "/terms", "/disclaimer"]);
+  if (!cleanPaths.has(pathname)) {
+    return null;
+  }
+
+  return pathname === "/" ? "/legalease" : `/legalease${pathname}`;
+}
+
+function isStaticOrFrameworkPath(pathname: string) {
+  return pathname.startsWith("/_next/") ||
+    pathname === "/favicon.ico" ||
+    pathname.startsWith("/favicon") ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml";
+}
+
+function isPassthroughPath(pathname: string) {
+  return pathname.startsWith("/api/") ||
+    pathname.startsWith("/expungement-ai") ||
+    pathname.startsWith("/legalease") ||
+    pathname === "/partners" ||
+    pathname.startsWith("/partners/") ||
+    pathname.startsWith("/p/") ||
+    pathname === "/briefcase" ||
+    pathname.startsWith("/briefcase/");
+}
 
 function unauthorized() {
   return new NextResponse("Internal admin access token required.", {
