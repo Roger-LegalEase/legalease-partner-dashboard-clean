@@ -6,7 +6,11 @@ import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 
 export function WilmaBubble({ context }: { context: WilmaPageContext }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [reported, setReported] = useState(false);
   const prompt = promptForContext(context);
+  // Render-only mirror of the server-side kill-switch flag. In production Wilma's availability is
+  // checked server-side on every request (`wilma_enabled`); this client flag only mirrors it so
+  // the surface can show the graceful fallback. The frontend never enforces a Wilma guardrail.
   const wilmaEnabled = process.env.NEXT_PUBLIC_WILMA_ENABLED !== "false";
 
   return (
@@ -28,9 +32,20 @@ export function WilmaBubble({ context }: { context: WilmaPageContext }) {
                 <div className="rounded-xl bg-[#F7F3EC] p-3 text-sm leading-6 text-[#0B1320]">
                   {prompt} I can explain process steps in plain language. The screening tool decides the result.
                 </div>
-                <button className="text-xs font-semibold text-[#00A99D]" data-wilma-report-response="true" type="button">
-                  Report this response
-                </button>
+                {reported ? (
+                  <p className="text-xs font-semibold text-[#5A6275]" data-wilma-report-response="true" role="status">
+                    Reported, thank you. A reviewer will take a look.
+                  </p>
+                ) : (
+                  <button
+                    className="text-xs font-semibold text-[#00A99D]"
+                    data-wilma-report-response="true"
+                    type="button"
+                    onClick={() => setReported(true)}
+                  >
+                    Report this response
+                  </button>
+                )}
                 <div className="flex items-start gap-2 rounded-xl border border-[#ECEFF4] bg-[#FBFCFE] p-3 text-xs leading-5 text-[#5A6275]">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#00A99D]" aria-hidden="true" />
                   Wilma is a guide, not a lawyer. This is not legal advice.

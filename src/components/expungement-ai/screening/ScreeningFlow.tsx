@@ -29,6 +29,8 @@ import {
   normalizeStateKey
 } from "@/lib/expungement-ai/frontend/profile-loader";
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
+import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
+import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { blocksContinue } from "@/components/expungement-ai/screening/answers";
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
@@ -203,7 +205,7 @@ export function ScreeningFlow({ state }: { state: string }) {
 
   if (phase === "result" && evaluation) {
     return (
-      <FlowFrame>
+      <FlowFrame wilmaContext="results">
         <ProgressRail current={screens.length} total={screens.length} />
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <ScreeningResult
@@ -265,9 +267,20 @@ export function ScreeningFlow({ state }: { state: string }) {
   );
 }
 
-function FlowFrame({ children }: { children: React.ReactNode }) {
+function FlowFrame({
+  children,
+  wilmaContext = "check"
+}: {
+  children: React.ReactNode;
+  wilmaContext?: WilmaPageContext;
+}) {
+  // A single, phase-aware Wilma surface for the flow. The result phase uses the "results" opener
+  // ("Want me to explain this result?"); every other phase uses the question opener. Render-only.
   return (
-    <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 font-sans md:px-8">{children}</section>
+    <>
+      <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 font-sans md:px-8">{children}</section>
+      <WilmaBubble context={wilmaContext} />
+    </>
   );
 }
 

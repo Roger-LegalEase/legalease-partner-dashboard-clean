@@ -13,8 +13,10 @@ export default async function ScreeningStatePage({
 }) {
   const { state } = await params;
 
+  // The shell's global Wilma bubble is disabled here so the flow can render a single, phase-aware
+  // Wilma surface (questions vs result), avoiding a duplicate bubble.
   return (
-    <ConsumerPageShell wilmaContext="check">
+    <ConsumerPageShell wilmaContext="check" showWilma={false}>
       <ScreeningFlow key={state} state={state} />
     </ConsumerPageShell>
   );
