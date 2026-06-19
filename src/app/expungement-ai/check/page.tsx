@@ -94,9 +94,6 @@ export default function CheckPage() {
             </div>
           </div>
 
-          <input name="pathType" type="hidden" value="packet" />
-          <input name="hasRequiredFacts" type="hidden" value="true" />
-
           <button className="mt-7 min-h-14 w-full rounded-[14px] bg-[#FF3B00] px-6 py-4 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)]" type="submit">See my result &rarr;</button>
           <p className="mt-4 flex items-start justify-center gap-2 text-center text-[12.5px] leading-6 text-[#8A93A6]">
             <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createTexasHarrisDocumentPacket } from "@/lib/rcap/documents/texas-harris/repository";
-import type { TexasHarrisCourtType, TexasHarrisDispositionRoute, TexasHarrisDocumentPacketInput } from "@/lib/rcap/documents/texas-harris/types";
+import { createTexasHarrisDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import type { TexasHarrisCourtType, TexasHarrisDispositionRoute, TexasHarrisDocumentPacketInput } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
 export async function POST(request: Request) {

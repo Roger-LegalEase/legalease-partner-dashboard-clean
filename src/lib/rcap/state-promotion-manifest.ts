@@ -29,8 +29,6 @@ export type StatePromotionRecord = {
   approvedBy: string | null;
 };
 
-export const legacyLivePreservedStates = ["MS", "IL", "DC", "PA", "TX"] as const;
-
 export const statePromotionManifest: StatePromotionRecord[] = /* PROMOTION_MANIFEST_START */ [
   {
     "jurisdiction": "Alabama",

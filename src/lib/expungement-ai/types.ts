@@ -88,10 +88,8 @@ export type CreateConsumerBriefcaseItemInput = {
 
 export type ExpungementAiCheckInput = {
   state: string;
-  pathType?: "packet" | "guidance" | "unsupported" | "complex" | "outside_scope" | "blocked_form";
-  hasRequiredFacts?: boolean;
-  timing?: "too_early" | "eligible_window" | "unknown";
-  packetAvailable?: boolean;
-  caution?: boolean;
+  profileVersion?: string;
+  matterId?: string;
+  answers?: Record<string, string | string[] | number | boolean | null>;
   pathwayLabel?: string;
 };
