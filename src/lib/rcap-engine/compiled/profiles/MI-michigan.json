@@ -1,0 +1,3901 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "MI",
+    "name": "Michigan",
+    "slug": "michigan"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "relativePath": "LegalEase Michigan/Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "sha256": "dafc4f5cc10da78e909cf199484fbc9eaae64f176617e14ba394ccd1e5368af2",
+        "sizeBytes": 34160,
+        "score": 1661,
+        "extractedChars": 28507
+      }
+    ],
+    "sourceCorpusSha256": "3a0791acbe9a52581b21d22dd60846182ae852e18fe1fe02e5d3ee31fd889db2",
+    "sourceCorpusChars": 23685,
+    "allFolderFiles": [
+      {
+        "fileName": "2021-11.pdf",
+        "relativePath": "LegalEase Michigan/2021-11.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "afa54034adf36bf7e59c6107f56accd2461c81d3131f6c7387afe57af5a0f18c",
+        "sizeBytes": 180174
+      },
+      {
+        "fileName": "Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "relativePath": "LegalEase Michigan/Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "dafc4f5cc10da78e909cf199484fbc9eaae64f176617e14ba394ccd1e5368af2",
+        "sizeBytes": 34160
+      },
+      {
+        "fileName": "jc105.pdf",
+        "relativePath": "LegalEase Michigan/jc105.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1d03acc4622f009d34e6e345ec8a8c2c043acc2cf9b9be6d5a25a15a64fa6859",
+        "sizeBytes": 94155
+      },
+      {
+        "fileName": "mc227.pdf",
+        "relativePath": "LegalEase Michigan/mc227.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "sizeBytes": 374474
+      },
+      {
+        "fileName": "mc228a.pdf",
+        "relativePath": "LegalEase Michigan/mc228a.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "7df3ab936f0da831d27276221a016b7ad70b9dd0343c121a8b91cb39474786f9",
+        "sizeBytes": 303610
+      },
+      {
+        "fileName": "mc228b.pdf",
+        "relativePath": "LegalEase Michigan/mc228b.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e4973f04fc07a70cf4148250dddc19a76e85515204a3df925fa15600406f2dfa",
+        "sizeBytes": 368336
+      },
+      {
+        "fileName": "mi-setaside-application.html",
+        "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+        "sizeBytes": 20498
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "set-aside",
+      "erasure",
+      "Clean Slate"
+    ],
+    "pathwayLabels": [
+      "I request that the court set aside the conviction(s) below.",
+      "Conviction: Larceny in a building (felony), MCL 750.360,",
+      "A certified copy of the conviction is attached; fingerprints",
+      "AUTOMATIC SET-ASIDE (MCL 780.621g)",
+      "Track A — Set-aside by application (MCL 780.621)"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "prior_relief"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "pending_cases"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Michigan, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Michigan case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Michigan descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Set-aside by application under MCL 780.621",
+        "Automatic Clean Slate set-aside under MCL 780.621g",
+        "Misdemeanor marijuana set-aside under MCL 780.621e",
+        "First-offense OWI set-aside by application",
+        "Human-trafficking-related set-aside application",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "prior_relief",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you previously received record-clearing relief in Michigan or elsewhere?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Michigan category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Sex offense or registration",
+        "Domestic violence",
+        "DUI/DWI or serious traffic",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Michigan was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "automatic-set-aside",
+        "track-a-set-aside-by-application"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "automatic-set-aside",
+        "track-a-set-aside-by-application"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "conviction-larceny-in-a-building-mcl-750-360",
+        "automatic-set-aside",
+        "track-a-set-aside-by-application"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "automatic-set-aside"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "set-aside-by-application-under-mcl-780-621",
+      "label": "Set-aside by application under MCL 780.621",
+      "summary": "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside: Up to three felony convictions in a lifetime (previously only one). An unlimited number of misdemeanor convictions. Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period. An eligible felony is set aside automatically 10 years after",
+      "sourceRef": "pathways:73-113; section:409-440; section:401-402; section:73-113; corpus-unit:32; section:238-265; section:114-152; section:153-199",
+      "sourceEvidenceRefs": [
+        "pathways:73-113",
+        "section:409-440",
+        "section:401-402",
+        "section:73-113",
+        "corpus-unit:32",
+        "section:238-265",
+        "section:114-152",
+        "section:153-199",
+        "section:296-322",
+        "corpus-unit:1",
+        "corpus-unit:4",
+        "corpus-unit:9",
+        "corpus-unit:23",
+        "corpus-unit:36",
+        "corpus-unit:68",
+        "corpus-unit:106"
+      ],
+      "ruleClauses": [
+        "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:",
+        "Up to three felony convictions in a lifetime (previously only one).",
+        "An unlimited number of misdemeanor convictions.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "An eligible felony is set aside automatically 10 years after",
+        "sentencing/release; up to FOUR eligible (>=93-day) misdemeanors",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "process it. Verify via your ICHAT record. (Excludes assaultive,",
+        "serious misdemeanor, dishonesty, 10-year, and minor/vulnerable/",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "MARIHUANA (MCL 780.621e, form MC 227a):",
+        "A misdemeanor marihuana conviction may be set aside by",
+        "application; a rebuttable presumption arises that the conduct",
+        "would not be a crime today, and the prosecutor must rebut it.",
+        "The MC 227 application is paired with an Order. If granted, the Order sets aside the conviction(s) and directs",
+        "the Michigan State Police to make the conviction nonpublic while retaining the nonpublic record under MCL",
+        "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Michigan's set-aside statutes and",
+        "4/11/2021) and created automatic set-aside (eff. 4/11/2023), with OWI and marijuana changes afterward; the agent must verify the",
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "and current fees before relying on any rule here.",
+        "felony, sex offense, or other ineligible offense).",
+        "Two tracks, plus the marijuana and OWI specials.",
+        "Track A — Set-aside by application (MCL 780.621)",
+        "Track B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)",
+        "The Michigan State Police and courts set aside eligible convictions with NO application:",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "prior_relief",
+        "offense_category",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "An eligible felony is set aside automatically 10 years after",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "Track / matter Waiting period Measured from",
+        "Application — misdemeanor(s) 3 years Latest sentence event",
+        "Application — one serious misd., 5 years Latest sentence event",
+        "Application — multiple felonies 7 years Latest sentence event",
+        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+        "Automatic — felony 10 years Sentencing or release, later",
+        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      ],
+      "exclusionRules": [
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition).",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+        "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+        "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "label": "Automatic Clean Slate set-aside under MCL 780.621g",
+      "summary": "An eligible felony is set aside automatically 10 years after sentencing/release; up to FOUR eligible (>=93-day) misdemeanors 7 years after sentencing. No application -- the MSP and courts process it. Verify via your ICHAT record. (Excludes assaultive, serious misdemeanor, dishonesty, 10-year, and minor/vulnerable/",
+      "sourceRef": "section:409-440; section:73-113; pathways:73-113; corpus-unit:34; corpus-unit:1; corpus-unit:24; corpus-unit:4; corpus-unit:10",
+      "sourceEvidenceRefs": [
+        "section:409-440",
+        "section:73-113",
+        "pathways:73-113",
+        "corpus-unit:34",
+        "corpus-unit:1",
+        "corpus-unit:24",
+        "corpus-unit:4",
+        "corpus-unit:10",
+        "corpus-unit:116",
+        "corpus-unit:37",
+        "corpus-unit:17"
+      ],
+      "ruleClauses": [
+        "An eligible felony is set aside automatically 10 years after",
+        "sentencing/release; up to FOUR eligible (>=93-day) misdemeanors",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "process it. Verify via your ICHAT record. (Excludes assaultive,",
+        "serious misdemeanor, dishonesty, 10-year, and minor/vulnerable/",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "MARIHUANA (MCL 780.621e, form MC 227a):",
+        "A misdemeanor marihuana conviction may be set aside by",
+        "application; a rebuttable presumption arises that the conduct",
+        "would not be a crime today, and the prosecutor must rebut it.",
+        "The MC 227 application is paired with an Order. If granted, the Order sets aside the conviction(s) and directs",
+        "the Michigan State Police to make the conviction nonpublic while retaining the nonpublic record under MCL",
+        "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Michigan's set-aside statutes and",
+        "4/11/2021) and created automatic set-aside (eff. 4/11/2023), with OWI and marijuana changes afterward; the agent must verify the",
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "and current fees before relying on any rule here.",
+        "Two tracks, plus the marijuana and OWI specials.",
+        "Track A — Set-aside by application (MCL 780.621)",
+        "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:",
+        "Up to three felony convictions in a lifetime (previously only one).",
+        "An unlimited number of misdemeanor convictions.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)",
+        "The Michigan State Police and courts set aside eligible convictions with NO application:",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later.",
+        "Up to four misdemeanor convictions (93 days or more), automatically set aside 7 years after sentencing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "An eligible felony is set aside automatically 10 years after",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track / matter Waiting period Measured from",
+        "Application — misdemeanor(s) 3 years Latest sentence event",
+        "Application — one serious misd., 5 years Latest sentence event",
+        "Application — multiple felonies 7 years Latest sentence event",
+        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+        "Automatic — felony 10 years Sentencing or release, later",
+        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      ],
+      "exclusionRules": [
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+        "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+        "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must",
+        "map each offense to its MCL section and apply the correct track's exclusion list — an offense can"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+      "label": "Misdemeanor marijuana set-aside under MCL 780.621e",
+      "summary": "An eligible felony is set aside automatically 10 years after sentencing/release; up to FOUR eligible (>=93-day) misdemeanors 7 years after sentencing. No application -- the MSP and courts process it. Verify via your ICHAT record. (Excludes assaultive, serious misdemeanor, dishonesty, 10-year, and minor/vulnerable/",
+      "sourceRef": "section:409-440; section:73-113; section:296-322; section:114-152; corpus-unit:36; corpus-unit:68; corpus-unit:19; corpus-unit:37",
+      "sourceEvidenceRefs": [
+        "section:409-440",
+        "section:73-113",
+        "section:296-322",
+        "section:114-152",
+        "corpus-unit:36",
+        "corpus-unit:68",
+        "corpus-unit:19",
+        "corpus-unit:37",
+        "corpus-unit:83",
+        "corpus-unit:118",
+        "pathways:73-113",
+        "corpus-unit:45"
+      ],
+      "ruleClauses": [
+        "An eligible felony is set aside automatically 10 years after",
+        "sentencing/release; up to FOUR eligible (>=93-day) misdemeanors",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "process it. Verify via your ICHAT record. (Excludes assaultive,",
+        "serious misdemeanor, dishonesty, 10-year, and minor/vulnerable/",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "MARIHUANA (MCL 780.621e, form MC 227a):",
+        "A misdemeanor marihuana conviction may be set aside by",
+        "application; a rebuttable presumption arises that the conduct",
+        "would not be a crime today, and the prosecutor must rebut it.",
+        "The MC 227 application is paired with an Order. If granted, the Order sets aside the conviction(s) and directs",
+        "the Michigan State Police to make the conviction nonpublic while retaining the nonpublic record under MCL",
+        "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Michigan's set-aside statutes and",
+        "4/11/2021) and created automatic set-aside (eff. 4/11/2023), with OWI and marijuana changes afterward; the agent must verify the",
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "and current fees before relying on any rule here.",
+        "Two tracks, plus the marijuana and OWI specials.",
+        "Track A — Set-aside by application (MCL 780.621)",
+        "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:",
+        "Up to three felony convictions in a lifetime (previously only one).",
+        "An unlimited number of misdemeanor convictions.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)",
+        "The Michigan State Police and courts set aside eligible convictions with NO application:",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later.",
+        "Up to four misdemeanor convictions (93 days or more), automatically set aside 7 years after sentencing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "An eligible felony is set aside automatically 10 years after",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track / matter Waiting period Measured from",
+        "Application — misdemeanor(s) 3 years Latest sentence event",
+        "Application — one serious misd., 5 years Latest sentence event",
+        "Application — multiple felonies 7 years Latest sentence event",
+        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+        "Automatic — felony 10 years Sentencing or release, later",
+        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      ],
+      "exclusionRules": [
+        "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+        "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+        "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must",
+        "map each offense to its MCL section and apply the correct track's exclusion list — an offense can"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "first-offense-owi-set-aside-by-application",
+      "label": "First-offense OWI set-aside by application",
+      "summary": "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from Never eligible (MCL 780.621c) — neither track Felonies (or attempts) punishable by life imprisonment. Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition). Child sexually abusive activity; certain offenses involving minors.",
+      "sourceRef": "section:153-199; section:296-322; exclusions:153-199; corpus-unit:19; corpus-unit:50",
+      "sourceEvidenceRefs": [
+        "section:153-199",
+        "section:296-322",
+        "exclusions:153-199",
+        "corpus-unit:19",
+        "corpus-unit:50"
+      ],
+      "ruleClauses": [
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition).",
+        "Child sexually abusive activity; certain offenses involving minors.",
+        "Human trafficking (by the offender), terrorism, and other enumerated serious crimes.",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Serious misdemeanors (as defined by statute).",
+        "Crimes of dishonesty.",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+        "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+        "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must",
+        "map each offense to its MCL section and apply the correct track's exclusion list — an offense can",
+        "be eligible by application yet excluded from automatic relief.",
+        "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+        "Run two screens: first, is the offense never eligible (life felony, most sex offenses, most traffic)? Then, if",
+        "seeking automatic relief, is it on the automatic-exclusion list (assaultive, serious misdemeanor,",
+        "dishonesty, 10-year, minor/vulnerable/injury/death)?",
+        "Remember the asymmetry: assaultive and dishonesty crimes can often still be set aside BY"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "pending_cases",
+        "trafficking_status",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "An eligible felony is set aside automatically 10 years after",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Application — misdemeanor(s) 3 years Latest sentence event",
+        "Application — one serious misd., 5 years Latest sentence event",
+        "Application — multiple felonies 7 years Latest sentence event",
+        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+        "Automatic — felony 10 years Sentencing or release, later",
+        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years."
+      ],
+      "exclusionRules": [
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition).",
+        "Child sexually abusive activity; certain offenses involving minors.",
+        "Human trafficking (by the offender), terrorism, and other enumerated serious crimes.",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Serious misdemeanors (as defined by statute).",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "human-trafficking-related-set-aside-application",
+      "label": "Human-trafficking-related set-aside application",
+      "summary": "Two tracks, plus the marijuana and OWI specials. Track A — Set-aside by application (MCL 780.621) Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside: Up to three felony convictions in a lifetime (previously only one). An unlimited number of misdemeanor convictions.",
+      "sourceRef": "section:73-113; section:200-237; corpus-unit:36; pathways:73-113; case_outcomes:200-237; corpus-unit:63",
+      "sourceEvidenceRefs": [
+        "section:73-113",
+        "section:200-237",
+        "corpus-unit:36",
+        "pathways:73-113",
+        "case_outcomes:200-237",
+        "corpus-unit:63"
+      ],
+      "ruleClauses": [
+        "Two tracks, plus the marijuana and OWI specials.",
+        "Track A — Set-aside by application (MCL 780.621)",
+        "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:",
+        "Up to three felony convictions in a lifetime (previously only one).",
+        "An unlimited number of misdemeanor convictions.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)",
+        "The Michigan State Police and courts set aside eligible convictions with NO application:",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later.",
+        "Up to four misdemeanor convictions (93 days or more), automatically set aside 7 years after sentencing.",
+        "92-day-or-less misdemeanors are set aside 7 years after sentencing (by the MSP if in its database, otherwise by the court).",
+        "A person with more than one assaultive conviction does not qualify for automatic set-aside.",
+        "Marijuana (MCL 780.621e): a person convicted of a misdemeanor marihuana offense may apply (form MC",
+        "to set it aside; a rebuttable presumption arises that the conduct would not be a crime today, which the prosecutor must overcome.",
+        "OWI (eff. Feb 2022): a first-violation operating-while-intoxicated offense may be set aside by application 5 years after probation ends (this was newly made eligible; most traffic offenses remain ineligible).",
+        "Human trafficking (MCL 780.621(3)): a victim may apply at any time to set aside an offense that was a direct result of being trafficked (form MC 227b).",
+        "Decide track by timing and limits. If the person wants relief now, or has more convictions than the",
+        "automatic caps, use the application track (up to 3 felonies / unlimited misdemeanors). If they qualify and",
+        "can wait, automatic set-aside (2 felonies / 4 misdemeanors) needs no filing.",
+        "Route marijuana to MCL 780.621e (form MC 227a) and OWI to the 5-year application path — both are",
+        "newer carve-ins that users often don't realize exist.",
+        "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+        "Conviction type and track drive the timing and whether a filing is needed. This table is the agent's primary",
+        "Conviction / matter Track Route Wait / limit",
+        "Misdemeanor(s) Application Petition (MC 227) 3 yrs; unlimited number",
+        "One serious misd. / one OWI / Application Petition (MC 227) 5 yrs",
+        "Multiple felonies Application Petition (MC 227) 7 yrs; ≤ 3 felonies",
+        "Misdemeanor (eligible) Automatic No filing 7 yrs; ≤ 4"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "pending_cases",
+        "prior_relief",
+        "trafficking_status"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "special",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "An eligible felony is set aside automatically 10 years after",
+        "7 years after sentencing. No application -- the MSP and courts",
+        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+        "Track / matter Waiting period Measured from",
+        "Application — misdemeanor(s) 3 years Latest sentence event",
+        "Application — one serious misd., 5 years Latest sentence event",
+        "Application — multiple felonies 7 years Latest sentence event",
+        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+        "Automatic — felony 10 years Sentencing or release, later",
+        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      ],
+      "exclusionRules": [
+        "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+        "Never eligible (MCL 780.621c) — neither track",
+        "Felonies (or attempts) punishable by life imprisonment.",
+        "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition).",
+        "Human trafficking (by the offender), terrorism, and other enumerated serious crimes.",
+        "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+        "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+        "Eligible by application but EXCLUDED from automatic set-aside",
+        "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+        "Offenses punishable by 10 or more years.",
+        "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+        "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+        "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+        "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+        "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+        "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+        "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+        "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-15-owi-eff-feb-2022-a-first-violation-operating-while-into",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "OWI (eff. Feb 2022): a first-violation operating-while-intoxicated offense may be set aside by application 5 years after probation ends (this was newly made eligible; most traffic offenses remain ineligible)."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-31-life-felony-most-sex-most-not-eligible-categorical",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Life felony / most sex / most — Not eligible Categorical"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-53-traffic-offenses-generally-except-a-first-violation-owi",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-55-assaultive-crimes-and-a-person-with-more-than-one-assau",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely)."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-57-new-conviction-pending-charge-during-the-wait-defeats-a",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-06-limit-no-more-than-one-felony-conviction-for-the-same-o",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-40-track-matter-waiting-period-measured-from",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Track / matter Waiting period Measured from"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-45-weapon-or-carries-a-penalty-of-more-than-10-years-secon",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-46-new-conviction-during-the-applicable-waiting-period-and",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "new conviction during the applicable waiting period and no pending charges; a denied petition generally"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-07-track-b-automatic-set-aside-mcl-780-621g-eff-april-11",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Track B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-09-up-to-two-felony-convictions-automatically-set-aside-10",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-10-up-to-four-misdemeanor-convictions-93-days-or-more-auto",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 93,
+          "unit": "days",
+          "raw": "93 days"
+        },
+        "sourceConditionText": "Up to four misdemeanor convictions (93 days or more), automatically set aside 7 years after sentencing."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-12-a-person-with-more-than-one-assaultive-conviction-does-",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A person with more than one assaultive conviction does not qualify for automatic set-aside."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-18-automatic-caps-use-the-application-track-up-to-3-feloni",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "automatic caps, use the application track (up to 3 felonies / unlimited misdemeanors). If they qualify and"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-19-can-wait-automatic-set-aside-2-felonies-4-misdemeanors",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "can wait, automatic set-aside (2 felonies / 4 misdemeanors) needs no filing."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-27-misdemeanor-eligible-automatic-no-filing-7-yrs-4",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanor (eligible) Automatic No filing 7 yrs; ≤ 4"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-28-felony-eligible-automatic-no-filing-10-yrs-2",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Felony (eligible) Automatic No filing 10 yrs; ≤ 2"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-34-licensing-and-employment-screening-and-a-set-aside-does",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "licensing and employment screening, and a set-aside does NOT automatically restore firearm rights (gun-rights"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-37-if-a-record-is-automatic-eligible-the-person-may-not-ne",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "If a record is automatic-eligible, the person may not need to file at all — have them check their MSP"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-39-or-completion-of-imprisonment-automatic-track-waits-run",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "or completion of imprisonment. Automatic-track waits run from sentencing (misdemeanors) or"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-41-automatic-misdemeanor-93-days-7-years-imposition-of-sen",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 93,
+          "unit": "days",
+          "raw": "93 days"
+        },
+        "sourceConditionText": "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-42-automatic-felony-10-years-sentencing-or-release-later",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Automatic — felony 10 years Sentencing or release, later"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-47-cannot-be-refiled-for-3-years-mcl-780-621d-5-the-automa",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-48-multiple-felonies-for-applications-7-yrs-misdemeanor-an",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(multiple felonies) for applications; 7 yrs (misdemeanor) and 10 yrs (felony) for automatic."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-54-eligible-by-application-but-excluded-from-automatic-set",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Eligible by application but EXCLUDED from automatic set-aside"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-56-automatic-caps-no-more-than-two-felonies-and-four-93-da",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-59-the-never-eligible-list-mcl-780-621c-and-the-automatic-",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-61-be-eligible-by-application-yet-excluded-from-automatic-",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "be eligible by application yet excluded from automatic relief."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-63-seeking-automatic-relief-is-it-on-the-automatic-exclusi",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "seeking automatic relief, is it on the automatic-exclusion list (assaultive, serious misdemeanor,"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-65-application-even-though-they-re-excluded-from-automatic",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "APPLICATION even though they're excluded from automatic relief."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-01-two-tracks-plus-the-marijuana-and-owi-specials",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Two tracks, plus the marijuana and OWI specials."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-02-track-a-set-aside-by-application-mcl-780-621",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Track A — Set-aside by application (MCL 780.621)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-03-since-the-clean-slate-expansion-eff-april-11-2021-a-per",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Since the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-04-up-to-three-felony-convictions-in-a-lifetime-previously",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Up to three felony convictions in a lifetime (previously only one)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-05-an-unlimited-number-of-misdemeanor-convictions",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "An unlimited number of misdemeanor convictions."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-08-the-michigan-state-police-and-courts-set-aside-eligible",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The Michigan State Police and courts set aside eligible convictions with NO application:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-11-92-day-or-less-misdemeanors-are-set-aside-7-years-after",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "92-day-or-less misdemeanors are set aside 7 years after sentencing (by the MSP if in its database, otherwise by the court)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-13-marijuana-mcl-780-621e-a-person-convicted-of-a-misdemea",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Marijuana (MCL 780.621e): a person convicted of a misdemeanor marihuana offense may apply (form MC"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-14-to-set-it-aside-a-rebuttable-presumption-arises-that-th",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "to set it aside; a rebuttable presumption arises that the conduct would not be a crime today, which the prosecutor must overcome."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-16-human-trafficking-mcl-780-621-3-a-victim-may-apply-at-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Human trafficking (MCL 780.621(3)): a victim may apply at any time to set aside an offense that was a direct result of being trafficked (form MC 227b)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-17-decide-track-by-timing-and-limits-if-the-person-wants-r",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Decide track by timing and limits. If the person wants relief now, or has more convictions than the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Route marijuana to MCL 780.621e (form MC 227a) and OWI to the 5-year application path — both are"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-21-michigan-set-aside-clean-slate-agent-training-reference",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-113",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-22-conviction-type-and-track-drive-the-timing-and-whether-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction type and track drive the timing and whether a filing is needed. This table is the agent's primary"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237"
+    },
+    {
+      "id": "rule-23-conviction-matter-track-route-wait-limit",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction / matter Track Route Wait / limit"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "rule-24-misdemeanor-s-application-petition-mc-227-3-yrs-unlimit",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanor(s) Application Petition (MC 227) 3 yrs; unlimited number"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-25-one-serious-misd-one-owi-application-petition-mc-227",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "One serious misd. / one OWI / Application Petition (MC 227) 5 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-26-multiple-felonies-application-petition-mc-227-7-yrs-3-f",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Multiple felonies Application Petition (MC 227) 7 yrs; ≤ 3 felonies"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-29-misdemeanor-marihuana-application-petition-mc-227a-rebu",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Misdemeanor marihuana Application Petition (MC 227a) Rebuttable presumption"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-30-human-trafficking-victim-application-petition-mc-227b-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Human trafficking victim Application Petition (MC 227b) Any time"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-32-effect-of-relief-a-set-aside-makes-the-conviction-nonpu",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Effect of relief: a set-aside makes the conviction NONPUBLIC — it no longer appears on a public background"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-33-check-and-the-person-may-generally-treat-it-as-not-havi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "check and the person may generally treat it as not having occurred for most purposes. But the Michigan State"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-35-restoration-is-a-separate-analysis-under-mcl-750-224f-2",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "restoration is a separate analysis under MCL 750.224f / 28.424). The relief reaches Michigan records only."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-36-tell-users-a-set-aside-makes-the-record-nonpublic-but-n",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tell users a set-aside makes the record nonpublic but not erased — MSP keeps a nonpublic copy for law"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-38-record-clean-slate-before-preparing-an-application",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "record (Clean Slate) before preparing an application."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:200-237",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-43-human-trafficking-victim-none-any-time-after-conviction",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human trafficking victim None Any time after conviction"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-44-multiple-misdemeanors-are-treated-as-a-single-convictio",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:114-152",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "first-offense-owi-set-aside-by-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-49-some-offenses-cannot-be-set-aside-at-all-mcl-780-621c-o",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-50-never-eligible-mcl-780-621c-neither-track",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Never eligible (MCL 780.621c) — neither track"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-51-most-serious-sex-offenses-and-offenses-requiring-sex-of",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-52-human-trafficking-by-the-offender-terrorism-and-other-e",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Human trafficking (by the offender), terrorism, and other enumerated serious crimes."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "rule-58-out-of-state-and-federal-convictions-cannot-be-set-asid",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Out-of-state and federal convictions cannot be set aside under Michigan law."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "first-offense-owi-set-aside-by-application",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "rule-60-statutes-and-were-amended-repeatedly-in-the-clean-slate",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "rule-62-run-two-screens-first-is-the-offense-never-eligible-lif",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Run two screens: first, is the offense never eligible (life felony, most sex offenses, most traffic)? Then, if"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application",
+        "set-aside-by-application-under-mcl-780-621",
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "rule-64-remember-the-asymmetry-assaultive-and-dishonesty-crimes",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Remember the asymmetry: assaultive and dishonesty crimes can often still be set aside BY"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:153-199",
+      "candidatePathwayIds": [
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "set-aside-by-application-under-mcl-780-621",
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "route-set-aside-by-application-under-mcl-780-621",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-by-application-under-mcl-780-621",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "prior_relief",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "prior_relief",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Set-aside by application under MCL 780.621"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-113; section:409-440; section:401-402; section:73-113; corpus-unit:32; section:238-265; section:114-152; section:153-199",
+      "candidatePathwayIds": [
+        "set-aside-by-application-under-mcl-780-621"
+      ]
+    },
+    {
+      "id": "route-automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Automatic Clean Slate set-aside under MCL 780.621g"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:409-440; section:73-113; pathways:73-113; corpus-unit:34; corpus-unit:1; corpus-unit:24; corpus-unit:4; corpus-unit:10",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ]
+    },
+    {
+      "id": "route-misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Misdemeanor marijuana set-aside under MCL 780.621e"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:409-440; section:73-113; section:296-322; section:114-152; corpus-unit:36; corpus-unit:68; corpus-unit:19; corpus-unit:37",
+      "candidatePathwayIds": [
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ]
+    },
+    {
+      "id": "route-first-offense-owi-set-aside-by-application",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "first-offense-owi-set-aside-by-application",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "pending_cases",
+          "trafficking_status",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "pending_cases",
+          "trafficking_status",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "First-offense OWI set-aside by application"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:153-199; section:296-322; exclusions:153-199; corpus-unit:19; corpus-unit:50",
+      "candidatePathwayIds": [
+        "first-offense-owi-set-aside-by-application"
+      ]
+    },
+    {
+      "id": "route-human-trafficking-related-set-aside-application",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "human-trafficking-related-set-aside-application",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "trafficking_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "pending_cases",
+          "prior_relief",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Human-trafficking-related set-aside application"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:73-113; section:200-237; corpus-unit:36; pathways:73-113; case_outcomes:200-237; corpus-unit:63",
+      "candidatePathwayIds": [
+        "human-trafficking-related-set-aside-application"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "An eligible felony is set aside automatically 10 years after",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "7 years after sentencing. No application -- the MSP and courts",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "sentencing",
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-invol",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Track / matter Waiting period Measured from",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Application — misdemeanor(s) 3 years Latest sentence event",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Application — one serious misd., 5 years Latest sentence event",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Application — multiple felonies 7 years Latest sentence event",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+      "duration": {
+        "value": 93,
+        "unit": "days",
+        "raw": "93 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Automatic — felony 10 years Sentencing or release, later",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "trafficking_status"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or ca",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Never eligible (MCL 780.621c) — neither track",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Felonies (or attempts) punishable by life imprisonment.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition).",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Child sexually abusive activity; certain offenses involving minors.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Human trafficking (by the offender), terrorism, and other enumerated serious crimes.",
+      "fieldsReferenced": [
+        "offense_category",
+        "trafficking_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Eligible by application but EXCLUDED from automatic set-aside",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely).",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Serious misdemeanors (as defined by statute).",
+      "fieldsReferenced": [
+        "offense_level",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Crimes of dishonesty.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "Offenses punishable by 10 or more years.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Application caps: no more than three felonies total, and only one felony for the same >10-year offense.",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "Out-of-state and federal convictions cannot be set aside under Michigan law.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "The never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-20",
+      "ruleText": "misdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific",
+      "fieldsReferenced": [
+        "offense_level",
+        "financial_obligations"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-21",
+      "ruleText": "statutes and were amended repeatedly in the Clean Slate package and afterward. The agent must",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-22",
+      "ruleText": "map each offense to its MCL section and apply the correct track's exclusion list — an offense can",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-23",
+      "ruleText": "be eligible by application yet excluded from automatic relief.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-24",
+      "ruleText": "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-25",
+      "ruleText": "Run two screens: first, is the offense never eligible (life felony, most sex offenses, most traffic)? Then, if",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-26",
+      "ruleText": "seeking automatic relief, is it on the automatic-exclusion list (assaultive, serious misdemeanor,",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-27",
+      "ruleText": "dishonesty, 10-year, minor/vulnerable/injury/death)?",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-28",
+      "ruleText": "Remember the asymmetry: assaultive and dishonesty crimes can often still be set aside BY",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-29",
+      "ruleText": "APPLICATION even though they're excluded from automatic relief.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-30",
+      "ruleText": "Never eligible (MCL 780.621c) — neither track • Felonies (or attempts) punishable by life imprisonment. • Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a narrow pre-2015 CSC-4th exception by petition). • Child sexually abusive activity; certain offenses involving minors. • Human trafficking (by the offender), terrorism, and other enumerated serious crimes. • Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible. • Felony domestic violence if the person has a prior domestic-violence misdemeanor.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge",
+        "trafficking_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-31",
+      "ruleText": "Eligible by application but EXCLUDED from automatic set-aside • Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely). • Serious misdemeanors (as defined by statute). • Crimes of dishonesty. • Offenses punishable by 10 or more years. • Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-32",
+      "ruleText": "Other limits • Application caps: no more than three felonies total, and only one felony for the same >10-year offense. • Automatic caps: no more than two felonies and four (≥93-day) misdemeanors. • New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3 years. • Out-of-state and federal convictions cannot be set aside under Michigan law.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "charge",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-33",
+      "ruleText": "The agent must map each offense to its MCL section and apply the correct track's exclusion list — an offense can be eligible by application yet excluded from automatic relief.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-34",
+      "ruleText": "Remember the asymmetry: assaultive and dishonesty crimes can often still be set aside BY APPLICATION even though they're excluded from automatic relief.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-35",
+      "ruleText": "current text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "set-aside-by-application-under-mcl-780-621",
+        "pathwayLabel": "Set-aside by application under MCL 780.621",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "mc227.pdf",
+            "relativePath": "LegalEase Michigan/mc227.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+            "sizeBytes": 374474
+          },
+          {
+            "fileName": "mi-setaside-application.html",
+            "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+            "sizeBytes": 20498
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:73-113",
+          "section:409-440",
+          "section:401-402",
+          "section:73-113",
+          "corpus-unit:32",
+          "section:238-265",
+          "section:114-152",
+          "section:153-199",
+          "section:296-322",
+          "corpus-unit:1",
+          "corpus-unit:4",
+          "corpus-unit:9",
+          "corpus-unit:23",
+          "corpus-unit:36",
+          "corpus-unit:68",
+          "corpus-unit:106"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "pathwayLabel": "Automatic Clean Slate set-aside under MCL 780.621g",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:409-440",
+          "section:73-113",
+          "pathways:73-113",
+          "corpus-unit:34",
+          "corpus-unit:1",
+          "corpus-unit:24",
+          "corpus-unit:4",
+          "corpus-unit:10",
+          "corpus-unit:116",
+          "corpus-unit:37",
+          "corpus-unit:17"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "pathwayLabel": "Misdemeanor marijuana set-aside under MCL 780.621e",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "mc227.pdf",
+            "relativePath": "LegalEase Michigan/mc227.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+            "sizeBytes": 374474
+          },
+          {
+            "fileName": "mi-setaside-application.html",
+            "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+            "sizeBytes": 20498
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:409-440",
+          "section:73-113",
+          "section:296-322",
+          "section:114-152",
+          "corpus-unit:36",
+          "corpus-unit:68",
+          "corpus-unit:19",
+          "corpus-unit:37",
+          "corpus-unit:83",
+          "corpus-unit:118",
+          "pathways:73-113",
+          "corpus-unit:45"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "first-offense-owi-set-aside-by-application",
+        "pathwayLabel": "First-offense OWI set-aside by application",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "mi-setaside-application.html",
+            "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+            "sizeBytes": 20498
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:153-199",
+          "section:296-322",
+          "exclusions:153-199",
+          "corpus-unit:19",
+          "corpus-unit:50"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-related-set-aside-application",
+        "pathwayLabel": "Human-trafficking-related set-aside application",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "mc227.pdf",
+            "relativePath": "LegalEase Michigan/mc227.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+            "sizeBytes": 374474
+          },
+          {
+            "fileName": "mi-setaside-application.html",
+            "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+            "sizeBytes": 20498
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:73-113",
+          "section:200-237",
+          "corpus-unit:36",
+          "pathways:73-113",
+          "case_outcomes:200-237",
+          "corpus-unit:63"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "prior_relief",
+      "residency_or_location",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "The application track uses State Court Administrative Office (SCAO) forms filed in the convicting court; the",
+      "automatic track needs no form. Pick the form by offense type.",
+      "MC 227 — Application to Set Aside Conviction(s): the main form for non-marijuana convictions, with checkboxes for the 3-year (misdemeanors), 5-year (one serious misdemeanor / one OWI / one felony), and 7-year (multiple felonies) paths. Requires a certified copy of each conviction.",
+      "MC 227a — Application to Set Aside Marihuana Conviction(s): for misdemeanor marihuana offenses under MCL 780.621e (rebuttable presumption).",
+      "An Order (set-aside / denial) accompanies the application for the judge's signature.",
+      "Fingerprints to the Michigan State Police with the application fee, so the MSP can verify the record and process the set-aside.",
+      "Certified copy of each conviction from the convicting court, attached to the application.",
+      "The application track uses State Court Administrative Office (SCAO) forms filed in the convicting court; the automatic track needs no form.",
+      "Pick the form by offense type.",
+      "Application-track forms • MC 227 — Application to Set Aside Conviction(s): the main form for non-marijuana convictions, with checkboxes for the 3-year (misdemeanors), 5-year (one serious misdemeanor / one OWI / one felony), and 7-year (multiple felonies) paths.",
+      "Requires a certified copy of each conviction. • MC 227a — Application to Set Aside Marihuana Conviction(s): for misdemeanor marihuana offenses under MCL 780.621e (rebuttable presumption). • MC 227b — human-trafficking victim: for an offense that was a direct result of being trafficked (MCL 780.621(3)). • An Order (set-aside / denial) accompanies the application for the judge's signature.",
+      "Supporting steps • Fingerprints to the Michigan State Police with the application fee, so the MSP can verify the record and process the set-aside. • Certified copy of each conviction from the convicting court, attached to the application. • Service on the prosecuting attorney and the Michigan Attorney General."
+    ],
+    "attachments": [
+      "MC 227 — Application to Set Aside Conviction(s): the main form for non-marijuana convictions, with checkboxes for the 3-year (misdemeanors), 5-year (one serious misdemeanor / one OWI / one felony), and 7-year (multiple felonies) paths. Requires a certified copy of each conviction.",
+      "Certified copy of each conviction from the convicting court, attached to the application.",
+      "victims; attach a certified copy of each conviction and submit fingerprints with the fee to the MSP.",
+      "Requires a certified copy of each conviction. • MC 227a — Application to Set Aside Marihuana Conviction(s): for misdemeanor marihuana offenses under MCL 780.621e (rebuttable presumption). • MC 227b — human-trafficking victim: for an offense that was a direct result of being trafficked (MCL 780.621(3)). • An Order (set-aside / denial) accompanies the application for the judge's signature.",
+      "Supporting steps • Fingerprints to the Michigan State Police with the application fee, so the MSP can verify the record and process the set-aside. • Certified copy of each conviction from the convicting court, attached to the application. • Service on the prosecuting attorney and the Michigan Attorney General.",
+      "AGENT GUIDANCE Use MC 227 for ordinary convictions, MC 227a for misdemeanor marijuana, MC 227b for trafficking victims; attach a certified copy of each conviction and submit fingerprints with the fee to the MSP.",
+      "1 Get the record. Obtain your Michigan State Police criminal history (ICHAT) and the court disposition to",
+      "3 Complete the form (MC 227, MC 227a, or MC 227b) and attach a certified copy of each conviction; sign",
+      "Obtain your Michigan State Police criminal history (ICHAT) and the court disposition to confirm each conviction, its class, sentence-completion dates, and whether automatic set-aside has already applied.",
+      "Keep a certified copy of the order."
+    ],
+    "filingDestinationRules": [
+      "4 File in the convicting court and submit fingerprints with the fee to the Michigan State Police (the",
+      "Venue is the convicting court — file where each conviction was entered; convictions in different courts",
+      "3 Complete the form (MC 227, MC 227a, or MC 227b) and attach a certified copy of each conviction; sign before a clerk or notary.",
+      "4 File in the convicting court and submit fingerprints with the fee to the Michigan State Police (the application processing fee is set by statute, commonly around $50).",
+      "AGENT GUIDANCE Venue is the convicting court — file where each conviction was entered; convictions in different courts need separate applications.",
+      "Two tracks, different limits. Application (≤ 3 felonies / unlimited misdemeanors) vs. automatic (≤ 2 felonies / 4 misdemeanors). They run in parallel — a person can file an application for convictions the automatic system won't reach.",
+      "3-year refiling bar. A denied application generally cannot be refiled for 3 years unless the court allows earlier.",
+      "They run in parallel — a person can file an application for convictions the automatic system won't reach. • One Bad Night (MCL 780.621b).",
+      "A denied application generally cannot be refiled for 3 years unless the court allows earlier.",
+      "AGENT GUIDANCE Lead with the MSP Clean Slate check: many users are already (or soon will be) automatically cleared and don't need to file."
+    ],
+    "serviceAndNoticeRules": [
+      "5 Serve the prosecuting attorney and the Michigan Attorney General; either may object.",
+      "6 Hearing. The court typically holds a hearing (for marijuana, a hearing follows if the prosecutor contests the",
+      "The fingerprint + MSP step and service on both the prosecutor and the Attorney General are easy to",
+      "The court typically holds a hearing (for marijuana, a hearing follows if the prosecutor contests the presumption); the judge weighs the circumstances and the public interest.",
+      "The fingerprint + MSP step and service on both the prosecutor and the Attorney General are easy to miss; build them into the checklist.",
+      "Service on the prosecuting attorney and the Michigan Attorney General.",
+      "Supporting steps • Fingerprints to the Michigan State Police with the application fee, so the MSP can verify the record and process the set-aside. • Certified copy of each conviction from the convicting court, attached to the application. • Service on the prosecuting attorney and the Michigan Attorney General.",
+      "Marijuana presumption (MCL 780.621e). A misdemeanor marijuana set-aside carries a rebuttable presumption the conduct wouldn't be a crime today; the prosecutor bears the burden to rebut.",
+      "A misdemeanor marijuana set-aside carries a rebuttable presumption the conduct wouldn't be a crime today; the prosecutor bears the burden to rebut. • MSP keeps a nonpublic record."
+    ],
+    "feeRules": [
+      "Application processing fee (MSP) ~$50 Statutory fee with the fingerprint submission",
+      "Automatic set-aside $0 No application, no fee",
+      "Marihuana set-aside (MC 227a) Application fee Rebuttable-presumption process",
+      "Certified copy of conviction Court fee One per conviction, attached to the application",
+      "Michigan State Police ICHAT record ICHAT fee To confirm record / automatic status",
+      "Attorney fees (if represented) Varies Not required; legal-aid and county expungement clinics assist",
+      "Michigan is relatively low-cost. Automatic set-aside is free. The application track carries a statutory Michigan",
+      "State Police processing fee (commonly around $50) submitted with the fingerprints, plus the cost of a certified",
+      "copy of each conviction and any ICHAT record check. Many counties and nonprofits run free expungement",
+      "clinics (e.g., through Michigan Works! and county conviction-integrity units) that help with the forms and fees.",
+      "Quote the ~$50 MSP processing fee for applications and note automatic set-aside is free; point users to",
+      "county expungement clinics for free help with the forms.",
+      "Have users pull their ICHAT record first — it confirms eligibility and whether automatic relief has already",
+      "cleared the conviction, avoiding an unnecessary fee.",
+      "Michigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase",
+      "Item Amount Note Application processing fee (MSP) ~$50 Statutory fee with the fingerprint submission Automatic set-aside $0 No application, no fee Marihuana set-aside (MC 227a) Application fee Rebuttable-presumption process Certified copy of conviction Court fee One per conviction, attached to the application Michigan State Police ICHAT record ICHAT fee To confirm record / automatic status Attorney fees (if represented) Varies Not required; legal-aid and county expungement clinics assist Michigan is relatively low-cost.",
+      "Automatic set-aside is free.",
+      "The application track carries a statutory Michigan State Police processing fee (commonly around $50) submitted with the fingerprints, plus the cost of a certified copy of each conviction and any ICHAT record check.",
+      "Many counties and nonprofits run free expungement clinics (e.g., through Michigan Works! and county conviction-integrity units) that help with the forms and fees.",
+      "AGENT GUIDANCE Quote the ~$50 MSP processing fee for applications and note automatic set-aside is free; point users to county expungement clinics for free help with the forms.",
+      "Have users pull their ICHAT record first — it confirms eligibility and whether automatic relief has already cleared the conviction, avoiding an unnecessary fee."
+    ],
+    "hearingAndObjectionRules": [
+      "5 Serve the prosecuting attorney and the Michigan Attorney General; either may object.",
+      "6 Hearing. The court typically holds a hearing (for marijuana, a hearing follows if the prosecutor contests the",
+      "6 Hearing.",
+      "The court typically holds a hearing (for marijuana, a hearing follows if the prosecutor contests the presumption); the judge weighs the circumstances and the public interest."
+    ],
+    "postFilingRules": [
+      "7 Order and processing. If granted, the court enters the set-aside Order and forwards it to the Michigan State",
+      "7 Order and processing.",
+      "If granted, the court enters the set-aside Order and forwards it to the Michigan State Police, which makes the conviction nonpublic while retaining the MCL 780.623 nonpublic record.",
+      "Keep a certified copy of the order."
+    ],
+    "formInventory": [
+      {
+        "fileName": "2021-11.pdf",
+        "relativePath": "LegalEase Michigan/2021-11.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "afa54034adf36bf7e59c6107f56accd2461c81d3131f6c7387afe57af5a0f18c",
+        "sizeBytes": 180174
+      },
+      {
+        "fileName": "jc105.pdf",
+        "relativePath": "LegalEase Michigan/jc105.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1d03acc4622f009d34e6e345ec8a8c2c043acc2cf9b9be6d5a25a15a64fa6859",
+        "sizeBytes": 94155
+      },
+      {
+        "fileName": "mc227.pdf",
+        "relativePath": "LegalEase Michigan/mc227.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "sizeBytes": 374474
+      },
+      {
+        "fileName": "mc228a.pdf",
+        "relativePath": "LegalEase Michigan/mc228a.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "7df3ab936f0da831d27276221a016b7ad70b9dd0343c121a8b91cb39474786f9",
+        "sizeBytes": 303610
+      },
+      {
+        "fileName": "mc228b.pdf",
+        "relativePath": "LegalEase Michigan/mc228b.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e4973f04fc07a70cf4148250dddc19a76e85515204a3df925fa15600406f2dfa",
+        "sizeBytes": 368336
+      },
+      {
+        "fileName": "mi-setaside-application.html",
+        "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+        "sizeBytes": 20498
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "2021-11.pdf",
+        "relativePath": "LegalEase Michigan/2021-11.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "afa54034adf36bf7e59c6107f56accd2461c81d3131f6c7387afe57af5a0f18c",
+        "sizeBytes": 180174
+      },
+      {
+        "fileName": "Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "relativePath": "LegalEase Michigan/Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "dafc4f5cc10da78e909cf199484fbc9eaae64f176617e14ba394ccd1e5368af2",
+        "sizeBytes": 34160
+      },
+      {
+        "fileName": "jc105.pdf",
+        "relativePath": "LegalEase Michigan/jc105.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "1d03acc4622f009d34e6e345ec8a8c2c043acc2cf9b9be6d5a25a15a64fa6859",
+        "sizeBytes": 94155
+      },
+      {
+        "fileName": "mc227.pdf",
+        "relativePath": "LegalEase Michigan/mc227.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "sizeBytes": 374474
+      },
+      {
+        "fileName": "mc228a.pdf",
+        "relativePath": "LegalEase Michigan/mc228a.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "7df3ab936f0da831d27276221a016b7ad70b9dd0343c121a8b91cb39474786f9",
+        "sizeBytes": 303610
+      },
+      {
+        "fileName": "mc228b.pdf",
+        "relativePath": "LegalEase Michigan/mc228b.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "e4973f04fc07a70cf4148250dddc19a76e85515204a3df925fa15600406f2dfa",
+        "sizeBytes": 368336
+      },
+      {
+        "fileName": "mi-setaside-application.html",
+        "relativePath": "LegalEase Michigan/mi-setaside-application.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179",
+        "sizeBytes": 20498
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Michigan-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 73,
+      "endLine": 113,
+      "text": "Two tracks, plus the marijuana and OWI specials.\n\nTrack A — Set-aside by application (MCL 780.621)\nSince the Clean Slate expansion (eff. April 11, 2021), a person may petition the convicting court to set aside:\n\n• Up to three felony convictions in a lifetime (previously only one).\n• An unlimited number of misdemeanor convictions.\n• Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is\npunishable by more than 10 years.\nThe applicant must have completed all sentence terms (incarceration, probation, parole), have no pending\ncharges, and not be convicted of a new offense during the waiting period.\n\nTrack B — Automatic set-aside (MCL 780.621g, eff. April 11, 2023)\nThe Michigan State Police and courts set aside eligible convictions with NO application:\n\n• Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of\nimprisonment, whichever is later.\n• Up to four misdemeanor convictions (93 days or more), automatically set aside 7 years after sentencing.\n• 92-day-or-less misdemeanors are set aside 7 years after sentencing (by the MSP if in its database, otherwise\nby the court).\n• A person with more than one assaultive conviction does not qualify for automatic set-aside.\n\nSpecial tracks\n• Marijuana (MCL 780.621e): a person convicted of a misdemeanor marihuana offense may apply (form MC\n227a) to set it aside; a rebuttable presumption arises that the conduct would not be a crime today, which the\nprosecutor must overcome.\n• OWI (eff. Feb 2022): a first-violation operating-while-intoxicated offense may be set aside by application 5\nyears after probation ends (this was newly made eligible; most traffic offenses remain ineligible).\n• Human trafficking (MCL 780.621(3)): a victim may apply at any time to set aside an offense that was a\ndirect result of being trafficked (form MC 227b).\n\nAGENT GUIDANCE\nDecide track by timing and limits. If the person wants relief now, or has more convictions than the\nautomatic caps, use the application track (up to 3 felonies / unlimited misdemeanors). If they qualify and\ncan wait, automatic set-aside (2 felonies / 4 misdemeanors) needs no filing.\nRoute marijuana to MCL 780.621e (form MC 227a) and OWI to the 5-year application path — both are\nnewer carve-ins that users often don't realize exist.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 114,
+      "endLine": 152,
+      "text": "Application-track waits run from the LATEST of sentencing, completion of probation, discharge from parole,\nor completion of imprisonment. Automatic-track waits run from sentencing (misdemeanors) or\nsentencing/release (felonies).\n\nTrack / matter Waiting period Measured from\n\nApplication — misdemeanor(s) 3 years Latest sentence event\n\nApplication — one serious misd., 5 years Latest sentence event\none OWI, or one felony\n\nApplication — multiple felonies 7 years Latest sentence event\n\nAutomatic — misdemeanor (≥ 93 days 7 years Imposition of sentence\nor ≤ 92 days)\n\nAutomatic — felony 10 years Sentencing or release, later\n\nMarihuana (MCL 780.621e) None stated On application\n\nHuman trafficking victim None Any time after conviction\n\nTwo structural rules shape the count. First, the One Bad Night rule (MCL 780.621b): multiple felonies or\nmultiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24\nhours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous\nweapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no\nnew conviction during the applicable waiting period and no pending charges; a denied petition generally\ncannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from\nsentencing/release and checks eligibility against the database.\n\nAGENT GUIDANCE\nApply the tiers: 3 yrs (misdemeanors), 5 yrs (one serious misdemeanor / one OWI / one felony), 7 yrs\n(multiple felonies) for applications; 7 yrs (misdemeanor) and 10 yrs (felony) for automatic.\nUse the One Bad Night rule to collapse same-night, same-transaction offenses into one — but check the\nassaultive/weapon/10-year exceptions, which break the grouping.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 153,
+      "endLine": 199,
+      "text": "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from\nAUTOMATIC set-aside.\n\nNever eligible (MCL 780.621c) — neither track\n• Felonies (or attempts) punishable by life imprisonment.\n• Most serious sex offenses and offenses requiring sex-offender registration; criminal sexual conduct (with a\nnarrow pre-2015 CSC-4th exception by petition).\n• Child sexually abusive activity; certain offenses involving minors.\n• Human trafficking (by the offender), terrorism, and other enumerated serious crimes.\n• Traffic offenses generally — except a first-violation OWI is now set-aside-eligible by application; most\nother traffic offenses, and any causing injury/death, remain ineligible.\n• Felony domestic violence if the person has a prior domestic-violence misdemeanor.\n\nEligible by application but EXCLUDED from automatic set-aside\n• Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief\nentirely).\n• Serious misdemeanors (as defined by statute).\n• Crimes of dishonesty.\n• Offenses punishable by 10 or more years.\n• Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death.\n\nOther limits\n• Application caps: no more than three felonies total, and only one felony for the same >10-year offense.\n• Automatic caps: no more than two felonies and four (≥93-day) misdemeanors.\n• New conviction / pending charge during the wait defeats an application; refiling after denial is barred for 3\nyears.\n• Out-of-state and federal convictions cannot be set aside under Michigan law.\n\nVERIFY BEFORE RELYING\nThe never-eligible list (MCL 780.621c) and the automatic-track exclusions (assaultive, serious\nmisdemeanor, dishonesty, 10-year, minor/vulnerable-adult/injury/death) are defined by specific\nstatutes and were amended repeatedly in the Clean Slate package and afterward. The agent must\nmap each offense to its MCL section and apply the correct track's exclusion list — an offense can\nbe eligible by application yet excluded from automatic relief.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase\n\nAGENT GUIDANCE\nRun two screens: first, is the offense never eligible (life felony, most sex offenses, most traffic)? Then, if\nseeking automatic relief, is it on the automatic-exclusion list (assaultive, serious misdemeanor,\ndishonesty, 10-year, minor/vulnerable/injury/death)?\nRemember the asymmetry: assaultive and dishonesty crimes can often still be set aside BY\nAPPLICATION even though they're excluded from automatic relief.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 200,
+      "endLine": 237,
+      "text": "Conviction type and track drive the timing and whether a filing is needed. This table is the agent's primary\nrouting logic for Michigan.\n\nConviction / matter Track Route Wait / limit\n\nMisdemeanor(s) Application Petition (MC 227) 3 yrs; unlimited number\n\nOne serious misd. / one OWI / Application Petition (MC 227) 5 yrs\none felony\n\nMultiple felonies Application Petition (MC 227) 7 yrs; ≤ 3 felonies\n\nMisdemeanor (eligible) Automatic No filing 7 yrs; ≤ 4\n\nFelony (eligible) Automatic No filing 10 yrs; ≤ 2\n\nMisdemeanor marihuana Application Petition (MC 227a) Rebuttable presumption\n\nHuman trafficking victim Application Petition (MC 227b) Any time\n\nLife felony / most sex / most — Not eligible Categorical\ntraffic / assaultive×2 (auto)\n\nEffect of relief: a set-aside makes the conviction NONPUBLIC — it no longer appears on a public background\ncheck and the person may generally treat it as not having occurred for most purposes. But the Michigan State\nPolice retain a NONPUBLIC record (MCL 780.623) accessible to law enforcement, courts, and for certain\nlicensing and employment screening, and a set-aside does NOT automatically restore firearm rights (gun-rights\nrestoration is a separate analysis under MCL 750.224f / 28.424). The relief reaches Michigan records only.\n\nAGENT GUIDANCE\nTell users a set-aside makes the record nonpublic but not erased — MSP keeps a nonpublic copy for law\nenforcement and certain licensing, and it does not by itself restore gun rights.\nIf a record is automatic-eligible, the person may not need to file at all — have them check their MSP\nrecord (Clean Slate) before preparing an application.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 238,
+      "endLine": 265,
+      "text": "The application track uses State Court Administrative Office (SCAO) forms filed in the convicting court; the\nautomatic track needs no form. Pick the form by offense type.\n\nApplication-track forms\n• MC 227 — Application to Set Aside Conviction(s): the main form for non-marijuana convictions, with\ncheckboxes for the 3-year (misdemeanors), 5-year (one serious misdemeanor / one OWI / one felony), and\n7-year (multiple felonies) paths. Requires a certified copy of each conviction.\n• MC 227a — Application to Set Aside Marihuana Conviction(s): for misdemeanor marihuana offenses\nunder MCL 780.621e (rebuttable presumption).\n• MC 227b — human-trafficking victim: for an offense that was a direct result of being trafficked (MCL\n780.621(3)).\n• An Order (set-aside / denial) accompanies the application for the judge's signature.\n\nSupporting steps\n• Fingerprints to the Michigan State Police with the application fee, so the MSP can verify the record and\nprocess the set-aside.\n• Certified copy of each conviction from the convicting court, attached to the application.\n• Service on the prosecuting attorney and the Michigan Attorney General.\n\nAGENT GUIDANCE\nUse MC 227 for ordinary convictions, MC 227a for misdemeanor marijuana, MC 227b for trafficking\nvictims; attach a certified copy of each conviction and submit fingerprints with the fee to the MSP.\nWhere relief is automatic, there is nothing to file — direct the user to verify via their MSP Clean Slate\nrecord rather than preparing an MC 227.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 266,
+      "endLine": 295,
+      "text": "1 Get the record. Obtain your Michigan State Police criminal history (ICHAT) and the court disposition to\nconfirm each conviction, its class, sentence-completion dates, and whether automatic set-aside has already\napplied.\n\n2 Choose the track and confirm eligibility. Application vs. automatic; the waiting period; the One Bad Night\ngrouping; the application caps (≤ 3 felonies) or automatic caps (≤ 2 felonies / 4 misdemeanors); and the\nexclusion lists.\n\n3 Complete the form (MC 227, MC 227a, or MC 227b) and attach a certified copy of each conviction; sign\nbefore a clerk or notary.\n\n4 File in the convicting court and submit fingerprints with the fee to the Michigan State Police (the\napplication processing fee is set by statute, commonly around $50).\n5 Serve the prosecuting attorney and the Michigan Attorney General; either may object.\n6 Hearing. The court typically holds a hearing (for marijuana, a hearing follows if the prosecutor contests the\npresumption); the judge weighs the circumstances and the public interest.\n\n7 Order and processing. If granted, the court enters the set-aside Order and forwards it to the Michigan State\nPolice, which makes the conviction nonpublic while retaining the MCL 780.623 nonpublic record. Keep a\ncertified copy of the order.\n\nAGENT GUIDANCE\nVenue is the convicting court — file where each conviction was entered; convictions in different courts\nneed separate applications.\nThe fingerprint + MSP step and service on both the prosecutor and the Attorney General are easy to\nmiss; build them into the checklist.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 296,
+      "endLine": 322,
+      "text": "• Two tracks, different limits. Application (≤ 3 felonies / unlimited misdemeanors) vs. automatic (≤ 2\nfelonies / 4 misdemeanors). They run in parallel — a person can file an application for convictions the\nautomatic system won't reach.\n• One Bad Night (MCL 780.621b). Same-transaction offenses within 24 hours count as a single conviction —\nunless assaultive, weapon-involved, or >10-year, which break the grouping.\n• Assaultive/dishonesty asymmetry. These can often be set aside by application but are excluded from\nautomatic relief; more than one assaultive conviction bars automatic relief entirely.\n• OWI carve-in (Feb 2022). A first-offense OWI became set-aside-eligible by application 5 years after\nprobation ends — a recent and frequently unknown change.\n• Marijuana presumption (MCL 780.621e). A misdemeanor marijuana set-aside carries a rebuttable\npresumption the conduct wouldn't be a crime today; the prosecutor bears the burden to rebut.\n• MSP keeps a nonpublic record. Set-aside makes the conviction nonpublic, not destroyed; law enforcement\nand certain licensing still see it (MCL 780.623).\n• Firearms not auto-restored. A set-aside does not by itself restore gun rights; restoration is a separate\nprocess (MCL 750.224f / 28.424).\n• 3-year refiling bar. A denied application generally cannot be refiled for 3 years unless the court allows\nearlier.\n\nAGENT GUIDANCE\nLead with the MSP Clean Slate check: many users are already (or soon will be) automatically cleared\nand don't need to file.\nSurface the OWI and marijuana carve-ins — they're recent and users rarely know a first OWI or an old\nmarijuana misdemeanor can now be cleared.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 323,
+      "endLine": 350,
+      "text": "Item Amount Note\n\nApplication processing fee (MSP) ~$50 Statutory fee with the fingerprint submission\n\nAutomatic set-aside $0 No application, no fee\n\nMarihuana set-aside (MC 227a) Application fee Rebuttable-presumption process\n\nCertified copy of conviction Court fee One per conviction, attached to the application\n\nMichigan State Police ICHAT record ICHAT fee To confirm record / automatic status\n\nAttorney fees (if represented) Varies Not required; legal-aid and county expungement clinics assist\n\nMichigan is relatively low-cost. Automatic set-aside is free. The application track carries a statutory Michigan\nState Police processing fee (commonly around $50) submitted with the fingerprints, plus the cost of a certified\ncopy of each conviction and any ICHAT record check. Many counties and nonprofits run free expungement\nclinics (e.g., through Michigan Works! and county conviction-integrity units) that help with the forms and fees.\n\nAGENT GUIDANCE\nQuote the ~$50 MSP processing fee for applications and note automatic set-aside is free; point users to\ncounty expungement clinics for free help with the forms.\nHave users pull their ICHAT record first — it confirms eligibility and whether automatic relief has already\ncleared the conviction, avoiding an unnecessary fee.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Criminal history (MSP) request process",
+      "category": "filing",
+      "startLine": 351,
+      "endLine": 354,
+      "text": "Confirming the record first establishes each conviction's class (which sets the track and wait), the\nsentence-completion dates, and whether automatic set-aside has applied."
+    },
+    {
+      "title": "I request that the court set aside the conviction(s) below.",
+      "category": "pathway_detail",
+      "startLine": 391,
+      "endLine": 392,
+      "text": "I consent to use of the nonpublic record under MCL 780.623."
+    },
+    {
+      "title": "Conviction: Larceny in a building (felony), MCL 750.360,",
+      "category": "pathway_detail",
+      "startLine": 393,
+      "endLine": 394,
+      "text": "convicted 03/14/2019."
+    },
+    {
+      "title": "[X] I am requesting only ONE felony to be set aside. At least",
+      "category": "pathway_detail",
+      "startLine": 395,
+      "endLine": 398,
+      "text": "FIVE years have passed since the sentence was imposed or\ndischarge from imprisonment/probation/parole, whichever is\nlater (completed 03/14/2020)."
+    },
+    {
+      "title": "This is not a conviction excluded by MCL 780.621c (not a life",
+      "category": "exclusions",
+      "startLine": 401,
+      "endLine": 402,
+      "text": "felony, sex offense, or other ineligible offense)."
+    },
+    {
+      "title": "A certified copy of the conviction is attached; fingerprints",
+      "category": "pathway_detail",
+      "startLine": 403,
+      "endLine": 408,
+      "text": "and the fee have been submitted to the Michigan State Police.\nI swear the statements above are true. (Served on the\nprosecuting attorney and the Attorney General.)\n\nExamples B, C & D — Other pathways"
+    },
+    {
+      "title": "AUTOMATIC SET-ASIDE (MCL 780.621g):",
+      "category": "pathway_detail",
+      "startLine": 409,
+      "endLine": 440,
+      "text": "An eligible felony is set aside automatically 10 years after\nsentencing/release; up to FOUR eligible (>=93-day) misdemeanors\n7 years after sentencing. No application -- the MSP and courts\nprocess it. Verify via your ICHAT record. (Excludes assaultive,\nserious misdemeanor, dishonesty, 10-year, and minor/vulnerable/\ninjury/death offenses.)\n\nC. ONE BAD NIGHT (MCL 780.621b):\nTwo felonies committed within 24 hours arising from the same\ntransaction count as ONE conviction for set-aside -- unless one\nis assaultive, weapon-involved, or punishable by >10 years.\n\nD. MARIHUANA (MCL 780.621e, form MC 227a):\nA misdemeanor marihuana conviction may be set aside by\napplication; a rebuttable presumption arises that the conduct\nwould not be a crime today, and the prosecutor must rebut it.\n\nOrder on Application\nThe MC 227 application is paired with an Order. If granted, the Order sets aside the conviction(s) and directs\nthe Michigan State Police to make the conviction nonpublic while retaining the nonpublic record under MCL\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase\n\n780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Michigan's set-aside statutes and\n4/11/2021) and created automatic set-aside (eff. 4/11/2023), with OWI and marijuana changes afterward; the agent must verify the\ncurrent text of MCL 780.621 et seq., the eligible/excluded offense lists for each track, the SCAO forms, MSP request processes,\nand current fees before relying on any rule here.\n\nMichigan Set-Aside & Clean Slate — Agent Training Reference · LegalEase"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 14,
+      "decisionRules": 71,
+      "waitingRules": 17,
+      "exclusions": 35,
+      "sourceFiles": 7,
+      "officialForms": 6
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   BUILD_MANIFEST_PATH,
-  LEGACY_GENERATOR_DIRS,
   REVIEW_INBOX_DIR,
   changedFilesFromGit,
   readJson
@@ -12,7 +11,7 @@ import {
 //
 // Proves: all 51 review folders exist; each has the required artifacts; all 51
 // jurisdictions are represented; missing overlays are recorded as pending (not a
-// failure); legacy live generators are unchanged; Expungement.ai UI untouched.
+// failure); source-engine runtime remains active; Expungement.ai UI untouched.
 
 const REQUIRED_FILES = [
   "REVIEW-MANIFEST.md",
@@ -28,7 +27,6 @@ const REQUIRED_FILES = [
 ];
 
 const FORBIDDEN_CHANGED_PREFIXES = [
-  ...LEGACY_GENERATOR_DIRS.map((dir) => `${dir}/`),
   "src/app/expungement-ai/",
   "src/app/expungement/",
   "src/components/expungement-ai/",

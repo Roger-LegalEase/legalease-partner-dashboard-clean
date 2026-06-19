@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { generateSavedDcDocumentPacket } from "@/lib/rcap/documents/dc/repository";
-import { generateSavedMississippiDocumentPacket, getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
+import { generateSavedDcDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import { generateSavedMississippiDocumentPacket, getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 
 export async function POST(
   _request: Request,

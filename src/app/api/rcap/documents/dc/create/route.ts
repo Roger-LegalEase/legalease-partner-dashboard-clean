@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createDcDocumentPacket } from "@/lib/rcap/documents/dc/repository";
-import type { DcDocumentPacketInput } from "@/lib/rcap/documents/dc/types";
+import { createDcDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import type { DcDocumentPacketInput } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
 export async function POST(request: Request) {

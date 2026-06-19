@@ -1,0 +1,2883 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "NE",
+    "name": "Nebraska",
+    "slug": "nebraska"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "NE-nebraska-record-clearing-reference.md",
+        "relativePath": "user-supplied/NE-nebraska-record-clearing-reference.md",
+        "sha256": "f443463fed947aa658f07a91536fee6d97e92d47b0094355817fecfdaac7ebc3",
+        "sizeBytes": 19119,
+        "extractedChars": 19045,
+        "sourceType": "user_supplied_reference"
+      }
+    ],
+    "sourceCorpusSha256": "348743ce6772f30a06c98e56c29662bee0794763e76e43687804f8eb4d6534bd",
+    "sourceCorpusChars": 19044,
+    "allFolderFiles": [
+      {
+        "fileName": "CC-6-11-2.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-11-2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "sizeBytes": 2766067
+      },
+      {
+        "fileName": "CC-6-12.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-12.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "sizeBytes": 1682731
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "set-aside",
+      "erasure",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Automatic/time-based sealing of non-conviction records under § 29-3523",
+      "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
+      "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
+      "Trafficking-survivor set-aside and sealing under § 29-3005",
+      "Pardon followed by motion to seal under § 29-3523(5)",
+      "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
+      "Juvenile automatic sealing under §§ 43-2,108.01 to 43-2,108.05",
+      "Juvenile petition-based sealing backstop"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status",
+        "identity_error"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "arrest_date",
+        "county",
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Nebraska, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Nebraska case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Nebraska descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Automatic/time-based sealing of non-conviction records under § 29-3523",
+        "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
+        "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
+        "Trafficking-survivor set-aside and sealing under § 29-3005",
+        "Pardon followed by motion to seal under § 29-3523(5)",
+        "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
+        "Juvenile automatic sealing under §§ 43-2,108.01 to 43-2,108.05",
+        "Juvenile petition-based sealing backstop",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "identity_error",
+      "stage": "special_pathways",
+      "prompt": "Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Nebraska criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "arrest_date",
+      "stage": "case_details",
+      "prompt": "When did the arrest or citation occur?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "county",
+      "stage": "case_details",
+      "prompt": "What Nebraska county, parish, borough, district, or local filing area handled the case?",
+      "type": "text",
+      "options": "",
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Nebraska was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "automatic-nonconviction-sealing",
+        "juvenile-automatic-sealing"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "automatic-nonconviction-sealing",
+        "juvenile-automatic-sealing"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "juvenile-petition-backstop"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "pardon-then-seal"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "automatic-nonconviction-sealing",
+      "label": "Automatic/time-based sealing of non-conviction records under § 29-3523",
+      "summary": "No charges filed after prosecutor decline: public access ends one year after arrest. No charges filed after completed diversion: public access ends two years after arrest. Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice. Standard automatic cases should return guidance/status verification, not a paid filing packet.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "No charges filed after prosecutor decline: public access ends one year after arrest.",
+        "No charges filed after completed diversion: public access ends two years after arrest.",
+        "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice.",
+        "Standard automatic cases should return guidance/status verification, not a paid filing packet."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "No charges filed after prosecutor decline: public access ends one year after arrest.",
+        "No charges filed after completed diversion: public access ends two years after arrest.",
+        "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice."
+      ],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "set-aside-probation-fine-community-service",
+      "label": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
+      "summary": "The sentence conditions must be satisfactorily completed and any fine paid/community service completed. The petition is filed in the sentencing court and the decision is discretionary under best-interest/public-welfare factors. The conviction remains visible with the set-aside noted; never describe this as erasure.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "The sentence conditions must be satisfactorily completed and any fine paid/community service completed.",
+        "The petition is filed in the sentencing court and the decision is discretionary under best-interest/public-welfare factors.",
+        "The conviction remains visible with the set-aside noted; never describe this as erasure."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "sentence_completion_date",
+        "financial_obligations",
+        "court"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "set-aside-incarceration-one-year-or-less",
+      "label": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
+      "summary": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years. The petition is filed in the sentencing court and remains discretionary. The conviction remains public with the set-aside notation.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years.",
+        "The petition is filed in the sentencing court and remains discretionary.",
+        "The conviction remains public with the set-aside notation."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "sentence_completion_date",
+        "court",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years."
+      ],
+      "exclusionRules": [
+        "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years."
+      ],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "trafficking-survivor-set-aside-and-seal",
+      "label": "Trafficking-survivor set-aside and sealing under § 29-3005",
+      "summary": "The conviction or adjudication must be prostitution-related while the person was trafficked, or directly/proximately caused by trafficking status. The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption. After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "The conviction or adjudication must be prostitution-related while the person was trafficked, or directly/proximately caused by trafficking status.",
+        "The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption.",
+        "After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption.",
+        "After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "pardon-then-seal",
+      "label": "Pardon followed by motion to seal under § 29-3523(5)",
+      "summary": "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period. Traffic, DUI, driving-under-suspension, out-of-state, and federal convictions are not eligible for the Nebraska pardon route described. After a pardon, the person may move in the sentencing court to seal the conviction record.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period.",
+        "Traffic, DUI, driving-under-suspension, out-of-state, and federal convictions are not eligible for the Nebraska pardon route described.",
+        "After a pardon, the person may move in the sentencing court to seal the conviction record."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "court",
+        "charge",
+        "pardon_status",
+        "record_type",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "pardon"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period.",
+        "After a pardon, the person may move in the sentencing court to seal the conviction record."
+      ],
+      "exclusionRules": [
+        "Traffic, DUI, driving-under-suspension, out-of-state, and federal convictions are not eligible for the Nebraska pardon route described."
+      ],
+      "routeType": "pardon",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "law-enforcement-error-expungement",
+      "label": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
+      "summary": "The petition is filed in district court, the county attorney is respondent and must be served, and clear and convincing evidence must show arresting-agency error. This is the narrow true-expungement route in Nebraska.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "The petition is filed in district court, the county attorney is respondent and must be served, and clear and convincing evidence must show arresting-agency error.",
+        "This is the narrow true-expungement route in Nebraska."
+      ],
+      "triggerFields": [
+        "county",
+        "court",
+        "identity_error"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "juvenile-automatic-sealing",
+      "label": "Juvenile automatic sealing under §§ 43-2,108.01 to 43-2,108.05",
+      "summary": "Qualifying no-petition/no-complaint, diversion/mediation completion, dismissal, probation, supervision, treatment, or county-court completion can trigger automatic sealing. Automatic cases should return guidance/status verification.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "Qualifying no-petition/no-complaint, diversion/mediation completion, dismissal, probation, supervision, treatment, or county-court completion can trigger automatic sealing.",
+        "Automatic cases should return guidance/status verification."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "sentence_completion_date",
+        "county",
+        "court"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "automatic",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    },
+    {
+      "id": "juvenile-petition-backstop",
+      "label": "Juvenile petition-based sealing backstop",
+      "summary": "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner. No objection requires grant; an objection leads to a hearing and rehabilitation determination.",
+      "sourceRef": "manual_source_conversion:NE",
+      "ruleClauses": [
+        "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner.",
+        "No objection requires grant; an objection leads to a hearing and rehabilitation determination."
+      ],
+      "triggerFields": [
+        "age_at_offense"
+      ],
+      "caseOutcomes": [
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner."
+      ],
+      "exclusionRules": [],
+      "routeType": "juvenile",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:NE"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-15-traffic-dui-driving-under-suspension-out-of-state-and-f",
+      "priority": 20,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "pardon_status",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Traffic, DUI, driving-under-suspension, out-of-state, and federal convictions are not eligible for the Nebraska pardon route described."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:pardon-then-seal",
+      "candidatePathwayIds": [
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-31-conviction-not-eligible-for-set-aside-or-seeking-full-r",
+      "priority": 20,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "charge",
+          "pardon_status",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "ten years"
+        },
+        "sourceConditionText": "**Conviction not eligible for set-aside, or seeking full rights including firearms:** pardon path. Felony ten years, misdemeanor three years from discharge. Out-of-state and federal convictions and traffic/DUI offenses are not eligible."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "pardon-then-seal",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-06-the-petition-is-filed-in-the-sentencing-court-and-the-d",
+      "priority": 30,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition is filed in the sentencing court and the decision is discretionary under best-interest/public-welfare factors."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-probation-fine-community-service",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-09-the-petition-is-filed-in-the-sentencing-court-and-remai",
+      "priority": 30,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition is filed in the sentencing court and remains discretionary."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-incarceration-one-year-or-less",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less"
+      ]
+    },
+    {
+      "id": "rule-27-charges-filed-but-dismissed-by-the-court-on-the-prosecu",
+      "priority": 40,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "disposition_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "**Charges filed but dismissed** by the court on the prosecutor's motion, as a result of a hearing not subject to a pending appeal, after acquittal, after a deferred judgment, or after completion of a drug court or other approved problem-solving court program: removed from the public record **immediately** upon notification of a criminal justice agency after acquittal or after the order dismissing the case (§ 29-3523(3)(c))."
+      },
+      "then": {
+        "suggestedResultCode": "needs_more_info",
+        "frontendAction": "return_to_exact_missing_questions"
+      },
+      "sourceRef": "waiting_periods:69-74",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-30-conviction-one-year-or-less-incarceration-sentence-comp",
+      "priority": 50,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "**Conviction, one year or less incarceration, sentence complete, no pending charges, not SORA, not vehicular homicide, no set-aside denial in past two years:** a set-aside path may exist under § 29-2264(3)."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-04-standard-automatic-cases-should-return-guidance-status-",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Standard automatic cases should return guidance/status verification, not a paid filing packet."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:automatic-nonconviction-sealing",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "juvenile-automatic-sealing",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-19-qualifying-no-petition-no-complaint-diversion-mediation",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "county",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Qualifying no-petition/no-complaint, diversion/mediation completion, dismissal, probation, supervision, treatment, or county-court completion can trigger automatic sealing."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:juvenile-automatic-sealing",
+      "candidatePathwayIds": [
+        "juvenile-automatic-sealing",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-20-automatic-cases-should-return-guidance-status-verificat",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Automatic cases should return guidance/status verification."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:juvenile-automatic-sealing",
+      "candidatePathwayIds": [
+        "juvenile-automatic-sealing",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-21-if-not-automatically-sealed-the-juvenile-parent-or-guar",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 6,
+          "unit": "months",
+          "raw": "six months"
+        },
+        "sourceConditionText": "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:juvenile-petition-backstop",
+      "candidatePathwayIds": [
+        "juvenile-petition-backstop",
+        "trafficking-survivor-set-aside-and-seal",
+        "pardon-then-seal",
+        "set-aside-incarceration-one-year-or-less"
+      ]
+    },
+    {
+      "id": "rule-28-dismissed-acquitted-declined-deferred-judgment-complet",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "**Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)). No petition needed in the standard case. May qualify with no filing."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "set-aside-incarceration-one-year-or-less",
+        "pardon-then-seal",
+        "juvenile-petition-backstop"
+      ]
+    },
+    {
+      "id": "rule-35-juvenile-under-18-at-offense-mostly-automatic-sealing",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "**Juvenile (under 18 at offense):** mostly automatic sealing under §§ 43-2,108.01 to 43-2,108.05, with a petition backstop."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "juvenile-automatic-sealing",
+        "juvenile-petition-backstop"
+      ]
+    },
+    {
+      "id": "rule-01-no-charges-filed-after-prosecutor-decline-public-access",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "No charges filed after prosecutor decline: public access ends one year after arrest."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:automatic-nonconviction-sealing",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-02-no-charges-filed-after-completed-diversion-public-acces",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "No charges filed after completed diversion: public access ends two years after arrest."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:automatic-nonconviction-sealing",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-03-acquittal-qualifying-dismissal-deferred-judgment-comple",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:automatic-nonconviction-sealing",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "juvenile-automatic-sealing"
+      ]
+    },
+    {
+      "id": "rule-05-the-sentence-conditions-must-be-satisfactorily-complete",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The sentence conditions must be satisfactorily completed and any fine paid/community service completed."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-probation-fine-community-service",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-07-the-conviction-remains-visible-with-the-set-aside-noted",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The conviction remains visible with the set-aside noted; never describe this as erasure."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-probation-fine-community-service",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-08-the-sentence-must-be-complete-no-charge-may-be-pending-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-incarceration-one-year-or-less",
+      "candidatePathwayIds": [
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-10-the-conviction-remains-public-with-the-set-aside-notati",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The conviction remains public with the set-aside notation."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:set-aside-incarceration-one-year-or-less",
+      "candidatePathwayIds": [
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service",
+        "trafficking-survivor-set-aside-and-seal",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-11-the-conviction-or-adjudication-must-be-prostitution-rel",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The conviction or adjudication must be prostitution-related while the person was trafficked, or directly/proximately caused by trafficking status."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:trafficking-survivor-set-aside-and-seal",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-12-the-petition-may-be-filed-after-sentence-completion-off",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:trafficking-survivor-set-aside-and-seal",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-13-after-set-aside-the-person-may-move-to-seal-statewide-m",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:trafficking-survivor-set-aside-and-seal",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal",
+        "pardon-then-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-14-the-source-states-a-ten-year-wait-from-final-discharge-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "three years"
+        },
+        "sourceConditionText": "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:pardon-then-seal",
+      "candidatePathwayIds": [
+        "pardon-then-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-16-after-a-pardon-the-person-may-move-in-the-sentencing-co",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "pardon_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "After a pardon, the person may move in the sentencing court to seal the conviction record."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:pardon-then-seal",
+      "candidatePathwayIds": [
+        "pardon-then-seal",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-17-the-petition-is-filed-in-district-court-the-county-atto",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "county",
+          "court",
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition is filed in district court, the county attorney is respondent and must be served, and clear and convincing evidence must show arresting-agency error."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:law-enforcement-error-expungement",
+      "candidatePathwayIds": [
+        "law-enforcement-error-expungement",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less"
+      ]
+    },
+    {
+      "id": "rule-18-this-is-the-narrow-true-expungement-route-in-nebraska",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "This is the narrow true-expungement route in Nebraska."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:law-enforcement-error-expungement",
+      "candidatePathwayIds": [
+        "law-enforcement-error-expungement"
+      ]
+    },
+    {
+      "id": "rule-22-no-objection-requires-grant-an-objection-leads-to-a-hea",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No objection requires grant; an objection leads to a hearing and rehabilitation determination."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:NE:juvenile-petition-backstop",
+      "candidatePathwayIds": [
+        "juvenile-petition-backstop"
+      ]
+    },
+    {
+      "id": "rule-23-nebraska-is-one-of-the-strictest-states-in-the-country-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Nebraska is one of the strictest states in the country for clearing adult convictions. There is no true expungement of a conviction. A conviction record is never erased and never destroyed. What exists instead is a layered system of four distinct mechanisms, and which one applies turns almost entirely on how the case ended, not on the offense type."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-15",
+      "candidatePathwayIds": [
+        "pardon-then-seal",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-24-set-aside-neb-rev-stat-29-2264-for-convictions-n",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "**Set-aside** (Neb. Rev. Stat. § 29-2264) for convictions. Nullifies the conviction and removes civil disabilities, but the record stays public and visible on background checks with the set-aside noted."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-15",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-25-no-charges-filed-because-the-prosecutor-declined-not-pa",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "arrest_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "**No charges filed** because the prosecutor declined: not part of the public record after **one year** from the date of arrest."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:69-74",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "rule-26-charges-not-filed-due-to-completed-diversion-not-part-o",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "arrest_date",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "two years"
+        },
+        "sourceConditionText": "**Charges not filed due to completed diversion:** not part of the public record after **two years** from the date of arrest."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:69-74",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing",
+        "set-aside-incarceration-one-year-or-less",
+        "set-aside-probation-fine-community-service",
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "rule-29-conviction-probation-or-fine-or-community-service-sente",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "**Conviction, probation or fine or community service, sentence complete:** a set-aside path may exist under § 29-2264(2). Petition the sentencing court. Record stays visible with set-aside noted."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "trafficking-survivor-set-aside-and-seal",
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-32-pardon-granted-a-sealing-path-opens-under-29-3523-5",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "**Pardon granted:** a sealing path opens under § 29-3523(5)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "rule-33-trafficking-survivor-set-aside-plus-sealing-path-under",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "**Trafficking survivor:** set-aside plus sealing path under §§ 29-3005 and 29-3523(4), filable any time after sentence completion."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service",
+        "set-aside-incarceration-one-year-or-less",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-34-arrest-from-law-enforcement-error-true-expungement-path",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "**Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "law-enforcement-error-expungement",
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-36-hard-line-for-all-copy-nebraska-does-not-expunge-convic",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Hard line for all copy: Nebraska does not expunge convictions. Frame conviction relief as set-aside (nullified but visible) or pardon-then-seal, never as erasure."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:176-192",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal",
+        "set-aside-probation-fine-community-service",
+        "pardon-then-seal",
+        "set-aside-incarceration-one-year-or-less"
+      ]
+    },
+    {
+      "id": "route-automatic-nonconviction-sealing",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-nonconviction-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Automatic/time-based sealing of non-conviction records under § 29-3523"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "automatic-nonconviction-sealing"
+      ]
+    },
+    {
+      "id": "route-set-aside-probation-fine-community-service",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-probation-fine-community-service",
+        "requiredFields": [
+          "case_outcome",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "set-aside-probation-fine-community-service"
+      ]
+    },
+    {
+      "id": "route-set-aside-incarceration-one-year-or-less",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "set-aside-incarceration-one-year-or-less",
+        "requiredFields": [
+          "case_outcome",
+          "sentence_completion_date",
+          "court",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "set-aside-incarceration-one-year-or-less"
+      ]
+    },
+    {
+      "id": "route-trafficking-survivor-set-aside-and-seal",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "trafficking-survivor-set-aside-and-seal",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Trafficking-survivor set-aside and sealing under § 29-3005"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "trafficking-survivor-set-aside-and-seal"
+      ]
+    },
+    {
+      "id": "route-pardon-then-seal",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pardon-then-seal",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "court",
+          "charge",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "court",
+          "charge",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon followed by motion to seal under § 29-3523(5)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "pardon-then-seal"
+      ]
+    },
+    {
+      "id": "route-law-enforcement-error-expungement",
+      "priority": 85,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "law-enforcement-error-expungement",
+        "requiredFields": [
+          "county",
+          "court",
+          "identity_error"
+        ],
+        "fieldsReferenced": [
+          "county",
+          "court",
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "law-enforcement-error-expungement"
+      ]
+    },
+    {
+      "id": "route-juvenile-automatic-sealing",
+      "priority": 86,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-automatic-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "sentence_completion_date",
+          "county",
+          "court"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "county",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Juvenile automatic sealing under §§ 43-2,108.01 to 43-2,108.05"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "juvenile-automatic-sealing"
+      ]
+    },
+    {
+      "id": "route-juvenile-petition-backstop",
+      "priority": 87,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-petition-backstop",
+        "requiredFields": [
+          "age_at_offense"
+        ],
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile petition-based sealing backstop"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:NE",
+      "candidatePathwayIds": [
+        "juvenile-petition-backstop"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "No charges filed after prosecutor decline: public access ends one year after arrest.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "prosecutor decline: public access ends one year after arrest",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "No charges filed after completed diversion: public access ends two years after arrest.",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "two years"
+      },
+      "anchor": "completed diversion: public access ends two years after arrest",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "agency notice",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years.",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "two years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption.",
+      "duration": null,
+      "anchor": "sentence completion",
+      "fieldsReferenced": [
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source.",
+      "duration": null,
+      "anchor": "set-aside, the person may move to seal",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "anchor": "final discharge for felony pardon applications and three years for misdemeanors, with later contact",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "charge",
+        "pardon_status"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "After a pardon, the person may move in the sentencing court to seal the conviction record.",
+      "duration": null,
+      "anchor": "a pardon, the person may move in the sentencing court to seal the conviction record",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "pardon_status",
+        "record_type"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner.",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "six months"
+      },
+      "anchor": "case closure, whichever is sooner",
+      "fieldsReferenced": [
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "**No charges filed** because the prosecutor declined: not part of the public record after **one year** from the date of arrest.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "**one year** from the date of arrest",
+      "fieldsReferenced": [
+        "case_outcome",
+        "arrest_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "**Charges not filed due to completed diversion:** not part of the public record after **two years** from the date of arrest.",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "two years"
+      },
+      "anchor": "**two years** from the date of arrest",
+      "fieldsReferenced": [
+        "case_outcome",
+        "arrest_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "**Charges filed but dismissed** by the court on the prosecutor's motion, as a result of a hearing not subject to a pending appeal, after acquittal, after a deferred judgment, or after completion of a drug court or other approved problem-solving court program: removed from the public record **immediately** upon notification of a criminal justice agency after acquittal or after the order dismissing the case (§ 29-3523(3)(c)).",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "acquittal, after a deferred judgment, or after completion of a drug court or other approved problem-",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "**No charges filed** because the prosecutor declined: not part of the public record after **one year** from the date of arrest. - **Charges not filed due to completed diversion:** not part of the public record after **two years** from the date of arrest. - **Charges filed but dismissed** by the court on the prosecutor's motion, as a result of a hearing not subject to a pending appeal, after acquittal, after a deferred judgment, or after completion of a drug court or other approved problem-solving court program: removed from the public record **immediately** upon notification of a criminal justice agency after acquittal or after the order dismissing the case (§ 29-3523(3)(c)).",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "**one year** from the date of arrest",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "disposition_date",
+        "court",
+        "arrest_date",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "**Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)). No petition needed in the standard case. May qualify with no filing.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "**Conviction, one year or less incarceration, sentence complete, no pending charges, not SORA, not vehicular homicide, no set-aside denial in past two years:** a set-aside path may exist under § 29-2264(3).",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "pending_cases",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "**Conviction not eligible for set-aside, or seeking full rights including firearms:** pardon path. Felony ten years, misdemeanor three years from discharge. Out-of-state and federal convictions and traffic/DUI offenses are not eligible.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "ten years"
+      },
+      "anchor": "discharge",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge",
+        "pardon_status",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "Readiness is path-based, not state-based. - **Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)).",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "Record stays visible with set-aside noted. - **Conviction, one year or less incarceration, sentence complete, no pending charges, not SORA, not vehicular homicide, no set-aside denial in past two years:** a set-aside path may exist under § 29-2264(3). - **Conviction not eligible for set-aside, or seeking full rights including firearms:** pardon path.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "sentence_completion_date",
+        "pending_cases",
+        "charge",
+        "pardon_status"
+      ]
+    },
+    {
+      "id": "wait-19",
+      "ruleText": "Felony ten years, misdemeanor three years from discharge.",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "ten years"
+      },
+      "anchor": "discharge",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Traffic, DUI, driving-under-suspension, out-of-state, and federal convictions are not eligible for the Nebraska pardon route described.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "pardon_status",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "automatic-nonconviction-sealing",
+        "pathwayLabel": "Automatic/time-based sealing of non-conviction records under § 29-3523",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "set-aside-probation-fine-community-service",
+        "pathwayLabel": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "set-aside-incarceration-one-year-or-less",
+        "pathwayLabel": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "trafficking-survivor-set-aside-and-seal",
+        "pathwayLabel": "Trafficking-survivor set-aside and sealing under § 29-3005",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "CC-6-12.pdf",
+            "relativePath": "LegalEase Nebraska/CC-6-12.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+            "sizeBytes": 1682731
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pardon-then-seal",
+        "pathwayLabel": "Pardon followed by motion to seal under § 29-3523(5)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "law-enforcement-error-expungement",
+        "pathwayLabel": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-automatic-sealing",
+        "pathwayLabel": "Juvenile automatic sealing under §§ 43-2,108.01 to 43-2,108.05",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-petition-backstop",
+        "pathwayLabel": "Juvenile petition-based sealing backstop",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:NE"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "arrest_date",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "financial_obligations",
+      "identity_error",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [],
+    "attachments": [],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [],
+    "feeRules": [],
+    "hearingAndObjectionRules": [
+      "The application requires three or more character reference letters from community members. The Board investigates, then decides by majority vote. Hearings are held several times a year at the Board's discretion; not every application gets a hearing, and applicants may wait months to years. If a hearing is granted, the applicant must appear in person. Victims are notified in crimes against a person. Denials carry no stated reasons and a reapplication waiting period of up to two years (§ 83-1,130(1)).",
+      "Hearings are held several times a year at the Board's discretion; not every application gets a hearing, and applicants may wait months to years.",
+      "If a hearing is granted, the applicant must appear in person."
+    ],
+    "postFilingRules": [
+      "It nullifies the conviction and removes all civil disabilities and disqualifications imposed as a result of the conviction. The order must notify the person to consult an attorney about the effect, if any, on their ability to possess a firearm under state or federal law (§ 29-2264(5)(b), (c)).",
+      "It does NOT seal or erase the record (except for the trafficking-survivor route below). The conviction remains visible on background checks with a notation that it was set aside. Under §§ 29-2264(6)(b) through (n), a set-aside conviction can still be used as a predicate offense, to enhance a subsequent sentence, to impeach the person as a witness, to deny or revoke a law enforcement training certification, and for other listed purposes. It does not relieve sex-offender registration obligations.",
+      "Note the McCray line of cases: removal of civil disabilities operates prospectively from the date of the set-aside order, and the legislature cannot retroactively impair rights already vested under a prior set-aside judgment.",
+      "The order must notify the person to consult an attorney about the effect, if any, on their ability to possess a firearm under state or federal law (§ 29-2264(5)(b), (c)).",
+      "It does NOT seal or erase the record (except for the trafficking-survivor route below).",
+      "The conviction remains visible on background checks with a notation that it was set aside.",
+      "**Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)). No petition needed in the standard case. May qualify with no filing.",
+      "**Pardon granted:** a sealing path opens under § 29-3523(5).",
+      "**Trafficking survivor:** set-aside plus sealing path under §§ 29-3005 and 29-3523(4), filable any time after sentence completion.",
+      "**Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court.",
+      "**Juvenile (under 18 at offense):** mostly automatic sealing under §§ 43-2,108.01 to 43-2,108.05, with a petition backstop.",
+      "Hard line for all copy: Nebraska does not expunge convictions. Frame conviction relief as set-aside (nullified but visible) or pardon-then-seal, never as erasure.",
+      "Readiness is path-based, not state-based. - **Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)).",
+      "Out-of-state and federal convictions and traffic/DUI offenses are not eligible. - **Pardon granted:** a sealing path opens under § 29-3523(5). - **Trafficking survivor:** set-aside plus sealing path under §§ 29-3005 and 29-3523(4), filable any time after sentence completion. - **Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court. - **Juvenile (under 18 at offense):** mostly automatic sealing under §§ 43-2,108.01 to 43-2,108.05, with a petition backstop.",
+      "Hard line for all copy: Nebraska does not expunge convictions.",
+      "Frame conviction relief as set-aside (nullified but visible) or pardon-then-seal, never as erasure."
+    ],
+    "formInventory": [
+      {
+        "fileName": "CC-6-11-2.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-11-2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "sizeBytes": 2766067
+      },
+      {
+        "fileName": "CC-6-12.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-12.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "sizeBytes": 1682731
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "CC-6-11-2.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-11-2.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "sizeBytes": 2766067
+      },
+      {
+        "fileName": "CC-6-12.pdf",
+        "relativePath": "LegalEase Nebraska/CC-6-12.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "sizeBytes": 1682731
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "A conviction record is never erased and never destroyed.",
+    "The order must notify the person to consult an attorney about the effect, if any, on their ability to possess a firearm under state or federal law (§ 29-2264(5)(b), (c)).",
+    "It does NOT seal or erase the record (except for the trafficking-survivor route below).",
+    "It does not relieve sex-offender registration obligations.",
+    "Readiness is path-based, not state-based. - **Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)).",
+    "Out-of-state and federal convictions and traffic/DUI offenses are not eligible. - **Pardon granted:** a sealing path opens under § 29-3523(5). - **Trafficking survivor:** set-aside plus sealing path under §§ 29-3005 and 29-3523(4), filable any time after sentence completion. - **Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court. - **Juvenile (under 18 at offense):** mostly automatic sealing under §§ 43-2,108.01 to 43-2,108.05, with a petition backstop.",
+    "Hard line for all copy: Nebraska does not expunge convictions.",
+    "Frame conviction relief as set-aside (nullified but visible) or pardon-then-seal, never as erasure.",
+    "Use Nebraska-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "1. The core reality",
+      "category": "overview",
+      "startLine": 9,
+      "endLine": 15,
+      "text": "Nebraska is one of the strictest states in the country for clearing adult convictions. There is no true expungement of a conviction. A conviction record is never erased and never destroyed. What exists instead is a layered system of four distinct mechanisms, and which one applies turns almost entirely on how the case ended, not on the offense type.\n\nThe four paths:\n\n1. **Set-aside** (Neb. Rev. Stat. § 29-2264) for convictions. Nullifies the conviction and removes civil disabilities, but the record stays public and visible on background checks with the set-aside noted."
+    },
+    {
+      "title": "**Expungement** (§ 29-3523(6)) in the narrow case of an arrest caused by law enforcement error, proven by clear and convincing evidence.",
+      "category": "pathway_detail",
+      "startLine": 18,
+      "endLine": 25,
+      "text": "A separate juvenile sealing regime (§§ 43-2,108.01 to 43-2,108.05) runs in parallel and is mostly automatic.\n\nThe practical decision tree: dismissed or no conviction means likely automatic sealing. A conviction means apply for a set-aside first. A serious or older conviction means pursue a pardon, then seal.\n\n---"
+    },
+    {
+      "title": "2. Set-aside of convictions (§ 29-2264)",
+      "category": "pathway_detail",
+      "startLine": 26,
+      "endLine": 29,
+      "text": "This is the primary relief available to people with Nebraska convictions."
+    },
+    {
+      "title": "What a set-aside does and does not do",
+      "category": "effects",
+      "startLine": 43,
+      "endLine": 52,
+      "text": "It nullifies the conviction and removes all civil disabilities and disqualifications imposed as a result of the conviction. The order must notify the person to consult an attorney about the effect, if any, on their ability to possess a firearm under state or federal law (§ 29-2264(5)(b), (c)).\n\nIt does NOT seal or erase the record (except for the trafficking-survivor route below). The conviction remains visible on background checks with a notation that it was set aside. Under §§ 29-2264(6)(b) through (n), a set-aside conviction can still be used as a predicate offense, to enhance a subsequent sentence, to impeach the person as a witness, to deny or revoke a law enforcement training certification, and for other listed purposes. It does not relieve sex-offender registration obligations.\n\nNote the McCray line of cases: removal of civil disabilities operates prospectively from the date of the set-aside order, and the legislature cannot retroactively impair rights already vested under a prior set-aside judgment.\n\n---"
+    },
+    {
+      "title": "3. Set-aside and sealing for human trafficking survivors (§ 29-3005)",
+      "category": "pathway_detail",
+      "startLine": 53,
+      "endLine": 64,
+      "text": "This is the one route where a set-aside also produces sealing. Available since 2018.\n\nRelief covers a person convicted or adjudicated of a prostitution-related offense while a victim of sex trafficking, or where the offense was proximately caused by being a trafficking victim (§ 29-3005(2)(a)), and for any other offense committed as a direct result of or proximately caused by the person's status as a trafficking victim (§ 29-3005(2)(b)).\n\nA petition may be filed in the sentencing court at any time after completion of sentence. Official documentation of victim status is not required but creates a rebuttable presumption (§ 29-3005(4)). The court shall grant relief on the required findings, though the finding itself is discretionary. Hearings may be held in camera on request, and the rules of evidence do not apply (§ 29-3005(6)).\n\nThis relief is easier to obtain than the general set-aside (no one-year-incarceration cap, for instance) and stronger in effect because it explicitly allows sealing. After set-aside, the person may move to seal: adult records under § 29-3523(7), juvenile records under § 43-2,108.05. A statewide court form (CC 6:12, Motion to Seal) exists.\n\n---"
+    },
+    {
+      "title": "4. Sealing of non-conviction records (§ 29-3523)",
+      "category": "pathway_detail",
+      "startLine": 65,
+      "endLine": 68,
+      "text": "Most non-conviction relief in Nebraska is automatic and time-based. No petition is required in the standard cases. The records are removed from the public record and made available only to criminal justice agencies."
+    },
+    {
+      "title": "The time triggers (§ 29-3523(3))",
+      "category": "waiting_periods",
+      "startLine": 69,
+      "endLine": 74,
+      "text": "- **No charges filed** because the prosecutor declined: not part of the public record after **one year** from the date of arrest.\n- **Charges not filed due to completed diversion:** not part of the public record after **two years** from the date of arrest.\n- **Charges filed but dismissed** by the court on the prosecutor's motion, as a result of a hearing not subject to a pending appeal, after acquittal, after a deferred judgment, or after completion of a drug court or other approved problem-solving court program: removed from the public record **immediately** upon notification of a criminal justice agency after acquittal or after the order dismissing the case (§ 29-3523(3)(c))."
+    },
+    {
+      "title": "Effect and protections",
+      "category": "effects",
+      "startLine": 75,
+      "endLine": 84,
+      "text": "After the relevant period or after a granted motion, a criminal justice agency responds to public inquiry as if there were no record (§ 29-3523(1)). Exceptions: the subject is currently being prosecuted or under correctional control from a separate arrest, is an announced candidate for or holder of public office, or has made a notarized request to release the record to a specific person.\n\nA sealed record cannot be the subject of questioning in any application for employment, bonding, license, education, or other right or privilege, any appearance as a witness, or other public inquiry. If asked in violation, the person may respond as if the offense never occurred (§ 29-3523(8)).\n\nRetroactivity: LB 1132 (2018) clarified the sealing provisions apply to pre-2017 cases (§ 29-3523(6)), overriding earlier court readings that limited sealing to arrests on or after January 1, 2017.\n\nPenalty for unauthorized disclosure: a Class IV misdemeanor (§ 29-3527). Any person may sue to compel compliance, including by mandamus."
+    },
+    {
+      "title": "Deferred judgments and diversion",
+      "category": "pathway_detail",
+      "startLine": 85,
+      "endLine": 90,
+      "text": "Deferred judgments were authorized in 2019 (§ 29-2292). The defendant must be probation-eligible; domestic violence and DUI are excluded. On satisfactory completion of probation and payment or waiver of fees, the plea is withdrawn and the case dismissed, and the records are sealed immediately under § 29-3523(3)(c). Prosecutor-managed pretrial diversion under § 29-3602 can lead to the same automatic sealing.\n\n---"
+    },
+    {
+      "title": "5. Pardon, then seal (§§ 83-1,126 to 83-1,134; § 29-3523(5))",
+      "category": "pathway_detail",
+      "startLine": 91,
+      "endLine": 94,
+      "text": "For convictions that cannot be set aside or where the person wants full civil rights restoration including firearms, the pardon is the route."
+    },
+    {
+      "title": "Eligibility waiting periods",
+      "category": "waiting_periods",
+      "startLine": 101,
+      "endLine": 107,
+      "text": "- **Felony:** ten years from final discharge, including payment of fine and restitution.\n- **Misdemeanor:** three years.\n\nAny law enforcement contact or new conviction within the waiting period resets the clock. The Board does not hear traffic violations, DUI, or driving-under-suspension cases. Out-of-state and federal convictions are ineligible for a Nebraska pardon."
+    },
+    {
+      "title": "Process",
+      "category": "filing",
+      "startLine": 108,
+      "endLine": 113,
+      "text": "The application requires three or more character reference letters from community members. The Board investigates, then decides by majority vote. Hearings are held several times a year at the Board's discretion; not every application gets a hearing, and applicants may wait months to years. If a hearing is granted, the applicant must appear in person. Victims are notified in crimes against a person. Denials carry no stated reasons and a reapplication waiting period of up to two years (§ 83-1,130(1)).\n\nGrant context, 2023 to 2025: the Board ruled on 462 applications across 4 to 6 meetings per year, granting 138 pardons, a rate of about 30 percent. About 85 percent of grants covered more than one conviction, and about 80 percent included firearms restoration."
+    },
+    {
+      "title": "Sealing after pardon",
+      "category": "pathway_detail",
+      "startLine": 114,
+      "endLine": 117,
+      "text": "Under 2018 amendments (LB 1132), a pardoned person may file a motion in the sentencing court to seal the records. On a finding that the person received a pardon, the court shall grant the motion and issue an order under § 29-3523(7) (§ 29-3523(5))."
+    },
+    {
+      "title": "6. Expungement of arrest records from law enforcement error (§ 29-3523(6))",
+      "category": "pathway_detail",
+      "startLine": 124,
+      "endLine": 129,
+      "text": "The only true expungement in Nebraska. A person arrested due to the error of a law enforcement agency may petition the district court to expunge the criminal history record information related to the error. The county attorney is named as respondent and served. The court may grant expungement if the petitioner shows by clear and convincing evidence that the arrest was due to error by the arresting agency. There is also a DNA-database expungement under § 29-4109 when a conviction is overturned and the case dismissed.\n\n---"
+    },
+    {
+      "title": "7. Juvenile record sealing (§§ 43-2,108.01 to 43-2,108.05)",
+      "category": "pathway_detail",
+      "startLine": 130,
+      "endLine": 133,
+      "text": "A parallel and mostly automatic regime for offenses committed under age 18."
+    },
+    {
+      "title": "Automatic sealing",
+      "category": "pathway_detail",
+      "startLine": 138,
+      "endLine": 141,
+      "text": "Agencies and courts must immediately seal records on notice that no petition or complaint was filed, that diversion or mediation was satisfactorily completed, or that filed charges were dismissed with any related diversion completed and no related charges remaining (§ 43-2,108.02(1) to (3)). Records following successful completion of probation, supervision, treatment, or a county-court sentence are also subject to automatic sealing (§ 43-2,108.02(4))."
+    },
+    {
+      "title": "Petition-based sealing",
+      "category": "pathway_detail",
+      "startLine": 142,
+      "endLine": 145,
+      "text": "If a record is not automatically sealed, the juvenile (or parent or guardian) may move to seal once the juvenile reaches 18 or six months after case closure, whichever is sooner, with facts showing rehabilitation (§ 43-2,108.02(6)). The court notifies the prosecutor (and DHHS where relevant), who have 30 days to respond. With no objection, the court must grant the petition. With an objection, the court holds a hearing within 60 days and may seal on a finding of satisfactory rehabilitation (§ 43-2,108.04)."
+    },
+    {
+      "title": "9. Path-readiness summary (product mapping)",
+      "category": "summary",
+      "startLine": 176,
+      "endLine": 192,
+      "text": "This maps Nebraska outcomes to the standard packet-readiness branches. Readiness is path-based, not state-based.\n\n- **Dismissed, acquitted, declined, deferred judgment, completed diversion (non-conviction):** sealing is automatic and time-based (immediate, one year, or two years per § 29-3523(3)). No petition needed in the standard case. May qualify with no filing.\n- **Conviction, probation or fine or community service, sentence complete:** a set-aside path may exist under § 29-2264(2). Petition the sentencing court. Record stays visible with set-aside noted.\n- **Conviction, one year or less incarceration, sentence complete, no pending charges, not SORA, not vehicular homicide, no set-aside denial in past two years:** a set-aside path may exist under § 29-2264(3).\n- **Conviction not eligible for set-aside, or seeking full rights including firearms:** pardon path. Felony ten years, misdemeanor three years from discharge. Out-of-state and federal convictions and traffic/DUI offenses are not eligible.\n- **Pardon granted:** a sealing path opens under § 29-3523(5).\n- **Trafficking survivor:** set-aside plus sealing path under §§ 29-3005 and 29-3523(4), filable any time after sentence completion.\n- **Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court.\n- **Juvenile (under 18 at offense):** mostly automatic sealing under §§ 43-2,108.01 to 43-2,108.05, with a petition backstop.\n\nHard line for all copy: Nebraska does not expunge convictions. Frame conviction relief as set-aside (nullified but visible) or pardon-then-seal, never as erasure.\n\n---"
+    },
+    {
+      "title": "10. Open items and verification notes",
+      "category": "summary",
+      "startLine": 193,
+      "endLine": 199,
+      "text": "- Statewide Motion to Seal adult record form is CC 6:12 (Nebraska Judicial Branch). Confirm current revision date before building any form replica.\n- Pardon application forms and directions are hosted on the Board of Pardons site; the directions document in circulation is dated 2019. Verify before citing fee or letter-count specifics in product copy.\n- LB20 voting-restoration litigation resolved in October 2024; treat automatic restoration on sentence completion as current law, but re-verify if challenged again.\n- § 84-941.01's list of 28 disqualifying offenses for licensing took effect January 1, 2025. Pull the current list before generating any licensing-specific guidance.\n- This file uses structural statutory citation only. No screenshots taken, consistent with image-budget rules. Field-for-field form replication is a separate deliverable."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 8,
+      "questions": 20,
+      "decisionRules": 45,
+      "waitingRules": 19,
+      "exclusions": 2,
+      "sourceFiles": 2,
+      "officialForms": 2
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

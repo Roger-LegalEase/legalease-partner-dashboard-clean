@@ -1,0 +1,2853 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "DE",
+    "name": "Delaware",
+    "slug": "delaware"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Delaware-RecordExpungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Delaware/Delaware-RecordExpungement-Agent-Reference.pdf",
+        "sha256": "1864467c73979f92efe2a942cd1bb2818631f4c301a6ac8525470190851eeb77",
+        "sizeBytes": 25187,
+        "score": 1661,
+        "extractedChars": 23033
+      }
+    ],
+    "sourceCorpusSha256": "4686ee5ca8526706e6fc255c287c5b8dcee3de920cefc0adbc14d81cb8744fb8",
+    "sourceCorpusChars": 18987,
+    "allFolderFiles": [
+      {
+        "fileName": "2download.aspx",
+        "relativePath": "LegalEase Delaware/2download.aspx",
+        "extension": ".aspx",
+        "kind": "other",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "sizeBytes": 179445
+      },
+      {
+        "fileName": "3download.aspx",
+        "relativePath": "LegalEase Delaware/3download.aspx",
+        "extension": ".aspx",
+        "kind": "other",
+        "sha256": "07058dc04569e03269a6cb97ad707c1d8431bb9baec589a8ea5ef8e47af9069e",
+        "sizeBytes": 745901
+      },
+      {
+        "fileName": "Delaware-Expungement-Forms.html",
+        "relativePath": "LegalEase Delaware/Delaware-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "7ae358a55a7f544fa1656065d13d1fb2e3b480d6c08375bf5e96c4dc50739ad6",
+        "sizeBytes": 44801
+      },
+      {
+        "fileName": "Delaware-RecordExpungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Delaware/Delaware-RecordExpungement-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1864467c73979f92efe2a942cd1bb2818631f4c301a6ac8525470190851eeb77",
+        "sizeBytes": 25187
+      },
+      {
+        "fileName": "list.aspx.html",
+        "relativePath": "LegalEase Delaware/list.aspx.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "47605ca97845225abf2546d4e5d641e8327e4ed61512c0b497d21735960ae70f",
+        "sizeBytes": 117962
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "Clean Slate",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Marijuana/paraphernalia; underage Mandatory (auto) SBI None"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Delaware, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Delaware case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Delaware descriptions sound close to your situation?",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "type": "single_choice",
+      "options": [
+        "Mandatory and automatic expungement under 11 Del. C. §§ 4373 and 4373A",
+        "Discretionary court expungement under 11 Del. C. § 4374",
+        "Pardon-based discretionary expungement under 11 Del. C. § 4375",
+        "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "contextOnly": true,
+      "doesNotSelectPathway": true,
+      "source": "curated_state_pathway_catalog_from_reference"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Delaware category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Violent offense",
+        "Domestic violence",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Delaware was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": []
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": []
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "marijuana-paraphernalia-underage-mandatory-sbi-none"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "label": "Mandatory and automatic expungement under 11 Del. C. §§ 4373 and 4373A",
+      "summary": "A case terminated in favor of the accused, a marijuana or underage-alcohol conviction, or an eligible offense past its wait is expunged by the SBI -- automatically each month, or on request to the SBI (302-739-5884). No court filing. Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based.",
+      "sourceRef": "section:355-360; section:77-104; pathways:77-104; corpus-unit:24; corpus-unit:116; section:49-76; section:207-236; section:286-309",
+      "sourceEvidenceRefs": [
+        "section:355-360",
+        "section:77-104",
+        "pathways:77-104",
+        "corpus-unit:24",
+        "corpus-unit:116",
+        "section:49-76",
+        "section:207-236",
+        "section:286-309",
+        "corpus-unit:2",
+        "corpus-unit:8",
+        "corpus-unit:119",
+        "corpus-unit:4",
+        "corpus-unit:16",
+        "corpus-unit:62",
+        "corpus-unit:91"
+      ],
+      "ruleClauses": [
+        "A case terminated in favor of the accused, a marijuana or",
+        "underage-alcohol conviction, or an eligible offense past its",
+        "wait is expunged by the SBI -- automatically each month, or",
+        "on request to the SBI (302-739-5884). No court filing.",
+        "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based.",
+        "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to",
+        "expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no",
+        "request required — though a person may still request mandatory expungement from the SBI if the automatic",
+        "process has not reached the case.",
+        "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "subsequent convictions. The court grants expungement when continued maintenance of the record works a",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "Tier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Check mandatory eligibility FIRST — it is an entitlement and now automatic; only fall to a § 4374 court petition when",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "otherwise-ineligible convictions.",
+        "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period, marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years. Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no request required — though a person may still request mandatory expungement from the SBI if the automatic process has not reached the case.",
+        "Examples B, C & D — Other routes B. MANDATORY / AUTOMATIC EXPUNGEMENT (4373 / 4373A): A case terminated in favor of the accused, a marijuana or underage-alcohol conviction, or an eligible offense past its wait is expunged by the SBI -- automatically each month, or on request to the SBI (302-739-5884). No court filing.",
+        "Statutory shorthand used throughout",
+        "Mandatory expungement (§ SBI-handled clearing the person is entitled to when criteria are met; no court discretion",
+        "Automatic (§ 4373A) SBI identifies and expunges mandatory-eligible cases monthly since Aug 1, 2024 — no"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+        "Disposition / category Tier Waiting period",
+        "Violation(s), same case Mandatory 3 years",
+        "Single misdemeanor / drug possession § 4756 Mandatory 5 years",
+        "Certain eligible felonies Mandatory 10 years",
+        "Misdemeanor not listed in § 4373(b), single case Discretionary 3 years",
+        "Multiple violations/misdemeanors across cases Discretionary 5 years",
+        "§ 4373(b)-listed misdemeanor Discretionary 7 years",
+        "Single nonviolent felony Discretionary 7 years",
+        "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period, marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years. Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no request required — though a person may still request mandatory expungement from the SBI if the automatic process has not reached the case."
+      ],
+      "exclusionRules": [
+        "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
+        "Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Serious offenses such as manslaughter and murder in the first degree are categorically excluded.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a",
+        "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary",
+        "expungement after 7 years, or discretionary expungement after a pardon.",
+        "The exclusion lists are defined by statute (§ 4372(f), § 4374, the § 4201(c) violent-felony schedule, and the Beau Biden Child",
+        "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility.",
+        "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions: Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary expungement after 7 years, or discretionary expungement after a pardon.",
+        "§ 4201(c) violent felony; Beau Not eligible",
+        "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief",
+        "otherwise-ineligible convictions."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "discretionary-court-expungement-under-11-del-c-4374",
+      "label": "Discretionary court expungement under 11 Del. C. § 4374",
+      "summary": "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based. Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period, marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+      "sourceRef": "section:77-104; pathways:77-104; corpus-unit:25; section:207-236; section:328-338; section:143-164; exclusions:143-164; corpus-unit:2",
+      "sourceEvidenceRefs": [
+        "section:77-104",
+        "pathways:77-104",
+        "corpus-unit:25",
+        "section:207-236",
+        "section:328-338",
+        "section:143-164",
+        "exclusions:143-164",
+        "corpus-unit:2",
+        "corpus-unit:8",
+        "corpus-unit:43",
+        "corpus-unit:64"
+      ],
+      "ruleClauses": [
+        "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based.",
+        "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to",
+        "expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no",
+        "request required — though a person may still request mandatory expungement from the SBI if the automatic",
+        "process has not reached the case.",
+        "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "subsequent convictions. The court grants expungement when continued maintenance of the record works a",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "Tier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Check mandatory eligibility FIRST — it is an entitlement and now automatic; only fall to a § 4374 court petition when",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "otherwise-ineligible convictions.",
+        "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or subsequent convictions. The court grants expungement when continued maintenance of the record works a manifest injustice; the Attorney General may object within 120 days.",
+        "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's",
+        "None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.",
+        "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if",
+        "eligible, SBI sends a letter with instructions and any fees.",
+        "Expungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following",
+        "pardon (§ 4375); available at courts.delaware.gov under Superior Court → Expungement.",
+        "Criminal History Report (SBI) Required attachment; the petition is summarily rejected without it. The report",
+        "Family Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1,"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "criminal_history",
+        "age_at_offense",
+        "pardon_status",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+        "Disposition / category Tier Waiting period",
+        "Violation(s), same case Mandatory 3 years",
+        "Single misdemeanor / drug possession § 4756 Mandatory 5 years",
+        "Certain eligible felonies Mandatory 10 years",
+        "Misdemeanor not listed in § 4373(b), single case Discretionary 3 years",
+        "Multiple violations/misdemeanors across cases Discretionary 5 years",
+        "§ 4373(b)-listed misdemeanor Discretionary 7 years",
+        "Single nonviolent felony Discretionary 7 years",
+        "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or subsequent convictions. The court grants expungement when continued maintenance of the record works a manifest injustice; the Attorney General may object within 120 days."
+      ],
+      "exclusionRules": [
+        "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
+        "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions:",
+        "Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Serious offenses such as manslaughter and murder in the first degree are categorically excluded.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a",
+        "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary",
+        "expungement after 7 years, or discretionary expungement after a pardon.",
+        "The exclusion lists are defined by statute (§ 4372(f), § 4374, the § 4201(c) violent-felony schedule, and the Beau Biden Child",
+        "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility.",
+        "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions: Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary expungement after 7 years, or discretionary expungement after a pardon.",
+        "§ 4201(c) violent felony; Beau Not eligible",
+        "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief",
+        "otherwise-ineligible convictions."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "label": "Pardon-based discretionary expungement under 11 Del. C. § 4375",
+      "summary": "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based. Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period, marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+      "sourceRef": "section:77-104; section:361-364; pathways:77-104; corpus-unit:26; case_outcomes:165-206; corpus-unit:2; corpus-unit:8; section:105-142",
+      "sourceEvidenceRefs": [
+        "section:77-104",
+        "section:361-364",
+        "pathways:77-104",
+        "corpus-unit:26",
+        "case_outcomes:165-206",
+        "corpus-unit:2",
+        "corpus-unit:8",
+        "section:105-142",
+        "section:207-236",
+        "section:49-76",
+        "section:165-206",
+        "section:242-250",
+        "section:262-285",
+        "section:286-309",
+        "corpus-unit:119",
+        "waiting_periods:105-142"
+      ],
+      "ruleClauses": [
+        "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based.",
+        "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to",
+        "expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no",
+        "request required — though a person may still request mandatory expungement from the SBI if the automatic",
+        "process has not reached the case.",
+        "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "subsequent convictions. The court grants expungement when continued maintenance of the record works a",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "Tier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Check mandatory eligibility FIRST — it is an entitlement and now automatic; only fall to a § 4374 court petition when",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "otherwise-ineligible convictions.",
+        "A person granted an unconditional pardon may petition for",
+        "discretionary expungement with NO waiting period.",
+        "Tier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional pardon may petition for discretionary expungement with NO waiting period.",
+        "Violation(s), same case Mandatory (auto) SBI 3 yrs",
+        "Single misdemeanor / § 4756 Mandatory (auto) SBI 5 yrs",
+        "Eligible felony Mandatory (auto) SBI 10 yrs",
+        "Non-§ 4373(b) misdemeanor, 1 case Discretionary Court petition 3 yrs",
+        "Multiple misd./violations, 2+ cases Discretionary Court petition 5 yrs",
+        "§ 4373(b) misd. / single nonviolent Discretionary Court petition 7 yrs"
+      ],
+      "triggerFields": [
+        "offense_level",
+        "offense_category",
+        "pardon_status",
+        "case_outcome"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "pardon_then_court",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+        "Disposition / category Tier Waiting period",
+        "Violation(s), same case Mandatory 3 years",
+        "Single misdemeanor / drug possession § 4756 Mandatory 5 years",
+        "Certain eligible felonies Mandatory 10 years",
+        "Misdemeanor not listed in § 4373(b), single case Discretionary 3 years",
+        "Multiple violations/misdemeanors across cases Discretionary 5 years",
+        "§ 4373(b)-listed misdemeanor Discretionary 7 years",
+        "Single nonviolent felony Discretionary 7 years",
+        "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+        "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,",
+        "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.",
+        "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more",
+        "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or",
+        "manifest injustice; the Attorney General may object within 120 days.",
+        "pardon may petition for discretionary expungement with NO waiting period.",
+        "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with",
+        "discretionary expungement with NO waiting period."
+      ],
+      "exclusionRules": [
+        "§ 4201(c) violent felony; Beau Not eligible",
+        "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief",
+        "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
+        "Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Delaware Record Expungement — Agent Training Reference · LegalEase",
+        "Serious offenses such as manslaughter and murder in the first degree are categorically excluded.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a",
+        "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary",
+        "expungement after 7 years, or discretionary expungement after a pardon.",
+        "The exclusion lists are defined by statute (§ 4372(f), § 4374, the § 4201(c) violent-felony schedule, and the Beau Biden Child",
+        "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility.",
+        "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions: Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary expungement after 7 years, or discretionary expungement after a pardon.",
+        "otherwise-ineligible convictions."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "label": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A",
+      "summary": "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing. SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees. Expungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following",
+      "sourceRef": "section:207-236; corpus-unit:66",
+      "sourceEvidenceRefs": [
+        "section:207-236",
+        "corpus-unit:66"
+      ],
+      "ruleClauses": [
+        "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's",
+        "None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.",
+        "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if",
+        "eligible, SBI sends a letter with instructions and any fees.",
+        "Expungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following",
+        "pardon (§ 4375); available at courts.delaware.gov under Superior Court → Expungement.",
+        "Criminal History Report (SBI) Required attachment; the petition is summarily rejected without it. The report",
+        "Family Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1,",
+        "The discretionary packet identifies the petitioner and the case(s), states the statutory basis (§ 4374 or § 4375),",
+        "and must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to",
+        "object or answer; the court may then decide on the papers or set a hearing.",
+        "For mandatory relief, route the user to the SBI line (302-739-5884) — no court form. For discretionary, use the Superior Court",
+        "Expungement Petition packet and ALWAYS attach the SBI criminal-history report.",
+        "Watch the 45-day expiry on the criminal-history report — file the packet before it lapses or the court will reject it.",
+        "Family Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1, 2024."
+      ],
+      "triggerFields": [
+        "criminal_history",
+        "age_at_offense",
+        "pardon_status",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+        "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+        "and must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to"
+      ],
+      "exclusionRules": [
+        "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
+        "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary",
+        "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility.",
+        "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary expungement after 7 years, or discretionary expungement after a pardon.",
+        "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-18-otherwise-ineligible-convictions",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "otherwise-ineligible convictions."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "pathways:77-104"
+    },
+    {
+      "id": "rule-26-4201-c-violent-felony-beau-not-eligible",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "§ 4201(c) violent felony; Beau Not eligible — —"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206"
+    },
+    {
+      "id": "rule-45-exclusions-in-4372-f-and-4374-bar-certain-offenses-som",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-46-barred-from-discretionary-expungement-4374-in-addition",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions:"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-48-mandatory-ineligible-but-possibly-discretionary-a-convi",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-49-vulnerable-adult-victim-is-not-eligible-for-mandatory-e",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-01-three-tiers-considered-in-order-mandatory-and-automatic",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-08-tier-2-discretionary-expungement-4374-petition-to-cou",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-13-tier-3-discretionary-expungement-following-a-pardon-437",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Tier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-14-pardon-may-petition-for-discretionary-expungement-with-",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "pardon may petition for discretionary expungement with NO waiting period."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-17-an-unconditional-pardon-opens-the-4375-discretionary-ro",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "An unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-22-non-4373-b-misdemeanor-1-case-discretionary-court-petit",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Non-§ 4373(b) misdemeanor, 1 case Discretionary Court petition 3 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-23-multiple-misd-violations-2-cases-discretionary-court-pe",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Multiple misd./violations, 2+ cases Discretionary Court petition 5 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-24-4373-b-misd-single-nonviolent-discretionary-court-peti",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "§ 4373(b) misd. / single nonviolent Discretionary Court petition 7 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-25-after-unconditional-pardon-discretionary-4375-court-pet",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "After unconditional pardon Discretionary § 4375 Court petition None"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-30-tell-users-plainly-which-tier-they-are-on-mandatory-aut",
+      "priority": 30,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tell users plainly which tier they are on: mandatory/automatic is owed and handled by the SBI; discretionary is a court petition"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-38-after-unconditional-pardon-discretionary-4375-none",
+      "priority": 30,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "After unconditional pardon Discretionary (§ 4375) None"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-40-discretionary-categories-carry-the-3-5-and-7-year-waits",
+      "priority": 30,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition. All discretionary"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "waiting_periods:105-142"
+    },
+    {
+      "id": "rule-43-conviction-breaks-discretionary-eligibility",
+      "priority": 30,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction breaks discretionary eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-50-expungement-after-7-years-or-discretionary-expungement-",
+      "priority": 30,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "expungement after 7 years, or discretionary expungement after a pardon."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-04-accused-acquittal-nolle-dismissal-no-wait-certain-vio",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "accused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-35-disposition-category-tier-waiting-period",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Disposition / category Tier Waiting period"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-02-tier-1-mandatory-expungement-4373-through-the-sbi-a",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-06-since-august-1-2024-the-sbi-identifies-and-expunges-man",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Since August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-07-request-required-though-a-person-may-still-request-mand",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "request required — though a person may still request mandatory expungement from the SBI if the automatic"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-16-check-mandatory-eligibility-first-it-is-an-entitlement-",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Check mandatory eligibility FIRST — it is an entitlement and now automatic; only fall to a § 4374 court petition when"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-31-because-automatic-rollout-is-slow-if-a-mandatory-eligib",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Because automatic rollout is slow, if a mandatory-eligible record has not cleared, the person can still request mandatory"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-39-mandatory-categories-carry-the-shorter-entitlement-base",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically;"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-03-expungement-when-the-criteria-are-met-the-court-has-no-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "expungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-05-marijuana-paraphernalia-possession-and-underage-alcohol",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "marijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-09-mandatory-4373-b-listed-misdemeanors-after-7-years-mu",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "mandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-10-than-one-case-after-5-years-and-a-single-nonviolent-fel",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "than one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-11-subsequent-convictions-the-court-grants-expungement-whe",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "subsequent convictions. The court grants expungement when continued maintenance of the record works a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-12-manifest-injustice-the-attorney-general-may-object-with",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 120,
+          "unit": "days",
+          "raw": "120 days"
+        },
+        "sourceConditionText": "manifest injustice; the Attorney General may object within 120 days."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104"
+    },
+    {
+      "id": "rule-15-delaware-record-expungement-agent-training-reference-le",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Delaware Record Expungement — Agent Training Reference · LegalEase"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:77-104"
+    },
+    {
+      "id": "rule-19-acquittal-nolle-dismissal-mandatory-auto-sbi-none",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal / nolle / dismissal Mandatory (auto) SBI None"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-20-marijuana-paraphernalia-underage-mandatory-auto-sbi-non",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana/paraphernalia; underage Mandatory (auto) SBI None"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-21-eligible-felony-mandatory-auto-sbi-10-yrs",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Eligible felony Mandatory (auto) SBI 10 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-27-effect-of-relief-an-expungement-removes-the-case-from-t",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of relief: an expungement removes the case from the criminal-history record so consumer reporting"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206"
+    },
+    {
+      "id": "rule-29-turns-on-the-court-s-manifest-injustice-finding-after-t",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 120,
+          "unit": "days",
+          "raw": "120 days"
+        },
+        "sourceConditionText": "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-32-expungement-directly-from-the-sbi-rather-than-waiting",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "expungement directly from the SBI rather than waiting."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:165-206",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "rule-33-waits-run-from-the-date-of-conviction-or-release-from-i",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Waits run from the date of conviction or release from incarceration, whichever is later (count from the most"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142"
+    },
+    {
+      "id": "rule-34-recent-of-conviction-sentence-completion-probation-paro",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "recent of conviction, sentence completion, probation/parole end, or final restitution)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142"
+    },
+    {
+      "id": "rule-36-marijuana-paraphernalia-possession-underage-mandatory-n",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana/paraphernalia possession; underage Mandatory None"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-37-certain-eligible-felonies-mandatory-10-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Certain eligible felonies Mandatory 10 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-41-categories-require-no-other-prior-or-subsequent-disqual",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "categories require no other prior or subsequent disqualifying convictions, and the entire case must be eligible."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-42-compute-every-wait-from-the-later-of-conviction-or-rele",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Compute every wait from the LATER of conviction or release from incarceration, and confirm no disqualifying prior/subsequent"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "rule-44-terminated-in-favor-of-the-accused-and-the-marijuana-un",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "‘Terminated in favor of the accused’ and the marijuana/underage-alcohol categories carry NO wait and are mandatory — the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "discretionary-court-expungement-under-11-del-c-4374",
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "rule-47-felony-conviction-involving-physical-or-sexual-assault-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "‘Felony conviction involving physical or sexual assault crimes’ as defined in § 309 of Title 31 (Beau Biden Child"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:143-164"
+    },
+    {
+      "id": "rule-51-the-agent-must-map-the-specific-offense-to-its-statute-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:143-164",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "route-mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Mandatory and automatic expungement under 11 Del. C. §§ 4373 and 4373A"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:355-360; section:77-104; pathways:77-104; corpus-unit:24; corpus-unit:116; section:49-76; section:207-236; section:286-309",
+      "candidatePathwayIds": [
+        "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ]
+    },
+    {
+      "id": "route-discretionary-court-expungement-under-11-del-c-4374",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Discretionary court expungement under 11 Del. C. § 4374"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:77-104; pathways:77-104; corpus-unit:25; section:207-236; section:328-338; section:143-164; exclusions:143-164; corpus-unit:2",
+      "candidatePathwayIds": [
+        "discretionary-court-expungement-under-11-del-c-4374"
+      ]
+    },
+    {
+      "id": "route-pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "requiredFields": [
+          "offense_level",
+          "offense_category",
+          "pardon_status",
+          "case_outcome"
+        ],
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "pardon_status",
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pardon-based discretionary expungement under 11 Del. C. § 4375"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:77-104; section:361-364; pathways:77-104; corpus-unit:26; case_outcomes:165-206; corpus-unit:2; corpus-unit:8; section:105-142",
+      "candidatePathwayIds": [
+        "pardon-based-discretionary-expungement-under-11-del-c-4375"
+      ]
+    },
+    {
+      "id": "route-juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "requiredFields": [
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "criminal_history",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:207-236; corpus-unit:66",
+      "candidatePathwayIds": [
+        "juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+      "duration": {
+        "value": 120,
+        "unit": "days",
+        "raw": "120 days"
+      },
+      "anchor": "the AG has had 120 days to respond",
+      "fieldsReferenced": [
+        "court"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Disposition / category Tier Waiting period",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Violation(s), same case Mandatory 3 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Single misdemeanor / drug possession § 4756 Mandatory 5 years",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Certain eligible felonies Mandatory 10 years",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Misdemeanor not listed in § 4373(b), single case Discretionary 3 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Multiple violations/misdemeanors across cases Discretionary 5 years",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "§ 4373(b)-listed misdemeanor Discretionary 7 years",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Single nonviolent felony Discretionary 7 years",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "court",
+        "pardon_status"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions:",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Delaware Record Expungement — Agent Training Reference · LegalEase",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "‘Felony conviction involving physical or sexual assault crimes’ as defined in § 309 of Title 31 (Beau Biden Child",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Serious offenses such as manslaughter and murder in the first degree are categorically excluded.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "expungement after 7 years, or discretionary expungement after a pardon.",
+      "fieldsReferenced": [
+        "pardon_status"
+      ],
+      "suggestedResultCode": "needs_review"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "The exclusion lists are defined by statute (§ 4372(f), § 4374, the § 4201(c) violent-felony schedule, and the Beau Biden Child",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Protection Act in Title 31), and domestic-violence / child-victim / vulnerable-adult records sit on the mandatory/discretionary",
+      "fieldsReferenced": [
+        "offense_category",
+        "record_type"
+      ],
+      "suggestedResultCode": "needs_review"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "Barred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions: Title 11 felonies listed in § 4201(c) — the violent-felony schedule.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Mandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a vulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary expungement after 7 years, or discretionary expungement after a pardon.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "§ 4201(c) violent felony; Beau Not eligible — —",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "agencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "needs_review"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "pathwayLabel": "Mandatory and automatic expungement under 11 Del. C. §§ 4373 and 4373A",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:355-360",
+          "section:77-104",
+          "pathways:77-104",
+          "corpus-unit:24",
+          "corpus-unit:116",
+          "section:49-76",
+          "section:207-236",
+          "section:286-309",
+          "corpus-unit:2",
+          "corpus-unit:8",
+          "corpus-unit:119",
+          "corpus-unit:4",
+          "corpus-unit:16",
+          "corpus-unit:62",
+          "corpus-unit:91"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "pathwayLabel": "Discretionary court expungement under 11 Del. C. § 4374",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:77-104",
+          "pathways:77-104",
+          "corpus-unit:25",
+          "section:207-236",
+          "section:328-338",
+          "section:143-164",
+          "exclusions:143-164",
+          "corpus-unit:2",
+          "corpus-unit:8",
+          "corpus-unit:43",
+          "corpus-unit:64"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "pathwayLabel": "Pardon-based discretionary expungement under 11 Del. C. § 4375",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:77-104",
+          "section:361-364",
+          "pathways:77-104",
+          "corpus-unit:26",
+          "case_outcomes:165-206",
+          "corpus-unit:2",
+          "corpus-unit:8",
+          "section:105-142",
+          "section:207-236",
+          "section:49-76",
+          "section:165-206",
+          "section:242-250",
+          "section:262-285",
+          "section:286-309",
+          "corpus-unit:119",
+          "waiting_periods:105-142"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "pathwayLabel": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:207-236",
+          "corpus-unit:66"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's",
+      "Expungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following",
+      "Criminal History Report (SBI) Required attachment; the petition is summarily rejected without it. The report",
+      "The discretionary packet identifies the petitioner and the case(s), states the statutory basis (§ 4374 or § 4375),",
+      "For mandatory relief, route the user to the SBI line (302-739-5884) — no court form. For discretionary, use the Superior Court",
+      "Expungement Petition packet and ALWAYS attach the SBI criminal-history report.",
+      "Form / channel Use None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.",
+      "Expungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following Court) pardon (§ 4375); available at courts.delaware.gov under Superior Court → Expungement.",
+      "The discretionary packet identifies the petitioner and the case(s), states the statutory basis (§ 4374 or § 4375), and must attach the SBI criminal-history report.",
+      "AGENT GUIDANCE For mandatory relief, route the user to the SBI line (302-739-5884) — no court form.",
+      "For discretionary, use the Superior Court Expungement Petition packet and ALWAYS attach the SBI criminal-history report."
+    ],
+    "attachments": [
+      "Criminal History Report (SBI) Required attachment; the petition is summarily rejected without it. The report",
+      "and must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to",
+      "Expungement Petition packet and ALWAYS attach the SBI criminal-history report.",
+      "The discretionary packet identifies the petitioner and the case(s), states the statutory basis (§ 4374 or § 4375), and must attach the SBI criminal-history report.",
+      "For discretionary, use the Superior Court Expungement Petition packet and ALWAYS attach the SBI criminal-history report.",
+      "Pull the record. Request an SBI criminal-history report; it confirms each charge, disposition, and the dates that start the waiting periods. The report expires after 45 days.",
+      "Request an SBI criminal-history report; it confirms each charge, disposition, and the dates that start the waiting periods."
+    ],
+    "filingDestinationRules": [
+      "Mandatory is handled by the SBI; discretionary is filed with the Superior Court (Family Court for juvenile)."
+    ],
+    "serviceAndNoticeRules": [
+      "and must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to",
+      "A copy is served on the Attorney General, who has 120 days to object or answer; the court may then decide on the papers or set a hearing."
+    ],
+    "feeRules": [
+      "Mandatory/automatic relief is low- or no-cost; discretionary carries a court filing fee.",
+      "Automatic expungement (§ 4373A) $0 No filing; SBI processes monthly",
+      "Mandatory expungement via SBI request SBI fee SBI letter states any required fees",
+      "Discretionary petition (§ 4374 / § 4375) $70 Payable to State of Delaware; check accepted",
+      "Delaware Record Expungement — Agent Training Reference · LegalEase",
+      "SBI criminal-history report SBI fee Required attachment; expires after 45 days",
+      "APEX assistance Free State-funded help with process and fees",
+      "Attorney fees (if represented) Varies Not required; APEX and clinics assist free",
+      "The SBI report fee and any mandatory-expungement fees can change, and fee-assistance funding through APEX is limited;",
+      "the agent should verify the current discretionary filing fee, SBI fees, and APEX availability at the time of advising rather than",
+      "quoting fixed figures from memory.",
+      "Item Amount Note Automatic expungement (§ 4373A) $0 No filing; SBI processes monthly Mandatory expungement via SBI request SBI fee SBI letter states any required fees Discretionary petition (§ 4374 / § 4375) $70 Payable to State of Delaware; check accepted Delaware Record Expungement — Agent Training Reference · LegalEase SBI criminal-history report SBI fee Required attachment; expires after 45 days APEX assistance Free State-funded help with process and fees Attorney fees (if represented) Varies Not required; APEX and clinics assist free VERIFY BEFORE RELYING The SBI report fee and any mandatory-expungement fees can change, and fee-assistance funding through APEX is limited; the agent should verify the current discretionary filing fee, SBI fees, and APEX availability at the time of advising rather than quoting fixed figures from memory."
+    ],
+    "hearingAndObjectionRules": [
+      "The AG gets 120 days. Build the discretionary petition to withstand a possible Attorney General objection.",
+      "Build the discretionary petition to withstand a possible Attorney General objection."
+    ],
+    "postFilingRules": [],
+    "formInventory": [
+      {
+        "fileName": "Delaware-Expungement-Forms.html",
+        "relativePath": "LegalEase Delaware/Delaware-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "7ae358a55a7f544fa1656065d13d1fb2e3b480d6c08375bf5e96c4dc50739ad6",
+        "sizeBytes": 44801
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "2download.aspx",
+        "relativePath": "LegalEase Delaware/2download.aspx",
+        "extension": ".aspx",
+        "kind": "other",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "sizeBytes": 179445
+      },
+      {
+        "fileName": "3download.aspx",
+        "relativePath": "LegalEase Delaware/3download.aspx",
+        "extension": ".aspx",
+        "kind": "other",
+        "sha256": "07058dc04569e03269a6cb97ad707c1d8431bb9baec589a8ea5ef8e47af9069e",
+        "sizeBytes": 745901
+      },
+      {
+        "fileName": "Delaware-Expungement-Forms.html",
+        "relativePath": "LegalEase Delaware/Delaware-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "7ae358a55a7f544fa1656065d13d1fb2e3b480d6c08375bf5e96c4dc50739ad6",
+        "sizeBytes": 44801
+      },
+      {
+        "fileName": "Delaware-RecordExpungement-Agent-Reference.pdf",
+        "relativePath": "LegalEase Delaware/Delaware-RecordExpungement-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1864467c73979f92efe2a942cd1bb2818631f4c301a6ac8525470190851eeb77",
+        "sizeBytes": 25187
+      },
+      {
+        "fileName": "list.aspx.html",
+        "relativePath": "LegalEase Delaware/list.aspx.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "47605ca97845225abf2546d4e5d641e8327e4ed61512c0b497d21735960ae70f",
+        "sizeBytes": 117962
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Delaware-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 49,
+      "endLine": 76,
+      "text": "Statutory shorthand used throughout\n\nTerm Meaning\n\nMandatory expungement (§ SBI-handled clearing the person is entitled to when criteria are met; no court discretion\n4373)\n\nAutomatic (§ 4373A) SBI identifies and expunges mandatory-eligible cases monthly since Aug 1, 2024 — no\nrequest needed\n\nDiscretionary (§ 4374) Court petition; granted if continued record is a manifest injustice; AG may object\n\nDiscretionary after pardon (§ Petition route available, with no waiting period, after an unconditional pardon\n4375)\n\nSBI State Bureau of Identification — handles mandatory/automatic expungement and the\ncriminal-history report\n\nCase rule Eligibility is judged on the entire case; for most categories every charge in the case must be\neligible\n\nTerminated in favor of the Acquittal, nolle prosequi, dismissal — mandatory-eligible with no waiting period\naccused\n\nAPEX State-funded Delaware program assisting people through the expungement process"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 77,
+      "endLine": 104,
+      "text": "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based.\n\nTier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to\nexpungement when the criteria are met; the court has no discretion. Covers cases terminated in favor of the\naccused (acquittal, nolle, dismissal — no wait), certain violations and low-level offenses after a waiting period,\nmarijuana / paraphernalia possession and underage-alcohol convictions, and certain felonies after 10 years.\nSince August 1, 2024 the SBI identifies and expunges mandatory-eligible cases automatically each month — no\nrequest required — though a person may still request mandatory expungement from the SBI if the automatic\nprocess has not reached the case.\n\nTier 2 — Discretionary expungement (§ 4374), petition to court. For records that do not qualify as\nmandatory: § 4373(b)-listed misdemeanors (after 7 years), multiple violations or misdemeanors across more\nthan one case (after 5 years), and a single nonviolent felony (after 7 years), each requiring no other prior or\nsubsequent convictions. The court grants expungement when continued maintenance of the record works a\nmanifest injustice; the Attorney General may object within 120 days.\n\nTier 3 — Discretionary expungement following a pardon (§ 4375). A person who receives an unconditional\npardon may petition for discretionary expungement with NO waiting period.\n\nDelaware Record Expungement — Agent Training Reference · LegalEase\n\nAGENT GUIDANCE\nCheck mandatory eligibility FIRST — it is an entitlement and now automatic; only fall to a § 4374 court petition when\nmandatory does not apply.\nAn unconditional pardon opens the § 4375 discretionary route immediately, with no waiting period — flag that for clients with\notherwise-ineligible convictions."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 105,
+      "endLine": 142,
+      "text": "Waits run from the date of conviction or release from incarceration, whichever is later (count from the most\nrecent of conviction, sentence completion, probation/parole end, or final restitution).\n\nDisposition / category Tier Waiting period\n\nTerminated in favor of accused Mandatory None\n(acquittal/nolle/dismissal)\n\nMarijuana/paraphernalia possession; underage Mandatory None\nalcohol\n\nViolation(s), same case Mandatory 3 years\n\nSingle misdemeanor / drug possession § 4756 Mandatory 5 years\n\nCertain eligible felonies Mandatory 10 years\n\nMisdemeanor not listed in § 4373(b), single case Discretionary 3 years\n\nMultiple violations/misdemeanors across cases Discretionary 5 years\n\n§ 4373(b)-listed misdemeanor Discretionary 7 years\n\nSingle nonviolent felony Discretionary 7 years\n\nAfter unconditional pardon Discretionary (§ 4375) None\n\nMandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically;\ndiscretionary categories carry the 3-, 5-, and 7-year waits and require a court petition. All discretionary\ncategories require no other prior or subsequent disqualifying convictions, and the entire case must be eligible.\n\nAGENT GUIDANCE\nCompute every wait from the LATER of conviction or release from incarceration, and confirm no disqualifying prior/subsequent\nconviction breaks discretionary eligibility.\n‘Terminated in favor of the accused’ and the marijuana/underage-alcohol categories carry NO wait and are mandatory — the\nfastest relief."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 143,
+      "endLine": 164,
+      "text": "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by\ndiscretionary petition.\n\nBarred from discretionary expungement (§ 4374), in addition to § 4372(f) exclusions:\n\nTitle 11 felonies listed in § 4201(c) — the violent-felony schedule.\n\nDelaware Record Expungement — Agent Training Reference · LegalEase\n\n‘Felony conviction involving physical or sexual assault crimes’ as defined in § 309 of Title 31 (Beau Biden Child\nProtection Act).\nSerious offenses such as manslaughter and murder in the first degree are categorically excluded.\nMandatory-ineligible but possibly discretionary: A conviction involving domestic violence, a child victim, or a\nvulnerable adult victim is NOT eligible for mandatory expungement, but may be eligible for discretionary\nexpungement after 7 years, or discretionary expungement after a pardon.\n\nVERIFY BEFORE RELYING\nThe exclusion lists are defined by statute (§ 4372(f), § 4374, the § 4201(c) violent-felony schedule, and the Beau Biden Child\nProtection Act in Title 31), and domestic-violence / child-victim / vulnerable-adult records sit on the mandatory/discretionary\nline. The agent must map the specific offense to its statute and confirm which tier (if any) it falls in before declaring eligibility."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 165,
+      "endLine": 206,
+      "text": "Disposition and offense level determine the tier, the wait, and the procedure. This is the agent's primary routing\nlogic for Delaware.\n\nCase outcome Tier / route Channel Wait\n\nAcquittal / nolle / dismissal Mandatory (auto) SBI None\n\nMarijuana/paraphernalia; underage Mandatory (auto) SBI None\nalcohol\n\nViolation(s), same case Mandatory (auto) SBI 3 yrs\n\nSingle misdemeanor / § 4756 Mandatory (auto) SBI 5 yrs\npossession\n\nEligible felony Mandatory (auto) SBI 10 yrs\n\nNon-§ 4373(b) misdemeanor, 1 case Discretionary Court petition 3 yrs\n\nMultiple misd./violations, 2+ cases Discretionary Court petition 5 yrs\n\n§ 4373(b) misd. / single nonviolent Discretionary Court petition 7 yrs\nfelony\n\nAfter unconditional pardon Discretionary § 4375 Court petition None\n\n§ 4201(c) violent felony; Beau Not eligible — —\nBiden assault\n\nEffect of relief: an expungement removes the case from the criminal-history record so consumer reporting\nagencies cannot see it on public sources. Mandatory and automatic relief is an entitlement; discretionary relief\nturns on the court’s manifest-injustice finding after the AG has had 120 days to respond.\n\nDelaware Record Expungement — Agent Training Reference · LegalEase\n\nAGENT GUIDANCE\nTell users plainly which tier they are on: mandatory/automatic is owed and handled by the SBI; discretionary is a court petition\nthe AG can contest and the judge decides.\nBecause automatic rollout is slow, if a mandatory-eligible record has not cleared, the person can still request mandatory\nexpungement directly from the SBI rather than waiting."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 207,
+      "endLine": 236,
+      "text": "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's\nexpungement petition packet.\n\nForm / channel Use\n\nNone (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.\n\nSBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if\neligible, SBI sends a letter with instructions and any fees.\n\nExpungement Petition packet (Superior Discretionary expungement (§ 4374) or discretionary expungement following\nCourt) pardon (§ 4375); available at courts.delaware.gov under Superior Court →\nExpungement.\n\nCriminal History Report (SBI) Required attachment; the petition is summarily rejected without it. The report\nexpires after 45 days.\n\nFamily Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1,\n2024.\n\nThe discretionary packet identifies the petitioner and the case(s), states the statutory basis (§ 4374 or § 4375),\nand must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to\nobject or answer; the court may then decide on the papers or set a hearing.\n\nAGENT GUIDANCE\nFor mandatory relief, route the user to the SBI line (302-739-5884) — no court form. For discretionary, use the Superior Court\nExpungement Petition packet and ALWAYS attach the SBI criminal-history report.\nWatch the 45-day expiry on the criminal-history report — file the packet before it lapses or the court will reject it."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 237,
+      "endLine": 241,
+      "text": "Mandatory is handled by the SBI; discretionary is filed with the Superior Court (Family Court for juvenile).\n\n1. Pull the record. Request an SBI criminal-history report; it confirms each charge, disposition, and the dates\nthat start the waiting periods. The report expires after 45 days."
+    },
+    {
+      "title": "Determine the tier. Mandatory (and automatic) first; discretionary (§ 4374) where mandatory does not",
+      "category": "pathway_detail",
+      "startLine": 242,
+      "endLine": 250,
+      "text": "apply; § 4375 if there is an unconditional pardon.\n3a. Mandatory. Contact the SBI (302-739-5884) and request mandatory expungement, or rely on the monthly\nautomatic process; SBI sends a letter with instructions and any fees.\n3b. Discretionary. Complete the Superior Court Expungement Petition packet, attach the SBI criminal-history\nreport (required), and file the original with the Prothonotary in person or by mail.\n\nDelaware Record Expungement — Agent Training Reference · LegalEase"
+    },
+    {
+      "title": "Pay the fee. The discretionary filing fee is $70, payable to the State of Delaware (check accepted).",
+      "category": "fees",
+      "startLine": 251,
+      "endLine": 261,
+      "text": "5. Service and AG response. The court sends the petition to the Attorney General, who has 120 days to\nobject or answer.\n6. Decision. The court may grant on the papers or hold a hearing; if granted, the SBI notifies all courts and\nagencies holding the records to expunge them.\n\nAGENT GUIDANCE\nFile the discretionary packet promptly — the criminal-history report is only valid for 45 days, and a petition without it is\nsummarily rejected.\nDirect clients to APEX, Delaware’s state-funded assistance program, for help through the process and with fees."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 262,
+      "endLine": 285,
+      "text": "The features most likely to surprise.\n\nThree tiers, two channels. Mandatory/automatic go through the SBI; discretionary goes through the court.\nNaming the wrong channel sends the user to the wrong place.\nAutomatic rollout is slow. Clean Slate automatic expungement began Aug 1, 2024 but cleared only ~805\nrecords by Nov 2024 (under 1% of eligible). Never assume a record auto-cleared — verify, and request\nmandatory expungement directly if needed.\nThe case rule. Eligibility is judged on the whole case; for most discretionary categories the entire case must be\neligible and the person must have no disqualifying prior/subsequent convictions.\nCriminal-history report expires in 45 days. A discretionary petition without a current SBI report is summarily\nrejected.\nThe AG gets 120 days. Build the discretionary petition to withstand a possible Attorney General objection.\nPardon opens a no-wait route. An unconditional pardon makes § 4375 discretionary expungement available\nimmediately.\nDomestic-violence / child-victim records. Mandatory-ineligible, but may reach discretionary at 7 years or\nafter a pardon.\n\nAGENT GUIDANCE\nLead every Delaware analysis with the mandatory-vs-discretionary split and the case rule; those determine the channel and\nmost outcomes.\nGiven the slow automatic rollout, proactively check actual clearance and use the SBI request path rather than waiting on the\nmonthly process."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 286,
+      "endLine": 309,
+      "text": "Mandatory/automatic relief is low- or no-cost; discretionary carries a court filing fee.\n\nItem Amount Note\n\nAutomatic expungement (§ 4373A) $0 No filing; SBI processes monthly\n\nMandatory expungement via SBI request SBI fee SBI letter states any required fees\n\nDiscretionary petition (§ 4374 / § 4375) $70 Payable to State of Delaware; check accepted\n\nDelaware Record Expungement — Agent Training Reference · LegalEase\n\nSBI criminal-history report SBI fee Required attachment; expires after 45 days\n\nAPEX assistance Free State-funded help with process and fees\n\nAttorney fees (if represented) Varies Not required; APEX and clinics assist free\n\nVERIFY BEFORE RELYING\nThe SBI report fee and any mandatory-expungement fees can change, and fee-assistance funding through APEX is limited;\nthe agent should verify the current discretionary filing fee, SBI fees, and APEX availability at the time of advising rather than\nquoting fixed figures from memory."
+    },
+    {
+      "title": "Criminal history (SBI) request process",
+      "category": "filing",
+      "startLine": 310,
+      "endLine": 313,
+      "text": "Reviewing the record first confirms dispositions, offense levels, and the dates that start each waiting period —\nand supplies the report a discretionary petition must attach."
+    },
+    {
+      "title": "State history — SBI. The State Bureau of Identification maintains the official Delaware criminal history and",
+      "category": "record_request",
+      "startLine": 314,
+      "endLine": 327,
+      "text": "handles mandatory/automatic expungement. The criminal-history report is the required attachment to a\ndiscretionary petition and expires after 45 days, so order it close to filing.\n\nB. Court record. The Delaware courts’ case search and the Prothonotary confirm dispositions and the filing\ncourt for a discretionary petition.\n\nC. Federal — FBI Identity History Summary. For records that may extend beyond Delaware, the FBI\nfingerprint-based summary is the federal equivalent; Delaware relief reaches Delaware records only.\n\nAGENT GUIDANCE\nOrder the SBI criminal-history report first and file the discretionary petition within its 45-day validity; the court rejects any\npetition filed without it."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 328,
+      "endLine": 338,
+      "text": "Delaware discretionary expungement is filed on the Superior Court petition packet. Names, dates, and identifiers\nbelow are fictional and illustrative.\n\nExample A — Petition for Discretionary Expungement (11 Del. C. § 4374)\nSUPERIOR COURT OF THE STATE OF DELAWARE, NEW CASTLE COUNTY\nIN RE: THE PETITION OF MARIA T. ALVAREZ ID No. 1809XXXXXX\nPETITION FOR DISCRETIONARY EXPUNGEMENT (11 Del. C. 4374)\n1. Petitioner: Maria T. Alvarez; DOB 11/30/1990.\n2. On 04/03/2017 petitioner was convicted of a single\nnonviolent felony (theft) in this Court."
+    },
+    {
+      "title": "The conviction is not a 4201(c) violent felony and is not a",
+      "category": "pathway_detail",
+      "startLine": 342,
+      "endLine": 354,
+      "text": "physical/sexual assault crime under Title 31 309.\n6. Petitioner's SBI criminal-history report (dated within 45\ndays) is attached, as required.\nWHEREFORE petitioner asks the Court to find that continued\nmaintenance of the record works a manifest injustice and to\nexpunge all records of this case. (Copy served on the Attorney\n\nDelaware Record Expungement — Agent Training Reference · LegalEase\n\nGeneral, who has 120 days to respond. Filing fee: $70.)\n\nExamples B, C & D — Other routes"
+    },
+    {
+      "title": "MANDATORY / AUTOMATIC EXPUNGEMENT (4373 / 4373A):",
+      "category": "pathway_detail",
+      "startLine": 355,
+      "endLine": 360,
+      "text": "A case terminated in favor of the accused, a marijuana or\nunderage-alcohol conviction, or an eligible offense past its\nwait is expunged by the SBI -- automatically each month, or\non request to the SBI (302-739-5884). No court filing."
+    },
+    {
+      "title": "DISCRETIONARY AFTER PARDON (4375):",
+      "category": "pathway_detail",
+      "startLine": 361,
+      "endLine": 364,
+      "text": "A person granted an unconditional pardon may petition for\ndiscretionary expungement with NO waiting period."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 4,
+      "questions": 14,
+      "decisionRules": 56,
+      "waitingRules": 10,
+      "exclusions": 16,
+      "sourceFiles": 5,
+      "officialForms": 1
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

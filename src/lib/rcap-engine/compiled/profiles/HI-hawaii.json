@@ -1,0 +1,1513 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "HI",
+    "name": "Hawaii",
+    "slug": "hawaii"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "relativePath": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "sizeBytes": 181711,
+        "score": -51,
+        "extractedChars": 6488
+      },
+      {
+        "fileName": "REVISED-EXP-APPLICATION-2019-11.pdf",
+        "relativePath": "LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+        "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+        "sizeBytes": 137157,
+        "score": -54,
+        "extractedChars": 6107
+      },
+      {
+        "fileName": "hcjdc-forms.html",
+        "relativePath": "LegalEase Hawaii/hcjdc-forms.html",
+        "sha256": "ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172",
+        "sizeBytes": 51010,
+        "score": 32,
+        "extractedChars": 3034
+      }
+    ],
+    "sourceCorpusSha256": "66744db62325bc860895b18fc52b24a49e3a49d235ba7338ea2594a1269c72e6",
+    "sourceCorpusChars": 14653,
+    "allFolderFiles": [
+      {
+        "fileName": "EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "relativePath": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "sizeBytes": 181711
+      },
+      {
+        "fileName": "REVISED-EXP-APPLICATION-2019-11.pdf",
+        "relativePath": "LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+        "sizeBytes": 137157
+      },
+      {
+        "fileName": "Hawaii-Expungement-Forms.html",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e87baaeec0540f6b8dc7e6397b22d6f497afe8989c3471e35c18f7c96611c4bd",
+        "sizeBytes": 14466
+      },
+      {
+        "fileName": "Hawaii-Expungement-Reference.html",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "5ef0be43b8ebe564df642716aa69f9c0b505e6364508f26ecc3a606cc6703dea",
+        "sizeBytes": 9975
+      },
+      {
+        "fileName": "Hawaii-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "8754a27448c4752fc79e46da7a7be4c8bd7e3fd4603feb77c1d4ce16ed92a0fb",
+        "sizeBytes": 8122
+      },
+      {
+        "fileName": "hcjdc-forms.html",
+        "relativePath": "LegalEase Hawaii/hcjdc-forms.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172",
+        "sizeBytes": 51010
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement"
+    ],
+    "pathwayLabels": [
+      "Non-conviction arrest-information expungement under HRS § 831-3.2",
+      "Deferred acceptance dismissal — general one-year route",
+      "Deferred acceptance dismissal — HRS § 712-1200 three-year route",
+      "First-time drug-offender conviction expungement",
+      "First-time property-offender conviction expungement",
+      "DUI under age 21 conviction expungement"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Hawaii, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Hawaii case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Hawaii descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Non-conviction arrest-information expungement under HRS § 831-3.2",
+        "Deferred acceptance dismissal — general one-year route",
+        "Deferred acceptance dismissal — HRS § 712-1200 three-year route",
+        "First-time drug-offender conviction expungement",
+        "DUI under age 21 conviction expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Hawaii was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "deferred-acceptance-one-year",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "deferred-acceptance-one-year",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "nonconviction-arrest-expungement",
+        "first-time-drug-conviction",
+        "first-time-property-conviction",
+        "dui-under-21-conviction"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "dui-under-21-conviction"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "nonconviction-arrest-expungement",
+      "label": "Non-conviction arrest-information expungement under HRS § 831-3.2",
+      "summary": "A written HCJDC application may cover qualifying arrest information for which no conviction was secured. The source says the arrest record is removed from the arresting agency and statewide adult criminal-history repository, while court records may remain available. The source excludes felony or misdemeanor non-convictions caused by bail forfeiture, fugitives who made prosecution impossible, and Chapter 704 mental-disease dispositions. A complete application, valid government photo ID, payment,…",
+      "sourceRef": "manual_source_conversion:HI",
+      "ruleClauses": [
+        "A written HCJDC application may cover qualifying arrest information for which no conviction was secured.",
+        "The source says the arrest record is removed from the arresting agency and statewide adult criminal-history repository, while court records may remain available.",
+        "The source excludes felony or misdemeanor non-convictions caused by bail forfeiture, fugitives who made prosecution impossible, and Chapter 704 mental-disease dispositions.",
+        "A complete application, valid government photo ID, payment, signature, mailing address, and self-addressed stamped envelope are required."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "court",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:HI"
+      ]
+    },
+    {
+      "id": "deferred-acceptance-one-year",
+      "label": "Deferred acceptance dismissal — general one-year route",
+      "summary": "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement. The frontend must collect discharge date and dismissal date and return not_yet until the period is satisfied.",
+      "sourceRef": "manual_source_conversion:HI",
+      "ruleClauses": [
+        "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement.",
+        "The frontend must collect discharge date and dismissal date and return not_yet until the period is satisfied."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:HI"
+      ]
+    },
+    {
+      "id": "deferred-prostitution-three-year",
+      "label": "Deferred acceptance dismissal — HRS § 712-1200 three-year route",
+      "summary": "For a dismissed HRS § 712-1200 charge after deferred acceptance, the source imposes three years after discharge and dismissal. The frontend must distinguish this route from the general one-year deferred-acceptance route.",
+      "sourceRef": "manual_source_conversion:HI",
+      "ruleClauses": [
+        "For a dismissed HRS § 712-1200 charge after deferred acceptance, the source imposes three years after discharge and dismissal.",
+        "The frontend must distinguish this route from the general one-year deferred-acceptance route."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "charge"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "For a dismissed HRS § 712-1200 charge after deferred acceptance, the source imposes three years after discharge and dismissal."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:HI"
+      ]
+    },
+    {
+      "id": "first-time-drug-conviction",
+      "label": "First-time drug-offender conviction expungement",
+      "summary": "The source identifies HRS §§ 706-622.5 and 706-622.8 first-time drug-offender routes. A court order granting expungement of the conviction must be attached to the HCJDC application; an application without the order is denied. The source says repository information is expunged, while arresting-agency and court records may remain.",
+      "sourceRef": "manual_source_conversion:HI",
+      "ruleClauses": [
+        "The source identifies HRS §§ 706-622.5 and 706-622.8 first-time drug-offender routes.",
+        "A court order granting expungement of the conviction must be attached to the HCJDC application; an application without the order is denied.",
+        "The source says repository information is expunged, while arresting-agency and court records may remain."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "court",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:HI"
+      ]
+    },
+    {
+      "id": "dui-under-21-conviction",
+      "label": "DUI under age 21 conviction expungement",
+      "summary": "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21. A court order granting conviction expungement must be attached before HCJDC processing.",
+      "sourceRef": "manual_source_conversion:HI",
+      "ruleClauses": [
+        "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21.",
+        "A court order granting conviction expungement must be attached before HCJDC processing."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "court",
+        "age_at_offense"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "manual_source_conversion:HI"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-01-a-written-hcjdc-application-may-cover-qualifying-arrest",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A written HCJDC application may cover qualifying arrest information for which no conviction was secured."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:nonconviction-arrest-expungement",
+      "candidatePathwayIds": [
+        "nonconviction-arrest-expungement",
+        "first-time-drug-conviction",
+        "dui-under-21-conviction"
+      ]
+    },
+    {
+      "id": "rule-02-the-source-says-the-arrest-record-is-removed-from-the-a",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source says the arrest record is removed from the arresting agency and statewide adult criminal-history repository, while court records may remain available."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:nonconviction-arrest-expungement",
+      "candidatePathwayIds": [
+        "nonconviction-arrest-expungement",
+        "first-time-drug-conviction",
+        "dui-under-21-conviction"
+      ]
+    },
+    {
+      "id": "rule-03-the-source-excludes-felony-or-misdemeanor-non-convictio",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "The source excludes felony or misdemeanor non-convictions caused by bail forfeiture, fugitives who made prosecution impossible, and Chapter 704 mental-disease dispositions."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:nonconviction-arrest-expungement",
+      "candidatePathwayIds": [
+        "nonconviction-arrest-expungement",
+        "deferred-acceptance-one-year"
+      ]
+    },
+    {
+      "id": "rule-04-a-complete-application-valid-government-photo-id-paymen",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "A complete application, valid government photo ID, payment, signature, mailing address, and self-addressed stamped envelope are required."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:nonconviction-arrest-expungement",
+      "candidatePathwayIds": [
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "id": "rule-05-for-a-deferred-acceptance-of-guilty-or-nolo-contendere-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "one year"
+        },
+        "sourceConditionText": "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:deferred-acceptance-one-year",
+      "candidatePathwayIds": [
+        "deferred-acceptance-one-year",
+        "deferred-prostitution-three-year",
+        "dui-under-21-conviction",
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "id": "rule-06-the-frontend-must-collect-discharge-date-and-dismissal-",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "The frontend must collect discharge date and dismissal date and return not_yet until the period is satisfied."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:deferred-acceptance-one-year",
+      "candidatePathwayIds": [
+        "deferred-acceptance-one-year",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "id": "rule-07-for-a-dismissed-hrs-712-1200-charge-after-deferred-acce",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "three years"
+        },
+        "sourceConditionText": "For a dismissed HRS § 712-1200 charge after deferred acceptance, the source imposes three years after discharge and dismissal."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:deferred-prostitution-three-year",
+      "candidatePathwayIds": [
+        "deferred-prostitution-three-year",
+        "deferred-acceptance-one-year",
+        "dui-under-21-conviction",
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "id": "rule-08-the-frontend-must-distinguish-this-route-from-the-gener",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "The frontend must distinguish this route from the general one-year deferred-acceptance route."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:deferred-prostitution-three-year",
+      "candidatePathwayIds": [
+        "deferred-prostitution-three-year",
+        "deferred-acceptance-one-year"
+      ]
+    },
+    {
+      "id": "rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source identifies HRS §§ 706-622.5 and 706-622.8 first-time drug-offender routes."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:first-time-drug-conviction",
+      "candidatePathwayIds": [
+        "first-time-drug-conviction",
+        "dui-under-21-conviction",
+        "nonconviction-arrest-expungement",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "id": "rule-10-a-court-order-granting-expungement-of-the-conviction-mu",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A court order granting expungement of the conviction must be attached to the HCJDC application; an application without the order is denied."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:first-time-drug-conviction",
+      "candidatePathwayIds": [
+        "first-time-drug-conviction",
+        "dui-under-21-conviction",
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "id": "rule-11-the-source-says-repository-information-is-expunged-whil",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source says repository information is expunged, while arresting-agency and court records may remain."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:first-time-drug-conviction",
+      "candidatePathwayIds": [
+        "first-time-drug-conviction",
+        "nonconviction-arrest-expungement",
+        "dui-under-21-conviction"
+      ]
+    },
+    {
+      "id": "rule-12-the-source-identifies-hrs-706-622-9-as-a-qualifying-fir",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The source identifies HRS § 706-622.9 as a qualifying first-time property-offender route."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:first-time-property-conviction",
+      "candidatePathwayIds": [
+        "first-time-drug-conviction",
+        "nonconviction-arrest-expungement",
+        "dui-under-21-conviction",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "id": "rule-13-a-court-order-granting-conviction-expungement-must-be-a",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "A court order granting conviction expungement must be attached before HCJDC processing."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:first-time-property-conviction",
+      "candidatePathwayIds": [
+        "dui-under-21-conviction",
+        "first-time-drug-conviction",
+        "nonconviction-arrest-expungement",
+        "deferred-acceptance-one-year"
+      ]
+    },
+    {
+      "id": "rule-14-the-source-identifies-hrs-291e-0064-e-for-operating-a-v",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "manual_source_conversion:HI:dui-under-21-conviction",
+      "candidatePathwayIds": [
+        "dui-under-21-conviction",
+        "first-time-drug-conviction",
+        "nonconviction-arrest-expungement",
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "id": "route-nonconviction-arrest-expungement",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "nonconviction-arrest-expungement",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Non-conviction arrest-information expungement under HRS § 831-3.2"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:HI",
+      "candidatePathwayIds": [
+        "nonconviction-arrest-expungement"
+      ]
+    },
+    {
+      "id": "route-deferred-acceptance-one-year",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "deferred-acceptance-one-year",
+        "requiredFields": [
+          "case_outcome",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Deferred acceptance dismissal — general one-year route"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:HI",
+      "candidatePathwayIds": [
+        "deferred-acceptance-one-year"
+      ]
+    },
+    {
+      "id": "route-deferred-prostitution-three-year",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "deferred-prostitution-three-year",
+        "requiredFields": [
+          "case_outcome",
+          "charge"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Deferred acceptance dismissal — HRS § 712-1200 three-year route"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:HI",
+      "candidatePathwayIds": [
+        "deferred-prostitution-three-year"
+      ]
+    },
+    {
+      "id": "route-first-time-drug-conviction",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "first-time-drug-conviction",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "First-time drug-offender conviction expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:HI",
+      "candidatePathwayIds": [
+        "first-time-drug-conviction"
+      ]
+    },
+    {
+      "id": "route-dui-under-21-conviction",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "dui-under-21-conviction",
+        "requiredFields": [
+          "case_outcome",
+          "court",
+          "age_at_offense"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "DUI under age 21 conviction expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "manual_source_conversion:HI",
+      "candidatePathwayIds": [
+        "dui-under-21-conviction"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "discharge and dismissal before expungement",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "For a dismissed HRS § 712-1200 charge after deferred acceptance, the source imposes three years after discharge and dismissal.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "anchor": "deferred acceptance, the source imposes three years after discharge and dismissal",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21.",
+      "duration": null,
+      "anchor": "consuming a measurable amount of alcohol while under age 21",
+      "fieldsReferenced": [
+        "age_at_offense"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Complete this form in its entirety. ILLEGIBLE or INCOMPLETE applications will be denied. The Expungement Certificate will be mailed to",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "needs_more_info"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "retained and made available by the courts. An expungement order shall NOT be issued:",
+      "fieldsReferenced": [
+        "court"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "§706-622.9 – Sentencing for first-time property offender If you are applying to have a conviction expunged, you MUST ATTACH A COPY OF THE COURT ORDER GRANTING THE EXPUNGEMENT. Applications without a copy of the court order granting the expungement of conviction will be denied.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "ILLEGIBLE or INCOMPLETE applications will be denied.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "needs_more_info"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "An expungement order shall NOT be issued: • In the case of an arrest for a felony or misdemeanor where a conviction has not been obtained because of bail forfeiture; • For a period of five (5) years after arrest or citation in the case of a petty misdemeanor or violation where conviction has not been obtained because of a bail forfeiture; • In the case of an arrest of any person for any offense where conviction has not been obtained because the person has rendered prosecution impossible by absenting oneself from the jurisdiction; • In the case of a person who was involuntarily hospitalized pursuant to HRS §706-607, or who was acquitted or had charges dismissed pursuant to Chapter 704 due to a physical or mental disease, disorder, or defect; • For a period of one (1) year upon discharge of the defendant and dismissal of the charge against the defendant in the case of a Deferred Acceptance of Guilty Plea or Nolo Contendere Plea, in accordance with Chapter 853; and • Pursuant to HRS §712-1200, for a period of three (3) years upon discharge of the defendant and dismissal of a HRS §712- 1200 charge against the defendant in the case of a Deferred Acceptance of Guilty Plea or Nolo Contendere Plea.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "disposition_date",
+        "charge",
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Applications without a copy of the court order granting the expungement of conviction will be denied.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "nonconviction-arrest-expungement",
+        "pathwayLabel": "Non-conviction arrest-information expungement under HRS § 831-3.2",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:HI"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "deferred-acceptance-one-year",
+        "pathwayLabel": "Deferred acceptance dismissal — general one-year route",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:HI"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "deferred-prostitution-three-year",
+        "pathwayLabel": "Deferred acceptance dismissal — HRS § 712-1200 three-year route",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:HI"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "first-time-drug-conviction",
+        "pathwayLabel": "First-time drug-offender conviction expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:HI"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "dui-under-21-conviction",
+        "pathwayLabel": "DUI under age 21 conviction expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "manual_source_conversion:HI"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type"
+    ],
+    "sourceFormStatements": [],
+    "attachments": [],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [],
+    "feeRules": [],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [],
+    "formInventory": [
+      {
+        "fileName": "Hawaii-Expungement-Forms.html",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e87baaeec0540f6b8dc7e6397b22d6f497afe8989c3471e35c18f7c96611c4bd",
+        "sizeBytes": 14466
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "relativePath": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "sizeBytes": 181711
+      },
+      {
+        "fileName": "REVISED-EXP-APPLICATION-2019-11.pdf",
+        "relativePath": "LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+        "sizeBytes": 137157
+      },
+      {
+        "fileName": "Hawaii-Expungement-Forms.html",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "e87baaeec0540f6b8dc7e6397b22d6f497afe8989c3471e35c18f7c96611c4bd",
+        "sizeBytes": 14466
+      },
+      {
+        "fileName": "Hawaii-Expungement-Reference.html",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "5ef0be43b8ebe564df642716aa69f9c0b505e6364508f26ecc3a606cc6703dea",
+        "sizeBytes": 9975
+      },
+      {
+        "fileName": "Hawaii-Expungement-Reference.pdf",
+        "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "8754a27448c4752fc79e46da7a7be4c8bd7e3fd4603feb77c1d4ce16ed92a0fb",
+        "sizeBytes": 8122
+      },
+      {
+        "fileName": "hcjdc-forms.html",
+        "relativePath": "LegalEase Hawaii/hcjdc-forms.html",
+        "extension": ".html",
+        "kind": "reference",
+        "sha256": "ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172",
+        "sizeBytes": 51010
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Hawaii-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 11,
+      "decisionRules": 20,
+      "waitingRules": 3,
+      "exclusions": 6,
+      "sourceFiles": 6,
+      "officialForms": 1
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

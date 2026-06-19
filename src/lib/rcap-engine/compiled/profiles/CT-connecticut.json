@@ -1,0 +1,3653 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Connecticut-RecordErasure-Agent-Reference.pdf",
+        "relativePath": "LegalEase Connecticut/Connecticut-RecordErasure-Agent-Reference.pdf",
+        "sha256": "16282cb31bb44ed0fff93a09f68b50db6c4b8b24d6c257a73396b7b74686cb10",
+        "sizeBytes": 25459,
+        "score": 1541,
+        "extractedChars": 23349
+      }
+    ],
+    "sourceCorpusSha256": "9417e1863420e1df725060c38960b7ac19da40f59f1f329e30436a0d31a8589a",
+    "sourceCorpusChars": 19472,
+    "allFolderFiles": [
+      {
+        "fileName": "CR202.pdf",
+        "relativePath": "LegalEase Connecticut/CR202.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+        "sizeBytes": 820630
+      },
+      {
+        "fileName": "Connecticut-JD-CR-202-Form.html",
+        "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
+        "sizeBytes": 17072
+      },
+      {
+        "fileName": "Connecticut-RecordErasure-Agent-Reference.pdf",
+        "relativePath": "LegalEase Connecticut/Connecticut-RecordErasure-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "16282cb31bb44ed0fff93a09f68b50db6c4b8b24d6c257a73396b7b74686cb10",
+        "sizeBytes": 25459
+      },
+      {
+        "fileName": "DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "relativePath": "LegalEase Connecticut/DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+        "sizeBytes": 104351
+      },
+      {
+        "fileName": "cleanslate.html",
+        "relativePath": "LegalEase Connecticut/cleanslate.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "1a48860e86e8c7b782d7564e1d3f37446ae4ee072b60a1623293d27b801077ce",
+        "sizeBytes": 60976
+      },
+      {
+        "fileName": "petition-for-cannabis-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-cannabis-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "9db97e3e9466646eb87fb3872cd1a298185a8ae64da4cc81fbd0ec755531fa93",
+        "sizeBytes": 51861
+      },
+      {
+        "fileName": "petition-for-clean-slate-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
+        "sizeBytes": 54852
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure",
+      "Clean Slate",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "State record-clearing review"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Connecticut, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Connecticut case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Misdemeanor conviction",
+        "Other conviction or adjudication",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Connecticut descriptions sound close to your situation?",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "type": "single_choice",
+      "options": [
+        "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a",
+        "Automatic Clean Slate erasure for eligible post-2000 convictions",
+        "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)",
+        "Cannabis-conviction erasure",
+        "Absolute pardon resulting in erasure",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "contextOnly": true,
+      "doesNotSelectPathway": true,
+      "source": "curated_state_pathway_catalog_from_reference"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Connecticut category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Sex offense or registration",
+        "Firearm or weapons",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Connecticut was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "state-record-clearing-review"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "state-record-clearing-review"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "state-record-clearing-review"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": []
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "state-record-clearing-review"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "state-record-clearing-review"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "label": "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a",
+      "summary": "Three paths, routed by disposition and goal. Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal, and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+      "sourceRef": "source:overview; section:348-352; section:75-102; pathways:75-102; corpus-unit:26; section:103-136; corpus-unit:2; corpus-unit:9",
+      "sourceEvidenceRefs": [
+        "source:overview",
+        "section:348-352",
+        "section:75-102",
+        "pathways:75-102",
+        "corpus-unit:26",
+        "section:103-136",
+        "corpus-unit:2",
+        "corpus-unit:9",
+        "corpus-unit:117",
+        "waiting_periods:103-136",
+        "corpus-unit:32"
+      ],
+      "ruleClauses": [
+        "Three paths, routed by disposition and goal.",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family",
+        "Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+        "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies",
+        "(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court.",
+        "Offenses committed before the person turned 18 are also erased.",
+        "Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "Absolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /",
+        "Certificate of Employability is a separate, lesser remedy that protects employment and licensing but does not",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 2",
+        "Route by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;",
+        "pre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP.",
+        "Always name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate",
+        "of Employability (employment relief only, no erasure).",
+        "A dismissal or acquittal erases immediately; a nolle erases",
+        "13 months after entry if not re-filed; a completed AR, FVEP,",
+        "or IDIP diversionary program erases on completion.",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal, and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+        "Conviction waits run from the person’s MOST RECENT conviction for any crime, after the full sentence",
+        "(including incarceration, parole, special parole, and probation) is complete.",
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status",
+        "disposition_date",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "A dismissal or acquittal erases immediately; a nolle erases",
+        "13 months after entry if not re-filed; a completed AR, FVEP,",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal, and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically."
+      ],
+      "exclusionRules": [
+        "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+        "Excluded from Clean Slate erasure:",
+        "Family violence crimes — categorically excluded from Clean Slate.",
+        "Firearms offenses — not eligible for Clean Slate erasure.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 3",
+        "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+        "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+        "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+        "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+        "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+        "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+        "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific",
+        "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+        "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+        "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "label": "Automatic Clean Slate erasure for eligible post-2000 convictions",
+      "summary": "Three paths, routed by disposition and goal. Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal, and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+      "sourceRef": "source:overview; section:239-249; section:75-102; section:353-358; section:103-136; section:163-202; pathways:75-102; corpus-unit:9",
+      "sourceEvidenceRefs": [
+        "source:overview",
+        "section:239-249",
+        "section:75-102",
+        "section:353-358",
+        "section:103-136",
+        "section:163-202",
+        "pathways:75-102",
+        "corpus-unit:9",
+        "corpus-unit:29",
+        "corpus-unit:73",
+        "corpus-unit:27",
+        "case_outcomes:163-202",
+        "waiting_periods:103-136",
+        "corpus-unit:35",
+        "corpus-unit:57",
+        "corpus-unit:63",
+        "section:259-281",
+        "section:48-74"
+      ],
+      "ruleClauses": [
+        "Three paths, routed by disposition and goal.",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family",
+        "Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+        "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies",
+        "(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court.",
+        "Offenses committed before the person turned 18 are also erased.",
+        "Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "Absolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /",
+        "Certificate of Employability is a separate, lesser remedy that protects employment and licensing but does not",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 2",
+        "Route by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;",
+        "pre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP.",
+        "Always name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate",
+        "of Employability (employment relief only, no erasure).",
+        "pre-2000 eligible conviction → JD-CR-202; conviction outside Clean Slate → Absolute Pardon.",
+        "Automatic erasure. Nothing to file. If a record that should have erased did not, request a hearing using the SPBI report.",
+        "Petition (JD-CR-202). Complete and file with the court where you were sentenced for the conviction(s) you want erased.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 5",
+        "Absolute Pardon. Apply online through the BOPP ePardon portal after the 3-year (misdemeanor) / 5-year",
+        "wait; expect a 12–18 month process and a Board hearing.",
+        "A post-1/1/2000 misdemeanor erases 7 years after the last",
+        "conviction for any crime; a Class D/E or unclassified",
+        "(<=5 yr) felony erases at 10 years. Sex, family violence,"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "Absolute Pardon. Apply online through the BOPP ePardon portal after the 3-year (misdemeanor) / 5-year",
+        "wait; expect a 12–18 month process and a Board hearing.",
+        "A post-1/1/2000 misdemeanor erases 7 years after the last",
+        "(<=5 yr) felony erases at 10 years. Sex, family violence,"
+      ],
+      "exclusionRules": [
+        "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+        "Excluded from Clean Slate erasure:",
+        "Family violence crimes — categorically excluded from Clean Slate.",
+        "Firearms offenses — not eligible for Clean Slate erasure.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 3",
+        "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+        "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+        "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+        "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+        "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+        "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+        "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific",
+        "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+        "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+        "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "label": "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)",
+      "summary": "Three paths, routed by disposition and goal. Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal, and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+      "sourceRef": "source:overview; section:75-102; section:48-74; section:163-202; section:239-249; section:323-333; corpus-unit:123; corpus-unit:24",
+      "sourceEvidenceRefs": [
+        "source:overview",
+        "section:75-102",
+        "section:48-74",
+        "section:163-202",
+        "section:239-249",
+        "section:323-333",
+        "corpus-unit:123",
+        "corpus-unit:24",
+        "corpus-unit:29",
+        "corpus-unit:73",
+        "pathways:75-102",
+        "case_outcomes:163-202",
+        "corpus-unit:37",
+        "corpus-unit:58",
+        "corpus-unit:106",
+        "section:203-233",
+        "section:259-281",
+        "section:359-371"
+      ],
+      "ruleClauses": [
+        "Three paths, routed by disposition and goal.",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family",
+        "Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+        "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies",
+        "(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court.",
+        "Offenses committed before the person turned 18 are also erased.",
+        "Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "Absolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /",
+        "Certificate of Employability is a separate, lesser remedy that protects employment and licensing but does not",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 2",
+        "Route by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;",
+        "pre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP.",
+        "Always name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate",
+        "of Employability (employment relief only, no erasure).",
+        "Statutory shorthand used throughout",
+        "Erasure Connecticut’s single term for record clearing (§ 54-142a); record erased, person may swear the",
+        "arrest/conviction never occurred. Not ‘expungement’ or ‘sealing’",
+        "Clean Slate (PA 21-42) 2021 law erasing most misdemeanors / lower felonies entered on/after 1/1/2000; automatic for",
+        "post-2000, petition for pre-2000",
+        "Absolute Pardon Board of Pardons and Paroles full pardon = complete erasure; the route for convictions Clean Slate",
+        "Provisional Pardon / Certificate of Employability — employment/licensing relief only; does NOT erase the record",
+        "Cannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000–9/30/2015); took effect Jan 2023",
+        "BOPP Board of Pardons and Paroles — grants pardons; applications filed online via the ePardon portal"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status",
+        "offense_category",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An"
+      ],
+      "exclusionRules": [
+        "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+        "Excluded from Clean Slate erasure:",
+        "Family violence crimes — categorically excluded from Clean Slate.",
+        "Firearms offenses — not eligible for Clean Slate erasure.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 3",
+        "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+        "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+        "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+        "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+        "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+        "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+        "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific",
+        "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+        "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+        "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "cannabis-conviction-erasure",
+      "label": "Cannabis-conviction erasure",
+      "summary": "Statutory shorthand used throughout Erasure Connecticut’s single term for record clearing (§ 54-142a); record erased, person may swear the arrest/conviction never occurred. Not ‘expungement’ or ‘sealing’ Clean Slate (PA 21-42) 2021 law erasing most misdemeanors / lower felonies entered on/after 1/1/2000; automatic for post-2000, petition for pre-2000",
+      "sourceRef": "section:48-74; section:259-281; corpus-unit:21; section:103-136; section:163-202; section:203-233; section:282-304; corpus-unit:2",
+      "sourceEvidenceRefs": [
+        "section:48-74",
+        "section:259-281",
+        "corpus-unit:21",
+        "section:103-136",
+        "section:163-202",
+        "section:203-233",
+        "section:282-304",
+        "corpus-unit:2",
+        "case_outcomes:163-202",
+        "waiting_periods:103-136",
+        "corpus-unit:5",
+        "corpus-unit:40",
+        "corpus-unit:59",
+        "corpus-unit:70",
+        "corpus-unit:87",
+        "corpus-unit:93",
+        "corpus-unit:88"
+      ],
+      "ruleClauses": [
+        "Statutory shorthand used throughout",
+        "Erasure Connecticut’s single term for record clearing (§ 54-142a); record erased, person may swear the",
+        "arrest/conviction never occurred. Not ‘expungement’ or ‘sealing’",
+        "Clean Slate (PA 21-42) 2021 law erasing most misdemeanors / lower felonies entered on/after 1/1/2000; automatic for",
+        "post-2000, petition for pre-2000",
+        "Absolute Pardon Board of Pardons and Paroles full pardon = complete erasure; the route for convictions Clean Slate",
+        "Provisional Pardon / Certificate of Employability — employment/licensing relief only; does NOT erase the record",
+        "Cannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000–9/30/2015); took effect Jan 2023",
+        "BOPP Board of Pardons and Paroles — grants pardons; applications filed online via the ePardon portal",
+        "SPBI State Police Bureau of Identification — source of the official criminal history record check",
+        "JD-CR-202 Judicial Branch Petition for Clean Slate Erasure (pre-2000 convictions or missed automatic",
+        "The features most likely to surprise.",
+        "It’s ‘erasure,’ not expungement or sealing. Connecticut uses one term across all paths; using another",
+        "Clean Slate was delayed for years. Automatic erasure stalled on data and IT problems; it only resumed at",
+        "scale in late 2025 (~50,000 records by Oct 2025). Never assume a record was auto-erased — verify.",
+        "The clock runs from the LAST conviction for any crime. A later, unrelated conviction resets the Clean Slate",
+        "Pre-2000 convictions need a petition. The automatic process only reaches post-1/1/2000 convictions; older",
+        "Pardon vs. Provisional Pardon. Only an Absolute Pardon erases; a Provisional Pardon / Certificate of",
+        "Employability is employment/licensing relief and leaves the record intact.",
+        "Cannabis erasure is its own lane. § 21a-279(c) possession convictions from 2000–2015 auto-erased in Jan",
+        "2023 and don’t count toward the most-recent-conviction date.",
+        "No fee; court debt is not a bar. Erasure costs nothing and unpaid court debt does not block it (though the",
+        "Lead with the term ‘erasure’ and the most-recent-conviction rule; those two frame almost every Connecticut conversation.",
+        "Because the automatic rollout was so troubled, proactively check whether an eligible record actually erased rather than",
+        "Conviction waits run from the person’s MOST RECENT conviction for any crime, after the full sentence",
+        "(including incarceration, parole, special parole, and probation) is complete.",
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "criminal_history",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served."
+      ],
+      "exclusionRules": [
+        "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+        "Excluded from Clean Slate erasure:",
+        "Firearms offenses — not eligible for Clean Slate erasure.",
+        "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+        "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+        "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+        "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+        "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+        "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+        "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+        "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+        "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "absolute-pardon-resulting-in-erasure",
+      "label": "Absolute pardon resulting in erasure",
+      "summary": "For a conviction outside Clean Slate, apply online 3 years or 5 years (felony) after disposition. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only. This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common 21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000 convictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the",
+      "sourceRef": "section:359-371; source:overview; section:48-74; section:103-136; section:203-233; section:239-249; corpus-unit:29; corpus-unit:74",
+      "sourceEvidenceRefs": [
+        "section:359-371",
+        "source:overview",
+        "section:48-74",
+        "section:103-136",
+        "section:203-233",
+        "section:239-249",
+        "corpus-unit:29",
+        "corpus-unit:74",
+        "waiting_periods:103-136",
+        "corpus-unit:38",
+        "corpus-unit:39",
+        "corpus-unit:119",
+        "section:75-102",
+        "section:163-202",
+        "section:259-281",
+        "section:282-304",
+        "case_outcomes:163-202"
+      ],
+      "ruleClauses": [
+        "For a conviction outside Clean Slate, apply online 3 years",
+        "or 5 years (felony) after disposition. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common",
+        "21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000",
+        "convictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the",
+        "current text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given",
+        "record, and the pardon process before relying on any rule here.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 8",
+        "Three paths, routed by disposition and goal.",
+        "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family",
+        "Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.",
+        "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies",
+        "(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court.",
+        "Offenses committed before the person turned 18 are also erased.",
+        "Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An",
+        "Absolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /",
+        "Certificate of Employability is a separate, lesser remedy that protects employment and licensing but does not",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 2",
+        "Route by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;",
+        "pre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP.",
+        "Always name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate",
+        "of Employability (employment relief only, no erasure).",
+        "Statutory shorthand used throughout"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_other",
+        "convicted_misdemeanor",
+        "convicted_felony"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "pardon",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Disposition / path Remedy Waiting period",
+        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+        "For a conviction outside Clean Slate, apply online 3 years",
+        "or 5 years (felony) after disposition. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only.",
+        "21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000",
+        "current text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given",
+        "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,",
+        "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;",
+        "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An"
+      ],
+      "exclusionRules": [
+        "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+        "Excluded from Clean Slate erasure:",
+        "Family violence crimes — categorically excluded from Clean Slate.",
+        "Firearms offenses — not eligible for Clean Slate erasure.",
+        "Connecticut Record Erasure — Agent Training Reference · LegalEase 3",
+        "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+        "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+        "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+        "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+        "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+        "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+        "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific",
+        "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+        "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+        "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-57-firearms-offenses-not-eligible-for-clean-slate-erasure",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Firearms offenses — not eligible for Clean Slate erasure."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-63-serious-offenses-are-not-statutorily-barred-from-a-pard",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-54-clean-slate-erasure-is-offense-limited-the-pardon-route",
+      "priority": 30,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-62-including-crimes-outside-clean-slate-s-scope-but-it-is-",
+      "priority": 30,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and"
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_show_review_or_referral"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-65-family-violence-sex-firearms-are-defined-by-statute-and",
+      "priority": 40,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "financial_obligations",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific"
+      },
+      "then": {
+        "suggestedResultCode": "needs_more_info",
+        "frontendAction": "return_to_exact_missing_questions"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-07-2000-are-erased-for-convictions-entered-on-or-after-1-1",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+      ]
+    },
+    {
+      "id": "rule-37-disposition-path-remedy-waiting-period",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Disposition / path Remedy Waiting period"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:103-136"
+    },
+    {
+      "id": "rule-01-path-1-automatic-non-conviction-erasure-54-142a-the-b",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Path 1 — Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-02-with-no-filing-a-case-dismissed-nolled-erased-13-months",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 13,
+          "unit": "months",
+          "raw": "13 months"
+        },
+        "sourceConditionText": "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-04-violence-education-program-the-impaired-driver-interven",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Violence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-11-higher-felonies-or-cases-the-person-wants-cleared-now-r",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "higher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-14-route-by-disposition-non-conviction-automatic-erasure-n",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Route by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-21-misdemeanor-conviction-clean-slate-automatic-none-auto-",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Misdemeanor conviction, Clean Slate automatic None (auto) 7 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-22-class-d-e-felony-post-2000-clean-slate-automatic-none-a",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class D/E felony, post-2000 Clean Slate automatic None (auto) 10 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      ]
+    },
+    {
+      "id": "rule-27-effect-of-relief-an-erasure-whether-automatic-clean-sla",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Effect of relief: an ERASURE (whether automatic, Clean Slate, or via Absolute Pardon) erases the record and"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-33-if-a-post-2000-record-should-have-erased-automatically-",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "If a post-2000 record should have erased automatically but didn’t, the user can request a hearing — start with an SPBI"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-41-misdemeanor-conviction-post-2000-clean-slate-automatic-",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      ]
+    },
+    {
+      "id": "rule-42-class-d-e-or-unclassified-felony-5-yr-clean-slate-autom",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-66-offense-s-class-and-the-current-exclusion-list-and-veri",
+      "priority": 60,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-03-and-charges-resolved-through-a-completed-diversionary-p",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-05-path-2-clean-slate-erasure-of-convictions-pa-21-42-most",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Path 2 — Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-06-class-d-and-e-felonies-and-unclassified-felonies-carryi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-08-for-convictions-entered-before-1-1-2000-the-person-file",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-09-offenses-committed-before-the-person-turned-18-are-also",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Offenses committed before the person turned 18 are also erased."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-10-path-3-absolute-pardon-board-of-pardons-and-paroles-for",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Path 3 — Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-12-absolute-pardon-results-in-complete-erasure-of-the-conn",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Absolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-13-connecticut-record-erasure-agent-training-reference-leg",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Connecticut Record Erasure — Agent Training Reference · LegalEase 2"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-15-pre-2000-eligible-conviction-jd-cr-202-petition-convict",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "pre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-16-always-name-the-remedy-as-erasure-and-distinguish-an-ab",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Always name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-17-of-employability-employment-relief-only-no-erasure",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "of Employability (employment relief only, no erasure)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:75-102",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-18-dismissal-acquittal-auto-non-conviction-erasure-none-im",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Dismissal / acquittal Auto non-conviction erasure None Immediate"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-19-nolle-auto-erasure-none-13-months",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "duration": {
+          "value": 13,
+          "unit": "months",
+          "raw": "13 months"
+        },
+        "sourceConditionText": "Nolle Auto erasure None 13 months"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-20-completed-ar-fvep-idip-auto-erasure-none-on-completion",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Completed AR / FVEP / IDIP Auto erasure None On completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-23-eligible-conviction-pre-2000-clean-slate-by-petition-jd",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Eligible conviction, pre-2000 Clean Slate by petition JD-CR-202, sentencing 7 / 10 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-24-cannabis-possession-21a-279-c-cannabis-auto-erasure-non",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Cannabis possession 21a-279(c), Cannabis auto erasure None (auto) Jan 2023"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-25-conviction-outside-clean-slate-absolute-pardon-epardon-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Conviction outside Clean Slate Absolute Pardon ePardon, BOPP 3 / 5 yrs"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-26-employment-licensing-relief-only-provisional-pardon-coe",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Employment/licensing relief only Provisional Pardon / COE ePardon, BOPP Varies"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-28-lets-the-person-swear-under-oath-the-arrest-or-convicti",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "lets the person swear under oath the arrest or conviction never occurred; no fee is charged and outstanding"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-29-court-debt-does-not-bar-erasure-though-the-debt-itself-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "court debt does not bar erasure (though the debt itself is not eliminated). A Provisional Pardon / Certificate of"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+      ]
+    },
+    {
+      "id": "rule-30-employability-does-not-erase-and-the-person-must-still-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Employability does not erase and the person must still disclose where required."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-31-connecticut-record-erasure-agent-training-reference-leg",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Connecticut Record Erasure — Agent Training Reference · LegalEase 4"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-32-tell-users-plainly-erasure-auto-clean-slate-or-absolute",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Tell users plainly: erasure (auto, Clean Slate, or Absolute Pardon) removes the record and is deniable; a Provisional Pardon /"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-34-criminal-history-check-dated-on-or-after-january-1-2024",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "criminal-history check dated on or after January 1, 2024."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:163-202"
+    },
+    {
+      "id": "rule-35-conviction-waits-run-from-the-person-s-most-recent-conv",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction waits run from the person’s MOST RECENT conviction for any crime, after the full sentence"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+      ]
+    },
+    {
+      "id": "rule-36-including-incarceration-parole-special-parole-and-proba",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "(including incarceration, parole, special parole, and probation) is complete."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136"
+    },
+    {
+      "id": "rule-38-dismissal-acquittal-auto-erasure-54-142a-immediate",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-39-nolle-charges-dropped-auto-erasure-13-months-if-not-re-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "duration": {
+          "value": 13,
+          "unit": "months",
+          "raw": "13 months"
+        },
+        "sourceConditionText": "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-40-completed-diversionary-program-auto-erasure-on-completi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Completed diversionary program Auto erasure on completion On completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-43-eligible-conviction-entered-pre-2000-clean-slate-by-pet",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-44-misdemeanor-absolute-pardon-bopp-pardon-3-years-from-di",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-45-felony-absolute-pardon-bopp-pardon-5-years-from-disposi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Felony — Absolute Pardon BOPP pardon 5 years from disposition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-46-the-clean-slate-clock-is-measured-from-the-person-s-mos",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-47-being-erased-and-only-after-the-entire-sentence-includi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "being erased, and only after the entire sentence including parole, special parole, transitional supervision, and"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-48-probation-has-been-served-a-21a-279-c-cannabis-possessi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "probation has been served. A § 21a-279(c) cannabis possession conviction erased under the Cannabis law"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-49-does-not-count-as-a-conviction-for-setting-that-date",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "does not count as a conviction for setting that date."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-50-compute-the-clean-slate-wait-from-the-last-conviction-f",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Compute the Clean Slate wait from the LAST conviction for any crime (7 yrs misdemeanor / 10 yrs felony), after the full"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-51-sentence-and-all-supervision-are-complete",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "sentence and all supervision are complete."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136"
+    },
+    {
+      "id": "rule-52-pardon-waits-are-different-and-shorter-3-yrs-misdemeano",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon waits are different and shorter (3 yrs misdemeanor / 5 yrs felony from disposition) but require an application and a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-53-bopp-hearing-only-eight-full-pardon-hearing-cycles-a-ye",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "BOPP hearing — only eight full-pardon hearing cycles a year."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:103-136",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-55-excluded-from-clean-slate-erasure",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Excluded from Clean Slate erasure:"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "cannabis-conviction-erasure",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-56-family-violence-crimes-categorically-excluded-from-clea",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Family violence crimes — categorically excluded from Clean Slate."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "cannabis-conviction-erasure",
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+      ]
+    },
+    {
+      "id": "rule-58-connecticut-record-erasure-agent-training-reference-leg",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Connecticut Record Erasure — Agent Training Reference · LegalEase 3"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure",
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-59-felonies-above-class-d-e-or-unclassified-felonies-carry",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "absolute-pardon-resulting-in-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "rule-60-certain-drug-possession-crimes-carry-a-statutory-except",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "rule-61-pardon-route-as-the-fallback-the-board-of-pardons-and-p",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "rule-64-the-clean-slate-eligible-offense-list-class-d-e-and-unc",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:137-162",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure",
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "route-automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "disposition_date",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "disposition_date",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "source:overview; section:348-352; section:75-102; pathways:75-102; corpus-unit:26; section:103-136; corpus-unit:2; corpus-unit:9",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+      ]
+    },
+    {
+      "id": "route-automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Automatic Clean Slate erasure for eligible post-2000 convictions"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "source:overview; section:239-249; section:75-102; section:353-358; section:103-136; section:163-202; pathways:75-102; corpus-unit:9",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ]
+    },
+    {
+      "id": "route-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "source:overview; section:75-102; section:48-74; section:163-202; section:239-249; section:323-333; corpus-unit:123; corpus-unit:24",
+      "candidatePathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      ]
+    },
+    {
+      "id": "route-cannabis-conviction-erasure",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "cannabis-conviction-erasure",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Cannabis-conviction erasure"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:48-74; section:259-281; corpus-unit:21; section:103-136; section:163-202; section:203-233; section:282-304; corpus-unit:2",
+      "candidatePathwayIds": [
+        "cannabis-conviction-erasure"
+      ]
+    },
+    {
+      "id": "route-absolute-pardon-resulting-in-erasure",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "absolute-pardon-resulting-in-erasure",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pardon_status",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other",
+          "convicted_misdemeanor",
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Absolute pardon resulting in erasure"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:359-371; source:overview; section:48-74; section:103-136; section:203-233; section:239-249; corpus-unit:29; corpus-unit:74",
+      "candidatePathwayIds": [
+        "absolute-pardon-resulting-in-erasure"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Disposition / path Remedy Waiting period",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+      "duration": {
+        "value": 13,
+        "unit": "months",
+        "raw": "13 months"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": "last conviction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "last conviction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pardon_status"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge",
+        "pardon_status"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
+      "fieldsReferenced": [
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "needs_review"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Excluded from Clean Slate erasure:",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "Family violence crimes — categorically excluded from Clean Slate.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Offenses requiring sex-offender registration / sexual offenses — excluded.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "Firearms offenses — not eligible for Clean Slate erasure.",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Connecticut Record Erasure — Agent Training Reference · LegalEase 3",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Felonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Certain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Pardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,",
+      "fieldsReferenced": [
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "including crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "needs_review"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board",
+      "fieldsReferenced": [
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "The Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific",
+      "fieldsReferenced": [
+        "offense_category",
+        "financial_obligations",
+        "charge"
+      ],
+      "suggestedResultCode": "needs_more_info"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "offense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ],
+      "suggestedResultCode": "guidance_only"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Excluded from Clean Slate erasure: Family violence crimes — categorically excluded from Clean Slate.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "Family violence and serious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board weighs them heavily.",
+      "fieldsReferenced": [
+        "charge",
+        "pardon_status"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "pathwayLabel": "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "source:overview",
+          "section:348-352",
+          "section:75-102",
+          "pathways:75-102",
+          "corpus-unit:26",
+          "section:103-136",
+          "corpus-unit:2",
+          "corpus-unit:9",
+          "corpus-unit:117",
+          "waiting_periods:103-136",
+          "corpus-unit:32"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "pathwayLabel": "Automatic Clean Slate erasure for eligible post-2000 convictions",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "source:overview",
+          "section:239-249",
+          "section:75-102",
+          "section:353-358",
+          "section:103-136",
+          "section:163-202",
+          "pathways:75-102",
+          "corpus-unit:9",
+          "corpus-unit:29",
+          "corpus-unit:73",
+          "corpus-unit:27",
+          "case_outcomes:163-202",
+          "waiting_periods:103-136",
+          "corpus-unit:35",
+          "corpus-unit:57",
+          "corpus-unit:63",
+          "section:259-281",
+          "section:48-74"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "pathwayLabel": "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "Connecticut-JD-CR-202-Form.html",
+            "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
+            "sizeBytes": 17072
+          },
+          {
+            "fileName": "CR202.pdf",
+            "relativePath": "LegalEase Connecticut/CR202.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+            "sizeBytes": 820630
+          },
+          {
+            "fileName": "petition-for-clean-slate-erasure.html",
+            "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
+            "sizeBytes": 54852
+          },
+          {
+            "fileName": "petition-for-cannabis-erasure.html",
+            "relativePath": "LegalEase Connecticut/petition-for-cannabis-erasure.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "9db97e3e9466646eb87fb3872cd1a298185a8ae64da4cc81fbd0ec755531fa93",
+            "sizeBytes": 51861
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "source:overview",
+          "section:75-102",
+          "section:48-74",
+          "section:163-202",
+          "section:239-249",
+          "section:323-333",
+          "corpus-unit:123",
+          "corpus-unit:24",
+          "corpus-unit:29",
+          "corpus-unit:73",
+          "pathways:75-102",
+          "case_outcomes:163-202",
+          "corpus-unit:37",
+          "corpus-unit:58",
+          "corpus-unit:106",
+          "section:203-233",
+          "section:259-281",
+          "section:359-371"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "cannabis-conviction-erasure",
+        "pathwayLabel": "Cannabis-conviction erasure",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "section:48-74",
+          "section:259-281",
+          "corpus-unit:21",
+          "section:103-136",
+          "section:163-202",
+          "section:203-233",
+          "section:282-304",
+          "corpus-unit:2",
+          "case_outcomes:163-202",
+          "waiting_periods:103-136",
+          "corpus-unit:5",
+          "corpus-unit:40",
+          "corpus-unit:59",
+          "corpus-unit:70",
+          "corpus-unit:87",
+          "corpus-unit:93",
+          "corpus-unit:88"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "absolute-pardon-resulting-in-erasure",
+        "pathwayLabel": "Absolute pardon resulting in erasure",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "Connecticut-JD-CR-202-Form.html",
+            "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
+            "sizeBytes": 17072
+          },
+          {
+            "fileName": "CR202.pdf",
+            "relativePath": "LegalEase Connecticut/CR202.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+            "sizeBytes": 820630
+          },
+          {
+            "fileName": "petition-for-clean-slate-erasure.html",
+            "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
+            "extension": ".html",
+            "kind": "official_form_or_packet",
+            "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
+            "sizeBytes": 54852
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:359-371",
+          "source:overview",
+          "section:48-74",
+          "section:103-136",
+          "section:203-233",
+          "section:239-249",
+          "corpus-unit:29",
+          "corpus-unit:74",
+          "waiting_periods:103-136",
+          "corpus-unit:38",
+          "corpus-unit:39",
+          "corpus-unit:119",
+          "section:75-102",
+          "section:163-202",
+          "section:259-281",
+          "section:282-304",
+          "case_outcomes:163-202"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "Most Connecticut erasure happens automatically with no form. Forms arise for pre-2000 petitions, missed",
+      "JD-CR-202 — Petition for Clean Slate Convictions entered BEFORE 1/1/2000, filed with the court where sentenced;",
+      "ePardon application — Absolute Pardon Board of Pardons and Paroles online application for full erasure of convictions;",
+      "ePardon application — Certificate of Provisional Pardon for employment/licensing relief; online only; not available",
+      "Clean Slate and Cannabis erasure are designed to require nothing from the person. The petition (JD-CR-202)",
+      "Default to ‘no form needed’ for non-convictions and post-2000 eligible convictions; reach for JD-CR-202 only for pre-2000",
+      "Most Connecticut erasure happens automatically with no form.",
+      "Forms arise for pre-2000 petitions, missed automatic erasures, and pardons.",
+      "Form / channel Use None (automatic erasure) Non-convictions and post-2000 Clean Slate-eligible convictions erase by operation of law — no filing.",
+      "JD-CR-202 — Petition for Clean Slate Convictions entered BEFORE 1/1/2000, filed with the court where sentenced; Erasure also the basis for requesting review of a missed automatic erasure.",
+      "SPBI criminal-history record check State Police Bureau of Identification report (dated on/after 1/1/2024) to confirm convictions and support a hearing request. ePardon application — Absolute Pardon Board of Pardons and Paroles online application for full erasure of convictions; submitted online only. ePardon application — Certificate of Provisional Pardon for employment/licensing relief; online only; not available Employability while incarcerated.",
+      "The petition (JD-CR-202) exists for the pre-2000 gap and for cases the automatic system missed; pardons are an entirely separate executive-branch process run by the Board of Pardons and Paroles, filed online through the ePardon portal.",
+      "AGENT GUIDANCE Default to ‘no form needed’ for non-convictions and post-2000 eligible convictions; reach for JD-CR-202 only for pre-2000 convictions or a missed automatic erasure."
+    ],
+    "attachments": [
+      "ePardon application — Certificate of Provisional Pardon for employment/licensing relief; online only; not available",
+      "SPBI criminal-history record check State Police Bureau of Identification report (dated on/after 1/1/2024) to confirm convictions and support a hearing request. ePardon application — Absolute Pardon Board of Pardons and Paroles online application for full erasure of convictions; submitted online only. ePardon application — Certificate of Provisional Pardon for employment/licensing relief; online only; not available Employability while incarcerated.",
+      "State history — SPBI. The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check (dated on or after January 1, 2024, for Clean Slate purposes) is the starting point and supports a hearing request if an eligible record was not erased.",
+      "Court record. The Judicial Branch case look-up confirms dispositions and the sentencing court for a JD-CR-202 petition. An erased case is removed from public access.",
+      "The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check (dated on or after January 1, 2024, for Clean Slate purposes) is the starting point and supports a hearing request if an eligible record was not erased.",
+      "The Judicial Branch case look-up confirms dispositions and the sentencing court for a JD-CR-202 petition."
+    ],
+    "filingDestinationRules": [
+      "Court record. The Judicial Branch case look-up confirms dispositions and the sentencing court for a JD-CR-202 petition. An erased case is removed from public access.",
+      "The Judicial Branch case look-up confirms dispositions and the sentencing court for a JD-CR-202 petition."
+    ],
+    "serviceAndNoticeRules": [],
+    "feeRules": [
+      "Connecticut erasure is free; the only costs are records checks and (optionally) counsel.",
+      "Automatic / Clean Slate / Cannabis erasure $0 No fee charged (§ 54-142a)",
+      "JD-CR-202 petition $0 No fee for Clean Slate erasure",
+      "Absolute Pardon / COE application $0 BOPP charges no application fee",
+      "Connecticut Record Erasure — Agent Training Reference · LegalEase 6",
+      "SPBI criminal-history check SPBI fee Required to confirm record / support a hearing",
+      "Outstanding court debt Not a bar Does not block erasure; debt remains owed",
+      "Attorney fees (if represented) Varies Not required; legal-aid and clinics assist free",
+      "The SPBI records-check fee and any administrative costs can change; the agent should verify the current SPBI fee and",
+      "request process at the time of advising rather than quoting a fixed figure from memory.",
+      "Item Amount Note Automatic / Clean Slate / Cannabis erasure $0 No fee charged (§ 54-142a) JD-CR-202 petition $0 No fee for Clean Slate erasure Absolute Pardon / COE application $0 BOPP charges no application fee Connecticut Record Erasure — Agent Training Reference · LegalEase 6 SPBI criminal-history check SPBI fee Required to confirm record / support a hearing Outstanding court debt Not a bar Does not block erasure; debt remains owed Attorney fees (if represented) Varies Not required; legal-aid and clinics assist free VERIFY BEFORE RELYING The SPBI records-check fee and any administrative costs can change; the agent should verify the current SPBI fee and request process at the time of advising rather than quoting a fixed figure from memory."
+    ],
+    "hearingAndObjectionRules": [
+      "State history — SPBI. The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check (dated on or after January 1, 2024, for Clean Slate purposes) is the starting point and supports a hearing request if an eligible record was not erased.",
+      "evidence for a missed-erasure hearing.",
+      "The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check (dated on or after January 1, 2024, for Clean Slate purposes) is the starting point and supports a hearing request if an eligible record was not erased.",
+      "AGENT GUIDANCE Order the SPBI check first and confirm it is dated on/after 1/1/2024 for Clean Slate work; it both confirms eligibility and is the evidence for a missed-erasure hearing."
+    ],
+    "postFilingRules": [
+      "Order the SPBI check first and confirm it is dated on/after 1/1/2024 for Clean Slate work; it both confirms eligibility and is the",
+      "AGENT GUIDANCE Order the SPBI check first and confirm it is dated on/after 1/1/2024 for Clean Slate work; it both confirms eligibility and is the evidence for a missed-erasure hearing."
+    ],
+    "formInventory": [
+      {
+        "fileName": "CR202.pdf",
+        "relativePath": "LegalEase Connecticut/CR202.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+        "sizeBytes": 820630
+      },
+      {
+        "fileName": "Connecticut-JD-CR-202-Form.html",
+        "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
+        "sizeBytes": 17072
+      },
+      {
+        "fileName": "DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "relativePath": "LegalEase Connecticut/DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+        "sizeBytes": 104351
+      },
+      {
+        "fileName": "petition-for-cannabis-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-cannabis-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "9db97e3e9466646eb87fb3872cd1a298185a8ae64da4cc81fbd0ec755531fa93",
+        "sizeBytes": 51861
+      },
+      {
+        "fileName": "petition-for-clean-slate-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
+        "sizeBytes": 54852
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "CR202.pdf",
+        "relativePath": "LegalEase Connecticut/CR202.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+        "sizeBytes": 820630
+      },
+      {
+        "fileName": "Connecticut-JD-CR-202-Form.html",
+        "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
+        "sizeBytes": 17072
+      },
+      {
+        "fileName": "Connecticut-RecordErasure-Agent-Reference.pdf",
+        "relativePath": "LegalEase Connecticut/Connecticut-RecordErasure-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "16282cb31bb44ed0fff93a09f68b50db6c4b8b24d6c257a73396b7b74686cb10",
+        "sizeBytes": 25459
+      },
+      {
+        "fileName": "DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "relativePath": "LegalEase Connecticut/DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+        "sizeBytes": 104351
+      },
+      {
+        "fileName": "cleanslate.html",
+        "relativePath": "LegalEase Connecticut/cleanslate.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "1a48860e86e8c7b782d7564e1d3f37446ae4ee072b60a1623293d27b801077ce",
+        "sizeBytes": 60976
+      },
+      {
+        "fileName": "petition-for-cannabis-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-cannabis-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "9db97e3e9466646eb87fb3872cd1a298185a8ae64da4cc81fbd0ec755531fa93",
+        "sizeBytes": 51861
+      },
+      {
+        "fileName": "petition-for-clean-slate-erasure.html",
+        "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
+        "sizeBytes": 54852
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Connecticut-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 48,
+      "endLine": 74,
+      "text": "Statutory shorthand used throughout\n\nTerm Meaning\n\nErasure Connecticut’s single term for record clearing (§ 54-142a); record erased, person may swear the\narrest/conviction never occurred. Not ‘expungement’ or ‘sealing’\n\nClean Slate (PA 21-42) 2021 law erasing most misdemeanors / lower felonies entered on/after 1/1/2000; automatic for\npost-2000, petition for pre-2000\n\nAbsolute Pardon Board of Pardons and Paroles full pardon = complete erasure; the route for convictions Clean Slate\ndoes not reach\n\nProvisional Pardon / Certificate of Employability — employment/licensing relief only; does NOT erase the record\nCOE\n\nCannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000–9/30/2015); took effect Jan 2023\n\nBOPP Board of Pardons and Paroles — grants pardons; applications filed online via the ePardon portal\n\nSPBI State Police Bureau of Identification — source of the official criminal history record check\n\nJD-CR-202 Judicial Branch Petition for Clean Slate Erasure (pre-2000 convictions or missed automatic\nerasures)"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 75,
+      "endLine": 102,
+      "text": "Three paths, routed by disposition and goal.\n\nPath 1 — Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law\nwith no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,\nand charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family\nViolence Education Program, the Impaired Driver Intervention Program, etc.), are erased automatically.\n\nPath 2 — Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies\n(Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1,\n2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;\nfor convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court.\nOffenses committed before the person turned 18 are also erased.\n\nPath 3 — Absolute Pardon (Board of Pardons and Paroles). For convictions Clean Slate does not reach —\nhigher felonies, or cases the person wants cleared now rather than waiting on the automatic process. An\nAbsolute Pardon results in complete erasure of the Connecticut adult criminal record. A Provisional Pardon /\nCertificate of Employability is a separate, lesser remedy that protects employment and licensing but does not\nerase.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 2\n\nAGENT GUIDANCE\nRoute by disposition: non-conviction → automatic erasure (no filing); eligible post-2000 conviction → Clean Slate automatic;\npre-2000 eligible conviction → JD-CR-202 petition; conviction Clean Slate can’t reach → Absolute Pardon at BOPP.\nAlways name the remedy as ERASURE, and distinguish an Absolute Pardon (erases) from a Provisional Pardon / Certificate\nof Employability (employment relief only, no erasure)."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 103,
+      "endLine": 136,
+      "text": "Conviction waits run from the person’s MOST RECENT conviction for any crime, after the full sentence\n(including incarceration, parole, special parole, and probation) is complete.\n\nDisposition / path Remedy Waiting period\n\nDismissal / acquittal Auto erasure (§ 54-142a) Immediate\n\nNolle (charges dropped) Auto erasure 13 months (if not re-filed)\n\nCompleted diversionary program Auto erasure on completion On completion\n\nMisdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction\n\nClass D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction\n\nEligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule\n(JD-CR-202)\n\nMisdemeanor — Absolute Pardon BOPP pardon 3 years from disposition\n\nFelony — Absolute Pardon BOPP pardon 5 years from disposition\n\nThe Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one\nbeing erased, and only after the entire sentence including parole, special parole, transitional supervision, and\nprobation has been served. A § 21a-279(c) cannabis possession conviction erased under the Cannabis law\ndoes not count as a conviction for setting that date.\n\nAGENT GUIDANCE\nCompute the Clean Slate wait from the LAST conviction for any crime (7 yrs misdemeanor / 10 yrs felony), after the full\nsentence and all supervision are complete.\nPardon waits are different and shorter (3 yrs misdemeanor / 5 yrs felony from disposition) but require an application and a\nBOPP hearing — only eight full-pardon hearing cycles a year."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 137,
+      "endLine": 162,
+      "text": "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.\n\nExcluded from Clean Slate erasure:\n\nFamily violence crimes — categorically excluded from Clean Slate.\nOffenses requiring sex-offender registration / sexual offenses — excluded.\nFirearms offenses — not eligible for Clean Slate erasure.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 3\n\nFelonies above Class D/E or unclassified felonies carrying more than a 5-year term — outside Clean Slate’s\nscope (pardon route only).\nCertain drug-possession crimes carry a statutory exception to the ‘most recent conviction’ rule — check §\n54-142a(e).\nPardon route as the fallback. The Board of Pardons and Paroles may pardon any offense against the state,\nincluding crimes outside Clean Slate’s scope, but it is discretionary and hearing-based. Family violence and\nserious offenses are not statutorily barred from a pardon the way they are from Clean Slate, but the Board\nweighs them heavily.\n\nVERIFY BEFORE RELYING\nThe Clean Slate eligible-offense list (Class D/E and unclassified ≤5-year felonies, most misdemeanors) and its exclusions\n(family violence, sex, firearms) are defined by statute and the § 54-142a(e)(2)(C) list; the agent must confirm the specific\noffense’s class and the current exclusion list, and verify whether the automatic process has actually erased a given record,\nbefore relying."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 163,
+      "endLine": 202,
+      "text": "Disposition determines the path, the wait, and the procedure. This is the agent’s primary routing logic for\nConnecticut.\n\nCase outcome Path Form / venue Wait\n\nDismissal / acquittal Auto non-conviction erasure None Immediate\n\nNolle Auto erasure None 13 months\n\nCompleted AR / FVEP / IDIP Auto erasure None On completion\n\nMisdemeanor conviction, Clean Slate automatic None (auto) 7 yrs\npost-2000\n\nClass D/E felony, post-2000 Clean Slate automatic None (auto) 10 yrs\n\nEligible conviction, pre-2000 Clean Slate by petition JD-CR-202, sentencing 7 / 10 yrs\ncourt\n\nCannabis possession 21a-279(c), Cannabis auto erasure None (auto) Jan 2023\n2000–15\n\nConviction outside Clean Slate Absolute Pardon ePardon, BOPP 3 / 5 yrs\n\nEmployment/licensing relief only Provisional Pardon / COE ePardon, BOPP Varies\n\nEffect of relief: an ERASURE (whether automatic, Clean Slate, or via Absolute Pardon) erases the record and\nlets the person swear under oath the arrest or conviction never occurred; no fee is charged and outstanding\ncourt debt does not bar erasure (though the debt itself is not eliminated). A Provisional Pardon / Certificate of\nEmployability does not erase and the person must still disclose where required.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 4\n\nAGENT GUIDANCE\nTell users plainly: erasure (auto, Clean Slate, or Absolute Pardon) removes the record and is deniable; a Provisional Pardon /\nCOE only opens employment and licensing doors.\nIf a post-2000 record should have erased automatically but didn’t, the user can request a hearing — start with an SPBI\ncriminal-history check dated on or after January 1, 2024."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 203,
+      "endLine": 233,
+      "text": "Most Connecticut erasure happens automatically with no form. Forms arise for pre-2000 petitions, missed\nautomatic erasures, and pardons.\n\nForm / channel Use\n\nNone (automatic erasure) Non-convictions and post-2000 Clean Slate-eligible convictions erase by\noperation of law — no filing.\n\nJD-CR-202 — Petition for Clean Slate Convictions entered BEFORE 1/1/2000, filed with the court where sentenced;\nErasure also the basis for requesting review of a missed automatic erasure.\n\nSPBI criminal-history record check State Police Bureau of Identification report (dated on/after 1/1/2024) to confirm\nconvictions and support a hearing request.\n\nePardon application — Absolute Pardon Board of Pardons and Paroles online application for full erasure of convictions;\nsubmitted online only.\n\nePardon application — Certificate of Provisional Pardon for employment/licensing relief; online only; not available\nEmployability while incarcerated.\n\nClean Slate and Cannabis erasure are designed to require nothing from the person. The petition (JD-CR-202)\nexists for the pre-2000 gap and for cases the automatic system missed; pardons are an entirely separate\nexecutive-branch process run by the Board of Pardons and Paroles, filed online through the ePardon portal.\n\nAGENT GUIDANCE\nDefault to ‘no form needed’ for non-convictions and post-2000 eligible convictions; reach for JD-CR-202 only for pre-2000\nconvictions or a missed automatic erasure.\nPardons are filed online at the BOPP ePardon portal, not with the court — keep the court track and the pardon track distinct for\nthe user."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 234,
+      "endLine": 238,
+      "text": "Automatic erasure needs no filing; petitions go to the sentencing court; pardons go to BOPP online.\n\n1. Get the record. Request an SPBI criminal-history check (dated on/after 1/1/2024) to confirm each\nconviction, its class, the disposition, and the most-recent-conviction date that starts the Clean Slate clock."
+    },
+    {
+      "title": "Determine the path. Non-conviction → automatic; post-2000 eligible conviction → Clean Slate automatic;",
+      "category": "pathway_detail",
+      "startLine": 239,
+      "endLine": 249,
+      "text": "pre-2000 eligible conviction → JD-CR-202; conviction outside Clean Slate → Absolute Pardon.\n3a. Automatic erasure. Nothing to file. If a record that should have erased did not, request a hearing using the\nSPBI report.\n3b. Petition (JD-CR-202). Complete and file with the court where you were sentenced for the conviction(s) you\nwant erased.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 5\n\n3c. Absolute Pardon. Apply online through the BOPP ePardon portal after the 3-year (misdemeanor) / 5-year\n(felony) wait; expect a 12–18 month process and a Board hearing."
+    },
+    {
+      "title": "Confirm completion. After erasure, the record should not appear on background checks; background",
+      "category": "record_request",
+      "startLine": 251,
+      "endLine": 258,
+      "text": "screeners are required to update their records.\n\nAGENT GUIDANCE\nStart every Connecticut analysis with a current SPBI check — it sets the most-recent-conviction date the whole Clean Slate\ntimetable turns on.\nSet expectations on pardons: online-only application, 12–18 months, only eight full-pardon hearing cycles a year."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 259,
+      "endLine": 281,
+      "text": "The features most likely to surprise.\n\nIt’s ‘erasure,’ not expungement or sealing. Connecticut uses one term across all paths; using another\nconfuses users and screeners.\nClean Slate was delayed for years. Automatic erasure stalled on data and IT problems; it only resumed at\nscale in late 2025 (~50,000 records by Oct 2025). Never assume a record was auto-erased — verify.\nThe clock runs from the LAST conviction for any crime. A later, unrelated conviction resets the Clean Slate\nwaiting period for everything.\nPre-2000 convictions need a petition. The automatic process only reaches post-1/1/2000 convictions; older\nones require JD-CR-202.\nPardon vs. Provisional Pardon. Only an Absolute Pardon erases; a Provisional Pardon / Certificate of\nEmployability is employment/licensing relief and leaves the record intact.\nCannabis erasure is its own lane. § 21a-279(c) possession convictions from 2000–2015 auto-erased in Jan\n2023 and don’t count toward the most-recent-conviction date.\nNo fee; court debt is not a bar. Erasure costs nothing and unpaid court debt does not block it (though the\ndebt remains owed).\n\nAGENT GUIDANCE\nLead with the term ‘erasure’ and the most-recent-conviction rule; those two frame almost every Connecticut conversation.\nBecause the automatic rollout was so troubled, proactively check whether an eligible record actually erased rather than\nassuming the state reached it."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 282,
+      "endLine": 304,
+      "text": "Connecticut erasure is free; the only costs are records checks and (optionally) counsel.\n\nItem Amount Note\n\nAutomatic / Clean Slate / Cannabis erasure $0 No fee charged (§ 54-142a)\n\nJD-CR-202 petition $0 No fee for Clean Slate erasure\n\nAbsolute Pardon / COE application $0 BOPP charges no application fee\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 6\n\nSPBI criminal-history check SPBI fee Required to confirm record / support a hearing\n\nOutstanding court debt Not a bar Does not block erasure; debt remains owed\n\nAttorney fees (if represented) Varies Not required; legal-aid and clinics assist free\n\nVERIFY BEFORE RELYING\nThe SPBI records-check fee and any administrative costs can change; the agent should verify the current SPBI fee and\nrequest process at the time of advising rather than quoting a fixed figure from memory."
+    },
+    {
+      "title": "Criminal history (SPBI) request process",
+      "category": "filing",
+      "startLine": 305,
+      "endLine": 322,
+      "text": "Reviewing the record first confirms convictions, their classes, and the most-recent-conviction date that drives the\nClean Slate timetable.\n\nA. State history — SPBI. The State Police Bureau of Identification maintains the official Connecticut criminal\nhistory; a current check (dated on or after January 1, 2024, for Clean Slate purposes) is the starting point and\nsupports a hearing request if an eligible record was not erased.\n\nB. Court record. The Judicial Branch case look-up confirms dispositions and the sentencing court for a\nJD-CR-202 petition. An erased case is removed from public access.\n\nC. Federal — FBI Identity History Summary. For records that may extend beyond Connecticut, the FBI\nfingerprint-based summary is the federal equivalent; Connecticut erasure reaches Connecticut records only.\n\nAGENT GUIDANCE\nOrder the SPBI check first and confirm it is dated on/after 1/1/2024 for Clean Slate work; it both confirms eligibility and is the\nevidence for a missed-erasure hearing."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 323,
+      "endLine": 333,
+      "text": "Most Connecticut erasure is automatic; the examples below show the petition and pardon paths. Names, dates,\nand identifiers are fictional and illustrative.\n\nExample A — Petition for Clean Slate Erasure (JD-CR-202, pre-2000 conviction)\nSUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD\nSTATE OF CONNECTICUT v. DEVON R. PRATT Docket No. H14M-CR98-0123456\nPETITION FOR CLEAN SLATE ERASURE (C.G.S. 54-142a)\n1. Petitioner: Devon R. Pratt; DOB 03/05/1976.\n2. On 06/12/1998 petitioner was convicted of larceny in the\nsixth degree, a class C misdemeanor, in this court."
+    },
+    {
+      "title": "The conviction was entered BEFORE January 1, 2000, so it is",
+      "category": "pathway_detail",
+      "startLine": 334,
+      "endLine": 347,
+      "text": "not reached by automatic erasure and is petitioned here.\n4. Petitioner has not been convicted of any crime within the\nlast 7 years (misdemeanor waiting period).\n5. Petitioner has completed the entire sentence, including any\nincarceration, parole, and probation.\n6. No criminal proceeding is pending against petitioner.\nWHEREFORE petitioner asks the Court to erase all records of\nthis conviction under C.G.S. 54-142a. (No fee.)\n\nExamples B, C & D — Other routes\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 7"
+    },
+    {
+      "title": "AUTOMATIC NON-CONVICTION ERASURE (54-142a) -- NO FILING:",
+      "category": "pathway_detail",
+      "startLine": 348,
+      "endLine": 352,
+      "text": "A dismissal or acquittal erases immediately; a nolle erases\n13 months after entry if not re-filed; a completed AR, FVEP,\nor IDIP diversionary program erases on completion."
+    },
+    {
+      "title": "CLEAN SLATE AUTOMATIC ERASURE (PA 21-42) -- NO FILING:",
+      "category": "pathway_detail",
+      "startLine": 353,
+      "endLine": 358,
+      "text": "A post-1/1/2000 misdemeanor erases 7 years after the last\nconviction for any crime; a Class D/E or unclassified\n(<=5 yr) felony erases at 10 years. Sex, family violence,\nand firearms offenses are excluded."
+    },
+    {
+      "title": "ABSOLUTE PARDON (BOPP ePardon) -- ONLINE APPLICATION:",
+      "category": "pathway_detail",
+      "startLine": 359,
+      "endLine": 371,
+      "text": "For a conviction outside Clean Slate, apply online 3 years\n(misdemeanor) or 5 years (felony) after disposition. An\nAbsolute Pardon fully erases; a Provisional Pardon /\nCertificate of Employability gives employment relief only.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common\n21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000\nconvictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the\ncurrent text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given\nrecord, and the pardon process before relying on any rule here.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 8"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 14,
+      "decisionRules": 72,
+      "waitingRules": 8,
+      "exclusions": 16,
+      "sourceFiles": 7,
+      "officialForms": 5
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

@@ -1,0 +1,2566 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "CO",
+    "name": "Colorado",
+    "slug": "colorado"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Colorado-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf",
+        "sha256": "38c8964c37af23fdace1d48f0e9c4d091e06889e8e5fa2ea1bd1854270e33cdd",
+        "sizeBytes": 23329,
+        "score": 1661,
+        "extractedChars": 20526
+      }
+    ],
+    "sourceCorpusSha256": "b993c0a533f35bf88560184b867eb73f21ccf3236166525b9e4d647a761b0980",
+    "sourceCorpusChars": 16943,
+    "allFolderFiles": [
+      {
+        "fileName": "Colorado-JDF-Complete.html",
+        "relativePath": "LegalEase Colorado/Colorado-JDF-Complete.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "85f4ad5a0141c295993b8d1dd23ee88c5dbaa38c787cbc0d548bfdf6841529de",
+        "sizeBytes": 66736
+      },
+      {
+        "fileName": "Colorado-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "38c8964c37af23fdace1d48f0e9c4d091e06889e8e5fa2ea1bd1854270e33cdd",
+        "sizeBytes": 23329
+      },
+      {
+        "fileName": "court-order-sealing-of-arrests.html",
+        "relativePath": "LegalEase Colorado/court-order-sealing-of-arrests.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "839e824653a3e39d1b1ef14a12e3c8bed3122389f38d21b1f6e19dfe75ad12d8",
+        "sizeBytes": 86643
+      },
+      {
+        "fileName": "seal-my-case.html",
+        "relativePath": "LegalEase Colorado/seal-my-case.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case2",
+        "relativePath": "LegalEase Colorado/seal-my-case2",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case3",
+        "relativePath": "LegalEase Colorado/seal-my-case3",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case4",
+        "relativePath": "LegalEase Colorado/seal-my-case4",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case5",
+        "relativePath": "LegalEase Colorado/seal-my-case5",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "Clean Slate"
+    ],
+    "pathwayLabels": [
+      "DUI/DWAI; sex; DV; Class 1–3 Not sealable",
+      "Track 1 — Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)",
+      "Track 2 — Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing",
+      "Track 3 — Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;",
+      "Route by disposition first"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Colorado, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Colorado case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "Municipal or ordinance matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Colorado descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)",
+        "Petition-based conviction sealing (JDF 612 / § 24-72-706)",
+        "Automatic Clean Slate sealing (§ 13-3-117)",
+        "Juvenile expungement (§ 19-1-306)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Colorado category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Domestic violence",
+        "DUI/DWI or serious traffic",
+        "Other named excluded offense",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Colorado was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": []
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": []
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": []
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": []
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": []
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "dui-dwai-sex-dv-class-1-3-not-sealable",
+        "track-1-petition-based-sealing-the-faster-route-the-person-files-jdf-417",
+        "route-by-disposition-first"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "dui-dwai-sex-dv-class-1-3-not-sealable",
+        "track-3-juvenile-expungement-a-separate-remedy-with-its-own-form-and-rules",
+        "route-by-disposition-first"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "label": "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)",
+      "summary": "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) An arrest with no charges, a dismissal, an acquittal, or a completed diversion is sealed on the non-conviction track; dismissals/acquittals use the simplified immediate process. Two tracks, considered by disposition, offense class, and goal.",
+      "sourceRef": "fallback:68-88; section:316-320; section:68-88; section:255-273; corpus-unit:112; pathways:68-88; corpus-unit:21; corpus-unit:89",
+      "sourceEvidenceRefs": [
+        "fallback:68-88",
+        "section:316-320",
+        "section:68-88",
+        "section:255-273",
+        "corpus-unit:112",
+        "pathways:68-88",
+        "corpus-unit:21",
+        "corpus-unit:89",
+        "section:173-209",
+        "section:141-172",
+        "section:219-224",
+        "corpus-unit:53",
+        "case_outcomes:141-172",
+        "corpus-unit:24",
+        "corpus-unit:45",
+        "corpus-unit:59"
+      ],
+      "ruleClauses": [
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)",
+        "An arrest with no charges, a dismissal, an acquittal, or a",
+        "completed diversion is sealed on the non-conviction track;",
+        "dismissals/acquittals use the simplified immediate process.",
+        "Two tracks, considered by disposition, offense class, and goal.",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;",
+        "minors route here, not to the adult sealing statutes.",
+        "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement.",
+        "When a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is",
+        "Colorado petition sealing carries a court filing fee that is waivable; automatic sealing is free.",
+        "JDF 417 non-conviction sealing Low / none Simplified process for dismissals/acquittals",
+        "JDF 612 conviction sealing Filing fee Waivable on a fee-waiver motion",
+        "Clean Slate automatic sealing $0 No filing, no fee",
+        "CBI criminal-history report CBI fee Required attachment for JDF 612",
+        "Attorney fees (if represented) Varies Not required; clinics and self-help assist free",
+        "Filing-fee amounts and waiver procedures change; the agent should verify the current JDF 612 filing fee and fee-waiver",
+        "process at the time of advising rather than quoting a fixed figure from memory.",
+        "Examples B, C & D — Other routes B. NON-CONVICTION SEALING (JDF 417, 24-72-704): An arrest with no charges, a dismissal, an acquittal, or a completed diversion is sealed on the non-conviction track; dismissals/acquittals use the simplified immediate process.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Colorado uses statewide Judicial Department JDF forms, filed in the court that handled the case. Clean Slate",
+        "automatic sealing requires no form from the person.",
+        "JDF 417 — Request to Seal Arrest & Criminal Non-conviction records: arrest with no charges, dismissals, acquittals,",
+        "Records (No Charges Filed) completed diversion. C.R.S. § 24-72-704. Filed where the records are",
+        "JDF 612 — Motion to Seal Conviction Records Eligible convictions under § 24-72-706. Attach a recent CBI"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "offense_level",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or",
+        "Petty / petty drug offense 1 year 7 years",
+        "Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)",
+        "Other eligible felonies 5 years 10 years",
+        "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)",
+        "expanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later",
+        "Offense level Petition (HB19-1275) Automatic (Clean Slate) Civil infraction 1 year 4 years Petty / petty drug offense 1 year 7 years Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma Class 2/3 misdemeanor; drug 2 years 7 years misdemeanor Class 1 misdemeanor 3 years 7 years Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025) Other eligible felonies 5 years 10 years Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024) The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as expanded by HB24-1133.",
+        "All clocks run from final disposition or completion of supervision, whichever is later — outstanding supervision means the clock has not started.",
+        "dismissals/acquittals use the simplified immediate process.",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "Examples B, C & D — Other routes B. NON-CONVICTION SEALING (JDF 417, 24-72-704): An arrest with no charges, a dismissal, an acquittal, or a completed diversion is sealed on the non-conviction track; dismissals/acquittals use the simplified immediate process.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706."
+      ],
+      "exclusionRules": [
+        "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be",
+        "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.",
+        "The § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8",
+        "the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before",
+        "declaring eligibility. Verify the current list and the Clean Slate phase status before relying.",
+        "If one conviction in a case is not eligible for sealing, no conviction in that case may be sealed.",
+        "Categorically excluded (§ 24-72-706 and related): DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "petition-based-conviction-sealing-jdf-612-24-72-706",
+      "label": "Petition-based conviction sealing (JDF 612 / § 24-72-706)",
+      "summary": "basis, plus the proposed order; attach the CBI report for JDF 612. Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) An arrest with no charges, a dismissal, an acquittal, or a completed diversion is sealed on the non-conviction track; dismissals/acquittals use the simplified immediate process.",
+      "sourceRef": "section:217-218; fallback:68-88; section:316-320; section:68-88; section:219-224; section:255-273; corpus-unit:21; corpus-unit:46",
+      "sourceEvidenceRefs": [
+        "section:217-218",
+        "fallback:68-88",
+        "section:316-320",
+        "section:68-88",
+        "section:219-224",
+        "section:255-273",
+        "corpus-unit:21",
+        "corpus-unit:46",
+        "corpus-unit:90",
+        "corpus-unit:64",
+        "section:121-140",
+        "section:173-209",
+        "section:233-254",
+        "section:291-304",
+        "section:141-172",
+        "section:281-290",
+        "corpus-unit:54"
+      ],
+      "ruleClauses": [
+        "basis, plus the proposed order; attach the CBI report for JDF 612.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)",
+        "An arrest with no charges, a dismissal, an acquittal, or a",
+        "completed diversion is sealed on the non-conviction track;",
+        "dismissals/acquittals use the simplified immediate process.",
+        "Two tracks, considered by disposition, offense class, and goal.",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;",
+        "minors route here, not to the adult sealing statutes.",
+        "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement.",
+        "When a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is",
+        "sealing is low- or no-cost; conviction sealing carries a filing fee.",
+        "Service. The DA is served on JDF 612; the prosecutor (and any victim) may object within the statutory window.",
+        "Hearing or grant. If there is an objection the court may hold a hearing; for the lowest-level offenses it may seal on the papers.",
+        "Colorado petition sealing carries a court filing fee that is waivable; automatic sealing is free.",
+        "JDF 417 non-conviction sealing Low / none Simplified process for dismissals/acquittals",
+        "JDF 612 conviction sealing Filing fee Waivable on a fee-waiver motion",
+        "Clean Slate automatic sealing $0 No filing, no fee",
+        "CBI criminal-history report CBI fee Required attachment for JDF 612",
+        "Attorney fees (if represented) Varies Not required; clinics and self-help assist free",
+        "Filing-fee amounts and waiver procedures change; the agent should verify the current JDF 612 filing fee and fee-waiver",
+        "process at the time of advising rather than quoting a fixed figure from memory.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Eligible misdemeanor Seal (petition or auto) JDF 612 2–3 yr / 7 yr conviction",
+        "Complete the JDF petition (417 for non-convictions, 612 for convictions) with the case details and statutory basis, plus the proposed order; attach the CBI report for JDF 612."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "offense_level"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or",
+        "Petty / petty drug offense 1 year 7 years",
+        "Class 2/3 misdemeanor; drug 2 years 7 years",
+        "Class 1 misdemeanor 3 years 7 years",
+        "Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)",
+        "Other eligible felonies 5 years 10 years",
+        "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)",
+        "expanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later",
+        "Offense level Petition (HB19-1275) Automatic (Clean Slate) Civil infraction 1 year 4 years Petty / petty drug offense 1 year 7 years Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma Class 2/3 misdemeanor; drug 2 years 7 years misdemeanor Class 1 misdemeanor 3 years 7 years Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025) Other eligible felonies 5 years 10 years Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024) The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as expanded by HB24-1133.",
+        "All clocks run from final disposition or completion of supervision, whichever is later — outstanding supervision means the clock has not started.",
+        "dismissals/acquittals use the simplified immediate process.",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706."
+      ],
+      "exclusionRules": [
+        "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be",
+        "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.",
+        "Class 1, 2, and 3 felonies (with narrow marijuana-cultivation carve-outs), and Level 1 drug felonies.",
+        "Felonies enumerated in the Victim's Rights Act (§ 24-4.1-302(1)); child abuse (§ 18-6-401).",
+        "Traffic-only cases of Class 1/2 misdemeanor traffic offenses or Class A/B traffic infractions.",
+        "The § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8",
+        "the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before",
+        "declaring eligibility. Verify the current list and the Clean Slate phase status before relying.",
+        "If one conviction in a case is not eligible for sealing, no conviction in that case may be sealed.",
+        "Categorically excluded (§ 24-72-706 and related): DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Attorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "automatic-clean-slate-sealing-13-3-117",
+      "label": "Automatic Clean Slate sealing (§ 13-3-117)",
+      "summary": "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing No filing. The State Court Administrator lists eligible records quarterly; the DA has 45 days to object; CBI and agencies then seal. Slower than the petition route but free. Two tracks, considered by disposition, offense class, and goal.",
+      "sourceRef": "fallback:68-88; section:321-325; section:68-88; pathways:68-88; corpus-unit:8; corpus-unit:22; corpus-unit:115; section:45-67",
+      "sourceEvidenceRefs": [
+        "fallback:68-88",
+        "section:321-325",
+        "section:68-88",
+        "pathways:68-88",
+        "corpus-unit:8",
+        "corpus-unit:22",
+        "corpus-unit:115",
+        "section:45-67",
+        "corpus-unit:4",
+        "corpus-unit:15",
+        "corpus-unit:113",
+        "corpus-unit:2",
+        "corpus-unit:9"
+      ],
+      "ruleClauses": [
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing",
+        "No filing. The State Court Administrator lists eligible",
+        "records quarterly; the DA has 45 days to object; CBI and",
+        "agencies then seal. Slower than the petition route but free.",
+        "Two tracks, considered by disposition, offense class, and goal.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;",
+        "minors route here, not to the adult sealing statutes.",
+        "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement.",
+        "When a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is",
+        "VERIFY BEFORE RELYING Colorado runs TWO parallel sealing systems and the agent must not conflate them. The PETITION route (HB19-1275) is faster but requires filing JDF 417 or 612, a fee, and service on the DA. The AUTOMATIC Clean Slate route (SB22-099, mechanics in § 13-3-117, expanded by HB24-1133) requires no filing but is slower and phases in over time. Waiting periods, the § 24-72-706 exclusion list, and the all-or-nothing rule changed materially under these bills. The agent must verify the current track, waiting period, and eligibility before relying on any rule here.",
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing required. The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Colorado statutes and common practice and is not legal advice. Colorado overhauled petition sealing under HB19-1275 and built automatic Clean Slate sealing under SB22-099 (mechanics in § 13-3-117), expanded by HB24-1133; the agent must verify the current text of C.R.S. §§ 24-72-701 to 708, the § 24-72-706 exclusion list, the two-track waiting periods, the Clean Slate phase status, and the JDF forms and fees before relying on any rule here.",
+        "Statutory shorthand used throughout",
+        "Sealing Adult record relief in Colorado (C.R.S. §§ 24-72-701 to 708); record hidden from public, denial generally",
+        "Expungement Reserved for JUVENILE records (§ 19-1-306); JDF 302. Do not use 'expungement' for adult relief",
+        "HB19-1275 2019 petition-route overhaul; set the tiered petition waiting periods",
+        "SB22-099 Clean Slate Act — automatic sealing; mechanics in § 13-3-117",
+        "HB24-1133 Expanded Clean Slate to additional felonies; Phase 2 (Class 4/5/6) July 2025",
+        "All-or-nothing One ineligible conviction in a case can block sealing of the entire case",
+        "CBI Colorado Bureau of Investigation — holds statewide criminal history; named in seal orders",
+        "JDF Judicial Department Form — statewide court forms (417 non-convictions, 612 convictions, 302 juvenile)",
+        "Primary statutes C.R.S. §§ 24-72-701 to 708 (sealing); § 13-3-117 (Clean Slate automatic mechanics); § 19-1-306 (juvenile expungement)",
+        "C. CLEAN SLATE AUTOMATIC SEALING (SB22-099, 13-3-117): No filing. The State Court Administrator lists eligible records quarterly; the DA has 45 days to object; CBI and agencies then seal. Slower than the petition route but free.",
+        "A complete operational knowledge base for clearing criminal records in Colorado: the two parallel sealing tracks (petition-based under HB19-1275 and automatic Clean Slate under SB22-099 / HB24-1133), eligibility, the § 24-72-706 exclusions, waiting periods, procedure, the JDF forms, and record requests."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "criminal_history",
+        "age_at_offense",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or",
+        "Petty / petty drug offense 1 year 7 years",
+        "Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)",
+        "Other eligible felonies 5 years 10 years",
+        "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)",
+        "expanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later",
+        "Offense level Petition (HB19-1275) Automatic (Clean Slate) Civil infraction 1 year 4 years Petty / petty drug offense 1 year 7 years Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma Class 2/3 misdemeanor; drug 2 years 7 years misdemeanor Class 1 misdemeanor 3 years 7 years Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025) Other eligible felonies 5 years 10 years Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024) The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as expanded by HB24-1133.",
+        "All clocks run from final disposition or completion of supervision, whichever is later — outstanding supervision means the clock has not started.",
+        "records quarterly; the DA has 45 days to object; CBI and",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "VERIFY BEFORE RELYING Colorado runs TWO parallel sealing systems and the agent must not conflate them. The PETITION route (HB19-1275) is faster but requires filing JDF 417 or 612, a fee, and service on the DA. The AUTOMATIC Clean Slate route (SB22-099, mechanics in § 13-3-117, expanded by HB24-1133) requires no filing but is slower and phases in over time. Waiting periods, the § 24-72-706 exclusion list, and the all-or-nothing rule changed materially under these bills. The agent must verify the current track, waiting period, and eligibility before relying on any rule here.",
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing required. The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Colorado statutes and common practice and is not legal advice. Colorado overhauled petition sealing under HB19-1275 and built automatic Clean Slate sealing under SB22-099 (mechanics in § 13-3-117), expanded by HB24-1133; the agent must verify the current text of C.R.S. §§ 24-72-701 to 708, the § 24-72-706 exclusion list, the two-track waiting periods, the Clean Slate phase status, and the JDF forms and fees before relying on any rule here.",
+        "HB19-1275 2019 petition-route overhaul; set the tiered petition waiting periods",
+        "C. CLEAN SLATE AUTOMATIC SEALING (SB22-099, 13-3-117): No filing. The State Court Administrator lists eligible records quarterly; the DA has 45 days to object; CBI and agencies then seal. Slower than the petition route but free.",
+        "A complete operational knowledge base for clearing criminal records in Colorado: the two parallel sealing tracks (petition-based under HB19-1275 and automatic Clean Slate under SB22-099 / HB24-1133), eligibility, the § 24-72-706 exclusions, waiting periods, procedure, the JDF forms, and record requests."
+      ],
+      "exclusionRules": [
+        "The § 24-72-706 exclusion list is the hard bar, and the all-or-nothing rule does much of the work.",
+        "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be",
+        "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.",
+        "Felonies enumerated in the Victim's Rights Act (§ 24-4.1-302(1)); child abuse (§ 18-6-401).",
+        "The § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8",
+        "the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before",
+        "declaring eligibility. Verify the current list and the Clean Slate phase status before relying.",
+        "If one conviction in a case is not eligible for sealing, no conviction in that case may be sealed.",
+        "Categorically excluded (§ 24-72-706 and related): DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "All-or-nothing One ineligible conviction in a case can block sealing of the entire case"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "juvenile-expungement-19-1-306",
+      "label": "Juvenile expungement (§ 19-1-306)",
+      "summary": "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules; Two tracks, considered by disposition, offense class, and goal. Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions) or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+      "sourceRef": "fallback:68-88; section:68-88; pathways:68-88; corpus-unit:4; corpus-unit:23; section:45-67; section:141-172; section:173-209",
+      "sourceEvidenceRefs": [
+        "fallback:68-88",
+        "section:68-88",
+        "pathways:68-88",
+        "corpus-unit:4",
+        "corpus-unit:23",
+        "section:45-67",
+        "section:141-172",
+        "section:173-209",
+        "case_outcomes:141-172",
+        "corpus-unit:13",
+        "corpus-unit:48",
+        "corpus-unit:56",
+        "corpus-unit:9"
+      ],
+      "ruleClauses": [
+        "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;",
+        "Two tracks, considered by disposition, offense class, and goal.",
+        "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "minors route here, not to the adult sealing statutes.",
+        "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement.",
+        "When a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is",
+        "Primary statutes C.R.S. §§ 24-72-701 to 708 (sealing); § 13-3-117 (Clean Slate automatic mechanics); § 19-1-306 (juvenile expungement)",
+        "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules; minors route here, not to the adult sealing statutes.",
+        "Statutory shorthand used throughout",
+        "Sealing Adult record relief in Colorado (C.R.S. §§ 24-72-701 to 708); record hidden from public, denial generally",
+        "Expungement Reserved for JUVENILE records (§ 19-1-306); JDF 302. Do not use 'expungement' for adult relief",
+        "HB19-1275 2019 petition-route overhaul; set the tiered petition waiting periods",
+        "SB22-099 Clean Slate Act — automatic sealing; mechanics in § 13-3-117",
+        "HB24-1133 Expanded Clean Slate to additional felonies; Phase 2 (Class 4/5/6) July 2025",
+        "All-or-nothing One ineligible conviction in a case can block sealing of the entire case",
+        "CBI Colorado Bureau of Investigation — holds statewide criminal history; named in seal orders",
+        "JDF Judicial Department Form — statewide court forms (417 non-convictions, 612 convictions, 302 juvenile)",
+        "Disposition and offense class determine the track, the wait, and the form. This is the agent's primary routing",
+        "Case outcome Remedy / track Form Wait",
+        "Arrest, no charges filed Seal (auto after 1 yr; or petition) JDF 417 1 yr / auto",
+        "Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma",
+        "Dismissal / acquittal Seal (simplified, immediate) JDF 417 Immediate",
+        "Completed diversion Seal (non-conviction) JDF 417 On completion",
+        "Eligible misdemeanor Seal (petition or auto) JDF 612 2–3 yr / 7 yr"
+      ],
+      "triggerFields": [
+        "age_at_offense",
+        "case_outcome",
+        "offense_level",
+        "criminal_history",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "juvenile",
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "diversion_or_deferred",
+        "convicted_misdemeanor",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or",
+        "Petty / petty drug offense 1 year 7 years",
+        "Class 2/3 misdemeanor; drug 2 years 7 years",
+        "Class 1 misdemeanor 3 years 7 years",
+        "Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)",
+        "Other eligible felonies 5 years 10 years",
+        "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)",
+        "expanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later",
+        "Offense level Petition (HB19-1275) Automatic (Clean Slate) Civil infraction 1 year 4 years Petty / petty drug offense 1 year 7 years Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma Class 2/3 misdemeanor; drug 2 years 7 years misdemeanor Class 1 misdemeanor 3 years 7 years Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025) Other eligible felonies 5 years 10 years Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024) The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as expanded by HB24-1133.",
+        "All clocks run from final disposition or completion of supervision, whichever is later — outstanding supervision means the clock has not started.",
+        "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District",
+        "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.",
+        "HB19-1275 2019 petition-route overhaul; set the tiered petition waiting periods",
+        "Dismissal / acquittal Seal (simplified, immediate) JDF 417 Immediate"
+      ],
+      "exclusionRules": [
+        "The § 24-72-706 exclusion list is the hard bar, and the all-or-nothing rule does much of the work.",
+        "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be",
+        "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.",
+        "Felonies enumerated in the Victim's Rights Act (§ 24-4.1-302(1)); child abuse (§ 18-6-401).",
+        "Traffic-only cases of Class 1/2 misdemeanor traffic offenses or Class A/B traffic infractions.",
+        "The § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8",
+        "the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before",
+        "declaring eligibility. Verify the current list and the Clean Slate phase status before relying.",
+        "If one conviction in a case is not eligible for sealing, no conviction in that case may be sealed.",
+        "Categorically excluded (§ 24-72-706 and related): DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+        "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706.",
+        "All-or-nothing One ineligible conviction in a case can block sealing of the entire case"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-03-available-for-non-convictions-dismissal-acquittal-compl",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for eligible convictions not barred by § 24-72-706."
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ]
+    },
+    {
+      "id": "rule-28-the-all-or-nothing-rule-if-one-conviction-in-a-case-is-",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:121-140",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-02-or-jdf-612-convictions-once-the-tiered-waiting-period-h",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "or JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ]
+    },
+    {
+      "id": "rule-05-the-state-court-administrator-compiles-quarterly-eligib",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 45,
+          "unit": "days",
+          "raw": "45 days"
+        },
+        "sourceConditionText": "The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and agencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024) non-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117",
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "rule-04-track-2-automatic-clean-slate-sealing-sb22-099-13-3-11",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Track 2 — Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "rule-22-offense-level-petition-hb19-1275-automatic-clean-slate",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Offense level Petition (HB19-1275) Automatic (Clean Slate)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "juvenile-expungement-19-1-306",
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "rule-25-the-petition-route-s-tiers-come-from-hb19-1275-the-auto",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-27-slate-will-reach-it-automatically",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Slate will reach it automatically."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120"
+    },
+    {
+      "id": "rule-01-track-1-petition-based-sealing-hb19-1275-the-faster-rou",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Track 1 — Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-06-track-3-juvenile-expungement-19-1-306-a-separate-reme",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Track 3 — Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "rule-07-minors-route-here-not-to-the-adult-sealing-statutes",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "minors route here, not to the adult sealing statutes."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-88"
+    },
+    {
+      "id": "rule-08-route-by-disposition-first-non-conviction-jdf-417-eligi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "rule-09-when-a-record-qualifies-on-both-tracks-tell-the-user-th",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "When a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:68-88",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117",
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ]
+    },
+    {
+      "id": "rule-10-arrest-no-charges-filed-seal-auto-after-1-yr-or-petitio",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "sourceConditionText": "Arrest, no charges filed Seal (auto after 1 yr; or petition) JDF 417 1 yr / auto"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-11-colorado-record-sealing-agent-training-reference-legale",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172"
+    },
+    {
+      "id": "rule-12-dismissal-acquittal-seal-simplified-immediate-jdf-417-i",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Dismissal / acquittal Seal (simplified, immediate) JDF 417 Immediate"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-13-completed-diversion-seal-non-conviction-jdf-417-on-comp",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "diversion_or_deferred",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Completed diversion Seal (non-conviction) JDF 417 On completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-14-eligible-misdemeanor-seal-petition-or-auto-jdf-612-2-3-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Eligible misdemeanor Seal (petition or auto) JDF 612 2–3 yr / 7 yr"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "rule-15-eligible-felony-conviction-seal-petition-or-auto-jdf-61",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Eligible felony conviction Seal (petition or auto) JDF 612 3–5 yr / 10 yr"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "rule-16-juvenile-adjudication-expungement-separate-track-jdf-30",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile adjudication Expungement (separate track) JDF 302 Per § 19-1-306"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306",
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "rule-17-dui-dwai-sex-dv-class-1-3-not-sealable",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "DUI/DWAI; sex; DV; Class 1–3 Not sealable — —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-18-effect-of-relief-a-sealed-colorado-record-is-removed-fr",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of relief: a sealed Colorado record is removed from public access, and the person may generally deny the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "rule-19-arrest-or-conviction-occurred-though-certain-agencies-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "arrest or conviction occurred, though certain agencies and licensing bodies retain limited access. Sealing is not"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-20-tell-users-plainly-colorado-seals-adult-records-it-does",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Tell users plainly: Colorado SEALS adult records (it does not expunge them); juvenile records are EXPUNGED."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-21-run-the-all-or-nothing-check-on-every-multi-charge-case",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Run the all-or-nothing check on every multi-charge case before telling a user they are eligible."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:141-172",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-23-other-eligible-felonies-5-years-10-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Other eligible felonies 5 years 10 years"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120"
+    },
+    {
+      "id": "rule-24-non-conviction-dismissal-acquittal-immediate-simplified",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-26-if-the-user-wants-relief-fast-and-the-record-is-eligibl",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "If the user wants relief fast and the record is eligible, steer to the petition route; if they want zero effort and can wait, Clean"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:89-120",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "rule-29-this-is-the-single-biggest-colorado-trap-map-every-char",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:121-140"
+    },
+    {
+      "id": "rule-30-dui-dwai-convictions-never-sealable-narrow-exceptions",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:121-140",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "rule-31-class-1-2-and-3-felonies-with-narrow-marijuana-cultivat",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class 1, 2, and 3 felonies (with narrow marijuana-cultivation carve-outs), and Level 1 drug felonies."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:121-140"
+    },
+    {
+      "id": "rule-32-the-agent-should-map-every-charge-in-the-case-to-its-st",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "— the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:121-140"
+    },
+    {
+      "id": "rule-33-declaring-eligibility-verify-the-current-list-and-the-c",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "declaring eligibility. Verify the current list and the Clean Slate phase status before relying."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:121-140",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "route-petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "offense_level",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "offense_level",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "fallback:68-88; section:316-320; section:68-88; section:255-273; corpus-unit:112; pathways:68-88; corpus-unit:21; corpus-unit:89",
+      "candidatePathwayIds": [
+        "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ]
+    },
+    {
+      "id": "route-petition-based-conviction-sealing-jdf-612-24-72-706",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "offense_level"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor"
+        ],
+        "sourceConditionText": "Petition-based conviction sealing (JDF 612 / § 24-72-706)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:217-218; fallback:68-88; section:316-320; section:68-88; section:219-224; section:255-273; corpus-unit:21; corpus-unit:46",
+      "candidatePathwayIds": [
+        "petition-based-conviction-sealing-jdf-612-24-72-706"
+      ]
+    },
+    {
+      "id": "route-automatic-clean-slate-sealing-13-3-117",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-clean-slate-sealing-13-3-117",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "criminal_history",
+          "age_at_offense",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "criminal_history",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Automatic Clean Slate sealing (§ 13-3-117)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "fallback:68-88; section:321-325; section:68-88; pathways:68-88; corpus-unit:8; corpus-unit:22; corpus-unit:115; section:45-67",
+      "candidatePathwayIds": [
+        "automatic-clean-slate-sealing-13-3-117"
+      ]
+    },
+    {
+      "id": "route-juvenile-expungement-19-1-306",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-expungement-19-1-306",
+        "requiredFields": [
+          "age_at_offense",
+          "case_outcome",
+          "offense_level",
+          "criminal_history",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "age_at_offense",
+          "case_outcome",
+          "offense_level",
+          "criminal_history",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile",
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "diversion_or_deferred",
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Juvenile expungement (§ 19-1-306)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "fallback:68-88; section:68-88; pathways:68-88; corpus-unit:4; corpus-unit:23; section:45-67; section:141-172; section:173-209",
+      "candidatePathwayIds": [
+        "juvenile-expungement-19-1-306"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or",
+      "duration": null,
+      "anchor": "final disposition or",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Civil infraction 1 year 4 years",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Petty / petty drug offense 1 year 7 years",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Class 2/3 misdemeanor; drug 2 years 7 years",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Class 1 misdemeanor 3 years 7 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Other eligible felonies 5 years 10 years",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "expanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later —",
+      "duration": null,
+      "anchor": "final disposition or completion of supervision, whichever is later —",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Both measure from final disposition or release from supervision, whichever is later.",
+      "duration": null,
+      "anchor": "final disposition or release from supervision, whichever is later",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Offense level Petition (HB19-1275) Automatic (Clean Slate) Civil infraction 1 year 4 years Petty / petty drug offense 1 year 7 years Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma Class 2/3 misdemeanor; drug 2 years 7 years misdemeanor Class 1 misdemeanor 3 years 7 years Class 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025) Other eligible felonies 5 years 10 years Non-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024) The petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as expanded by HB24-1133.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "HB19-1275",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "All clocks run from final disposition or completion of supervision, whichever is later — outstanding supervision means the clock has not started.",
+      "duration": null,
+      "anchor": "final disposition or completion of supervision, whichever is later — outstanding supervision means t",
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The § 24-72-706 exclusion list is the hard bar, and the all-or-nothing rule does much of the work.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "The all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Categorically excluded (§ 24-72-706 and related):",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "age_at_offense"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "Offenses involving unlawful sexual behavior (§ 16-22-102(9)) and sexual offenses (§§ 18-3-401 to 418).",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "Domestic violence (§ 18-6-800.3) and crimes of violence (§ 18-1.3-406).",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "Class 1, 2, and 3 felonies (with narrow marijuana-cultivation carve-outs), and Level 1 drug felonies.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "Felonies enumerated in the Victim's Rights Act (§ 24-4.1-302(1)); child abuse (§ 18-6-401).",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "Traffic-only cases of Class 1/2 misdemeanor traffic offenses or Class A/B traffic infractions.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "The § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "— the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "declaring eligibility. Verify the current list and the Clean Slate phase status before relying.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "If one conviction in a case is not eligible for sealing, no conviction in that case may be sealed.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Categorically excluded (§ 24-72-706 and related): DUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "age_at_offense"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "pathwayLabel": "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "fallback:68-88",
+          "section:316-320",
+          "section:68-88",
+          "section:255-273",
+          "corpus-unit:112",
+          "pathways:68-88",
+          "corpus-unit:21",
+          "corpus-unit:89",
+          "section:173-209",
+          "section:141-172",
+          "section:219-224",
+          "corpus-unit:53",
+          "case_outcomes:141-172",
+          "corpus-unit:24",
+          "corpus-unit:45",
+          "corpus-unit:59"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "pathwayLabel": "Petition-based conviction sealing (JDF 612 / § 24-72-706)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:217-218",
+          "fallback:68-88",
+          "section:316-320",
+          "section:68-88",
+          "section:219-224",
+          "section:255-273",
+          "corpus-unit:21",
+          "corpus-unit:46",
+          "corpus-unit:90",
+          "corpus-unit:64",
+          "section:121-140",
+          "section:173-209",
+          "section:233-254",
+          "section:291-304",
+          "section:141-172",
+          "section:281-290",
+          "corpus-unit:54"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-clean-slate-sealing-13-3-117",
+        "pathwayLabel": "Automatic Clean Slate sealing (§ 13-3-117)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "fallback:68-88",
+          "section:321-325",
+          "section:68-88",
+          "pathways:68-88",
+          "corpus-unit:8",
+          "corpus-unit:22",
+          "corpus-unit:115",
+          "section:45-67",
+          "corpus-unit:4",
+          "corpus-unit:15",
+          "corpus-unit:113",
+          "corpus-unit:2",
+          "corpus-unit:9"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-expungement-19-1-306",
+        "pathwayLabel": "Juvenile expungement (§ 19-1-306)",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "fallback:68-88",
+          "section:68-88",
+          "pathways:68-88",
+          "corpus-unit:4",
+          "corpus-unit:23",
+          "section:45-67",
+          "section:141-172",
+          "section:173-209",
+          "case_outcomes:141-172",
+          "corpus-unit:13",
+          "corpus-unit:48",
+          "corpus-unit:56",
+          "corpus-unit:9"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type"
+    ],
+    "sourceFormStatements": [
+      "Colorado uses statewide Judicial Department JDF forms, filed in the court that handled the case. Clean Slate",
+      "automatic sealing requires no form from the person.",
+      "JDF 612 — Motion to Seal Conviction Records Eligible convictions under § 24-72-706. Attach a recent CBI",
+      "Proposed Order to Seal (JDF order forms) The order the judge signs (e.g. JDF 418 grant on the arrest track); on",
+      "Clean Slate automatic sealing No form. The State Court Administrator compiles quarterly eligibility",
+      "Each petition identifies the petitioner, the case and court, the offense and level, the disposition, and the statutory",
+      "basis, and pairs with a proposed order for the judge. JDF 612 requires the attached CBI report and is served on",
+      "Pick the form by disposition: JDF 417 for non-convictions, JDF 612 for convictions; route juveniles to JDF 302 expungement",
+      "These are the official statewide JDF forms — LegalEase now has faithful field-for-field HTML replicas of JDF 302/417/612 and",
+      "the order set (418/419/435/614/613).",
+      "Clean Slate automatic sealing requires no form from the person.",
+      "Form Use JDF 417 — Request to Seal Arrest & Criminal Non-conviction records: arrest with no charges, dismissals, acquittals, Records (No Charges Filed) completed diversion.",
+      "JDF 612 — Motion to Seal Conviction Records Eligible convictions under § 24-72-706.",
+      "Proposed Order to Seal (JDF order forms) The order the judge signs (e.g.",
+      "Clean Slate automatic sealing No form.",
+      "Each petition identifies the petitioner, the case and court, the offense and level, the disposition, and the statutory basis, and pairs with a proposed order for the judge.",
+      "Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma AGENT GUIDANCE Pick the form by disposition: JDF 417 for non-convictions, JDF 612 for convictions; route juveniles to JDF 302 expungement instead.",
+      "These are the official statewide JDF forms — LegalEase now has faithful field-for-field HTML replicas of JDF 302/417/612 and the order set (418/419/435/614/613)."
+    ],
+    "attachments": [
+      "JDF 612 — Motion to Seal Conviction Records Eligible convictions under § 24-72-706. Attach a recent CBI",
+      "Each petition identifies the petitioner, the case and court, the offense and level, the disposition, and the statutory",
+      "basis, and pairs with a proposed order for the judge. JDF 612 requires the attached CBI report and is served on",
+      "Pick the form by disposition: JDF 417 for non-convictions, JDF 612 for convictions; route juveniles to JDF 302 expungement",
+      "Attach a recent CBI criminal-history report; filing fee (waivable).",
+      "Each petition identifies the petitioner, the case and court, the offense and level, the disposition, and the statutory basis, and pairs with a proposed order for the judge.",
+      "JDF 612 requires the attached CBI report and is served on the prosecutor, who (with any victim) may object and trigger a hearing; for the lowest-level offenses the court may seal without a hearing.",
+      "Colorado Record Sealing — Agent Training Reference · LegalEase / Wilma AGENT GUIDANCE Pick the form by disposition: JDF 417 for non-convictions, JDF 612 for convictions; route juveniles to JDF 302 expungement instead.",
+      "Reviewing the record first confirms each disposition, the offense levels, and the supervision-completion dates",
+      "Court record. Colorado courts' case access confirms case dispositions and is the first stop to group charges by case for the all-or-nothing rule. A sealed case is removed from public access.",
+      "Colorado courts' case access confirms case dispositions and is the first stop to group charges by case for the all-or-nothing rule."
+    ],
+    "filingDestinationRules": [],
+    "serviceAndNoticeRules": [
+      "criminal-history report; filing fee (waivable). Served on the District",
+      "entry, named agencies (CBI, courts, arresting agency) seal their",
+      "basis, and pairs with a proposed order for the judge. JDF 612 requires the attached CBI report and is served on",
+      "the prosecutor, who (with any victim) may object and trigger a hearing; for the lowest-level offenses the court",
+      "Served on the District Attorney.",
+      "JDF 418 grant on the arrest track); on entry, named agencies (CBI, courts, arresting agency) seal their records.",
+      "JDF 612 requires the attached CBI report and is served on the prosecutor, who (with any victim) may object and trigger a hearing; for the lowest-level offenses the court may seal without a hearing."
+    ],
+    "feeRules": [
+      "Colorado petition sealing carries a court filing fee that is waivable; automatic sealing is free.",
+      "JDF 417 non-conviction sealing Low / none Simplified process for dismissals/acquittals",
+      "JDF 612 conviction sealing Filing fee Waivable on a fee-waiver motion",
+      "Clean Slate automatic sealing $0 No filing, no fee",
+      "CBI criminal-history report CBI fee Required attachment for JDF 612",
+      "Attorney fees (if represented) Varies Not required; clinics and self-help assist free",
+      "Filing-fee amounts and waiver procedures change; the agent should verify the current JDF 612 filing fee and fee-waiver",
+      "process at the time of advising rather than quoting a fixed figure from memory.",
+      "Item Amount Note JDF 417 non-conviction sealing Low / none Simplified process for dismissals/acquittals JDF 612 conviction sealing Filing fee Waivable on a fee-waiver motion Clean Slate automatic sealing $0 No filing, no fee CBI criminal-history report CBI fee Required attachment for JDF 612 Attorney fees (if represented) Varies Not required; clinics and self-help assist free VERIFY BEFORE RELYING Filing-fee amounts and waiver procedures change; the agent should verify the current JDF 612 filing fee and fee-waiver process at the time of advising rather than quoting a fixed figure from memory."
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "Court record. Colorado courts' case access confirms case dispositions and is the first stop to group charges by case for the all-or-nothing rule. A sealed case is removed from public access.",
+      "A sealed case is removed from public access."
+    ],
+    "formInventory": [
+      {
+        "fileName": "court-order-sealing-of-arrests.html",
+        "relativePath": "LegalEase Colorado/court-order-sealing-of-arrests.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "839e824653a3e39d1b1ef14a12e3c8bed3122389f38d21b1f6e19dfe75ad12d8",
+        "sizeBytes": 86643
+      },
+      {
+        "fileName": "seal-my-case.html",
+        "relativePath": "LegalEase Colorado/seal-my-case.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Colorado-JDF-Complete.html",
+        "relativePath": "LegalEase Colorado/Colorado-JDF-Complete.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "85f4ad5a0141c295993b8d1dd23ee88c5dbaa38c787cbc0d548bfdf6841529de",
+        "sizeBytes": 66736
+      },
+      {
+        "fileName": "Colorado-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "38c8964c37af23fdace1d48f0e9c4d091e06889e8e5fa2ea1bd1854270e33cdd",
+        "sizeBytes": 23329
+      },
+      {
+        "fileName": "court-order-sealing-of-arrests.html",
+        "relativePath": "LegalEase Colorado/court-order-sealing-of-arrests.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "839e824653a3e39d1b1ef14a12e3c8bed3122389f38d21b1f6e19dfe75ad12d8",
+        "sizeBytes": 86643
+      },
+      {
+        "fileName": "seal-my-case.html",
+        "relativePath": "LegalEase Colorado/seal-my-case.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case2",
+        "relativePath": "LegalEase Colorado/seal-my-case2",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case3",
+        "relativePath": "LegalEase Colorado/seal-my-case3",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case4",
+        "relativePath": "LegalEase Colorado/seal-my-case4",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      },
+      {
+        "fileName": "seal-my-case5",
+        "relativePath": "LegalEase Colorado/seal-my-case5",
+        "extension": "",
+        "kind": "other",
+        "sha256": "3e6cd3d3a6a87c0aaae2b27e4446b7f63e2be421e4f4dded9104f929451401ba",
+        "sizeBytes": 101332
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Colorado-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 45,
+      "endLine": 67,
+      "text": "Statutory shorthand used throughout\n\nTerm Meaning\n\nSealing Adult record relief in Colorado (C.R.S. §§ 24-72-701 to 708); record hidden from public, denial generally\npermitted\n\nExpungement Reserved for JUVENILE records (§ 19-1-306); JDF 302. Do not use 'expungement' for adult relief\n\nHB19-1275 2019 petition-route overhaul; set the tiered petition waiting periods\n\nSB22-099 Clean Slate Act — automatic sealing; mechanics in § 13-3-117\n\nHB24-1133 Expanded Clean Slate to additional felonies; Phase 2 (Class 4/5/6) July 2025\n\nAll-or-nothing One ineligible conviction in a case can block sealing of the entire case\n\nCBI Colorado Bureau of Investigation — holds statewide criminal history; named in seal orders\n\nJDF Judicial Department Form — statewide court forms (417 non-convictions, 612 convictions, 302 juvenile)"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 68,
+      "endLine": 88,
+      "text": "Two tracks, considered by disposition, offense class, and goal.\n\nTrack 1 — Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)\nor JDF 612 (convictions) once the tiered waiting period has run, pays the fee (waivable), and serves the District\nAttorney. Available for non-convictions (dismissal, acquittal, completed diversion, arrest with no charges) and for\neligible convictions not barred by § 24-72-706.\n\nTrack 2 — Automatic Clean Slate sealing (SB22-099, § 13-3-117, expanded by HB24-1133). No filing\nrequired. The State Court Administrator compiles quarterly eligibility lists; the DA has 45 days to object; CBI and\nagencies then seal. Slower waiting periods than the petition route, phasing in: Phase 1 (July 2024)\nnon-convictions, petty, misdemeanors, civil infractions; Phase 2 (July 2025) Class 4/5/6 felonies.\n\nTrack 3 — Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules;\nminors route here, not to the adult sealing statutes.\n\nAGENT GUIDANCE\nRoute by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement.\nWhen a record qualifies on BOTH tracks, tell the user the petition route is years faster but costs a fee and effort; Clean Slate is\nfree but slower and automatic."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 89,
+      "endLine": 120,
+      "text": "The most distinctive part of Colorado: the two tracks run different clocks. Both measure from final disposition or\nrelease from supervision, whichever is later.\n\nOffense level Petition (HB19-1275) Automatic (Clean Slate)\n\nCivil infraction 1 year 4 years\n\nPetty / petty drug offense 1 year 7 years\n\nColorado Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nClass 2/3 misdemeanor; drug 2 years 7 years\nmisdemeanor\n\nClass 1 misdemeanor 3 years 7 years\n\nClass 4/5/6 felony; Level 3/4 drug felony 3 years 10 years (Phase 2, July 2025)\n\nOther eligible felonies 5 years 10 years\n\nNon-conviction (dismissal/acquittal) Immediate (simplified) Phase 1 (July 2024)\n\nThe petition route's tiers come from HB19-1275; the automatic route's longer waits come from SB22-099 as\nexpanded by HB24-1133. All clocks run from final disposition or completion of supervision, whichever is later —\noutstanding supervision means the clock has not started.\n\nAGENT GUIDANCE\nCompute every wait from the LATER of final disposition or release from supervision.\nIf the user wants relief fast and the record is eligible, steer to the petition route; if they want zero effort and can wait, Clean\nSlate will reach it automatically."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 121,
+      "endLine": 140,
+      "text": "The § 24-72-706 exclusion list is the hard bar, and the all-or-nothing rule does much of the work.\n\nThe all-or-nothing rule. If one conviction in a case is not eligible for sealing, no conviction in that case may be\nsealed. This is the single biggest Colorado trap — map every charge in the case before declaring eligibility.\n\nCategorically excluded (§ 24-72-706 and related):\n\nDUI / DWAI convictions — never sealable (narrow exceptions: UDD underage-drinking and juvenile).\nOffenses involving unlawful sexual behavior (§ 16-22-102(9)) and sexual offenses (§§ 18-3-401 to 418).\nDomestic violence (§ 18-6-800.3) and crimes of violence (§ 18-1.3-406).\nClass 1, 2, and 3 felonies (with narrow marijuana-cultivation carve-outs), and Level 1 drug felonies.\nFelonies enumerated in the Victim's Rights Act (§ 24-4.1-302(1)); child abuse (§ 18-6-401).\nTraffic-only cases of Class 1/2 misdemeanor traffic offenses or Class A/B traffic infractions.\n\nVERIFY BEFORE RELYING\nThe § 24-72-706 exclusion list is enumerated by Criminal Law Article section and is reproduced verbatim in JDF 612 Section 8\n— the agent should map every charge in the case to its statute and apply the all-or-nothing rule across the whole case before\ndeclaring eligibility. Verify the current list and the Clean Slate phase status before relying."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 141,
+      "endLine": 172,
+      "text": "Disposition and offense class determine the track, the wait, and the form. This is the agent's primary routing\nlogic for Colorado.\n\nCase outcome Remedy / track Form Wait\n\nArrest, no charges filed Seal (auto after 1 yr; or petition) JDF 417 1 yr / auto\n\nColorado Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nDismissal / acquittal Seal (simplified, immediate) JDF 417 Immediate\n\nCompleted diversion Seal (non-conviction) JDF 417 On completion\n\nEligible misdemeanor Seal (petition or auto) JDF 612 2–3 yr / 7 yr\nconviction\n\nEligible felony conviction Seal (petition or auto) JDF 612 3–5 yr / 10 yr\n\nJuvenile adjudication Expungement (separate track) JDF 302 Per § 19-1-306\n\nDUI/DWAI; sex; DV; Class 1–3 Not sealable — —\nfelony\n\nEffect of relief: a sealed Colorado record is removed from public access, and the person may generally deny the\narrest or conviction occurred, though certain agencies and licensing bodies retain limited access. Sealing is not\ndestruction.\n\nAGENT GUIDANCE\nTell users plainly: Colorado SEALS adult records (it does not expunge them); juvenile records are EXPUNGED.\nRun the all-or-nothing check on every multi-charge case before telling a user they are eligible."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 173,
+      "endLine": 209,
+      "text": "Colorado uses statewide Judicial Department JDF forms, filed in the court that handled the case. Clean Slate\nautomatic sealing requires no form from the person.\n\nForm Use\n\nJDF 417 — Request to Seal Arrest & Criminal Non-conviction records: arrest with no charges, dismissals, acquittals,\nRecords (No Charges Filed) completed diversion. C.R.S. § 24-72-704. Filed where the records are\nheld.\n\nJDF 612 — Motion to Seal Conviction Records Eligible convictions under § 24-72-706. Attach a recent CBI\ncriminal-history report; filing fee (waivable). Served on the District\nAttorney.\n\nProposed Order to Seal (JDF order forms) The order the judge signs (e.g. JDF 418 grant on the arrest track); on\nentry, named agencies (CBI, courts, arresting agency) seal their\nrecords.\n\nJDF 302 — juvenile record expungement Juvenile records use EXPUNGEMENT, not sealing; noted here so the\n(separate track) agent routes minors correctly. C.R.S. § 19-1-306.\n\nClean Slate automatic sealing No form. The State Court Administrator compiles quarterly eligibility\nlists; DAs have 45 days to object; CBI and agencies then seal.\n\nEach petition identifies the petitioner, the case and court, the offense and level, the disposition, and the statutory\nbasis, and pairs with a proposed order for the judge. JDF 612 requires the attached CBI report and is served on\nthe prosecutor, who (with any victim) may object and trigger a hearing; for the lowest-level offenses the court\nmay seal without a hearing.\n\nColorado Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nAGENT GUIDANCE\nPick the form by disposition: JDF 417 for non-convictions, JDF 612 for convictions; route juveniles to JDF 302 expungement\ninstead.\nThese are the official statewide JDF forms — LegalEase now has faithful field-for-field HTML replicas of JDF 302/417/612 and\nthe order set (418/419/435/614/613)."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 210,
+      "endLine": 214,
+      "text": "Petition sealing is filed in the court that handled the case; automatic sealing needs no filing.\n\n1. Get the record. Pull the case from Colorado courts and, if needed, a CBI criminal-history report to confirm\neach charge, its level, the disposition, and supervision-completion dates."
+    },
+    {
+      "title": "Confirm track and eligibility. Petition vs. automatic; offense class against the § 24-72-706 exclusions; the",
+      "category": "pathway_detail",
+      "startLine": 215,
+      "endLine": 216,
+      "text": "waiting period; and the all-or-nothing rule across the whole case."
+    },
+    {
+      "title": "Complete the JDF petition (417 for non-convictions, 612 for convictions) with the case details and statutory",
+      "category": "pathway_detail",
+      "startLine": 217,
+      "endLine": 218,
+      "text": "basis, plus the proposed order; attach the CBI report for JDF 612."
+    },
+    {
+      "title": "File in the district/county/municipal court that handled the case and pay the fee (waivable). Non-conviction",
+      "category": "pathway_detail",
+      "startLine": 219,
+      "endLine": 224,
+      "text": "sealing is low- or no-cost; conviction sealing carries a filing fee.\n5. Service. The DA is served on JDF 612; the prosecutor (and any victim) may object within the statutory\nwindow.\n6. Hearing or grant. If there is an objection the court may hold a hearing; for the lowest-level offenses it may\nseal on the papers."
+    },
+    {
+      "title": "Order and execution. On a granted order, named agencies (CBI, courts, arresting agency) seal the",
+      "category": "pathway_detail",
+      "startLine": 225,
+      "endLine": 232,
+      "text": "records. Keep a copy of the signed order.\n\nAGENT GUIDANCE\nVenue is the court that handled the case. A person with cases in different counties files separately in each.\nIf the record is Clean Slate-eligible and the user can wait, no filing is needed at all — confirm the phase and let the automatic\nprocess reach it."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 233,
+      "endLine": 254,
+      "text": "The features most likely to surprise.\n\nSealing, not expungement. Adult relief is SEALING; only juvenile records are expunged. Using the wrong\nterm confuses users and courts.\nThe all-or-nothing rule. One ineligible conviction in a case blocks sealing of every charge in that case — the\nbiggest Colorado pitfall.\nTwo tracks, different clocks. The petition route is years faster than Clean Slate; advise on the speed-vs-effort\ntrade-off when a record qualifies on both.\nDUI/DWAI is the classic disappointment. A DUI/DWAI conviction is never sealable (narrow UDD/juvenile\nexceptions only).\nClean Slate phasing. Phase 1 (July 2024) reached non-convictions, petty, misdemeanors, civil infractions;\nPhase 2 (July 2025) reached Class 4/5/6 felonies — verify the user's record against the current phase.\nCBI report required for convictions. JDF 612 must attach a recent CBI criminal-history report.\n\nColorado Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nAGENT GUIDANCE\nLead every Colorado conviction analysis with the all-or-nothing rule and the § 24-72-706 exclusions; those two determine most\noutcomes.\nCheck the Clean Slate phase — a record may now seal automatically that did not a year ago."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 255,
+      "endLine": 273,
+      "text": "Colorado petition sealing carries a court filing fee that is waivable; automatic sealing is free.\n\nItem Amount Note\n\nJDF 417 non-conviction sealing Low / none Simplified process for dismissals/acquittals\n\nJDF 612 conviction sealing Filing fee Waivable on a fee-waiver motion\n\nClean Slate automatic sealing $0 No filing, no fee\n\nCBI criminal-history report CBI fee Required attachment for JDF 612\n\nAttorney fees (if represented) Varies Not required; clinics and self-help assist free\n\nVERIFY BEFORE RELYING\nFiling-fee amounts and waiver procedures change; the agent should verify the current JDF 612 filing fee and fee-waiver\nprocess at the time of advising rather than quoting a fixed figure from memory."
+    },
+    {
+      "title": "Criminal history (CBI) request process",
+      "category": "filing",
+      "startLine": 274,
+      "endLine": 280,
+      "text": "Reviewing the record first confirms each disposition, the offense levels, and the supervision-completion dates\nthat start the clock.\n\nA. Court record. Colorado courts' case access confirms case dispositions and is the first stop to group charges\nby case for the all-or-nothing rule. A sealed case is removed from public access."
+    },
+    {
+      "title": "Statewide history — CBI. The Colorado Bureau of Investigation holds the official statewide criminal history;",
+      "category": "record_request",
+      "startLine": 281,
+      "endLine": 290,
+      "text": "a name-based or fingerprint-based report can be requested for a fee and is the required attachment for JDF 612.\n\nC. Federal — FBI Identity History Summary. For records that may extend beyond Colorado, the FBI\nfingerprint-based summary is the federal equivalent; Colorado relief reaches Colorado records only.\n\nAGENT GUIDANCE\nFrame the CBI report as the official history and the required JDF 612 attachment; use the court record to group charges by\ncase for the all-or-nothing rule."
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 291,
+      "endLine": 304,
+      "text": "Colorado relief is filed on statewide JDF petitions in the court that handled the case. Names, dates, and\nidentifiers below are fictional and illustrative.\n\nExample A — Motion to Seal Conviction Records (JDF 612, § 24-72-706)\nDISTRICT COURT, EL PASO COUNTY, COLORADO\n\nColorado Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nPEOPLE OF THE STATE OF COLORADO v. JORDAN K. MILLS Case No. 2021CR001934\nMOTION TO SEAL CONVICTION RECORDS (C.R.S. 24-72-703 & 706)\n1. Defendant: Jordan K. Mills; DOB 02/09/1988.\n2. On 05/12/2021 defendant was convicted of theft, a class 2\nmisdemeanor, in this case."
+    },
+    {
+      "title": "NON-CONVICTION SEALING (JDF 417, 24-72-704):",
+      "category": "pathway_detail",
+      "startLine": 316,
+      "endLine": 320,
+      "text": "An arrest with no charges, a dismissal, an acquittal, or a\ncompleted diversion is sealed on the non-conviction track;\ndismissals/acquittals use the simplified immediate process."
+    },
+    {
+      "title": "CLEAN SLATE AUTOMATIC SEALING (SB22-099, 13-3-117):",
+      "category": "pathway_detail",
+      "startLine": 321,
+      "endLine": 325,
+      "text": "No filing. The State Court Administrator lists eligible\nrecords quarterly; the DA has 45 days to object; CBI and\nagencies then seal. Slower than the petition route but free."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 4,
+      "questions": 12,
+      "decisionRules": 38,
+      "waitingRules": 12,
+      "exclusions": 15,
+      "sourceFiles": 8,
+      "officialForms": 2
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

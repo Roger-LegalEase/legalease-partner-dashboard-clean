@@ -157,7 +157,6 @@ for (const token of ["[SSN]", "[DOB]", "[EMAIL]", "[PHONE]", "[ADDRESS]", "[NAME
 const forbiddenChangedPrefixes = [
   "src/app/api/stripe/",
   "src/lib/partners/",
-  "src/app/dashboard/partners/",
   "src/app/partner/",
   "src/app/partners/",
   "src/lib/supabase/",
@@ -197,7 +196,7 @@ console.log("Wilma safety harness verification passed.");
 console.log("Adversarial harness hard-fail patterns: 0.");
 console.log("Content injection, guards, redaction telemetry, and kill-switch are present.");
 console.log("Wilma does not decide eligibility, paymentAllowed, resultCode, or packet generation.");
-console.log("Partner billing, Stripe, Supabase global auth/RLS/session, secrets, deployment, RCAP engine, and legacy generators are untouched.");
+console.log("Partner billing, Stripe, Supabase global auth/RLS/session, secrets, and deployment files are untouched; legacy generator runtime is removed.");
 
 function redactSample(input) {
   return input

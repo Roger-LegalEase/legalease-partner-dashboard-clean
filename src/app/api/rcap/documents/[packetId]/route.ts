@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRcapDocumentPacket } from "@/lib/rcap/documents/mississippi/repository";
+import { getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 
 export async function GET(
   _request: Request,

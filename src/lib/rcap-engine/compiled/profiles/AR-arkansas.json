@@ -1,0 +1,2748 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "AR",
+    "name": "Arkansas",
+    "slug": "arkansas"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Arkanasa/Arkansas-RecordSealing-Agent-Reference.pdf",
+        "sha256": "c4367beb089f187e3c5d96c7c3003eb3a8a96497296602c2fc06a23f1d963d2a",
+        "sizeBytes": 28713,
+        "score": 1661,
+        "extractedChars": 27158
+      }
+    ],
+    "sourceCorpusSha256": "e4ce784e6114679c7512ff009c9cc8cb4da2e4d2f82f6b62373a59515b047e95",
+    "sourceCorpusChars": 22255,
+    "allFolderFiles": [
+      {
+        "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+        "relativePath": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "sizeBytes": 775618
+      },
+      {
+        "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "relativePath": "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+        "sizeBytes": 529888
+      },
+      {
+        "fileName": "Arkansas-Petition-Order-Forms.html",
+        "relativePath": "LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+        "sizeBytes": 74560
+      },
+      {
+        "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Arkanasa/Arkansas-RecordSealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "c4367beb089f187e3c5d96c7c3003eb3a8a96497296602c2fc06a23f1d963d2a",
+        "sizeBytes": 28713
+      },
+      {
+        "fileName": "Felony-Petition-Form-f.pdf",
+        "relativePath": "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "sizeBytes": 178947
+      },
+      {
+        "fileName": "criminal-history.html",
+        "relativePath": "LegalEase Arkanasa/criminal-history.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "db6e3ea2c967ede138c4fd1e0bba72d5d9b3dc27526bed72314ea9ed84a786ab",
+        "sizeBytes": 382145
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Situation A — Non-convictions (§§ 16-90-1409, 1410)",
+      "Situation B — Misdemeanor convictions (§ 16-90-1405)",
+      "Situation C — Felony convictions (§§ 16-90-1406, 1407)"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [
+        "state_exclusion_categories"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Arkansas, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Arkansas case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Arkansas descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Situation A — Non-convictions (§§ 16-90-1409, 1410)",
+        "Situation B — Misdemeanor convictions (§ 16-90-1405)",
+        "Situation C — Felony convictions (§§ 16-90-1406, 1407)",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "state_exclusion_categories",
+      "stage": "exclusion_screen",
+      "prompt": "Does the record involve any Arkansas category that the source identifies as excluded or review-required?",
+      "type": "multi_select",
+      "options": [
+        "Sex offense or registration",
+        "DUI/DWI or serious traffic",
+        "None of these",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_exclusion_section"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Arkansas was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "situation-a-non-convictions",
+      "label": "Situation A — Non-convictions (§§ 16-90-1409, 1410)",
+      "summary": "• Acquittal (found not guilty on all charges) — may petition to seal at any time. • Nolle prosequi / dismissal — may petition to seal the records of the dismissed case. • Arrest, no charges filed — the arrest record may be sealed under § 16-90-1409. • These are the most accessible filings and generally carry no waiting period.",
+      "sourceRef": "pathways:73-106",
+      "ruleClauses": [
+        "Acquittal (found not guilty on all charges) — may petition to seal at any time.",
+        "Nolle prosequi / dismissal — may petition to seal the records of the dismissed case.",
+        "Arrest, no charges filed — the arrest record may be sealed under § 16-90-1409.",
+        "These are the most accessible filings and generally carry no waiting period."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "charge",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "These are the most accessible filings and generally carry no waiting period."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-106"
+      ]
+    },
+    {
+      "id": "situation-b-misdemeanor-convictions",
+      "label": "Situation B — Misdemeanor convictions (§ 16-90-1405)",
+      "summary": "• Most misdemeanor convictions and violations are eligible for sealing after the sentence is fully completed (incarceration, probation, all fines, restitution, court costs, and any license reinstatement). • There is no limit on how many misdemeanors may be sealed. • Certain listed misdemeanors carry a 5-year wait; DWI/BWI carries a 10-year wait (Section 2).",
+      "sourceRef": "pathways:73-106",
+      "ruleClauses": [
+        "Most misdemeanor convictions and violations are eligible for sealing after the sentence is fully completed (incarceration, probation, all fines, restitution, court costs, and any license reinstatement).",
+        "There is no limit on how many misdemeanors may be sealed.",
+        "Certain listed misdemeanors carry a 5-year wait; DWI/BWI carries a 10-year wait (Section 2)."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
+        "court"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": null,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-106"
+      ]
+    },
+    {
+      "id": "situation-c-felony-convictions",
+      "label": "Situation C — Felony convictions (§§ 16-90-1406, 1407)",
+      "summary": "• Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after sentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting period — a petition may be filed immediately on completion. • One-prior-felony limit: a person may not have more than one previous felony conviction. Felonies committed as part of the same criminal episode count as a single conviction (§ 16-90-1406). • Controlled-substance possession…",
+      "sourceRef": "pathways:73-106",
+      "ruleClauses": [
+        "Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after sentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting period — a petition may be filed immediately on completion.",
+        "One-prior-felony limit: a person may not have more than one previous felony conviction. Felonies committed as part of the same criminal episode count as a single conviction (§ 16-90-1406).",
+        "Controlled-substance possession felonies have a dedicated path under § 16-90-1407."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after sentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting period — a petition may be filed immediately on completion."
+      ],
+      "exclusionRules": [],
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:73-106"
+      ]
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-27-class-y-a-b-sex-violent-doc-time-ineligible-1408-bar",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Class Y/A/B, sex, violent, DOC time, — Ineligible § 1408 bar"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-47-felonies-not-eligible-for-sealing-16-90-1408",
+      "priority": 20,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Felonies NOT eligible for sealing (§ 16-90-1408)"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-45-and-2021-amendments-the-agent-must-confirm-the-current-",
+      "priority": 40,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "and 2021 amendments. The agent must confirm the current § 16-90-1405 list and the § 5-4-501(d)(2) violence"
+      },
+      "then": {
+        "suggestedResultCode": "needs_more_info",
+        "frontendAction": "return_to_exact_missing_questions"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-05-these-are-the-most-accessible-filings-and-generally-car",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "These are the most accessible filings and generally carry no waiting period. Situation B — Misdemeanor convictions (§ 16-90-1405)"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-09-eligible-mainly-non-violent-class-c-and-class-d-felonie",
+      "priority": 50,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after sentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting period — a petition may be filed immediately on completion."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-33-most-sealing-in-arkansas-has-no-waiting-period-after-th",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "sourceConditionText": "Most sealing in Arkansas has NO waiting period after the 2019/2021 amendments. The exceptions are specific"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-34-disposition-offense-waiting-period-measured-from",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Disposition / offense Waiting period Measured from"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-49-sentence-must-be-complete-outstanding-restitution-fines",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Sentence must be complete. Outstanding restitution, fines, court costs, or an unreinstated license means the sentence is not complete and the matter is not yet sealable."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-50-pending-charges-new-convictions-new-offenses-during-a-w",
+      "priority": 50,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pending_cases",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pending charges / new convictions. New offenses during a waiting period or pending charges defeat or delay sealing."
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-01-situation-a-non-convictions-16-90-1409-1410",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Situation A — Non-convictions (§§ 16-90-1409, 1410)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-02-acquittal-found-not-guilty-on-all-charges-may-petition-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal (found not guilty on all charges) — may petition to seal at any time."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-03-nolle-prosequi-dismissal-may-petition-to-seal-the-recor",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Nolle prosequi / dismissal — may petition to seal the records of the dismissed case."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-04-arrest-no-charges-filed-the-arrest-record-may-be-sealed",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "sourceConditionText": "Arrest, no charges filed — the arrest record may be sealed under § 16-90-1409."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-06-most-misdemeanor-convictions-and-violations-are-eligibl",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Most misdemeanor convictions and violations are eligible for sealing after the sentence is fully completed (incarceration, probation, all fines, restitution, court costs, and any license reinstatement)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "There is no limit on how many misdemeanors may be sealed."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-08-certain-listed-misdemeanors-carry-a-5-year-wait-dwi-bwi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Certain listed misdemeanors carry a 5-year wait; DWI/BWI carries a 10-year wait (Section 2). Situation C — Felony convictions (§§ 16-90-1406, 1407)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-10-one-prior-felony-limit-a-person-may-not-have-more-than-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "One-prior-felony limit: a person may not have more than one previous felony conviction. Felonies committed as part of the same criminal episode count as a single conviction (§ 16-90-1406)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-11-arkansas-record-sealing-agent-training-reference-legale",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Arkansas Record Sealing — Agent Training Reference · LegalEase / Wilma"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106"
+    },
+    {
+      "id": "rule-12-has-the-case-dismissed-and-sealed-on-successful-complet",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "convicted_other"
+        ],
+        "sourceConditionText": "has the case dismissed and sealed on successful completion — no conviction is ever entered. This is the"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-13-strongest-outcome-but-must-be-elected-early-the-agent-s",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "strongest outcome but must be elected early; the agent should ask whether Act 346 applied."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106"
+    },
+    {
+      "id": "rule-14-route-by-disposition-first-non-conviction-seal-any-time",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Route by disposition first: non-conviction (seal any time), misdemeanor (seal on completion, watch the 5- and 10-year"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions",
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "lists), felony (seal on completion if eligible and not over the one-prior limit)."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-16-always-confirm-the-sentence-is-fully-complete-unpaid-re",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Always confirm the sentence is fully complete — unpaid restitution, court costs, or an unreinstated license all block"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-17-sealing-even-when-the-offense-is-eligible",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "sealing even when the offense is eligible."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "pathways:73-106"
+    },
+    {
+      "id": "rule-18-acquittal-nolle-prosequi-dismissal-seal-1410-none-mo",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal / nolle prosequi / dismissal Seal (§ 1410) None Most accessible"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-19-arrest-no-charges-filed-seal-1409-none-arrest-record",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge"
+        ],
+        "sourceConditionText": "Arrest, no charges filed Seal (§ 1409) None Arrest record"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-20-act-346-first-offender-plea-completed-dismiss-seal-none",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Act 346 first-offender plea, completed Dismiss + seal None No conviction entered"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219"
+    },
+    {
+      "id": "rule-21-most-misdemeanor-convictions-violations-seal-1405-none",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Most misdemeanor convictions / violations Seal (§ 1405) None On completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-22-listed-misdemeanors-section-2-seal-1405-5-yrs-after-co",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Listed misdemeanors (Section 2) Seal (§ 1405) 5 yrs After completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-23-dwi-bwi-misdemeanor-seal-1405-10-yrs-after-completion",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "DWI / BWI misdemeanor Seal (§ 1405) 10 yrs After completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-24-non-violent-class-c-d-felony-eligible-seal-1406-none",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Non-violent Class C / D felony (eligible) Seal (§ 1406) None On completion; one-prior limit"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-25-felony-drug-possession-seal-1407-none-special-procedure",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Felony drug possession Seal (§ 1407) None Special procedure"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-26-violent-class-c-d-felony-where-eligible-seal-1406-5",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Violent Class C / D felony (where eligible) Seal (§ 1406) 5 yrs Narrow band"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-28-effect-of-sealing-under-the-act-a-sealed-record-is-trea",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Effect of sealing: under the Act, a sealed record is treated as if the conduct never occurred, and the person"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-29-may-lawfully-state-they-have-not-been-arrested-for-or-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "may lawfully state they have not been arrested for or convicted of the sealed offense, with limited exceptions"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-30-sentencing-sealing-restricts-public-access-it-is-not-a-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "sentencing). Sealing restricts public access; it is not a physical destruction of records, and criminal-justice"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-31-be-precise-on-effect-sealed-in-arkansas-means-treated-a",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Be precise on effect: sealed in Arkansas means treated as if it never occurred for most purposes, but criminal-justice"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-32-match-the-route-to-the-disposition-and-class-confirm-co",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Match the route to the disposition and class, confirm completion, and apply the one-prior-felony limit before telling a user a"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "case_outcomes:179-219",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-35-acquittal-nolle-prosequi-dismissal-arrest-none",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Acquittal / nolle prosequi / dismissal / arrest None —"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-36-most-misdemeanor-convictions-and-violations-none-senten",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Most misdemeanor convictions and violations None Sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-37-dwi-bwi-misdemeanor-conviction-10-years-sentence-comple",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "sourceConditionText": "DWI / BWI misdemeanor conviction 10 years Sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-38-most-eligible-non-violent-class-c-d-felonies-none-sente",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Most eligible (non-violent) Class C / D felonies None Sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-39-violent-class-c-d-felony-where-otherwise-eligible-5-yea",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "Violent Class C / D felony (where otherwise eligible) 5 years Sentence completion"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-40-prosecutor-objection-window-misdemeanor-30-days-receipt",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 30,
+          "unit": "days",
+          "raw": "30 days"
+        },
+        "sourceConditionText": "Prosecutor objection window — misdemeanor 30 days Receipt / filing of petition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148"
+    },
+    {
+      "id": "rule-41-prosecutor-objection-window-felony-90-days-receipt-fili",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 90,
+          "unit": "days",
+          "raw": "90 days"
+        },
+        "sourceConditionText": "Prosecutor objection window — felony 90 days Receipt / filing of petition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148"
+    },
+    {
+      "id": "rule-42-refile-after-a-denial-misdemeanor-violation-90-days-dat",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 90,
+          "unit": "days",
+          "raw": "90 days"
+        },
+        "sourceConditionText": "Refile after a DENIAL — misdemeanor/violation 90 days Date of denial"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-43-refile-after-a-denial-5-year-wait-misdemeanor-1-year-da",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Refile after a denial — 5-year-wait misdemeanor 1 year Date of denial"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-44-what-remains-are-the-targeted-misdemeanor-waits-5-years",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "sourceConditionText": "What remains are the targeted misdemeanor waits (5 years for the listed offenses, 10 years for DWI/BWI), the 5-year wait for the narrow band of violent Class C/D felonies that are still eligible, and the prosecutor's statutory objection window before the court rules."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "rule-46-cross-reference-before-quoting-a-wait-rather-than-relyi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "cross-reference before quoting a wait, rather than relying on a fixed list here."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:107-148"
+    },
+    {
+      "id": "rule-48-one-prior-felony-limit-more-than-one-previous-felony-co",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "One-prior-felony limit. More than one previous felony conviction (even if already sealed) bars sealing a further felony; same-episode felonies count as one."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-51-cdl-traffic-carve-out-a-commercial-license-holder-can-n",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "CDL traffic carve-out. A commercial license holder can never seal a misdemeanor or violation traffic offense committed in any vehicle."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions",
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "rule-52-out-of-state-federal-arkansas-sealing-reaches-arkansas-",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "residency_or_location"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Out-of-state / federal. Arkansas sealing reaches Arkansas records only."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:149-178"
+    },
+    {
+      "id": "rule-53-count-prior-felonies-carefully-the-one-prior-limit-is-t",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Count prior felonies carefully — the one-prior limit is the most common felony disqualifier after the categorical list;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions",
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "rule-54-remember-same-episode-felonies-merge-into-a-single-conv",
+      "priority": 70,
+      "stage": "exclusion_screen",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "remember same-episode felonies merge into a single conviction."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "exclusions:149-178",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "route-situation-a-non-convictions",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "situation-a-non-convictions",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "charge",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "charge",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Situation A — Non-convictions (§§ 16-90-1409, 1410)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-a-non-convictions"
+      ]
+    },
+    {
+      "id": "route-situation-b-misdemeanor-convictions",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "situation-b-misdemeanor-convictions",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Situation B — Misdemeanor convictions (§ 16-90-1405)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-b-misdemeanor-convictions"
+      ]
+    },
+    {
+      "id": "route-situation-c-felony-convictions",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "situation-c-felony-convictions",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Situation C — Felony convictions (§§ 16-90-1406, 1407)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:73-106",
+      "candidatePathwayIds": [
+        "situation-c-felony-convictions"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "These are the most accessible filings and generally carry no waiting period.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after sentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting period — a petition may be filed immediately on completion.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "sentence completion",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Most sealing in Arkansas has NO waiting period after the 2019/2021 amendments. The exceptions are specific",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "the 2019/2021 amendments",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Disposition / offense Waiting period Measured from",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Certain listed misdemeanors (e.g., negligent homicide, 5 years Sentence completion",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "DWI / BWI misdemeanor conviction 10 years Sentence completion",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Violent Class C / D felony (where otherwise eligible) 5 years Sentence completion",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Prosecutor objection window — misdemeanor 30 days Receipt / filing of petition",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Prosecutor objection window — felony 90 days Receipt / filing of petition",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Refile after a DENIAL — misdemeanor/violation 90 days Date of denial",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": "a DENIAL — misdemeanor/violation 90 days Date of denial",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Refile after a denial — 5-year-wait misdemeanor 1 year Date of denial",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "a denial — 5-year-wait misdemeanor 1 year Date of denial",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "What remains are the targeted misdemeanor waits (5 years for the listed offenses, 10 years for DWI/BWI), the 5-year wait for the narrow band of violent Class C/D felonies that are still eligible, and the prosecutor's statutory objection window before the court rules.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "court",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Most sealing in Arkansas has NO waiting period after the 2019/2021 amendments.",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": "the 2019/2021 amendments",
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Disposition / offense Waiting period Measured from Acquittal / nolle prosequi / dismissal / arrest None — Most misdemeanor convictions and violations None Sentence completion Certain listed misdemeanors (e.g., negligent homicide, 5 years Sentence completion 3rd-degree battery, indecent exposure, public sexual indecency, 4th-degree sexual assault, certain domestic offenses) DWI / BWI misdemeanor conviction 10 years Sentence completion Most eligible (non-violent) Class C / D felonies None Sentence completion Violent Class C / D felony (where otherwise eligible) 5 years Sentence completion Prosecutor objection window — misdemeanor 30 days Receipt / filing of petition Prosecutor objection window — felony 90 days Receipt / filing of petition Refile after a DENIAL — misdemeanor/violation 90 days Date of denial Refile after a denial — 5-year-wait misdemeanor 1 year Date of denial The headline change from the 2019 HB 1831 / Act 910 and 2021 Act 341 amendments is that the old flat 5-year felony wait and the predicate-felony disqualifier were removed for non-violent felonies, and filing fees were eliminated.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "Acquittal / nolle prosequi / dismissal / arrest None — Most misdemeanor convictions and violations N",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date",
+        "charge"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "The felony bars in § 16-90-1408 are categorical — time and sentence completion do not cure them.",
+      "fieldsReferenced": [
+        "offense_level",
+        "sentence_completion_date"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Felonies NOT eligible for sealing (§ 16-90-1408)",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "A Class Y, Class A, or Class B felony (except certain drug felonies allowed under § 16-90-1406).",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-04",
+      "ruleText": "Manslaughter (§ 5-10-104).",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-05",
+      "ruleText": "A felony sex offense.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-06",
+      "ruleText": "A felony involving violence under § 5-4-501(d)(2).",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-07",
+      "ruleText": "An unclassified felony with a maximum sentence of more than ten (10) years.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-08",
+      "ruleText": "A felony for which the person served any portion of the sentence in the Department of Correction.",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-09",
+      "ruleText": "A felony traffic offense committed while holding a commercial learner's permit or CDL (parking, weight, and vehicle-defect violations excepted).",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-10",
+      "ruleText": "One-prior-felony limit. More than one previous felony conviction (even if already sealed) bars sealing a further felony; same-episode felonies count as one.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-11",
+      "ruleText": "Sentence must be complete. Outstanding restitution, fines, court costs, or an unreinstated license means the sentence is not complete and the matter is not yet sealable.",
+      "fieldsReferenced": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "court"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-12",
+      "ruleText": "Pending charges / new convictions. New offenses during a waiting period or pending charges defeat or delay sealing.",
+      "fieldsReferenced": [
+        "case_outcome",
+        "pending_cases",
+        "charge"
+      ],
+      "suggestedResultCode": "not_yet"
+    },
+    {
+      "id": "exclusion-13",
+      "ruleText": "CDL traffic carve-out. A commercial license holder can never seal a misdemeanor or violation traffic offense committed in any vehicle.",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-14",
+      "ruleText": "Out-of-state / federal. Arkansas sealing reaches Arkansas records only.",
+      "fieldsReferenced": [
+        "residency_or_location"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-15",
+      "ruleText": "Screen § 16-90-1408 first for any felony: Class Y/A/B (non-drug), manslaughter, sex, violence under § 5-4-501(d)(2),",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-16",
+      "ruleText": "unclassified over 10 years, any DOC time, and CDL traffic are hard bars.",
+      "fieldsReferenced": [
+        "offense_category"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-17",
+      "ruleText": "Count prior felonies carefully — the one-prior limit is the most common felony disqualifier after the categorical list;",
+      "fieldsReferenced": [
+        "offense_level"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-18",
+      "ruleText": "remember same-episode felonies merge into a single conviction.",
+      "fieldsReferenced": [
+        "case_outcome"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    },
+    {
+      "id": "exclusion-19",
+      "ruleText": "Felonies NOT eligible for sealing (§ 16-90-1408) • A Class Y, Class A, or Class B felony (except certain drug felonies allowed under § 16-90-1406). • Manslaughter (§ 5-10-104). • A felony sex offense. • A felony involving violence under § 5-4-501(d)(2). • An unclassified felony with a maximum sentence of more than ten (10) years. • A felony for which the person served any portion of the sentence in the Department of Correction. • A felony traffic offense committed while holding a commercial learner's permit or CDL (parking, weight, and vehicle-defect violations excepted).",
+      "fieldsReferenced": [
+        "offense_level",
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "situation-a-non-convictions",
+        "pathwayLabel": "Situation A — Non-convictions (§§ 16-90-1409, 1410)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+            "relativePath": "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+            "sizeBytes": 529888
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:73-106"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "situation-b-misdemeanor-convictions",
+        "pathwayLabel": "Situation B — Misdemeanor convictions (§ 16-90-1405)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+            "relativePath": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+            "sizeBytes": 775618
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:73-106"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "situation-c-felony-convictions",
+        "pathwayLabel": "Situation C — Felony convictions (§§ 16-90-1406, 1407)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "Felony-Petition-Form-f.pdf",
+            "relativePath": "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+            "sizeBytes": 178947
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "pathways:73-106"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date"
+    ],
+    "sourceFormStatements": [
+      "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department",
+      "Form (uniform petition + order) Use",
+      "Petition and Order to Seal Felony (Act 1460) Eligible felony convictions under § 16-90-1406; one-prior-felony",
+      "Petition and Order to Seal Misdemeanors (Act 1460) Misdemeanor convictions and violations under § 16-90-1405.",
+      "Petition and Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait.",
+      "Petition and Order to Seal Controlled-Substance Felony controlled-substance possession under the § 16-90-1407",
+      "Petition and Order to Seal Nolle Prosequi / Dismissal Non-conviction dispositions under § 16-90-1410.",
+      "Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409.",
+      "Petition and Order to Seal Pardoned / Youthful Records of a pardoned person under § 16-90-1411.",
+      "Petition and Order to Dismiss and Seal First First-offender pre-adjudication dismissal and sealing.",
+      "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory",
+      "basis, and pairs the petition with a proposed uniform order for the judge. The petition is filed with the circuit or",
+      "Pick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest,",
+      "These are the official ACIC uniform forms — they can be replicated field-for-field if the user uploads the current PDFs; until",
+      "then any built form is modeled on the uniform structure and should say so.",
+      "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department of Public Safety / ACIC site, filed in the court that handled the case.",
+      "Each disposition has its own petition-and-order pair.",
+      "Form (uniform petition + order) Use Petition and Order to Seal Felony (Act 1460) Eligible felony convictions under § 16-90-1406; one-prior-felony limit applies.",
+      "Petition and Order to Seal Nolle Prosequi / Dismissal Non-conviction dispositions under § 16-90-1410. / Acquittal / Not Filed Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409.",
+      "Arkansas Record Sealing — Agent Training Reference · LegalEase / Wilma Petition and Order to Seal Pardoned / Youthful Records of a pardoned person under § 16-90-1411.",
+      "Felony Offender Petition and Order to Dismiss and Seal First First-offender pre-adjudication dismissal and sealing.",
+      "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory basis, and pairs the petition with a proposed uniform order for the judge.",
+      "The petition is filed with the circuit or district court that handled the case, and a copy goes to the prosecuting attorney, who has the statutory objection window (30 days misdemeanor, 90 days felony) before the court rules.",
+      "AGENT GUIDANCE Pick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest, pardon, or Act 346 first offender.",
+      "These are the official ACIC uniform forms — they can be replicated field-for-field if the user uploads the current PDFs; until then any built form is modeled on the uniform structure and should say so."
+    ],
+    "attachments": [
+      "of Public Safety / ACIC site, filed in the court that handled the case. Each disposition has its own",
+      "Petition and Order to Seal Nolle Prosequi / Dismissal Non-conviction dispositions under § 16-90-1410.",
+      "Pre-Adjudication Drug Court dismiss-and-seal Drug-court disposition under the Arkansas Drug Court Act.",
+      "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory",
+      "Pick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest,",
+      "Each disposition has its own petition-and-order pair.",
+      "Petition and Order to Seal Nolle Prosequi / Dismissal Non-conviction dispositions under § 16-90-1410. / Acquittal / Not Filed Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409.",
+      "Offenders (Act 346 / Act 1460) Pre-Adjudication Drug Court dismiss-and-seal Drug-court disposition under the Arkansas Drug Court Act.",
+      "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory basis, and pairs the petition with a proposed uniform order for the judge.",
+      "AGENT GUIDANCE Pick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest, pardon, or Act 346 first offender.",
+      "1. Get the record. Pull the ACIC criminal history and the court docket / Judgment and Commitment Order to confirm each charge, the offense class, the disposition, and the sentence-completion dates.",
+      "4. Complete the uniform petition and order for the matching disposition, citing the statute, case number, offense, and class.",
+      "Pull the ACIC criminal history and the court docket / Judgment and Commitment Order to confirm each charge, the offense class, the disposition, and the sentence-completion dates. • 2.",
+      "Complete the uniform petition and order for the matching disposition, citing the statute, case number, offense, and class. • 5."
+    ],
+    "filingDestinationRules": [
+      "Sealing is filed in the court that handled the case; a person with cases in several courts files in each.",
+      "5. File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.",
+      "6. Serve the prosecuting attorney. The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons.",
+      "7. Ruling and distribution. If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record.",
+      "Venue is the court that handled the case — file separately in each county where the person has records.",
+      "File in the circuit or district court that handled the case.",
+      "The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons. • 7.",
+      "If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record.",
+      "AGENT GUIDANCE Venue is the court that handled the case — file separately in each county where the person has records."
+    ],
+    "serviceAndNoticeRules": [
+      "6. Serve the prosecuting attorney. The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons.",
+      "7. Ruling and distribution. If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record.",
+      "The prosecutor's objection window is the main timing variable; if there is no objection, many courts grant on the papers,",
+      "Serve the prosecuting attorney.",
+      "The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons. • 7.",
+      "If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record.",
+      "The prosecutor's objection window is the main timing variable; if there is no objection, many courts grant on the papers, and a contested petition goes to a hearing.",
+      "DOC time is a hard bar. Any portion of a felony sentence served in the Department of Correction makes that felony ineligible, regardless of class.",
+      "Any portion of a felony sentence served in the Department of Correction makes that felony ineligible, regardless of class. • One prior felony."
+    ],
+    "feeRules": [
+      "Act 1460 eliminated sealing filing fees; the real costs are records and any counsel.",
+      "Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments",
+      "ACIC criminal-history record ACIC fee To confirm offenses, classes, dispositions",
+      "Copy of Judgment & Commitment Order Small clerk fee From the sentencing court clerk",
+      "Attorney fees (if represented) Varies Not required; legal-aid and sealing clinics assist",
+      "Because the filing fee is gone, the practical costs are obtaining the ACIC criminal history and the Judgment and",
+      "Commitment Order to confirm eligibility, plus counsel if the person chooses representation. As with most states,",
+      "the real gate is satisfying outstanding restitution, fines, and court costs — which is a completion requirement, not",
+      "Lead with no filing fee. The cost that matters is paying off court debt and restitution, which is a prerequisite to eligibility",
+      "Pull the ACIC history first so the offense classes (which drive the misdemeanor waits and the felony bars) are confirmed.",
+      "Item Amount Note Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments ACIC criminal-history record ACIC fee To confirm offenses, classes, dispositions Copy of Judgment & Commitment Order Small clerk fee From the sentencing court clerk Attorney fees (if represented) Varies Not required; legal-aid and sealing clinics assist Because the filing fee is gone, the practical costs are obtaining the ACIC criminal history and the Judgment and Commitment Order to confirm eligibility, plus counsel if the person chooses representation.",
+      "As with most states, the real gate is satisfying outstanding restitution, fines, and court costs — which is a completion requirement, not a filing fee.",
+      "AGENT GUIDANCE Lead with no filing fee.",
+      "The cost that matters is paying off court debt and restitution, which is a prerequisite to eligibility rather than a fee."
+    ],
+    "hearingAndObjectionRules": [
+      "The prosecutor's objection window is the main timing variable; if there is no objection, many courts grant on the papers,",
+      "and a contested petition goes to a hearing.",
+      "The prosecutor's objection window is the main timing variable; if there is no objection, many courts grant on the papers, and a contested petition goes to a hearing."
+    ],
+    "postFilingRules": [
+      "Sealing is filed in the court that handled the case; a person with cases in several courts files in each.",
+      "1. Get the record. Pull the ACIC criminal history and the court docket / Judgment and Commitment Order to confirm each charge, the offense class, the disposition, and the sentence-completion dates.",
+      "4. Complete the uniform petition and order for the matching disposition, citing the statute, case number, offense, and class.",
+      "5. File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.",
+      "7. Ruling and distribution. If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record.",
+      "Pull the ACIC criminal history and the court docket / Judgment and Commitment Order to confirm each charge, the offense class, the disposition, and the sentence-completion dates. • 2.",
+      "Complete the uniform petition and order for the matching disposition, citing the statute, case number, offense, and class. • 5.",
+      "Act 1460 eliminated filing fees for sealing. • 6.",
+      "If granted, the court enters the uniform order; the clerk sends copies to ACIC, the arresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to seal the record."
+    ],
+    "formInventory": [
+      {
+        "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+        "relativePath": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "sizeBytes": 775618
+      },
+      {
+        "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "relativePath": "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+        "sizeBytes": 529888
+      },
+      {
+        "fileName": "Arkansas-Petition-Order-Forms.html",
+        "relativePath": "LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+        "sizeBytes": 74560
+      },
+      {
+        "fileName": "Felony-Petition-Form-f.pdf",
+        "relativePath": "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "sizeBytes": 178947
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+        "relativePath": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "sizeBytes": 775618
+      },
+      {
+        "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "relativePath": "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+        "sizeBytes": 529888
+      },
+      {
+        "fileName": "Arkansas-Petition-Order-Forms.html",
+        "relativePath": "LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html",
+        "extension": ".html",
+        "kind": "official_form_or_packet",
+        "sha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+        "sizeBytes": 74560
+      },
+      {
+        "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+        "relativePath": "LegalEase Arkanasa/Arkansas-RecordSealing-Agent-Reference.pdf",
+        "extension": ".pdf",
+        "kind": "reference",
+        "sha256": "c4367beb089f187e3c5d96c7c3003eb3a8a96497296602c2fc06a23f1d963d2a",
+        "sizeBytes": 28713
+      },
+      {
+        "fileName": "Felony-Petition-Form-f.pdf",
+        "relativePath": "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "sizeBytes": 178947
+      },
+      {
+        "fileName": "criminal-history.html",
+        "relativePath": "LegalEase Arkanasa/criminal-history.html",
+        "extension": ".html",
+        "kind": "web_source",
+        "sha256": "db6e3ea2c967ede138c4fd1e0bba72d5d9b3dc27526bed72314ea9ed84a786ab",
+        "sizeBytes": 382145
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "Use Arkansas-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 50,
+      "endLine": 72,
+      "text": "Statutory shorthand used throughout\nTerm Meaning\n\n§ 16-90-1405 Eligibility to seal a MISDEMEANOR offense or violation\n\n§ 16-90-1406 FELONY convictions ELIGIBLE for sealing; the one-prior-felony limit\n\n§ 16-90-1407 Special procedure for a felony controlled-substance POSSESSION conviction\n\n§ 16-90-1408 FELONY convictions INELIGIBLE for sealing (the categorical bars)\n\n§ 16-90-1409 Sealing records of ARRESTS\n\n§ 16-90-1410 Sealing NOLLE PROSEQUI, DISMISSED cases, and ACQUITTALS\n\n§ 16-90-1413/1414 Procedure; the UNIFORM petition and uniform order to seal\n\nAct 346 of 1975 First Offender Act — pre-adjudication probation, dismissal, and sealing\n\nACIC Arkansas Crime Information Center — the state criminal-history repository"
+    },
+    {
+      "title": "Eligibility rules",
+      "category": "pathways",
+      "startLine": 73,
+      "endLine": 106,
+      "text": "One statute, routed by disposition and offense class.\n\nSituation A — Non-convictions (§§ 16-90-1409, 1410)\n• Acquittal (found not guilty on all charges) — may petition to seal at any time.\n• Nolle prosequi / dismissal — may petition to seal the records of the dismissed case.\n• Arrest, no charges filed — the arrest record may be sealed under § 16-90-1409.\n• These are the most accessible filings and generally carry no waiting period.\nSituation B — Misdemeanor convictions (§ 16-90-1405)\n• Most misdemeanor convictions and violations are eligible for sealing after the sentence is fully completed\n(incarceration, probation, all fines, restitution, court costs, and any license reinstatement).\n• There is no limit on how many misdemeanors may be sealed.\n• Certain listed misdemeanors carry a 5-year wait; DWI/BWI carries a 10-year wait (Section 2).\nSituation C — Felony convictions (§§ 16-90-1406, 1407)\n• Eligible (mainly non-violent Class C and Class D felonies, and certain drug felonies) may be sealed after\nsentence completion. Since the 2019/2021 amendments, most eligible felonies have no general waiting\nperiod — a petition may be filed immediately on completion.\n• One-prior-felony limit: a person may not have more than one previous felony conviction. Felonies committed\nas part of the same criminal episode count as a single conviction (§ 16-90-1406).\n• Controlled-substance possession felonies have a dedicated path under § 16-90-1407.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nAct 346 First Offender route\nDecided at the plea stage: a first offender who pleads guilty or nolo and is placed on probation under Act 346\nhas the case dismissed and sealed on successful completion — no conviction is ever entered. This is the\nstrongest outcome but must be elected early; the agent should ask whether Act 346 applied.\n\nAGENT GUIDANCE\nRoute by disposition first: non-conviction (seal any time), misdemeanor (seal on completion, watch the 5- and 10-year\nlists), felony (seal on completion if eligible and not over the one-prior limit).\nAlways confirm the sentence is fully complete — unpaid restitution, court costs, or an unreinstated license all block\nsealing even when the offense is eligible."
+    },
+    {
+      "title": "Waiting periods",
+      "category": "waiting_periods",
+      "startLine": 107,
+      "endLine": 148,
+      "text": "Most sealing in Arkansas has NO waiting period after the 2019/2021 amendments. The exceptions are specific\nmisdemeanor categories and a procedural objection window.\n\nDisposition / offense Waiting period Measured from\n\nAcquittal / nolle prosequi / dismissal / arrest None —\n\nMost misdemeanor convictions and violations None Sentence completion\n\nCertain listed misdemeanors (e.g., negligent homicide, 5 years Sentence completion\n3rd-degree battery, indecent exposure, public sexual\nindecency, 4th-degree sexual assault, certain domestic\noffenses)\n\nDWI / BWI misdemeanor conviction 10 years Sentence completion\n\nMost eligible (non-violent) Class C / D felonies None Sentence completion\n\nViolent Class C / D felony (where otherwise eligible) 5 years Sentence completion\n\nProsecutor objection window — misdemeanor 30 days Receipt / filing of petition\n\nProsecutor objection window — felony 90 days Receipt / filing of petition\n\nRefile after a DENIAL — misdemeanor/violation 90 days Date of denial\n\nRefile after a denial — 5-year-wait misdemeanor 1 year Date of denial\n\nThe headline change from the 2019 HB 1831 / Act 910 and 2021 Act 341 amendments is that the old flat 5-year\nfelony wait and the predicate-felony disqualifier were removed for non-violent felonies, and filing fees were\neliminated. What remains are the targeted misdemeanor waits (5 years for the listed offenses, 10 years for\nDWI/BWI), the 5-year wait for the narrow band of violent Class C/D felonies that are still eligible, and the\nprosecutor's statutory objection window before the court rules.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nVERIFY BEFORE RELYING\nThe 5-year misdemeanor list and the violent-Class-C/D treatment are the volatile pieces and have moved across the 2019\nand 2021 amendments. The agent must confirm the current § 16-90-1405 list and the § 5-4-501(d)(2) violence\ncross-reference before quoting a wait, rather than relying on a fixed list here."
+    },
+    {
+      "title": "Disqualifying / ineligible offenses",
+      "category": "exclusions",
+      "startLine": 149,
+      "endLine": 178,
+      "text": "The felony bars in § 16-90-1408 are categorical — time and sentence completion do not cure them.\n\nFelonies NOT eligible for sealing (§ 16-90-1408)\n• A Class Y, Class A, or Class B felony (except certain drug felonies allowed under § 16-90-1406).\n• Manslaughter (§ 5-10-104).\n• A felony sex offense.\n• A felony involving violence under § 5-4-501(d)(2).\n• An unclassified felony with a maximum sentence of more than ten (10) years.\n• A felony for which the person served any portion of the sentence in the Department of Correction.\n• A felony traffic offense committed while holding a commercial learner's permit or CDL (parking, weight, and\nvehicle-defect violations excepted).\n\nAcross-the-board limits\n• One-prior-felony limit. More than one previous felony conviction (even if already sealed) bars sealing a further\nfelony; same-episode felonies count as one.\n• Sentence must be complete. Outstanding restitution, fines, court costs, or an unreinstated license means the\nsentence is not complete and the matter is not yet sealable.\n• Pending charges / new convictions. New offenses during a waiting period or pending charges defeat or delay\nsealing.\n• CDL traffic carve-out. A commercial license holder can never seal a misdemeanor or violation traffic offense\ncommitted in any vehicle.\n• Out-of-state / federal. Arkansas sealing reaches Arkansas records only.\n\nAGENT GUIDANCE\nScreen § 16-90-1408 first for any felony: Class Y/A/B (non-drug), manslaughter, sex, violence under § 5-4-501(d)(2),\nunclassified over 10 years, any DOC time, and CDL traffic are hard bars.\nCount prior felonies carefully — the one-prior limit is the most common felony disqualifier after the categorical list;\nremember same-episode felonies merge into a single conviction."
+    },
+    {
+      "title": "Case outcome rules",
+      "category": "case_outcomes",
+      "startLine": 179,
+      "endLine": 219,
+      "text": "Disposition and offense class drive the route and timing. This table is the agent's primary routing logic for\nArkansas.\n\nCase outcome / offense Route Wait Note\n\nAcquittal / nolle prosequi / dismissal Seal (§ 1410) None Most accessible\n\nArrest, no charges filed Seal (§ 1409) None Arrest record\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nAct 346 first-offender plea, completed Dismiss + seal None No conviction entered\n\nMost misdemeanor convictions / violations Seal (§ 1405) None On completion\n\nListed misdemeanors (Section 2) Seal (§ 1405) 5 yrs After completion\n\nDWI / BWI misdemeanor Seal (§ 1405) 10 yrs After completion\n\nNon-violent Class C / D felony (eligible) Seal (§ 1406) None On completion; one-prior limit\n\nFelony drug possession Seal (§ 1407) None Special procedure\n\nViolent Class C / D felony (where eligible) Seal (§ 1406) 5 yrs Narrow band\n\nClass Y/A/B, sex, violent, DOC time, — Ineligible § 1408 bar\nmanslaughter\n\nEffect of sealing: under the Act, a sealed record is treated as if the conduct never occurred, and the person\nmay lawfully state they have not been arrested for or convicted of the sealed offense, with limited exceptions\n(applying for certain law-enforcement positions, ACIC access, and use in a subsequent prosecution or\nsentencing). Sealing restricts public access; it is not a physical destruction of records, and criminal-justice\nagencies retain access.\n\nAGENT GUIDANCE\nBe precise on effect: sealed in Arkansas means treated as if it never occurred for most purposes, but criminal-justice\nagencies and certain employers still see it.\nMatch the route to the disposition and class, confirm completion, and apply the one-prior-felony limit before telling a user a\nfelony is sealable."
+    },
+    {
+      "title": "Required forms",
+      "category": "forms",
+      "startLine": 220,
+      "endLine": 262,
+      "text": "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department\nof Public Safety / ACIC site, filed in the court that handled the case. Each disposition has its own\npetition-and-order pair.\n\nForm (uniform petition + order) Use\n\nPetition and Order to Seal Felony (Act 1460) Eligible felony convictions under § 16-90-1406; one-prior-felony\nlimit applies.\n\nPetition and Order to Seal Misdemeanors (Act 1460) Misdemeanor convictions and violations under § 16-90-1405.\n\nPetition and Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait.\n\nPetition and Order to Seal Controlled-Substance Felony controlled-substance possession under the § 16-90-1407\nPossession special procedure.\n\nPetition and Order to Seal Nolle Prosequi / Dismissal Non-conviction dispositions under § 16-90-1410.\n/ Acquittal / Not Filed\n\nPetition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma\n\nPetition and Order to Seal Pardoned / Youthful Records of a pardoned person under § 16-90-1411.\nFelony Offender\n\nPetition and Order to Dismiss and Seal First First-offender pre-adjudication dismissal and sealing.\nOffenders (Act 346 / Act 1460)\n\nPre-Adjudication Drug Court dismiss-and-seal Drug-court disposition under the Arkansas Drug Court Act.\n\nEach filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory\nbasis, and pairs the petition with a proposed uniform order for the judge. The petition is filed with the circuit or\ndistrict court that handled the case, and a copy goes to the prosecuting attorney, who has the statutory objection\nwindow (30 days misdemeanor, 90 days felony) before the court rules.\n\nAGENT GUIDANCE\nPick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest,\npardon, or Act 346 first offender.\nThese are the official ACIC uniform forms — they can be replicated field-for-field if the user uploads the current PDFs; until\nthen any built form is modeled on the uniform structure and should say so."
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 263,
+      "endLine": 285,
+      "text": "Sealing is filed in the court that handled the case; a person with cases in several courts files in each.\n\n• 1. Get the record. Pull the ACIC criminal history and the court docket / Judgment and Commitment Order to\nconfirm each charge, the offense class, the disposition, and the sentence-completion dates.\n• 2. Confirm completion. Verify all incarceration, probation, fines, restitution, court costs, and license\nreinstatement are satisfied — this is the usual practical gate.\n• 3. Pick the route and screen. Non-conviction, misdemeanor, or felony; screen § 16-90-1408 and the\none-prior-felony limit for felonies, and the 5-/10-year lists for misdemeanors.\n• 4. Complete the uniform petition and order for the matching disposition, citing the statute, case number,\noffense, and class.\n• 5. File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\n• 6. Serve the prosecuting attorney. The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a\nnotice of opposition stating reasons.\n• 7. Ruling and distribution. If granted, the court enters the uniform order; the clerk sends copies to ACIC, the\narresting agency, the prosecutor, and the Administrative Office of the Courts, which update their repositories to\nseal the record.\n\nAGENT GUIDANCE\nVenue is the court that handled the case — file separately in each county where the person has records.\nThe prosecutor's objection window is the main timing variable; if there is no objection, many courts grant on the papers,\nand a contested petition goes to a hearing."
+    },
+    {
+      "title": "Court-specific quirks",
+      "category": "quirks",
+      "startLine": 286,
+      "endLine": 309,
+      "text": "Arkansas-specific practice points that surprise people.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma\n\n• Sealing, not expungement. “Expungement” is the old informal word; “sealing” is the current legal term and the\ntwo mean the same thing in Arkansas practice.\n• 2019/2021 reforms changed the math. The old flat 5-year felony wait, the predicate-felony disqualifier for\nnon-violent felonies, and filing fees are gone — older guides overstate the barriers.\n• DOC time is a hard bar. Any portion of a felony sentence served in the Department of Correction makes that\nfelony ineligible, regardless of class.\n• One prior felony. The single-prior-felony limit is decisive; same-episode felonies merge to one.\n• Act 346 is elected early. The strongest outcome (dismiss-and-seal, no conviction) is chosen at the plea stage,\nnot after; ask whether it applied.\n• CDL holders. A commercial-license holder can never seal a traffic misdemeanor or violation, in any vehicle,\nand CDL felony traffic offenses are barred.\n• Sealing is restriction, not destruction. Law enforcement, ACIC, and certain licensing/employment contexts\nretain access, and sealed convictions can be used in later sentencing.\n\nAGENT GUIDANCE\nLead with the good news post-2019/2021: most non-violent felonies and misdemeanors seal on completion with no wait\nand no fee — but DOC time and the one-prior limit are the felony killers.\nFlag the Act 346 question and the CDL carve-out proactively; both change the answer and surprise people."
+    },
+    {
+      "title": "Fee information",
+      "category": "fees",
+      "startLine": 310,
+      "endLine": 332,
+      "text": "Act 1460 eliminated sealing filing fees; the real costs are records and any counsel.\n\nItem Amount Note\n\nSealing petition filing fee $0 Filing fees eliminated by the 2019 amendments\n\nACIC criminal-history record ACIC fee To confirm offenses, classes, dispositions\n\nCopy of Judgment & Commitment Order Small clerk fee From the sentencing court clerk\n\nAttorney fees (if represented) Varies Not required; legal-aid and sealing clinics assist\n\nBecause the filing fee is gone, the practical costs are obtaining the ACIC criminal history and the Judgment and\nCommitment Order to confirm eligibility, plus counsel if the person chooses representation. As with most states,\nthe real gate is satisfying outstanding restitution, fines, and court costs — which is a completion requirement, not\na filing fee.\n\nAGENT GUIDANCE\nLead with no filing fee. The cost that matters is paying off court debt and restitution, which is a prerequisite to eligibility\nrather than a fee.\nPull the ACIC history first so the offense classes (which drive the misdemeanor waits and the felony bars) are confirmed."
+    },
+    {
+      "title": "Criminal history (ACIC) request process",
+      "category": "filing",
+      "startLine": 333,
+      "endLine": 338,
+      "text": "Confirming the record fixes the offense class (which decides eligibility and any wait), the disposition, and the\ncompletion dates.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma"
+    },
+    {
+      "title": "Sample petitions and completed examples",
+      "category": "samples",
+      "startLine": 362,
+      "endLine": 372,
+      "text": "Arkansas filings use the AOC/ACIC uniform petition-and-order pairs in the court that handled the case. The\nexamples show structure and key recitals. Names, dates, and identifiers are fictional.\n\nExample A — Petition to Seal an Eligible Felony (§ 16-90-1406)\nIN THE CIRCUIT COURT OF PULASKI COUNTY, ARKANSAS\nSTATE OF ARKANSAS v. ANDRE L. CARTER No. 60CR-18-1234\nUNIFORM PETITION TO SEAL RECORDS (Act 1460 of 2013)\n1. Petitioner: Andre L. Carter; DOB 07/22/1992.\n2. On 03/14/2019 petitioner was convicted of Theft of Property, a\nClass D felony (A.C.A. § 5-36-103), in this Court."
+    },
+    {
+      "title": "NON-CONVICTION (§ 16-90-1410): ‘The charge was dismissed /",
+      "category": "pathway_detail",
+      "startLine": 390,
+      "endLine": 411,
+      "text": "nolle prossed / resulted in acquittal on [date]; petitioner moves\nto seal all records of the case. No waiting period.’\n\nD. ACT 346 FIRST OFFENDER: ‘Petitioner pleaded under Act 346,\ncompleted probation, and moves to DISMISS AND SEAL; no conviction\nis entered of record.’\n\nWhat each order does\nOn entry, the Uniform Order to Seal directs the clerk and ACIC (and the arresting agency, prosecutor, and\nAdministrative Office of the Courts) to seal the records of the arrest, charge, and conviction, after which the\npetitioner may lawfully state the matter did not occur for most purposes. An Act 346 dismiss-and-seal order\nmeans no conviction was ever entered. None of these reach federal or out-of-state records, and\nlaw-enforcement / ACIC access and use in later sentencing are preserved.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Arkansas's record-sealing\nSealing Act of 2013 (Act 1460, A.C.A. §§ 16-90-1401 to 1419), as amended by the 2019 (HB 1831 / Act 910) and 2021\n(Act 341) sessions, which cut most waits and eliminated filing fees. The agent must verify the current text of §§\n16-90-1405, 1406, 1407, 1408, 1409, and 1410, the § 5-4-501(d)(2) violence cross-reference, the official AOC/ACIC\nuniform forms, ACIC processes, and current fees before relying on any rule here.\n\nArkansas Record Sealing — Agent Training Reference · LegalEase / Wilma"
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 3,
+      "questions": 15,
+      "decisionRules": 58,
+      "waitingRules": 14,
+      "exclusions": 19,
+      "sourceFiles": 6,
+      "officialForms": 4
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

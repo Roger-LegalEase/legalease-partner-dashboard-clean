@@ -1,4 +1,4 @@
-import type { RcapDocumentPacket, RcapFilingNextStepsPacket } from "@/lib/rcap/documents/mississippi/types";
+import type { RcapDocumentPacket, RcapFilingNextStepsPacket } from "@/lib/rcap/documents/types";
 
 type FilingNextStepsInput = Pick<
   RcapDocumentPacket,
@@ -20,8 +20,19 @@ export function buildFilingNextStepsPacket(packet: FilingNextStepsInput): RcapFi
   if (packet.state === "DC") return buildDcNextSteps(packet);
   if (packet.state === "PA") return buildPennsylvaniaNextSteps(packet);
   if (packet.state === "TX") return buildTexasHarrisNextSteps(packet);
-  const exhaustiveState: never = packet.state;
-  return exhaustiveState;
+  return packetFromSections({
+    title: `Next Steps for Filing - ${packet.state}`,
+    filingLocation: packet.county ? `${packet.county} filing location must be confirmed from source packet instructions.` : "Confirm the filing location from the source-driven packet plan.",
+    filingMethod: "Confirm the filing method, copies, signatures, notarization, fees, and service details from the jurisdiction-specific source packet.",
+    requiredDocuments: ["Source-driven packet plan.", "Court record or certified disposition when available.", "Any source-required attachments."],
+    serviceAndCopies: ["Confirm service and copy requirements from the jurisdiction-specific source packet."],
+    feeSummary: ["Confirm current filing fees or fee-waiver options with the filing court or agency."],
+    courtContactOrLocationGuidance: packet.countyCourtInstructions,
+    afterFiling: packet.filingInstructions,
+    trackingChecklist: ["Filed-stamped copy.", "Receipt or fee-waiver confirmation.", "Court or agency response."],
+    workflowGaps: gapsFrom(packet.state, packet),
+    safetyDisclaimer: packet.safetyDisclaimer
+  });
 }
 
 function buildMississippiNextSteps(packet: FilingNextStepsInput): RcapFilingNextStepsPacket {

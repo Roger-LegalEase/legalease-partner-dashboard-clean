@@ -1,0 +1,3085 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "MA",
+    "name": "Massachusetts",
+    "slug": "massachusetts"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase massachusetts/Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "sha256": "e9a0bb1e2f90fe163bf779b5a3ba58ad2e324fd82db887dfe8624397f7f4ee3b",
+        "sizeBytes": 99049,
+        "score": 2724,
+        "extractedChars": 21743
+      }
+    ],
+    "sourceCorpusSha256": "9baa1229d62d0d23e9a8d6942d74e3b3929369af0ff44d4a1302c07d9208c887",
+    "sourceCorpusChars": 21624,
+    "allFolderFiles": [
+      {
+        "fileName": "Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase massachusetts/Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "e9a0bb1e2f90fe163bf779b5a3ba58ad2e324fd82db887dfe8624397f7f4ee3b",
+        "sizeBytes": 99049
+      },
+      {
+        "fileName": "OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "relativePath": "LegalEase massachusetts/OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "303159c0a290f2b44484e7a024d37d6019b92eae30b770944c5c9836995dc964",
+        "sizeBytes": 276631
+      },
+      {
+        "fileName": "fillable-jud-mps-Petition-to-Seal.pdf",
+        "relativePath": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "sizeBytes": 216883
+      },
+      {
+        "fileName": "jud-Petition-for-Expungement.pdf",
+        "relativePath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "sizeBytes": 1387408
+      },
+      {
+        "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "sizeBytes": 1374671
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure"
+    ],
+    "pathwayLabels": [
+      "Eligibility - adult conviction sealing",
+      "Eligibility - juvenile sealing",
+      "Eligibility - time-based expungement",
+      "Marijuana-specific expungement",
+      "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J",
+      "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "source_question_01_was-this-an-adult-criminal-case-juvenile",
+        "source_question_02_how-did-the-case-end-guilty-conviction-c",
+        "source_question_03_was-it-a-misdemeanor-or-felony-and-when-",
+        "source_question_04_were-all-the-charges-from-before-your-21",
+        "source_question_05_was-the-record-created-because-of-identi"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "identity_error"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "financial_obligations"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Massachusetts, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Massachusetts case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Misdemeanor conviction",
+        "Felony conviction",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "Outcome unknown or record needed",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Misdemeanor",
+        "Felony",
+        "Infraction or violation",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Massachusetts descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Adult conviction sealing under M.G.L. c. 276, § 100A",
+        "Automatic non-conviction sealing for not-guilty, no-bill, or no-probable-cause outcomes (§ 100C)",
+        "Court-requested sealing for dismissal or nolle prosequi (§ 100C)",
+        "Juvenile record sealing under § 100B",
+        "Time-based expungement under §§ 100F–100J",
+        "Non-time-based expungement for false identity, error, fraud, or decriminalized conduct (§ 100K)",
+        "Marijuana-only expungement",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "source_question_01_was-this-an-adult-criminal-case-juvenile",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this an adult criminal case, juvenile delinquency/youthful offender case, or are you not sure?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_02_how-did-the-case-end-guilty-conviction-c",
+      "stage": "state_specific_eligibility",
+      "prompt": "How did the case end: guilty/conviction, CWOF, dismissal, nolle prosequi, not guilty, no bill, no probable cause, or still pending?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_03_was-it-a-misdemeanor-or-felony-and-when-",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was it a misdemeanor or felony, and when did you finish jail, probation, parole, or any sentence?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_04_were-all-the-charges-from-before-your-21",
+      "stage": "state_specific_eligibility",
+      "prompt": "Were all the charges from before your 21st birthday, and do you have no more than two records total?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_05_was-the-record-created-because-of-identi",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was the record created because of identity theft, false identification, court/police/witness error, fraud, or because the conduct is no longer a crime?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "identity_error",
+      "stage": "special_pathways",
+      "prompt": "Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Massachusetts was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": []
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": []
+    },
+    {
+      "value": "convicted_misdemeanor",
+      "label": "Misdemeanor conviction",
+      "candidatePathways": [
+        "eligibility-adult-conviction-sealing"
+      ]
+    },
+    {
+      "value": "convicted_felony",
+      "label": "Felony conviction",
+      "candidatePathways": [
+        "eligibility-adult-conviction-sealing"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "eligibility-adult-conviction-sealing",
+        "eligibility-time-based-expungement"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "eligibility-adult-conviction-sealing",
+        "eligibility-juvenile-sealing",
+        "eligibility-time-based-expungement"
+      ]
+    },
+    {
+      "value": "unknown",
+      "label": "Outcome unknown or record needed",
+      "candidatePathways": []
+    }
+  ],
+  "pathways": [
+    {
+      "id": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "label": "Adult conviction sealing under M.G.L. c. 276, § 100A",
+      "summary": "Adult conviction sealing is governed mainly by M.G.L. c. 276, 100A. Record type Waiting period Clock rule Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+      "sourceRef": "section:43-68; overview:7-26; section:7-26; section:27-42; corpus-unit:7; corpus-unit:10; corpus-unit:27; corpus-unit:19",
+      "sourceEvidenceRefs": [
+        "section:43-68",
+        "overview:7-26",
+        "section:7-26",
+        "section:27-42",
+        "corpus-unit:7",
+        "corpus-unit:10",
+        "corpus-unit:27",
+        "corpus-unit:19",
+        "corpus-unit:21",
+        "corpus-unit:25",
+        "corpus-unit:26",
+        "corpus-unit:16",
+        "corpus-unit:23"
+      ],
+      "ruleClauses": [
+        "Adult conviction sealing is governed mainly by M.G.L. c. 276, 100A.",
+        "Record type Waiting period Clock rule",
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Section 100A requires no Massachusetts guilty finding during the applicable 3- or 7-year period, except minor motor-vehicle offenses punishable by a fine of not more than $50. It also requires the petitioner to state that they have no disqualifying out-of-state, federal, or U.S. possession convictions/imprisonment during the same lookback period. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/section100a\")",
+        "Adult sealing disqualifiers / special handling",
+        "Firearms convictions under M.G.L. c. 140 121-131H Generally not sealable under 100A",
+        "Public-corruption / obstruction-type convictions under c. 268 or c. 268A Generally not sealable under 100A, except resisting arrest",
+        "Sex offenses 15-year wait or registration-duty period, whichever is longer",
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "209A abuse-prevention order violation / 258E harassment-prevention order violation Treat as felony for sealing timing",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Old felony now classified as misdemeanor Treat as misdemeanor",
+        "Unknown felony/misdemeanor level Treat as misdemeanor",
+        "These rules come directly from 100A\u0019s eligibility and exception language. (",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "residency_or_location",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "acquitted"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Record type Waiting period Clock rule",
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition"
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+      "label": "Automatic non-conviction sealing for not-guilty, no-bill, or no-probable-cause outcomes (§ 100C)",
+      "summary": "User\u0019s case outcome First Wilma route Main statute / form logic Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait Not guilty Sealing 100C; should be sealed unless defendant asks not to seal No bill / grand jury no bill Sealing 100C; should be sealed No probable cause Sealing 100C; should be sealed Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing Dismissal Court sealing 100C; court must find substantial justice supports sealing Juvenile delinquency / youthful offender…",
+      "sourceRef": "corpus-unit:10; section:7-26; section:230-287; section:218-229; section:288-290; summary:288-290; corpus-unit:75; corpus-unit:79",
+      "sourceEvidenceRefs": [
+        "corpus-unit:10",
+        "section:7-26",
+        "section:230-287",
+        "section:218-229",
+        "section:288-290",
+        "summary:288-290",
+        "corpus-unit:75",
+        "corpus-unit:79",
+        "corpus-unit:92",
+        "waiting_periods:218-229",
+        "corpus-unit:28",
+        "corpus-unit:78",
+        "overview:7-26"
+      ],
+      "ruleClauses": [
+        "User\u0019s case outcome First Wilma route Main statute / form logic Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait Not guilty Sealing 100C; should be sealed unless defendant asks not to seal No bill / grand jury no bill Sealing 100C; should be sealed No probable cause Sealing 100C; should be sealed Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing Dismissal Court sealing 100C; court must find substantial justice supports sealing Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J Adult non-conviction before age 21, limited record…",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed",
+        "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing",
+        "Dismissal Court sealing 100C; court must find substantial justice supports sealing",
+        "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement",
+        "Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J",
+        "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")",
+        "Was this an adult criminal case, juvenile delinquency/youthful offender case, or are you not sure?",
+        "If adult go to Step 2.If juvenile/youthful offender check 100B sealing first, then time-based expungement if strict criteria may fit.If unknown ask for CORI/docket.",
+        "How did the case end: guilty/conviction, CWOF, dismissal, nolle prosequi, not guilty, no bill, no probable cause, or still pending?",
+        "If pending no sealing/expungement route yet; manual/legal review.If not guilty/no bill/no probable cause 100C sealing route.If dismissal/nolle 100C court sealing route.If conviction sealing first; expungement only if narrow criteria.",
+        "Was it a misdemeanor or felony, and when did you finish jail, probation, parole, or any sentence?",
+        "Misdemeanor 3-year check.Felony 7-year check.Sex offense 15-year/registration/level check.Firearm/public-corruption exclusions manual review.",
+        "Step 4 - Check time-based expungement",
+        "Were all the charges from before your 21st birthday, and do you have no more than two records total?",
+        "If no likely not time-based expungement.If yes check 100J exclusions, waiting period, no other records, no active investigation.",
+        "Step 5 - Check non-time-based expungement"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "age_at_offense",
+        "identity_error",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
+        "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+        "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+        "If no likely not time-based expungement.If yes check 100J exclusions, waiting period, no other records, no active investigation."
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "Offense not excluded Offense is not listed in 100J",
+        "under age 21 + limited record + non-excluded offense"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+      "label": "Court-requested sealing for dismissal or nolle prosequi (§ 100C)",
+      "summary": "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+      "sourceRef": "section:218-229; waiting_periods:218-229; corpus-unit:75; section:7-26; section:69-83; section:180-191; section:192-202; section:288-290",
+      "sourceEvidenceRefs": [
+        "section:218-229",
+        "waiting_periods:218-229",
+        "corpus-unit:75",
+        "section:7-26",
+        "section:69-83",
+        "section:180-191",
+        "section:192-202",
+        "section:288-290",
+        "corpus-unit:10",
+        "corpus-unit:28",
+        "corpus-unit:65",
+        "corpus-unit:68",
+        "overview:7-26",
+        "summary:288-290",
+        "corpus-unit:29",
+        "corpus-unit:92"
+      ],
+      "ruleClauses": [
+        "Route Wait Clock starts / runs from",
+        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud",
+        "Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C",
+        "Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement \u0014 misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement \u0014 any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or…",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed",
+        "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing",
+        "Dismissal Court sealing 100C; court must find substantial justice supports sealing",
+        "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement",
+        "Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J",
+        "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "age_at_offense",
+        "identity_error",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice"
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "Offense not excluded Offense is not listed in 100J",
+        "under age 21 + limited record + non-excluded offense"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "juvenile-record-sealing-under-100b",
+      "label": "Juvenile record sealing under § 100B",
+      "summary": "Juvenile sealing is primarily under M.G.L. c. 276, 100B. Eligible record Delinquency court appearance record on file with Commissioner of Probation Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+      "sourceRef": "section:84-96; section:7-26; overview:7-26; corpus-unit:10; corpus-unit:30; corpus-unit:31; corpus-unit:32; section:230-287",
+      "sourceEvidenceRefs": [
+        "section:84-96",
+        "section:7-26",
+        "overview:7-26",
+        "corpus-unit:10",
+        "corpus-unit:30",
+        "corpus-unit:31",
+        "corpus-unit:32",
+        "section:230-287",
+        "section:218-229",
+        "corpus-unit:77",
+        "waiting_periods:218-229",
+        "corpus-unit:75"
+      ],
+      "ruleClauses": [
+        "Juvenile sealing is primarily under M.G.L. c. 276, 100B.",
+        "Eligible record Delinquency court appearance record on file with Commissioner of Probation",
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Section 100B gives the juvenile sealing criteria and requires the request to be made on a Commissioner-furnished form signed under penalties of perjury. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100B?utm_source=chatgpt.com\")",
+        "Wilma caution: Juvenile sealing and juvenile/youthful-offender expungement are different. Sealing is broader. Expungement is narrower and requires the stricter 100I/100J checks.",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed",
+        "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing",
+        "Dismissal Court sealing 100C; court must find substantial justice supports sealing",
+        "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement",
+        "Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J",
+        "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")",
+        "User\u0019s case outcome First Wilma route Main statute / form logic Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait Not guilty Sealing 100C; should be sealed unless defendant asks not to seal No bill / grand jury no bill Sealing 100C; should be sealed No probable cause Sealing 100C; should be sealed Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing Dismissal Court sealing 100C; court must find substantial justice supports sealing Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J Adult non-conviction before age 21, limited record…",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100C\") Wilma caution: Do not treat every dismissal as automatically sealed. Dismissal/nolle cases require a court petition and a substantial-justice finding unless they qualify under another route. 5. Eligibility \u0014 juvenile sealing Juvenile sealing is primarily under M.G.L. c. 276, 100B."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "age_at_offense",
+        "residency_or_location",
+        "offense_level",
+        "offense_category",
+        "financial_obligations",
+        "identity_error",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "juvenile",
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice"
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "Offense not excluded Offense is not listed in 100J",
+        "under age 21 + limited record + non-excluded offense"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "time-based-expungement-under-100f-100j",
+      "label": "Time-based expungement under §§ 100F–100J",
+      "summary": "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J. Record type Statute Basic route Juvenile delinquent / youthful offender adjudication 100F Petition Commissioner of Probation Adult conviction 100G Petition Commissioner of Probation Adult or juvenile record without conviction/adjudication 100H Petition Commissioner of Probation",
+      "sourceRef": "section:97-137; overview:7-26; section:138-169; section:7-26; section:230-287; section:180-191; section:192-202; section:218-229",
+      "sourceEvidenceRefs": [
+        "section:97-137",
+        "overview:7-26",
+        "section:138-169",
+        "section:7-26",
+        "section:230-287",
+        "section:180-191",
+        "section:192-202",
+        "section:218-229",
+        "corpus-unit:10",
+        "corpus-unit:32",
+        "corpus-unit:36",
+        "corpus-unit:83",
+        "waiting_periods:218-229"
+      ],
+      "ruleClauses": [
+        "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J.",
+        "Record type Statute Basic route",
+        "Juvenile delinquent / youthful offender adjudication 100F Petition Commissioner of Probation",
+        "Adult conviction 100G Petition Commissioner of Probation",
+        "Adult or juvenile record without conviction/adjudication 100H Petition Commissioner of Probation",
+        "For conviction expungement, 100G allows a petitioner with not more than 2 records of conviction to petition the Commissioner of Probation; multiple offenses from the same incident count as one offense for this purpose. The Commissioner certifies eligibility under 100I and 100J, the district attorney gets notice, and the court may grant or deny based on the best interests of justice. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100G?utm_source=chatgpt.com\")",
+        "For non-conviction expungement, 100H allows a petitioner with not more than 2 records that do not include an adjudication or conviction to petition. The Commissioner has shorter notice/denial timelines than conviction expungement, and the DA may object. (\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100H\")",
+        "Time-based expungement eligibility checklist - 100I",
+        "Wilma should only route to time-based expungement if all of these are true:",
+        "Offense age All offenses occurred before the person\u0019s 21st birthday",
+        "Offense not excluded Offense is not listed in 100J",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Record count No other Massachusetts criminal/juvenile appearances or dispositions except minor motor-vehicle offenses and the records being expunged",
+        "Out-of-state/federal No other out-of-state, U.S. possession, or federal criminal/juvenile appearances or dispositions except minor motor-vehicle offenses",
+        "Active investigation Petitioner must certify they are not currently the subject of an active criminal investigation",
+        "Multiple offenses same incident Count as a single offense",
+        "These criteria come from 100I. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100I\")",
+        "Time-based expungement disqualifiers - 100J",
+        "Wilma should flag for attorney/manual review, and generally route away from time-based expungement, if the record involves:",
+        "death or serious bodily injury;",
+        "intent to cause death or serious bodily injury;",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "age_at_offense",
+        "record_type",
+        "offense_category",
+        "identity_error",
+        "financial_obligations",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Record type Waiting period Clock rule",
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+        "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition"
+      ],
+      "exclusionRules": [
+        "Offense not excluded Offense is not listed in 100J",
+        "under age 21 + limited record + non-excluded offense",
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "label": "Non-time-based expungement for false identity, error, fraud, or decriminalized conduct (§ 100K)",
+      "summary": "Non-time-based expungement is governed by M.G.L. c. 276, 100K. Wilma should check this route when the record was created because of: Were you charged because someone used your name or identifying information? Unauthorized use or theft of identity Is the conduct now decriminalized or legalized?",
+      "sourceRef": "section:138-169; overview:7-26; section:7-26; section:230-287; section:192-202; section:218-229; corpus-unit:10; waiting_periods:218-229",
+      "sourceEvidenceRefs": [
+        "section:138-169",
+        "overview:7-26",
+        "section:7-26",
+        "section:230-287",
+        "section:192-202",
+        "section:218-229",
+        "corpus-unit:10",
+        "waiting_periods:218-229",
+        "corpus-unit:75",
+        "corpus-unit:84",
+        "section:288-290",
+        "section:180-191",
+        "summary:288-290",
+        "corpus-unit:92",
+        "corpus-unit:70"
+      ],
+      "ruleClauses": [
+        "Non-time-based expungement is governed by M.G.L. c. 276, 100K.",
+        "Wilma should check this route when the record was created because of:",
+        "Were you charged because someone used your name or identifying information?",
+        "Unauthorized use or theft of identity",
+        "Is the conduct now decriminalized or legalized?",
+        "Was there a demonstrable police/prosecution error?",
+        "Civilian or expert witness error",
+        "Was the case based on a demonstrable witness or expert mistake?",
+        "Was the record created because of a clerical/court mistake?",
+        "Was there fraud that caused the record?",
+        "A court may order 100K expungement if it finds by clear and convincing evidence that the record was created because of one of those grounds. The court may also consider the best interests of justice, and it must enter written findings if it grants expungement. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100K\")",
+        "Wilma caution: This is not a general hardship expungement.",
+        "supports sealing arguments, but it does not by itself create 100K expungement eligibility.",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed",
+        "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing",
+        "Dismissal Court sealing 100C; court must find substantial justice supports sealing",
+        "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement"
+      ],
+      "triggerFields": [
+        "offense_category",
+        "financial_obligations",
+        "identity_error",
+        "case_outcome",
+        "offense_level",
+        "age_at_offense",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
+        "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+        "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "Offense not excluded Offense is not listed in 100J"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "marijuana-only-expungement",
+      "label": "Marijuana-only expungement",
+      "summary": "Massachusetts has a dedicated official form: Petition for Expungement of Marijuana Offenses Form. The official form asks the court to expunge marijuana-only charges, including possession of marijuana under G.L. c. 94C, 34. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\") Wilma routing rule: Marijuana should not automatically mean eligible. Ask: 1 Was the record marijuana-only? 3 Was it possession, cultivation, possession with intent, distribution, or another marijuana offense? 4 Was the conduct decriminalized/legalized under current law?",
+      "sourceRef": "section:170-179; overview:7-26; section:7-26; section:180-191; section:192-202; corpus-unit:10; corpus-unit:55; corpus-unit:57",
+      "sourceEvidenceRefs": [
+        "section:170-179",
+        "overview:7-26",
+        "section:7-26",
+        "section:180-191",
+        "section:192-202",
+        "corpus-unit:10",
+        "corpus-unit:55",
+        "corpus-unit:57",
+        "corpus-unit:63",
+        "corpus-unit:65",
+        "corpus-unit:71",
+        "corpus-unit:54"
+      ],
+      "ruleClauses": [
+        "Massachusetts has a dedicated official form: Petition for Expungement of Marijuana Offenses Form. The official form asks the court to expunge marijuana-only charges, including possession of marijuana under G.L. c. 94C, 34. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")",
+        "Wilma routing rule: Marijuana should not automatically mean eligible. Ask:",
+        "1 Was the record marijuana-only?",
+        "3 Was it possession, cultivation, possession with intent, distribution, or another marijuana offense?",
+        "4 Was the conduct decriminalized/legalized under current law?",
+        "5 Was there another non-marijuana charge in the same case?",
+        "6 Which court handled the case?",
+        "If the user has marijuana-only conduct that appears decriminalized/legalized, route to the marijuana expungement form and manual verification against the docket.",
+        "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic",
+        "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (",
+        "\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")",
+        "Wilma should start with the case outcome, not the offense name alone.",
+        "User\u0019s case outcome First Wilma route Main statute / form logic",
+        "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait",
+        "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait",
+        "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal",
+        "No bill / grand jury no bill Sealing 100C; should be sealed",
+        "No probable cause Sealing 100C; should be sealed",
+        "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing",
+        "Dismissal Court sealing 100C; court must find substantial justice supports sealing",
+        "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement",
+        "Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J",
+        "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J",
+        "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K",
+        "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement",
+        "Time-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form",
+        "Non-time-based expungement Petition for Expungement Form",
+        "Marijuana-only expungement Petition for Expungement of Marijuana Offenses Form"
+      ],
+      "triggerFields": [
+        "offense_category",
+        "financial_obligations",
+        "case_outcome",
+        "offense_level",
+        "age_at_offense",
+        "identity_error",
+        "record_type"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "acquitted",
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+        "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+        "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+        "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+        "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+        "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+        "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+        "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+        "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+        "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+        "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+        "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
+        "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+        "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+      ],
+      "exclusionRules": [
+        "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+        "Offense not excluded Offense is not listed in 100J",
+        "under age 21 + limited record + non-excluded offense"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-19-time-based-expungement-misdemeanor-only-3-years-offense",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "rule-20-time-based-expungement-any-felony-7-years-offense-and-a",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "rule-01-adult-misdemeanor-conviction-sealing-petition-to-seal-c",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a"
+      ]
+    },
+    {
+      "id": "rule-02-adult-felony-conviction-sealing-petition-to-seal-convic",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a"
+      ]
+    },
+    {
+      "id": "rule-03-not-guilty-sealing-100c-should-be-sealed-unless-defenda",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "acquitted"
+        ],
+        "sourceConditionText": "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "marijuana-only-expungement",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "rule-04-no-bill-grand-jury-no-bill-sealing-100c-should-be-seale",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "No bill / grand jury no bill Sealing 100C; should be sealed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c"
+      ]
+    },
+    {
+      "id": "rule-05-no-probable-cause-sealing-100c-should-be-sealed",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No probable cause Sealing 100C; should be sealed"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c"
+      ]
+    },
+    {
+      "id": "rule-06-nolle-prosequi-court-sealing-100c-court-must-find-subst",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Nolle prosequi Court sealing 100C; court must find substantial justice supports sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "rule-07-dismissal-court-sealing-100c-court-must-find-substantia",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissal Court sealing 100C; court must find substantial justice supports sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "rule-08-juvenile-delinquency-youthful-offender-record-juvenile-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j",
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "juvenile-record-sealing-under-100b"
+      ]
+    },
+    {
+      "id": "rule-09-adult-conviction-before-age-21-limited-record-time-base",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j",
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a"
+      ]
+    },
+    {
+      "id": "rule-10-adult-non-conviction-before-age-21-limited-record-time-",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j",
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a"
+      ]
+    },
+    {
+      "id": "rule-11-false-id-identity-theft-court-or-law-enforcement-error",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "court",
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "False ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "rule-12-offense-no-longer-a-crime-sealing-forthwith-or-non-time",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Offense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "rule-13-marijuana-only-offense-marijuana-expungement-check-peti",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Marijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26",
+      "candidatePathwayIds": [
+        "marijuana-only-expungement",
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "rule-14-massachusetts-defines-expungement-as-the-permanent-eras",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "financial_obligations",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Massachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. ("
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:7-26"
+    },
+    {
+      "id": "rule-15-adult-misdemeanor-sealing-3-years-court-appearance-disp",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "juvenile-record-sealing-under-100b"
+      ]
+    },
+    {
+      "id": "rule-16-adult-felony-sealing-7-years-court-appearance-dispositi",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "court"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 7,
+          "unit": "years",
+          "raw": "7 years"
+        },
+        "sourceConditionText": "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "juvenile-record-sealing-under-100b"
+      ]
+    },
+    {
+      "id": "rule-17-adult-sex-offense-sealing-15-years-or-registration-duty",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "charge"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 15,
+          "unit": "years",
+          "raw": "15 years"
+        },
+        "sourceConditionText": "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "juvenile-record-sealing-under-100b",
+        "marijuana-only-expungement"
+      ]
+    },
+    {
+      "id": "rule-18-juvenile-sealing-3-years-termination-of-court-appearanc",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "juvenile-record-sealing-under-100b",
+        "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "rule-21-non-time-based-expungement-no-standard-time-wait-must-p",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "charge",
+          "identity_error"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "time-based-expungement-under-100f-100j",
+        "marijuana-only-expungement"
+      ]
+    },
+    {
+      "id": "rule-22-not-guilty-no-bill-no-probable-cause-sealing-no-ordinar",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "marijuana-only-expungement"
+      ]
+    },
+    {
+      "id": "rule-23-dismissal-nolle-prosequi-sealing-no-fixed-statutory-wai",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court"
+        ],
+        "caseOutcomes": [
+          "dismissed"
+        ],
+        "sourceConditionText": "Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "rule-24-default-route-sealing-expungement-route-narrow-mostly-u",
+      "priority": 70,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "identity_error"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "summary:288-290",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "marijuana-only-expungement"
+      ]
+    },
+    {
+      "id": "route-adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "residency_or_location",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "residency_or_location",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "acquitted"
+        ],
+        "sourceConditionText": "Adult conviction sealing under M.G.L. c. 276, § 100A"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:43-68; overview:7-26; section:7-26; section:27-42; corpus-unit:7; corpus-unit:10; corpus-unit:27; corpus-unit:19",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing-under-m-g-l-c-276-100a"
+      ]
+    },
+    {
+      "id": "route-automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Automatic non-conviction sealing for not-guilty, no-bill, or no-probable-cause outcomes (§ 100C)"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "corpus-unit:10; section:7-26; section:230-287; section:218-229; section:288-290; summary:288-290; corpus-unit:75; corpus-unit:79",
+      "candidatePathwayIds": [
+        "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c"
+      ]
+    },
+    {
+      "id": "route-court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Court-requested sealing for dismissal or nolle prosequi (§ 100C)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:218-229; waiting_periods:218-229; corpus-unit:75; section:7-26; section:69-83; section:180-191; section:192-202; section:288-290",
+      "candidatePathwayIds": [
+        "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ]
+    },
+    {
+      "id": "route-juvenile-record-sealing-under-100b",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-record-sealing-under-100b",
+        "requiredFields": [
+          "case_outcome",
+          "age_at_offense",
+          "residency_or_location",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "identity_error",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "age_at_offense",
+          "residency_or_location",
+          "offense_level",
+          "offense_category",
+          "financial_obligations",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "juvenile",
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Juvenile record sealing under § 100B"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:84-96; section:7-26; overview:7-26; corpus-unit:10; corpus-unit:30; corpus-unit:31; corpus-unit:32; section:230-287",
+      "candidatePathwayIds": [
+        "juvenile-record-sealing-under-100b"
+      ]
+    },
+    {
+      "id": "route-time-based-expungement-under-100f-100j",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "time-based-expungement-under-100f-100j",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "record_type",
+          "offense_category",
+          "identity_error",
+          "financial_obligations",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "record_type",
+          "offense_category",
+          "identity_error",
+          "financial_obligations",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Time-based expungement under §§ 100F–100J"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:97-137; overview:7-26; section:138-169; section:7-26; section:230-287; section:180-191; section:192-202; section:218-229",
+      "candidatePathwayIds": [
+        "time-based-expungement-under-100f-100j"
+      ]
+    },
+    {
+      "id": "route-non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "priority": 85,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "requiredFields": [
+          "offense_category",
+          "financial_obligations",
+          "identity_error",
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "offense_category",
+          "financial_obligations",
+          "identity_error",
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Non-time-based expungement for false identity, error, fraud, or decriminalized conduct (§ 100K)"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:138-169; overview:7-26; section:7-26; section:230-287; section:192-202; section:218-229; corpus-unit:10; waiting_periods:218-229",
+      "candidatePathwayIds": [
+        "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k"
+      ]
+    },
+    {
+      "id": "route-marijuana-only-expungement",
+      "priority": 86,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "marijuana-only-expungement",
+        "requiredFields": [
+          "offense_category",
+          "financial_obligations",
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "offense_category",
+          "financial_obligations",
+          "case_outcome",
+          "offense_level",
+          "age_at_offense",
+          "identity_error",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "acquitted",
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Marijuana-only expungement"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:170-179; overview:7-26; section:7-26; section:180-191; section:192-202; corpus-unit:10; corpus-unit:55; corpus-unit:57",
+      "candidatePathwayIds": [
+        "marijuana-only-expungement"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Record type Waiting period Clock rule",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Sex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer",
+      "duration": {
+        "value": 15,
+        "unit": "years",
+        "raw": "15 years"
+      },
+      "anchor": "disposition/supervision/incarceration, or as long as registration duty continues, whichever is longe",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Offense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation",
+      "duration": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Subsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome"
+      ]
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "court appearance/disposition, including supervision, probation, commitment, or parole, terminated",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Custody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Out-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Waiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "Waiting period - any felony At least 7 years before petition, including incarceration, custody, or probation",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable",
+      "duration": {
+        "value": 15,
+        "unit": "years",
+        "raw": "15 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "court",
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-17",
+      "ruleText": "Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-18",
+      "ruleText": "Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition",
+      "duration": {
+        "value": 7,
+        "unit": "years",
+        "raw": "7 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "offense_level",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-19",
+      "ruleText": "Route Wait Clock starts / runs from Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adult felony sealing 7 years Court appearance/disposition, including incarceration/custody Adult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable Juvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole Time-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition Time-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition Non-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud Not guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C Dismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "Adult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody Adul",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "court",
+        "charge",
+        "age_at_offense",
+        "identity_error"
+      ]
+    },
+    {
+      "id": "wait-20",
+      "ruleText": "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "identity_error"
+      ]
+    },
+    {
+      "id": "wait-21",
+      "ruleText": "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "identity_error"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "Level 2 or Level 3 sex offender classification Not eligible to seal sex offenses",
+      "fieldsReferenced": [
+        "offense_category",
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Offense not excluded Offense is not listed in 100J",
+      "fieldsReferenced": [
+        "charge"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-03",
+      "ruleText": "under age 21 + limited record + non-excluded offense",
+      "fieldsReferenced": [
+        "charge",
+        "age_at_offense"
+      ],
+      "suggestedResultCode": "likely_not_eligible"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "pathwayLabel": "Adult conviction sealing under M.G.L. c. 276, § 100A",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+            "sizeBytes": 1374671
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:43-68",
+          "overview:7-26",
+          "section:7-26",
+          "section:27-42",
+          "corpus-unit:7",
+          "corpus-unit:10",
+          "corpus-unit:27",
+          "corpus-unit:19",
+          "corpus-unit:21",
+          "corpus-unit:25",
+          "corpus-unit:26",
+          "corpus-unit:16",
+          "corpus-unit:23"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "pathwayLabel": "Automatic non-conviction sealing for not-guilty, no-bill, or no-probable-cause outcomes (§ 100C)",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "corpus-unit:10",
+          "section:7-26",
+          "section:230-287",
+          "section:218-229",
+          "section:288-290",
+          "summary:288-290",
+          "corpus-unit:75",
+          "corpus-unit:79",
+          "corpus-unit:92",
+          "waiting_periods:218-229",
+          "corpus-unit:28",
+          "corpus-unit:78",
+          "overview:7-26"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "pathwayLabel": "Court-requested sealing for dismissal or nolle prosequi (§ 100C)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+            "sizeBytes": 1374671
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:218-229",
+          "waiting_periods:218-229",
+          "corpus-unit:75",
+          "section:7-26",
+          "section:69-83",
+          "section:180-191",
+          "section:192-202",
+          "section:288-290",
+          "corpus-unit:10",
+          "corpus-unit:28",
+          "corpus-unit:65",
+          "corpus-unit:68",
+          "overview:7-26",
+          "summary:288-290",
+          "corpus-unit:29",
+          "corpus-unit:92"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-record-sealing-under-100b",
+        "pathwayLabel": "Juvenile record sealing under § 100B",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+            "sizeBytes": 1374671
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:84-96",
+          "section:7-26",
+          "overview:7-26",
+          "corpus-unit:10",
+          "corpus-unit:30",
+          "corpus-unit:31",
+          "corpus-unit:32",
+          "section:230-287",
+          "section:218-229",
+          "corpus-unit:77",
+          "waiting_periods:218-229",
+          "corpus-unit:75"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "time-based-expungement-under-100f-100j",
+        "pathwayLabel": "Time-based expungement under §§ 100F–100J",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:97-137",
+          "overview:7-26",
+          "section:138-169",
+          "section:7-26",
+          "section:230-287",
+          "section:180-191",
+          "section:192-202",
+          "section:218-229",
+          "corpus-unit:10",
+          "corpus-unit:32",
+          "corpus-unit:36",
+          "corpus-unit:83",
+          "waiting_periods:218-229"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "pathwayLabel": "Non-time-based expungement for false identity, error, fraud, or decriminalized conduct (§ 100K)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+            "sizeBytes": 1374671
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:138-169",
+          "overview:7-26",
+          "section:7-26",
+          "section:230-287",
+          "section:192-202",
+          "section:218-229",
+          "corpus-unit:10",
+          "waiting_periods:218-229",
+          "corpus-unit:75",
+          "corpus-unit:84",
+          "section:288-290",
+          "section:180-191",
+          "summary:288-290",
+          "corpus-unit:92",
+          "corpus-unit:70"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "marijuana-only-expungement",
+        "pathwayLabel": "Marijuana-only expungement",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+            "sizeBytes": 1374671
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:170-179",
+          "overview:7-26",
+          "section:7-26",
+          "section:180-191",
+          "section:192-202",
+          "corpus-unit:10",
+          "corpus-unit:55",
+          "corpus-unit:57",
+          "corpus-unit:63",
+          "corpus-unit:65",
+          "corpus-unit:71",
+          "corpus-unit:54"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "financial_obligations",
+      "identity_error",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "residency_or_location"
+    ],
+    "sourceFormStatements": [
+      "Time-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form",
+      "Non-time-based expungement Petition for Expungement Form",
+      "Marijuana-only expungement Petition for Expungement of Marijuana Offenses Form",
+      "Conviction sealing Petition to Seal Conviction Records",
+      "Dismissal / nolle prosequi sealing Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+      "Mass.gov\u0019s criminal-record forms page lists the core sealing and expungement forms, including the Petition to Expunge Form, Petition for Expungement of Marijuana Offenses Form, and sealing forms. (",
+      "\"https://www.mass.gov/lists/court-forms-for-criminal-records?utm_source=chatgpt.com\")",
+      "Route Official form name Time-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form Non-time-based expungement Petition for Expungement Form Marijuana-only expungement Petition for Expungement of Marijuana Offenses Form Conviction sealing Petition to Seal Conviction Records Dismissal / nolle prosequi sealing Petition to Seal Criminal Records for Nolle Prosequi or Dismissal CORI request Individual CORI / iCORI request process Mass.gov\u0019s criminal-record forms page lists the core sealing and expungement forms, including the Petition to Expunge Form, Petition for Expungement of Marijuana Offenses Form, and sealing forms. ( \"https://www.mass.gov/lists/court-forms-for-criminal-records?utm_source=chatgpt.com\")"
+    ],
+    "attachments": [],
+    "filingDestinationRules": [
+      "For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation. Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\")",
+      "For dismissals and nolle prosequi cases, the user files the Petition to Seal Criminal Records for Nolle Prosequi or Dismissal with the court, not just the Commissioner of Probation. Mass.gov says District Court cases are filed at the clerk\u0019s office where the case started; Boston Municipal Court cases are filed in the BMC division where the person lives, or if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. (\"https://www.mass.gov/how-to/request-to-seal-your-criminal-record?utm_source=chatgpt.com\")",
+      "For 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record. The official form is for records created through false ID, identity theft, error, fraud, or an offense no longer criminal. (\"https://www.mass.gov/doc/petition-for-expungement-form/download?utm_source=chatgpt.com\")",
+      "For marijuana-only expungement, use the Petition for Expungement of Marijuana Offenses Form and file in the court that handled the case. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")",
+      "Conviction sealing For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation.",
+      "Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\") Dismissal / nolle prosequi sealing For dismissals and nolle prosequi cases, the user files the Petition to Seal Criminal Records for Nolle Prosequi or Dismissal with the court, not just the Commissioner of Probation.",
+      "Mass.gov says District Court cases are filed at the clerk\u0019s office where the case started; Boston Municipal Court cases are filed in the BMC division where the person lives, or if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. (\"https://www.mass.gov/how-to/request-to-seal-your-criminal-record?utm_source=chatgpt.com\") Time-based expungement For time-based expungement, the user uses the Petition to Expunge Form and sends it to the Commissioner of Probation.",
+      "The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\") Non-time-based expungement For 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record.",
+      "The official form is for records created through false ID, identity theft, error, fraud, or an offense no longer criminal. (\"https://www.mass.gov/doc/petition-for-expungement-form/download?utm_source=chatgpt.com\") Marijuana expungement For marijuana-only expungement, use the Petition for Expungement of Marijuana Offenses Form and file in the court that handled the case. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")"
+    ],
+    "serviceAndNoticeRules": [
+      "For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation. Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\")",
+      "For time-based expungement, the user uses the Petition to Expunge Form and sends it to the Commissioner of Probation. The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\")",
+      "Conviction sealing For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation.",
+      "The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\") Non-time-based expungement For 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record.",
+      "Time-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form",
+      "Route Official form name Time-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form Non-time-based expungement Petition for Expungement Form Marijuana-only expungement Petition for Expungement of Marijuana Offenses Form Conviction sealing Petition to Seal Conviction Records Dismissal / nolle prosequi sealing Petition to Seal Criminal Records for Nolle Prosequi or Dismissal CORI request Individual CORI / iCORI request process Mass.gov\u0019s criminal-record forms page lists the core sealing and expungement forms, including the Petition to Expunge Form, Petition for Expungement of Marijuana Offenses Form, and sealing forms. ( \"https://www.mass.gov/lists/court-forms-for-criminal-records?utm_source=chatgpt.com\")"
+    ],
+    "feeRules": [],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation. Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\")",
+      "Dismissal / nolle prosequi sealing",
+      "For dismissals and nolle prosequi cases, the user files the Petition to Seal Criminal Records for Nolle Prosequi or Dismissal with the court, not just the Commissioner of Probation. Mass.gov says District Court cases are filed at the clerk\u0019s office where the case started; Boston Municipal Court cases are filed in the BMC division where the person lives, or if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. (\"https://www.mass.gov/how-to/request-to-seal-your-criminal-record?utm_source=chatgpt.com\")",
+      "For time-based expungement, the user uses the Petition to Expunge Form and sends it to the Commissioner of Probation. The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\")",
+      "For 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record. The official form is for records created through false ID, identity theft, error, fraud, or an offense no longer criminal. (\"https://www.mass.gov/doc/petition-for-expungement-form/download?utm_source=chatgpt.com\")",
+      "For marijuana-only expungement, use the Petition for Expungement of Marijuana Offenses Form and file in the court that handled the case. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")",
+      "Conviction sealing For conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation.",
+      "Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\") Dismissal / nolle prosequi sealing For dismissals and nolle prosequi cases, the user files the Petition to Seal Criminal Records for Nolle Prosequi or Dismissal with the court, not just the Commissioner of Probation.",
+      "Mass.gov says District Court cases are filed at the clerk\u0019s office where the case started; Boston Municipal Court cases are filed in the BMC division where the person lives, or if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. (\"https://www.mass.gov/how-to/request-to-seal-your-criminal-record?utm_source=chatgpt.com\") Time-based expungement For time-based expungement, the user uses the Petition to Expunge Form and sends it to the Commissioner of Probation.",
+      "The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\") Non-time-based expungement For 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record.",
+      "The official form is for records created through false ID, identity theft, error, fraud, or an offense no longer criminal. (\"https://www.mass.gov/doc/petition-for-expungement-form/download?utm_source=chatgpt.com\") Marijuana expungement For marijuana-only expungement, use the Petition for Expungement of Marijuana Offenses Form and file in the court that handled the case. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")",
+      "Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available.",
+      "For Massachusetts, train Wilma like this: Default route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+    ],
+    "formInventory": [
+      {
+        "fileName": "OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "relativePath": "LegalEase massachusetts/OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "303159c0a290f2b44484e7a024d37d6019b92eae30b770944c5c9836995dc964",
+        "sizeBytes": 276631
+      },
+      {
+        "fileName": "fillable-jud-mps-Petition-to-Seal.pdf",
+        "relativePath": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "sizeBytes": 216883
+      },
+      {
+        "fileName": "jud-Petition-for-Expungement.pdf",
+        "relativePath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "sizeBytes": 1387408
+      },
+      {
+        "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "sizeBytes": 1374671
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "relativePath": "LegalEase massachusetts/Massachusetts Sealing & Expungement — Wilma Agent Training Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "e9a0bb1e2f90fe163bf779b5a3ba58ad2e324fd82db887dfe8624397f7f4ee3b",
+        "sizeBytes": 99049
+      },
+      {
+        "fileName": "OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "relativePath": "LegalEase massachusetts/OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "303159c0a290f2b44484e7a024d37d6019b92eae30b770944c5c9836995dc964",
+        "sizeBytes": 276631
+      },
+      {
+        "fileName": "fillable-jud-mps-Petition-to-Seal.pdf",
+        "relativePath": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "sizeBytes": 216883
+      },
+      {
+        "fileName": "jud-Petition-for-Expungement.pdf",
+        "relativePath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "sizeBytes": 1387408
+      },
+      {
+        "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "sizeBytes": 1374671
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "It does not destroy the record.",
+    "Massachusetts also says a person with an expunged record may answer no record for employment and licensing purposes, and expungement petition materials are confidential/nonpublic. (\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100N?utm_source=chatgpt.com\") Wilma rule: Never tell a Massachusetts user your record will be erased unless the route is true expungement.",
+    "Use Massachusetts-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "How Wilma should route Massachusetts cases",
+      "category": "overview",
+      "startLine": 7,
+      "endLine": 26,
+      "text": "Wilma should start with the case outcome, not the offense name alone.\n\nUser\u0019s case outcome First Wilma route Main statute / form logic\nAdult misdemeanor conviction Sealing Petition to Seal Conviction Records; generally 3-year wait\nAdult felony conviction Sealing Petition to Seal Conviction Records; generally 7-year wait\nNot guilty Sealing 100C; should be sealed unless defendant asks not to seal\nNo bill / grand jury no bill Sealing 100C; should be sealed\nNo probable cause Sealing 100C; should be sealed\nNolle prosequi Court sealing 100C; court must find substantial justice supports sealing\nDismissal Court sealing 100C; court must find substantial justice supports sealing\nJuvenile delinquency / youthful offender record Juvenile sealing or time-based expungement check 100B for sealing; 100F/100I/100J for expungement\nAdult conviction before age 21, limited record Time-based expungement check 100G, 100I, 100J\nAdult non-conviction before age 21, limited record Time-based expungement check 100H, 100I, 100J\nFalse ID / identity theft / court or law-enforcement error / fraud Non-time-based expungement 100K\nOffense no longer a crime Sealing forthwith or non-time-based expungement 100A sealing; 100K expungement\nMarijuana-only offense Marijuana expungement check Petition for Expungement of Marijuana Offenses; usually tied to 100K/decriminalized conduct logic\nMassachusetts defines expungement as the permanent erasure or destruction of a record so it is no longer accessible to or maintained by the court, criminal justice agencies, or other government agencies. That is stronger than sealing. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100E\")"
+    },
+    {
+      "title": "Remedy definitions Wilma must understand",
+      "category": "remedy_definitions",
+      "startLine": 27,
+      "endLine": 42,
+      "text": "Sealing\nSealing hides the record from most public/employer/housing background checks. It does not destroy the record. Criminal justice agencies, courts, and some authorized users may still access sealed information. Massachusetts law says sealed records generally do not disqualify a person from public service, and ordinary employment/housing/license applications must allow a person with a sealed record to answer\nno record.\n(\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/section100a\")\nExpungement\nExpungement is permanent erasure/destruction. Massachusetts also says a person with an expunged record may answer\nno record\nfor employment and licensing purposes, and expungement petition materials are confidential/nonpublic. (\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100N?utm_source=chatgpt.com\")\nWilma rule: Never tell a Massachusetts user\nyour record will be erased\nunless the route is true expungement. For ordinary sealing, say\nsealed from most public access,\nnot\ndeleted."
+    },
+    {
+      "title": "Eligibility - adult conviction sealing",
+      "category": "pathway_detail",
+      "startLine": 43,
+      "endLine": 68,
+      "text": "Adult conviction sealing is governed mainly by M.G.L. c. 276, 100A.\nBasic adult sealing waits\n\nRecord type Waiting period Clock rule\nMisdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request\nFelony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request\nSex offense 15 years or longer 15 years after disposition/supervision/incarceration, or as long as registration duty continues, whichever is longer\nOffense no longer a crime Immediate / forthwith Unless the same conduct remains criminal under a different designation\nSection 100A requires no Massachusetts guilty finding during the applicable 3- or 7-year period, except minor motor-vehicle offenses punishable by a fine of not more than $50. It also requires the petitioner to state that they have no disqualifying out-of-state, federal, or U.S. possession convictions/imprisonment during the same lookback period. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/section100a\")\nAdult sealing disqualifiers / special handling\n\nIssue Wilma treatment\nFirearms convictions under M.G.L. c. 140 121-131H Generally not sealable under 100A\nPublic-corruption / obstruction-type convictions under c. 268 or c. 268A Generally not sealable under 100A, except resisting arrest\nSex offenses 15-year wait or registration-duty period, whichever is longer\nLevel 2 or Level 3 sex offender classification Not eligible to seal sex offenses\n209A abuse-prevention order violation / 258E harassment-prevention order violation Treat as felony for sealing timing\nSubsequent not guilty, dismissal, nolle prosequi, no bill Does not interrupt the waiting period\nOld felony now classified as misdemeanor Treat as misdemeanor\nUnknown felony/misdemeanor level Treat as misdemeanor\nThese rules come directly from 100A\u0019s eligibility and exception language. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100A?utm_source=chatgpt.com\")"
+    },
+    {
+      "title": "Eligibility - non-conviction sealing",
+      "category": "pathway_detail",
+      "startLine": 69,
+      "endLine": 83,
+      "text": "Non-conviction sealing is governed mainly by M.G.L. c. 276, 100C.\n\nOutcome Wilma route Standard\nNot guilty Seal Commissioner/clerk/probation should seal, unless defendant asks not to\nNo bill Seal Commissioner/clerk/probation should seal\nNo probable cause Seal Commissioner/clerk/probation should seal\nNolle prosequi Court sealing petition Court must find that substantial justice would best be served\nDismissal Court sealing petition Court must find that substantial justice would best be served\nSection 100C says not-guilty, no-bill, and no-probable-cause records are to be sealed by the Commissioner of Probation and the court/probation offices, unless the defendant makes a written request not to seal. Dismissals and nolle prosequi cases require a court finding that\nsubstantial justice would best be served\nby sealing. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100C\")\nWilma caution: Do not treat every dismissal as automatically sealed. Dismissal/nolle cases require a court petition and a substantial-justice finding unless they qualify under another route."
+    },
+    {
+      "title": "Eligibility - juvenile sealing",
+      "category": "pathway_detail",
+      "startLine": 84,
+      "endLine": 96,
+      "text": "Juvenile sealing is primarily under M.G.L. c. 276, 100B.\n\nRequirement Rule\nEligible record Delinquency court appearance record on file with Commissioner of Probation\nWaiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated\nNew Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses\nCustody/commitment No imprisonment under sentence or juvenile commitment in Massachusetts during preceding 3 years\nOut-of-state/federal No disqualifying adjudication, guilty finding, imprisonment, or commitment in another state, U.S. possession, or federal court during preceding 3 years\nSection 100B gives the juvenile sealing criteria and requires the request to be made on a Commissioner-furnished form signed under penalties of perjury. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100B?utm_source=chatgpt.com\")\nWilma caution: Juvenile sealing and juvenile/youthful-offender expungement are different. Sealing is broader. Expungement is narrower and requires the stricter 100I/100J checks."
+    },
+    {
+      "title": "Eligibility - time-based expungement",
+      "category": "pathway_detail",
+      "startLine": 97,
+      "endLine": 137,
+      "text": "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J.\nTime-based expungement routes\n\nRecord type Statute Basic route\nJuvenile delinquent / youthful offender adjudication 100F Petition Commissioner of Probation\nAdult conviction 100G Petition Commissioner of Probation\nAdult or juvenile record without conviction/adjudication 100H Petition Commissioner of Probation\nFor conviction expungement, 100G allows a petitioner with not more than 2 records of conviction to petition the Commissioner of Probation; multiple offenses from the same incident count as one offense for this purpose. The Commissioner certifies eligibility under 100I and 100J, the district attorney gets notice, and the court may grant or deny based on the best interests of justice. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100G?utm_source=chatgpt.com\")\nFor non-conviction expungement, 100H allows a petitioner with not more than 2 records that do not include an adjudication or conviction to petition. The Commissioner has shorter notice/denial timelines than conviction expungement, and the DA may object. (\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100H\")\nTime-based expungement eligibility checklist - 100I\nWilma should only route to time-based expungement if all of these are true:\n\nRequirement Rule\nOffense age All offenses occurred before the person\u0019s 21st birthday\nOffense not excluded Offense is not listed in 100J\nWaiting period - misdemeanor-only At least 3 years before petition, including incarceration, custody, or probation\nWaiting period - any felony At least 7 years before petition, including incarceration, custody, or probation\nRecord count No other Massachusetts criminal/juvenile appearances or dispositions except minor motor-vehicle offenses and the records being expunged\nOut-of-state/federal No other out-of-state, U.S. possession, or federal criminal/juvenile appearances or dispositions except minor motor-vehicle offenses\nActive investigation Petitioner must certify they are not currently the subject of an active criminal investigation\nMultiple offenses same incident Count as a single offense\nThese criteria come from 100I. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100I\")\nTime-based expungement disqualifiers - 100J\nWilma should flag for attorney/manual review, and generally route away from time-based expungement, if the record involves:\ndeath or serious bodily injury;\nintent to cause death or serious bodily injury;\ndangerous weapon;\noffense against an elderly or disabled person;\nsex offense, child sex offense, or sexually violent offense;\nOUI/OUI-type offense under c. 90 24;\nfirearms offenses under c. 140 121-131Q;\nrestraining-order / abuse-prevention / harassment-prevention order violations;\ndomestic assault and battery under c. 265 13M. (\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100J?utm_source=chatgpt.com\")\nWilma rule: Time-based expungement should be treated as a narrow\nunder age 21 + limited record + non-excluded offense\nroute. Most adult users will not qualify."
+    },
+    {
+      "title": "Eligibility - non-time-based expungement",
+      "category": "pathway_detail",
+      "startLine": 138,
+      "endLine": 169,
+      "text": "Non-time-based expungement is governed by M.G.L. c. 276, 100K.\nWilma should check this route when the record was created because of:\n\nGround Wilma prompt\nFalse identification\nWere you charged because someone used your name or identifying information?\n\nUnauthorized use or theft of identity\nWas this identity theft?\n\nOffense no longer a crime\nIs the conduct now decriminalized or legalized?\n\nLaw-enforcement error\nWas there a demonstrable police/prosecution error?\n\nCivilian or expert witness error\nWas the case based on a demonstrable witness or expert mistake?\n\nCourt employee error\nWas the record created because of a clerical/court mistake?\n\nFraud on the court\nWas there fraud that caused the record?\n\nA court may order 100K expungement if it finds by clear and convincing evidence that the record was created because of one of those grounds. The court may also consider the best interests of justice, and it must enter written findings if it grants expungement. (\n\n\"https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section100K\")\nWilma caution: This is not a general hardship expungement.\nIt is hurting my job search\nsupports sealing arguments, but it does not by itself create 100K expungement eligibility."
+    },
+    {
+      "title": "Marijuana-specific expungement",
+      "category": "pathway_detail",
+      "startLine": 170,
+      "endLine": 179,
+      "text": "Massachusetts has a dedicated official form: Petition for Expungement of Marijuana Offenses Form. The official form asks the court to expunge marijuana-only charges, including possession of marijuana under G.L. c. 94C, 34. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")\nWilma routing rule: Marijuana should not automatically mean eligible. Ask:\n1 Was the record marijuana-only?\n2 What was the exact charge?\n3 Was it possession, cultivation, possession with intent, distribution, or another marijuana offense?\n4 Was the conduct decriminalized/legalized under current law?\n5 Was there another non-marijuana charge in the same case?\n6 Which court handled the case?\nIf the user has marijuana-only conduct that appears decriminalized/legalized, route to the marijuana expungement form and manual verification against the docket."
+    },
+    {
+      "title": "Official forms Wilma should know",
+      "category": "forms",
+      "startLine": 180,
+      "endLine": 191,
+      "text": "Route Official form name\nTime-based expungement Massachusetts Probation Service Petition to Expunge Form / Petition to Expunge Form\nNon-time-based expungement Petition for Expungement Form\nMarijuana-only expungement Petition for Expungement of Marijuana Offenses Form\nConviction sealing Petition to Seal Conviction Records\nDismissal / nolle prosequi sealing Petition to Seal Criminal Records for Nolle Prosequi or Dismissal\nCORI request Individual CORI / iCORI request process\nMass.gov\u0019s criminal-record forms page lists the core sealing and expungement forms, including the Petition to Expunge Form, Petition for Expungement of Marijuana Offenses Form, and sealing forms. (\n\n\"https://www.mass.gov/lists/court-forms-for-criminal-records?utm_source=chatgpt.com\")"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 192,
+      "endLine": 202,
+      "text": "Conviction sealing\nFor conviction records, the user fills out the Petition to Seal Conviction Records and files with the Massachusetts Probation Service / Office of the Commissioner of Probation. Mass.gov identifies the Commissioner of Probation address as 1 Ashburton Place, Room 405, Boston, MA 02108. (\"https://www.mass.gov/seal-your-criminal-record?utm_source=chatgpt.com\")\nDismissal / nolle prosequi sealing\nFor dismissals and nolle prosequi cases, the user files the Petition to Seal Criminal Records for Nolle Prosequi or Dismissal with the court, not just the Commissioner of Probation. Mass.gov says District Court cases are filed at the clerk\u0019s office where the case started; Boston Municipal Court cases are filed in the BMC division where the person lives, or if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. (\"https://www.mass.gov/how-to/request-to-seal-your-criminal-record?utm_source=chatgpt.com\")\nTime-based expungement\nFor time-based expungement, the user uses the Petition to Expunge Form and sends it to the Commissioner of Probation. The official form page identifies it as the form used to request a time-based expungement. (\"https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form?utm_source=chatgpt.com\")\nNon-time-based expungement\nFor 100K expungement, the user uses the Petition for Expungement Form and files in the court connected to the record. The official form is for records created through false ID, identity theft, error, fraud, or an offense no longer criminal. (\"https://www.mass.gov/doc/petition-for-expungement-form/download?utm_source=chatgpt.com\")\nMarijuana expungement\nFor marijuana-only expungement, use the Petition for Expungement of Marijuana Offenses Form and file in the court that handled the case. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download?utm_source=chatgpt.com\")"
+    },
+    {
+      "title": "Record request process",
+      "category": "filing",
+      "startLine": 203,
+      "endLine": 217,
+      "text": "Wilma should tell users to start with their Massachusetts CORI. Mass.gov says individuals can request their personal CORI through iCORI, and the CORI report is the baseline record for deciding whether the case is a conviction, dismissal, nolle prosequi, CWOF, juvenile matter, or another disposition. (\"https://www.mass.gov/massachusetts-criminal-offender-record-information-cori?utm_source=chatgpt.com\")\nWilma should collect:\nfull name and prior names;\ndate of birth;\ndocket number, if known;\ncourt name;\noffense name and statute;\ndisposition;\ndisposition date;\nsentence/probation/parole/custody completion date;\nwhether there are pending charges;\nwhether there were new convictions during the waiting period;\nwhether there are out-of-state/federal records;\nwhether the offense involved sex-offender registration, firearms, domestic violence, OUI, serious injury, a dangerous weapon, elderly/disabled victim, or restraining-order violation."
+    },
+    {
+      "title": "Massachusetts waiting-period table",
+      "category": "waiting_periods",
+      "startLine": 218,
+      "endLine": 229,
+      "text": "Route Wait Clock starts / runs from\nAdult misdemeanor sealing 3 years Court appearance/disposition, including incarceration/custody\nAdult felony sealing 7 years Court appearance/disposition, including incarceration/custody\nAdult sex-offense sealing 15 years or registration-duty period, whichever is longer Disposition/supervision/probation/incarceration; level 2/3 sex offenses not sealable\nJuvenile sealing 3 years Termination of court appearance/disposition, supervision, probation, commitment, or parole\nTime-based expungement - misdemeanor-only 3 years Offense and any incarceration/custody/probation must be at least 3 years before petition\nTime-based expungement - any felony 7 years Offense and any incarceration/custody/probation must be at least 7 years before petition\nNon-time-based expungement No standard time wait Must prove false ID, identity theft, decriminalized offense, error, or fraud\nNot guilty / no bill / no probable cause sealing No ordinary wait Should be sealed under 100C\nDismissal / nolle prosequi sealing No fixed statutory wait in 100C Court decides substantial justice"
+    },
+    {
+      "title": "Wilma intake decision tree",
+      "category": "intake_questions",
+      "startLine": 230,
+      "endLine": 287,
+      "text": "Step 1 - Identify record type\nAsk:\n\nWas this an adult criminal case, juvenile delinquency/youthful offender case, or are you not sure?\n\nIf adult go to Step 2.If juvenile/youthful offender check 100B sealing first, then time-based expungement if strict criteria may fit.If unknown ask for CORI/docket.\nStep 2 - Identify outcome\nAsk:\n\nHow did the case end: guilty/conviction, CWOF, dismissal, nolle prosequi, not guilty, no bill, no probable cause, or still pending?\n\nIf pending no sealing/expungement route yet; manual/legal review.If not guilty/no bill/no probable cause 100C sealing route.If dismissal/nolle 100C court sealing route.If conviction sealing first; expungement only if narrow criteria.\nStep 3 - Check sealing\nAsk:\n\nWas it a misdemeanor or felony, and when did you finish jail, probation, parole, or any sentence?\n\nMisdemeanor 3-year check.Felony 7-year check.Sex offense 15-year/registration/level check.Firearm/public-corruption exclusions manual review.\nStep 4 - Check time-based expungement\nAsk:\n\nWere all the charges from before your 21st birthday, and do you have no more than two records total?\n\nIf no likely not time-based expungement.If yes check 100J exclusions, waiting period, no other records, no active investigation.\nStep 5 - Check non-time-based expungement\nAsk:\n\nWas the record created because of identity theft, false identification, court/police/witness error, fraud, or because the conduct is no longer a crime?\n\nIf yes 100K review.If no route to sealing, not expungement.\n14. Wilma\ndo not say eligible unless&\nrules\nWilma should not say\nyou are eligible\nunless all required facts are confirmed.\nUse safer language:\n\nYou may have a sealing route.\n\nThis looks like a possible expungement route, but the docket and offense statute need review.\n\nBased on what you shared, this appears more likely to be sealing than expungement.\n\nI cannot confirm eligibility until we know the disposition date, sentence completion date, offense statute, and whether there are pending/new charges.\n\nWilma should escalate/manual-review when:\nsex offense or registration appears;\nfirearm offense appears;\ndomestic violence / 209A / 258E / restraining-order violation appears;\nOUI appears;\noffense involved serious bodily injury, death, dangerous weapon, elderly/disabled victim;\nthere are multiple cases across states;\nuser has pending charges;\nuser reports federal charges;\nuser is asking about immigration, licensing, housing authority, firearms rights, or professional licensing consequences;\ndocket disposition is CWOF, because Massachusetts users often misunderstand whether it counts as conviction/non-conviction for different purposes."
+    },
+    {
+      "title": "Agent-facing summary",
+      "category": "summary",
+      "startLine": 288,
+      "endLine": 290,
+      "text": "For Massachusetts, train Wilma like this:\nDefault route: sealing.Expungement route: narrow, mostly under-21 limited-record cases, marijuana/decriminalized conduct, false ID, identity theft, error, or fraud.Main adult sealing wait: 3 years misdemeanor, 7 years felony.Main non-conviction rule: not guilty/no bill/no probable cause should seal; dismissal/nolle requires substantial justice.Main danger: do not promise destruction unless expungement is actually available."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 7,
+      "questions": 18,
+      "decisionRules": 32,
+      "waitingRules": 21,
+      "exclusions": 3,
+      "sourceFiles": 5,
+      "officialForms": 4
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

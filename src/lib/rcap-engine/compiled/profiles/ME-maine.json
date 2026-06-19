@@ -1,0 +1,2686 @@
+{
+  "schemaVersion": "2.0.0",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "jurisdiction": {
+    "code": "ME",
+    "name": "Maine",
+    "slug": "maine"
+  },
+  "source": {
+    "sourcePolicy": "Rules and flow are compiled only from the jurisdiction reference/source documents supplied in the Nationwide archive, plus the user-supplied Nebraska reference.",
+    "references": [
+      {
+        "fileName": "Maine Record Sealing — Statewide Agent Reference.rtf",
+        "relativePath": "LegalEase Maine/Maine Record Sealing — Statewide Agent Reference.rtf",
+        "sha256": "4c09535a7d7701a65d4a6910a1e3563978418ad126cb8b02fc21bd4ec6a74d64",
+        "sizeBytes": 74742,
+        "score": 2643,
+        "extractedChars": 21448
+      }
+    ],
+    "sourceCorpusSha256": "807065d4f7af52ad4f58e107f776833df6cd828ece6ab950f81c4efe3e5ac577",
+    "sourceCorpusChars": 21391,
+    "allFolderFiles": [
+      {
+        "fileName": "MJB-Form-cr-218.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+        "sizeBytes": 190343
+      },
+      {
+        "fileName": "MJB-Form-cr-289.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+        "sizeBytes": 166837
+      },
+      {
+        "fileName": "MJB-Form-jv-043.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+        "sizeBytes": 173449
+      },
+      {
+        "fileName": "Maine Record Sealing — Statewide Agent Reference.rtf",
+        "relativePath": "LegalEase Maine/Maine Record Sealing — Statewide Agent Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "4c09535a7d7701a65d4a6910a1e3563978418ad126cb8b02fc21bd4ec6a74d64",
+        "sizeBytes": 74742
+      }
+    ]
+  },
+  "terminology": {
+    "primaryConsumerTerm": "expungement",
+    "allowedStateTerms": [
+      "expungement",
+      "sealing",
+      "erasure",
+      "pardon"
+    ],
+    "pathwayLabels": [
+      "Adult conviction sealing - general route",
+      "Sex trafficking / sexual exploitation survivor sealing - 2026 update",
+      "Adult non-conviction records",
+      "Pardon route",
+      "Juvenile sealing",
+      "Pardon Not expungement Full/free pardon makes the conviction confidential criminal-history information; not wiped clean"
+    ],
+    "avoidUniversalExpungementLabel": true
+  },
+  "flowStages": [
+    {
+      "order": 1,
+      "id": "scope",
+      "questionIds": [
+        "ownership_scope",
+        "jurisdiction_scope"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 2,
+      "id": "pathway_routing",
+      "questionIds": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context",
+        "age_at_offense"
+      ],
+      "screenType": "question_sequence"
+    },
+    {
+      "order": 3,
+      "id": "state_specific_eligibility",
+      "questionIds": [
+        "source_question_01_was-this-an-adult-case-or-juvenile-case",
+        "source_question_02_was-there-a-conviction-or-was-the-case-d",
+        "source_question_03_what-was-the-exact-offense-name-and-clas",
+        "source_question_04_what-court-and-county-handled-the-case",
+        "source_question_05_what-is-the-docket-number-if-you-have-it",
+        "source_question_06_when-were-you-convicted",
+        "source_question_07_when-did-you-finish-every-part-of-the-se",
+        "source_question_08_have-you-had-any-maine-convictions-since",
+        "source_question_09_have-you-had-any-deferred-disposition-di",
+        "source_question_10_have-you-had-any-convictions-in-another-",
+        "source_question_11_do-you-have-any-pending-criminal-charges",
+        "source_question_12_was-this-a-marijuana-offense-committed-b",
+        "source_question_13_was-this-the-former-class-e-engaging-in-",
+        "source_question_14_was-the-conviction-connected-to-sex-traf",
+        "source_question_15_do-you-need-help-getting-your-maine-sbi-"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 4,
+      "id": "special_pathways",
+      "questionIds": [
+        "trafficking_status",
+        "pardon_status"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 5,
+      "id": "timing_and_completion",
+      "questionIds": [
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "disposition_date"
+      ],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 6,
+      "id": "exclusion_screen",
+      "questionIds": [],
+      "screenType": "conditional_question_sequence"
+    },
+    {
+      "order": 7,
+      "id": "record_readiness",
+      "questionIds": [
+        "criminal_history",
+        "record_documents"
+      ],
+      "screenType": "record_help_or_question"
+    },
+    {
+      "order": 8,
+      "id": "case_details",
+      "questionIds": [
+        "court",
+        "charge",
+        "county_or_filing_location",
+        "case_identifier"
+      ],
+      "screenType": "form_fields"
+    },
+    {
+      "order": 9,
+      "id": "evaluation",
+      "questionIds": [],
+      "screenType": "progress_transition"
+    },
+    {
+      "order": 10,
+      "id": "result",
+      "questionIds": [],
+      "screenType": "result_card"
+    },
+    {
+      "order": 11,
+      "id": "packet_information",
+      "questionIds": [],
+      "screenType": "state_packet_form"
+    },
+    {
+      "order": 12,
+      "id": "checkout",
+      "questionIds": [],
+      "screenType": "checkout"
+    },
+    {
+      "order": 13,
+      "id": "generation",
+      "questionIds": [],
+      "screenType": "status"
+    },
+    {
+      "order": 14,
+      "id": "briefcase",
+      "questionIds": [],
+      "screenType": "matter_timeline"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ownership_scope",
+      "stage": "scope",
+      "prompt": "Are you asking about your own record?",
+      "type": "single_choice",
+      "options": [
+        "Yes",
+        "No",
+        "I am helping someone complete their own check"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "jurisdiction_scope",
+      "stage": "scope",
+      "prompt": "Is this a state or local matter from Maine, rather than a federal matter?",
+      "type": "single_choice",
+      "options": [
+        "State or local",
+        "Federal",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "shared_scope_boundary"
+    },
+    {
+      "id": "case_outcome",
+      "stage": "pathway_routing",
+      "prompt": "How did the Maine case or record end?",
+      "type": "single_choice",
+      "options": [
+        "Arrest or citation with no charge filed",
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "Acquitted or found not guilty",
+        "Diversion, deferred disposition, supervision, or similar program",
+        "Other conviction or adjudication",
+        "Juvenile adjudication or offense committed as a minor",
+        "Pardoned conviction",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_case_outcome_rules"
+    },
+    {
+      "id": "offense_level",
+      "stage": "pathway_routing",
+      "prompt": "What level or type was the charge?",
+      "type": "single_choice",
+      "options": [
+        "Felony",
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "state_pathway_and_exclusion_rules"
+    },
+    {
+      "id": "possible_pathway_context",
+      "stage": "pathway_routing",
+      "prompt": "Do any of these Maine descriptions sound close to your situation?",
+      "type": "single_choice",
+      "options": [
+        "Adult conviction sealing",
+        "Sex-trafficking / sexual-exploitation-survivor sealing",
+        "Adult non-conviction record relief",
+        "Pardon route",
+        "Juvenile sealing",
+        "None of these / I am not sure"
+      ],
+      "required": false,
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
+      "contextOnly": true,
+      "doesNotSelectPathway": true
+    },
+    {
+      "id": "source_question_01_was-this-an-adult-case-or-juvenile-case",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this an adult case or juvenile case?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_02_was-there-a-conviction-or-was-the-case-d",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was there a conviction, or was the case dismissed, declined, no-billed, acquitted, or never charged?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_03_what-was-the-exact-offense-name-and-clas",
+      "stage": "state_specific_eligibility",
+      "prompt": "What was the exact offense name and class?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_04_what-court-and-county-handled-the-case",
+      "stage": "state_specific_eligibility",
+      "prompt": "What court and county handled the case?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_05_what-is-the-docket-number-if-you-have-it",
+      "stage": "state_specific_eligibility",
+      "prompt": "What is the docket number, if you have it?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_06_when-were-you-convicted",
+      "stage": "state_specific_eligibility",
+      "prompt": "When were you convicted?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_07_when-did-you-finish-every-part-of-the-se",
+      "stage": "state_specific_eligibility",
+      "prompt": "When did you finish every part of the sentence: jail, probation, administrative release, license suspension, fines, restitution, and community service?",
+      "type": "text_or_choice",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_08_have-you-had-any-maine-convictions-since",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you had any Maine convictions since then?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_09_have-you-had-any-deferred-disposition-di",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you had any deferred-disposition dismissal since then?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_10_have-you-had-any-convictions-in-another-",
+      "stage": "state_specific_eligibility",
+      "prompt": "Have you had any convictions in another state, federal court, tribal court, or another jurisdiction since then?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_11_do-you-have-any-pending-criminal-charges",
+      "stage": "state_specific_eligibility",
+      "prompt": "Do you have any pending criminal charges anywhere?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_12_was-this-a-marijuana-offense-committed-b",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this a marijuana offense committed before January 30, 2017?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_13_was-this-the-former-class-e-engaging-in-",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was this the former Class E engaging-in-prostitution offense?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_14_was-the-conviction-connected-to-sex-traf",
+      "stage": "state_specific_eligibility",
+      "prompt": "Was the conviction connected to sex trafficking, sexual exploitation, coercion, or survival circumstances?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "source_question_15_do-you-need-help-getting-your-maine-sbi-",
+      "stage": "state_specific_eligibility",
+      "prompt": "Do you need help getting your Maine SBI record first?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "state_reference_intake_section"
+    },
+    {
+      "id": "age_at_offense",
+      "stage": "pathway_routing",
+      "prompt": "How old were you when the offense or case began?",
+      "type": "number_or_range",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "sentence_completion_date",
+      "stage": "timing_and_completion",
+      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "financial_obligations",
+      "stage": "timing_and_completion",
+      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pending_cases",
+      "stage": "timing_and_completion",
+      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "trafficking_status",
+      "stage": "special_pathways",
+      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "type": "yes_no_prefer_not_to_say",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_status",
+      "stage": "special_pathways",
+      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "criminal_history",
+      "stage": "record_readiness",
+      "prompt": "Do you have the Maine criminal-history report, court docket, or certified disposition needed to verify the record?",
+      "type": "yes_no_unsure",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "disposition_date",
+      "stage": "timing_and_completion",
+      "prompt": "When was the case disposed of, dismissed, completed, or discharged?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "court",
+      "stage": "case_details",
+      "prompt": "Which court or agency handled the case?",
+      "type": "text",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "charge",
+      "stage": "case_details",
+      "prompt": "What charge, statute, or record description appears on the record?",
+      "type": "text_or_unknown",
+      "options": null,
+      "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "record_documents",
+      "stage": "record_readiness",
+      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "type": "yes_no_unsure",
+      "required": true,
+      "source": "shared_record_verification"
+    },
+    {
+      "id": "county_or_filing_location",
+      "stage": "case_details",
+      "prompt": "Where in Maine was the case handled?",
+      "type": "text_or_unknown",
+      "required": true,
+      "source": "shared_filing_identity"
+    },
+    {
+      "id": "case_identifier",
+      "stage": "case_details",
+      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "type": "text_or_unknown",
+      "required": false,
+      "source": "shared_filing_identity"
+    }
+  ],
+  "caseOutcomeOptions": [
+    {
+      "value": "arrest_no_charge",
+      "label": "Arrest or citation with no charge filed",
+      "candidatePathways": [
+        "adult-non-conviction-records"
+      ]
+    },
+    {
+      "value": "dismissed",
+      "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "candidatePathways": [
+        "adult-conviction-sealing-general-route",
+        "adult-non-conviction-records"
+      ]
+    },
+    {
+      "value": "acquitted",
+      "label": "Acquitted or found not guilty",
+      "candidatePathways": [
+        "adult-non-conviction-records"
+      ]
+    },
+    {
+      "value": "diversion_or_deferred",
+      "label": "Diversion, deferred disposition, supervision, or similar program",
+      "candidatePathways": [
+        "adult-conviction-sealing-general-route"
+      ]
+    },
+    {
+      "value": "convicted_other",
+      "label": "Other conviction or adjudication",
+      "candidatePathways": [
+        "adult-conviction-sealing-general-route",
+        "sex-trafficking-sexual-exploitation-survivor-sealing-2026-update",
+        "adult-non-conviction-records",
+        "pardon-route",
+        "juvenile-sealing",
+        "pardon-not-expungement-full-free-pardon-makes-the-conviction-confidential-crimin"
+      ]
+    },
+    {
+      "value": "juvenile",
+      "label": "Juvenile adjudication or offense committed as a minor",
+      "candidatePathways": [
+        "juvenile-sealing",
+        "pardon-not-expungement-full-free-pardon-makes-the-conviction-confidential-crimin"
+      ]
+    },
+    {
+      "value": "pardon",
+      "label": "Pardoned conviction",
+      "candidatePathways": [
+        "adult-non-conviction-records",
+        "pardon-route"
+      ]
+    }
+  ],
+  "pathways": [
+    {
+      "id": "adult-conviction-sealing",
+      "label": "Adult conviction sealing",
+      "summary": "The general adult sealing route is for a specific criminal conviction, not a whole-record sweep. A person may file a written motion in the underlying criminal proceeding, and the motion must address each statutory prerequisite. (\"https://legislature.maine.gov/statutes/15/title15sec2263.html\") Current or former Class E crime Eligible, except current/former Class E crimes under Title 17-A, Chapter 11 Certain marijuana convictions committed before Jan. 30, 2017 Eligible if they fall within the listed marijuana cultivation/possession categories in 2261(6)(B) The statute defines eligible convictions as current/former Class E crimes except Chapter…",
+      "sourceRef": "section:53-91; section:42-52; section:167-170; corpus-unit:14; corpus-unit:17; corpus-unit:63",
+      "sourceEvidenceRefs": [
+        "section:53-91",
+        "section:42-52",
+        "section:167-170",
+        "corpus-unit:14",
+        "corpus-unit:17",
+        "corpus-unit:63"
+      ],
+      "ruleClauses": [
+        "The general adult sealing route is for a specific criminal conviction, not a whole-record sweep. A person may file a written motion in the underlying criminal proceeding, and the motion must address each statutory prerequisite. (\"https://legislature.maine.gov/statutes/15/title15sec2263.html\")",
+        "Current or former Class E crime Eligible, except current/former Class E crimes under Title 17-A, Chapter 11",
+        "Certain marijuana convictions committed before Jan. 30, 2017 Eligible if they fall within the listed marijuana cultivation/possession categories in 2261(6)(B)",
+        "The statute defines eligible convictions as current/former Class E crimes except Chapter 11 offenses, plus specified marijuana-related convictions committed before January 30, 2017. (",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2261.html\")",
+        "For the general adult sealing route, Wilma must confirm all of these:",
+        "Eligible conviction Must be an eligible conviction under 2261(6)",
+        "Waiting period At least 4 years since the person fully satisfied the sentence",
+        "Maine convictions after completion No later Maine criminal conviction",
+        "Deferred disposition after completion No later Maine criminal charge dismissed as a result of deferred disposition",
+        "Out-of-state / other jurisdiction conviction No later conviction in another jurisdiction",
+        "Pending charges No pending criminal charges in Maine or another jurisdiction",
+        "These prerequisites are in 15 M.R.S. 2262. (",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Wilma general adult sealing logic",
+        "1 Was this a conviction, not just an arrest?",
+        "2 What was the exact offense and class?",
+        "3 Was it a current/former Class E offense?",
+        "4 Was it under Title 17-A, Chapter 11? If yes, flag likely ineligible under the general route.",
+        "5 Was it one of the listed pre-2017 marijuana convictions?",
+        "6 When were all sentence terms fully completed?",
+        "8 Any later deferred-disposition dismissal?",
+        "9 Any later out-of-state/federal/tribal convictions?",
+        "10 Any pending criminal charges?",
+        "Wilma should not say eligible unless all prerequisites are confirmed.",
+        "General adult conviction sealing CR-218 - Motion to Seal Criminal History",
+        "Former Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution",
+        "Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "disposition_date",
+        "sentence_completion_date",
+        "financial_obligations",
+        "pending_cases",
+        "residency_or_location",
+        "criminal_history",
+        "age_at_offense"
+      ],
+      "caseOutcomes": [
+        "dismissed",
+        "diversion_or_deferred",
+        "convicted_other",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period At least 4 years since the person fully satisfied the sentence",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "Waiting period At least 3 years after discharge from the juvenile disposition",
+        "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
+        "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied",
+        "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied",
+        "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
+        "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition",
+        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+        "4 years since full sentence completion;",
+        "1 year since full sentence completion;",
+        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
+        "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction."
+      ],
+      "exclusionRules": [
+        "4 Was it under Title 17-A, Chapter 11? If yes, flag likely ineligible under the general route.",
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "sex-trafficking-sexual-exploitation-survivor-sealing",
+      "label": "Sex-trafficking / sexual-exploitation-survivor sealing",
+      "summary": "Maine enacted Public Law 2025, Chapter 513, effective without the Governor\u0019s signature on January 11, 2026, creating a broader survivor-based sealing route for victims of sex trafficking or sexual exploitation. (\"https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1871&snum=132\") Under the new 2262-B route, criminal history record information relating to any current or former crime may be sealed if the person establishes: Victim status The person was a victim of sex trafficking or sexual exploitation Causal connection The crime of conviction was a substantial result of the trafficking or exploitation Timing Motion may be filed at any…",
+      "sourceRef": "section:109-133; section:9-21; overview:9-21; corpus-unit:9; corpus-unit:42",
+      "sourceEvidenceRefs": [
+        "section:109-133",
+        "section:9-21",
+        "overview:9-21",
+        "corpus-unit:9",
+        "corpus-unit:42"
+      ],
+      "ruleClauses": [
+        "Maine enacted Public Law 2025, Chapter 513, effective without the Governor\u0019s signature on January 11, 2026, creating a broader survivor-based sealing route for victims of sex trafficking or sexual exploitation. (\"https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1871&snum=132\")",
+        "Under the new 2262-B route, criminal history record information relating to any current or former crime may be sealed if the person establishes:",
+        "Victim status The person was a victim of sex trafficking or sexual exploitation",
+        "Causal connection The crime of conviction was a substantial result of the trafficking or exploitation",
+        "Timing Motion may be filed at any time after conviction",
+        "The enacted text says the route applies to a conviction for any current or former crime, and the motion may be filed at any time after the conviction is entered.",
+        "the filer and witnesses may participate remotely unless the court finds in-person participation is required;",
+        "official documentation is not required;",
+        "if official documentation is presented, it creates a presumption that the person\u0019s participation in the offense was substantially the result of trafficking/exploitation;",
+        "supporting documentation may include federal/state/tribal/local records, immigration-related certification/approval notices, affidavits or sworn testimony from clergy, medical professionals, victim-services staff, or other professionals, and any other credible/probative evidence the court accepts.",
+        "The court generally holds a hearing on sealing motions, but for a 2262-B motion, the court may grant the motion without a hearing if the State consents. The person must establish the prerequisites by a preponderance of the evidence.",
+        "This route involves trauma, trafficking, and exploitation. Wilma should not force graphic details. Use gentle, minimal questions:",
+        "Was this conviction connected to trafficking, coercion, exploitation, survival sex, or someone forcing or pressuring you into conduct connected to the charge?",
+        "Then route to manual/legal review.",
+        "User\u0019s case outcome First Wilma route Maine treatment",
+        "Adult Class E conviction CR-218 Motion to Seal Criminal History Possible if eligible offense + 4-year wait + clean-record requirements",
+        "Certain pre-2017 marijuana Class D convictions CR-218 Motion to Seal Criminal History Possible for listed marijuana-related convictions committed before Jan. 30, 2017",
+        "Former Class E engaging in prostitution conviction CR-289 Motion to Seal Conviction for Engaging in Prostitution Special route, generally 1-year wait after sentence fully satisfied",
+        "Conviction tied to sex trafficking or sexual exploitation Survivor sealing route under 15 M.R.S. 2262-B / Public Law 513 Any current or former crime may qualify if the conviction was a substantial result of trafficking/exploitation",
+        "Adult felony conviction not tied to trafficking/exploitation Usually not eligible under the basic CR-218 route Maine\u0019s basic adult sealing route is narrow",
+        "Adult Class D conviction not marijuana-related Usually not eligible under basic CR-218 Check survivor route only if trafficking/exploitation applies",
+        "Arrest / charge with no conviction Do not use CR-218 as default Check Maine confidential criminal-history rules, disposition, and court-record status",
+        "Pardon Not expungement Full/free pardon makes the conviction confidential criminal-history information; not wiped clean",
+        "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
+        "Juvenile murder/Class A/B/C/OUI adjudication Juvenile petition to seal 3-year wait + no new adjudication/conviction + no pending proceedings",
+        "30, 2017 Former Class E engaging in prostitution conviction CR-289 Motion to Seal Conviction for Engaging in Prostitution Special route, generally 1-year wait after sentence fully satisfied Conviction tied to sex trafficking or sexual exploitation Survivor sealing route under 15 M.R.S.",
+        "Sex trafficking / sexual exploitation survivor sealing \u0014 2026 update Maine enacted Public Law 2025, Chapter 513, effective without the Governor\u0019s signature on January 11, 2026, creating a broader survivor-based sealing route for victims of sex trafficking or sexual exploitation. (\"https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1871&snum=132\") Eligibility Under the new 2262-B route, criminal history record information relating to any current or former crime may be sealed if the person establishes:"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "criminal_history",
+        "trafficking_status",
+        "offense_level",
+        "pending_cases",
+        "age_at_offense",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "convicted_felony",
+        "juvenile"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period At least 4 years since the person fully satisfied the sentence",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "Waiting period At least 3 years after discharge from the juvenile disposition",
+        "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
+        "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied",
+        "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied",
+        "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
+        "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition",
+        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+        "1 year since full sentence completion;",
+        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
+        "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction."
+      ],
+      "exclusionRules": [
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")",
+        "Adult felony conviction not tied to trafficking/exploitation Usually not eligible under the basic CR-218 route Maine\u0019s basic adult sealing route is narrow",
+        "Adult Class D conviction not marijuana-related Usually not eligible under basic CR-218 Check survivor route only if trafficking/exploitation applies"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "adult-non-conviction-record-relief",
+      "label": "Adult non-conviction record relief",
+      "summary": "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and…",
+      "sourceRef": "section:134-145; corpus-unit:51",
+      "sourceEvidenceRefs": [
+        "section:134-145",
+        "corpus-unit:51"
+      ],
+      "ruleClauses": [
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "Confidential criminal history record information may be disseminated only to listed recipients, but Maine law still allows certain specific-date inquiries about whether a named person was arrested, detained, summonsed, or had formal charges initiated on a specific date. (\"https://legislature.maine.gov/statutes/16/title16sec705.html\")",
+        "Wilma routing rule: For no-conviction Maine cases, do not generate CR-218. Instead, collect the disposition and flag as:",
+        "likely confidential criminal-history route,",
+        "court-record access may need separate review.",
+        "Adult non-conviction records Maine\u0019s CR-218 adult sealing process is for specific convictions."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "criminal_history",
+        "pardon_status",
+        "record_type",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "arrest_no_charge",
+        "dismissed",
+        "acquitted",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
+        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
+        "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction."
+      ],
+      "exclusionRules": [
+        "4 Was it under Title 17-A, Chapter 11? If yes, flag likely ineligible under the general route.",
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "id": "pardon-route",
+      "label": "Pardon route",
+      "summary": "A full and free pardon in Maine does not wipe the record clean. Maine\u0019s Department of Corrections Pardon Board states that Maine does not expunge or erase criminal records and that a pardon makes the pardoned conviction confidential criminal-history information, available only under limited statutory conditions. (\"https://www.maine.gov/corrections/pardonboard?utm_source=chatgpt.com\") do not promise expungement. Route to pardon-confidentiality verification and SBI/FBI-record review. Pardon route A full and free pardon in Maine does not wipe the record clean.",
+      "sourceRef": "section:146-150; corpus-unit:55",
+      "sourceEvidenceRefs": [
+        "section:146-150",
+        "corpus-unit:55"
+      ],
+      "ruleClauses": [
+        "A full and free pardon in Maine does not wipe the record clean. Maine\u0019s Department of Corrections Pardon Board states that Maine does not expunge or erase criminal records and that a pardon makes the pardoned conviction confidential criminal-history information, available only under limited statutory conditions. (\"https://www.maine.gov/corrections/pardonboard?utm_source=chatgpt.com\")",
+        "do not promise expungement. Route to pardon-confidentiality verification and SBI/FBI-record review.",
+        "Pardon route A full and free pardon in Maine does not wipe the record clean."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "pardon_status"
+      ],
+      "caseOutcomes": [
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "pardon",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges."
+      ],
+      "exclusionRules": [
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "needs_review",
+        "matchedResult": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "id": "juvenile-sealing",
+      "label": "Juvenile sealing",
+      "summary": "Maine juvenile records are separate from adult CR-218 sealing. Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") For a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute…",
+      "sourceRef": "section:151-166; section:42-52; section:262-264; summary:262-264; corpus-unit:14; corpus-unit:58; corpus-unit:59; corpus-unit:61",
+      "sourceEvidenceRefs": [
+        "section:151-166",
+        "section:42-52",
+        "section:262-264",
+        "summary:262-264",
+        "corpus-unit:14",
+        "corpus-unit:58",
+        "corpus-unit:59",
+        "corpus-unit:61",
+        "corpus-unit:97"
+      ],
+      "ruleClauses": [
+        "Maine juvenile records are separate from adult CR-218 sealing. Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\")",
+        "For a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")",
+        "For juvenile adjudications that would be murder, Class A, Class B, Class C, or OUI if committed by an adult, the person may petition to seal if:",
+        "Waiting period At least 3 years after discharge from the juvenile disposition",
+        "New juvenile/adult record No later juvenile adjudication or adult conviction since disposition",
+        "Pending matters No current juvenile or adult proceedings pending",
+        "The court may grant unless the public\u0019s right to information substantially outweighs the juvenile\u0019s privacy interest. (",
+        "\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")",
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")",
+        "General adult conviction sealing CR-218 - Motion to Seal Criminal History",
+        "Former Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution",
+        "Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records",
+        "Fee waiver CV-067 - Application to Proceed Without Payment of Fees",
+        "Fee waiver financial affidavit CV-191 - Financial Affidavit",
+        "The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. (",
+        "\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S. 2263-2264 and requires the defendant to state the conviction, eligibility section, 4-year completion period, no later Maine conviction/deferred-disposition dismissal, no later out-of-state conviction, and no pending charges.",
+        "For Maine, train Wilma with this core logic:",
+        "Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories.",
+        "Route Official form General adult conviction sealing CR-218 \u0014 Motion to Seal Criminal History Former Class E engaging in prostitution CR-289 \u0014 Motion to Seal Conviction for Engaging in Prostitution Juvenile sealing petition JV-043 \u0014 Petition to Seal Juvenile Case Records Fee waiver CV-067 \u0014 Application to Proceed Without Payment of Fees Fee waiver financial affidavit CV-191 \u0014 Financial Affidavit The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. (",
+        "Juvenile sealing Maine juvenile records are separate from adult CR-218 sealing.",
+        "Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") Automatic juvenile sealing For a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\") Juvenile petition to seal For juvenile adjudications that would be murder, Class A, Class B, Class…",
+        "\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\") Juvenile sealing effect Sealing does not erase the juvenile record.",
+        "Agent-facing summary For Maine, train Wilma with this core logic: Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "age_at_offense",
+        "record_type",
+        "sentence_completion_date",
+        "pending_cases",
+        "criminal_history",
+        "trafficking_status",
+        "residency_or_location"
+      ],
+      "caseOutcomes": [
+        "convicted_other",
+        "juvenile",
+        "dismissed",
+        "diversion_or_deferred"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "juvenile",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "Waiting period At least 3 years after discharge from the juvenile disposition",
+        "Waiting period At least 4 years since the person fully satisfied the sentence",
+        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+        "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
+        "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied",
+        "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied",
+        "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
+        "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition",
+        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+        "4 years since full sentence completion;",
+        "1 year since full sentence completion;",
+        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
+        "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction.",
+        "Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories.",
+        "Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") Automatic juvenile sealing For a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\") Juvenile petition to seal For juvenile adjudications that would be murder, Class A, Class B, Class…",
+        "Agent-facing summary For Maine, train Wilma with this core logic: Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+      ],
+      "exclusionRules": [
+        "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    }
+  ],
+  "orderedDecisionRules": [
+    {
+      "id": "rule-05-adult-felony-conviction-not-tied-to-trafficking-exploit",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult felony conviction not tied to trafficking/exploitation Usually not eligible under the basic CR-218 route Maine\u0019s basic adult sealing route is narrow"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-non-conviction-record-relief",
+        "adult-conviction-sealing",
+        "pardon-route"
+      ]
+    },
+    {
+      "id": "rule-06-adult-class-d-conviction-not-marijuana-related-usually-",
+      "priority": 20,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult Class D conviction not marijuana-related Usually not eligible under basic CR-218 Check survivor route only if trafficking/exploitation applies"
+      },
+      "then": {
+        "suggestedResultCode": "likely_not_eligible",
+        "frontendAction": "show_reason_codes_and_no_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-non-conviction-record-relief",
+        "pardon-route"
+      ]
+    },
+    {
+      "id": "rule-11-route-waiting-period-clock-starts",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "Route Waiting period Clock starts"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-14-sex-trafficking-sexual-exploitation-survivor-route-no-o",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "juvenile-sealing",
+        "adult-non-conviction-record-relief",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-17-non-conviction-chri-confidentiality-varies-by-dispositi",
+      "priority": 50,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution"
+      },
+      "then": {
+        "suggestedResultCode": "not_yet",
+        "frontendAction": "show_unmet_condition_and_offer_reminder"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "adult-non-conviction-record-relief",
+        "juvenile-sealing",
+        "pardon-route",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-09-juvenile-class-d-e-civil-type-juvenile-crime-juvenile-a",
+      "priority": 60,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level",
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-15-juvenile-automatic-sealing-no-fixed-post-wait-if-qualif",
+      "priority": 60,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "court",
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "id": "rule-27-maine-sealing-not-expungement-default-adult-form-cr-218",
+      "priority": 60,
+      "stage": "screening",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "criminal_history",
+          "age_at_offense",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "summary:262-264",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-conviction-sealing",
+        "juvenile-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-01-adult-class-e-conviction-cr-218-motion-to-seal-criminal",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "criminal_history",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult Class E conviction CR-218 Motion to Seal Criminal History Possible if eligible offense + 4-year wait + clean-record requirements"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "adult-non-conviction-record-relief",
+        "juvenile-sealing",
+        "adult-conviction-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "id": "rule-02-certain-pre-2017-marijuana-class-d-convictions-cr-218-m",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "criminal_history"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Certain pre-2017 marijuana Class D convictions CR-218 Motion to Seal Criminal History Possible for listed marijuana-related convictions committed before Jan. 30, 2017"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing",
+        "adult-non-conviction-record-relief",
+        "juvenile-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "id": "rule-03-former-class-e-engaging-in-prostitution-conviction-cr-2",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Former Class E engaging in prostitution conviction CR-289 Motion to Seal Conviction for Engaging in Prostitution Special route, generally 1-year wait after sentence fully satisfied"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "juvenile-sealing",
+        "adult-conviction-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-04-conviction-tied-to-sex-trafficking-or-sexual-exploitati",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Conviction tied to sex trafficking or sexual exploitation Survivor sealing route under 15 M.R.S. 2262-B / Public Law 513 Any current or former crime may qualify if the conviction was a substantial result of trafficking/exploitation"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-conviction-sealing",
+        "adult-non-conviction-record-relief",
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-07-arrest-charge-with-no-conviction-do-not-use-cr-218-as-d",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "court",
+          "charge"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Arrest / charge with no conviction Do not use CR-218 as default Check Maine confidential criminal-history rules, disposition, and court-record status"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "adult-non-conviction-record-relief",
+        "pardon-route",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-08-pardon-not-expungement-full-free-pardon-makes-the-convi",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "pardon"
+        ],
+        "sourceConditionText": "Pardon Not expungement Full/free pardon makes the conviction confidential criminal-history information; not wiped clean"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "pardon-route",
+        "adult-non-conviction-record-relief",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-10-juvenile-murder-class-a-b-c-oui-adjudication-juvenile-p",
+      "priority": 70,
+      "stage": "pathway_routing",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Juvenile murder/Class A/B/C/OUI adjudication Juvenile petition to seal 3-year wait + no new adjudication/conviction + no pending proceedings"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "overview:9-21",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-non-conviction-record-relief",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-12-general-adult-class-e-qualifying-marijuana-conviction-s",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "duration": {
+          "value": 4,
+          "unit": "years",
+          "raw": "4 years"
+        },
+        "sourceConditionText": "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "adult-conviction-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-13-former-class-e-engaging-in-prostitution-1-year-after-al",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_level"
+        ],
+        "caseOutcomes": [],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 year"
+        },
+        "sourceConditionText": "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-non-conviction-record-relief",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-16-juvenile-murder-class-a-b-c-oui-petition-3-years-after-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "sourceConditionText": "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-18-no-later-deferred-disposition-dismissal",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "no later deferred-disposition dismissal;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-19-no-later-other-jurisdiction-conviction",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "no later other-jurisdiction conviction;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-20-conviction-was-for-former-class-e-engaging-in-prostitut",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "conviction was for former Class E engaging in prostitution under former 853-A;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "adult-conviction-sealing",
+        "juvenile-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-21-no-disqualifying-trafficking-prostitution-related-later",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "no disqualifying trafficking/prostitution-related later conviction."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "juvenile-sealing",
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "rule-22-user-states-facts-suggesting-sex-trafficking-or-sexual-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "offense_category",
+          "trafficking_status"
+        ],
+        "caseOutcomes": [],
+        "sourceConditionText": "user states facts suggesting sex trafficking or sexual exploitation;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "id": "rule-23-user-states-the-conviction-was-substantially-connected-",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "user states the conviction was substantially connected to that trafficking/exploitation;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "pardon-route",
+        "juvenile-sealing",
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-24-manual-legal-review-is-triggered-because-this-is-trauma",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "manual/legal review is triggered because this is trauma-sensitive and evidence-specific."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "rule-25-later-adjudications-convictions-checked",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "later adjudications/convictions checked;"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261",
+      "candidatePathwayIds": [
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "rule-26-pending-juvenile-adult-proceedings-checked",
+      "priority": 70,
+      "stage": "timing_and_completion",
+      "when": {
+        "fieldsReferenced": [
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "juvenile"
+        ],
+        "sourceConditionText": "pending juvenile/adult proceedings checked."
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "waiting_periods:224-261"
+    },
+    {
+      "id": "route-adult-conviction-sealing",
+      "priority": 80,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-conviction-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "pending_cases",
+          "residency_or_location",
+          "criminal_history",
+          "age_at_offense"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "disposition_date",
+          "sentence_completion_date",
+          "financial_obligations",
+          "pending_cases",
+          "residency_or_location",
+          "criminal_history",
+          "age_at_offense"
+        ],
+        "caseOutcomes": [
+          "dismissed",
+          "diversion_or_deferred",
+          "convicted_other",
+          "juvenile"
+        ],
+        "sourceConditionText": "Adult conviction sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:53-91; section:42-52; section:167-170; corpus-unit:14; corpus-unit:17; corpus-unit:63",
+      "candidatePathwayIds": [
+        "adult-conviction-sealing"
+      ]
+    },
+    {
+      "id": "route-sex-trafficking-sexual-exploitation-survivor-sealing",
+      "priority": 81,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "criminal_history",
+          "trafficking_status",
+          "offense_level",
+          "pending_cases",
+          "age_at_offense",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_category",
+          "criminal_history",
+          "trafficking_status",
+          "offense_level",
+          "pending_cases",
+          "age_at_offense",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "convicted_felony",
+          "juvenile"
+        ],
+        "sourceConditionText": "Sex-trafficking / sexual-exploitation-survivor sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:109-133; section:9-21; overview:9-21; corpus-unit:9; corpus-unit:42",
+      "candidatePathwayIds": [
+        "sex-trafficking-sexual-exploitation-survivor-sealing"
+      ]
+    },
+    {
+      "id": "route-adult-non-conviction-record-relief",
+      "priority": 82,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "adult-non-conviction-record-relief",
+        "requiredFields": [
+          "case_outcome",
+          "criminal_history",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history",
+          "pardon_status",
+          "record_type",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "arrest_no_charge",
+          "dismissed",
+          "acquitted",
+          "convicted_other"
+        ],
+        "sourceConditionText": "Adult non-conviction record relief"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:134-145; corpus-unit:51",
+      "candidatePathwayIds": [
+        "adult-non-conviction-record-relief"
+      ]
+    },
+    {
+      "id": "route-pardon-route",
+      "priority": 83,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "pardon-route",
+        "requiredFields": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "pardon_status"
+        ],
+        "caseOutcomes": [
+          "convicted_other"
+        ],
+        "sourceConditionText": "Pardon route"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": false
+      },
+      "sourceRef": "section:146-150; corpus-unit:55",
+      "candidatePathwayIds": [
+        "pardon-route"
+      ]
+    },
+    {
+      "id": "route-juvenile-sealing",
+      "priority": 84,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "juvenile-sealing",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "age_at_offense",
+          "record_type",
+          "sentence_completion_date",
+          "pending_cases",
+          "criminal_history",
+          "trafficking_status",
+          "residency_or_location"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "offense_category",
+          "age_at_offense",
+          "record_type",
+          "sentence_completion_date",
+          "pending_cases",
+          "criminal_history",
+          "trafficking_status",
+          "residency_or_location"
+        ],
+        "caseOutcomes": [
+          "convicted_other",
+          "juvenile",
+          "dismissed",
+          "diversion_or_deferred"
+        ],
+        "sourceConditionText": "Juvenile sealing"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:151-166; section:42-52; section:262-264; summary:262-264; corpus-unit:14; corpus-unit:58; corpus-unit:59; corpus-unit:61",
+      "candidatePathwayIds": [
+        "juvenile-sealing"
+      ]
+    },
+    {
+      "id": "unmatched-state-fact-pattern",
+      "priority": 99999,
+      "stage": "evaluation",
+      "when": {
+        "noJurisdictionPathwayMatched": true,
+        "fieldsReferenced": [],
+        "caseOutcomes": [],
+        "sourceConditionText": "No source-defined jurisdiction pathway matched the submitted facts."
+      },
+      "then": {
+        "suggestedResultCode": "needs_review",
+        "frontendAction": "save_answers_and_route_for_review",
+        "paymentAllowed": false
+      },
+      "sourceRef": "frontend-contract:no-generic-legal-fallback",
+      "candidatePathwayIds": []
+    }
+  ],
+  "waitingPeriodRules": [
+    {
+      "id": "wait-01",
+      "ruleText": "Waiting period At least 4 years since the person fully satisfied the sentence",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-02",
+      "ruleText": "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "financial_obligations",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-03",
+      "ruleText": "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "criminal_history",
+        "charge",
+        "pardon_status",
+        "record_type",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-04",
+      "ruleText": "Waiting period At least 3 years after discharge from the juvenile disposition",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "discharge from the juvenile disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge",
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-05",
+      "ruleText": "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
+      "duration": null,
+      "anchor": "discharge notice, generally within five business days",
+      "fieldsReferenced": [
+        "offense_level",
+        "charge",
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-06",
+      "ruleText": "Route Waiting period Clock starts",
+      "duration": null,
+      "anchor": null,
+      "fieldsReferenced": []
+    },
+    {
+      "id": "wait-07",
+      "ruleText": "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": "all sentence alternatives are fully satisfied",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category"
+      ]
+    },
+    {
+      "id": "wait-08",
+      "ruleText": "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": "all sentence alternatives are fully satisfied",
+      "fieldsReferenced": [
+        "offense_level"
+      ]
+    },
+    {
+      "id": "wait-09",
+      "ruleText": "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
+      "duration": null,
+      "anchor": "conviction",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_category",
+        "trafficking_status"
+      ]
+    },
+    {
+      "id": "wait-10",
+      "ruleText": "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "discharge from juvenile disposition",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "charge",
+        "age_at_offense"
+      ]
+    },
+    {
+      "id": "wait-11",
+      "ruleText": "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "charge"
+      ]
+    },
+    {
+      "id": "wait-12",
+      "ruleText": "4 years since full sentence completion;",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-13",
+      "ruleText": "1 year since full sentence completion;",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-14",
+      "ruleText": "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": "all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After a",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "court",
+        "charge",
+        "age_at_offense",
+        "trafficking_status"
+      ]
+    },
+    {
+      "id": "wait-15",
+      "ruleText": "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
+      "duration": {
+        "value": 4,
+        "unit": "years",
+        "raw": "4 years"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "pending_cases",
+        "charge",
+        "residency_or_location"
+      ]
+    },
+    {
+      "id": "wait-16",
+      "ruleText": "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction.",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 year"
+      },
+      "anchor": null,
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "offense_category",
+        "sentence_completion_date"
+      ]
+    }
+  ],
+  "exclusionRules": [
+    {
+      "id": "exclusion-01",
+      "ruleText": "4 Was it under Title 17-A, Chapter 11? If yes, flag likely ineligible under the general route.",
+      "fieldsReferenced": [],
+      "suggestedResultCode": "likely_not_eligible"
+    },
+    {
+      "id": "exclusion-02",
+      "ruleText": "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")",
+      "fieldsReferenced": [
+        "offense_category",
+        "court",
+        "charge",
+        "age_at_offense",
+        "record_type"
+      ],
+      "suggestedResultCode": "packet_ready_with_caution"
+    }
+  ],
+  "packetGenerator": {
+    "architecture": "jurisdiction_and_pathway_specific_source_driven_generator",
+    "legacyGeneratorAllowed": false,
+    "genericLegalFallbackAllowed": false,
+    "pathways": [
+      {
+        "pathwayId": "adult-conviction-sealing",
+        "pathwayLabel": "Adult conviction sealing",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "MJB-Form-jv-043.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+            "sizeBytes": 173449
+          },
+          {
+            "fileName": "MJB-Form-cr-289.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+            "sizeBytes": 166837
+          },
+          {
+            "fileName": "MJB-Form-cr-218.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+            "sizeBytes": 190343
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:53-91",
+          "section:42-52",
+          "section:167-170",
+          "corpus-unit:14",
+          "corpus-unit:17",
+          "corpus-unit:63"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "pathwayLabel": "Sex-trafficking / sexual-exploitation-survivor sealing",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "MJB-Form-cr-289.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+            "sizeBytes": 166837
+          },
+          {
+            "fileName": "MJB-Form-cr-218.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+            "sizeBytes": 190343
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:109-133",
+          "section:9-21",
+          "overview:9-21",
+          "corpus-unit:9",
+          "corpus-unit:42"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "adult-non-conviction-record-relief",
+        "pathwayLabel": "Adult non-conviction record relief",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "MJB-Form-cr-218.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+            "sizeBytes": 190343
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:134-145",
+          "corpus-unit:51"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pardon-route",
+        "pathwayLabel": "Pardon route",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "section:146-150",
+          "corpus-unit:55"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "juvenile-sealing",
+        "pathwayLabel": "Juvenile sealing",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "MJB-Form-jv-043.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+            "sizeBytes": 173449
+          },
+          {
+            "fileName": "MJB-Form-cr-289.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+            "sizeBytes": 166837
+          },
+          {
+            "fileName": "MJB-Form-cr-218.pdf",
+            "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+            "sizeBytes": 190343
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "section:151-166",
+          "section:42-52",
+          "section:262-264",
+          "summary:262-264",
+          "corpus-unit:14",
+          "corpus-unit:58",
+          "corpus-unit:59",
+          "corpus-unit:61",
+          "corpus-unit:97"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      }
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date",
+      "trafficking_status"
+    ],
+    "sourceFormStatements": [
+      "General adult conviction sealing CR-218 - Motion to Seal Criminal History",
+      "Former Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution",
+      "Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records",
+      "Fee waiver CV-067 - Application to Proceed Without Payment of Fees",
+      "Fee waiver financial affidavit CV-191 - Financial Affidavit",
+      "The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. (",
+      "\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S. 2263-2264 and requires the defendant to state the conviction, eligibility section, 4-year completion period, no later Maine conviction/deferred-disposition dismissal, no later out-of-state conviction, and no pending charges.",
+      "Route Official form General adult conviction sealing CR-218 - Motion to Seal Criminal History Former Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records Fee waiver CV-067 - Application to Proceed Without Payment of Fees Fee waiver financial affidavit CV-191 - Financial Affidavit The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. ( \"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S."
+    ],
+    "attachments": [
+      "General adult conviction sealing CR-218 - Motion to Seal Criminal History",
+      "The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. (",
+      "\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S. 2263-2264 and requires the defendant to state the conviction, eligibility section, 4-year completion period, no later Maine conviction/deferred-disposition dismissal, no later out-of-state conviction, and no pending charges.",
+      "Route Official form General adult conviction sealing CR-218 - Motion to Seal Criminal History Former Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records Fee waiver CV-067 - Application to Proceed Without Payment of Fees Fee waiver financial affidavit CV-191 - Financial Affidavit The Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. ( \"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S.",
+      "2263-2264 and requires the defendant to state the conviction, eligibility section, 4-year completion period, no later Maine conviction/deferred-disposition dismissal, no later out-of-state conviction, and no pending charges.",
+      "Wilma should start by helping the user identify the exact Maine record. The Maine State Police / State Bureau of Identification offers an online Maine Criminal History Record & Juvenile Crime Information Request service. It provides electronic access to criminal-history and juvenile-crime information maintained by the Maine State Police, State Bureau of Identification. The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\")",
+      "The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")",
+      "The Maine State Police / State Bureau of Identification offers an online Maine Criminal History Record & Juvenile Crime Information Request service.",
+      "The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\") The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")"
+    ],
+    "filingDestinationRules": [
+      "The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")",
+      "The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\") The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")"
+    ],
+    "serviceAndNoticeRules": [
+      "Wilma should start by helping the user identify the exact Maine record. The Maine State Police / State Bureau of Identification offers an online Maine Criminal History Record & Juvenile Crime Information Request service. It provides electronic access to criminal-history and juvenile-crime information maintained by the Maine State Police, State Bureau of Identification. The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\")",
+      "The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")",
+      "The Maine State Police / State Bureau of Identification offers an online Maine Criminal History Record & Juvenile Crime Information Request service.",
+      "The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\") The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")"
+    ],
+    "feeRules": [
+      "The current Maine court fee schedule lists a $60 fee for filing certain post-judgment motions or requests under Maine Rules of Civil Procedure 55(b)(2), 59, 60(b), 62, or 66 in both Superior Court and District Court; confirm the exact CR-218/CR-289 fee with the clerk at filing because local processing may depend on how the motion is docketed. (\"https://www.courts.maine.gov/adminorders/jb-05-26.pdf\")",
+      "If the user cannot afford filing fees, Wilma should surface the fee-waiver route: CV-067 Application to Proceed Without Payment of Fees and CV-191 Financial Affidavit. The official CV-067 form says the application must be filed with a completed Financial Affidavit, CV-191. (\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CV-067&utm_source=chatgpt.com\")",
+      "The current Maine court fee schedule lists a $60 fee for filing certain post-judgment motions or requests under Maine Rules of Civil Procedure 55(b)(2), 59, 60(b), 62, or 66 in both Superior Court and District Court; confirm the exact CR-218/CR-289 fee with the clerk at filing because local processing may depend on how the motion is docketed. (\"https://www.courts.maine.gov/adminorders/jb-05-26.pdf\") If the user cannot afford filing fees, Wilma should surface the fee-waiver route: CV-067 Application to Proceed Without Payment of Fees and CV-191 Financial Affidavit.",
+      "The official CV-067 form says the application must be filed with a completed Financial Affidavit, CV-191. (\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CV-067&utm_source=chatgpt.com\")"
+    ],
+    "hearingAndObjectionRules": [],
+    "postFilingRules": [
+      "The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")",
+      "The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\") The State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")",
+      "Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories.",
+      "For Maine, train Wilma with this core logic: Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+    ],
+    "formInventory": [
+      {
+        "fileName": "MJB-Form-cr-218.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+        "sizeBytes": 190343
+      },
+      {
+        "fileName": "MJB-Form-cr-289.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+        "sizeBytes": 166837
+      },
+      {
+        "fileName": "MJB-Form-jv-043.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+        "sizeBytes": 173449
+      }
+    ],
+    "allSourceFiles": [
+      {
+        "fileName": "MJB-Form-cr-218.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+        "sizeBytes": 190343
+      },
+      {
+        "fileName": "MJB-Form-cr-289.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-cr-289.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+        "sizeBytes": 166837
+      },
+      {
+        "fileName": "MJB-Form-jv-043.pdf",
+        "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+        "extension": ".pdf",
+        "kind": "official_form_or_packet",
+        "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+        "sizeBytes": 173449
+      },
+      {
+        "fileName": "Maine Record Sealing — Statewide Agent Reference.rtf",
+        "relativePath": "LegalEase Maine/Maine Record Sealing — Statewide Agent Reference.rtf",
+        "extension": ".rtf",
+        "kind": "reference",
+        "sha256": "4c09535a7d7701a65d4a6910a1e3563978418ad126cb8b02fc21bd4ec6a74d64",
+        "sizeBytes": 74742
+      }
+    ],
+    "generatorSelectionContract": {
+      "input": [
+        "jurisdiction",
+        "backend_pathway_id",
+        "normalized_answers",
+        "source_version"
+      ],
+      "output": [
+        "packet_mode",
+        "source_form_ids",
+        "field_map",
+        "attachments",
+        "filing_instructions",
+        "service_rules",
+        "fee_notes",
+        "review_flags"
+      ],
+      "failureBehavior": "Return needs_more_info or needs_review. Never fall back to a generic packet or another jurisdiction generator."
+    }
+  },
+  "resultPresentationContract": {
+    "packet_ready": {
+      "tag": "Packet ready",
+      "title": "You may have a packet-ready path.",
+      "paymentAllowed": true
+    },
+    "packet_ready_with_caution": {
+      "tag": "Possible path",
+      "title": "You may have a path, with cautions.",
+      "paymentAllowed": true
+    },
+    "needs_more_info": {
+      "tag": "Almost there",
+      "title": "We need a few more details.",
+      "paymentAllowed": false
+    },
+    "not_yet": {
+      "tag": "Not yet",
+      "title": "You may need to wait.",
+      "paymentAllowed": false
+    },
+    "guidance_only": {
+      "tag": "Guidance saved",
+      "title": "We can give you state-specific next steps.",
+      "paymentAllowed": false
+    },
+    "not_covered_yet": {
+      "tag": "Not covered yet",
+      "title": "This record type is not supported by the current packet set.",
+      "paymentAllowed": false
+    },
+    "likely_not_eligible": {
+      "tag": "May not match",
+      "title": "This record may not match a self-help filing path.",
+      "paymentAllowed": false
+    },
+    "needs_review": {
+      "tag": "Review needed",
+      "title": "This situation needs review before a packet is generated.",
+      "paymentAllowed": false
+    },
+    "hard_stop": {
+      "tag": "Out of scope",
+      "title": "This tool cannot prepare a packet for this matter.",
+      "paymentAllowed": false
+    }
+  },
+  "copyGuardrails": [
+    "2262-B / Public Law 513 Any current or former crime may qualify if the conviction was a substantial result of trafficking/exploitation Adult felony conviction not tied to trafficking/exploitation Usually not eligible under the basic CR-218 route Maine\u0019s basic adult sealing route is narrow Adult Class D conviction not marijuana-related Usually not eligible under basic CR-218 Check survivor route only if trafficking/exploitation applies Arrest / charge with no conviction Do not use CR-218 as default Check Maine confidential criminal-history rules, disposition, and court-record status Pardon Not expungement Full/free pardon makes the conviction confidential criminal-history information; not wiped clean Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days Juvenile murder/Class A/B/C/OUI adjudication Juvenile petition to seal 3-year wait + no new adjudication/conviction + no pending proceedings",
+    "Maine court materials state directly that the record is not completely erased and that Maine does not have expungement in the ordinary sense. (\"https://www.courts.maine.gov/help/criminal/sealing-prostitution.html\") Wilma rule: Say seal from most public access, not delete, erase, or wipe clean.",
+    "For Maine, train Wilma with this core logic: Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories.",
+    "Use Maine-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.",
+    "Use “may qualify,” “possible path,” and “the court or agency makes the final decision.”",
+    "Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.",
+    "Do not show checkout unless the backend returns a packet-ready result and paymentAllowed=true."
+  ],
+  "sourceSections": [
+    {
+      "title": "How Wilma should route Maine cases",
+      "category": "overview",
+      "startLine": 9,
+      "endLine": 21,
+      "text": "User\u0019s case outcome First Wilma route Maine treatment\nAdult Class E conviction CR-218 Motion to Seal Criminal History Possible if eligible offense + 4-year wait + clean-record requirements\nCertain pre-2017 marijuana Class D convictions CR-218 Motion to Seal Criminal History Possible for listed marijuana-related convictions committed before Jan. 30, 2017\nFormer Class E engaging in prostitution conviction CR-289 Motion to Seal Conviction for Engaging in Prostitution Special route, generally 1-year wait after sentence fully satisfied\nConviction tied to sex trafficking or sexual exploitation Survivor sealing route under 15 M.R.S. 2262-B / Public Law 513 Any current or former crime may qualify if the conviction was a substantial result of trafficking/exploitation\nAdult felony conviction not tied to trafficking/exploitation Usually not eligible under the basic CR-218 route Maine\u0019s basic adult sealing route is narrow\nAdult Class D conviction not marijuana-related Usually not eligible under basic CR-218 Check survivor route only if trafficking/exploitation applies\nArrest / charge with no conviction Do not use CR-218 as default Check Maine confidential criminal-history rules, disposition, and court-record status\nPardon Not expungement Full/free pardon makes the conviction confidential criminal-history information; not wiped clean\nJuvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days\nJuvenile murder/Class A/B/C/OUI adjudication Juvenile petition to seal 3-year wait + no new adjudication/conviction + no pending proceedings"
+    },
+    {
+      "title": "Remedy definitions Wilma must understand",
+      "category": "remedy_definitions",
+      "startLine": 22,
+      "endLine": 41,
+      "text": "Sealing\nIn Maine, sealing makes the conviction confidential criminal history record information and restricts public dissemination. A sealed conviction generally should not show to ordinary third parties like employers, landlords, lenders, and schools, but it is still available to criminal justice agencies, courts, licensing agencies, financial regulators, some fingerprint-based background-check entities, victims, and other statutorily authorized recipients. (\n\n\"https://legislature.maine.gov/statutes/15/title15sec2265.html\")\nExpungement\nFor Wilma\u0019s Maine workflow, avoid saying\nexpungement.\nMaine court materials state directly that the record is not completely erased and that Maine does not have\nexpungement\nin the ordinary sense. (\"https://www.courts.maine.gov/help/criminal/sealing-prostitution.html\")\nWilma rule: Say\nseal from most public access,\nnot\ndelete,\n\nerase,\nor\nwipe clean."
+    },
+    {
+      "title": "Official forms Wilma should know",
+      "category": "forms",
+      "startLine": 42,
+      "endLine": 52,
+      "text": "Route Official form\nGeneral adult conviction sealing CR-218 - Motion to Seal Criminal History\nFormer Class E engaging in prostitution CR-289 - Motion to Seal Conviction for Engaging in Prostitution\nJuvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records\nFee waiver CV-067 - Application to Proceed Without Payment of Fees\nFee waiver financial affidavit CV-191 - Financial Affidavit\nThe Maine Judicial Branch forms list includes CR-218 Motion to Seal Criminal History, revised 7/1/2024, and CR-289 Motion to Seal Conviction for Engaging in Prostitution, revised 10/1/2024. (\n\n\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index\") CR-218 itself states that the motion is brought under 15 M.R.S. 2263-2264 and requires the defendant to state the conviction, eligibility section, 4-year completion period, no later Maine conviction/deferred-disposition dismissal, no later out-of-state conviction, and no pending charges."
+    },
+    {
+      "title": "Adult conviction sealing - general route",
+      "category": "pathway_detail",
+      "startLine": 53,
+      "endLine": 91,
+      "text": "The general adult sealing route is for a specific criminal conviction, not a whole-record sweep. A person may file a written motion in the underlying criminal proceeding, and the motion must address each statutory prerequisite. (\"https://legislature.maine.gov/statutes/15/title15sec2263.html\")\nEligible convictions\nMaine\u0019s general definition of\neligible criminal conviction\nincludes:\n\nCategory Rule\nCurrent or former Class E crime Eligible, except current/former Class E crimes under Title 17-A, Chapter 11\nCertain marijuana convictions committed before Jan. 30, 2017 Eligible if they fall within the listed marijuana cultivation/possession categories in 2261(6)(B)\nThe statute defines eligible convictions as current/former Class E crimes except Chapter 11 offenses, plus specified marijuana-related convictions committed before January 30, 2017. (\n\n\"https://legislature.maine.gov/statutes/15/title15sec2261.html\")\nRequired prerequisites\nFor the general adult sealing route, Wilma must confirm all of these:\n\nRequirement Maine rule\nEligible conviction Must be an eligible conviction under 2261(6)\nWaiting period At least 4 years since the person fully satisfied the sentence\nMaine convictions after completion No later Maine criminal conviction\nDeferred disposition after completion No later Maine criminal charge dismissed as a result of deferred disposition\nOut-of-state / other jurisdiction conviction No later conviction in another jurisdiction\nPending charges No pending criminal charges in Maine or another jurisdiction\nThese prerequisites are in 15 M.R.S. 2262. (\n\n\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.\nWilma general adult sealing logic\nWilma should ask:\n1 Was this a conviction, not just an arrest?\n2 What was the exact offense and class?\n3 Was it a current/former Class E offense?\n4 Was it under Title 17-A, Chapter 11? If yes, flag likely ineligible under the general route.\n5 Was it one of the listed pre-2017 marijuana convictions?\n6 When were all sentence terms fully completed?\n7 Any later Maine convictions?\n8 Any later deferred-disposition dismissal?\n9 Any later out-of-state/federal/tribal convictions?\n10 Any pending criminal charges?\nWilma should not say eligible unless all prerequisites are confirmed."
+    },
+    {
+      "title": "Sex trafficking / sexual exploitation survivor sealing - 2026 update",
+      "category": "pathway_detail",
+      "startLine": 109,
+      "endLine": 133,
+      "text": "Maine enacted Public Law 2025, Chapter 513, effective without the Governor\u0019s signature on January 11, 2026, creating a broader survivor-based sealing route for victims of sex trafficking or sexual exploitation. (\"https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1871&snum=132\")\nEligibility\nUnder the new 2262-B route, criminal history record information relating to any current or former crime may be sealed if the person establishes:\n\nRequirement Rule\nVictim status The person was a victim of sex trafficking or sexual exploitation\nCausal connection The crime of conviction was a substantial result of the trafficking or exploitation\nTiming Motion may be filed at any time after conviction\nThe enacted text says the route applies to a conviction for any current or former crime, and the motion may be filed at any time after the conviction is entered.\nEvidence rules\nFor 2262-B motions:\n\nthe filer and witnesses may participate remotely unless the court finds in-person participation is required;\nofficial documentation is not required;\nif official documentation is presented, it creates a presumption that the person\u0019s participation in the offense was substantially the result of trafficking/exploitation;\nsupporting documentation may include federal/state/tribal/local records, immigration-related certification/approval notices, affidavits or sworn testimony from clergy, medical professionals, victim-services staff, or other professionals, and any other credible/probative evidence the court accepts.\nHearing rule\nThe court generally holds a hearing on sealing motions, but for a 2262-B motion, the court may grant the motion without a hearing if the State consents. The person must establish the prerequisites by a preponderance of the evidence.\nWilma safety rule\nThis route involves trauma, trafficking, and exploitation. Wilma should not force graphic details. Use gentle, minimal questions:\n\nWas this conviction connected to trafficking, coercion, exploitation, survival sex, or someone forcing or pressuring you into conduct connected to the charge?\n\nThen route to manual/legal review."
+    },
+    {
+      "title": "Adult non-conviction records",
+      "category": "pathway_detail",
+      "startLine": 134,
+      "endLine": 145,
+      "text": "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")\nConfidential criminal history record information may be disseminated only to listed recipients, but Maine law still allows certain specific-date inquiries about whether a named person was arrested, detained, summonsed, or had formal charges initiated on a specific date. (\"https://legislature.maine.gov/statutes/16/title16sec705.html\")\nWilma routing rule: For no-conviction Maine cases, do not generate CR-218. Instead, collect the disposition and flag as:\n\nlikely confidential criminal-history route,\n\nverify SBI record status,\nand\n\ncourt-record access may need separate review."
+    },
+    {
+      "title": "Pardon route",
+      "category": "pathway_detail",
+      "startLine": 146,
+      "endLine": 150,
+      "text": "A full and free pardon in Maine does not wipe the record clean. Maine\u0019s Department of Corrections Pardon Board states that Maine does not expunge or erase criminal records and that a pardon makes the pardoned conviction confidential criminal-history information, available only under limited statutory conditions. (\"https://www.maine.gov/corrections/pardonboard?utm_source=chatgpt.com\")\nWilma rule: If the user says\nI was pardoned,\ndo not promise expungement. Route to pardon-confidentiality verification and SBI/FBI-record review."
+    },
+    {
+      "title": "Juvenile sealing",
+      "category": "pathway_detail",
+      "startLine": 151,
+      "endLine": 166,
+      "text": "Maine juvenile records are separate from adult CR-218 sealing. Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\")\nAutomatic juvenile sealing\nFor a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")\nJuvenile petition to seal\nFor juvenile adjudications that would be murder, Class A, Class B, Class C, or OUI if committed by an adult, the person may petition to seal if:\n\nRequirement Rule\nWaiting period At least 3 years after discharge from the juvenile disposition\nNew juvenile/adult record No later juvenile adjudication or adult conviction since disposition\nPending matters No current juvenile or adult proceedings pending\nThe court may grant unless the public\u0019s right to information substantially outweighs the juvenile\u0019s privacy interest. (\n\n\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")\nJuvenile sealing effect\nSealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+    },
+    {
+      "title": "Filing instructions",
+      "category": "filing",
+      "startLine": 167,
+      "endLine": 170,
+      "text": "For adult conviction sealing, file the motion in the underlying criminal proceeding. The clerk sets the motion for hearing. The person has the right to counsel but is not entitled to state-appointed counsel for this sealing motion. The prosecutorial office that handled the original case may represent the State. (\"https://legislature.maine.gov/statutes/15/title15sec2264.html\")\nThe Maine Judicial Branch says to complete CR-218 and return it to the clerk\u0019s office for the court where the conviction occurred. The court schedules a hearing, reviews the statutory requirements, and grants the motion if the filer proves each requirement by a preponderance of the evidence. If granted, the court sends notice to the State Bureau of Identification, which seals the conviction and mails notice to the person. (\"https://www.courts.maine.gov/help/criminal/sealing.html\")\nFor multiple 2262-B survivor-sealing motions, the 2026 law says the court consolidates multiple motions to one location."
+    },
+    {
+      "title": "Fees",
+      "category": "fees",
+      "startLine": 171,
+      "endLine": 173,
+      "text": "The current Maine court fee schedule lists a $60 fee for filing certain post-judgment motions or requests under Maine Rules of Civil Procedure 55(b)(2), 59, 60(b), 62, or 66 in both Superior Court and District Court; confirm the exact CR-218/CR-289 fee with the clerk at filing because local processing may depend on how the motion is docketed. (\"https://www.courts.maine.gov/adminorders/jb-05-26.pdf\")\nIf the user cannot afford filing fees, Wilma should surface the fee-waiver route: CV-067 Application to Proceed Without Payment of Fees and CV-191 Financial Affidavit. The official CV-067 form says the application must be filed with a completed Financial Affidavit, CV-191. (\"https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CV-067&utm_source=chatgpt.com\")"
+    },
+    {
+      "title": "Record request process",
+      "category": "filing",
+      "startLine": 174,
+      "endLine": 176,
+      "text": "Wilma should start by helping the user identify the exact Maine record. The Maine State Police / State Bureau of Identification offers an online Maine Criminal History Record & Juvenile Crime Information Request service. It provides electronic access to criminal-history and juvenile-crime information maintained by the Maine State Police, State Bureau of Identification. The public search returns adult conviction/adjudication information and pending cases less than one year old. (\"https://www.maine.gov/pcr?utm_source=chatgpt.com\")\nThe State Bureau of Identification page says the online public criminal-history search costs $31, and a notarized background check costs $41. (\"https://www.maine.gov/dps/msp/about/sbi?utm_source=chatgpt.com\") A person or their attorney also has a statutory right to inspect criminal-history record information maintained by a Maine criminal justice agency and may request correction of inaccurate or incomplete information. (\"https://legislature.maine.gov/statutes/16/title16sec709.html\")"
+    },
+    {
+      "title": "Wilma intake questions for Maine",
+      "category": "intake_questions",
+      "startLine": 177,
+      "endLine": 223,
+      "text": "Wilma should ask in this order:\n1\nWas this an adult case or juvenile case?\n\n2\nWas there a conviction, or was the case dismissed, declined, no-billed, acquitted, or never charged?\n\n3\nWhat was the exact offense name and class?\n\n4\nWhat court and county handled the case?\n\n5\nWhat is the docket number, if you have it?\n\n6\nWhen were you convicted?\n\n7\nWhen did you finish every part of the sentence: jail, probation, administrative release, license suspension, fines, restitution, and community service?\n\n8\nHave you had any Maine convictions since then?\n\n9\nHave you had any deferred-disposition dismissal since then?\n\n10\nHave you had any convictions in another state, federal court, tribal court, or another jurisdiction since then?\n\n11\nDo you have any pending criminal charges anywhere?\n\n12\nWas this a marijuana offense committed before January 30, 2017?\n\n13\nWas this the former Class E engaging-in-prostitution offense?\n\n14\nWas the conviction connected to sex trafficking, sexual exploitation, coercion, or survival circumstances?\n\n15\nDo you need help getting your Maine SBI record first?"
+    },
+    {
+      "title": "Maine waiting-period table",
+      "category": "waiting_periods",
+      "startLine": 224,
+      "endLine": 261,
+      "text": "Route Waiting period Clock starts\nGeneral adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied\nFormer Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied\nSex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction\nJuvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days\nJuvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition\nNon-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution\n15.\nDo not say eligible unless&\nrules\nWilma should not say\nyou are eligible\nunless the following are confirmed:\nFor CR-218\n\nexact conviction;\noffense class;\nnot excluded under Title 17-A, Chapter 11;\n4 years since full sentence completion;\nno later Maine conviction;\nno later deferred-disposition dismissal;\nno later other-jurisdiction conviction;\nno pending charges.\nFor CR-289\nconviction was for former Class E engaging in prostitution under former 853-A;\n1 year since full sentence completion;\nno disqualifying trafficking/prostitution-related later conviction.\nFor 2262-B survivor route\nuser states facts suggesting sex trafficking or sexual exploitation;\nuser states the conviction was substantially connected to that trafficking/exploitation;\nmanual/legal review is triggered because this is trauma-sensitive and evidence-specific.\nFor juvenile\noffense class/type confirmed;\ndischarge date confirmed;\nlater adjudications/convictions checked;\npending juvenile/adult proceedings checked."
+    },
+    {
+      "title": "Agent-facing summary",
+      "category": "summary",
+      "startLine": 262,
+      "endLine": 264,
+      "text": "For Maine, train Wilma with this core logic:\nMaine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+    }
+  ],
+  "frontendContract": {
+    "frontendMayDetermineEligibility": false,
+    "frontendMayCalculateWaitingPeriods": false,
+    "frontendMaySelectPacket": false,
+    "frontendRendersBackendProfileAndEvaluation": true,
+    "stateChangeInvalidatesStateSpecificAnswers": true,
+    "multipleRecordsCreateSeparateMatters": true,
+    "frontendMustNot": [
+      "select legal pathways without the backend result",
+      "substitute another jurisdiction packet generator",
+      "render a paid packet action for an automatic, guidance-only, waiting, missing-info, review, ineligible, or hard-stop result"
+    ]
+  },
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "counts": {
+      "pathways": 5,
+      "questions": 33,
+      "decisionRules": 33,
+      "waitingRules": 16,
+      "exclusions": 2,
+      "sourceFiles": 4,
+      "officialForms": 3
+    },
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  }
+}

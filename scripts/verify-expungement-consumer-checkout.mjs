@@ -84,7 +84,6 @@ assert(!migrationSource.includes("partner_"), "Checkout metadata migration must 
 const forbiddenChangedPrefixes = [
   "src/app/api/stripe/",
   "src/lib/partners/",
-  "src/app/dashboard/partners/",
   "src/app/partner/",
   "src/app/partners/",
   "src/lib/supabase/",

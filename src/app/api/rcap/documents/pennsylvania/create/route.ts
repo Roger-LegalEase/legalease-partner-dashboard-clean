@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createPennsylvaniaDocumentPacket } from "@/lib/rcap/documents/pennsylvania/repository";
-import type { PennsylvaniaDocumentPacketInput, PennsylvaniaOffenseGrade } from "@/lib/rcap/documents/pennsylvania/types";
+import { createPennsylvaniaDocumentPacket } from "@/lib/rcap/documents/source-repository";
+import type { PennsylvaniaDocumentPacketInput, PennsylvaniaOffenseGrade } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
 export async function POST(request: Request) {
