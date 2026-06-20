@@ -15,7 +15,7 @@ export function WilmaBubble({ context }: { context: WilmaPageContext }) {
           <div className="flex items-center justify-between bg-[#0B1320] px-4 py-3 text-white">
             <div>
               <p className="text-sm font-bold">Wilma</p>
-              <p className="text-xs text-white/60">Guide, not a lawyer</p>
+              <p className="text-xs text-white/60">Guide</p>
             </div>
             <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => setIsOpen(false)} type="button">
               Close
