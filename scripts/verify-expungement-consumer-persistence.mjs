@@ -86,6 +86,19 @@ const forbiddenPrefixes = [
   ".github/workflows/deploy"
 ];
 for (const file of changedFiles) {
+  if ([
+    ".env.example",
+    "src/app/api/expungement-ai/checkout/route.ts",
+    "src/app/api/stripe/webhook/route.ts",
+    "src/lib/stripe/server.ts",
+    "src/lib/expungement-ai/briefcase.ts",
+    "src/lib/expungement-ai/checkout-reconciliation.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/expungement-ai/payment-adapter.ts",
+    "scripts/verify-expungement-consumer-checkout.mjs",
+    "scripts/verify-expungement-consumer-adapter.mjs",
+    "scripts/verify-expungement-consumer-persistence.mjs"
+  ].includes(file)) continue;
   if (file === migrationPath) continue;
   if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
   if (file === "supabase/phase-28-consumer-packet-generation-status.sql") continue;

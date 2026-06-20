@@ -112,7 +112,7 @@ assertIncludes("src/lib/expungement-ai/payment-adapter.ts", [
   "consumerPacketPriceCents = 5000",
   "assertCheckoutAllowed",
   "isConsumerPaymentAllowed",
-  "packetStatus: \"ready\""
+  "packetStatus: item.packetStatus === \"ready\" ? \"ready\" : \"pending\""
 ]);
 
 for (const envName of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_APP_URL"]) {

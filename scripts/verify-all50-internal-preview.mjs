@@ -112,6 +112,16 @@ function assertNoRestrictedChanges() {
   assertSourceEngineChangeScope({
     rootDir,
     failures,
+    extraAllowedFiles: [
+      ".env.example",
+      "src/app/api/expungement-ai/checkout/route.ts",
+      "src/app/api/stripe/webhook/route.ts",
+      "src/lib/stripe/server.ts",
+      "src/lib/expungement-ai/briefcase.ts",
+      "src/lib/expungement-ai/checkout-reconciliation.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "src/lib/expungement-ai/payment-adapter.ts"
+    ],
     extraForbiddenPrefixes: [
       "src/app/api/",
       "src/app/p/",

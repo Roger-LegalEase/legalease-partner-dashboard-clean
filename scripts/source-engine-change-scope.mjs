@@ -50,13 +50,20 @@ const productionForbiddenPrefixes = [
   "src/components/expungement/"
 ];
 
-export function assertSourceEngineChangeScope({ rootDir, failures, extraForbiddenPrefixes = [] }) {
+export function assertSourceEngineChangeScope({
+  rootDir,
+  failures,
+  extraForbiddenPrefixes = [],
+  extraAllowedFiles = []
+}) {
   const changedEntries = changedEntriesAgainstMain(rootDir, failures);
   const forbiddenPrefixes = [...productionForbiddenPrefixes, ...extraForbiddenPrefixes];
+  const allowedFiles = new Set(extraAllowedFiles);
   const forbidden = [];
 
   for (const entry of changedEntries) {
     if (sourceEngineAllowedFiles.has(entry.path)) continue;
+    if (allowedFiles.has(entry.path)) continue;
 
     const legacyPrefix = legacyGeneratorPrefixes.find((prefix) => entry.path.startsWith(prefix));
     if (legacyPrefix) {

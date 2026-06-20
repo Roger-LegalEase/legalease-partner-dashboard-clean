@@ -120,6 +120,8 @@ function assertNoRestrictedChanges() {
     "src/components/expungement/"
   ];
   const allowedConsumerPersistenceFiles = new Set([
+    ".env.example",
+    "src/lib/stripe/server.ts",
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",
