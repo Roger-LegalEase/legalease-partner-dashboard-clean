@@ -51,11 +51,11 @@
   .nav .brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 12px rgba(0,0,0,.3);transition:color .3s}
   .nav.scrolled .brand{color:#0B1320;text-shadow:none}
   .nav .brand svg.logomark{width:30px;height:25px;flex-shrink:0}
-  .navlinks{display:none;gap:30px;align-items:center}@media(min-width:768px){.navlinks{display:flex}}
+  .navlinks{display:none;gap:clamp(18px,2.2vw,30px);align-items:center}@media(min-width:980px){.navlinks{display:flex}}
   .navlinks a{font-size:13.5px;color:rgba(255,255,255,.92);text-decoration:none;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
   .nav.scrolled .navlinks a{color:#475067;text-shadow:none}
   .nav.scrolled .navlinks a:hover{color:#0B1320}
-  .navright{display:none;align-items:center;gap:16px}@media(min-width:768px){.navright{display:flex}}
+  .navright{display:none;align-items:center;gap:16px}@media(min-width:980px){.navright{display:flex}}
   .navlogin{color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
   .nav.scrolled .navlogin{color:#475067;text-shadow:none}
   .navcta{display:inline-flex;align-items:center;gap:7px;background:#FF3B00;color:#fff;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:10px;text-decoration:none;box-shadow:0 6px 16px rgba(255,59,0,.35);transition:background .2s}
@@ -64,7 +64,7 @@
   .navtoggle span{display:block;height:2px;width:100%;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
   .nav.scrolled .navtoggle{background:#0B13200d;border-color:#0B13201f}
   .nav.scrolled .navtoggle span{background:#0B1320}
-  @media(min-width:768px){.navtoggle{display:none}}
+  @media(min-width:980px){.navtoggle{display:none}}
   .nav.open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .nav.open .navtoggle span:nth-child(2){opacity:0}
   .nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -74,7 +74,7 @@
   .mobilemenu .mcta{margin-top:18px;background:#FF3B00;color:#fff;text-align:center;border-radius:12px;padding:15px;border:none;box-shadow:0 8px 22px rgba(255,59,0,.32)}
   .menuscrim{position:fixed;inset:0;z-index:48;background:rgba(11,19,38,.45);opacity:0;pointer-events:none;transition:opacity .3s}
   .nav.open ~ .menuscrim{opacity:1;pointer-events:auto}
-  @media(min-width:768px){.mobilemenu,.menuscrim{display:none}}
+  @media(min-width:980px){.mobilemenu,.menuscrim{display:none}}
 
   @keyframes fd{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
   @keyframes rise{from{opacity:0;transform:translateY(50px)}to{opacity:.96;transform:none}}
@@ -112,7 +112,7 @@
 
     <div class="secondary"><a href="#">See how it works &#8594;</a></div>
     <div class="trust">
-      <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Now live in 5 states &middot; more every month</div>
+      <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Coverage across all 50 states and DC</div>
       <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg> Built by a defense attorney &amp; state lawmaker</div>
     </div>
     </div></div>
@@ -223,7 +223,7 @@
 
    <details class="faq">
     <summary>Will this work for my record and my state?</summary>
-    <p>It depends on your charges and your state&#39;s law, which is exactly what the free eligibility check is for. We&#39;re live in five states today and adding more every month. Answer a few plain questions and we&#39;ll tell you honestly where you stand, before you pay anything.</p>
+    <p>It depends on your charges and your state&#39;s law, which is exactly what the free eligibility check is for. Screening and guidance are available nationwide, with coverage across all 50 states and DC. Answer a few plain questions and we&#39;ll tell you honestly where you stand, before you pay anything.</p>
    </details>
 
    <details class="faq">
