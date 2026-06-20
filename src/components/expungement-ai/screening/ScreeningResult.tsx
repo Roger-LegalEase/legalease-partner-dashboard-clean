@@ -18,6 +18,7 @@ import {
   type ResultCode,
   type ScreeningEvaluation
 } from "@/lib/expungement-ai/frontend/contracts";
+import { friendlyMissingFieldLabel, safeUserFacingEngineText } from "@/lib/expungement-ai/missing-fields";
 
 const UPL_DISCLAIMER =
   "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; court approval is not guaranteed. Review everything before filing.";
@@ -83,7 +84,7 @@ export function ScreeningResult({
               <li key={`${reason.code}-${index}`} className="flex items-start gap-2 text-sm leading-6 text-[#475A6E]">
                 <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
                 <span>
-                  {reason.text}
+                  {safeUserFacingEngineText(reason.text)}
                   {reason.sourceRef ? <span className="ml-1 text-xs text-[#8A93A6]">({reason.sourceRef})</span> : null}
                 </span>
               </li>
@@ -98,7 +99,7 @@ export function ScreeningResult({
             {evaluation.cautions.map((caution, index) => (
               <li key={index} className="flex items-start gap-2 rounded-xl bg-[#FDF1E8] px-3 py-2 text-sm leading-6 text-[#9A3412]">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{caution}</span>
+                <span>{safeUserFacingEngineText(caution)}</span>
               </li>
             ))}
           </ul>
@@ -111,7 +112,7 @@ export function ScreeningResult({
             {missing.map((questionId) => (
               <li key={questionId} className="flex items-start gap-2 text-sm leading-6 text-[#475A6E]">
                 <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
-                <span>{questionPromptById[questionId] ?? questionId}</span>
+                <span>{questionPromptById[questionId] ?? friendlyMissingFieldLabel(questionId)}</span>
               </li>
             ))}
           </ul>
@@ -126,7 +127,7 @@ export function ScreeningResult({
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#EEF2F7] text-[11px] font-bold text-[#334155]">
                   {index + 1}
                 </span>
-                <span>{step}</span>
+                <span>{safeUserFacingEngineText(step)}</span>
               </li>
             ))}
           </ol>

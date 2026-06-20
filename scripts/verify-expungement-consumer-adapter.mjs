@@ -58,6 +58,7 @@ for (const asset of [
 }
 
 const checkPage = read("src/app/expungement-ai/check/page.tsx");
+const checkFlowSource = read("src/components/expungement-ai/CheckFlow.tsx");
 const statesSource = read("src/lib/expungement-ai/states.ts");
 const adapterSource = read("src/lib/expungement-ai/eligibility-adapter.ts");
 const engineSource = read("src/lib/rcap-engine/evaluator.ts");
@@ -83,7 +84,7 @@ const selectable = manifest.filter((record) =>
 
 assert(statesSource.includes("getAllJurisdictionProfiles"), "Check flow must use source-engine all-51 profiles.");
 assert(selectable.length === 51, `Expected all 50 states + DC selectable, found ${selectable.length}.`);
-assert(checkPage.includes("data-state-select-count={states.length}"), "Check flow must expose selectable state count for verification.");
+assert(checkPage.includes("<CheckFlow states={states}") && checkFlowSource.includes("data-state-select-count={states.length}"), "Check flow must expose selectable state count for verification.");
 assert(!checkPage.includes("state_not_live"), "Consumer check flow must not include state_not_live.");
 assert(!adapterSource.includes("state_not_live"), "Consumer adapter must not include state_not_live.");
 assert(resultPanelSource.includes('result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution")'), "Pay gate must require paymentAllowed and packet-ready result codes.");
