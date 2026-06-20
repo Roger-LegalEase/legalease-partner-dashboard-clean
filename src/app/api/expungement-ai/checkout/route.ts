@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
-import { ConsumerCheckoutNotAllowedError, createConsumerPacketCheckout } from "@/lib/expungement-ai/payment-adapter";
+import {
+  ConsumerCheckoutNotAllowedError,
+  ConsumerCheckoutTemporarilyUnavailableError,
+  createConsumerPacketCheckout
+} from "@/lib/expungement-ai/payment-adapter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,6 +36,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ConsumerCheckoutNotAllowedError) {
       return NextResponse.json({ error: "Checkout is not available for this result.", resultCode: error.resultCode }, { status: 403 });
+    }
+
+    if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
+      return NextResponse.json({ error: "Checkout is temporarily unavailable. Please try again later." }, { status: 503 });
     }
 
     throw error;

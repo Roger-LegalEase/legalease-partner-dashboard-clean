@@ -1,6 +1,11 @@
 import "server-only";
 
-import { getBriefcaseItem, updateBriefcasePacketMetadata } from "@/lib/expungement-ai/briefcase";
+import {
+  getBriefcaseItem,
+  getBriefcaseItemForWebhook,
+  updateBriefcasePacketMetadata,
+  updateBriefcasePacketMetadataForWebhook
+} from "@/lib/expungement-ai/briefcase";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
@@ -37,6 +42,7 @@ export async function generatePaidConsumerPacket({
   userId,
   briefcaseItemId,
   dryRunMode = false,
+  webhookMode = false,
   legalEaseOsConfigEnv,
   legalEaseOsFetch,
   now
@@ -44,11 +50,14 @@ export async function generatePaidConsumerPacket({
   userId: string;
   briefcaseItemId: string;
   dryRunMode?: boolean;
+  webhookMode?: boolean;
   legalEaseOsConfigEnv?: LegalEaseOsEventOptions["configEnv"];
   legalEaseOsFetch?: LegalEaseOsEventOptions["fetcher"];
   now?: LegalEaseOsEventOptions["now"];
 }): Promise<ConsumerPacketStatus> {
-  const item = await requireOwnedPacketItem(userId, briefcaseItemId);
+  const item = webhookMode
+    ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
+    : await requireOwnedPacketItem(userId, briefcaseItemId);
   assertPacketGenerationAllowed(item, dryRunMode);
 
   const existing = artifactRefsFor(item);
@@ -56,12 +65,12 @@ export async function generatePaidConsumerPacket({
     return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
   }
 
-  await updateBriefcasePacketMetadata(userId, item.id, { packetStatus: "pending" });
-  await updateBriefcasePacketMetadata(userId, item.id, { packetStatus: "generating" });
+  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "pending" } });
+  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "generating" } });
 
   try {
     const artifactRefs = buildConsumerPacketArtifact(item);
-    await attachPacketToBriefcaseItem({ userId, item, artifactRefs });
+    await attachPacketToBriefcaseItem({ userId, item, artifactRefs, webhookMode });
     await emitPacketGeneratedEvent(item, artifactRefs, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
@@ -69,7 +78,7 @@ export async function generatePaidConsumerPacket({
     });
     return { packetStatus: "ready", artifactRefs, canDownload: true };
   } catch (error) {
-    await updateBriefcasePacketMetadata(userId, item.id, { packetStatus: "failed" });
+    await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "failed" } });
     await emitPacketGenerationFailureHealthEvent(item, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
@@ -120,20 +129,28 @@ export async function getConsumerPacketDownload({
 export async function attachPacketToBriefcaseItem({
   userId,
   item,
-  artifactRefs
+  artifactRefs,
+  webhookMode = false
 }: {
   userId: string;
   item: ConsumerBriefcaseItem;
   artifactRefs: ConsumerPacketArtifactRefs;
+  webhookMode?: boolean;
 }) {
-  return updateBriefcasePacketMetadata(userId, item.id, {
+  return updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
     packetStatus: "ready",
     artifactRefs
-  });
+  } });
 }
 
 export async function requireOwnedPacketItem(userId: string, briefcaseItemId: string) {
   const item = await getBriefcaseItem(userId, briefcaseItemId);
+  if (!item) throw new ConsumerPacketNotFoundError();
+  return item;
+}
+
+export async function requireWebhookOwnedPacketItem(userId: string, briefcaseItemId: string) {
+  const item = await getBriefcaseItemForWebhook(userId, briefcaseItemId);
   if (!item) throw new ConsumerPacketNotFoundError();
   return item;
 }
@@ -170,6 +187,25 @@ function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacke
     downloadPath: `/api/expungement-ai/packet/download?briefcaseItemId=${encodeURIComponent(item.id)}`,
     text
   };
+}
+
+async function updatePacketMetadata({
+  userId,
+  itemId,
+  metadata,
+  webhookMode
+}: {
+  userId: string;
+  itemId: string;
+  metadata: {
+    packetStatus: ConsumerBriefcaseItem["packetStatus"];
+    artifactRefs?: Record<string, unknown>;
+  };
+  webhookMode: boolean;
+}) {
+  return webhookMode
+    ? updateBriefcasePacketMetadataForWebhook(userId, itemId, metadata)
+    : updateBriefcasePacketMetadata(userId, itemId, metadata);
 }
 
 async function emitPacketGeneratedEvent(

@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import {
+  isExpungementAiCheckoutEvent,
+  reconcileExpungementAiCheckoutEvent
+} from "@/lib/expungement-ai/checkout-reconciliation";
 import { reconcileStripeInvoiceEvent } from "@/lib/partners/billing";
 import { getStripeServerClient, getStripeWebhookSecret, isStripeConfigurationError } from "@/lib/stripe/server";
 
@@ -36,6 +40,11 @@ export async function POST(request: Request) {
   }
 
   try {
+    if (isExpungementAiCheckoutEvent(event)) {
+      const outcome = await reconcileExpungementAiCheckoutEvent(event);
+      return NextResponse.json({ received: true, outcome });
+    }
+
     const outcome = await reconcileStripeInvoiceEvent(event);
     return NextResponse.json({ received: true, outcome });
   } catch {

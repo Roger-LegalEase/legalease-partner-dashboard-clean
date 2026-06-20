@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import type {
   ConsumerBriefcaseItem,
@@ -112,6 +113,21 @@ export async function getBriefcaseItem(userId: string, itemId: string): Promise<
   return rowToBriefcaseItem(data);
 }
 
+export async function getBriefcaseItemForWebhook(userId: string, itemId: string): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return fallbackItemsForUser(userId).find((item) => item.id === itemId) ?? null;
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("id", itemId)
+    .maybeSingle<ConsumerBriefcaseRow>();
+
+  if (error || !data) return null;
+  return rowToBriefcaseItem(data);
+}
+
 export async function updateBriefcaseItemStatus(
   userId: string,
   itemId: string,
@@ -180,6 +196,38 @@ export async function updateBriefcasePaymentMetadata(
   return rowToBriefcaseItem(data);
 }
 
+export async function updateBriefcasePaymentMetadataForWebhook(
+  userId: string,
+  itemId: string,
+  metadata: Pick<
+    ConsumerBriefcaseItem,
+    "paymentStatus" | "paymentProvider" | "checkoutSessionId" | "paymentIntentId" | "amountCents" | "receiptUrl" | "packetStatus"
+  >
+): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return updateBriefcasePaymentMetadata(userId, itemId, metadata);
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .update({
+      payment_status: metadata.paymentStatus,
+      payment_provider: metadata.paymentProvider,
+      checkout_session_id: metadata.checkoutSessionId,
+      payment_intent_id: metadata.paymentIntentId,
+      amount_cents: metadata.amountCents,
+      receipt_url: metadata.receiptUrl,
+      packet_status: metadata.packetStatus,
+      updated_at: new Date().toISOString()
+    })
+    .eq("user_id", userId)
+    .eq("id", itemId)
+    .select("*")
+    .single<ConsumerBriefcaseRow>();
+
+  if (error || !data) return null;
+  return rowToBriefcaseItem(data);
+}
+
 export async function updateBriefcasePacketMetadata(
   userId: string,
   itemId: string,
@@ -202,6 +250,42 @@ export async function updateBriefcasePacketMetadata(
     fallbackItemsByUser.set(userId, items);
     return items[index];
   }
+
+  const updates: {
+    packet_status: ConsumerBriefcaseItem["packetStatus"];
+    artifact_refs_json?: Record<string, unknown>;
+    updated_at: string;
+  } = {
+    packet_status: metadata.packetStatus,
+    updated_at: new Date().toISOString()
+  };
+
+  if (metadata.artifactRefs) {
+    updates.artifact_refs_json = metadata.artifactRefs;
+  }
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .update(updates)
+    .eq("user_id", userId)
+    .eq("id", itemId)
+    .select("*")
+    .single<ConsumerBriefcaseRow>();
+
+  if (error || !data) return null;
+  return rowToBriefcaseItem(data);
+}
+
+export async function updateBriefcasePacketMetadataForWebhook(
+  userId: string,
+  itemId: string,
+  metadata: {
+    packetStatus: ConsumerBriefcaseItem["packetStatus"];
+    artifactRefs?: Record<string, unknown>;
+  }
+): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return updateBriefcasePacketMetadata(userId, itemId, metadata);
 
   const updates: {
     packet_status: ConsumerBriefcaseItem["packetStatus"];

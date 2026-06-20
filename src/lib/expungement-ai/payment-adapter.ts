@@ -1,7 +1,7 @@
 import "server-only";
 
 import { absoluteAppUrl } from "@/lib/app-url";
-import { getStripeServerClient, isStripeConfigurationError } from "@/lib/stripe/server";
+import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { updateBriefcasePaymentMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
@@ -101,6 +101,10 @@ export async function createConsumerPacketCheckout({
     };
   } catch (error) {
     if (!isStripeConfigurationError(error)) throw error;
+    if (!isConsumerCheckoutDryRunEnabled()) {
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
+
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
     await updateBriefcasePaymentMetadata(userId, item.id, {
       paymentStatus: "unpaid",
@@ -128,6 +132,15 @@ export async function getConsumerCheckoutStatus({
   checkoutSessionId: string;
 }): Promise<ConsumerCheckoutStatus> {
   if (checkoutSessionId.startsWith("dryrun_") || item.paymentProvider === "dry_run") {
+    if (!isConsumerCheckoutDryRunEnabled()) {
+      return {
+        paid: false,
+        mode: "dry_run",
+        checkoutSessionId,
+        amountCents: consumerPacketPriceCents
+      };
+    }
+
     return {
       paid: true,
       mode: "dry_run",
@@ -170,7 +183,7 @@ export async function recordConsumerPaymentConfirmation({
     paymentIntentId: status.paymentIntentId,
     amountCents: status.amountCents,
     receiptUrl: status.receiptUrl,
-    packetStatus: "ready"
+    packetStatus: item.packetStatus === "ready" ? "ready" : "pending"
   });
 }
 
@@ -180,10 +193,21 @@ export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
   }
 }
 
+export function isConsumerCheckoutDryRunEnabled(): boolean {
+  return process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN === "true" && !isProductionRuntime();
+}
+
 export class ConsumerCheckoutNotAllowedError extends Error {
   constructor(readonly resultCode: string) {
     super(`Consumer checkout is not allowed for ${resultCode}.`);
     this.name = "ConsumerCheckoutNotAllowedError";
+  }
+}
+
+export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
+  constructor() {
+    super("Consumer checkout is temporarily unavailable.");
+    this.name = "ConsumerCheckoutTemporarilyUnavailableError";
   }
 }
 
