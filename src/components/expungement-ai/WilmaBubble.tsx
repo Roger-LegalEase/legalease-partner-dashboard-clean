@@ -1,6 +1,6 @@
 "use client";
 
-import { Send, ShieldCheck } from "lucide-react";
+import { Send } from "lucide-react";
 import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
@@ -26,6 +26,7 @@ export function WilmaBubble({
   const [messages, setMessages] = useState<WilmaMessage[]>([]);
   const prompt = promptForContext(context);
   const guideText = guideTextForContext(context, currentQuestion);
+  const hasGuideAnswer = messages.some((item) => item.role === "guide");
   // Render-only mirror of the server-side kill-switch flag. In production Wilma's availability is
   // checked server-side on every request (`wilma_enabled`); this client flag only mirrors it so
   // the surface can show the graceful fallback. The frontend never enforces a Wilma guardrail.
@@ -63,39 +64,37 @@ export function WilmaBubble({
               />
               <div>
                 <p className="text-sm font-bold">Wilma</p>
-                <p className="text-xs text-white/60">Guide, not a lawyer</p>
+                <p className="text-xs text-white/60">Guide</p>
               </div>
             </div>
             <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => setIsOpen(false)} type="button">
               Close
             </button>
           </div>
-          <div className="space-y-3 p-4">
+          <div className="space-y-3 p-3">
             {wilmaEnabled ? (
               <>
-                <div className="rounded-xl bg-[#F7F3EC] p-3 text-sm leading-6 text-[#0B1320]">
-                  {prompt} I am in guide mode right now, not live AI chat. I can explain this screen in plain language. The screening tool decides the result.
-                </div>
-                <div className="rounded-xl border border-[#ECEFF4] bg-white p-3 text-sm leading-6 text-[#0B1320]" aria-live="polite">
-                  {guideText}
-                </div>
                 {messages.length > 0 ? (
                   <div className="max-h-44 space-y-2 overflow-y-auto pr-1" aria-live="polite">
                     {messages.map((item) => (
                       <div
-                        className={item.role === "user" ? "ml-8 rounded-xl bg-[#0B1320] p-3 text-sm leading-5 text-white" : "mr-8 rounded-xl bg-[#F7F3EC] p-3 text-sm leading-5 text-[#0B1320]"}
+                        className={item.role === "user" ? "ml-8 rounded-xl bg-[#0B1320] px-3 py-2 text-sm leading-5 text-white" : "mr-8 rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]"}
                         key={item.id}
                       >
                         {item.text}
                       </div>
                     ))}
                   </div>
-                ) : null}
-                {reported ? (
+                ) : (
+                  <div className="rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]">
+                    Need help? Ask Wilma to explain this in plain English.
+                  </div>
+                )}
+                {reported && hasGuideAnswer ? (
                   <p className="text-xs font-semibold text-[#5A6275]" data-wilma-report-response="true" role="status">
                     Reported, thank you. A reviewer will take a look.
                   </p>
-                ) : (
+                ) : hasGuideAnswer ? (
                   <button
                     className="text-xs font-semibold text-[#00A99D]"
                     data-wilma-report-response="true"
@@ -104,28 +103,25 @@ export function WilmaBubble({
                   >
                     Report this response
                   </button>
-                )}
-                <div className="flex items-start gap-2 rounded-xl border border-[#ECEFF4] bg-[#FBFCFE] p-3 text-xs leading-5 text-[#5A6275]">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#00A99D]" aria-hidden="true" />
-                  Wilma is a guide, not a lawyer. This is not legal advice.
-                </div>
+                ) : null}
                 <form className="flex gap-2" onSubmit={handleSubmit}>
                   <input
                     aria-label="Message Wilma"
-                    className="min-h-11 min-w-0 flex-1 rounded-xl border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20"
+                    className="min-h-10 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20"
                     onChange={(event) => setMessage(event.target.value)}
-                    placeholder="Ask about this screen"
+                    placeholder={currentQuestion ? "Ask Wilma about this question" : "Ask Wilma"}
                     value={message}
                   />
                   <button
                     aria-label="Send message"
-                    className="grid h-11 w-11 place-items-center rounded-xl bg-[#FF3B00] text-white disabled:cursor-not-allowed disabled:bg-[#C7CDD8]"
+                    className="grid h-10 w-10 place-items-center rounded-lg bg-[#FF3B00] text-white disabled:cursor-not-allowed disabled:bg-[#C7CDD8]"
                     disabled={!trimmedMessage}
                     type="submit"
                   >
                     <Send className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </form>
+                <p className="text-[11px] leading-4 text-[#5A6275]">Wilma is a guide, not legal advice.</p>
               </>
             ) : (
               <div className="rounded-xl bg-[#F7F3EC] p-4 text-sm leading-6 text-[#0B1320]" data-wilma-kill-switch-fallback="true">
@@ -172,7 +168,7 @@ function promptForContext(context: WilmaPageContext) {
 
 function guideTextForContext(context: WilmaPageContext, currentQuestion?: string) {
   if (currentQuestion) {
-    return `This question is asking: "${currentQuestion}" Answer with the best information you have. If you are not sure, choose the unsure option when one is available.`;
+    return "Answer with the best information you have. If you are not sure, choose the unsure option when one is available. Wilma can explain wording, but the screening tool decides the result.";
   }
 
   const guidance: Record<WilmaPageContext, string> = {
