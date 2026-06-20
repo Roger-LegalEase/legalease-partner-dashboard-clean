@@ -221,7 +221,7 @@ export function ScreeningFlow({ state }: { state: string }) {
   const question = screens[currentIndex];
 
   return (
-    <FlowFrame>
+    <FlowFrame currentQuestion={question.prompt}>
       <ProgressRail current={currentIndex + 1} total={screens.length} />
       <div className="mb-4 flex items-center justify-between">
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{stateName} screening</p>
@@ -267,9 +267,11 @@ export function ScreeningFlow({ state }: { state: string }) {
 
 function FlowFrame({
   children,
+  currentQuestion,
   wilmaContext = "check"
 }: {
   children: React.ReactNode;
+  currentQuestion?: string;
   wilmaContext?: WilmaPageContext;
 }) {
   // A single, phase-aware Wilma surface for the flow. The result phase uses the "results" opener
@@ -277,7 +279,7 @@ function FlowFrame({
   return (
     <>
       <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 font-sans md:px-8">{children}</section>
-      <WilmaBubble context={wilmaContext} />
+      <WilmaBubble context={wilmaContext} currentQuestion={currentQuestion} />
     </>
   );
 }
