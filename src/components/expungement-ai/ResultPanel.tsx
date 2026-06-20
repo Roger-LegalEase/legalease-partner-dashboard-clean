@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AlertTriangle, Bell, CheckCircle2, FileText, HelpCircle, Lock, MapPinned, ShieldCheck, XCircle } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 import type { ExpungementAiEligibilityResult, ExpungementAiResultCode } from "@/lib/expungement-ai/types";
+import { friendlyMissingFieldLabel, safeUserFacingEngineText } from "@/lib/expungement-ai/missing-fields";
 
 type BranchPresentation = {
   tag: string;
@@ -133,13 +134,18 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
       </div>
 
       <div className="mt-7 grid gap-4 md:grid-cols-2">
-        <ResultList title="Why" icon={<CheckCircle2 className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.reasons} />
-        <ResultList title="Next steps" icon={<FileText className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.nextSteps} />
+        <ResultList title="Why" icon={<CheckCircle2 className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.reasons.map(safeUserFacingEngineText)} />
+        <ResultList title="Next steps" icon={<FileText className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.nextSteps.map(safeUserFacingEngineText)} />
       </div>
 
       {result.missingInfo?.length ? (
         <div className="mt-4 rounded-xl border border-[#E0A93B]/30 bg-[#E0A93B]/10 p-4 text-sm text-[#0B1320]">
-          <b>Still needed:</b> {result.missingInfo.join(", ")}
+          <b>Still needed:</b>
+          <ul className="mt-2 grid gap-1">
+            {result.missingInfo.map((fieldId) => (
+              <li key={fieldId}>{friendlyMissingFieldLabel(fieldId)}</li>
+            ))}
+          </ul>
         </div>
       ) : null}
 
@@ -162,7 +168,7 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
               Saved to Briefcase. No payment is available for this result.
             </p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-              <Link className="inline-flex min-h-12 flex-1 items-center justify-center rounded-[13px] bg-[#0B1320] px-5 text-sm font-extrabold text-white" href={result.resultCode === "needs_more_info" ? "/expungement-ai/check" : "/briefcase"}>
+              <Link className="inline-flex min-h-12 flex-1 items-center justify-center rounded-[13px] bg-[#0B1320] px-5 text-sm font-extrabold text-white" href={result.resultCode === "needs_more_info" ? `/expungement-ai/check?state=${encodeURIComponent(result.state)}` : "/briefcase"}>
                 {presentation.primary}
               </Link>
               {presentation.secondary ? (
