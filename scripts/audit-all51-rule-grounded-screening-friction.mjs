@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
 const root = process.cwd();
 const defaultProfilesPath = path.join(root, "src/lib/rcap-engine/compiled/profiles");
@@ -418,8 +419,11 @@ function scanIndeterminateWithStages(file, source, candidateFieldStages) {
   ];
   for (const pattern of patterns) {
     for (const match of findMatches(stripped, pattern.regex)) {
-      if (isResolvedGenericDynamicRead(file, stripped, match.index ?? 0, candidateFieldStages)) continue;
-      locations.push(location(file, lineForIndex(stripped, match.index ?? 0), `${pattern.reason}: ${match[1].trim()}`));
+      const matchIndex = match.index ?? 0;
+      const answersOffset = match[0].indexOf("answers");
+      const dynamicReadIndex = matchIndex + (answersOffset >= 0 ? answersOffset : 0);
+      if (isResolvedGenericDynamicRead(file, stripped, dynamicReadIndex, candidateFieldStages)) continue;
+      locations.push(location(file, lineForIndex(stripped, matchIndex), `${pattern.reason}: ${match[1].trim()}`));
     }
   }
   const fields = [...candidateFieldStages.keys()];
@@ -462,13 +466,7 @@ function isResolvedGenericDynamicRead(file, source, index, candidateFieldStages)
   }
 
   if (relative === "src/lib/rcap-engine/evaluator.ts") {
-    const excludedStages = excludedStagesForGenericQuestionIteration(before);
-    if (
-      excludedStages.size > 0 &&
-      /function\s+ambiguityReason\s*\([^)]*\)[^{]*\{[\s\S]*const\s+legalFields\s*=\s*profile\.questions\.filter\s*\(/.test(before) &&
-      /legalFields\.find\s*\(\s*\(\s*question\s*\)\s*=>\s*isUnknownAnswer\s*\(\s*answers\s*\[\s*question\.id\s*\]\s*\)\s*\)/.test(around) &&
-      candidateStagesAllExcluded(candidateFieldStages, excludedStages)
-    ) {
+    if (isDynamicReadInStageExcludedIteration(source, index, candidateFieldStages)) {
       return true;
     }
   }
@@ -476,14 +474,137 @@ function isResolvedGenericDynamicRead(file, source, index, candidateFieldStages)
   return false;
 }
 
-function excludedStagesForGenericQuestionIteration(sourceBeforeMatch) {
-  const stages = new Set();
-  const filterLine = sourceBeforeMatch.match(/const\s+\w+\s*=\s*profile\.questions\.filter\s*\(\s*\([^)]*\)\s*=>\s*([^\n;]+)/);
-  if (!filterLine) return stages;
-  for (const match of filterLine[1].matchAll(/question\.stage\s*!==\s*["']([^"']+)["']/g)) {
-    stages.add(match[1]);
+function isDynamicReadInStageExcludedIteration(source, index, candidateFieldStages) {
+  const sourceFile = ts.createSourceFile("verifier-target.ts", source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  const readNode = dynamicAnswersReadAt(sourceFile, index);
+  if (!readNode) return false;
+
+  const callback = nearestCallback(readNode);
+  if (!callback) return false;
+  const iteration = callback.parent;
+  if (!ts.isCallExpression(iteration) || !isArrayIterationCall(iteration)) return false;
+
+  const excludedStages = excludedStagesForIterationSource(iteration.expression.expression, sourceFile, index);
+  return excludedStages.size > 0 && candidateStagesAllExcluded(candidateFieldStages, excludedStages);
+}
+
+function dynamicAnswersReadAt(sourceFile, index) {
+  let best;
+  function visit(node) {
+    if (node.getStart(sourceFile) <= index && index < node.getEnd()) {
+      if (isAnswersQuestionIdRead(node)) best = node;
+      ts.forEachChild(node, visit);
+    }
   }
+  visit(sourceFile);
+  return best;
+}
+
+function isAnswersQuestionIdRead(node) {
+  return ts.isElementAccessExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === "answers" &&
+    ts.isPropertyAccessExpression(node.argumentExpression) &&
+    ts.isIdentifier(node.argumentExpression.expression) &&
+    node.argumentExpression.expression.text === "question" &&
+    node.argumentExpression.name.text === "id";
+}
+
+function nearestCallback(node) {
+  let current = node.parent;
+  while (current) {
+    if ((ts.isArrowFunction(current) || ts.isFunctionExpression(current)) && ts.isCallExpression(current.parent)) {
+      return current;
+    }
+    current = current.parent;
+  }
+  return undefined;
+}
+
+function isArrayIterationCall(callExpression) {
+  return ts.isPropertyAccessExpression(callExpression.expression) &&
+    ["filter", "find", "some", "map", "flatMap"].includes(callExpression.expression.name.text);
+}
+
+function excludedStagesForIterationSource(expression, sourceFile, beforeIndex, seen = new Set()) {
+  if (ts.isIdentifier(expression)) {
+    if (seen.has(expression.text)) return new Set();
+    seen.add(expression.text);
+    const declaration = variableDeclarationBefore(sourceFile, expression.text, beforeIndex);
+    if (declaration?.initializer) return excludedStagesForIterationSource(declaration.initializer, sourceFile, beforeIndex, seen);
+    return new Set();
+  }
+
+  if (ts.isCallExpression(expression) && isArrayIterationCall(expression)) {
+    const baseStages = excludedStagesForIterationSource(expression.expression.expression, sourceFile, beforeIndex, seen);
+    if (expression.expression.name.text !== "filter") return baseStages;
+    const callback = expression.arguments[0];
+    return unionSets(baseStages, excludedStagesFromFilterCallback(callback));
+  }
+
+  return new Set();
+}
+
+function variableDeclarationBefore(sourceFile, name, beforeIndex) {
+  let found;
+  function visit(node) {
+    if (found || node.getStart(sourceFile) >= beforeIndex) return;
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === name &&
+      node.getEnd() <= beforeIndex
+    ) {
+      found = node;
+      return;
+    }
+    ts.forEachChild(node, visit);
+  }
+  visit(sourceFile);
+  return found;
+}
+
+function excludedStagesFromFilterCallback(callback) {
+  if (!callback || !(ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))) return new Set();
+  const parameter = callback.parameters[0]?.name;
+  if (!parameter || !ts.isIdentifier(parameter)) return new Set();
+  const parameterName = parameter.text;
+  const stages = new Set();
+
+  function visit(node) {
+    if (isStageNotEqualsLiteral(node, parameterName)) stages.add(stageLiteralFromComparison(node));
+    ts.forEachChild(node, visit);
+  }
+  visit(callback.body);
   return stages;
+}
+
+function isStageNotEqualsLiteral(node, parameterName) {
+  if (!ts.isBinaryExpression(node) || node.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return false;
+  return (
+    isQuestionStageAccess(node.left, parameterName) && ts.isStringLiteralLike(node.right)
+  ) || (
+    ts.isStringLiteralLike(node.left) && isQuestionStageAccess(node.right, parameterName)
+  );
+}
+
+function isQuestionStageAccess(node, parameterName) {
+  return ts.isPropertyAccessExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === parameterName &&
+    node.name.text === "stage";
+}
+
+function stageLiteralFromComparison(node) {
+  return ts.isStringLiteralLike(node.left) ? node.left.text : node.right.text;
+}
+
+function unionSets(...sets) {
+  const out = new Set();
+  for (const set of sets) {
+    for (const value of set) out.add(value);
+  }
+  return out;
 }
 
 function candidateStagesAllExcluded(candidateFieldStages, excludedStages) {
@@ -736,7 +857,7 @@ export function requiredMissingPublicQuestionIds(publicProfile, answers) {
   );
 
   const evaluatorExcludedStageSource = `
-function ambiguityReason(profile, answers) {
+function ambiguityReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
   const legalFields = profile.questions.filter((question) => question.contextOnly !== true && question.stage !== "case_details" && question.stage !== "record_readiness");
   const ambiguous = legalFields.find((question) => isUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason("XX", "source_fact_unknown", ambiguous.id);
@@ -745,7 +866,20 @@ function ambiguityReason(profile, answers) {
 `;
   assertSelfTest(
     totalIndeterminateHits(scanIndeterminateWithStages(evaluatorFile, evaluatorExcludedStageSource, stages)) === 0,
-    "ambiguityReason stage-excluded iteration should be non-blocking for excluded candidate stages"
+    "ambiguityReason TypeScript stage-excluded iteration should be non-blocking for excluded candidate stages"
+  );
+
+  const evaluatorNoExclusionSource = `
+function ambiguityReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
+  const legalFields = profile.questions.filter((question) => question.contextOnly !== true);
+  const ambiguous = legalFields.find((question) => isUnknownAnswer(answers[question.id]));
+  if (ambiguous) return reason("XX", "source_fact_unknown", ambiguous.id);
+  return undefined;
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(evaluatorFile, evaluatorNoExclusionSource, stages)) > 0,
+    "ambiguityReason TypeScript iteration without stage exclusion should remain indeterminate"
   );
 
   const directRead = scanBlockingReferences(syntheticFile, "const value = answers.synthetic_duplicate;", new Set([field]));
