@@ -22,8 +22,14 @@ export const SCREENING_RESUME_FILES = [
   "supabase/phase-33-expungement-screening-resume-links.sql"
 ];
 
+export const SCREENING_DROP_POINT_NUDGE_FILES = [
+  "src/app/api/expungement-ai/screening/nudge/opt-out/route.ts",
+  "supabase/phase-34-expungement-screening-drop-point-nudges.sql"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
-  ...SCREENING_RESUME_FILES
+  ...SCREENING_RESUME_FILES,
+  ...SCREENING_DROP_POINT_NUDGE_FILES
 ];

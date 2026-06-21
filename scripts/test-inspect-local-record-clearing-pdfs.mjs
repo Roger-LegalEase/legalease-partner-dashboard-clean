@@ -246,6 +246,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("supabase/phase-31-legalease-os-support-queue.sql"))
     .filter((line) => !line.includes("supabase/phase-32-expungement-screening-sessions.sql"))
     .filter((line) => !line.includes("supabase/phase-33-expungement-screening-resume-links.sql"))
+    .filter((line) => !line.includes("supabase/phase-34-expungement-screening-drop-point-nudges.sql"))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
 }
