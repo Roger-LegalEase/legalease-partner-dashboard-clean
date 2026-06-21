@@ -39,13 +39,20 @@ export function QuestionField({
   const promptId = `${fieldId}-prompt`;
   const errorId = error ? `${fieldId}-error` : undefined;
   const contextId = question.contextOnly ? `${fieldId}-context` : undefined;
-  const describedBy = [contextId, errorId].filter(Boolean).join(" ") || undefined;
+  const helperId = question.helperText ? `${fieldId}-helper` : undefined;
+  const describedBy = [contextId, helperId, errorId].filter(Boolean).join(" ") || undefined;
   const optional = question.contextOnly || !question.required;
 
   const heading = (
     <PromptHeading id={promptId} prompt={question.prompt} optional={optional} contextOnly={question.contextOnly} />
   );
   const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
+  // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
+  const helperNode = question.helperText ? (
+    <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
+      {question.helperText}
+    </p>
+  ) : null;
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
       {error}
@@ -68,11 +75,13 @@ export function QuestionField({
       return (
         <div className="grid gap-3">
           {heading}
+          {helperNode}
           {bannerNode}
           <OptionGroup
             mode="single"
             name={fieldId}
             options={options}
+            optionDisplay={question.optionDisplay}
             value={typeof value === "string" ? value : ""}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
@@ -91,11 +100,13 @@ export function QuestionField({
       return (
         <div className="grid gap-3">
           {heading}
+          {helperNode}
           {bannerNode}
           <OptionGroup
             mode="multi"
             name={fieldId}
             options={options}
+            optionDisplay={question.optionDisplay}
             value={Array.isArray(value) ? value : []}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
@@ -111,6 +122,7 @@ export function QuestionField({
       return (
         <div className="grid gap-3">
           {heading}
+          {helperNode}
           {bannerNode}
           <input
             id={fieldId}
@@ -133,6 +145,7 @@ export function QuestionField({
       return (
         <div className="grid gap-3">
           {heading}
+          {helperNode}
           {bannerNode}
           <OrUnknownField
             id={fieldId}

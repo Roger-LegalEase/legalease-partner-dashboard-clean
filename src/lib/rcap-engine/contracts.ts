@@ -62,11 +62,16 @@ export type PublicQuestion = {
   id: string;
   stage: string;
   prompt: string;
+  helperText?: string;
   type: string;
   required: boolean;
   contextOnly?: boolean;
   doesNotSelectPathway?: boolean;
   options?: unknown;
+  optionDisplay?: Record<string, {
+    label: string;
+    helperText?: string;
+  }>;
 };
 
 export type PublicJurisdictionProfile = {

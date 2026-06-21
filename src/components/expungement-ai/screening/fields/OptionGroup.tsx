@@ -12,6 +12,7 @@ import { useId } from "react";
 type SingleProps = {
   mode: "single";
   options: string[];
+  optionDisplay?: OptionDisplayMap;
   value: string;
   onChange: (value: string) => void;
   name: string;
@@ -23,6 +24,7 @@ type SingleProps = {
 type MultiProps = {
   mode: "multi";
   options: string[];
+  optionDisplay?: OptionDisplayMap;
   value: string[];
   onChange: (value: string[]) => void;
   name: string;
@@ -32,6 +34,10 @@ type MultiProps = {
 };
 
 export type OptionGroupProps = SingleProps | MultiProps;
+type OptionDisplayMap = Record<string, {
+  label: string;
+  helperText?: string;
+}>;
 
 export function OptionGroup(props: OptionGroupProps) {
   const groupId = useId();
@@ -61,6 +67,7 @@ export function OptionGroup(props: OptionGroupProps) {
     >
       {props.options.map((option, index) => {
         const id = `${groupId}-${index}`;
+        const display = props.optionDisplay?.[option];
         const checked = isChecked(option);
         return (
           <label
@@ -83,7 +90,12 @@ export function OptionGroup(props: OptionGroupProps) {
               aria-describedby={props.ariaDescribedBy}
               aria-invalid={props.invalid || undefined}
             />
-            <span>{option}</span>
+            <span className="grid gap-1">
+              <span>{display?.label ?? option}</span>
+              {display?.helperText ? (
+                <span className="text-[12.5px] font-medium leading-5 text-[#5A6275]">{display.helperText}</span>
+              ) : null}
+            </span>
           </label>
         );
       })}

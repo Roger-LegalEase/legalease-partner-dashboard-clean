@@ -235,7 +235,7 @@
     {
       "id": "jurisdiction_scope",
       "stage": "scope",
-      "prompt": "Is this a state or local matter from Kansas, rather than a federal matter?",
+      "prompt": "Did this case happen in Kansas (not a federal case)?",
       "type": "single_choice",
       "options": [
         "State or local",
@@ -248,7 +248,7 @@
     {
       "id": "case_outcome",
       "stage": "pathway_routing",
-      "prompt": "How did the Kansas case or record end?",
+      "prompt": "How did the case end?",
       "type": "single_choice",
       "options": [
         "Diversion, deferred disposition, supervision, or similar program",
@@ -257,12 +257,30 @@
         "I am not sure"
       ],
       "required": true,
-      "source": "state_case_outcome_rules"
+      "source": "state_case_outcome_rules",
+      "optionDisplay": {
+        "Diversion, deferred disposition, supervision, or similar program": {
+          "label": "Completed a program instead of a conviction",
+          "helperText": "diversion, deferred disposition, supervision, or similar"
+        },
+        "Felony conviction": {
+          "label": "Convicted of a felony",
+          "helperText": "a more serious conviction"
+        },
+        "Other conviction or adjudication": {
+          "label": "Another kind of conviction",
+          "helperText": "other conviction or adjudication"
+        },
+        "I am not sure": {
+          "label": "I'm not sure",
+          "helperText": "That's okay — we'll help you figure it out"
+        }
+      }
     },
     {
       "id": "offense_level",
       "stage": "pathway_routing",
-      "prompt": "What level or type was the charge?",
+      "prompt": "What kind of charge was it?",
       "type": "single_choice",
       "options": [
         "Misdemeanor",
@@ -277,7 +295,7 @@
     {
       "id": "possible_pathway_context",
       "stage": "pathway_routing",
-      "prompt": "Do any of these Kansas descriptions sound close to your situation?",
+      "prompt": "Do any of these sound like your situation?",
       "type": "single_choice",
       "options": [
         "Conviction or diversion expungement under K.S.A. 21-6614",
@@ -290,21 +308,23 @@
       "source": "curated_state_pathway_catalog_from_reference",
       "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
       "contextOnly": true,
-      "doesNotSelectPathway": true
+      "doesNotSelectPathway": true,
+      "helperText": "optional — helps us guide you"
     },
     {
       "id": "financial_obligations",
       "stage": "timing_and_completion",
-      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "prompt": "Have you paid off everything the court charged?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "fines, court costs, restitution"
     },
     {
       "id": "county",
       "stage": "case_details",
-      "prompt": "What Kansas county, parish, borough, district, or local filing area handled the case?",
+      "prompt": "Which county (or local area) handled the case?",
       "type": "text",
       "options": "",
       "required": true,
@@ -322,27 +342,30 @@
     {
       "id": "charge",
       "stage": "case_details",
-      "prompt": "What charge, statute, or record description appears on the record?",
+      "prompt": "What does the record say you were charged with?",
       "type": "text_or_unknown",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "the charge name or code, however it's written"
     },
     {
       "id": "record_documents",
       "stage": "record_readiness",
-      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "prompt": "Do you have your court paperwork handy?",
       "type": "yes_no_unsure",
       "required": true,
-      "source": "shared_record_verification"
+      "source": "shared_record_verification",
+      "helperText": "No worries if not — you can save and come back."
     },
     {
       "id": "case_identifier",
       "stage": "case_details",
-      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "prompt": "What's the case number?",
       "type": "text_or_unknown",
       "required": false,
-      "source": "shared_filing_identity"
+      "source": "shared_filing_identity",
+      "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
     }
   ],
   "caseOutcomeOptions": [

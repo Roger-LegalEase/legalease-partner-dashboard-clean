@@ -227,7 +227,7 @@
     {
       "id": "jurisdiction_scope",
       "stage": "scope",
-      "prompt": "Is this a state or local matter from Mississippi, rather than a federal matter?",
+      "prompt": "Did this case happen in Mississippi (not a federal case)?",
       "type": "single_choice",
       "options": [
         "State or local",
@@ -240,7 +240,7 @@
     {
       "id": "case_outcome",
       "stage": "pathway_routing",
-      "prompt": "How did the Mississippi case or record end?",
+      "prompt": "How did the case end?",
       "type": "single_choice",
       "options": [
         "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -252,12 +252,42 @@
         "I am not sure"
       ],
       "required": true,
-      "source": "state_case_outcome_rules"
+      "source": "state_case_outcome_rules",
+      "optionDisplay": {
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted": {
+          "label": "The case was dropped or thrown out",
+          "helperText": "dismissed, no-billed, nolle prosequi, or not prosecuted"
+        },
+        "Diversion, deferred disposition, supervision, or similar program": {
+          "label": "Completed a program instead of a conviction",
+          "helperText": "diversion, deferred disposition, supervision, or similar"
+        },
+        "Misdemeanor conviction": {
+          "label": "Convicted of a misdemeanor",
+          "helperText": "a less serious conviction"
+        },
+        "Felony conviction": {
+          "label": "Convicted of a felony",
+          "helperText": "a more serious conviction"
+        },
+        "Other conviction or adjudication": {
+          "label": "Another kind of conviction",
+          "helperText": "other conviction or adjudication"
+        },
+        "Juvenile adjudication or offense committed as a minor": {
+          "label": "It happened when I was a minor",
+          "helperText": "juvenile adjudication or offense as a minor"
+        },
+        "I am not sure": {
+          "label": "I'm not sure",
+          "helperText": "That's okay — we'll help you figure it out"
+        }
+      }
     },
     {
       "id": "offense_level",
       "stage": "pathway_routing",
-      "prompt": "What level or type was the charge?",
+      "prompt": "What kind of charge was it?",
       "type": "single_choice",
       "options": [
         "Misdemeanor",
@@ -273,7 +303,7 @@
     {
       "id": "possible_pathway_context",
       "stage": "pathway_routing",
-      "prompt": "Do any of these Mississippi descriptions sound close to your situation?",
+      "prompt": "Do any of these sound like your situation?",
       "type": "single_choice",
       "options": [
         "Non-conviction expungement for dismissal, no disposition, or acquittal",
@@ -295,7 +325,8 @@
       "source": "curated_state_pathway_catalog_from_reference",
       "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
       "contextOnly": true,
-      "doesNotSelectPathway": true
+      "doesNotSelectPathway": true,
+      "helperText": "optional — helps us guide you"
     },
     {
       "id": "source_question_01_1-was-the-case-in-mississippi",
