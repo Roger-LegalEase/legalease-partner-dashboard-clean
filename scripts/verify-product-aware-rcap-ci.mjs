@@ -30,7 +30,8 @@ assertScope("pure Expungement.ai changes skip RCAP", [
   "docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md",
   "scripts/verify-expungement-consumer-adapter.mjs",
   "supabase/phase-26-consumer-briefcase-items.sql",
-  "supabase/phase-31-legalease-os-support-queue.sql"
+  "supabase/phase-31-legalease-os-support-queue.sql",
+  "supabase/phase-32-expungement-screening-sessions.sql"
 ], {
   rcapAffected: false,
   expungementAiAffected: true,
