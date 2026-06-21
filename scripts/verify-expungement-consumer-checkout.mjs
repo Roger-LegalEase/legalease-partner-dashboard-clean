@@ -133,7 +133,7 @@ for (const file of changedFiles()) {
     "scripts/verify-expungement-consumer-checkout.mjs",
     "scripts/verify-expungement-consumer-adapter.mjs"
   ].includes(file)) continue;
-  if (file === "supabase/phase-26-consumer-briefcase-items.sql" || file === metadataMigration || file === "supabase/phase-28-consumer-packet-generation-status.sql" || file === "supabase/phase-29-consumer-wilma-telemetry.sql" || file === "supabase/phase-31-legalease-os-support-queue.sql" || file === "supabase/phase-32-expungement-screening-sessions.sql") continue;
+  if (file === "supabase/phase-26-consumer-briefcase-items.sql" || file === metadataMigration || file === "supabase/phase-28-consumer-packet-generation-status.sql" || file === "supabase/phase-29-consumer-wilma-telemetry.sql" || file === "supabase/phase-31-legalease-os-support-queue.sql" || file === "supabase/phase-32-expungement-screening-sessions.sql" || file === "supabase/phase-33-expungement-screening-resume-links.sql") continue;
   for (const prefix of forbiddenChangedPrefixes) {
     assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);
   }

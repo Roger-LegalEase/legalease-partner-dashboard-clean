@@ -70,7 +70,8 @@ const expungementAiPrefixes = [
   "supabase/phase-28-consumer-packet-generation-status.sql",
   "supabase/phase-29-consumer-wilma-telemetry.sql",
   "supabase/phase-31-legalease-os-support-queue.sql",
-  "supabase/phase-32-expungement-screening-sessions.sql"
+  "supabase/phase-32-expungement-screening-sessions.sql",
+    "supabase/phase-33-expungement-screening-resume-links.sql"
 ];
 
 const expungementAiPatterns = [

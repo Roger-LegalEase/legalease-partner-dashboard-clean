@@ -69,6 +69,10 @@ export function ScreeningFlow({ state }: { state: string }) {
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
+  const [sessionId, setSessionId] = useState<string | undefined>();
+  const [saveOpen, setSaveOpen] = useState(false);
+  const [saveEmail, setSaveEmail] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
   const focusRef = useRef<HTMLDivElement>(null);
   const matterIdRef = useRef<string>(createMatterId());
 
@@ -101,6 +105,32 @@ export function ScreeningFlow({ state }: { state: string }) {
     return map;
   }, [screens]);
 
+  useEffect(() => {
+    if (load.status !== "ready" || screens.length === 0) return;
+    const stored = window.sessionStorage.getItem("expungement-ai:resume-session");
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored) as {
+        sessionId?: string;
+        jurisdiction?: string;
+        answers?: Record<string, AnswerValue>;
+        currentQuestionId?: string | null;
+      };
+      if (parsed.jurisdiction !== load.profile.jurisdiction.code || !parsed.answers) return;
+      window.sessionStorage.removeItem("expungement-ai:resume-session");
+      queueMicrotask(() => {
+        setSessionId(parsed.sessionId);
+        setAnswers(parsed.answers ?? {});
+        if (parsed.currentQuestionId) {
+          const target = screens.findIndex((screen) => screen.id === parsed.currentQuestionId);
+          if (target >= 0) setCurrentIndex(target);
+        }
+      });
+    } catch {
+      window.sessionStorage.removeItem("expungement-ai:resume-session");
+    }
+  }, [load, screens]);
+
   // Move keyboard focus to the active region on each screen/phase change.
   useEffect(() => {
     if (load.status === "ready") {
@@ -125,7 +155,7 @@ export function ScreeningFlow({ state }: { state: string }) {
     setPhase("evaluating");
     setEvalError(null);
     // The engine evaluates; we only send the collected answers (converted to the wire shape).
-    // Answers stay in memory and are never placed in the URL, logs, or storage.
+    // Answers are converted to the same wire shape for fresh and resumed sessions.
     const result = await evaluateScreening({
       jurisdiction: profile.jurisdiction.code,
       profileVersion: profile.profileVersion,
@@ -173,6 +203,36 @@ export function ScreeningFlow({ state }: { state: string }) {
       if (targetIndex >= 0) setCurrentIndex(targetIndex);
     }
     setPhase("questions");
+  }
+
+  async function handleSaveProgress() {
+    if (saveStatus === "saving") return;
+    const activeQuestion = screens[currentIndex];
+    setSaveStatus("saving");
+    try {
+      const response = await fetch("/api/expungement-ai/screening/save-resume", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          jurisdiction: profile.jurisdiction.code,
+          answers,
+          currentQuestionId: activeQuestion.id,
+          furthestStage: activeQuestion.stage,
+          lastDropQuestion: activeQuestion.id,
+          email: saveEmail
+        })
+      });
+      const result = await response.json() as { ok?: boolean; sessionId?: string };
+      if (!response.ok || !result.ok) {
+        setSaveStatus("error");
+        return;
+      }
+      if (result.sessionId) setSessionId(result.sessionId);
+      setSaveStatus("sent");
+    } catch {
+      setSaveStatus("error");
+    }
   }
 
   if (phase === "evaluating") {
@@ -251,6 +311,16 @@ export function ScreeningFlow({ state }: { state: string }) {
           </button>
           <button
             type="button"
+            onClick={() => {
+              setSaveOpen(true);
+              setSaveStatus("idle");
+            }}
+            className="min-h-[48px] rounded-[14px] border border-[#D7DEE8] bg-[#FBFCFE] px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
+          >
+            Save progress
+          </button>
+          <button
+            type="button"
             onClick={handleBack}
             className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
           >
@@ -258,10 +328,77 @@ export function ScreeningFlow({ state }: { state: string }) {
           </button>
         </div>
       </div>
+      {saveOpen ? (
+        <SaveProgressDialog
+          email={saveEmail}
+          status={saveStatus}
+          onEmailChange={setSaveEmail}
+          onClose={() => setSaveOpen(false)}
+          onSave={() => void handleSaveProgress()}
+        />
+      ) : null}
       <p className="mt-4 text-center text-[12.5px] leading-6 text-[#8A93A6]">
         This is legal information, not legal advice. The engine decides the result; we never do.
       </p>
     </FlowFrame>
+  );
+}
+
+function SaveProgressDialog({
+  email,
+  status,
+  onEmailChange,
+  onClose,
+  onSave
+}: {
+  email: string;
+  status: "idle" | "saving" | "sent" | "error";
+  onEmailChange: (value: string) => void;
+  onClose: () => void;
+  onSave: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[#0B1320]/50 px-4">
+      <div className="w-full max-w-md rounded-2xl border border-[#ECEFF4] bg-white p-5 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="save-progress-title">
+        <h2 id="save-progress-title" className="text-xl font-extrabold text-[#0B1320]">Save your progress</h2>
+        <p className="mt-2 text-sm leading-6 text-[#5A6275]">
+          We&apos;ll only use this email to send you a link back to your saved progress.
+        </p>
+        {status === "sent" ? (
+          <p className="mt-4 rounded-xl bg-[#E7F7F4] p-4 text-sm font-semibold text-[#0B1320]">
+            If the email is valid, a saved-progress link has been sent.
+          </p>
+        ) : (
+          <label className="mt-4 grid gap-2 text-sm font-bold text-[#0B1320]">
+            Email
+            <input
+              className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] px-4 text-[15.5px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]"
+              type="email"
+              value={email}
+              onChange={(event) => onEmailChange(event.target.value)}
+              autoComplete="email"
+            />
+          </label>
+        )}
+        {status === "error" ? (
+          <p className="mt-3 text-sm font-semibold text-[#C2410C]">We couldn&apos;t save that progress right now.</p>
+        ) : null}
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row-reverse">
+          {status === "sent" ? (
+            <button type="button" onClick={onClose} className="min-h-[44px] rounded-xl bg-[#FF3B00] px-5 py-2 text-sm font-extrabold text-white">
+              Continue
+            </button>
+          ) : (
+            <button type="button" onClick={onSave} disabled={status === "saving"} className="min-h-[44px] rounded-xl bg-[#FF3B00] px-5 py-2 text-sm font-extrabold text-white disabled:opacity-60">
+              {status === "saving" ? "Sending..." : "Send link"}
+            </button>
+          )}
+          <button type="button" onClick={onClose} className="min-h-[44px] rounded-xl border border-[#E4E8EF] px-5 py-2 text-sm font-bold text-[#0B1320]">
+            Continue without saving
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
