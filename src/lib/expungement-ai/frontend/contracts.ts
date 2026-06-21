@@ -87,6 +87,7 @@ export type ProfileQuestion = {
   id: string;
   stage: string;
   prompt: string;
+  helperText?: string;
   type: QuestionType;
   required: boolean;
   /**
@@ -97,6 +98,11 @@ export type ProfileQuestion = {
   contextOnly: boolean;
   /** Present (non-empty) only for `single_choice` and `multi_select` in the source data. */
   options: string[] | null;
+  /** Optional presentation-only labels keyed by the unchanged option value. */
+  optionDisplay?: Record<string, {
+    label: string;
+    helperText?: string;
+  }>;
 };
 
 export type JurisdictionProfile = {

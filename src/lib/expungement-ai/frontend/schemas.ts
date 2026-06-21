@@ -60,10 +60,15 @@ export const profileQuestionSchema = z
     id: z.string().min(1),
     stage: z.string().min(1),
     prompt: z.string().min(1),
+    helperText: z.string().optional(),
     type: z.string().min(1),
     required: z.boolean(),
     contextOnly: z.boolean(),
-    options: z.array(z.string()).nullable()
+    options: z.array(z.string()).nullable(),
+    optionDisplay: z.record(z.string(), z.object({
+      label: z.string().min(1),
+      helperText: z.string().optional()
+    }).passthrough()).optional()
   })
   .passthrough();
 

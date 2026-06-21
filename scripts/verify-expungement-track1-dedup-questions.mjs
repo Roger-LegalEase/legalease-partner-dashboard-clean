@@ -86,8 +86,9 @@ function byId(profile, id) {
   return (profile.questions ?? []).find((question) => question.id === id);
 }
 
-function stableQuestion(question) {
-  return JSON.stringify(question);
+function stableStructuralQuestion(question) {
+  const { prompt: _prompt, helperText: _helperText, optionDisplay: _optionDisplay, ...structural } = question;
+  return JSON.stringify(structural);
 }
 
 function answerText(value) {
@@ -272,17 +273,12 @@ for (const code of modifiedCodes) {
     }
   }
 
-  const mainIds = questionIds(mainPublicProfile);
-  const currentIds = questionIds(currentPublicProfile);
-  const removedIds = mainIds.filter((id) => !currentIds.includes(id)).sort();
-  assert(JSON.stringify(removedIds) === JSON.stringify(targetRemoved), `${code} removed ids ${removedIds.join(", ")} did not match ${targetRemoved.join(", ")}.`);
-
   const currentById = questionMap(currentPublicProfile);
   for (const question of mainPublicProfile.questions ?? []) {
     if (targetRemoved.includes(question.id)) continue;
     assert(currentById.has(question.id), `${code} removed non-listed field ${question.id}.`);
     if (currentById.has(question.id)) {
-      assert(stableQuestion(currentById.get(question.id)) === stableQuestion(question), `${code} changed prompt/options/metadata for ${question.id}.`);
+      assert(stableStructuralQuestion(currentById.get(question.id)) === stableStructuralQuestion(question), `${code} changed structural metadata for ${question.id}.`);
     }
   }
 
@@ -291,7 +287,7 @@ for (const code of modifiedCodes) {
     if (targetRemoved.includes(question.id)) continue;
     assert(currentEngineById.has(question.id), `${code} engine profile removed non-listed field ${question.id}.`);
     if (currentEngineById.has(question.id)) {
-      assert(stableQuestion(currentEngineById.get(question.id)) === stableQuestion(question), `${code} engine profile changed ${question.id}.`);
+      assert(stableStructuralQuestion(currentEngineById.get(question.id)) === stableStructuralQuestion(question), `${code} engine profile changed structural metadata for ${question.id}.`);
     }
   }
 

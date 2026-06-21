@@ -214,7 +214,7 @@
     {
       "id": "jurisdiction_scope",
       "stage": "scope",
-      "prompt": "Is this a state or local matter from Ohio, rather than a federal matter?",
+      "prompt": "Did this case happen in Ohio (not a federal case)?",
       "type": "single_choice",
       "options": [
         "State or local",
@@ -227,7 +227,7 @@
     {
       "id": "case_outcome",
       "stage": "pathway_routing",
-      "prompt": "How did the Ohio case or record end?",
+      "prompt": "How did the case end?",
       "type": "single_choice",
       "options": [
         "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -240,12 +240,46 @@
         "I am not sure"
       ],
       "required": true,
-      "source": "state_case_outcome_rules"
+      "source": "state_case_outcome_rules",
+      "optionDisplay": {
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted": {
+          "label": "The case was dropped or thrown out",
+          "helperText": "dismissed, no-billed, nolle prosequi, or not prosecuted"
+        },
+        "Acquitted or found not guilty": {
+          "label": "Found not guilty",
+          "helperText": "acquitted or found not guilty"
+        },
+        "Diversion, deferred disposition, supervision, or similar program": {
+          "label": "Completed a program instead of a conviction",
+          "helperText": "diversion, deferred disposition, supervision, or similar"
+        },
+        "Misdemeanor conviction": {
+          "label": "Convicted of a misdemeanor",
+          "helperText": "a less serious conviction"
+        },
+        "Felony conviction": {
+          "label": "Convicted of a felony",
+          "helperText": "a more serious conviction"
+        },
+        "Other conviction or adjudication": {
+          "label": "Another kind of conviction",
+          "helperText": "other conviction or adjudication"
+        },
+        "Juvenile adjudication or offense committed as a minor": {
+          "label": "It happened when I was a minor",
+          "helperText": "juvenile adjudication or offense as a minor"
+        },
+        "I am not sure": {
+          "label": "I'm not sure",
+          "helperText": "keep — and this is fine; Wilma and the tool can help"
+        }
+      }
     },
     {
       "id": "offense_level",
       "stage": "pathway_routing",
-      "prompt": "What level or type was the charge?",
+      "prompt": "What kind of charge was it?",
       "type": "single_choice",
       "options": [
         "Misdemeanor",
@@ -261,7 +295,7 @@
     {
       "id": "possible_pathway_context",
       "stage": "pathway_routing",
-      "prompt": "Do any of these Ohio descriptions sound close to your situation?",
+      "prompt": "Do any of these sound like your situation?",
       "type": "single_choice",
       "options": [
         "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32",
@@ -277,12 +311,13 @@
       "source": "curated_state_pathway_catalog_from_reference",
       "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
       "contextOnly": true,
-      "doesNotSelectPathway": true
+      "doesNotSelectPathway": true,
+      "helperText": "optional — helps us guide you"
     },
     {
       "id": "age_at_offense",
       "stage": "pathway_routing",
-      "prompt": "How old were you when the offense or case began?",
+      "prompt": "How old were you when this happened?",
       "type": "number_or_range",
       "options": null,
       "required": true,
@@ -291,25 +326,27 @@
     {
       "id": "sentence_completion_date",
       "stage": "timing_and_completion",
-      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "prompt": "Have you finished everything the court ordered?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "jail/probation/parole, classes, community service, anything still owed"
     },
     {
       "id": "pending_cases",
       "stage": "timing_and_completion",
-      "prompt": "Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?",
+      "prompt": "Do you have any open cases right now?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "a charge in progress, or current probation/parole"
     },
     {
       "id": "trafficking_status",
       "stage": "special_pathways",
-      "prompt": "Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?",
+      "prompt": "Did this happen because you were a victim of human trafficking?",
       "type": "yes_no_prefer_not_to_say",
       "options": null,
       "required": true,
@@ -318,7 +355,7 @@
     {
       "id": "pardon_status",
       "stage": "special_pathways",
-      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "prompt": "Have you gotten a pardon or similar official relief for this?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
@@ -336,24 +373,26 @@
     {
       "id": "charge",
       "stage": "case_details",
-      "prompt": "What charge, statute, or record description appears on the record?",
+      "prompt": "What does the record say you were charged with?",
       "type": "text_or_unknown",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "the charge name or code, however it's written"
     },
     {
       "id": "record_documents",
       "stage": "record_readiness",
-      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "prompt": "Do you have your court paperwork handy?",
       "type": "yes_no_unsure",
       "required": true,
-      "source": "shared_record_verification"
+      "source": "shared_record_verification",
+      "helperText": "No worries if not — you can save and come back."
     },
     {
       "id": "county_or_filing_location",
       "stage": "case_details",
-      "prompt": "Where in Ohio was the case handled?",
+      "prompt": "Where in Ohio did the case happen?",
       "type": "text_or_unknown",
       "required": true,
       "source": "shared_filing_identity"
@@ -361,10 +400,11 @@
     {
       "id": "case_identifier",
       "stage": "case_details",
-      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "prompt": "What's the case number?",
       "type": "text_or_unknown",
       "required": false,
-      "source": "shared_filing_identity"
+      "source": "shared_filing_identity",
+      "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
     }
   ],
   "caseOutcomeOptions": [

@@ -198,7 +198,7 @@
     {
       "id": "jurisdiction_scope",
       "stage": "scope",
-      "prompt": "Is this a state or local matter from Delaware, rather than a federal matter?",
+      "prompt": "Did this case happen in Delaware (not a federal case)?",
       "type": "single_choice",
       "options": [
         "State or local",
@@ -211,7 +211,7 @@
     {
       "id": "case_outcome",
       "stage": "pathway_routing",
-      "prompt": "How did the Delaware case or record end?",
+      "prompt": "How did the case end?",
       "type": "single_choice",
       "options": [
         "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -220,12 +220,30 @@
         "I am not sure"
       ],
       "required": true,
-      "source": "state_case_outcome_rules"
+      "source": "state_case_outcome_rules",
+      "optionDisplay": {
+        "Dismissed, no-billed, nolle prosequi, or not prosecuted": {
+          "label": "The case was dropped or thrown out",
+          "helperText": "dismissed, no-billed, nolle prosequi, or not prosecuted"
+        },
+        "Acquitted or found not guilty": {
+          "label": "Found not guilty",
+          "helperText": "acquitted or found not guilty"
+        },
+        "Pardoned conviction": {
+          "label": "Pardoned",
+          "helperText": "pardoned conviction"
+        },
+        "I am not sure": {
+          "label": "I'm not sure",
+          "helperText": "keep — and this is fine; Wilma and the tool can help"
+        }
+      }
     },
     {
       "id": "offense_level",
       "stage": "pathway_routing",
-      "prompt": "What level or type was the charge?",
+      "prompt": "What kind of charge was it?",
       "type": "single_choice",
       "options": [
         "Misdemeanor",
@@ -239,7 +257,7 @@
     {
       "id": "possible_pathway_context",
       "stage": "pathway_routing",
-      "prompt": "Do any of these Delaware descriptions sound close to your situation?",
+      "prompt": "Do any of these sound like your situation?",
       "helper": "This answer is optional and does not select your legal pathway. The backend uses the factual answers and state rules.",
       "type": "single_choice",
       "options": [
@@ -252,30 +270,33 @@
       "required": false,
       "contextOnly": true,
       "doesNotSelectPathway": true,
-      "source": "curated_state_pathway_catalog_from_reference"
+      "source": "curated_state_pathway_catalog_from_reference",
+      "helperText": "optional — helps us guide you"
     },
     {
       "id": "sentence_completion_date",
       "stage": "timing_and_completion",
-      "prompt": "Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?",
+      "prompt": "Have you finished everything the court ordered?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "jail/probation/parole, classes, community service, anything still owed"
     },
     {
       "id": "financial_obligations",
       "stage": "timing_and_completion",
-      "prompt": "Are all fines, restitution, court costs, and other required financial obligations resolved?",
+      "prompt": "Have you paid off everything the court charged?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "fines, court costs, restitution"
     },
     {
       "id": "pardon_status",
       "stage": "special_pathways",
-      "prompt": "Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?",
+      "prompt": "Have you gotten a pardon or similar official relief for this?",
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
@@ -293,16 +314,17 @@
     {
       "id": "charge",
       "stage": "case_details",
-      "prompt": "What charge, statute, or record description appears on the record?",
+      "prompt": "What does the record say you were charged with?",
       "type": "text_or_unknown",
       "options": null,
       "required": true,
-      "source": "derived_from_state_rule_fields"
+      "source": "derived_from_state_rule_fields",
+      "helperText": "the charge name or code, however it's written"
     },
     {
       "id": "state_exclusion_categories",
       "stage": "exclusion_screen",
-      "prompt": "Does the record involve any Delaware category that the source identifies as excluded or review-required?",
+      "prompt": "Did the case involve any of these?",
       "type": "multi_select",
       "options": [
         "Violent offense",
@@ -312,20 +334,22 @@
         "I am not sure"
       ],
       "required": true,
-      "source": "state_exclusion_section"
+      "source": "state_exclusion_section",
+      "helperText": "Some types follow special rules."
     },
     {
       "id": "record_documents",
       "stage": "record_readiness",
-      "prompt": "Do you have court paperwork or a criminal-history record showing the exact charge and outcome?",
+      "prompt": "Do you have your court paperwork handy?",
       "type": "yes_no_unsure",
       "required": true,
-      "source": "shared_record_verification"
+      "source": "shared_record_verification",
+      "helperText": "No worries if not — you can save and come back."
     },
     {
       "id": "county_or_filing_location",
       "stage": "case_details",
-      "prompt": "Where in Delaware was the case handled?",
+      "prompt": "Where in Delaware did the case happen?",
       "type": "text_or_unknown",
       "required": true,
       "source": "shared_filing_identity"
@@ -333,10 +357,11 @@
     {
       "id": "case_identifier",
       "stage": "case_details",
-      "prompt": "What case, docket, cause, or arrest number appears on the record?",
+      "prompt": "What's the case number?",
       "type": "text_or_unknown",
       "required": false,
-      "source": "shared_filing_identity"
+      "source": "shared_filing_identity",
+      "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
     }
   ],
   "caseOutcomeOptions": [

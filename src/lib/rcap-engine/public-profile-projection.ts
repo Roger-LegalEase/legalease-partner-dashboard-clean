@@ -51,11 +51,13 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       id: question.id,
       stage: question.stage,
       prompt: question.prompt,
+      helperText: question.helperText,
       type: question.type,
       required: question.required,
       contextOnly: question.contextOnly === true,
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
-      options: question.options ?? null
+      options: question.options ?? null,
+      optionDisplay: question.optionDisplay
     })),
     caseOutcomeOptions: profile.caseOutcomeOptions,
     copyGuardrails: profile.copyGuardrails
