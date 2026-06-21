@@ -9,9 +9,12 @@ import type {
   SourceDocumentPacketInput,
   TexasHarrisDocumentPacketInput
 } from "@/lib/rcap/documents/types";
+import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
 import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
+import { getSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
 const packets = new Map<string, RcapDocumentPacket>();
+let fallbackWarningLogged = false;
 
 type PacketResult = Promise<{ ok: true; packet: RcapDocumentPacket; persisted: boolean } | { ok: false; error: string }>;
 
@@ -36,7 +39,15 @@ export async function createTexasHarrisDocumentPacket(input: TexasHarrisDocument
 }
 
 export async function getRcapDocumentPacket(packetId: string) {
-  return packets.get(packetId) ?? null;
+  const cached = packets.get(packetId);
+  if (cached) return cached;
+
+  const mode = await sourcePacketPersistenceMode();
+  if (mode.kind !== "supabase") return null;
+
+  const packet = await readPersistedSourceDocumentPacket(packetId);
+  if (packet) packets.set(packet.id, packet);
+  return packet;
 }
 
 export async function generateSavedMississippiDocumentPacket(packetId: string): PacketResult {
@@ -74,11 +85,13 @@ async function createSourceDocumentPacket(input: SourceDocumentPacketInput): Pac
   if (!input.partnerSlug) return { ok: false, error: "A partner slug is required." };
   const packet = packetFromInput(input);
   packets.set(packet.id, packet);
-  return { ok: true, packet, persisted: false };
+  const persisted = await persistOrFallback(packet, input);
+  if (!persisted.ok) return persisted;
+  return { ok: true, packet, persisted: persisted.persisted };
 }
 
 async function generateSavedSourceDocumentPacket(packetId: string): PacketResult {
-  const packet = packets.get(packetId);
+  const packet = await getRcapDocumentPacket(packetId);
   if (!packet) return { ok: false, error: "Document packet not found." };
   const generated = {
     ...packet,
@@ -86,11 +99,13 @@ async function generateSavedSourceDocumentPacket(packetId: string): PacketResult
     completedAt: new Date().toISOString()
   };
   packets.set(packetId, generated);
-  return { ok: true, packet: generated, persisted: false };
+  const persisted = await persistOrFallback(generated);
+  if (!persisted.ok) return persisted;
+  return { ok: true, packet: generated, persisted: persisted.persisted };
 }
 
 async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<SourceDocumentPacketInput>): PacketResult {
-  const packet = packets.get(packetId);
+  const packet = await getRcapDocumentPacket(packetId);
   if (!packet) return { ok: false, error: "Document packet not found." };
   const updated = packetFromInput({
     ...packet,
@@ -99,7 +114,268 @@ async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<S
     state: packet.state
   });
   packets.set(packetId, { ...updated, id: packetId });
-  return { ok: true, packet: packets.get(packetId) as RcapDocumentPacket, persisted: false };
+  const savedPacket = packets.get(packetId) as RcapDocumentPacket;
+  const persisted = await persistOrFallback(savedPacket, input);
+  if (!persisted.ok) return persisted;
+  return { ok: true, packet: savedPacket, persisted: persisted.persisted };
+}
+
+async function persistOrFallback(
+  packet: RcapDocumentPacket,
+  inputPayload?: Partial<SourceDocumentPacketInput>
+): Promise<{ ok: true; persisted: boolean } | { ok: false; error: string }> {
+  const mode = await sourcePacketPersistenceMode();
+  if (mode.kind === "blocked") return { ok: false, error: mode.error };
+  if (mode.kind === "fallback") {
+    logPersistenceFallback(mode.reason);
+    return { ok: true, persisted: false };
+  }
+
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { ok: false, error: "Supabase is not configured for RCAP document packet persistence." };
+
+  const { error: packetError } = await supabase
+    .from("rcap_document_packets")
+    .upsert(packetRow(packet), { onConflict: "id" });
+  if (packetError) return { ok: false, error: packetError.message };
+
+  if (inputPayload) {
+    const { error: inputError } = await supabase
+      .from("rcap_document_packet_inputs")
+      .upsert(packetInputRow(packet, inputPayload), { onConflict: "document_packet_id" });
+    if (inputError) return { ok: false, error: inputError.message };
+  }
+
+  if (packet.briefcaseId) {
+    const { error: briefcaseError } = await supabase
+      .from("rcap_briefcase_items")
+      .upsert(briefcaseItemRow(packet), { onConflict: "document_packet_id" });
+    if (briefcaseError) return { ok: false, error: briefcaseError.message };
+  }
+
+  return { ok: true, persisted: true };
+}
+
+async function sourcePacketPersistenceMode(): Promise<
+  | { kind: "supabase" }
+  | { kind: "fallback"; reason: string }
+  | { kind: "blocked"; error: string }
+> {
+  const mode = await getPartnerRepositoryMode();
+  if (mode === "supabase" && isSupabaseConfigured()) return { kind: "supabase" };
+
+  const reason =
+    mode === "local_seeded"
+      ? "ENABLE_SUPABASE_PARTNER_DATA is not true."
+      : "Supabase service configuration is incomplete.";
+  if (process.env.NODE_ENV === "production") {
+    return {
+      kind: "blocked",
+      error: `RCAP document packet persistence is required in production. ${reason}`
+    };
+  }
+
+  return { kind: "fallback", reason };
+}
+
+function logPersistenceFallback(reason: string) {
+  if (fallbackWarningLogged) return;
+  fallbackWarningLogged = true;
+  console.warn(`RCAP document packet persistence fallback active; packets are in-memory only. ${reason}`);
+}
+
+async function readPersistedSourceDocumentPacket(packetId: string): Promise<RcapDocumentPacket | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("rcap_document_packets")
+    .select("*")
+    .eq("id", packetId)
+    .maybeSingle();
+  if (error || !data) return null;
+  return packetFromRow(data as SourceDocumentPacketRow);
+}
+
+type SourceDocumentPacketRow = {
+  id: string;
+  partner_slug: string;
+  intake_session_id: string | null;
+  user_id: string | null;
+  briefcase_id: string | null;
+  state: string;
+  county: string | null;
+  document_type: string | null;
+  pathway: string;
+  status: string;
+  petitioner_first_name: string | null;
+  petitioner_last_name: string | null;
+  petitioner_city: string | null;
+  petitioner_county: string | null;
+  court_type: string | null;
+  court_county: string | null;
+  court_name: string | null;
+  jurisdiction: string | null;
+  cause_number: string | null;
+  charge: string | null;
+  offense_date: string | null;
+  arrest_date: string | null;
+  arresting_agency: string | null;
+  agency_case_number: string | null;
+  disposition_date: string | null;
+  conviction_date: string | null;
+  sentence_completion_date: string | null;
+  has_zero_balance: boolean | null;
+  has_court_documents: boolean | null;
+  first_offender_signal: boolean | null;
+  non_traffic_signal: boolean | null;
+  excluded_offense_screening: boolean | null;
+  one_felony_expungement_signal: boolean | null;
+  needs_record_review: boolean | null;
+  generated_html: string | null;
+  generated_plain_text: string | null;
+  filing_instructions: string[] | null;
+  county_court_instructions: string[] | null;
+  missing_fields: string[] | null;
+  safety_disclaimer: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  completed_at: string | null;
+};
+
+function packetRow(packet: RcapDocumentPacket) {
+  return {
+    id: packet.id,
+    partner_slug: packet.partnerSlug,
+    intake_session_id: packet.intakeSessionId ?? null,
+    user_id: packet.userId ?? null,
+    briefcase_id: packet.briefcaseId ?? null,
+    state: packet.state,
+    county: packet.county ?? null,
+    court_type: packet.courtType ?? null,
+    court_county: packet.courtCounty ?? null,
+    court_name: packet.courtName ?? null,
+    jurisdiction: packet.jurisdiction ?? null,
+    document_type: packet.documentType ?? null,
+    pathway: packet.pathway,
+    status: packet.status,
+    petitioner_first_name: packet.petitionerFirstName ?? null,
+    petitioner_last_name: packet.petitionerLastName ?? null,
+    petitioner_city: packet.petitionerCity ?? null,
+    petitioner_county: packet.petitionerCounty ?? null,
+    cause_number: packet.causeNumber ?? null,
+    charge: packet.charge ?? null,
+    offense_date: packet.offenseDate ?? null,
+    arrest_date: packet.arrestDate ?? null,
+    arresting_agency: packet.arrestingAgency ?? null,
+    agency_case_number: packet.agencyCaseNumber ?? null,
+    disposition_date: packet.dispositionDate ?? null,
+    conviction_date: packet.convictionDate ?? null,
+    sentence_completion_date: packet.sentenceCompletionDate ?? null,
+    has_zero_balance: packet.hasZeroBalance ?? null,
+    has_court_documents: packet.hasCourtDocuments ?? null,
+    first_offender_signal: packet.firstOffenderSignal ?? null,
+    non_traffic_signal: packet.nonTrafficSignal ?? null,
+    excluded_offense_screening: packet.excludedOffenseScreening ?? null,
+    one_felony_expungement_signal: packet.oneFelonyExpungementSignal ?? null,
+    needs_record_review: packet.needsRecordReview,
+    generated_html: packet.generatedHtml,
+    generated_plain_text: packet.generatedPlainText,
+    filing_instructions: packet.filingInstructions,
+    county_court_instructions: packet.countyCourtInstructions,
+    missing_fields: packet.missingFields,
+    safety_disclaimer: packet.safetyDisclaimer,
+    created_at: packet.createdAt ?? new Date().toISOString(),
+    updated_at: packet.updatedAt ?? new Date().toISOString(),
+    completed_at: packet.completedAt ?? null
+  };
+}
+
+function packetInputRow(packet: RcapDocumentPacket, inputPayload: Partial<SourceDocumentPacketInput>) {
+  return {
+    document_packet_id: packet.id,
+    partner_slug: packet.partnerSlug,
+    intake_session_id: packet.intakeSessionId ?? null,
+    input_payload: inputPayload
+  };
+}
+
+function briefcaseItemRow(packet: RcapDocumentPacket) {
+  return {
+    id: packet.briefcaseId,
+    user_id: packet.userId ?? null,
+    partner_slug: packet.partnerSlug,
+    intake_session_id: packet.intakeSessionId ?? null,
+    document_packet_id: packet.id,
+    item_type: "document_packet",
+    title: `${jurisdictionLabel(packet.state)} record relief packet`,
+    status: packet.status,
+    state: packet.state,
+    county: packet.county ?? null,
+    document_type: packet.documentType ?? null,
+    last_opened_at: null,
+    updated_at: packet.updatedAt ?? new Date().toISOString()
+  };
+}
+
+function packetFromRow(row: SourceDocumentPacketRow): RcapDocumentPacket {
+  const filingInstructions = row.filing_instructions ?? [];
+  const countyCourtInstructions = row.county_court_instructions ?? [];
+  const safetyDisclaimer = row.safety_disclaimer ?? "This source-driven packet shell is not legal advice and requires review before filing.";
+  const filingNextStepsPacket = buildFilingNextStepsPacket({
+    state: row.state,
+    county: row.county ?? undefined,
+    documentType: row.document_type ?? "source_driven_packet",
+    pathway: row.pathway,
+    filingInstructions,
+    countyCourtInstructions,
+    safetyDisclaimer
+  });
+  return {
+    id: row.id,
+    partnerSlug: row.partner_slug,
+    intakeSessionId: row.intake_session_id ?? undefined,
+    userId: row.user_id ?? undefined,
+    briefcaseId: row.briefcase_id ?? undefined,
+    state: row.state,
+    county: row.county ?? undefined,
+    documentType: row.document_type ?? undefined,
+    pathway: row.pathway,
+    status: row.status as RcapDocumentPacket["status"],
+    petitionerFirstName: row.petitioner_first_name ?? undefined,
+    petitionerLastName: row.petitioner_last_name ?? undefined,
+    petitionerCity: row.petitioner_city ?? undefined,
+    petitionerCounty: row.petitioner_county ?? undefined,
+    courtType: row.court_type ?? undefined,
+    courtCounty: row.court_county ?? undefined,
+    courtName: row.court_name ?? undefined,
+    jurisdiction: row.jurisdiction ?? undefined,
+    causeNumber: row.cause_number ?? undefined,
+    charge: row.charge ?? undefined,
+    offenseDate: row.offense_date ?? undefined,
+    arrestDate: row.arrest_date ?? undefined,
+    arrestingAgency: row.arresting_agency ?? undefined,
+    agencyCaseNumber: row.agency_case_number ?? undefined,
+    dispositionDate: row.disposition_date ?? undefined,
+    convictionDate: row.conviction_date ?? undefined,
+    sentenceCompletionDate: row.sentence_completion_date ?? undefined,
+    hasZeroBalance: row.has_zero_balance ?? undefined,
+    hasCourtDocuments: row.has_court_documents ?? undefined,
+    firstOffenderSignal: row.first_offender_signal ?? undefined,
+    nonTrafficSignal: row.non_traffic_signal ?? undefined,
+    excludedOffenseScreening: row.excluded_offense_screening ?? undefined,
+    oneFelonyExpungementSignal: row.one_felony_expungement_signal ?? undefined,
+    needsRecordReview: row.needs_record_review ?? true,
+    generatedHtml: row.generated_html ?? "<p>Source-driven packet plan pending review.</p>",
+    generatedPlainText: row.generated_plain_text ?? "Source-driven packet plan pending review.",
+    filingInstructions,
+    countyCourtInstructions,
+    filingNextStepsPacket,
+    missingFields: row.missing_fields ?? [],
+    safetyDisclaimer,
+    createdAt: row.created_at ?? undefined,
+    updatedAt: row.updated_at ?? undefined,
+    completedAt: row.completed_at ?? undefined
+  };
 }
 
 function packetFromInput(input: SourceDocumentPacketInput): RcapDocumentPacket {
@@ -165,6 +441,15 @@ function stringValue(value: unknown) {
 
 function booleanValue(value: unknown) {
   return typeof value === "boolean" ? value : undefined;
+}
+
+function jurisdictionLabel(state: string) {
+  if (state === "TX") return "Harris County, Texas";
+  if (state === "PA") return "Pennsylvania";
+  if (state === "DC") return "District of Columbia";
+  if (state === "IL") return "Illinois";
+  if (state === "MS") return "Mississippi";
+  return state;
 }
 
 function countBy(values: string[]) {
