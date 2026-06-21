@@ -172,7 +172,8 @@ for (const file of changedFiles()) {
     file === "supabase/phase-27-consumer-checkout-metadata.sql" ||
     file === "supabase/phase-28-consumer-packet-generation-status.sql" ||
     file === migrationPath ||
-    file === "supabase/phase-32-expungement-screening-sessions.sql"
+    file === "supabase/phase-32-expungement-screening-sessions.sql" ||
+    file === "supabase/phase-33-expungement-screening-resume-links.sql"
   ) continue;
   for (const prefix of forbiddenChangedPrefixes) {
     assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);

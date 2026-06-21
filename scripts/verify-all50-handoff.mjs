@@ -114,12 +114,19 @@ function assertNoRestrictedChanges() {
     extraAllowedFiles: [
       ".env.example",
       "src/app/api/expungement-ai/checkout/route.ts",
+      "src/app/api/expungement-ai/screening/save-resume/route.ts",
+      "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
+      "src/app/api/expungement-ai/screening/resume/resend/route.ts",
       "src/app/api/stripe/webhook/route.ts",
+      "src/app/expungement-ai/screening/resume/page.tsx",
+      "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+      "src/components/expungement-ai/screening/ScreeningFlow.tsx",
       "src/lib/stripe/server.ts",
       "src/lib/expungement-ai/briefcase.ts",
       "src/lib/expungement-ai/checkout-reconciliation.ts",
       "src/lib/expungement-ai/packet-generation.ts",
-      "src/lib/expungement-ai/payment-adapter.ts"
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "supabase/phase-33-expungement-screening-resume-links.sql"
     ],
     extraForbiddenPrefixes: [
       "src/app/api/",

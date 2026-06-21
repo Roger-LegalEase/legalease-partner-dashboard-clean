@@ -367,6 +367,7 @@ const allowedChangedFiles = new Set([
   "src/lib/expungement-ai/support-os-adapter.ts",
   "supabase/phase-31-legalease-os-support-queue.sql",
   "supabase/phase-32-expungement-screening-sessions.sql",
+    "supabase/phase-33-expungement-screening-resume-links.sql",
   "src/app/expungement-ai/layout.tsx",
   "src/app/expungement-ai/page.tsx",
   "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
@@ -419,6 +420,7 @@ for (const file of changedFiles()) {
   for (const prefix of restrictedPrefixes) {
     if (file === "supabase/phase-31-legalease-os-support-queue.sql") continue;
     if (file === "supabase/phase-32-expungement-screening-sessions.sql") continue;
+    if (file === "supabase/phase-33-expungement-screening-resume-links.sql") continue;
     if (allowedChangedFiles.has(file)) continue;
     if (file.startsWith("src/app/legalease/") || file.startsWith("scripts/verify-legalease-umbrella-site.mjs")) continue;
     assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);
