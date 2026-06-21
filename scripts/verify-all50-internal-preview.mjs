@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
 import { assertSourceEngineChangeScope } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -112,23 +113,7 @@ function assertNoRestrictedChanges() {
   assertSourceEngineChangeScope({
     rootDir,
     failures,
-    extraAllowedFiles: [
-      ".env.example",
-      "src/app/api/expungement-ai/checkout/route.ts",
-      "src/app/api/expungement-ai/screening/save-resume/route.ts",
-      "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
-      "src/app/api/expungement-ai/screening/resume/resend/route.ts",
-      "src/app/api/stripe/webhook/route.ts",
-      "src/app/expungement-ai/screening/resume/page.tsx",
-      "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
-      "src/components/expungement-ai/screening/ScreeningFlow.tsx",
-      "src/lib/stripe/server.ts",
-      "src/lib/expungement-ai/briefcase.ts",
-      "src/lib/expungement-ai/checkout-reconciliation.ts",
-      "src/lib/expungement-ai/packet-generation.ts",
-      "src/lib/expungement-ai/payment-adapter.ts",
-      "supabase/phase-33-expungement-screening-resume-links.sql"
-    ],
+    extraAllowedFiles: REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES,
     extraForbiddenPrefixes: [
       "src/app/api/",
       "src/app/p/",
