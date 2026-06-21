@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-legalese-os-event-exporter.mjs && node scripts/test-partner-repository.mjs && node scripts/test-partner-admin-actions.mjs && node scripts/test-partner-write-layer.mjs && node scripts/test-partner-dashboard-action-layer.mjs && node scripts/test-billing-reconciliation.mjs && node scripts/verify-request-pilot-intake.mjs && node scripts/verify-launch-os-event-routing.mjs && node scripts/verify-expungement-profile-screening-flow.mjs && node scripts/verify-expungement-track1-dedup-questions.mjs && node scripts/verify-expungement-plain-language-values.mjs && node scripts/verify-expungement-screening-session-persistence.mjs && node scripts/verify-expungement-screening-resume-links.mjs && node scripts/test-inspect-local-record-clearing-pdfs.mjs && node scripts/test-nebraska-record-clearing-shadow.mjs",
+    "test": "node scripts/test-legalese-os-event-exporter.mjs && node scripts/test-partner-repository.mjs && node scripts/test-partner-admin-actions.mjs && node scripts/test-partner-write-layer.mjs && node scripts/test-partner-dashboard-action-layer.mjs && node scripts/test-billing-reconciliation.mjs && node scripts/verify-request-pilot-intake.mjs && node scripts/verify-launch-os-event-routing.mjs && node scripts/verify-expungement-profile-screening-flow.mjs && node scripts/verify-expungement-track1-dedup-questions.mjs && node scripts/verify-expungement-plain-language-values.mjs && node scripts/verify-expungement-screening-session-persistence.mjs && node scripts/verify-expungement-screening-resume-links.mjs && node scripts/verify-expungement-drop-point-analytics.mjs && node scripts/test-inspect-local-record-clearing-pdfs.mjs && node scripts/test-nebraska-record-clearing-shadow.mjs",
     "legalese:verify-os-exporter": "node scripts/test-legalese-os-event-exporter.mjs",
     "legalese:smoke-os-cross-repo": "node scripts/test-legalese-os-cross-repo-smoke.mjs",
     "partners:check-seed-sql": "node scripts/check-partner-seed-sql.mjs",
@@ -112,6 +112,7 @@
     "expungement:verify-profile-screening-flow": "node scripts/verify-expungement-profile-screening-flow.mjs",
     "expungement:verify-screening-session-persistence": "node scripts/verify-expungement-screening-session-persistence.mjs",
     "expungement:verify-screening-resume-links": "node scripts/verify-expungement-screening-resume-links.mjs",
+    "expungement:verify-drop-point-analytics": "node scripts/verify-expungement-drop-point-analytics.mjs",
     "legalease:verify-umbrella-site": "node scripts/verify-legalease-umbrella-site.mjs",
     "ci:verify-product-aware-rcap": "node scripts/verify-product-aware-rcap-ci.mjs"
   },
