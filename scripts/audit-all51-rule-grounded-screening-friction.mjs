@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
 const root = process.cwd();
 const defaultProfilesPath = path.join(root, "src/lib/rcap-engine/compiled/profiles");
@@ -409,7 +410,7 @@ function scanNonBlockingMentions(file, source, fields) {
   return hits;
 }
 
-function scanIndeterminate(file, source, candidateFields) {
+function scanIndeterminateWithStages(file, source, candidateFieldStages) {
   const stripped = stripCommentsPreserveLines(source);
   const locations = [];
   const patterns = [
@@ -418,11 +419,202 @@ function scanIndeterminate(file, source, candidateFields) {
   ];
   for (const pattern of patterns) {
     for (const match of findMatches(stripped, pattern.regex)) {
-      locations.push(location(file, lineForIndex(stripped, match.index ?? 0), `${pattern.reason}: ${match[1].trim()}`));
+      const matchIndex = match.index ?? 0;
+      const answersOffset = match[0].indexOf("answers");
+      const dynamicReadIndex = matchIndex + (answersOffset >= 0 ? answersOffset : 0);
+      if (isResolvedGenericDynamicRead(file, stripped, dynamicReadIndex, candidateFieldStages)) continue;
+      locations.push(location(file, lineForIndex(stripped, matchIndex), `${pattern.reason}: ${match[1].trim()}`));
     }
   }
-  if (locations.length === 0) return new Map([...candidateFields].map((field) => [field, []]));
-  return new Map([...candidateFields].map((field) => [field, locations]));
+  const fields = [...candidateFieldStages.keys()];
+  if (locations.length === 0) return new Map(fields.map((field) => [field, []]));
+  return new Map(fields.map((field) => [field, locations]));
+}
+
+/*
+ * Proven non-blocking dynamic reads.
+ *
+ * See docs/expungement-ai/DEDUP_INDETERMINATE_FINDINGS.md. That investigation
+ * classified exactly three currently flagged dynamic answer-map sites as
+ * GENERIC ITERATION:
+ *
+ * - answer-normalization.ts:30: generic requiredMissingQuestionIds missingness check
+ * - answer-normalization.ts:43: generic requiredMissingPublicQuestionIds hasAnswer check
+ * - evaluator.ts:148: ambiguityReason iterates legalFields after explicitly excluding
+ *   case_details and record_readiness
+ *
+ * This recognizer encodes those structures only. It does not whitelist field
+ * names and it leaves every other computed answers[...] path fail-closed.
+ */
+function isResolvedGenericDynamicRead(file, source, index, candidateFieldStages) {
+  const relative = path.relative(root, file).replaceAll(path.sep, "/");
+  const windowStart = Math.max(0, index - 700);
+  const windowEnd = Math.min(source.length, index + 260);
+  const before = source.slice(windowStart, index);
+  const around = source.slice(windowStart, windowEnd);
+
+  if (relative === "src/lib/rcap-engine/answer-normalization.ts") {
+    const inRequiredMissingQuestionIds =
+      /function\s+requiredMissingQuestionIds\s*\([^)]*\)\s*\{[\s\S]*profile\.questions[\s\S]*\.filter\s*\(\s*\(\s*question\s*\)\s*=>\s*question\.required\s*&&\s*question\.contextOnly\s*!==\s*true\s*\)[\s\S]*$/.test(before) &&
+      /const\s+value\s*=\s*answers\s*\[\s*question\.id\s*\][\s\S]*\.map\s*\(\s*\(\s*question\s*\)\s*=>\s*question\.id\s*\)/.test(around);
+    if (inRequiredMissingQuestionIds) return true;
+
+    const inRequiredMissingPublicQuestionIds =
+      /function\s+requiredMissingPublicQuestionIds\s*\([^)]*\)\s*\{[\s\S]*publicProfile\.questions[\s\S]*\.filter\s*\(\s*\(\s*question\s*\)\s*=>\s*publicIds\.has\s*\(\s*question\.id\s*\)\s*\)[\s\S]*\.filter\s*\(\s*\(\s*question\s*\)\s*=>\s*question\.required\s*&&\s*question\.contextOnly\s*!==\s*true\s*\)[\s\S]*$/.test(before) &&
+      /hasAnswer\s*\(\s*answers\s*\[\s*question\.id\s*\]\s*\)[\s\S]*\.map\s*\(\s*\(\s*question\s*\)\s*=>\s*question\.id\s*\)/.test(around);
+    if (inRequiredMissingPublicQuestionIds) return true;
+  }
+
+  if (relative === "src/lib/rcap-engine/evaluator.ts") {
+    if (isDynamicReadInStageExcludedIteration(source, index, candidateFieldStages)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isDynamicReadInStageExcludedIteration(source, index, candidateFieldStages) {
+  const sourceFile = ts.createSourceFile("verifier-target.ts", source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  const readNode = dynamicAnswersReadAt(sourceFile, index);
+  if (!readNode) return false;
+
+  const callback = nearestCallback(readNode);
+  if (!callback) return false;
+  const iteration = callback.parent;
+  if (!ts.isCallExpression(iteration) || !isArrayIterationCall(iteration)) return false;
+
+  const excludedStages = excludedStagesForIterationSource(iteration.expression.expression, sourceFile, index);
+  return excludedStages.size > 0 && candidateStagesAllExcluded(candidateFieldStages, excludedStages);
+}
+
+function dynamicAnswersReadAt(sourceFile, index) {
+  let best;
+  function visit(node) {
+    if (node.getStart(sourceFile) <= index && index < node.getEnd()) {
+      if (isAnswersQuestionIdRead(node)) best = node;
+      ts.forEachChild(node, visit);
+    }
+  }
+  visit(sourceFile);
+  return best;
+}
+
+function isAnswersQuestionIdRead(node) {
+  return ts.isElementAccessExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === "answers" &&
+    ts.isPropertyAccessExpression(node.argumentExpression) &&
+    ts.isIdentifier(node.argumentExpression.expression) &&
+    node.argumentExpression.expression.text === "question" &&
+    node.argumentExpression.name.text === "id";
+}
+
+function nearestCallback(node) {
+  let current = node.parent;
+  while (current) {
+    if ((ts.isArrowFunction(current) || ts.isFunctionExpression(current)) && ts.isCallExpression(current.parent)) {
+      return current;
+    }
+    current = current.parent;
+  }
+  return undefined;
+}
+
+function isArrayIterationCall(callExpression) {
+  return ts.isPropertyAccessExpression(callExpression.expression) &&
+    ["filter", "find", "some", "map", "flatMap"].includes(callExpression.expression.name.text);
+}
+
+function excludedStagesForIterationSource(expression, sourceFile, beforeIndex, seen = new Set()) {
+  if (ts.isIdentifier(expression)) {
+    if (seen.has(expression.text)) return new Set();
+    seen.add(expression.text);
+    const declaration = variableDeclarationBefore(sourceFile, expression.text, beforeIndex);
+    if (declaration?.initializer) return excludedStagesForIterationSource(declaration.initializer, sourceFile, beforeIndex, seen);
+    return new Set();
+  }
+
+  if (ts.isCallExpression(expression) && isArrayIterationCall(expression)) {
+    const baseStages = excludedStagesForIterationSource(expression.expression.expression, sourceFile, beforeIndex, seen);
+    if (expression.expression.name.text !== "filter") return baseStages;
+    const callback = expression.arguments[0];
+    return unionSets(baseStages, excludedStagesFromFilterCallback(callback));
+  }
+
+  return new Set();
+}
+
+function variableDeclarationBefore(sourceFile, name, beforeIndex) {
+  let found;
+  function visit(node) {
+    if (found || node.getStart(sourceFile) >= beforeIndex) return;
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === name &&
+      node.getEnd() <= beforeIndex
+    ) {
+      found = node;
+      return;
+    }
+    ts.forEachChild(node, visit);
+  }
+  visit(sourceFile);
+  return found;
+}
+
+function excludedStagesFromFilterCallback(callback) {
+  if (!callback || !(ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))) return new Set();
+  const parameter = callback.parameters[0]?.name;
+  if (!parameter || !ts.isIdentifier(parameter)) return new Set();
+  const parameterName = parameter.text;
+  const stages = new Set();
+
+  function visit(node) {
+    if (isStageNotEqualsLiteral(node, parameterName)) stages.add(stageLiteralFromComparison(node));
+    ts.forEachChild(node, visit);
+  }
+  visit(callback.body);
+  return stages;
+}
+
+function isStageNotEqualsLiteral(node, parameterName) {
+  if (!ts.isBinaryExpression(node) || node.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return false;
+  return (
+    isQuestionStageAccess(node.left, parameterName) && ts.isStringLiteralLike(node.right)
+  ) || (
+    ts.isStringLiteralLike(node.left) && isQuestionStageAccess(node.right, parameterName)
+  );
+}
+
+function isQuestionStageAccess(node, parameterName) {
+  return ts.isPropertyAccessExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === parameterName &&
+    node.name.text === "stage";
+}
+
+function stageLiteralFromComparison(node) {
+  return ts.isStringLiteralLike(node.left) ? node.left.text : node.right.text;
+}
+
+function unionSets(...sets) {
+  const out = new Set();
+  for (const set of sets) {
+    for (const value of set) out.add(value);
+  }
+  return out;
+}
+
+function candidateStagesAllExcluded(candidateFieldStages, excludedStages) {
+  for (const stages of candidateFieldStages.values()) {
+    if (stages.has("*")) return false;
+    for (const stage of stages) {
+      if (!excludedStages.has(stage)) return false;
+    }
+  }
+  return true;
 }
 
 function dedupeLocations(locations) {
@@ -441,6 +633,10 @@ function applyCodeScan(rowsByState) {
   const rows = flattenRows(rowsByState);
   const allFields = new Set(rows.map((row) => row.field));
   const candidateFields = uniqueCandidateFields(rows);
+  const candidateFieldStages = new Map([...candidateFields].map((field) => [field, new Set()]));
+  for (const row of rows) {
+    if (candidateFieldStages.has(row.field)) candidateFieldStages.get(row.field).add(row.stage);
+  }
   const codeReferenceByField = new Map([...allFields].map((field) => [field, []]));
   const nonBlockingByField = new Map([...candidateFields].map((field) => [field, []]));
   const indeterminateByField = new Map([...candidateFields].map((field) => [field, []]));
@@ -448,7 +644,7 @@ function applyCodeScan(rowsByState) {
   for (const file of runtimeScanFiles()) {
     const source = fs.readFileSync(file, "utf8");
     const blocking = scanBlockingReferences(file, source, allFields);
-    const indeterminate = scanIndeterminate(file, source, candidateFields);
+    const indeterminate = scanIndeterminateWithStages(file, source, candidateFieldStages);
     for (const field of allFields) {
       codeReferenceByField.get(field).push(...(blocking.get(field) ?? []));
     }
@@ -612,14 +808,118 @@ function runCheck(rowsByState, fieldList) {
   return 0;
 }
 
+function assertSelfTest(condition, message) {
+  if (!condition) throw new Error(`Self-test failed: ${message}`);
+}
+
+function totalIndeterminateHits(result) {
+  return [...result.values()].reduce((count, locations) => count + locations.length, 0);
+}
+
+function runSelfTest() {
+  const field = "synthetic_duplicate";
+  const stages = new Map([[field, new Set(["case_details"])]]);
+  const answerNormalizationFile = path.join(root, "src/lib/rcap-engine/answer-normalization.ts");
+  const evaluatorFile = path.join(root, "src/lib/rcap-engine/evaluator.ts");
+  const syntheticFile = path.join(root, "src/lib/rcap-engine/synthetic-specific-read.ts");
+
+  const requiredMissingSource = `
+export function requiredMissingQuestionIds(profile, answers) {
+  return profile.questions
+    .filter((question) => question.required && question.contextOnly !== true)
+    .filter((question) => {
+      const value = answers[question.id];
+      if (value === undefined || value === null) return true;
+      if (Array.isArray(value)) return value.length === 0;
+      return String(value).trim() === "";
+    })
+    .map((question) => question.id);
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(answerNormalizationFile, requiredMissingSource, stages)) === 0,
+    "requiredMissingQuestionIds generic missingness pattern should be non-blocking"
+  );
+
+  const requiredMissingPublicSource = `
+export function requiredMissingPublicQuestionIds(publicProfile, answers) {
+  const publicIds = publicQuestionIdSet(publicProfile);
+  return publicProfile.questions
+    .filter((question) => publicIds.has(question.id))
+    .filter((question) => question.required && question.contextOnly !== true)
+    .filter((question) => !hasAnswer(answers[question.id]))
+    .map((question) => question.id);
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(answerNormalizationFile, requiredMissingPublicSource, stages)) === 0,
+    "requiredMissingPublicQuestionIds generic hasAnswer pattern should be non-blocking"
+  );
+
+  const evaluatorExcludedStageSource = `
+function ambiguityReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
+  const legalFields = profile.questions.filter((question) => question.contextOnly !== true && question.stage !== "case_details" && question.stage !== "record_readiness");
+  const ambiguous = legalFields.find((question) => isUnknownAnswer(answers[question.id]));
+  if (ambiguous) return reason("XX", "source_fact_unknown", ambiguous.id);
+  return undefined;
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(evaluatorFile, evaluatorExcludedStageSource, stages)) === 0,
+    "ambiguityReason TypeScript stage-excluded iteration should be non-blocking for excluded candidate stages"
+  );
+
+  const evaluatorNoExclusionSource = `
+function ambiguityReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
+  const legalFields = profile.questions.filter((question) => question.contextOnly !== true);
+  const ambiguous = legalFields.find((question) => isUnknownAnswer(answers[question.id]));
+  if (ambiguous) return reason("XX", "source_fact_unknown", ambiguous.id);
+  return undefined;
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(evaluatorFile, evaluatorNoExclusionSource, stages)) > 0,
+    "ambiguityReason TypeScript iteration without stage exclusion should remain indeterminate"
+  );
+
+  const directRead = scanBlockingReferences(syntheticFile, "const value = answers.synthetic_duplicate;", new Set([field]));
+  assertSelfTest(
+    (directRead.get(field) ?? []).length > 0,
+    "synthetic direct field read should remain code-referenced"
+  );
+
+  const includedStageSource = `
+function narrowedToCaseDetails(profile, answers) {
+  const caseFields = profile.questions.filter((question) => question.stage === "case_details");
+  return caseFields.some((question) => isUnknownAnswer(answers[question.id]));
+}
+`;
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(syntheticFile, includedStageSource, stages)) > 0,
+    "stage-narrowed iteration that includes the candidate stage should remain indeterminate"
+  );
+
+  const unresolvedDynamicSource = "function unresolved(answers, selectedQuestion) { return answers[selectedQuestion.id]; }";
+  assertSelfTest(
+    totalIndeterminateHits(scanIndeterminateWithStages(syntheticFile, unresolvedDynamicSource, stages)) > 0,
+    "unresolved computed answers key should remain fail-closed"
+  );
+
+  console.log("Verifier self-test passed.");
+  console.log("Resolved generic patterns are non-blocking; direct and unresolved dynamic reads still block.");
+  return 0;
+}
+
 function parseArgs(argv) {
   const args = [...argv];
-  const mode = args.includes("--json") ? "json" : args.includes("--check") ? "check" : "human";
+  const mode = args.includes("--self-test") ? "self-test" : args.includes("--json") ? "json" : args.includes("--check") ? "check" : "human";
   let checkFields = "";
   if (mode === "check") {
     const index = args.indexOf("--check");
     checkFields = args[index + 1] ?? "";
     args.splice(index, checkFields ? 2 : 1);
+  } else if (mode === "self-test") {
+    args.splice(args.indexOf("--self-test"), 1);
   }
   const profilesPath = args.find((arg) => !arg.startsWith("--")) ?? defaultProfilesPath;
   return {
@@ -631,6 +931,7 @@ function parseArgs(argv) {
 
 function main() {
   const { mode, checkFields, profilesPath } = parseArgs(process.argv.slice(2));
+  if (mode === "self-test") return runSelfTest();
   const profileRows = classifyAll(profilesPath);
   assertReferenceParity(profilesPath, profileRows);
   const rowsByState = applyCodeScan(profileRows);
