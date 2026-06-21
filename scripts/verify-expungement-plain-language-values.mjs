@@ -9,6 +9,7 @@ const aggregateFiles = [
   "src/lib/expungement-ai/frontend/profiles/all51.json"
 ];
 const failures = [];
+const baselineRef = resolveBaselineRef();
 
 const expectedPromptById = {
   jurisdiction_scope: (state) => `Did this case happen in ${state} (not a federal case)?`,
@@ -57,13 +58,30 @@ function readJson(file) {
   return JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
 }
 
-function readMainJson(file) {
-  const result = spawnSync("git", ["show", `main:${file}`], {
+function refExists(ref) {
+  const result = spawnSync("git", ["rev-parse", "--verify", "--quiet", ref], {
+    cwd: root,
+    encoding: "utf8"
+  });
+  return result.status === 0;
+}
+
+function resolveBaselineRef() {
+  const candidates = ["main", "origin/main"];
+  if (process.env.GITHUB_BASE_REF) candidates.push(`origin/${process.env.GITHUB_BASE_REF}`);
+  for (const candidate of candidates) {
+    if (refExists(candidate)) return candidate;
+  }
+  throw new Error(`could not resolve a baseline ref to compare against; tried ${candidates.join(", ")}`);
+}
+
+function readBaselineJson(file) {
+  const result = spawnSync("git", ["show", `${baselineRef}:${file}`], {
     cwd: root,
     encoding: "utf8",
     maxBuffer: 100 * 1024 * 1024
   });
-  if (result.status !== 0) throw new Error(`Unable to read ${file} from main:\n${result.stderr}`);
+  if (result.status !== 0) throw new Error(`Unable to read ${file} from ${baselineRef}:\n${result.stderr}`);
   return JSON.parse(result.stdout);
 }
 
@@ -119,13 +137,13 @@ function compareProfile(code, before, after) {
 const profileFiles = fs.readdirSync(path.join(root, profileRoot)).filter((file) => file.endsWith(".json")).sort();
 for (const file of profileFiles) {
   const current = readJson(`${profileRoot}/${file}`);
-  const baseline = readMainJson(`${profileRoot}/${file}`);
+  const baseline = readBaselineJson(`${profileRoot}/${file}`);
   compareProfile(current.jurisdiction.code, baseline, current);
 }
 
 for (const file of aggregateFiles) {
   const current = readJson(file);
-  const baseline = readMainJson(file);
+  const baseline = readBaselineJson(file);
   assert(stable(Object.keys(current).sort()) === stable(Object.keys(baseline).sort()), `${file} jurisdiction set changed.`);
   for (const code of Object.keys(current).sort()) compareProfile(`${file}:${code}`, baseline[code], current[code]);
 }
@@ -137,4 +155,5 @@ if (failures.length) {
 }
 
 console.log("Expungement plain-language value parity passed.");
+console.log(`Baseline ref: ${baselineRef}`);
 console.log("Option value arrays, question order, stages, required flags, and contextOnly flags match main.");
