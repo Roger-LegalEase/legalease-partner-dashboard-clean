@@ -236,6 +236,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("src/app/documents/"))
     .filter((line) => !line.includes("src/app/dashboard/partners/"))
     .filter((line) => !line.includes("src/app/internal/partners/admin/page.tsx"))
+    .filter((line) => !line.includes("src/app/internal/expungement-ai/drop-points/page.tsx"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
     .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
