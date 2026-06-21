@@ -46,7 +46,7 @@ const caseOutcomeDisplay = {
   "Other conviction or adjudication": ["Another kind of conviction", "other conviction or adjudication"],
   "Juvenile adjudication or offense committed as a minor": ["It happened when I was a minor", "juvenile adjudication or offense as a minor"],
   "Pardoned conviction": ["Pardoned", "pardoned conviction"],
-  "I am not sure": ["I'm not sure", "keep — and this is fine; Wilma and the tool can help"]
+  "I am not sure": ["I'm not sure", "That's okay — we'll help you figure it out"]
 };
 
 function assert(condition, message) {
