@@ -8,7 +8,10 @@ import { checkResumeRateLimit, resumeClientIp, resumeRateLimitPolicies } from "@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+export const resumeConfirmFailureFloorMs = 100;
+
 export async function POST(request: Request) {
+  const startedAt = Date.now();
   const requestId = getSafeRequestId(request);
   const supabase = getSupabaseAdminClient();
   const payload = await safeJson(request);
@@ -25,22 +28,35 @@ export async function POST(request: Request) {
   });
   if (!rateLimit.ok) {
     logSecurityWarn({ event: "screening_resume_confirm_rate_limited", route: "/api/expungement-ai/screening/resume/confirm", outcome: "rate_limited", requestId, metadata: { retry_after_seconds: rateLimit.retryAfterSeconds } });
-    return NextResponse.json(genericResumeFailureResponse(), { status: 200 });
+    return resumeConfirmFailure(startedAt);
   }
 
   if (!supabase) {
     logSecurityError({ event: "screening_resume_confirm_unavailable", route: "/api/expungement-ai/screening/resume/confirm", outcome: "supabase_not_configured", requestId });
-    return NextResponse.json(genericResumeFailureResponse(), { status: 200 });
+    return resumeConfirmFailure(startedAt);
   }
 
   try {
     const result = await confirmScreeningResume(new SupabaseScreeningResumeStorage(supabase), { token, email });
     logSecurityInfo({ event: "screening_resume_confirm_complete", route: "/api/expungement-ai/screening/resume/confirm", outcome: result.ok ? "ok" : "generic_failure", requestId });
+    if (!result.ok) return resumeConfirmFailure(startedAt);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     logSecurityError({ event: "screening_resume_confirm_failed", route: "/api/expungement-ai/screening/resume/confirm", outcome: "generic_failure", requestId, error });
-    return NextResponse.json(genericResumeFailureResponse(), { status: 200 });
+    return resumeConfirmFailure(startedAt);
   }
+}
+
+export async function waitForResumeConfirmFailureFloor(startedAt: number, now = Date.now) {
+  const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);
+  if (remainingMs > 0) {
+    await new Promise((resolve) => setTimeout(resolve, remainingMs));
+  }
+}
+
+async function resumeConfirmFailure(startedAt: number) {
+  await waitForResumeConfirmFailureFloor(startedAt);
+  return NextResponse.json(genericResumeFailureResponse(), { status: 200 });
 }
 
 async function safeJson(request: Request) {

@@ -35,6 +35,7 @@ try {
   await verifyExpiredAndFreshLink(db, storage);
   await verifyTokenRotation(db, storage);
   await verifyEnumerationResistance(storage);
+  verifyConfirmFailureTimingFloor();
   verifyDiscreetEmail();
   verifyConsentAndSingleSaveHook();
   await verifyNoForbiddenPersistence(db);
@@ -214,6 +215,23 @@ function verifyDiscreetEmail() {
   assert(rendered.subject === "Your saved progress", "Unexpected discreet email subject.");
   assert(combined.includes("expires in 7 days"), "Discreet email must include expiry.");
   assert(combined.includes("if you did not request this"), "Discreet email must include ignore-if-not-requested copy.");
+}
+
+function verifyConfirmFailureTimingFloor() {
+  const route = read("src/app/api/expungement-ai/screening/resume/confirm/route.ts");
+  assert(route.includes("export const resumeConfirmFailureFloorMs = 100"), "Confirm failure floor must be 100ms.");
+  assert(route.includes("const startedAt = Date.now();"), "Confirm route must record request start before work.");
+  assert(route.includes("resumeConfirmFailure(startedAt);"), "Confirm route must return generic failures through the floor helper.");
+  assert(route.includes("const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);"), "Confirm floor must use elapsed time.");
+  assert(route.includes("if (remainingMs > 0)"), "Confirm floor must wait only for remaining time.");
+  assert(!route.includes("await sleep(100)") && !route.includes("setTimeout(resolve, resumeConfirmFailureFloorMs)"), "Confirm floor must not use an additive fixed delay.");
+
+  const genericDirectReturns = route
+    .split(/\r?\n/)
+    .filter((line) => line.includes("NextResponse.json(genericResumeFailureResponse()"));
+  assert(genericDirectReturns.length === 1, "Generic failure response must be emitted in exactly one place.");
+  assert(route.indexOf("async function resumeConfirmFailure") < route.indexOf("NextResponse.json(genericResumeFailureResponse()"), "Generic failure response must be emitted by the floor helper.");
+  assert(route.includes("if (!result.ok) return resumeConfirmFailure(startedAt);"), "Service generic failures must pass through the floor.");
 }
 
 function verifyConsentAndSingleSaveHook() {
