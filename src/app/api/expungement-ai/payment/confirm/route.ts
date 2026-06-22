@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { getConsumerCheckoutStatus, recordConsumerPaymentConfirmation } from "@/lib/expungement-ai/payment-adapter";
 
 export const runtime = "nodejs";
@@ -19,6 +19,9 @@ export async function POST(request: NextRequest) {
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
   if (!item) {
     return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+  }
+  if (await isPartnerSponsoredPacketItem(item)) {
+    return NextResponse.json({ error: "Payment confirmation is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }
 
   const status = await getConsumerCheckoutStatus({ item, checkoutSessionId });

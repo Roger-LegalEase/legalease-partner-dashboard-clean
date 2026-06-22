@@ -128,6 +128,21 @@ export async function getBriefcaseItemForWebhook(userId: string, itemId: string)
   return rowToBriefcaseItem(data);
 }
 
+export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem): Promise<boolean> {
+  if (!item.sourceSessionId) return false;
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+
+  const { data, error } = await supabase
+    .from("screening_sessions")
+    .select("session_id")
+    .eq("session_id", item.sourceSessionId)
+    .eq("flow_mode", "rcap")
+    .maybeSingle<{ session_id: string }>();
+
+  return !error && Boolean(data?.session_id);
+}
+
 export async function updateBriefcaseItemStatus(
   userId: string,
   itemId: string,

@@ -42,7 +42,7 @@ import {
 } from "@/components/expungement-ai/screening/ScreeningResult";
 
 const PICKER_PATH = "/expungement-ai/screening";
-const PACKET_PATH = "/expungement-ai/pay";
+const PACKET_PATH = "/expungement-ai/packet-ready";
 
 type LoadState =
   | { status: "loading" }
