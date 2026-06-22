@@ -6,6 +6,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -155,16 +156,14 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("src/app/internal/expungement-ai/drop-points/page.tsx"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
-    .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
-    .filter((line) => !line.includes("supabase/phase-27-consumer-checkout-metadata.sql"))
-    .filter((line) => !line.includes("supabase/phase-28-consumer-packet-generation-status.sql"))
-    .filter((line) => !line.includes("supabase/phase-29-consumer-wilma-telemetry.sql"))
-    .filter((line) => !line.includes("supabase/phase-31-legalease-os-support-queue.sql"))
-    .filter((line) => !line.includes("supabase/phase-32-expungement-screening-sessions.sql"))
-    .filter((line) => !line.includes("supabase/phase-33-expungement-screening-resume-links.sql"))
-    .filter((line) => !line.includes("supabase/phase-34-expungement-screening-drop-point-nudges.sql"))
+    .filter((line) => !isReviewedExpungementScopeLine(line))
     .join("\n");
   assert.equal(liveRouteStatus.trim(), "");
+}
+
+function isReviewedExpungementScopeLine(line) {
+  const changedPath = line.slice(3).trim();
+  return REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES.includes(changedPath);
 }
 
 function assertNoRawPdfsCommitted() {

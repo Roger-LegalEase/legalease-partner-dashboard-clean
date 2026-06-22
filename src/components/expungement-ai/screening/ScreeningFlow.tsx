@@ -60,7 +60,20 @@ function createMatterId(): string {
   return `matter-${Date.now().toString(36)}`;
 }
 
-export function ScreeningFlow({ state }: { state: string }) {
+async function markScreeningSessionCompleted(sessionId: string | undefined) {
+  if (!sessionId) return;
+  try {
+    await fetch("/api/expungement-ai/screening/complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId })
+    });
+  } catch {
+    // Completion marking is best-effort; the screening result must not fail because telemetry failed.
+  }
+}
+
+export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,7 +82,7 @@ export function ScreeningFlow({ state }: { state: string }) {
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
-  const [sessionId, setSessionId] = useState<string | undefined>();
+  const [sessionId, setSessionId] = useState<string | undefined>(initialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
@@ -163,6 +176,7 @@ export function ScreeningFlow({ state }: { state: string }) {
       answers: toScreeningAnswers(answers)
     });
     if (result.ok) {
+      void markScreeningSessionCompleted(sessionId);
       setEvaluation(result.data);
       setPhase("result");
     } else {
