@@ -24,6 +24,24 @@ export type NudgeWindowEventPayload = {
   idempotency_key: string;
 };
 
+export type PartnerUsageWindowEventMetrics = {
+  partner_slug: string;
+  screenings_allowed: number;
+  screenings_used: number;
+  at_capacity: boolean;
+  period_label?: string;
+};
+
+export type PartnerUsageWindowEventPayload = {
+  eventType: "partner_usage_window";
+  product: "expungement_ai";
+  state: "ALL";
+  source: "partner_entitlement";
+  timestamp: string;
+  metadata: PartnerUsageWindowEventMetrics;
+  idempotency_key: string;
+};
+
 export type NudgeWindowEventResult = {
   enabled: boolean;
   sent: boolean;
@@ -37,6 +55,9 @@ export type NudgeWindowEventOptions = {
   fetcher?: typeof fetch;
   now?: () => Date;
 };
+
+export type PartnerUsageWindowEventResult = NudgeWindowEventResult;
+export type PartnerUsageWindowEventOptions = NudgeWindowEventOptions;
 
 export async function emitNudgeWindowEvent(
   metrics: NudgeWindowEventMetrics,
@@ -60,6 +81,60 @@ export async function emitNudgeWindowEvent(
 
   try {
     const payload = buildNudgeWindowEventPayload(metrics, {
+      idempotencyKey,
+      now: options.now
+    });
+    const body = JSON.stringify(payload);
+    const timestamp = (options.now?.() ?? new Date()).toISOString();
+    const signature = createHmac("sha256", configEnv.LEGALEASE_OS_EVENTS_SECRET)
+      .update(`${timestamp}.${body}`)
+      .digest("hex");
+
+    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_EVENTS_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-legalease-os-timestamp": timestamp,
+        "x-legalease-os-signature": `sha256=${signature}`,
+        "x-idempotency-key": payload.idempotency_key
+      },
+      body
+    });
+
+    return {
+      enabled: true,
+      sent: response.ok,
+      skipped_reason: response.ok ? undefined : "send_failed",
+      idempotency_key: payload.idempotency_key,
+      status: response.status
+    };
+  } catch {
+    return { enabled: true, sent: false, skipped_reason: "send_failed", idempotency_key: idempotencyKey };
+  }
+}
+
+export async function emitPartnerUsageWindowEvent(
+  metrics: PartnerUsageWindowEventMetrics,
+  options: PartnerUsageWindowEventOptions = {}
+): Promise<PartnerUsageWindowEventResult> {
+  const configEnv = options.configEnv ?? process.env;
+  const enabled = configEnv.LEGALEASE_OS_EVENTS_ENABLED === "true";
+  const idempotencyKey = partnerUsageWindowIdempotencyKey(metrics);
+
+  if (!enabled) {
+    return { enabled: false, sent: false, skipped_reason: "disabled", idempotency_key: idempotencyKey };
+  }
+
+  if (!configEnv.LEGALEASE_OS_EVENTS_ENDPOINT) {
+    return { enabled: true, sent: false, skipped_reason: "missing_endpoint", idempotency_key: idempotencyKey };
+  }
+
+  if (!configEnv.LEGALEASE_OS_EVENTS_SECRET) {
+    return { enabled: true, sent: false, skipped_reason: "missing_secret", idempotency_key: idempotencyKey };
+  }
+
+  try {
+    const payload = buildPartnerUsageWindowEventPayload(metrics, {
       idempotencyKey,
       now: options.now
     });
@@ -116,8 +191,54 @@ export function buildNudgeWindowEventPayload(
   };
 }
 
+export function buildPartnerUsageWindowEventPayload(
+  metrics: PartnerUsageWindowEventMetrics,
+  options: { idempotencyKey?: string; now?: () => Date } = {}
+): PartnerUsageWindowEventPayload {
+  const screeningsAllowed = safeCount(metrics.screenings_allowed);
+  const screeningsUsed = safeCount(metrics.screenings_used);
+  const metadata: PartnerUsageWindowEventMetrics = {
+    partner_slug: safeSlug(metrics.partner_slug),
+    screenings_allowed: screeningsAllowed,
+    screenings_used: screeningsUsed,
+    at_capacity: screeningsUsed >= screeningsAllowed
+  };
+  if (metrics.period_label) metadata.period_label = metrics.period_label;
+
+  return {
+    eventType: "partner_usage_window",
+    product: "expungement_ai",
+    state: "ALL",
+    source: "partner_entitlement",
+    timestamp: (options.now?.() ?? new Date()).toISOString(),
+    metadata,
+    idempotency_key: options.idempotencyKey ?? partnerUsageWindowIdempotencyKey(metadata)
+  };
+}
+
 function nudgeWindowIdempotencyKey(windowEnd: string) {
   return `leos-${createHash("sha256").update(`screening_nudge_window:${windowEnd}`).digest("hex").slice(0, 32)}`;
+}
+
+function partnerUsageWindowIdempotencyKey(metrics: PartnerUsageWindowEventMetrics) {
+  const basis = [
+    "partner_usage_window",
+    safeSlug(metrics.partner_slug),
+    metrics.period_label ?? "current",
+    safeCount(metrics.screenings_used),
+    safeCount(metrics.screenings_allowed)
+  ].join(":");
+  return `leos-${createHash("sha256").update(basis).digest("hex").slice(0, 32)}`;
+}
+
+function safeSlug(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 function safeCount(value: number) {

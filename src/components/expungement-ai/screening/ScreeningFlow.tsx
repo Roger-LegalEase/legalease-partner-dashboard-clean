@@ -60,6 +60,19 @@ function createMatterId(): string {
   return `matter-${Date.now().toString(36)}`;
 }
 
+async function markScreeningSessionCompleted(sessionId: string | undefined) {
+  if (!sessionId) return;
+  try {
+    await fetch("/api/expungement-ai/screening/complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId })
+    });
+  } catch {
+    // Completion marking is best-effort; the screening result must not fail because telemetry failed.
+  }
+}
+
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
@@ -163,6 +176,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       answers: toScreeningAnswers(answers)
     });
     if (result.ok) {
+      void markScreeningSessionCompleted(sessionId);
       setEvaluation(result.data);
       setPhase("result");
     } else {

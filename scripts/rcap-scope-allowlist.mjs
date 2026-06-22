@@ -37,13 +37,17 @@ export const SCREENING_DROP_POINT_NUDGE_FILES = [
 ];
 
 export const RCAP_PARTNER_MODE_FILES = [
+  "src/app/api/expungement-ai/screening/complete/route.ts",
   "src/app/intake/[partnerSlug]/page.tsx",
   "src/app/expungement-ai/screening/[state]/page.tsx",
   "src/components/expungement-ai/screening/ScreeningFlow.tsx",
   "src/lib/expungement-ai/rcap-partner-intake.ts",
+  "src/lib/expungement-ai/rcap-slot-lifecycle.ts",
+  "src/lib/expungement-ai/nudge-os-events.ts",
   "supabase/phase-35-rcap-partner-entitlement.sql",
   "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
-  "supabase/phase-35c-rcap-claim-screening-session.sql"
+  "supabase/phase-35c-rcap-claim-screening-session.sql",
+  "supabase/phase-35d-rcap-slot-lifecycle.sql"
 ];
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
