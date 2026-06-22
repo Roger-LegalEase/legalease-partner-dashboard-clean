@@ -203,6 +203,11 @@ function fakeSupabase({ writes, stores }) {
     from(table) {
       const state = { table, selected: false, eqColumn: null, eqValue: null };
       return {
+        insert(row) {
+          writes.push({ table, operation: "insert", row });
+          stores.set(`${table}:${row.id ?? crypto.randomUUID()}`, row);
+          return Promise.resolve({ error: null });
+        },
         upsert(row, options) {
           writes.push({ table, operation: "upsert", row, options });
           const key = table === "rcap_document_packet_inputs" ? row.document_packet_id : row.id ?? row.document_packet_id;

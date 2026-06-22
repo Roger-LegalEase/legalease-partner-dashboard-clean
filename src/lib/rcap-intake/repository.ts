@@ -38,6 +38,16 @@ type RcapSessionRow = {
   completed_at: string | null;
 };
 
+type RcapAuditEventInput = {
+  recordId: string;
+  partnerSlug: string;
+  partnerId?: string | null;
+  eventType: "created" | "status_changed" | "completed";
+  fromStatus?: string | null;
+  toStatus?: string | null;
+  metadata?: Record<string, string | boolean | null>;
+};
+
 export type RcapIntakeActivitySummary = {
   totalSessions: number;
   completedSessions: number;
@@ -107,6 +117,21 @@ export async function startRcapIntakeSession({
     if (error || !data) {
       return { ok: false, error: error?.message ?? "Unable to start intake session." };
     }
+
+    const eventError = await writeRcapIntakeAuditEvent(supabase, {
+      recordId: data.id,
+      partnerSlug,
+      partnerId: partner.partnerId,
+      eventType: "created",
+      toStatus: "started",
+      metadata: {
+        to_step: "understand_goal",
+        state: partner.targetState ?? partner.state ?? null,
+        county: partner.targetCounty ?? null,
+        source: "rcap_intake_repository"
+      }
+    });
+    if (eventError) return { ok: false, error: eventError };
 
     return { ok: true, persisted: true, session: mapSessionRow(data as RcapSessionRow) };
   } catch (error) {
@@ -178,7 +203,29 @@ export async function respondToRcapIntake(
       return { ok: false, error: error?.message ?? "Unable to save intake response." };
     }
 
-    return { ok: true, persisted: true, session: mapSessionRow(data as RcapSessionRow) };
+    const savedSession = mapSessionRow(data as RcapSessionRow);
+    const statusChanged = session.status !== savedSession.status;
+    const stepChanged = session.currentStep !== savedSession.currentStep;
+    if (statusChanged || stepChanged) {
+      const eventError = await writeRcapIntakeAuditEvent(supabase, {
+        recordId: savedSession.id,
+        partnerSlug: savedSession.partnerSlug,
+        partnerId: savedSession.partnerId,
+        eventType: "status_changed",
+        fromStatus: session.status,
+        toStatus: savedSession.status,
+        metadata: {
+          from_step: session.currentStep,
+          to_step: savedSession.currentStep,
+          state: savedSession.state ?? null,
+          county: savedSession.county ?? null,
+          source: "rcap_intake_repository"
+        }
+      });
+      if (eventError) return { ok: false, error: eventError };
+    }
+
+    return { ok: true, persisted: true, session: savedSession };
   } catch (error) {
     return { ok: false, error: getErrorMessage(error) };
   }
@@ -239,7 +286,30 @@ export async function completeRcapIntakeSession(
       return { ok: false, error: error?.message ?? "Unable to complete intake session." };
     }
 
-    return { ok: true, persisted: true, summary, session: mapSessionRow(data as RcapSessionRow) };
+    const savedSession = mapSessionRow(data as RcapSessionRow);
+    const statusChanged = session.status !== savedSession.status;
+    const stepChanged = session.currentStep !== savedSession.currentStep;
+    if (statusChanged || stepChanged) {
+      const eventError = await writeRcapIntakeAuditEvent(supabase, {
+        recordId: savedSession.id,
+        partnerSlug: savedSession.partnerSlug,
+        partnerId: savedSession.partnerId,
+        eventType: "completed",
+        fromStatus: session.status,
+        toStatus: savedSession.status,
+        metadata: {
+          from_step: session.currentStep,
+          to_step: savedSession.currentStep,
+          state: savedSession.state ?? null,
+          county: savedSession.county ?? null,
+          eligibility_signal: savedSession.eligibilitySignal ?? null,
+          source: "rcap_intake_repository"
+        }
+      });
+      if (eventError) return { ok: false, error: eventError };
+    }
+
+    return { ok: true, persisted: true, summary, session: savedSession };
   } catch (error) {
     return { ok: false, error: getErrorMessage(error) };
   }
@@ -395,6 +465,22 @@ function safeJsonValue(value: unknown): unknown {
   }
 
   return null;
+}
+
+async function writeRcapIntakeAuditEvent(supabase: ReturnType<typeof getSupabaseAdminClient>, event: RcapAuditEventInput): Promise<string | null> {
+  if (!supabase) return "Supabase is not configured.";
+  const { error } = await supabase.from("rcap_record_events").insert({
+    record_type: "intake_session",
+    record_id: event.recordId,
+    partner_slug: event.partnerSlug,
+    partner_id: event.partnerId ?? null,
+    event_type: event.eventType,
+    from_status: event.fromStatus ?? null,
+    to_status: event.toStatus ?? null,
+    actor: "system",
+    metadata: event.metadata ?? null
+  });
+  return error?.message ?? null;
 }
 
 function mapSessionRow(row: RcapSessionRow): RcapIntakeSession {

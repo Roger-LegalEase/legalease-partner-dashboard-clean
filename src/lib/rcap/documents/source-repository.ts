@@ -17,6 +17,9 @@ const packets = new Map<string, RcapDocumentPacket>();
 let fallbackWarningLogged = false;
 
 type PacketResult = Promise<{ ok: true; packet: RcapDocumentPacket; persisted: boolean } | { ok: false; error: string }>;
+type PacketAuditEvent =
+  | { eventType: "created"; fromStatus?: null; toStatus: RcapDocumentPacket["status"] }
+  | { eventType: "status_changed"; fromStatus: RcapDocumentPacket["status"]; toStatus: RcapDocumentPacket["status"] };
 
 export async function createMississippiDocumentPacket(input: MississippiDocumentPacketInput): PacketResult {
   return createSourceDocumentPacket({ ...input, state: "MS" });
@@ -85,7 +88,10 @@ async function createSourceDocumentPacket(input: SourceDocumentPacketInput): Pac
   if (!input.partnerSlug) return { ok: false, error: "A partner slug is required." };
   const packet = packetFromInput(input);
   packets.set(packet.id, packet);
-  const persisted = await persistOrFallback(packet, input);
+  const persisted = await persistOrFallback(packet, input, {
+    eventType: "created",
+    toStatus: packet.status
+  });
   if (!persisted.ok) return persisted;
   return { ok: true, packet, persisted: persisted.persisted };
 }
@@ -99,7 +105,11 @@ async function generateSavedSourceDocumentPacket(packetId: string): PacketResult
     completedAt: new Date().toISOString()
   };
   packets.set(packetId, generated);
-  const persisted = await persistOrFallback(generated);
+  const persisted = await persistOrFallback(generated, undefined, {
+    eventType: "status_changed",
+    fromStatus: packet.status,
+    toStatus: generated.status
+  });
   if (!persisted.ok) return persisted;
   return { ok: true, packet: generated, persisted: persisted.persisted };
 }
@@ -115,14 +125,25 @@ async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<S
   });
   packets.set(packetId, { ...updated, id: packetId });
   const savedPacket = packets.get(packetId) as RcapDocumentPacket;
-  const persisted = await persistOrFallback(savedPacket, input);
+  const persisted = await persistOrFallback(
+    savedPacket,
+    input,
+    packet.status === savedPacket.status
+      ? undefined
+      : {
+          eventType: "status_changed",
+          fromStatus: packet.status,
+          toStatus: savedPacket.status
+        }
+  );
   if (!persisted.ok) return persisted;
   return { ok: true, packet: savedPacket, persisted: persisted.persisted };
 }
 
 async function persistOrFallback(
   packet: RcapDocumentPacket,
-  inputPayload?: Partial<SourceDocumentPacketInput>
+  inputPayload?: Partial<SourceDocumentPacketInput>,
+  auditEvent?: PacketAuditEvent
 ): Promise<{ ok: true; persisted: boolean } | { ok: false; error: string }> {
   const mode = await sourcePacketPersistenceMode();
   if (mode.kind === "blocked") return { ok: false, error: mode.error };
@@ -138,6 +159,11 @@ async function persistOrFallback(
     .from("rcap_document_packets")
     .upsert(packetRow(packet), { onConflict: "id" });
   if (packetError) return { ok: false, error: packetError.message };
+
+  if (auditEvent) {
+    const { error: eventError } = await supabase.from("rcap_record_events").insert(packetAuditEventRow(packet, auditEvent));
+    if (eventError) return { ok: false, error: eventError.message };
+  }
 
   if (inputPayload) {
     const { error: inputError } = await supabase
@@ -314,6 +340,27 @@ function briefcaseItemRow(packet: RcapDocumentPacket) {
     document_type: packet.documentType ?? null,
     last_opened_at: null,
     updated_at: packet.updatedAt ?? new Date().toISOString()
+  };
+}
+
+function packetAuditEventRow(packet: RcapDocumentPacket, event: PacketAuditEvent) {
+  return {
+    record_type: "document_packet",
+    record_id: packet.id,
+    partner_slug: packet.partnerSlug,
+    partner_id: null,
+    event_type: event.eventType,
+    from_status: event.fromStatus ?? null,
+    to_status: event.toStatus,
+    actor: "system",
+    metadata: {
+      state: packet.state,
+      county: packet.county ?? null,
+      document_type: packet.documentType ?? null,
+      pathway: packet.pathway,
+      has_briefcase_item: Boolean(packet.briefcaseId),
+      source: "rcap_document_packet_repository"
+    }
   };
 }
 
