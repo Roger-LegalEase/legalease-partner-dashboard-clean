@@ -215,7 +215,9 @@ function verifyScopeGuardAllowlist() {
   assert(allowlist.includes("src/app/api/expungement-ai/screening/nudge/opt-out/route.ts"), "Nudge opt-out route not centralized in scope allowlist.");
   assert(allowlist.includes("supabase/phase-34-expungement-screening-drop-point-nudges.sql"), "Nudge migration not centralized in scope allowlist.");
   for (const verifier of ["scripts/test-inspect-local-record-clearing-pdfs.mjs", "scripts/test-nebraska-record-clearing-shadow.mjs"]) {
-    assert(read(verifier).includes("supabase/phase-34-expungement-screening-drop-point-nudges.sql"), `${verifier} missing exact phase-34 status exception.`);
+    const source = read(verifier);
+    assert(source.includes("REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES"), `${verifier} must use the centralized expungement scope allowlist.`);
+    assert(source.includes("isReviewedExpungementScopeLine"), `${verifier} must filter reviewed expungement scope through the centralized allowlist.`);
   }
 }
 
