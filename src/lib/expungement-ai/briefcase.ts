@@ -138,6 +138,7 @@ export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem):
     .select("session_id")
     .eq("session_id", item.sourceSessionId)
     .eq("flow_mode", "rcap")
+    .not("partner_slug", "is", null)
     .maybeSingle<{ session_id: string }>();
 
   return !error && Boolean(data?.session_id);

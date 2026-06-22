@@ -4,6 +4,8 @@ export const SHARED_SCOPE_GUARD_ENV_FILES = [
 
 export const SHARED_PAYMENT_FILES = [
   "src/app/api/expungement-ai/checkout/route.ts",
+  "src/app/api/expungement-ai/checkout/status/route.ts",
+  "src/app/api/expungement-ai/payment/confirm/route.ts",
   "src/app/api/stripe/webhook/route.ts",
   "src/lib/stripe/server.ts",
   "src/lib/expungement-ai/briefcase.ts",
@@ -38,6 +40,7 @@ export const SCREENING_DROP_POINT_NUDGE_FILES = [
 
 export const RCAP_PARTNER_MODE_FILES = [
   "src/app/api/expungement-ai/screening/complete/route.ts",
+  "src/app/expungement-ai/packet-ready/page.tsx",
   "src/app/intake/[partnerSlug]/page.tsx",
   "src/app/expungement-ai/screening/[state]/page.tsx",
   "src/components/expungement-ai/screening/ScreeningFlow.tsx",
