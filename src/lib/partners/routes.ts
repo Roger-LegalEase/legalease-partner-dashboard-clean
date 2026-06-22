@@ -56,6 +56,10 @@ export function internalAdminActionApi() {
   return "/api/internal/partners/admin-action";
 }
 
+export function internalRcapAllowanceApi() {
+  return "/api/internal/partners/rcap-allowance";
+}
+
 export function internalAdminEmails(slug: string) {
   return `/internal/partners/admin/${slug}/emails`;
 }

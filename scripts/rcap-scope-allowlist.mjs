@@ -14,6 +14,14 @@ export const SHARED_PAYMENT_FILES = [
   "src/lib/expungement-ai/payment-adapter.ts"
 ];
 
+export const INTERNAL_RCAP_ALLOWANCE_FILES = [
+  "src/app/api/internal/partners/rcap-allowance/route.ts",
+  "src/app/internal/partners/admin/[partnerSlug]/RcapAllowanceControl.tsx",
+  "src/app/internal/partners/admin/[partnerSlug]/page.tsx",
+  "src/lib/expungement-ai/rcap-entitlement-admin.ts",
+  "src/lib/partners/routes.ts"
+];
+
 export const SCREENING_RESUME_FILES = [
   "src/app/api/expungement-ai/screening/save-resume/route.ts",
   "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
@@ -56,6 +64,7 @@ export const RCAP_PARTNER_MODE_FILES = [
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
+  ...INTERNAL_RCAP_ALLOWANCE_FILES,
   ...EXPUNGEMENT_DATA_LAYER_FILES,
   ...SCREENING_RESUME_FILES,
   ...SCREENING_DROP_POINT_NUDGE_FILES,
