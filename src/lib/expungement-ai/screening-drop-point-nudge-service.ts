@@ -13,6 +13,8 @@ import {
   sendScreeningDropPointNudgeEmail,
   type ScreeningDropPointNudgeTouch
 } from "@/lib/expungement-ai/screening-drop-point-nudge-email";
+import { emitNudgeWindowEvent, type NudgeWindowEventMetrics } from "@/lib/expungement-ai/nudge-os-events";
+import { logSecurityWarn } from "@/lib/observability/logger";
 
 export type ScreeningNudgeStatus = "in_progress" | "resumed" | "completed" | "abandoned";
 
@@ -81,9 +83,14 @@ export async function sendDueScreeningDropPointNudges({
   limit?: number;
 }): Promise<SendDueNudgesResult> {
   const result: SendDueNudgesResult = { considered: 0, sent: 0, skipped: 0, failures: 0 };
+  const windowEnd = new Date(now).toISOString();
+  const runRows: ScreeningNudgeRow[] = [];
+  let touch1Sent = 0;
+  let touch2Sent = 0;
 
   for (const touch of [1, 2] as const) {
     const candidates = await storage.listDueNudgeCandidates({ touch, now: new Date(now).toISOString(), limit });
+    runRows.push(...candidates);
     for (const candidate of candidates) {
       result.considered += 1;
       if (!isInsideNudgeSendWindow(candidate.jurisdiction, now)) {
@@ -91,11 +98,22 @@ export async function sendDueScreeningDropPointNudges({
         continue;
       }
       const sent = await sendScreeningDropPointNudge(storage, candidate.session_id, touch, now);
-      if (sent === "sent") result.sent += 1;
+      if (sent === "sent") {
+        result.sent += 1;
+        if (touch === 1) touch1Sent += 1;
+        if (touch === 2) touch2Sent += 1;
+      }
       if (sent === "skipped") result.skipped += 1;
       if (sent === "failed") result.failures += 1;
     }
   }
+
+  await emitNudgeWindowEventAfterRun(buildNudgeWindowMetricsForRun({
+    rows: runRows,
+    touch1Sent,
+    touch2Sent,
+    windowEnd
+  }));
 
   return result;
 }
@@ -176,6 +194,60 @@ export function nudgeRecordShieldAggregate(rows: ScreeningNudgeRow[]) {
     touch2_returned_count: touch2ReturnedRows.length,
     touch2_returned_rate: touch2Rows.length === 0 ? 0 : touch2ReturnedRows.length / touch2Rows.length
   };
+}
+
+export function buildNudgeWindowMetricsForRun({
+  rows,
+  touch1Sent,
+  touch2Sent,
+  windowEnd
+}: {
+  rows: ScreeningNudgeRow[];
+  touch1Sent: number;
+  touch2Sent: number;
+  windowEnd: string;
+}): NudgeWindowEventMetrics {
+  const aggregate = nudgeRecordShieldAggregate(rows);
+  const sentTotal = touch1Sent + touch2Sent;
+  return {
+    window_start: windowStartForRun(rows, windowEnd),
+    window_end: windowEnd,
+    dark_session_count: aggregate.saved_dark_count,
+    touch_1_sent: touch1Sent,
+    touch_2_sent: touch2Sent,
+    return_rate: aggregate.saved_dark_count === 0 ? 0 : sentTotal / aggregate.saved_dark_count,
+    touch_2_return_rate: aggregate.touch2_returned_rate,
+    record_readiness_dark_driver_rate: aggregate.record_readiness_dark_rate
+  };
+}
+
+async function emitNudgeWindowEventAfterRun(metrics: NudgeWindowEventMetrics) {
+  try {
+    const emitted = await emitNudgeWindowEvent(metrics);
+    if (!emitted.sent && emitted.skipped_reason !== "disabled") {
+      logSecurityWarn({
+        event: "screening_nudge_window_event_not_sent",
+        route: "sendDueScreeningDropPointNudges",
+        outcome: emitted.skipped_reason ?? "unknown"
+      });
+    }
+  } catch (error) {
+    logSecurityWarn({
+      event: "screening_nudge_window_event_failed",
+      route: "sendDueScreeningDropPointNudges",
+      outcome: "non_blocking_failure",
+      error
+    });
+  }
+}
+
+function windowStartForRun(rows: ScreeningNudgeRow[], fallback: string) {
+  let earliest = Number.POSITIVE_INFINITY;
+  for (const row of rows) {
+    const value = row.resume_sent_at ? Date.parse(row.resume_sent_at) : NaN;
+    if (Number.isFinite(value) && value < earliest) earliest = value;
+  }
+  return Number.isFinite(earliest) ? new Date(earliest).toISOString() : fallback;
 }
 
 export async function optOutScreeningDropPointNudges(storage: ScreeningNudgeStorage, rawToken: string, now = Date.now()) {

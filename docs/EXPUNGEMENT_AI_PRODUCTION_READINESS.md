@@ -18,6 +18,16 @@ Expungement.ai includes a public contact page and a technical support request wo
 
 Live email sending is not configured in this launch-polish patch. Local development can return a clearly marked dryRun response if LegalEase OS persistence is unavailable, but production must not return success unless the request is persisted or enqueued to LegalEase OS.
 
+## LegalEase OS product-event env
+
+Expungement.ai product events use the server-only LegalEase OS event producer. Deploy environments that should emit product events must configure:
+
+- `LEGALEASE_OS_EVENTS_ENABLED=true`
+- `LEGALEASE_OS_EVENTS_ENDPOINT` with the LegalEase OS product event intake URL, such as `/api/events/product`
+- `LEGALEASE_OS_EVENTS_SECRET` with the shared HMAC secret for that intake
+
+Do not expose these through `NEXT_PUBLIC_` variables, and do not commit real secret values. The drop-point nudge `screening_nudge_window` event uses the same endpoint, secret, and signing contract as the existing Expungement.ai product events. The OS side must accept the `screening_nudge_window` event type before those aggregate nudge events will be accepted.
+
 ## Support and correspondence routing
 
 All support/contact submissions must create LegalEase OS support items.
