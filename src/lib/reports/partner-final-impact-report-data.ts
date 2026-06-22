@@ -13,6 +13,8 @@ export type FinalImpactReportRequestContext = {
   partnerName: string;
   dateRange?: string;
   state?: string;
+  actualReliefDeliveredPackets?: number;
+  reliefOutcomeBreakdown?: Record<string, number>;
 };
 
 export type FinalImpactMetric = {
@@ -55,6 +57,7 @@ export type FinalImpactReportData = {
     packetReady: number;
     filedMatters: number;
     outcomesAvailable: number;
+    actualReliefDelivered: number;
     outcomesPending: number;
     pageVisits: number;
     intakeStarts: number;
@@ -99,6 +102,7 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
   const outcomesAvailable = context.state && context.state !== "All States"
     ? Math.min(filedMatters, Math.round(filedMatters * 0.41))
     : kpis.outcomesAvailable;
+  const actualReliefDelivered = context.actualReliefDeliveredPackets ?? 0;
   const outcomesPending = Math.max(filedMatters - outcomesAvailable, 0);
   const pageVisits = Math.max(referrals, Math.round(referrals * 1.72));
   const intakeStarts = Math.max(screenings, Math.round(referrals * 0.87));
@@ -120,6 +124,7 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
     packetReady,
     filedMatters,
     outcomesAvailable,
+    actualReliefDelivered,
     outcomesPending,
     pageVisits,
     intakeStarts,
@@ -141,7 +146,7 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
       { label: "Likely Eligible", value: likelyEligible, note: "Screening result, not a legal determination" },
       { label: "Product Starts", value: productStartTotal, note: "RecordShield and Expungement.ai starts" },
       { label: "Packets Completed", value: packetReady, note: "Paperwork ready for filing or review" },
-      { label: "Filed Matters", value: filedMatters, note: "Filed where available" }
+      { label: "Relief Delivered", value: actualReliefDelivered, note: "Granted or partially granted outcomes" }
     ],
     funnel: buildFunnel(metrics),
     metricRows: buildMetricRows(metrics),
@@ -173,7 +178,7 @@ function buildFunnel(metrics: FinalImpactReportData["metrics"]): FinalImpactFunn
     { label: "Packets started", count: metrics.packetStarted, color: "green" as const },
     { label: "Packets completed", count: metrics.packetReady, color: "amber" as const },
     { label: "Filed matters", count: metrics.filedMatters, color: "orange" as const },
-    { label: "Outcomes available", count: metrics.outcomesAvailable, color: "orange" as const }
+    { label: "Relief delivered", count: metrics.actualReliefDelivered, color: "orange" as const }
   ];
 
   return stages.map((stage, index) => {
@@ -199,7 +204,8 @@ function buildMetricRows(metrics: FinalImpactReportData["metrics"]): FinalImpact
     { label: "Packets started", count: metrics.packetStarted, conversion: `${percent(metrics.packetStarted, metrics.productStarts)}% of starts` },
     { label: "Packets completed", count: metrics.packetReady, conversion: `${percent(metrics.packetReady, metrics.packetStarted)}% of started` },
     { label: "Filed matters", count: metrics.filedMatters, conversion: `${percent(metrics.filedMatters, metrics.packetReady)}% of packets` },
-    { label: "Outcomes available", count: metrics.outcomesAvailable, conversion: `${percent(metrics.outcomesAvailable, metrics.filedMatters)}% of filed` }
+    { label: "Outcomes available", count: metrics.outcomesAvailable, conversion: `${percent(metrics.outcomesAvailable, metrics.filedMatters)}% of filed` },
+    { label: "Actual relief delivered", count: metrics.actualReliefDelivered, conversion: `${percent(metrics.actualReliefDelivered, metrics.filedMatters)}% of filed` }
   ];
 }
 
@@ -217,6 +223,7 @@ function buildOutcomeRows(metrics: FinalImpactReportData["metrics"]): FinalImpac
   const courtUpdate = Math.round(metrics.outcomesAvailable * 0.72);
   const needsFollowUp = Math.max(metrics.outcomesAvailable - courtUpdate, 0);
   return [
+    { label: "Actual relief delivered", count: metrics.actualReliefDelivered, conversion: `${percent(metrics.actualReliefDelivered, metrics.filedMatters)}% of filed` },
     { label: "Outcome reported", count: metrics.outcomesAvailable, conversion: `${percent(metrics.outcomesAvailable, metrics.filedMatters)}% of filed` },
     { label: "Court update received", count: courtUpdate, conversion: "Reported where available" },
     { label: "Needs follow-up or correction", count: needsFollowUp, conversion: "Operational follow-up" },

@@ -175,6 +175,7 @@ function buildPreviewPacket(session: NonNullable<Awaited<ReturnType<typeof getRc
     documentType: "source_driven_packet",
     pathway: "source_engine_packet_plan",
     status: "ready_for_review",
+    reliefOutcome: "not_recorded",
     courtCounty: session.county,
     charge: session.chargeOrCaseType,
     needsRecordReview: true,

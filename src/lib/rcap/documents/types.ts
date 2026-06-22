@@ -8,6 +8,18 @@ export type RcapDocumentPacketStatus =
   | "exported"
   | "blocked_review_required";
 
+export const rcapReliefOutcomeValues = [
+  "not_recorded",
+  "filed_pending",
+  "relief_granted",
+  "relief_partially_granted",
+  "relief_denied",
+  "relief_unavailable",
+  "withdrawn"
+] as const;
+
+export type RcapReliefOutcome = (typeof rcapReliefOutcomeValues)[number];
+
 export type SourceDocumentPacketInput = {
   [key: string]: unknown;
   partnerSlug: string;
@@ -69,6 +81,7 @@ export type RcapDocumentPacket = {
   documentType?: string;
   pathway: string;
   status: RcapDocumentPacketStatus;
+  reliefOutcome: RcapReliefOutcome;
   petitionerFirstName?: string;
   petitionerLastName?: string;
   petitionerCity?: string;

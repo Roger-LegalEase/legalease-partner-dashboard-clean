@@ -17,8 +17,10 @@ import { getPartnerEmailDeliveryRecords, getPartnerRecordBySlug } from "@/lib/pa
 import { getNeedLabels } from "@/lib/partners/seed-partners";
 import { internalAdmin, internalAdminEmails, internalProvisioningDetail } from "@/lib/partners/routes";
 import type { PartnerAsset, PartnerEvent } from "@/lib/partners/types";
+import { getPartnerReliefOutcomeAdminRows } from "@/lib/rcap/documents/source-repository";
 import { getPartnerIntakeActivitySummary } from "@/lib/rcap-intake/repository";
 import { AdminActionPanel } from "./AdminActionPanel";
+import { ReliefOutcomePanel } from "./ReliefOutcomePanel";
 
 export default async function InternalPartnerAdminDetailPage({
   params
@@ -45,6 +47,7 @@ export default async function InternalPartnerAdminDetailPage({
   const emailConfig = getPartnerEmailDeliveryConfig();
   const emailHistory = await getPartnerEmailDeliveryRecords(record.partnerSlug);
   const intakeActivity = await getPartnerIntakeActivitySummary(record.partnerSlug);
+  const reliefOutcomePackets = await getPartnerReliefOutcomeAdminRows(record.partnerSlug);
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -97,6 +100,8 @@ export default async function InternalPartnerAdminDetailPage({
         <div className="mt-8">
           <AdminActionPanel partnerSlug={record.partnerSlug} assets={assets} />
         </div>
+
+        <ReliefOutcomePanel partnerSlug={record.partnerSlug} packets={reliefOutcomePackets} />
 
         <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
           <div className="flex items-start gap-3">

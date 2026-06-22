@@ -6,9 +6,11 @@ import type {
   MississippiDocumentPacketInput,
   PennsylvaniaDocumentPacketInput,
   RcapDocumentPacket,
+  RcapReliefOutcome,
   SourceDocumentPacketInput,
   TexasHarrisDocumentPacketInput
 } from "@/lib/rcap/documents/types";
+import { rcapReliefOutcomeValues } from "@/lib/rcap/documents/types";
 import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
 import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { getSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase/server";
@@ -20,6 +22,17 @@ type PacketResult = Promise<{ ok: true; packet: RcapDocumentPacket; persisted: b
 type PacketAuditEvent =
   | { eventType: "created"; fromStatus?: null; toStatus: RcapDocumentPacket["status"] }
   | { eventType: "status_changed"; fromStatus: RcapDocumentPacket["status"]; toStatus: RcapDocumentPacket["status"] };
+
+export type RcapReliefOutcomeAdminRow = {
+  id: string;
+  partnerSlug: string;
+  state: string;
+  county?: string;
+  status: RcapDocumentPacket["status"];
+  reliefOutcome: RcapReliefOutcome;
+  updatedAt?: string;
+  createdAt?: string;
+};
 
 export async function createMississippiDocumentPacket(input: MississippiDocumentPacketInput): PacketResult {
   return createSourceDocumentPacket({ ...input, state: "MS" });
@@ -70,18 +83,99 @@ export async function saveDcDocumentPacketInputs(packetId: string, input: Partia
 }
 
 export async function getPartnerDocumentActivitySummary(partnerSlug?: string) {
-  void partnerSlug;
-  const allPackets = Array.from(packets.values());
+  const mode = await sourcePacketPersistenceMode();
+  if (mode.kind === "supabase") {
+    const supabase = getSupabaseAdminClient();
+    if (supabase) {
+      let query = supabase
+        .from("rcap_document_packets")
+        .select("id, partner_slug, state, county, pathway, status, relief_outcome, briefcase_id, updated_at, created_at");
+      if (partnerSlug) query = query.eq("partner_slug", partnerSlug);
+      const { data, error } = await query;
+      if (!error && data) return documentActivitySummaryFromPackets((data as DocumentActivityPacketRow[]).map(activityPacketFromRow));
+    }
+  }
+
+  const allPackets = Array.from(packets.values()).filter((packet) => !partnerSlug || packet.partnerSlug === partnerSlug);
+  return documentActivitySummaryFromPackets(allPackets);
+}
+
+function documentActivitySummaryFromPackets(allPackets: DocumentActivityPacket[]) {
   return {
-    totalPackets: packets.size,
+    totalPackets: allPackets.length,
     missingInformationPackets: allPackets.filter((packet) => packet.status === "missing_information").length,
     readyForReviewPackets: allPackets.filter((packet) => packet.status === "ready_for_review").length,
     blockedReviewRequired: allPackets.filter((packet) => packet.status === "blocked_review_required").length,
     briefcaseItems: allPackets.filter((packet) => packet.briefcaseId).length,
     latestPacketDate: allPackets.map((packet) => packet.updatedAt ?? packet.createdAt).filter(Boolean).sort().at(-1) ?? null,
+    actualReliefDeliveredPackets: allPackets.filter((packet) => isDeliveredReliefOutcome(packet.reliefOutcome)).length,
+    reliefOutcomeBreakdown: countBy(allPackets.map((packet) => packet.reliefOutcome)),
     pathwayBreakdown: countBy(allPackets.map((packet) => packet.pathway)),
     stateBreakdown: countBy(allPackets.map((packet) => packet.state))
   };
+}
+
+export async function getPartnerReliefOutcomeAdminRows(partnerSlug: string, limit = 25): Promise<RcapReliefOutcomeAdminRow[]> {
+  const mode = await sourcePacketPersistenceMode();
+  if (mode.kind !== "supabase") {
+    return Array.from(packets.values())
+      .filter((packet) => packet.partnerSlug === partnerSlug)
+      .sort((left, right) => String(right.updatedAt ?? right.createdAt).localeCompare(String(left.updatedAt ?? left.createdAt)))
+      .slice(0, limit)
+      .map(adminRowFromPacket);
+  }
+
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("rcap_document_packets")
+    .select("id, partner_slug, state, county, status, relief_outcome, updated_at, created_at")
+    .eq("partner_slug", partnerSlug)
+    .order("updated_at", { ascending: false })
+    .limit(limit);
+  if (error || !data) return [];
+  return (data as ReliefOutcomePacketRow[]).map(adminRowFromReliefOutcomeRow);
+}
+
+export async function setRcapDocumentPacketReliefOutcome(input: {
+  packetId: string;
+  partnerSlug: string;
+  reliefOutcome: RcapReliefOutcome;
+}): Promise<{ ok: true; packet: RcapReliefOutcomeAdminRow; changed: boolean } | { ok: false; error: string }> {
+  if (!isRcapReliefOutcome(input.reliefOutcome)) return { ok: false, error: "Unsupported relief outcome." };
+  const mode = await sourcePacketPersistenceMode();
+  if (mode.kind !== "supabase") {
+    return { ok: false, error: "Relief outcome changes require Supabase audit trail persistence." };
+  }
+
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { ok: false, error: "Supabase is not configured for RCAP relief outcome persistence." };
+
+  const { data: existing, error: readError } = await supabase
+    .from("rcap_document_packets")
+    .select("id, partner_slug, state, county, status, relief_outcome, updated_at, created_at")
+    .eq("id", input.packetId)
+    .maybeSingle();
+  if (readError) return { ok: false, error: readError.message };
+  if (!existing) return { ok: false, error: "Document packet not found." };
+
+  const current = existing as ReliefOutcomePacketRow;
+  if (current.partner_slug !== input.partnerSlug) return { ok: false, error: "Document packet does not belong to this partner." };
+  if (current.relief_outcome === input.reliefOutcome) {
+    return { ok: true, packet: adminRowFromReliefOutcomeRow(current), changed: false };
+  }
+
+  const { data: updated, error: updateError } = await supabase
+    .from("rcap_document_packets")
+    .update({ relief_outcome: input.reliefOutcome })
+    .eq("id", input.packetId)
+    .select("id, partner_slug, state, county, status, relief_outcome, updated_at, created_at")
+    .single();
+  if (updateError) return { ok: false, error: updateError.message };
+  const packet = adminRowFromReliefOutcomeRow(updated as ReliefOutcomePacketRow);
+  const cached = packets.get(packet.id);
+  if (cached) packets.set(packet.id, { ...cached, reliefOutcome: packet.reliefOutcome, updatedAt: packet.updatedAt });
+  return { ok: true, packet, changed: true };
 }
 
 async function createSourceDocumentPacket(input: SourceDocumentPacketInput): PacketResult {
@@ -233,6 +327,7 @@ type SourceDocumentPacketRow = {
   document_type: string | null;
   pathway: string;
   status: string;
+  relief_outcome: string | null;
   petitioner_first_name: string | null;
   petitioner_last_name: string | null;
   petitioner_city: string | null;
@@ -268,6 +363,40 @@ type SourceDocumentPacketRow = {
   completed_at: string | null;
 };
 
+type ReliefOutcomePacketRow = {
+  id: string;
+  partner_slug: string;
+  state: string;
+  county: string | null;
+  status: string;
+  relief_outcome: string | null;
+  updated_at: string | null;
+  created_at: string | null;
+};
+
+type DocumentActivityPacketRow = {
+  id: string;
+  partner_slug: string;
+  state: string;
+  county: string | null;
+  pathway: string | null;
+  status: string;
+  relief_outcome: string | null;
+  briefcase_id: string | null;
+  updated_at: string | null;
+  created_at: string | null;
+};
+
+type DocumentActivityPacket = {
+  state: string;
+  pathway: string;
+  status: RcapDocumentPacket["status"];
+  reliefOutcome: RcapReliefOutcome;
+  briefcaseId?: string;
+  updatedAt?: string;
+  createdAt?: string;
+};
+
 function packetRow(packet: RcapDocumentPacket) {
   return {
     id: packet.id,
@@ -284,6 +413,7 @@ function packetRow(packet: RcapDocumentPacket) {
     document_type: packet.documentType ?? null,
     pathway: packet.pathway,
     status: packet.status,
+    relief_outcome: packet.reliefOutcome,
     petitioner_first_name: packet.petitionerFirstName ?? null,
     petitioner_last_name: packet.petitionerLastName ?? null,
     petitioner_city: packet.petitionerCity ?? null,
@@ -388,6 +518,7 @@ function packetFromRow(row: SourceDocumentPacketRow): RcapDocumentPacket {
     documentType: row.document_type ?? undefined,
     pathway: row.pathway,
     status: row.status as RcapDocumentPacket["status"],
+    reliefOutcome: isRcapReliefOutcome(row.relief_outcome) ? row.relief_outcome : "not_recorded",
     petitionerFirstName: row.petitioner_first_name ?? undefined,
     petitionerLastName: row.petitioner_last_name ?? undefined,
     petitionerCity: row.petitioner_city ?? undefined,
@@ -448,6 +579,7 @@ function packetFromInput(input: SourceDocumentPacketInput): RcapDocumentPacket {
     documentType: "source_driven_packet",
     pathway: "source_engine_packet_plan",
     status: "ready_for_review",
+    reliefOutcome: "not_recorded",
     petitionerFirstName: stringValue(input.petitionerFirstName),
     petitionerLastName: stringValue(input.petitionerLastName),
     courtType: stringValue(input.courtType),
@@ -497,6 +629,52 @@ function jurisdictionLabel(state: string) {
   if (state === "IL") return "Illinois";
   if (state === "MS") return "Mississippi";
   return state;
+}
+
+function adminRowFromPacket(packet: RcapDocumentPacket): RcapReliefOutcomeAdminRow {
+  return {
+    id: packet.id,
+    partnerSlug: packet.partnerSlug,
+    state: packet.state,
+    county: packet.county,
+    status: packet.status,
+    reliefOutcome: packet.reliefOutcome,
+    updatedAt: packet.updatedAt,
+    createdAt: packet.createdAt
+  };
+}
+
+function adminRowFromReliefOutcomeRow(row: ReliefOutcomePacketRow): RcapReliefOutcomeAdminRow {
+  return {
+    id: row.id,
+    partnerSlug: row.partner_slug,
+    state: row.state,
+    county: row.county ?? undefined,
+    status: row.status as RcapDocumentPacket["status"],
+    reliefOutcome: isRcapReliefOutcome(row.relief_outcome) ? row.relief_outcome : "not_recorded",
+    updatedAt: row.updated_at ?? undefined,
+    createdAt: row.created_at ?? undefined
+  };
+}
+
+function activityPacketFromRow(row: DocumentActivityPacketRow): DocumentActivityPacket {
+  return {
+    state: row.state,
+    pathway: row.pathway ?? "unknown",
+    status: row.status as RcapDocumentPacket["status"],
+    reliefOutcome: isRcapReliefOutcome(row.relief_outcome) ? row.relief_outcome : "not_recorded",
+    briefcaseId: row.briefcase_id ?? undefined,
+    updatedAt: row.updated_at ?? undefined,
+    createdAt: row.created_at ?? undefined
+  };
+}
+
+function isRcapReliefOutcome(value: unknown): value is RcapReliefOutcome {
+  return typeof value === "string" && rcapReliefOutcomeValues.includes(value as RcapReliefOutcome);
+}
+
+function isDeliveredReliefOutcome(value: RcapReliefOutcome) {
+  return value === "relief_granted" || value === "relief_partially_granted";
 }
 
 function countBy(values: string[]) {
