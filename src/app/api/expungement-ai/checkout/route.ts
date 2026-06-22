@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
   ConsumerCheckoutNotAllowedError,
   ConsumerCheckoutTemporarilyUnavailableError,
@@ -22,6 +22,9 @@ export async function POST(request: NextRequest) {
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
   if (!item) {
     return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+  }
+  if (await isPartnerSponsoredPacketItem(item)) {
+    return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }
 
   try {

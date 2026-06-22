@@ -19,6 +19,8 @@ const { getProfileByJurisdiction } = loadTsModule(path.join(rootDir, "src/lib/rc
 const { projectPublicProfile } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/public-profile-projection.ts"));
 const { toScreeningAnswers } = loadTsModule(path.join(rootDir, "src/components/expungement-ai/screening/answers.ts"));
 const { buildPartnerUsageWindowEventPayload } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/nudge-os-events.ts"));
+const { saveEligibilityResultToBriefcase } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/briefcase.ts"));
+const { ConsumerPacketPaymentRequiredError, generatePaidConsumerPacket } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/packet-generation.ts"));
 
 try {
   rcapPaymentRoutingStatus = verifySourceWiring();
@@ -46,6 +48,7 @@ try {
   await verifyUsageEventNoPii();
   await verifyScopeGuardDiscipline();
   await verifyDtcUnchangedGuard(db);
+  await verifyUnpaidDtcPacketGenerationRejected();
 
   await db.close();
 } catch (error) {
@@ -93,6 +96,7 @@ function verifySourceWiring() {
   const engineAdapter = read("src/lib/rcap-engine/expungement-ai-adapter.ts");
   const paymentAdapter = read("src/lib/expungement-ai/payment-adapter.ts");
   const packetGeneration = read("src/lib/expungement-ai/packet-generation.ts");
+  const briefcase = read("src/lib/expungement-ai/briefcase.ts");
   const resumeService = read("src/lib/expungement-ai/screening-resume-service.ts");
   const allowlist = read("scripts/rcap-scope-allowlist.mjs");
   const lifecycle = read("src/lib/expungement-ai/rcap-slot-lifecycle.ts");
@@ -142,6 +146,8 @@ function verifySourceWiring() {
   assert(!paymentAdapter.includes("partner_slug"), "Payment adapter must not branch on RCAP partner data.");
   assert(!paymentAdapter.includes("claimed_slot_state"), "Payment adapter must not branch on claimed slot state.");
   assert(!packetGeneration.includes("flow_mode"), "Packet generation must not branch on flow_mode.");
+  assert(briefcase.includes('.eq("flow_mode", "rcap")'), "Partner-sponsored packet helper must require persisted rcap mode.");
+  assert(briefcase.includes('.not("partner_slug", "is", null)'), "Partner-sponsored packet helper must require a persisted non-null partner_slug.");
   assert(allowlist.includes("src/app/api/expungement-ai/screening/complete/route.ts"), "Completion route must be centrally allowlisted.");
   assert(allowlist.includes("src/lib/expungement-ai/rcap-slot-lifecycle.ts"), "RCAP lifecycle helper must be centrally allowlisted.");
   assert(allowlist.includes("supabase/phase-35d-rcap-slot-lifecycle.sql"), "RCAP lifecycle migration must be centrally allowlisted.");
@@ -427,6 +433,50 @@ async function verifyDtcUnchangedGuard(db) {
   assertDeepEqual(fresh.packetPlan ?? null, repeated.packetPlan ?? null, "DTC and RCAP must agree on packetPlan before routing.");
 }
 
+async function verifyUnpaidDtcPacketGenerationRejected() {
+  const savedEnv = {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY
+  };
+  delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+  delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  try {
+    const userId = `dtc-unpaid-${randomUuid()}`;
+    const item = saveEligibilityResultToBriefcase({
+      resultCode: "packet_ready",
+      userLabel: "Your self-help packet is ready to prepare.",
+      state: "MS",
+      pathwayLabel: "Mississippi record-clearing review",
+      confidence: "high",
+      paymentAllowed: true,
+      priceCents: 5000,
+      packetType: "custom_pleading",
+      reasons: ["The engine found a packet-ready path."],
+      nextSteps: ["Review the result.", "Pay once to generate the packet.", "Follow the filing checklist."],
+      emailCaptureRecommended: false,
+      disclaimer: "Verifier fixture."
+    }, userId);
+
+    assert(item.paymentStatus !== "paid", "DTC verifier fixture must start without paid status.");
+    assert(item.sourceSessionId === undefined, "DTC verifier fixture must not carry an RCAP source session.");
+
+    let rejected = false;
+    try {
+      await generatePaidConsumerPacket({ userId, briefcaseItemId: item.id });
+    } catch (error) {
+      rejected = error instanceof ConsumerPacketPaymentRequiredError;
+    }
+    assert(rejected, "Unpaid DTC packet-ready item must be rejected before packet generation.");
+  } finally {
+    restoreEnv("NEXT_PUBLIC_SUPABASE_URL", savedEnv.NEXT_PUBLIC_SUPABASE_URL);
+    restoreEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", savedEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+    restoreEnv("SUPABASE_SERVICE_ROLE_KEY", savedEnv.SUPABASE_SERVICE_ROLE_KEY);
+  }
+}
+
 function createPgliteScreeningSessionStorage(db) {
   return {
     async saveSession(input) {
@@ -708,6 +758,14 @@ function indexOf(source, needle) {
 
 function randomUuid() {
   return crypto.randomUUID();
+}
+
+function restoreEnv(key, value) {
+  if (value === undefined) {
+    delete process.env[key];
+    return;
+  }
+  process.env[key] = value;
 }
 
 function read(relativePath) {

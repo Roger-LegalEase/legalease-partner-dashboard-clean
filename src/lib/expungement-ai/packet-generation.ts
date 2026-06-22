@@ -3,6 +3,7 @@ import "server-only";
 import {
   getBriefcaseItem,
   getBriefcaseItemForWebhook,
+  isPartnerSponsoredPacketItem,
   updateBriefcasePacketMetadata,
   updateBriefcasePacketMetadataForWebhook
 } from "@/lib/expungement-ai/briefcase";
@@ -58,7 +59,7 @@ export async function generatePaidConsumerPacket({
   const item = webhookMode
     ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
     : await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, dryRunMode);
+  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
 
   const existing = artifactRefsFor(item);
   if (item.packetStatus === "ready" && existing) {
@@ -96,7 +97,7 @@ export async function getConsumerPacketStatus({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run");
+  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
   const artifactRefs = artifactRefsFor(item);
   return {
     packetStatus: item.packetStatus ?? "not_started",
@@ -113,7 +114,7 @@ export async function getConsumerPacketDownload({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketDownload> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run");
+  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
   const artifactRefs = artifactRefsFor(item);
   if (item.packetStatus !== "ready" || !artifactRefs) {
     throw new ConsumerPacketNotReadyError();
@@ -155,12 +156,17 @@ export async function requireWebhookOwnedPacketItem(userId: string, briefcaseIte
   return item;
 }
 
-export function assertPacketGenerationAllowed(item: ConsumerBriefcaseItem, dryRunMode = false) {
+export function assertPacketGenerationAllowed(
+  item: ConsumerBriefcaseItem,
+  dryRunMode = false,
+  options: { paymentRequired?: boolean } = {}
+) {
   if (!isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerPacketNotAllowedError(item.resultCode ?? "missing_result_code");
   }
 
-  if (item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) {
+  const paymentRequired = options.paymentRequired ?? true;
+  if (paymentRequired && item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) {
     throw new ConsumerPacketPaymentRequiredError();
   }
 }
