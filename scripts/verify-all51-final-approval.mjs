@@ -101,7 +101,11 @@ function assertNoRestrictedChanges() {
     "supabase/phase-29-consumer-wilma-telemetry.sql",
     "supabase/phase-31-legalease-os-support-queue.sql",
     "supabase/phase-32-expungement-screening-sessions.sql",
-    "supabase/phase-33-expungement-screening-resume-links.sql"
+    "supabase/phase-33-expungement-screening-resume-links.sql",
+    "supabase/phase-35-rcap-partner-entitlement.sql",
+    "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
+    "supabase/phase-35c-rcap-claim-screening-session.sql",
+    "supabase/phase-35d-rcap-slot-lifecycle.sql"
   ]);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))
