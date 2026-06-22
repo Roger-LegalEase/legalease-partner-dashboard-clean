@@ -37,6 +37,10 @@ export const SCREENING_DROP_POINT_NUDGE_FILES = [
 ];
 
 export const RCAP_PARTNER_MODE_FILES = [
+  "src/app/intake/[partnerSlug]/page.tsx",
+  "src/app/expungement-ai/screening/[state]/page.tsx",
+  "src/components/expungement-ai/screening/ScreeningFlow.tsx",
+  "src/lib/expungement-ai/rcap-partner-intake.ts",
   "supabase/phase-35-rcap-partner-entitlement.sql",
   "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
   "supabase/phase-35c-rcap-claim-screening-session.sql"

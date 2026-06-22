@@ -60,7 +60,7 @@ function createMatterId(): string {
   return `matter-${Date.now().toString(36)}`;
 }
 
-export function ScreeningFlow({ state }: { state: string }) {
+export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,7 +69,7 @@ export function ScreeningFlow({ state }: { state: string }) {
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
-  const [sessionId, setSessionId] = useState<string | undefined>();
+  const [sessionId, setSessionId] = useState<string | undefined>(initialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
