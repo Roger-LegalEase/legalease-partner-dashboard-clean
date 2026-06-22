@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -119,17 +120,7 @@ function assertNoRestrictedChanges() {
     "src/app/expungement/",
     "src/components/expungement/"
   ];
-  const allowedConsumerPersistenceFiles = new Set([
-    ".env.example",
-    "src/lib/stripe/server.ts",
-    "supabase/phase-26-consumer-briefcase-items.sql",
-    "supabase/phase-27-consumer-checkout-metadata.sql",
-    "supabase/phase-28-consumer-packet-generation-status.sql",
-    "supabase/phase-29-consumer-wilma-telemetry.sql",
-    "supabase/phase-31-legalease-os-support-queue.sql",
-    "supabase/phase-32-expungement-screening-sessions.sql",
-    "supabase/phase-33-expungement-screening-resume-links.sql"
-  ]);
+  const allowedConsumerPersistenceFiles = new Set(REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))
     .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
