@@ -16,6 +16,12 @@ export type RcapPersonOutcomeSummary = {
   actualReliefDeliveredPeople: number;
 };
 
+export type RcapPersonOutcomeSummaryOptions = {
+  startAt?: string;
+  endAt?: string;
+  state?: string;
+};
+
 export function deriveRcapPersonMatchKey(input: RcapPersonIdentityInput): string | null {
   const email = normalizeEmail(input.email);
   if (email) return `email:${email}`;
@@ -50,13 +56,19 @@ export async function resolveRcapPersonId(
 
 export async function getRcapPersonOutcomeSummary(
   supabase: SupabaseClient,
-  partnerSlug: string
+  partnerSlug: string,
+  options: RcapPersonOutcomeSummaryOptions = {}
 ): Promise<RcapPersonOutcomeSummary> {
-  const { data, error } = await supabase
+  let query = supabase
     .from("rcap_document_packets")
-    .select("person_id, relief_outcome")
+    .select("person_id, relief_outcome, state, created_at")
     .eq("partner_slug", partnerSlug)
     .not("person_id", "is", null);
+  if (options.startAt) query = query.gte("created_at", options.startAt);
+  if (options.endAt) query = query.lte("created_at", options.endAt);
+  if (options.state && options.state !== "All States") query = query.eq("state", options.state);
+
+  const { data, error } = await query;
 
   if (error || !data) {
     return {

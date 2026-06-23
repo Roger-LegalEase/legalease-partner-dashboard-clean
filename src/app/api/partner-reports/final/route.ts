@@ -4,7 +4,6 @@ import { generateFinalImpactReportNarrative } from "@/lib/reports/generate-final
 import { buildPartnerFinalImpactReportData } from "@/lib/reports/partner-final-impact-report-data";
 import { renderFinalImpactReportHtml } from "@/lib/reports/render-final-impact-report-html";
 import { renderFinalImpactReportPdf } from "@/lib/reports/render-final-impact-report-pdf";
-import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/source-repository";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,13 +29,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const documentActivity = await getPartnerDocumentActivitySummary(parsed.data.partnerId);
-    const reportData = buildPartnerFinalImpactReportData({
-      ...parsed.data,
-      distinctPeopleHelped: documentActivity.distinctPeople,
-      actualReliefDeliveredPeople: documentActivity.actualReliefDeliveredPeople,
-      reliefOutcomePeople: documentActivity.reliefOutcomePeople
-    });
+    const reportData = await buildPartnerFinalImpactReportData(parsed.data);
     const narrative = await generateFinalImpactReportNarrative(reportData);
     const html = await renderFinalImpactReportHtml(reportData, narrative);
     const pdf = await renderFinalImpactReportPdf(html);
