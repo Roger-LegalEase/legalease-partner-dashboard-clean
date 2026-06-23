@@ -1,5 +1,6 @@
 import { getPartnerRecordBySlug, getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
 import type { PartnerWriteResult } from "@/lib/partners/types";
+import { resolveRcapPersonId } from "@/lib/rcap/person-identity";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getNextRcapIntakeStep } from "./questions";
 import { generateRcapPathwaySummary } from "./pathway-summary";
@@ -21,6 +22,7 @@ type RcapSessionRow = {
   user_last_name: string | null;
   user_email: string | null;
   user_phone: string | null;
+  person_id: string | null;
   state: string | null;
   county: string | null;
   record_type: string | null;
@@ -171,6 +173,16 @@ export async function respondToRcapIntake(
     }
 
     const fieldUpdates = responseFieldUpdates(input.stepId, input.value);
+    if (input.stepId === "contact_information") {
+      const person = await resolveRcapPersonId(supabase, {
+        partnerSlug: session.partnerSlug,
+        email: stringOrNull(fieldUpdates.user_email),
+        firstName: stringOrNull(fieldUpdates.user_first_name),
+        lastName: stringOrNull(fieldUpdates.user_last_name)
+      });
+      if ("error" in person) return { ok: false, error: person.error };
+      if (person.personId) fieldUpdates.person_id = person.personId;
+    }
     const nextStep = getNextRcapIntakeStep(input.stepId);
 
     const { error: responseError } = await supabase.from("rcap_intake_responses").upsert(
@@ -451,6 +463,10 @@ function readShortText(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim().slice(0, 160) : undefined;
 }
 
+function stringOrNull(value: unknown): string | null {
+  return typeof value === "string" ? value : null;
+}
+
 function safeJsonValue(value: unknown): unknown {
   if (typeof value === "string") {
     return value.trim().slice(0, 500);
@@ -494,6 +510,7 @@ function mapSessionRow(row: RcapSessionRow): RcapIntakeSession {
     userLastName: row.user_last_name ?? undefined,
     userEmail: row.user_email ?? undefined,
     userPhone: row.user_phone ?? undefined,
+    personId: row.person_id ?? undefined,
     state: row.state ?? undefined,
     county: row.county ?? undefined,
     recordType: row.record_type as RcapIntakeSession["recordType"],

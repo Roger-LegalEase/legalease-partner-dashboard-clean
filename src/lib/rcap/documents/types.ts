@@ -26,6 +26,7 @@ export type SourceDocumentPacketInput = {
   intakeSessionId?: string;
   userId?: string;
   briefcaseId?: string;
+  personId?: string;
   state?: string;
   county?: string;
   convictionLevel?: "misdemeanor" | "felony" | "unknown";
@@ -76,6 +77,7 @@ export type RcapDocumentPacket = {
   intakeSessionId?: string;
   userId?: string;
   briefcaseId?: string;
+  personId?: string;
   state: string;
   county?: string;
   documentType?: string;

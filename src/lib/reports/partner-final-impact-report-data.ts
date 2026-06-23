@@ -13,8 +13,9 @@ export type FinalImpactReportRequestContext = {
   partnerName: string;
   dateRange?: string;
   state?: string;
-  actualReliefDeliveredPackets?: number;
-  reliefOutcomeBreakdown?: Record<string, number>;
+  distinctPeopleHelped?: number;
+  actualReliefDeliveredPeople?: number;
+  reliefOutcomePeople?: Record<string, number>;
 };
 
 export type FinalImpactMetric = {
@@ -57,6 +58,7 @@ export type FinalImpactReportData = {
     packetReady: number;
     filedMatters: number;
     outcomesAvailable: number;
+    distinctPeopleHelped: number;
     actualReliefDelivered: number;
     outcomesPending: number;
     pageVisits: number;
@@ -102,7 +104,8 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
   const outcomesAvailable = context.state && context.state !== "All States"
     ? Math.min(filedMatters, Math.round(filedMatters * 0.41))
     : kpis.outcomesAvailable;
-  const actualReliefDelivered = context.actualReliefDeliveredPackets ?? 0;
+  const distinctPeopleHelped = context.distinctPeopleHelped ?? 0;
+  const actualReliefDelivered = context.actualReliefDeliveredPeople ?? 0;
   const outcomesPending = Math.max(filedMatters - outcomesAvailable, 0);
   const pageVisits = Math.max(referrals, Math.round(referrals * 1.72));
   const intakeStarts = Math.max(screenings, Math.round(referrals * 0.87));
@@ -124,6 +127,7 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
     packetReady,
     filedMatters,
     outcomesAvailable,
+    distinctPeopleHelped,
     actualReliefDelivered,
     outcomesPending,
     pageVisits,
@@ -146,7 +150,8 @@ export function buildPartnerFinalImpactReportData(context: FinalImpactReportRequ
       { label: "Likely Eligible", value: likelyEligible, note: "Screening result, not a legal determination" },
       { label: "Product Starts", value: productStartTotal, note: "RecordShield and Expungement.ai starts" },
       { label: "Packets Completed", value: packetReady, note: "Paperwork ready for filing or review" },
-      { label: "Relief Delivered", value: actualReliefDelivered, note: "Granted or partially granted outcomes" }
+      { label: "People Helped", value: distinctPeopleHelped, note: "Distinct people, not record rows" },
+      { label: "Relief Delivered", value: actualReliefDelivered, note: "Distinct people granted or partially granted relief" }
     ],
     funnel: buildFunnel(metrics),
     metricRows: buildMetricRows(metrics),
@@ -178,6 +183,7 @@ function buildFunnel(metrics: FinalImpactReportData["metrics"]): FinalImpactFunn
     { label: "Packets started", count: metrics.packetStarted, color: "green" as const },
     { label: "Packets completed", count: metrics.packetReady, color: "amber" as const },
     { label: "Filed matters", count: metrics.filedMatters, color: "orange" as const },
+    { label: "Distinct people helped", count: metrics.distinctPeopleHelped, color: "orange" as const },
     { label: "Relief delivered", count: metrics.actualReliefDelivered, color: "orange" as const }
   ];
 
@@ -204,6 +210,7 @@ function buildMetricRows(metrics: FinalImpactReportData["metrics"]): FinalImpact
     { label: "Packets started", count: metrics.packetStarted, conversion: `${percent(metrics.packetStarted, metrics.productStarts)}% of starts` },
     { label: "Packets completed", count: metrics.packetReady, conversion: `${percent(metrics.packetReady, metrics.packetStarted)}% of started` },
     { label: "Filed matters", count: metrics.filedMatters, conversion: `${percent(metrics.filedMatters, metrics.packetReady)}% of packets` },
+    { label: "Distinct people helped", count: metrics.distinctPeopleHelped, conversion: "Deduped by person identity" },
     { label: "Outcomes available", count: metrics.outcomesAvailable, conversion: `${percent(metrics.outcomesAvailable, metrics.filedMatters)}% of filed` },
     { label: "Actual relief delivered", count: metrics.actualReliefDelivered, conversion: `${percent(metrics.actualReliefDelivered, metrics.filedMatters)}% of filed` }
   ];

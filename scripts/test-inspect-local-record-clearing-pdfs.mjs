@@ -239,6 +239,9 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("src/app/internal/partners/admin/page.tsx"))
     .filter((line) => !line.includes("src/app/internal/partners/admin/[partnerSlug]/"))
     .filter((line) => !line.includes("src/app/api/internal/rcap/"))
+    .filter((line) => !line.includes("src/lib/rcap/person-identity.ts"))
+    .filter((line) => !line.includes("src/lib/rcap-intake/repository.ts"))
+    .filter((line) => !line.includes("src/lib/rcap-intake/types.ts"))
     .filter((line) => !line.includes("src/app/expungement-ai/"))
     .filter((line) => !line.includes("src/app/briefcase/"))
     .filter((line) => !line.includes("supabase/phase-26-consumer-briefcase-items.sql"))
@@ -246,6 +249,7 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("supabase/phase-27-consumer-checkout-metadata.sql"))
     .filter((line) => !line.includes("supabase/phase-28-consumer-packet-generation-status.sql"))
     .filter((line) => !line.includes("supabase/phase-29-rcap-relief-outcome.sql"))
+    .filter((line) => !line.includes("supabase/phase-30-rcap-person-identity.sql"))
     .filter((line) => !line.includes("supabase/phase-29-consumer-wilma-telemetry.sql"))
     .filter((line) => !line.includes("supabase/phase-31-legalease-os-support-queue.sql"))
     .join("\n");

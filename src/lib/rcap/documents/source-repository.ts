@@ -12,6 +12,7 @@ import type {
 } from "@/lib/rcap/documents/types";
 import { rcapReliefOutcomeValues } from "@/lib/rcap/documents/types";
 import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
+import { getRcapPersonOutcomeSummary, resolveRcapPersonId } from "@/lib/rcap/person-identity";
 import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
 import { getSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
@@ -89,10 +90,16 @@ export async function getPartnerDocumentActivitySummary(partnerSlug?: string) {
     if (supabase) {
       let query = supabase
         .from("rcap_document_packets")
-        .select("id, partner_slug, state, county, pathway, status, relief_outcome, briefcase_id, updated_at, created_at");
+        .select("id, partner_slug, state, county, pathway, status, relief_outcome, person_id, briefcase_id, updated_at, created_at");
       if (partnerSlug) query = query.eq("partner_slug", partnerSlug);
       const { data, error } = await query;
-      if (!error && data) return documentActivitySummaryFromPackets((data as DocumentActivityPacketRow[]).map(activityPacketFromRow));
+      if (!error && data) {
+        const summary = documentActivitySummaryFromPackets((data as DocumentActivityPacketRow[]).map(activityPacketFromRow));
+        const personSummary = partnerSlug
+          ? await getRcapPersonOutcomeSummary(supabase, partnerSlug)
+          : personOutcomeSummaryFromPackets((data as DocumentActivityPacketRow[]).map(activityPacketFromRow));
+        return { ...summary, ...personSummary };
+      }
     }
   }
 
@@ -101,6 +108,7 @@ export async function getPartnerDocumentActivitySummary(partnerSlug?: string) {
 }
 
 function documentActivitySummaryFromPackets(allPackets: DocumentActivityPacket[]) {
+  const personSummary = personOutcomeSummaryFromPackets(allPackets);
   return {
     totalPackets: allPackets.length,
     missingInformationPackets: allPackets.filter((packet) => packet.status === "missing_information").length,
@@ -110,6 +118,9 @@ function documentActivitySummaryFromPackets(allPackets: DocumentActivityPacket[]
     latestPacketDate: allPackets.map((packet) => packet.updatedAt ?? packet.createdAt).filter(Boolean).sort().at(-1) ?? null,
     actualReliefDeliveredPackets: allPackets.filter((packet) => isDeliveredReliefOutcome(packet.reliefOutcome)).length,
     reliefOutcomeBreakdown: countBy(allPackets.map((packet) => packet.reliefOutcome)),
+    distinctPeople: personSummary.distinctPeople,
+    reliefOutcomePeople: personSummary.reliefOutcomePeople,
+    actualReliefDeliveredPeople: personSummary.actualReliefDeliveredPeople,
     pathwayBreakdown: countBy(allPackets.map((packet) => packet.pathway)),
     stateBreakdown: countBy(allPackets.map((packet) => packet.state))
   };
@@ -249,27 +260,32 @@ async function persistOrFallback(
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, error: "Supabase is not configured for RCAP document packet persistence." };
 
+  const person = await resolvePacketPersonId(supabase, packet);
+  if ("error" in person) return { ok: false, error: person.error };
+  const packetForPersistence = person.personId ? { ...packet, personId: person.personId } : packet;
+  if (person.personId) packets.set(packet.id, packetForPersistence);
+
   const { error: packetError } = await supabase
     .from("rcap_document_packets")
-    .upsert(packetRow(packet), { onConflict: "id" });
+    .upsert(packetRow(packetForPersistence), { onConflict: "id" });
   if (packetError) return { ok: false, error: packetError.message };
 
   if (auditEvent) {
-    const { error: eventError } = await supabase.from("rcap_record_events").insert(packetAuditEventRow(packet, auditEvent));
+    const { error: eventError } = await supabase.from("rcap_record_events").insert(packetAuditEventRow(packetForPersistence, auditEvent));
     if (eventError) return { ok: false, error: eventError.message };
   }
 
   if (inputPayload) {
     const { error: inputError } = await supabase
       .from("rcap_document_packet_inputs")
-      .upsert(packetInputRow(packet, inputPayload), { onConflict: "document_packet_id" });
+      .upsert(packetInputRow(packetForPersistence, inputPayload), { onConflict: "document_packet_id" });
     if (inputError) return { ok: false, error: inputError.message };
   }
 
-  if (packet.briefcaseId) {
+  if (packetForPersistence.briefcaseId) {
     const { error: briefcaseError } = await supabase
       .from("rcap_briefcase_items")
-      .upsert(briefcaseItemRow(packet), { onConflict: "document_packet_id" });
+      .upsert(briefcaseItemRow(packetForPersistence), { onConflict: "document_packet_id" });
     if (briefcaseError) return { ok: false, error: briefcaseError.message };
   }
 
@@ -322,6 +338,7 @@ type SourceDocumentPacketRow = {
   intake_session_id: string | null;
   user_id: string | null;
   briefcase_id: string | null;
+  person_id: string | null;
   state: string;
   county: string | null;
   document_type: string | null;
@@ -382,6 +399,7 @@ type DocumentActivityPacketRow = {
   pathway: string | null;
   status: string;
   relief_outcome: string | null;
+  person_id: string | null;
   briefcase_id: string | null;
   updated_at: string | null;
   created_at: string | null;
@@ -392,6 +410,7 @@ type DocumentActivityPacket = {
   pathway: string;
   status: RcapDocumentPacket["status"];
   reliefOutcome: RcapReliefOutcome;
+  personId?: string;
   briefcaseId?: string;
   updatedAt?: string;
   createdAt?: string;
@@ -404,6 +423,7 @@ function packetRow(packet: RcapDocumentPacket) {
     intake_session_id: packet.intakeSessionId ?? null,
     user_id: packet.userId ?? null,
     briefcase_id: packet.briefcaseId ?? null,
+    person_id: packet.personId ?? null,
     state: packet.state,
     county: packet.county ?? null,
     court_type: packet.courtType ?? null,
@@ -513,6 +533,7 @@ function packetFromRow(row: SourceDocumentPacketRow): RcapDocumentPacket {
     intakeSessionId: row.intake_session_id ?? undefined,
     userId: row.user_id ?? undefined,
     briefcaseId: row.briefcase_id ?? undefined,
+    personId: row.person_id ?? undefined,
     state: row.state,
     county: row.county ?? undefined,
     documentType: row.document_type ?? undefined,
@@ -574,6 +595,7 @@ function packetFromInput(input: SourceDocumentPacketInput): RcapDocumentPacket {
     intakeSessionId: stringValue(input.intakeSessionId),
     userId: stringValue(input.userId),
     briefcaseId: stringValue(input.briefcaseId),
+    personId: stringValue(input.personId),
     state,
     county: stringValue(input.county),
     documentType: "source_driven_packet",
@@ -663,10 +685,79 @@ function activityPacketFromRow(row: DocumentActivityPacketRow): DocumentActivity
     pathway: row.pathway ?? "unknown",
     status: row.status as RcapDocumentPacket["status"],
     reliefOutcome: isRcapReliefOutcome(row.relief_outcome) ? row.relief_outcome : "not_recorded",
+    personId: row.person_id ?? undefined,
     briefcaseId: row.briefcase_id ?? undefined,
     updatedAt: row.updated_at ?? undefined,
     createdAt: row.created_at ?? undefined
   };
+}
+
+function personOutcomeSummaryFromPackets(packetsForSummary: DocumentActivityPacket[]) {
+  const distinctPeople = new Set<string>();
+  const byOutcome = new Map<string, Set<string>>();
+  for (const packet of packetsForSummary) {
+    if (!packet.personId) continue;
+    distinctPeople.add(packet.personId);
+    const people = byOutcome.get(packet.reliefOutcome) ?? new Set<string>();
+    people.add(packet.personId);
+    byOutcome.set(packet.reliefOutcome, people);
+  }
+
+  const reliefOutcomePeople = Object.fromEntries(Array.from(byOutcome.entries()).map(([outcome, people]) => [outcome, people.size]));
+  return {
+    distinctPeople: distinctPeople.size,
+    reliefOutcomePeople,
+    actualReliefDeliveredPeople: (reliefOutcomePeople.relief_granted ?? 0) + (reliefOutcomePeople.relief_partially_granted ?? 0)
+  };
+}
+
+async function resolvePacketPersonId(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
+  packet: RcapDocumentPacket
+): Promise<{ personId?: string } | { error: string }> {
+  if (packet.personId) return { personId: packet.personId };
+
+  if (packet.intakeSessionId) {
+    const { data, error } = await supabase
+      .from("rcap_intake_sessions")
+      .select("person_id, user_email, user_first_name, user_last_name")
+      .eq("id", packet.intakeSessionId)
+      .maybeSingle();
+    if (error) return { error: error.message };
+    const row = data as { person_id: string | null; user_email: string | null; user_first_name: string | null; user_last_name: string | null } | null;
+    if (row?.person_id) return { personId: row.person_id };
+    if (row?.user_email || row?.user_first_name || row?.user_last_name) {
+      return resolveRcapPersonId(supabase, {
+        partnerSlug: packet.partnerSlug,
+        email: row.user_email,
+        firstName: row.user_first_name,
+        lastName: row.user_last_name
+      });
+    }
+  }
+
+  if (packet.userId) {
+    const { data, error } = await supabase
+      .from("rcap_user_profiles")
+      .select("email, display_name")
+      .eq("id", packet.userId)
+      .maybeSingle();
+    if (error) return { error: error.message };
+    const row = data as { email: string | null; display_name: string | null } | null;
+    if (row?.email || row?.display_name) {
+      return resolveRcapPersonId(supabase, {
+        partnerSlug: packet.partnerSlug,
+        email: row.email,
+        displayName: row.display_name
+      });
+    }
+  }
+
+  return resolveRcapPersonId(supabase, {
+    partnerSlug: packet.partnerSlug,
+    firstName: packet.petitionerFirstName,
+    lastName: packet.petitionerLastName
+  });
 }
 
 function isRcapReliefOutcome(value: unknown): value is RcapReliefOutcome {

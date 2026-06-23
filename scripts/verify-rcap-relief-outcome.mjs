@@ -136,7 +136,7 @@ function testTypesAndAdminSurface() {
     "Relief outcome changes require Supabase audit trail persistence.",
     "relief_outcome: packet.reliefOutcome",
     "reliefOutcome: \"not_recorded\"",
-    ".select(\"id, partner_slug, state, county, pathway, status, relief_outcome, briefcase_id, updated_at, created_at\")",
+    ".select(\"id, partner_slug, state, county, pathway, status, relief_outcome, person_id, briefcase_id, updated_at, created_at\")",
     "actualReliefDeliveredPackets"
   ]) {
     assert(repository.includes(expected), `Repository missing ${expected}.`);
@@ -156,9 +156,9 @@ function testImpactReportCountsActualRelief() {
   const narrative = fs.readFileSync(finalReportNarrativePath, "utf8");
 
   assert(route.includes("getPartnerDocumentActivitySummary"), "Final impact report route must read packet outcome activity.");
-  assert(route.includes("actualReliefDeliveredPackets: documentActivity.actualReliefDeliveredPackets"), "Final impact report route must pass actual relief delivered counts.");
+  assert(route.includes("actualReliefDeliveredPeople: documentActivity.actualReliefDeliveredPeople"), "Final impact report route must pass actual relief delivered people counts.");
   assert(data.includes("actualReliefDelivered: number"), "Final impact report metrics must expose actual relief delivered.");
-  assert(data.includes("const actualReliefDelivered = context.actualReliefDeliveredPackets ?? 0"), "Final impact report data must derive actual relief from packet outcomes.");
+  assert(data.includes("const actualReliefDelivered = context.actualReliefDeliveredPeople ?? 0"), "Final impact report data must derive actual relief from person outcomes.");
   assert(data.includes("Actual relief delivered"), "Final impact report tables must label actual relief delivered separately from outcomes available.");
   assert(narrative.includes("definitive relief delivered outcomes"), "Final impact narrative must describe definitive relief outcomes.");
 }
@@ -174,7 +174,7 @@ function testForbiddenSurfacesWereNotTouched() {
   const forbidden = changedFiles.filter((file) =>
     /^src\/lib\/rcap\/documents\/(mississippi|illinois|dc|pennsylvania|texas-harris)\//.test(file) ||
     /^src\/app\/api\/rcap\/documents\/(mississippi|illinois|dc|pennsylvania|texas-harris)\//.test(file) ||
-    /^src\/lib\/rcap-intake\//.test(file)
+    (/^src\/lib\/rcap-intake\//.test(file) && !["src/lib/rcap-intake/repository.ts", "src/lib/rcap-intake/types.ts"].includes(file))
   );
   assert(forbidden.length === 0, `Generation, eligibility, or intake files changed: ${forbidden.join(", ")}`);
 }

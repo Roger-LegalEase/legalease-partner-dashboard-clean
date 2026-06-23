@@ -33,8 +33,9 @@ export async function POST(request: Request) {
     const documentActivity = await getPartnerDocumentActivitySummary(parsed.data.partnerId);
     const reportData = buildPartnerFinalImpactReportData({
       ...parsed.data,
-      actualReliefDeliveredPackets: documentActivity.actualReliefDeliveredPackets,
-      reliefOutcomeBreakdown: documentActivity.reliefOutcomeBreakdown
+      distinctPeopleHelped: documentActivity.distinctPeople,
+      actualReliefDeliveredPeople: documentActivity.actualReliefDeliveredPeople,
+      reliefOutcomePeople: documentActivity.reliefOutcomePeople
     });
     const narrative = await generateFinalImpactReportNarrative(reportData);
     const html = await renderFinalImpactReportHtml(reportData, narrative);

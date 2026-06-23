@@ -52,6 +52,7 @@ export type RcapIntakeSession = {
   userLastName?: string;
   userEmail?: string;
   userPhone?: string;
+  personId?: string;
   state?: string;
   county?: string;
   recordType?: RcapRecordType;
