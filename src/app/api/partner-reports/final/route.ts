@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const reportData = buildPartnerFinalImpactReportData(parsed.data);
+    const reportData = await buildPartnerFinalImpactReportData(parsed.data);
     const narrative = await generateFinalImpactReportNarrative(reportData);
     const html = await renderFinalImpactReportHtml(reportData, narrative);
     const pdf = await renderFinalImpactReportPdf(html);

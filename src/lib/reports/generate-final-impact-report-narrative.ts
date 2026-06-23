@@ -148,12 +148,13 @@ function buildFallbackNarrative(report: FinalImpactReportData): FinalImpactRepor
   const likelyRate = pct(metrics.likelyEligible, metrics.screenings);
   const filedRate = pct(metrics.filedMatters, metrics.packetReady);
   const outcomeRate = pct(metrics.outcomesAvailable, metrics.filedMatters);
+  const reliefRate = pct(metrics.actualReliefDelivered, metrics.filedMatters);
   const productDropOff = Math.max(metrics.likelyEligible - metrics.productStarts, 0);
 
   return {
     executiveSummary: [
       `Across ${report.reportPeriod}, ${report.partnerName} referred ${fmt(metrics.referrals)} people into LegalEase, with ${fmt(metrics.screenings)} completed screenings and ${fmt(metrics.likelyEligible)} people receiving a likely eligible screening result based on their answers.`,
-      `The program created a clear view of movement from referral through paperwork and filing: ${fmt(metrics.packetReady)} people completed packet steps, ${fmt(metrics.filedMatters)} matters were filed where available, and outcomes were visible for ${fmt(metrics.outcomesAvailable)} filed matters. Screening results are operational indicators and are not legal determinations.`
+      `The program created a clear view of movement from referral through paperwork and filing: ${fmt(metrics.packetReady)} packet steps were completed, ${fmt(metrics.distinctPeopleHelped)} distinct people were helped where identity was available, and ${fmt(metrics.actualReliefDelivered)} people have definitive relief delivered outcomes. Screening results are operational indicators and are not legal determinations.`
     ],
     keyOutcomes: [
       {
@@ -170,6 +171,11 @@ function buildFallbackNarrative(report: FinalImpactReportData): FinalImpactRepor
         title: `${fmt(metrics.filedMatters)} matters reached filing`,
         detail: `${fmt(metrics.filedMatters)} of ${fmt(metrics.packetReady)} completed packets were filed where available, a ${filedRate}% packet-to-filing movement rate.`,
         tone: "info"
+      },
+      {
+        title: `${fmt(metrics.actualReliefDelivered)} people have actual relief delivered`,
+        detail: `${reliefRate}% of filed matters have a definitive granted or partially granted relief outcome recorded on the packet audit trail, deduped by person identity.`,
+        tone: metrics.actualReliefDelivered > 0 ? "good" : "info"
       }
     ],
     dropOffInsights: [
@@ -191,6 +197,11 @@ function buildFallbackNarrative(report: FinalImpactReportData): FinalImpactRepor
       {
         title: `Outcomes visible for ${outcomeRate}% of filed matters`,
         detail: "Outcome reporting is useful where available, but many filed matters remain pending external court updates.",
+        tone: "info"
+      },
+      {
+        title: `Actual relief delivered: ${fmt(metrics.actualReliefDelivered)} people`,
+        detail: "Final impact counts granted and partially granted people as delivered relief, not packet rows or activity alone.",
         tone: "info"
       }
     ],

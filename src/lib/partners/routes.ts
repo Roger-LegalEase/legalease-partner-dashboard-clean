@@ -60,6 +60,10 @@ export function internalRcapAllowanceApi() {
   return "/api/internal/partners/rcap-allowance";
 }
 
+export function internalRcapReliefOutcomeApi(packetId: string) {
+  return `/api/internal/rcap/document-packets/${packetId}/relief-outcome`;
+}
+
 export function internalAdminEmails(slug: string) {
   return `/internal/partners/admin/${slug}/emails`;
 }
