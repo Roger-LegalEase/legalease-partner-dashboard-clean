@@ -2,6 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 
 const landingPath = path.join(process.cwd(), "design-handoff/expungement-ai-frontend/files-6/Expungement-Landing-Full.html");
+const noScriptRevealFallback = `
+  #how-it-works .jstep {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #how-it-works .jline {
+    transform: scaleY(1) !important;
+  }
+`;
 
 export function ExpungementLandingHandoff() {
   const source = fs.readFileSync(landingPath, "utf8");
@@ -22,7 +32,7 @@ export function ExpungementLandingHandoff() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: styles }} />
+      <style dangerouslySetInnerHTML={{ __html: `${styles}\n${noScriptRevealFallback}` }} />
       <div data-handoff-source="design-handoff/expungement-ai-frontend/files-6/Expungement-Landing-Full.html" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
