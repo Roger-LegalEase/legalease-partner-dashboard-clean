@@ -12,6 +12,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
   }
 
+  if (request.nextUrl.pathname === "/legalease") {
+    return NextResponse.rewrite(new URL("/static/legalease/index.html", request.url));
+  }
+
   if (isAuthSessionPath(request.nextUrl.pathname)) {
     return refreshSupabaseSession(request);
   }
@@ -144,7 +148,7 @@ function legalEasePath(pathname: string) {
     return null;
   }
 
-  return pathname === "/" ? "/legalease" : `/legalease${pathname}`;
+  return pathname === "/" ? "/static/legalease/index.html" : `/legalease${pathname}`;
 }
 
 function isStaticOrFrameworkPath(pathname: string) {
@@ -164,8 +168,8 @@ function isAssetPath(pathname: string) {
 
 function isPassthroughPath(pathname: string) {
   return pathname.startsWith("/api/") ||
-    pathname.startsWith("/expungement-ai") ||
-    pathname.startsWith("/legalease") ||
+    ((pathname.startsWith("/expungement-ai") || pathname.startsWith("/legalease")) &&
+      pathname !== "/expungement-ai" && pathname !== "/legalease") ||
     pathname === "/partners" ||
     pathname.startsWith("/partners/") ||
     pathname.startsWith("/p/") ||
