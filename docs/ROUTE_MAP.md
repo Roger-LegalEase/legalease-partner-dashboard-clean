@@ -2,6 +2,12 @@
 
 This app keeps product implementation routes stable and uses host-based routing in `src/proxy.ts` for public product domains. Path-based URLs remain available during the transition.
 
+> **Frontend ownership:** For per-surface frontend ownership (purpose, source files, design handoff,
+> correct header, correct logo, required visible elements, and screenshot verification), see
+> [`docs/FRONTEND_SOURCE_OF_TRUTH.md`](./FRONTEND_SOURCE_OF_TRUTH.md). This Route Map owns host/proxy
+> and environment/URL routing; the Source of Truth owns what each surface must render. No frontend
+> change is "done" without `npm run verify:frontend-surfaces` screenshots.
+
 ## Domain Ownership
 
 | Public domain | Product owner | Public behavior | Internal route |

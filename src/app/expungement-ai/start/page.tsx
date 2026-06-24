@@ -6,7 +6,7 @@ import { FlowButton } from "@/components/expungement-ai/ConsumerFlowCard";
 
 export default function StartPage() {
   return (
-    <ConsumerPageShell wilmaContext="start">
+    <ConsumerPageShell wilmaContext="start" headerVariant="app">
       <section className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-4 pb-16 pt-28 font-sans md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D] shadow-sm">

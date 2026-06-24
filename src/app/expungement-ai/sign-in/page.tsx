@@ -3,7 +3,7 @@ import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell
 
 export default function ConsumerSignInPage() {
   return (
-    <ConsumerPageShell wilmaContext="start">
+    <ConsumerPageShell wilmaContext="start" headerVariant="app">
       <section className="mx-auto max-w-xl px-4 pb-16 pt-32 md:px-8">
         <div className="rounded-md border border-[#ECEFF4] bg-white p-6">
           <p className="text-xs font-bold uppercase text-[#00A99D]">Consumer account</p>

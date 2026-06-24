@@ -3,7 +3,7 @@ import { StatePicker } from "@/components/expungement-ai/screening/StatePicker";
 
 export default function CheckPage() {
   return (
-    <ConsumerPageShell wilmaContext="check">
+    <ConsumerPageShell wilmaContext="check" headerVariant="app">
       <StatePicker />
     </ConsumerPageShell>
   );

@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ScreeningStatePickerPage() {
   return (
-    <ConsumerPageShell wilmaContext="check">
+    <ConsumerPageShell wilmaContext="check" headerVariant="app">
       <StatePicker />
     </ConsumerPageShell>
   );
