@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const requiredStripeEnvVars = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_APP_URL"];
+const requiredStripeEnvVars = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_PARTNER_APP_URL", "NEXT_PUBLIC_EXPUNGEMENT_AI_URL"];
 const bannedStripeEnvPatterns = ["STARTER", "COMMUNITY", "COUNTY"].map(
   (name) => new RegExp(`STRIPE_${"PRICE"}_[A-Z0-9_]*${name}[A-Z0-9_]*`)
 );

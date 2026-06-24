@@ -1,4 +1,4 @@
-import { getPublicBaseUrl } from "@/lib/app-url";
+import { getPartnerAppBaseUrl } from "@/lib/app-url";
 import { addPartnerEmailDeliveryRecord } from "@/lib/partners/partner-repository";
 import type { PartnerEmailStatus, PartnerEmailType, PartnerRecord } from "@/lib/partners/types";
 import { type PartnerEmailMode } from "./email-types";
@@ -45,7 +45,7 @@ export function getPartnerEmailDeliveryConfig(): PartnerEmailDeliveryConfig {
     from: process.env.PARTNER_EMAIL_FROM,
     replyTo: process.env.PARTNER_EMAIL_REPLY_TO,
     internalNotificationsEmail: process.env.INTERNAL_LEGALEASE_NOTIFICATIONS_EMAIL,
-    appUrl: getPublicBaseUrl(),
+    appUrl: getPartnerAppBaseUrl(),
     statusLabel: liveEnabled ? "live_enabled" : enabled ? "dry_run" : "disabled"
   };
 }

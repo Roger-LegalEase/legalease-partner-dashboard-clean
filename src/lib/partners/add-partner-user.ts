@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { getPartnerAppBaseUrl } from "@/lib/app-url";
 
 export const addPartnerUserRoles = ["partner_admin", "partner_staff"] as const;
 
@@ -192,10 +193,7 @@ function normalizeString(value: unknown) {
 }
 
 function getInviteAcceptanceRedirectUrl() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-  if (!appUrl) {
-    return null;
-  }
+  const appUrl = getPartnerAppBaseUrl();
 
   try {
     const url = new URL(appUrl);

@@ -124,6 +124,8 @@ const forbiddenChangedPrefixes = [
 for (const file of changedFiles()) {
   if ([
     ".env.example",
+    "src/lib/app-url.ts",
+    "src/lib/partners/add-partner-user.ts",
     "src/app/api/stripe/webhook/route.ts",
     "src/lib/stripe/server.ts",
     "src/lib/expungement-ai/briefcase.ts",

@@ -115,7 +115,7 @@ assertIncludes("src/lib/expungement-ai/payment-adapter.ts", [
   "packetStatus: item.packetStatus === \"ready\" ? \"ready\" : \"pending\""
 ]);
 
-for (const envName of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_APP_URL"]) {
+for (const envName of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_PARTNER_APP_URL", "NEXT_PUBLIC_EXPUNGEMENT_AI_URL"]) {
   assert(read("scripts/verify-stripe-readiness.mjs").includes(envName), `Stripe readiness verifier missing ${envName}.`);
 }
 

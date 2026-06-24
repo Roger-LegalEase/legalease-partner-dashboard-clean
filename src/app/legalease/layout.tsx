@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { getLegalEaseBaseUrl } from "@/lib/app-url";
 import "./LegalEaseStyles.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(getLegalEaseBaseUrl()),
   title: {
     default: "LegalEase",
     template: "%s | LegalEase"

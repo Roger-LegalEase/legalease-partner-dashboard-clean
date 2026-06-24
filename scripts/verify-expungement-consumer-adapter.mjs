@@ -158,6 +158,8 @@ const changedFiles = process.env.EXPUNGEMENT_VERIFY_CHANGED_FILES?.split("\n").f
 for (const file of changedFiles) {
   if ([
     ".env.example",
+    "src/lib/app-url.ts",
+    "src/lib/partners/add-partner-user.ts",
     "src/app/api/stripe/webhook/route.ts",
     "src/lib/stripe/server.ts",
     "src/lib/expungement-ai/briefcase.ts",

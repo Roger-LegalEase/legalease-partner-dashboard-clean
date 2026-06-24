@@ -1,6 +1,6 @@
 import "server-only";
 
-import { absoluteAppUrl } from "@/lib/app-url";
+import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { updateBriefcasePaymentMetadata } from "@/lib/expungement-ai/briefcase";
@@ -54,8 +54,8 @@ export async function createConsumerPacketCheckout({
 }): Promise<ConsumerCheckoutResult> {
   assertCheckoutAllowed(item);
 
-  const defaultSuccessUrl = absoluteAppUrl(`/expungement-ai/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id={CHECKOUT_SESSION_ID}`);
-  const defaultCancelUrl = absoluteAppUrl(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(item.id)}`);
+  const defaultSuccessUrl = absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id={CHECKOUT_SESSION_ID}`);
+  const defaultCancelUrl = absoluteExpungementAiUrl(`/pay?briefcaseItemId=${encodeURIComponent(item.id)}`);
 
   try {
     const stripe = getStripeServerClient();
@@ -117,7 +117,7 @@ export async function createConsumerPacketCheckout({
     return {
       mode: "dry_run",
       checkoutSessionId: dryRunSessionId,
-      checkoutUrl: absoluteAppUrl(`/expungement-ai/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id=${encodeURIComponent(dryRunSessionId)}&dry_run=1`),
+      checkoutUrl: absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id=${encodeURIComponent(dryRunSessionId)}&dry_run=1`),
       amountCents: consumerPacketPriceCents,
       briefcaseItemId: item.id
     };

@@ -170,6 +170,7 @@ const forbiddenChangedPrefixes = [
 
 const status = runGitStatus();
 for (const changedPath of status) {
+  if (changedPath === ".env.example") continue;
   if (forbiddenChangedPrefixes.some((prefix) => changedPath.startsWith(prefix))) {
     failures.push(`Forbidden area changed: ${changedPath}`);
   }

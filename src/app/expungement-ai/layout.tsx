@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { getExpungementAiBaseUrl } from "@/lib/app-url";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getExpungementAiBaseUrl()),
   title: "Expungement.ai",
   description: "Self-help record-clearing packets and guidance",
   icons: {

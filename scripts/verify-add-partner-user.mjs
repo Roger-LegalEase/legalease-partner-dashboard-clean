@@ -82,7 +82,7 @@ failIf(!(validateIndex < partnerExistsIndex && partnerExistsIndex < inviteIndex 
 failIf(!serviceSource.includes("emailPattern") || !serviceSource.includes("maxEmailLength"), "Service must validate and cap email addresses.");
 failIf(!serviceSource.includes(".toLowerCase()"), "Service must normalize email/slug values.");
 failIf(!serviceSource.includes("Choose an existing partner."), "Missing clean non-existent partner error.");
-failIf(!serviceSource.includes("process.env.NEXT_PUBLIC_APP_URL") || !serviceSource.includes('url.pathname = "/auth/set-password"') || !serviceSource.includes('url.search = "?next=/partner/dashboard"'), "Invites must build redirectTo from NEXT_PUBLIC_APP_URL for the set-password page with partner dashboard next path.");
+failIf(!serviceSource.includes("getPartnerAppBaseUrl") || !serviceSource.includes('url.pathname = "/auth/set-password"') || !serviceSource.includes('url.search = "?next=/partner/dashboard"'), "Invites must build redirectTo from NEXT_PUBLIC_PARTNER_APP_URL for the set-password page with partner dashboard next path.");
 failIf(serviceSource.includes("absoluteAppUrl(") || serviceSource.includes("localAppUrl") || serviceSource.includes("localhost"), "Invite redirect must not use localhost fallback helpers.");
 failIf(!serviceSource.includes("redirectTo:"), "Supabase invite must pass redirectTo.");
 failIf(!serviceSource.includes("deleteUser(invited.authUser.id)"), "Mapping failure after a new invite must attempt auth user cleanup.");
@@ -103,7 +103,7 @@ failIf(!forgotPasswordSource.includes('"use client"'), "Forgot-password page mus
 failIf(!forgotPasswordSource.includes("resetPasswordForEmail(email, {"), "Forgot-password page must call resetPasswordForEmail with the submitted email.");
 failIf(!forgotPasswordSource.includes("redirectTo: passwordResetRedirectTo()"), "Forgot-password reset must pass an explicit redirectTo.");
 failIf(!forgotPasswordSource.includes('new URL("/auth/set-password", baseUrl)') || !forgotPasswordSource.includes('url.search = "?next=/partner/dashboard"'), "Forgot-password reset redirect must target /auth/set-password with partner dashboard next path.");
-failIf(!forgotPasswordSource.includes("process.env.NEXT_PUBLIC_APP_URL"), "Forgot-password reset redirect must use NEXT_PUBLIC_APP_URL when configured.");
+failIf(!forgotPasswordSource.includes("process.env.NEXT_PUBLIC_PARTNER_APP_URL"), "Forgot-password reset redirect must use NEXT_PUBLIC_PARTNER_APP_URL when configured.");
 failIf(!forgotPasswordSource.includes("If an account exists for that email, we sent password reset instructions."), "Forgot-password success copy must not reveal whether the account exists.");
 for (const leakingCopy of ["email not found", "user not found", "account does not exist", "no account"]) {
   failIf(forgotPasswordSource.toLowerCase().includes(leakingCopy), `Forgot-password page must not include account enumeration copy: ${leakingCopy}`);

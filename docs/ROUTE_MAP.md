@@ -45,18 +45,25 @@ This app keeps product implementation routes stable and uses host-based routing 
 
 ## Environment Variables
 
-Current production env still uses one public base URL:
+Production URL ownership is product-specific:
 
-- `NEXT_PUBLIC_APP_URL=https://www.legaleasepartner.com`
+- `NEXT_PUBLIC_PARTNER_APP_URL=https://legaleasepartner.com`
+- `NEXT_PUBLIC_EXPUNGEMENT_AI_URL=https://expungement.ai`
+- `NEXT_PUBLIC_LEGALEASE_URL=https://legalease.law`
 
-That value affects partner URLs, Supabase invite/reset redirects, Stripe checkout URLs, Expungement.ai resume/nudge emails, and LegalEase metadata. For separated public domains, split or update URL configuration before launch:
+`NEXT_PUBLIC_APP_URL` is retained only as a legacy compatibility fallback for partner-domain behavior. Do not use it for new product-specific URLs, and do not let it control Expungement.ai consumer URLs.
 
-- Keep partner platform URLs on `https://legaleasepartner.com`.
-- Use `https://expungement.ai` for Expungement.ai checkout success/cancel URLs and consumer emails.
-- Use `https://legalease.law` or `https://legalease.com` for LegalEase umbrella metadata and public links.
+Implemented ownership:
+
+- Partner email links, invite redirects, password-reset redirects, partner landing URLs, onboarding URLs, dashboard URLs, and internal email preview URLs use `NEXT_PUBLIC_PARTNER_APP_URL`.
+- Expungement.ai checkout success/cancel URLs, dry-run checkout URLs, screening resume links, and screening nudge opt-out links use `NEXT_PUBLIC_EXPUNGEMENT_AI_URL`.
+- LegalEase umbrella metadata uses `NEXT_PUBLIC_LEGALEASE_URL`.
 
 Existing env keys involved:
 
+- `NEXT_PUBLIC_PARTNER_APP_URL`
+- `NEXT_PUBLIC_EXPUNGEMENT_AI_URL`
+- `NEXT_PUBLIC_LEGALEASE_URL`
 - `NEXT_PUBLIC_APP_URL`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -73,15 +80,17 @@ Add these redirect URLs in Supabase Auth settings before public domain cutover:
 - `https://www.legaleasepartner.com/auth/set-password`
 - `https://legaleasepartner.com/partner/dashboard`
 - `https://www.legaleasepartner.com/partner/dashboard`
-- `https://expungement.ai/expungement-ai/sign-in`
-- `https://www.expungement.ai/expungement-ai/sign-in`
+- `https://expungement.ai/sign-in`
+- `https://www.expungement.ai/sign-in`
 - `https://expungement.ai/briefcase`
 - `https://www.expungement.ai/briefcase`
 
-If Expungement.ai auth later moves to clean callback routes, also add the clean equivalents:
+Keep the internal path fallbacks during transition:
 
-- `https://expungement.ai/sign-in`
-- `https://www.expungement.ai/sign-in`
+- `https://legaleasepartner.com/expungement-ai/sign-in`
+- `https://www.legaleasepartner.com/expungement-ai/sign-in`
+- `https://legaleasepartner.com/briefcase`
+- `https://www.legaleasepartner.com/briefcase`
 
 ## Stripe URLs
 
@@ -90,15 +99,11 @@ Stripe webhook endpoint remains partner-app hosted unless deployment architectur
 - `https://legaleasepartner.com/api/stripe/webhook`
 - `https://www.legaleasepartner.com/api/stripe/webhook`
 
-Consumer checkout success/cancel URLs should move from `NEXT_PUBLIC_APP_URL` on the partner domain to Expungement.ai-owned URLs:
-
-- Success: `https://expungement.ai/expungement-ai/packet-ready?briefcaseItemId=...&session_id={CHECKOUT_SESSION_ID}`
-- Cancel: `https://expungement.ai/expungement-ai/pay?briefcaseItemId=...`
-
-Clean URL equivalents can be introduced after consumer route links are made product-domain aware:
+Consumer checkout success/cancel URLs use `NEXT_PUBLIC_EXPUNGEMENT_AI_URL`:
 
 - Success: `https://expungement.ai/packet-ready?briefcaseItemId=...&session_id={CHECKOUT_SESSION_ID}`
 - Cancel: `https://expungement.ai/pay?briefcaseItemId=...`
+- Dry-run success: `https://expungement.ai/packet-ready?briefcaseItemId=...&session_id=...&dry_run=1`
 
 ## Vercel Domain Setup
 
@@ -132,4 +137,3 @@ Configure DNS for:
 - `www.legalease.com`
 - `legaleasepartner.com`
 - `www.legaleasepartner.com`
-

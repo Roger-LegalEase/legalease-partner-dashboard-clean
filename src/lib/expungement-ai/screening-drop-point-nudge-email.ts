@@ -1,6 +1,6 @@
 import "server-only";
 
-import { absoluteAppUrl } from "@/lib/app-url";
+import { absoluteExpungementAiUrl } from "@/lib/app-url";
 
 export type ScreeningDropPointNudgeTouch = 1 | 2;
 
@@ -103,7 +103,7 @@ export async function sendScreeningDropPointNudgeEmail(input: ScreeningDropPoint
 }
 
 export function screeningDropPointNudgeOptOutUrl(rawToken: string) {
-  return absoluteAppUrl(`/api/expungement-ai/screening/nudge/opt-out?token=${encodeURIComponent(rawToken)}`);
+  return absoluteExpungementAiUrl(`/api/expungement-ai/screening/nudge/opt-out?token=${encodeURIComponent(rawToken)}`);
 }
 
 export function touch1Body(questionId: string | null) {

@@ -9,15 +9,19 @@ const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const moduleCache = new Map();
-const productionDomain = "www.legaleasepartner.com";
+const productionDomain = "legaleasepartner.com";
 const productionUrl = `https://${productionDomain}`;
+const expungementAiUrl = "https://expungement.ai";
+const legalEaseUrl = "https://legalease.law";
 const requiredEnvKeys = [
   "NEXT_PUBLIC_SUPABASE_URL",
   "SUPABASE_SERVICE_ROLE_KEY",
   "ENABLE_SUPABASE_PARTNER_DATA",
   "STRIPE_SECRET_KEY",
   "STRIPE_WEBHOOK_SECRET",
-  "NEXT_PUBLIC_APP_URL",
+  "NEXT_PUBLIC_PARTNER_APP_URL",
+  "NEXT_PUBLIC_EXPUNGEMENT_AI_URL",
+  "NEXT_PUBLIC_LEGALEASE_URL",
   "ENABLE_PARTNER_EMAIL_DELIVERY",
   "PARTNER_EMAIL_PROVIDER",
   "RESEND_API_KEY",
@@ -50,12 +54,27 @@ const independenceDocSource = readSource("docs/RCAP_INDEPENDENCE.md");
 const emailServiceSource = readSource("src/lib/email/email-service.ts");
 const packagesSource = readSource("src/lib/partners/packages.ts");
 
-if (!appUrlSource.includes(productionUrl) || !appUrlSource.includes("NEXT_PUBLIC_APP_URL")) {
-  failures.push("NEXT_PUBLIC_APP_URL production domain support is missing.");
+if (
+  !appUrlSource.includes(productionUrl) ||
+  !appUrlSource.includes(expungementAiUrl) ||
+  !appUrlSource.includes(legalEaseUrl) ||
+  !appUrlSource.includes("NEXT_PUBLIC_PARTNER_APP_URL") ||
+  !appUrlSource.includes("NEXT_PUBLIC_EXPUNGEMENT_AI_URL") ||
+  !appUrlSource.includes("NEXT_PUBLIC_LEGALEASE_URL")
+) {
+  failures.push("Product-specific public URL support is missing.");
 }
 
-if (!envExampleSource.includes(`NEXT_PUBLIC_APP_URL=${productionUrl}`)) {
+if (!envExampleSource.includes(`NEXT_PUBLIC_PARTNER_APP_URL=${productionUrl}`)) {
   failures.push(".env.example does not include the LegalEasePartner production app URL.");
+}
+
+if (!envExampleSource.includes(`NEXT_PUBLIC_EXPUNGEMENT_AI_URL=${expungementAiUrl}`)) {
+  failures.push(".env.example does not include the Expungement.ai production URL.");
+}
+
+if (!envExampleSource.includes(`NEXT_PUBLIC_LEGALEASE_URL=${legalEaseUrl}`)) {
+  failures.push(".env.example does not include the LegalEase production URL.");
 }
 
 for (const key of requiredEnvKeys) {

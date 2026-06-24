@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
 }
 
 function passwordResetRedirectTo() {
-  const configuredAppUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  const configuredAppUrl = process.env.NEXT_PUBLIC_PARTNER_APP_URL?.trim() || process.env.NEXT_PUBLIC_APP_URL?.trim();
   const baseUrl = configuredAppUrl || window.location.origin;
   const url = new URL("/auth/set-password", baseUrl);
   url.search = "?next=/partner/dashboard";

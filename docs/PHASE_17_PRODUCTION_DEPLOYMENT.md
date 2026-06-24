@@ -3,7 +3,7 @@
 Phase 17 prepares the LegalEase Partner Journey OS for launch at:
 
 ```text
-https://www.legaleasepartner.com
+https://legaleasepartner.com
 ```
 
 The deployment target is the LegalEase Record-Clearing Access Program partner platform. It is independent of the consumer-facing Expungement.ai funnel.
@@ -15,7 +15,7 @@ Vercel is the recommended deployment path for the current Next.js app.
 1. Connect `Roger-LegalEase/legalease-partner-dashboard-clean`.
 2. Deploy branch `main`.
 3. Set production env vars in the hosting dashboard.
-4. Add `www.legaleasepartner.com` as the production domain.
+4. Add `legaleasepartner.com` as the production domain.
 5. Verify HTTPS and canonical production URL behavior.
 
 ## Production Env Var Checklist
@@ -25,7 +25,10 @@ Use `.env.example` as the non-secret checklist.
 Required production URL:
 
 ```bash
-NEXT_PUBLIC_APP_URL=https://www.legaleasepartner.com
+NEXT_PUBLIC_PARTNER_APP_URL=https://legaleasepartner.com
+NEXT_PUBLIC_EXPUNGEMENT_AI_URL=https://expungement.ai
+NEXT_PUBLIC_LEGALEASE_URL=https://legalease.law
+NEXT_PUBLIC_APP_URL=https://legaleasepartner.com
 ```
 
 Supabase:
@@ -82,7 +85,7 @@ PARTNER_PREVIEW_ACCESS_TOKEN=
 Production Stripe webhook endpoint:
 
 ```text
-https://www.legaleasepartner.com/api/stripe/webhook
+https://legaleasepartner.com/api/stripe/webhook
 ```
 
 Stripe setup:
@@ -117,7 +120,7 @@ If the token is missing in production, internal routes fail closed.
 
 ## DNS Checklist
 
-- Add `www.legaleasepartner.com` to the hosting provider.
+- Add `legaleasepartner.com` to the hosting provider.
 - Configure DNS records requested by the hosting provider.
 - Confirm HTTPS certificate issuance.
 - Confirm redirects keep RCAP traffic on the LegalEasePartner production domain.

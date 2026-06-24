@@ -1,6 +1,6 @@
 import "server-only";
 
-import { absoluteAppUrl } from "@/lib/app-url";
+import { absoluteExpungementAiUrl } from "@/lib/app-url";
 
 export type ScreeningResumeEmail = {
   to: string;
@@ -46,7 +46,7 @@ export function renderScreeningResumeEmail(input: ScreeningResumeEmail) {
 }
 
 export function screeningResumeUrl(rawToken: string) {
-  return absoluteAppUrl(`/expungement-ai/screening/resume?token=${encodeURIComponent(rawToken)}`);
+  return absoluteExpungementAiUrl(`/screening/resume?token=${encodeURIComponent(rawToken)}`);
 }
 
 export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Promise<ScreeningResumeEmailResult> {
