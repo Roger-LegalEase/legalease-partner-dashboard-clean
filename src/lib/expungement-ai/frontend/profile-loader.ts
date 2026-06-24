@@ -92,12 +92,20 @@ function loadMockProfile(key: string): { ok: true; value: unknown } | { ok: fals
  * response is still validated by `loadJurisdictionProfile` before render; the engine's live
  * response is the source of truth for the profile shape.
  */
+/**
+ * Hard ceiling on the live profile request. Without this, a hung or never-resolving fetch would
+ * leave the screening flow stuck on the "Loading your state's questions…" skeleton forever. The
+ * timeout converts a stall into a calm, retryable error state instead.
+ */
+const PROFILE_FETCH_TIMEOUT_MS = 10_000;
+
 async function fetchLiveProfile(
   key: string
 ): Promise<{ ok: true; value: unknown } | { ok: false; error: string }> {
   try {
     const response = await fetch(`/api/expungement-ai/profiles/${encodeURIComponent(key)}`, {
-      headers: { accept: "application/json" }
+      headers: { accept: "application/json" },
+      signal: AbortSignal.timeout(PROFILE_FETCH_TIMEOUT_MS)
     });
     if (!response.ok) {
       return { ok: false, error: `Profile request failed (${response.status}).` };
