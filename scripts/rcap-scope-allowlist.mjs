@@ -61,6 +61,14 @@ export const RCAP_PARTNER_MODE_FILES = [
   "supabase/phase-35d-rcap-slot-lifecycle.sql"
 ];
 
+// Roger approved this single auth-route change: passwordResetRedirectTo() may prefer
+// NEXT_PUBLIC_PARTNER_APP_URL and fall back to NEXT_PUBLIC_APP_URL so partner password-reset links
+// use https://legaleasepartner.com. The approval is scoped to that one-line redirect-base change
+// only — no token, session, or Supabase auth logic — and to this one file. Do not broaden it.
+export const ROGER_APPROVED_PARTNER_RESET_URL_FILES = [
+  "src/app/auth/forgot-password/page.tsx"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
@@ -68,5 +76,6 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...EXPUNGEMENT_DATA_LAYER_FILES,
   ...SCREENING_RESUME_FILES,
   ...SCREENING_DROP_POINT_NUDGE_FILES,
-  ...RCAP_PARTNER_MODE_FILES
+  ...RCAP_PARTNER_MODE_FILES,
+  ...ROGER_APPROVED_PARTNER_RESET_URL_FILES
 ];
