@@ -124,6 +124,7 @@ function productPathForHost(host: string, pathname: string) {
 function expungementAiPath(pathname: string) {
   const cleanPaths = new Set([
     "/",
+    "/screening",
     "/start",
     "/check",
     "/results",
@@ -134,6 +135,10 @@ function expungementAiPath(pathname: string) {
     "/support",
     "/sign-in"
   ]);
+
+  if (pathname.startsWith("/screening/")) {
+    return `/expungement-ai${pathname}`;
+  }
 
   if (!cleanPaths.has(pathname)) {
     return null;
