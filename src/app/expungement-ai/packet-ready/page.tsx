@@ -41,7 +41,7 @@ export default async function PacketReadyPage({
   const checkoutMode = checkoutStatus?.mode;
 
   return (
-    <ConsumerPageShell wilmaContext="packet-ready">
+    <ConsumerPageShell wilmaContext="packet-ready" headerVariant="app">
       <section className="mx-auto max-w-4xl px-4 pb-16 pt-32 md:px-8">
         <div className="rounded-md border border-[#ECEFF4] bg-white p-6">
           {packetReady && packetItem && packet?.artifactRefs ? (

@@ -105,7 +105,12 @@ function assertNoRestrictedChanges() {
     "supabase/phase-35-rcap-partner-entitlement.sql",
     "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
     "supabase/phase-35c-rcap-claim-screening-session.sql",
-    "supabase/phase-35d-rcap-slot-lifecycle.sql"
+    "supabase/phase-35d-rcap-slot-lifecycle.sql",
+    // Roger approved this single auth-route change: passwordResetRedirectTo() may prefer
+    // NEXT_PUBLIC_PARTNER_APP_URL and fall back to NEXT_PUBLIC_APP_URL so partner password-reset
+    // links use https://legaleasepartner.com. Scoped to that one-line redirect-base change only —
+    // no token, session, or Supabase auth logic — and to this one file. Do not broaden it.
+    "src/app/auth/forgot-password/page.tsx"
   ]);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))

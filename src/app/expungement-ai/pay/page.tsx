@@ -21,7 +21,7 @@ export default async function PayPage({
       assertCheckoutAllowed(item);
     } catch {
       return (
-        <ConsumerPageShell wilmaContext="pay">
+        <ConsumerPageShell wilmaContext="pay" headerVariant="app">
           <section className="mx-auto flex min-h-screen max-w-3xl items-center px-4 pb-16 pt-28 font-sans md:px-8">
             <div className="w-full rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
               <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]">Payment unavailable</p>
@@ -35,7 +35,7 @@ export default async function PayPage({
   }
 
   return (
-    <ConsumerPageShell wilmaContext="pay">
+    <ConsumerPageShell wilmaContext="pay" headerVariant="app">
       <section className="mx-auto flex min-h-screen max-w-3xl items-center px-4 pb-16 pt-28 font-sans md:px-8">
         <div className="w-full rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8" data-consumer-payment-adapter="isolated">
           <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]">Step 2 of 2</p>

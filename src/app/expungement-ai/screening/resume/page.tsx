@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ResumeScreeningPage() {
   return (
-    <ConsumerPageShell wilmaContext="check" showWilma={false}>
+    <ConsumerPageShell wilmaContext="check" showWilma={false} headerVariant="app">
       <ResumeScreeningClient />
     </ConsumerPageShell>
   );

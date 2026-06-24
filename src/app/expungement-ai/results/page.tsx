@@ -24,7 +24,7 @@ async function ResultsContent({
   });
 
   return (
-    <ConsumerPageShell wilmaContext="results">
+    <ConsumerPageShell wilmaContext="results" headerVariant="app">
       <section className="mx-auto max-w-5xl px-4 pb-16 pt-32 md:px-8">
         <ResultPanel result={result} />
       </section>
