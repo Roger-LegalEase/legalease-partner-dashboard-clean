@@ -29,7 +29,7 @@ assertIncludes("src/proxy.ts", [
   'return pathname === "/" ? "/expungement-ai" : `/expungement-ai${pathname}`',
   '"legalease.com"',
   '"legalease.law"',
-  'return pathname === "/" ? "/legalease" : `/legalease${pathname}`',
+  'return pathname === "/" ? "/static/legalease/index.html" : `/legalease${pathname}`',
   '"cleartherecord.org"',
   '"/internal/command-center/readiness"',
   "NextResponse.redirect(url, 307)",
