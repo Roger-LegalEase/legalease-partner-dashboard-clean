@@ -133,7 +133,8 @@ function expungementAiPath(pathname: string) {
     "/pricing",
     "/contact",
     "/support",
-    "/sign-in"
+    "/sign-in",
+    "/how-it-works"
   ]);
 
   if (pathname.startsWith("/screening/")) {
