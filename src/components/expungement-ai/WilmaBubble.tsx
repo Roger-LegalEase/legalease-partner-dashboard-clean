@@ -15,6 +15,10 @@ const WILMA_PUBLIC_CHAT_ENDPOINT = "/api/expungement-ai/wilma/public-chat";
 // Shown only when the request itself fails (network/transport). The route's own
 // deterministic fallback arrives in `response` and is rendered as-is.
 const WILMA_TRANSPORT_FALLBACK = "I had trouble reaching the assistant just now — give it another try in a moment. The screening tool and your Briefcase are still right here.";
+// Shown when the single-use bot-challenge token isn't ready yet (first paint, or regenerating
+// after the previous turn). Surfacing this beats silently sending a spent token the server
+// would reject with a 403 — the user always sees why nothing was sent.
+const WILMA_CHALLENGE_PENDING = "One sec — just finishing a quick security check, then send that again.";
 
 // Lightweight state list for the anonymous landing picker. Selecting a state feeds verified
 // state content into the public payload so legal-fact questions get real content, not a redirect.
@@ -47,6 +51,8 @@ type WilmaMessage = {
 type TurnstileApi = {
   render: (el: HTMLElement, options: Record<string, unknown>) => string;
   remove: (id: string) => void;
+  // Single-use tokens must be regenerated between turns; reset() issues a fresh one.
+  reset: (id: string) => void;
 };
 
 export function WilmaBubble({
@@ -82,6 +88,9 @@ export function WilmaBubble({
     }
   });
   const turnstileRef = useRef<HTMLDivElement | null>(null);
+  // The rendered widget id, kept in a ref so handleSubmit can reset() it between turns to
+  // mint a fresh single-use token (the previous one is spent server-side after each send).
+  const turnstileWidgetRef = useRef<string | undefined>(undefined);
   const prompt = promptForContext(context);
   const hasGuideAnswer = messages.some((item) => item.role === "guide");
   // Render-only mirror of the server-side kill-switch flag. In production Wilma's availability is
@@ -110,6 +119,7 @@ export function WilmaBubble({
         "expired-callback": () => setTurnstileToken(undefined),
         "error-callback": () => setTurnstileToken(undefined)
       });
+      turnstileWidgetRef.current = widgetId;
     };
 
     if ((window as unknown as { turnstile?: TurnstileApi }).turnstile) {
@@ -135,12 +145,37 @@ export function WilmaBubble({
       cancelled = true;
       const turnstile = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
       if (turnstile && widgetId) turnstile.remove(widgetId);
+      turnstileWidgetRef.current = undefined;
     };
   }, [isPublic, siteKey, isOpen]);
+
+  // Turnstile tokens are single-use: the server redeems the token on each send, so the same
+  // token can't be replayed on the next turn (Cloudflare returns timeout-or-duplicate -> 403).
+  // After every send we reset the widget to mint a fresh token for the next message; without
+  // this, only the first message in a session would ever succeed once the challenge is enabled.
+  function resetTurnstile() {
+    const turnstile = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+    if (turnstile && turnstileWidgetRef.current) {
+      try {
+        turnstile.reset(turnstileWidgetRef.current);
+      } catch {
+        // Widget already gone (e.g. closed) — the token is cleared below regardless.
+      }
+    }
+    setTurnstileToken(undefined);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!trimmedMessage || isSending) return;
+    // The bot challenge token is single-use and regenerates after each turn. If it isn't ready
+    // yet (first paint, or still refreshing from the previous send), don't fire a request with a
+    // spent/empty token the server would 403 — tell the user and keep their text so they can
+    // resend the moment the fresh token lands. Only relevant when the challenge is configured.
+    if (isPublic && siteKey && !turnstileToken) {
+      setMessages((current) => [...current, { id: Date.now(), role: "guide", text: WILMA_CHALLENGE_PENDING }]);
+      return;
+    }
     const userMessage = trimmedMessage;
     // Prior turns, oldest first, EXCLUDING the message we're about to send — exactly the
     // history shape the route accepts. Capture before appending the new user turn.
@@ -174,14 +209,18 @@ export function WilmaBubble({
         body: JSON.stringify(requestBody)
       });
       const data = await res.json().catch(() => null) as { response?: string } | null;
-      const replyText = typeof data?.response === "string" && data.response.trim()
-        ? data.response
-        : WILMA_TRANSPORT_FALLBACK;
+      // The route returns user-facing copy in `response` for every handled outcome (success,
+      // rate limit, turn cap, challenge failure). Prefer it; only fall back when it's missing —
+      // and never leave the turn with no reply at all, regardless of status code.
+      const serverReply = typeof data?.response === "string" && data.response.trim() ? data.response.trim() : "";
+      const replyText = serverReply || WILMA_TRANSPORT_FALLBACK;
       setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: replyText }]);
     } catch {
       setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: WILMA_TRANSPORT_FALLBACK }]);
     } finally {
       setIsSending(false);
+      // Spend the current single-use challenge token and request a fresh one for the next turn.
+      if (isPublic && siteKey) resetTurnstile();
     }
   }
 
@@ -226,7 +265,7 @@ export function WilmaBubble({
                     </select>
                   </label>
                 ) : null}
-                {messages.length > 0 ? (
+                {messages.length > 0 || isSending ? (
                   <div className="max-h-44 space-y-2 overflow-y-auto pr-1" aria-live="polite">
                     {messages.map((item) => (
                       <div
@@ -236,6 +275,18 @@ export function WilmaBubble({
                         {item.text}
                       </div>
                     ))}
+                    {isSending ? (
+                      <div
+                        className="mr-8 flex w-fit items-center gap-1 rounded-xl bg-[#F7F3EC] px-3 py-2.5"
+                        data-wilma-thinking="true"
+                        role="status"
+                      >
+                        <span className="sr-only">Wilma is thinking…</span>
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275] [animation-delay:-0.3s]" aria-hidden="true" />
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275] [animation-delay:-0.15s]" aria-hidden="true" />
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275]" aria-hidden="true" />
+                      </div>
+                    ) : null}
                   </div>
                 ) : (
                   <div className="rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]">
@@ -260,9 +311,10 @@ export function WilmaBubble({
                 <form className="flex gap-2" onSubmit={handleSubmit}>
                   <input
                     aria-label="Message Wilma"
-                    className="min-h-10 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20"
+                    className="min-h-10 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20 disabled:cursor-not-allowed disabled:bg-[#F4F6FA]"
+                    disabled={isSending}
                     onChange={(event) => setMessage(event.target.value)}
-                    placeholder={currentQuestion ? "Ask Wilma about this question" : "Ask Wilma"}
+                    placeholder={isSending ? "Wilma is thinking…" : currentQuestion ? "Ask Wilma about this question" : "Ask Wilma"}
                     value={message}
                   />
                   <button
