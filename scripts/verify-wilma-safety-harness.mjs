@@ -43,6 +43,8 @@ const migrationSource = exists(migrationPath) ? read(migrationPath) : "";
 const bubbleSource = read("src/components/expungement-ai/WilmaBubble.tsx");
 const shellSource = read("src/components/expungement-ai/ConsumerPageShell.tsx");
 const briefcaseShellSource = read("src/components/expungement-ai/BriefcaseShell.tsx");
+const publicRoutePath = "src/app/api/expungement-ai/wilma/public-chat/route.ts";
+const publicRouteSource = exists(publicRoutePath) ? read(publicRoutePath) : "";
 
 assert(packageSource.includes('"expungement:verify-wilma-safety-harness"'), "Missing expungement:verify-wilma-safety-harness npm script.");
 for (const file of [
@@ -75,6 +77,22 @@ assert(routeSource.includes("isWilmaKillSwitchActive()") && routeSource.indexOf(
 assert(routeSource.includes("guardWilmaResponse"), "Wilma chat route must guard drafted response before return.");
 assert(routeSource.includes("logWilmaExchange"), "Wilma chat route must log redacted telemetry.");
 assert(!routeSource.includes("paymentAllowed =") && !routeSource.includes("resultCode =") && !routeSource.includes("generatePaidConsumerPacket"), "Wilma route must not decide eligibility/payment/packet generation.");
+
+// Anonymous landing route (/public-chat): same guardrails as the authed path, but it must
+// NEVER carry a session or case visibility, and must keep the abuse/cost protections.
+assert(exists(publicRoutePath), "Public (anonymous) Wilma route missing.");
+assert(!publicRouteSource.includes("requireConsumerBriefcaseSession"), "Public Wilma route must NOT require a session.");
+assert(!publicRouteSource.includes("getBriefcaseItem") && !publicRouteSource.includes("briefcaseItemId"), "Public Wilma route must never read a case (no getBriefcaseItem / briefcaseItemId).");
+assert(publicRouteSource.includes("buildPublicWilmaContext"), "Public Wilma route must build the no-case public context.");
+assert(publicRouteSource.includes("isWilmaKillSwitchActive()") && publicRouteSource.indexOf("isWilmaKillSwitchActive()") < publicRouteSource.indexOf("const reply = await generateWilmaReply"), "Public route kill-switch must happen before the model call.");
+assert(publicRouteSource.includes("verifyTurnstileToken"), "Public Wilma route must run the bot challenge.");
+assert(publicRouteSource.includes("consumePublicRateLimit"), "Public Wilma route must enforce per-IP rate limiting.");
+assert(publicRouteSource.includes("isPublicSpendCapExhausted") && publicRouteSource.includes("recordPublicSpend"), "Public Wilma route must enforce and meter the global spend cap.");
+assert(publicRouteSource.includes("guardWilmaResponse"), "Public Wilma route must guard the response.");
+assert(publicRouteSource.includes("logWilmaExchange"), "Public Wilma route must log redacted telemetry.");
+assert(publicRouteSource.includes("WILMA_PUBLIC_MODEL"), "Public Wilma route must use the locked public model.");
+assert(/WILMA_PUBLIC_MODEL\s*=\s*"gpt-4o"/.test(read("src/lib/expungement-ai/wilma-model.ts")), "Public model must be locked to gpt-4o (the adversarially-tested model).");
+assert(!publicRouteSource.includes("paymentAllowed =") && !publicRouteSource.includes("resultCode =") && !publicRouteSource.includes("generatePaidConsumerPacket"), "Public Wilma route must not decide eligibility/payment/packet generation.");
 
 for (const marker of ["type WilmaContext", "VerifiedStateContent", "ReadOnlyCaseSummary", "injectedStateContentIds", "sanitizeCaseContext", "getStatePromotionRecord"]) {
   assert(contextSource.includes(marker), `Wilma context contract missing marker: ${marker}`);

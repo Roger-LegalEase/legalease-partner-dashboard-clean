@@ -251,7 +251,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   if (phase === "evaluating") {
     return (
-      <FlowFrame>
+      <FlowFrame state={state}>
         <ProgressRail current={screens.length} total={screens.length} />
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <EvaluatingState />
@@ -262,7 +262,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   if (phase === "error" && evalError) {
     return (
-      <FlowFrame>
+      <FlowFrame state={state}>
         <ProgressRail current={screens.length} total={screens.length} />
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <EvaluationErrorState
@@ -277,7 +277,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   if (phase === "result" && evaluation) {
     return (
-      <FlowFrame wilmaContext="results">
+      <FlowFrame wilmaContext="results" state={state}>
         <ProgressRail current={screens.length} total={screens.length} />
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <ScreeningResult
@@ -295,7 +295,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const question = screens[currentIndex];
 
   return (
-    <FlowFrame currentQuestion={question.prompt}>
+    <FlowFrame currentQuestion={question.prompt} state={state}>
       <ProgressRail current={currentIndex + 1} total={screens.length} />
       <div className="mb-4 flex items-center justify-between">
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{stateName} screening</p>
@@ -419,18 +419,22 @@ function SaveProgressDialog({
 function FlowFrame({
   children,
   currentQuestion,
-  wilmaContext = "check"
+  wilmaContext = "check",
+  state
 }: {
   children: React.ReactNode;
   currentQuestion?: string;
   wilmaContext?: WilmaPageContext;
+  // The screening jurisdiction, threaded to Wilma so the check/result surfaces send a
+  // case-aware payload (verified state content injection). Undefined on pre-case states.
+  state?: string;
 }) {
   // A single, phase-aware Wilma surface for the flow. The result phase uses the "results" opener
   // ("Want me to explain this result?"); every other phase uses the question opener. Render-only.
   return (
     <>
       <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 font-sans md:px-8">{children}</section>
-      <WilmaBubble context={wilmaContext} currentQuestion={currentQuestion} />
+      <WilmaBubble context={wilmaContext} currentQuestion={currentQuestion} state={state} />
     </>
   );
 }

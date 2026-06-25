@@ -26,8 +26,8 @@ export type WilmaGuardResult = {
   redirectTarget: "screening_tool" | "human_help" | "none";
 };
 
-const safeScreeningRedirect = "That is exactly what the screening tool is built to figure out. I can explain the process, but I do not decide eligibility or outcomes. Let us use the screening tool for that.";
-const safeHumanRedirect = "This is a lawyer question, and I do not want to guess with something that matters. A qualified legal helper should review it. I can still explain general process steps.";
+const safeScreeningRedirect = "That's exactly what the screening tool is built to figure out — it checks your details against your state's rules instead of my gut read. I can walk you through the process and what each question means, but I don't decide eligibility or outcomes. Let's use the screening tool for that part.";
+const safeHumanRedirect = "This is really a lawyer question, and I don't want to guess on something that matters this much. Someone qualified — a legal helper or legal aid — should take a look. I can still explain the general process steps in plain English while you line that up.";
 
 const responseGuards: Array<{ category: WilmaGuardCategory; pattern: RegExp; target?: WilmaGuardResult["redirectTarget"] }> = [
   { category: "eligibility_verdict", pattern: /\b(you qualify|you are eligible|you're eligible|you are not eligible|you're not eligible|you don't qualify|you do not qualify)\b/i, target: "screening_tool" },

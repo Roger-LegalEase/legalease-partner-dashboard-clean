@@ -33,7 +33,7 @@ export function WilmaScriptedPreview() {
       {open ? (
         <section className="le-wilma-panel" aria-label="Scripted Wilma preview">
           <header>
-            <Image src="/legalease/wilma/wilma-avatar.png" alt="" width={88} height={88} />
+            <Image src="/legalease/wilma/wilma-avatar-128.png" alt="" width={44} height={44} />
             <div>
               <strong>Wilma</strong>
               <div>Scripted preview</div>
@@ -55,7 +55,7 @@ export function WilmaScriptedPreview() {
       ) : null}
       <div className="le-wilma-fab">
         <button className="le-wilma-button" type="button" aria-label="Ask Wilma" onClick={() => setOpen((value) => !value)}>
-          <Image src="/legalease/wilma/wilma-avatar.png" alt="" width={88} height={88} />
+          <Image src="/legalease/wilma/wilma-avatar-128.png" alt="" width={44} height={44} />
         </button>
       </div>
     </>

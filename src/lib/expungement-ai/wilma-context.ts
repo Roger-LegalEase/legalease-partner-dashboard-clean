@@ -68,6 +68,19 @@ export function buildWilmaContext({
   };
 }
 
+// Anonymous landing context: verified state content only, and NEVER any case visibility.
+// briefcaseItem is structurally forced to null here, so this path cannot see a user's case
+// even if a caller tried to smuggle one in. Used by the public (unauthenticated) route.
+export function buildPublicWilmaContext({
+  state,
+  pageContext
+}: {
+  state?: string;
+  pageContext: WilmaPageContext;
+}): WilmaContext {
+  return buildWilmaContext({ state, pageContext, briefcaseItem: null });
+}
+
 export function sanitizeCaseContext(briefcaseItem: ConsumerBriefcaseItem | null | undefined, stage: WilmaPageContext): ReadOnlyCaseSummary {
   if (!briefcaseItem) return { stage };
 
