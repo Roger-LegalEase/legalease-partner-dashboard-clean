@@ -82,7 +82,7 @@ export type FinalImpactReportData = {
 };
 
 export async function buildPartnerFinalImpactReportData(context: FinalImpactReportRequestContext): Promise<FinalImpactReportData> {
-  if (useSeedFinalImpactReportData()) return buildSeedPartnerFinalImpactReportData(context);
+  if (shouldUseSeedFinalImpactReportData()) return buildSeedPartnerFinalImpactReportData(context);
   return buildLivePartnerFinalImpactReportData(context);
 }
 
@@ -497,7 +497,7 @@ function isLikelyEligibleSignal(value: string | null) {
   return value === "possible_pathway" || value === "possible_expungement_path" || value === "possible_sealing_path";
 }
 
-function useSeedFinalImpactReportData() {
+function shouldUseSeedFinalImpactReportData() {
   return process.env.LEGALEASE_FINAL_IMPACT_REPORT_USE_SEED_FIXTURES === "true" && process.env.NODE_ENV !== "production";
 }
 
