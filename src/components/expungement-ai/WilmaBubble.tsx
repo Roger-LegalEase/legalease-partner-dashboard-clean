@@ -1,6 +1,6 @@
 "use client";
 
-import { Send } from "lucide-react";
+import { Maximize2, Minimize2, Send } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
@@ -74,6 +74,9 @@ export function WilmaBubble({
 }) {
   const isPublic = mode === "public";
   const [isOpen, setIsOpen] = useState(false);
+  // Regular vs expanded chat size. Transient: lives only while the chat is open and resets to
+  // regular whenever the panel is closed/reopened (handled in the open/close handlers below).
+  const [expanded, setExpanded] = useState(false);
   const [reported, setReported] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<WilmaMessage[]>([]);
@@ -227,8 +230,14 @@ export function WilmaBubble({
   return (
     <div className="fixed bottom-4 right-4 z-50 font-sans" data-wilma-surface={context}>
       {isOpen ? (
-        <section className="mb-3 w-[min(92vw,360px)] overflow-hidden rounded-2xl border border-[#ECEFF4] bg-white shadow-2xl" data-wilma-chat="open">
-          <div className="flex items-center justify-between bg-[#0B1320] px-4 py-3 text-white">
+        <section
+          className={`mb-3 flex max-h-[calc(100dvh-6rem)] flex-col overflow-hidden rounded-2xl border border-[#ECEFF4] bg-white shadow-2xl ${
+            expanded ? "h-[640px] w-[min(92vw,520px)]" : "w-[min(92vw,360px)]"
+          }`}
+          data-wilma-chat="open"
+          data-wilma-size={expanded ? "expanded" : "regular"}
+        >
+          <div className="flex shrink-0 items-center justify-between bg-[#0B1320] px-4 py-3 text-white">
             <div className="flex items-center gap-3">
               <Image
                 alt="Wilma guide"
@@ -242,11 +251,23 @@ export function WilmaBubble({
                 <p className="text-xs text-white/60">Guide</p>
               </div>
             </div>
-            <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => setIsOpen(false)} type="button">
-              Close
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                aria-label={expanded ? "Collapse chat" : "Expand chat"}
+                aria-pressed={expanded}
+                className="grid place-items-center rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
+                data-wilma-resize-toggle="true"
+                onClick={() => setExpanded((value) => !value)}
+                type="button"
+              >
+                {expanded ? <Minimize2 className="h-4 w-4" aria-hidden="true" /> : <Maximize2 className="h-4 w-4" aria-hidden="true" />}
+              </button>
+              <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => { setIsOpen(false); setExpanded(false); }} type="button">
+                Close
+              </button>
+            </div>
           </div>
-          <div className="space-y-3 p-3">
+          <div className="flex min-h-0 flex-1 flex-col gap-3 p-3">
             {wilmaEnabled ? (
               <>
                 {isPublic ? (
@@ -266,7 +287,7 @@ export function WilmaBubble({
                   </label>
                 ) : null}
                 {messages.length > 0 || isSending ? (
-                  <div className="max-h-44 space-y-2 overflow-y-auto pr-1" aria-live="polite">
+                  <div className={`space-y-2 overflow-y-auto pr-1 ${expanded ? "min-h-0 flex-1" : "max-h-44"}`} aria-live="polite">
                     {messages.map((item) => (
                       <div
                         className={item.role === "user" ? "ml-8 rounded-xl bg-[#0B1320] px-3 py-2 text-sm leading-5 text-white" : "mr-8 rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]"}
@@ -340,7 +361,7 @@ export function WilmaBubble({
         aria-label="Ask Wilma"
         className="flex min-h-12 items-center gap-3 rounded-full border border-[#ECEFF4] bg-white py-2 pl-4 pr-2 text-sm font-bold text-[#0B1320] shadow-xl"
         data-wilma-bubble="true"
-        onClick={() => setIsOpen((value) => !value)}
+        onClick={() => { setIsOpen((value) => !value); setExpanded(false); }}
         type="button"
       >
         <span className="hidden sm:inline">{wilmaEnabled ? prompt : "Wilma is resting"}</span>
