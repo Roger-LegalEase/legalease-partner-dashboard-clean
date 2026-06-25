@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ExpungementLandingInteractions } from "@/app/expungement-ai/ExpungementLandingInteractions";
+import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 
 const landingPath = path.join(process.cwd(), "design-handoff/expungement-ai-frontend/files-6/Expungement-Landing-Full.html");
 const noScriptRevealFallback = `
@@ -19,6 +20,10 @@ export function ExpungementLandingHandoff() {
   const styles = [...source.matchAll(/<style>([\s\S]*?)<\/style>/g)].map((match) => match[1]).join("\n");
   const body = source.match(/<body[^>]*>([\s\S]*?)<\/body>/)?.[1] ?? "";
   const html = body
+    // Remove the legacy scripted Wilma widget; the live <WilmaBubble mode="public" /> replaces
+    // it below. The block is the top-level <div id="wilma-static"> ... </div> that sits just
+    // before the page <script> block (anchored by the lookahead so the lazy match stops there).
+    .replace(/<div id="wilma-static"[\s\S]*?<\/div>\s*(?=<script)/i, "")
     .replace(/<script[\s\S]*?<\/script>/g, "")
     .replaceAll('src="hero-', 'src="/expungement-ai/hero-')
     .replaceAll("srcset=\"hero-", "srcset=\"/expungement-ai/hero-")
@@ -43,6 +48,7 @@ export function ExpungementLandingHandoff() {
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <ExpungementLandingInteractions />
+      <WilmaBubble context="landing" mode="public" />
     </>
   );
 }

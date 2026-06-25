@@ -18,7 +18,7 @@ export default async function BriefcasePacketPage({
   const isGuidanceOnly = item?.status === "guidance_saved" || item?.resultCode === "guidance_only" || item?.packetType === "guidance_packet";
 
   return (
-    <BriefcaseShell userEmail={auth.userEmail}>
+    <BriefcaseShell userEmail={auth.userEmail} caseState={item?.state} briefcaseItemId={item?.id}>
       <section className="rounded-md border border-[#ECEFF4] bg-white p-6">
         {item ? (
           <>

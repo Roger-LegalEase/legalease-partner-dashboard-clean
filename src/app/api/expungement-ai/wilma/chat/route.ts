@@ -5,7 +5,8 @@ import { buildWilmaContext } from "@/lib/expungement-ai/wilma-context";
 import { isWilmaKillSwitchActive, wilmaKillSwitchResponse } from "@/lib/expungement-ai/wilma-kill-switch";
 import { guardWilmaResponse } from "@/lib/expungement-ai/wilma-safety";
 import { createWilmaTelemetryRecord, logWilmaExchange } from "@/lib/expungement-ai/wilma-telemetry";
-import { draftWilmaPlaceholderResponse, type WilmaPageContext } from "@/lib/expungement-ai/wilma";
+import { generateWilmaReply, normalizeWilmaHistory, type WilmaTurn } from "@/lib/expungement-ai/wilma-model";
+import { type WilmaPageContext } from "@/lib/expungement-ai/wilma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,6 +16,9 @@ type WilmaChatRequest = {
   pageContext?: WilmaPageContext;
   state?: string;
   briefcaseItemId?: string;
+  // Prior turns in this conversation, oldest first, excluding the current message.
+  // Normalized (validated, bounded) server-side before reaching the model.
+  history?: WilmaTurn[];
 };
 
 export async function POST(request: NextRequest) {
@@ -38,7 +42,9 @@ export async function POST(request: NextRequest) {
     briefcaseItem
   });
 
-  const draftResponse = draftWilmaPlaceholderResponse(message);
+  const history = normalizeWilmaHistory(body?.history);
+  const reply = await generateWilmaReply({ message, context, history });
+  const draftResponse = reply.text;
   const guardResult = guardWilmaResponse({ userMessage: message, draftResponse, context });
   const telemetry = createWilmaTelemetryRecord({
     sessionId: auth.userId,
@@ -46,7 +52,8 @@ export async function POST(request: NextRequest) {
     userMessage: message,
     wilmaResponse: guardResult.response,
     context,
-    guardResult
+    guardResult,
+    modelVersion: reply.modelVersion
   });
   await logWilmaExchange(telemetry);
 

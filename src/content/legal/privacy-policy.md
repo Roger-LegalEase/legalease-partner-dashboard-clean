@@ -1,7 +1,7 @@
 # LegalEase RCAP Privacy Policy
 
 **Effective Date:** June 1, 2026
-**Last Updated:** June 1, 2026
+**Last Updated:** June 25, 2026
 
 This Privacy Policy explains how LegalEase Incorporated, doing business as LegalEase ("LegalEase," "we," "us," or "our"), collects, uses, stores, shares, and protects information in connection with the Record Clearing Access Program, also known as RCAP, including our websites, intake tools, Wilma chat experience, eligibility screening tools, document-generation tools, user dashboards, Briefcase features, partner landing pages, partner dashboards, communications, and related services (collectively, the "Services").
 
@@ -98,16 +98,19 @@ We may use cookies and similar technologies for essential functions, authenticat
 We do not use sensitive RCAP intake data for targeted advertising. If we use analytics tools, we configure them where reasonably possible to limit collection of sensitive information and avoid sending sensitive intake responses, criminal-record information, uploaded documents, or generated legal documents into advertising systems.
 You may be able to control cookies through your browser settings. Disabling cookies may affect the functionality of the Services.
 
-## 9. Data Retention
+## 9. Bot Detection and Security
+Bot Detection and Security. To protect our services from automated abuse and keep them available for the people who need them, we use Cloudflare Turnstile, a privacy-focused bot-detection tool provided by Cloudflare, Inc. When you interact with certain features, including our chat assistant, Turnstile runs automatically and analyzes technical signals from your browser and device, such as your IP address, browser type, and similar characteristics, to tell human visitors apart from automated bots. According to Cloudflare, these signals are used solely to detect and block bots, not to identify, profile, or track individuals, and Cloudflare states it cannot directly identify individuals from this data. This processing is governed by the Cloudflare Turnstile Privacy Addendum (https://www.cloudflare.com/turnstile-privacy-policy/). We do not use Turnstile to track you across websites or for advertising.
+
+## 10. Data Retention
 We retain information for as long as reasonably necessary to provide the Services, maintain your account, preserve your Briefcase, comply with legal and accounting obligations, resolve disputes, enforce agreements, prevent fraud or abuse, maintain security, and support legitimate business purposes.
 Because RCAP may involve legal documents and user-requested record-relief packets, we may retain certain information for a period reasonably necessary to allow users to retrieve documents, verify transaction history, respond to support requests, and maintain program integrity.
 You may request deletion of your information as described below. We may deny or limit deletion requests where retention is necessary for legal compliance, security, fraud prevention, dispute resolution, financial records, service completion, or other lawful purposes.
 
-## 10. Security
+## 11. Security
 We use administrative, technical, and organizational safeguards designed to protect information, including access controls, authentication, encryption in transit, restricted administrative access, logging, monitoring, and service-provider controls.
 No system can be guaranteed to be completely secure. You are responsible for protecting your account credentials, using secure devices, logging out of shared devices, and notifying us immediately if you believe your account or information has been compromised.
 
-## 11. Your Choices and Privacy Rights
+## 12. Your Choices and Privacy Rights
 Depending on where you live, you may have the right to:
 1. Access or know what personal information we collect, use, disclose, or share.
 2. Request correction of inaccurate information.
@@ -122,35 +125,35 @@ To submit a privacy request, contact us at:
 **Mail:** 907 W. Peace Street, Canton, MS 39046
 We may need to verify your identity before processing a request. We will not discriminate against you for exercising privacy rights, though some requests may limit our ability to provide the Services.
 
-## 12. State Privacy Notices
+## 13. State Privacy Notices
 Certain U.S. state privacy laws may provide additional rights. These rights vary by state and may depend on whether LegalEase is subject to the law, the type of data involved, and how the data is processed.
 For purposes of state privacy laws, we do not sell personal information for money. We do not sell sensitive RCAP intake data. We do not knowingly use sensitive RCAP intake data for targeted advertising. If our practices change, we will update this Privacy Policy and provide required notices or choices.
 
-## 13. California Notice
+## 14. California Notice
 If you are a California resident, you may have rights under the California Consumer Privacy Act, as amended, including the right to know, delete, correct, opt out of sale or sharing, limit certain uses of sensitive personal information, and be free from discrimination for exercising your rights.
 Categories of personal information we may collect include identifiers, contact information, internet or network activity, geolocation approximated from IP address, payment information, professional or program-related information, sensitive personal information, communications, user-generated content, and inferences used to operate or improve the Services.
 We do not sell sensitive RCAP information. We do not knowingly sell or share personal information of consumers under 16.
 To exercise California rights, contact us at info@legalease.law.
 
-## 14. Children and Minors
+## 15. Children and Minors
 The Services are not directed to children under 13. We do not knowingly collect personal information from children under 13. If we learn that we collected personal information from a child under 13 without appropriate consent, we will take reasonable steps to delete it.
 RCAP is generally intended for adults or legally authorized users. If a minor seeks record-relief help, a parent, guardian, attorney, or authorized representative may be required depending on the jurisdiction and court process.
 
-## 15. Public Records and Third-Party Sources
+## 16. Public Records and Third-Party Sources
 Some record-relief information may come from public court records, law enforcement records, public databases, user-provided documents, or third-party sources. Public-record information may be incomplete, outdated, inaccurate, or inconsistent across systems.
 LegalEase does not control court, law enforcement, or government databases and cannot guarantee that information appearing in those systems is accurate, updated, sealed, expunged, removed, or corrected.
 
-## 16. Third-Party Links and Services
+## 17. Third-Party Links and Services
 The Services may link to third-party websites, courts, government agencies, partner organizations, payment processors, legal aid providers, attorneys, or other resources. We are not responsible for the privacy practices, security, content, or services of third parties. Your use of third-party services is governed by their policies and terms.
 
-## 17. International Users
+## 18. International Users
 The Services are intended primarily for users located in the United States. If you access the Services from outside the United States, you understand that your information may be processed in the United States, where privacy laws may differ from those in your location.
 
-## 18. Changes to This Privacy Policy
+## 19. Changes to This Privacy Policy
 We may update this Privacy Policy from time to time. The updated version will be posted with a revised "Last Updated" date. If we make material changes, we may provide additional notice by email, in-app notice, website notice, or other reasonable means.
 Your continued use of the Services after an updated Privacy Policy becomes effective means you acknowledge the updated Privacy Policy.
 
-## 19. Contact Us
+## 20. Contact Us
 For questions about this Privacy Policy or our privacy practices, contact us at:
 **LegalEase**
 **Attn:** Privacy

@@ -15,10 +15,17 @@ const briefcaseLinks = [
 
 export function BriefcaseShell({
   children,
-  userEmail
+  userEmail,
+  caseState,
+  briefcaseItemId
 }: {
   children: ReactNode;
   userEmail?: string;
+  // Passed only by the per-item briefcase page, so Wilma gets a case-aware payload
+  // (state + briefcaseItemId). List/overview briefcase pages omit them and keep the
+  // byte-identical { message, pageContext, history } body.
+  caseState?: string;
+  briefcaseItemId?: string;
 }) {
   return (
     <main className="min-h-screen bg-[#F7F3EC] text-[#0B1320]">
@@ -58,7 +65,7 @@ export function BriefcaseShell({
         </aside>
         {children}
       </div>
-      <WilmaBubble context="briefcase" />
+      <WilmaBubble context="briefcase" state={caseState} briefcaseItemId={briefcaseItemId} />
     </main>
   );
 }

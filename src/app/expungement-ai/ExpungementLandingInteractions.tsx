@@ -78,66 +78,9 @@ export function ExpungementLandingInteractions() {
       cleanup.push(() => anchor.removeEventListener("click", onClick));
     });
 
-    const panel = document.getElementById("wilma-static-panel");
-    const toggle = document.getElementById("wilma-static-toggle");
-    const close = document.getElementById("wilma-static-close");
-    const form = document.getElementById("wilma-static-form") as HTMLFormElement | null;
-    const input = document.getElementById("wilma-static-input") as HTMLInputElement | null;
-    const send = document.getElementById("wilma-static-send") as HTMLButtonElement | null;
-    const messages = document.getElementById("wilma-static-messages");
-    const report = document.getElementById("wilma-static-report");
-    const guide = "Start with the free screening. It covers all 50 states and DC. A packet or payment option only appears if the result and jurisdiction allow it.";
-
-    if (panel && toggle && close && form && input && send && messages && report) {
-      const setOpen = (open: boolean) => {
-        panel.hidden = !open;
-      };
-      const setSendState = () => {
-        const ready = input.value.trim().length > 0;
-        send.disabled = !ready;
-        send.style.background = ready ? "#FF3B00" : "#C7CDD8";
-        send.style.cursor = ready ? "pointer" : "not-allowed";
-      };
-      const bubble = (text: string, side: "user" | "guide") => {
-        const element = document.createElement("div");
-        element.textContent = text;
-        element.style.cssText = `border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.45;${side === "user" ? "margin-left:32px;background:#0B1320;color:#fff" : "margin-right:32px;background:#F7F3EC;color:#0B1320"}`;
-        messages.appendChild(element);
-        messages.scrollTop = messages.scrollHeight;
-      };
-
-      const onToggle = () => setOpen(panel.hidden);
-      const onClose = () => setOpen(false);
-      const onSubmit = (event: SubmitEvent) => {
-        event.preventDefault();
-        const text = input.value.trim();
-        if (!text) {
-          return;
-        }
-
-        bubble(text, "user");
-        bubble(guide, "guide");
-        input.value = "";
-        setSendState();
-      };
-      const onReport = () => {
-        report.textContent = "Reported, thank you. A reviewer will take a look.";
-      };
-
-      toggle.addEventListener("click", onToggle);
-      close.addEventListener("click", onClose);
-      input.addEventListener("input", setSendState);
-      form.addEventListener("submit", onSubmit);
-      report.addEventListener("click", onReport);
-      cleanup.push(() => {
-        toggle.removeEventListener("click", onToggle);
-        close.removeEventListener("click", onClose);
-        input.removeEventListener("input", setSendState);
-        form.removeEventListener("submit", onSubmit);
-        report.removeEventListener("click", onReport);
-      });
-      setSendState();
-    }
+    // The legacy scripted Wilma widget has been removed from the landing. The live
+    // <WilmaBubble context="landing" mode="public" /> (rendered in ExpungementLandingHandoff)
+    // now owns the Wilma chat, calling the anonymous /public-chat route. No DOM wiring here.
 
     return () => {
       cleanup.forEach((dispose) => dispose());

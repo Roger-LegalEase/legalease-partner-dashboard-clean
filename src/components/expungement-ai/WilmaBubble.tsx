@@ -2,10 +2,41 @@
 
 import { Send } from "lucide-react";
 import Image from "next/image";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 
 const WILMA_AVATAR_SRC = "/expungement-ai/wilma-avatar.png";
+const WILMA_CHAT_ENDPOINT = "/api/expungement-ai/wilma/chat";
+const WILMA_PUBLIC_CHAT_ENDPOINT = "/api/expungement-ai/wilma/public-chat";
+// Invariant: this surface only renders Wilma's guidance/translation — it never decides
+// eligibility or results. Wilma can explain wording, but the screening tool decides the result.
+// Eligibility/advice/outcome are deferred server-side (guardWilmaResponse + the live system
+// prompt) and to the screening tool; the client merely displays the route's `response`.
+// Shown only when the request itself fails (network/transport). The route's own
+// deterministic fallback arrives in `response` and is rendered as-is.
+const WILMA_TRANSPORT_FALLBACK = "I had trouble reaching the assistant just now — give it another try in a moment. The screening tool and your Briefcase are still right here.";
+
+// Lightweight state list for the anonymous landing picker. Selecting a state feeds verified
+// state content into the public payload so legal-fact questions get real content, not a redirect.
+const US_STATES: Array<{ code: string; name: string }> = [
+  { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" }, { code: "AZ", name: "Arizona" },
+  { code: "AR", name: "Arkansas" }, { code: "CA", name: "California" }, { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" }, { code: "DE", name: "Delaware" }, { code: "DC", name: "District of Columbia" },
+  { code: "FL", name: "Florida" }, { code: "GA", name: "Georgia" }, { code: "HI", name: "Hawaii" },
+  { code: "ID", name: "Idaho" }, { code: "IL", name: "Illinois" }, { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" }, { code: "KS", name: "Kansas" }, { code: "KY", name: "Kentucky" },
+  { code: "LA", name: "Louisiana" }, { code: "ME", name: "Maine" }, { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" }, { code: "MI", name: "Michigan" }, { code: "MN", name: "Minnesota" },
+  { code: "MS", name: "Mississippi" }, { code: "MO", name: "Missouri" }, { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" }, { code: "NV", name: "Nevada" }, { code: "NH", name: "New Hampshire" },
+  { code: "NJ", name: "New Jersey" }, { code: "NM", name: "New Mexico" }, { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" }, { code: "ND", name: "North Dakota" }, { code: "OH", name: "Ohio" },
+  { code: "OK", name: "Oklahoma" }, { code: "OR", name: "Oregon" }, { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" }, { code: "SC", name: "South Carolina" }, { code: "SD", name: "South Dakota" },
+  { code: "TN", name: "Tennessee" }, { code: "TX", name: "Texas" }, { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" }, { code: "VA", name: "Virginia" }, { code: "WA", name: "Washington" },
+  { code: "WV", name: "West Virginia" }, { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" }
+];
 
 type WilmaMessage = {
   id: number;
@@ -13,40 +44,145 @@ type WilmaMessage = {
   text: string;
 };
 
+type TurnstileApi = {
+  render: (el: HTMLElement, options: Record<string, unknown>) => string;
+  remove: (id: string) => void;
+};
+
 export function WilmaBubble({
   context,
-  currentQuestion
+  currentQuestion,
+  state,
+  briefcaseItemId,
+  mode = "authenticated"
 }: {
   context: WilmaPageContext;
   currentQuestion?: string;
+  // Sent only when a specific case is in scope (briefcase/check surfaces). When absent the
+  // POST body stays the byte-identical { message, pageContext, history }.
+  state?: string;
+  briefcaseItemId?: string;
+  // "public" wires the anonymous landing endpoint: state picker, Turnstile, conversation id,
+  // and NEVER briefcaseItemId. Defaults to the authenticated route (unchanged behavior).
+  mode?: "authenticated" | "public";
 }) {
+  const isPublic = mode === "public";
   const [isOpen, setIsOpen] = useState(false);
   const [reported, setReported] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<WilmaMessage[]>([]);
+  const [isSending, setIsSending] = useState(false);
+  const [selectedState, setSelectedState] = useState(state ?? "");
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>(undefined);
+  const [conversationId] = useState(() => {
+    try {
+      return crypto.randomUUID();
+    } catch {
+      return `c_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    }
+  });
+  const turnstileRef = useRef<HTMLDivElement | null>(null);
   const prompt = promptForContext(context);
-  const guideText = guideTextForContext(context, currentQuestion);
   const hasGuideAnswer = messages.some((item) => item.role === "guide");
   // Render-only mirror of the server-side kill-switch flag. In production Wilma's availability is
   // checked server-side on every request (`wilma_enabled`); this client flag only mirrors it so
   // the surface can show the graceful fallback. The frontend never enforces a Wilma guardrail.
   const wilmaEnabled = process.env.NEXT_PUBLIC_WILMA_ENABLED !== "false";
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const trimmedMessage = message.trim();
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  // Load and render the Turnstile widget for the anonymous surface, when a site key is set.
+  // With no site key (e.g. staging pre-launch), the token stays undefined and the server
+  // treats the challenge as disabled.
+  useEffect(() => {
+    if (!isPublic || !siteKey || !isOpen) return;
+    const node = turnstileRef.current;
+    if (!node) return;
+    let widgetId: string | undefined;
+    let cancelled = false;
+
+    const renderWidget = () => {
+      const turnstile = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+      if (cancelled || !turnstile || !turnstileRef.current) return;
+      widgetId = turnstile.render(turnstileRef.current, {
+        sitekey: siteKey,
+        callback: (token: string) => setTurnstileToken(token),
+        "expired-callback": () => setTurnstileToken(undefined),
+        "error-callback": () => setTurnstileToken(undefined)
+      });
+    };
+
+    if ((window as unknown as { turnstile?: TurnstileApi }).turnstile) {
+      renderWidget();
+    } else if (!document.getElementById("cf-turnstile-script")) {
+      const script = document.createElement("script");
+      script.id = "cf-turnstile-script";
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.onload = renderWidget;
+      document.head.appendChild(script);
+    } else {
+      const timer = window.setInterval(() => {
+        if ((window as unknown as { turnstile?: TurnstileApi }).turnstile) {
+          window.clearInterval(timer);
+          renderWidget();
+        }
+      }, 200);
+      return () => window.clearInterval(timer);
+    }
+
+    return () => {
+      cancelled = true;
+      const turnstile = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+      if (turnstile && widgetId) turnstile.remove(widgetId);
+    };
+  }, [isPublic, siteKey, isOpen]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!trimmedMessage) return;
+    if (!trimmedMessage || isSending) return;
+    const userMessage = trimmedMessage;
+    // Prior turns, oldest first, EXCLUDING the message we're about to send — exactly the
+    // history shape the route accepts. Capture before appending the new user turn.
+    const history = messages.map((item) => ({ role: item.role, text: item.text }));
     const nextId = Date.now();
-    setMessages((current) => [
-      ...current,
-      { id: nextId, role: "user", text: trimmedMessage },
-      {
-        id: nextId + 1,
-        role: "guide",
-        text: guideText
-      }
-    ]);
+    setMessages((current) => [...current, { id: nextId, role: "user", text: userMessage }]);
     setMessage("");
+    setIsSending(true);
+    try {
+      const requestBody: {
+        message: string;
+        pageContext: WilmaPageContext;
+        history: { role: "user" | "guide"; text: string }[];
+        state?: string;
+        briefcaseItemId?: string;
+        conversationId?: string;
+        turnstileToken?: string;
+      } = { message: userMessage, pageContext: context, history };
+      if (isPublic) {
+        // Anonymous payload: state picker + conversation id + bot token. NEVER briefcaseItemId.
+        if (selectedState) requestBody.state = selectedState;
+        requestBody.conversationId = conversationId;
+        if (turnstileToken) requestBody.turnstileToken = turnstileToken;
+      } else {
+        if (state) requestBody.state = state;
+        if (briefcaseItemId) requestBody.briefcaseItemId = briefcaseItemId;
+      }
+      const res = await fetch(isPublic ? WILMA_PUBLIC_CHAT_ENDPOINT : WILMA_CHAT_ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(requestBody)
+      });
+      const data = await res.json().catch(() => null) as { response?: string } | null;
+      const replyText = typeof data?.response === "string" && data.response.trim()
+        ? data.response
+        : WILMA_TRANSPORT_FALLBACK;
+      setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: replyText }]);
+    } catch {
+      setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: WILMA_TRANSPORT_FALLBACK }]);
+    } finally {
+      setIsSending(false);
+    }
   }
 
   return (
@@ -74,6 +210,22 @@ export function WilmaBubble({
           <div className="space-y-3 p-3">
             {wilmaEnabled ? (
               <>
+                {isPublic ? (
+                  <label className="flex items-center gap-2 text-xs font-semibold text-[#5A6275]">
+                    <span className="shrink-0">Your state</span>
+                    <select
+                      aria-label="Your state"
+                      className="min-h-9 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-2 text-sm text-[#0B1320] outline-none focus:border-[#00A99D]"
+                      value={selectedState}
+                      onChange={(event) => setSelectedState(event.target.value)}
+                    >
+                      <option value="">Select a state (optional)</option>
+                      {US_STATES.map((item) => (
+                        <option key={item.code} value={item.code}>{item.name}</option>
+                      ))}
+                    </select>
+                  </label>
+                ) : null}
                 {messages.length > 0 ? (
                   <div className="max-h-44 space-y-2 overflow-y-auto pr-1" aria-live="polite">
                     {messages.map((item) => (
@@ -104,6 +256,7 @@ export function WilmaBubble({
                     Report this response
                   </button>
                 ) : null}
+                {isPublic && siteKey ? <div ref={turnstileRef} className="min-h-[1px]" /> : null}
                 <form className="flex gap-2" onSubmit={handleSubmit}>
                   <input
                     aria-label="Message Wilma"
@@ -115,7 +268,7 @@ export function WilmaBubble({
                   <button
                     aria-label="Send message"
                     className="grid h-10 w-10 place-items-center rounded-lg bg-[#FF3B00] text-white disabled:cursor-not-allowed disabled:bg-[#C7CDD8]"
-                    disabled={!trimmedMessage}
+                    disabled={!trimmedMessage || isSending}
                     type="submit"
                   >
                     <Send className="h-4 w-4" aria-hidden="true" />
@@ -164,23 +317,4 @@ function promptForContext(context: WilmaPageContext) {
   };
 
   return prompts[context];
-}
-
-function guideTextForContext(context: WilmaPageContext, currentQuestion?: string) {
-  if (currentQuestion) {
-    return "Answer with the best information you have. If you are not sure, choose the unsure option when one is available. Wilma can explain wording, but the screening tool decides the result.";
-  }
-
-  const guidance: Record<WilmaPageContext, string> = {
-    landing: "Start with the free screening. It covers all 50 states and DC. A packet or payment option only appears if the result and jurisdiction allow it.",
-    pricing: "The screening is free. Payment is only shown for packet-ready results; guidance-only results still give next steps without checkout.",
-    start: "The screening asks for facts the engine needs, then returns a plain-language result. It does not promise court approval.",
-    check: "Answer each screening question as accurately as you can. The engine uses your answers to decide whether to show guidance, more questions, review, or a packet option.",
-    results: "Read the result, reasons, and next steps. A payment button should appear only when the result says a packet is available.",
-    pay: "Checkout is only for packet-ready matters. If your result was guidance-only or needs review, use the next steps instead of payment.",
-    "packet-ready": "Review the packet checklist before filing. You file with the court yourself; Expungement.ai provides self-help documents and guidance.",
-    briefcase: "Your Briefcase keeps saved results, guidance, packet status, and next steps in one place."
-  };
-
-  return guidance[context];
 }

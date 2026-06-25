@@ -20,6 +20,7 @@ export type WilmaTelemetryRecord = {
   redirect_target: "screening_tool" | "human_help" | "none";
   model_version: string;
   system_prompt_version: string;
+  surface: "authenticated" | "public_landing";
 };
 
 const telemetryRecords: WilmaTelemetryRecord[] = [];
@@ -42,7 +43,9 @@ export function createWilmaTelemetryRecord({
   userMessage,
   wilmaResponse,
   context,
-  guardResult
+  guardResult,
+  modelVersion,
+  surface = "authenticated"
 }: {
   sessionId: string;
   state: string;
@@ -50,6 +53,8 @@ export function createWilmaTelemetryRecord({
   wilmaResponse: string;
   context: WilmaContext;
   guardResult: WilmaGuardResult;
+  modelVersion?: string;
+  surface?: "authenticated" | "public_landing";
 }): WilmaTelemetryRecord {
   return {
     exchange_id: crypto.randomUUID(),
@@ -64,8 +69,9 @@ export function createWilmaTelemetryRecord({
     guard_flags: guardResult.flags,
     redirect_occurred: guardResult.redirectOccurred,
     redirect_target: guardResult.redirectTarget,
-    model_version: wilmaModelVersion,
-    system_prompt_version: wilmaSystemPromptVersion
+    model_version: modelVersion ?? wilmaModelVersion,
+    system_prompt_version: wilmaSystemPromptVersion,
+    surface
   };
 }
 
