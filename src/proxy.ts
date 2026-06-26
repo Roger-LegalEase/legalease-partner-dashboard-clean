@@ -127,7 +127,10 @@ function expungementAiPath(pathname: string) {
     "/screening",
     "/start",
     "/check",
-    "/results",
+    // NOTE: "/results" is intentionally omitted. It is an orphaned legacy route that nothing in
+    // the funnel links to (the live screening flow renders results inline). Its server adapter
+    // `runExpungementAiEligibilityCheck` is stale and 500s on every hit, so it is dropped from the
+    // consumer allowlist to 404 instead. The dead route + adapter should be removed later.
     "/pay",
     "/packet-ready",
     "/pricing",
