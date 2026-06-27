@@ -84,8 +84,8 @@ const publicExpungementSources = [
 ].filter(exists);
 
 assert(packageSource.includes('"expungement:verify-launch-polish"'), "Missing expungement:verify-launch-polish npm script.");
-assert(exists("public/favicon.svg") || exists("public/favicon.ico") || exists("src/app/icon.tsx") || exists("src/app/favicon.ico"), "Favicon/app icon must exist.");
-assert(exists("public/apple-touch-icon.svg") || exists("public/apple-touch-icon.png"), "Apple touch icon must exist.");
+assert(exists("public/expungement-ai/favicon.ico") || exists("public/favicon.svg") || exists("public/favicon.ico") || exists("src/app/icon.tsx") || exists("src/app/favicon.ico"), "Favicon/app icon must exist.");
+assert(exists("public/expungement-ai/apple-touch-icon.png") || exists("public/apple-touch-icon.svg") || exists("public/apple-touch-icon.png"), "Apple touch icon must exist.");
 assert(expungementLayout.includes('title: "Expungement.ai"'), "Expungement.ai metadata title missing.");
 assert(expungementLayout.includes("Self-help record-clearing packets and guidance"), "Expungement.ai metadata description missing.");
 assert(expungementLayout.includes("openGraph") && expungementLayout.includes("hero-1500.jpg"), "Open Graph image metadata missing.");
@@ -348,8 +348,10 @@ const allowedChangedFiles = new Set([
   "docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md",
   "docs/EXPUNGEMENT_AI_MANUAL_SMOKE_TESTS.md",
   "package.json",
-  "public/favicon.svg",
-  "public/apple-touch-icon.svg",
+  "public/expungement-ai/favicon.ico",
+  "public/expungement-ai/apple-touch-icon.png",
+  "public/expungement-ai/icon-192.png",
+  "public/expungement-ai/icon-512.png",
   "scripts/verify-expungement-launch-polish.mjs",
   "scripts/verify-expungement-production-readiness.mjs",
   "scripts/verify-all50-internal-preview.mjs",

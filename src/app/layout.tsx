@@ -15,6 +15,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LegalEase Partner Dashboard",
   description: "Partner dashboard for LegalEase partners",
+  // Default LegalEase mark for the partner dashboard / legalease surfaces. This replaces the
+  // former `src/app/favicon.ico` file convention (moved to `public/favicon.ico`) so the icon is
+  // no longer auto-injected on *every* route — notably the consumer expungement.ai pages, whose
+  // nested layout (`src/app/expungement-ai/layout.tsx`) overrides `icons` with its own brand set.
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
