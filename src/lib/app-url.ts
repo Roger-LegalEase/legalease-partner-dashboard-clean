@@ -1,6 +1,6 @@
 export const productionPartnerAppUrl = "https://legaleasepartner.com";
 export const productionExpungementAiUrl = "https://expungement.ai";
-export const productionLegalEaseUrl = "https://legalease.law";
+export const productionLegalEaseUrl = "https://legalease.com";
 export const productionAppUrl = productionPartnerAppUrl;
 export const localAppUrl = "http://localhost:3000";
 

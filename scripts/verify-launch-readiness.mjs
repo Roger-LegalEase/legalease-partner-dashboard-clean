@@ -12,7 +12,7 @@ const moduleCache = new Map();
 const productionDomain = "legaleasepartner.com";
 const productionUrl = `https://${productionDomain}`;
 const expungementAiUrl = "https://expungement.ai";
-const legalEaseUrl = "https://legalease.law";
+const legalEaseUrl = "https://legalease.com";
 const requiredEnvKeys = [
   "NEXT_PUBLIC_SUPABASE_URL",
   "SUPABASE_SERVICE_ROLE_KEY",
