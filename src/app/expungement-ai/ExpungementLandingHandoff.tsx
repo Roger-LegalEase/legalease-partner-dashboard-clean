@@ -6,7 +6,7 @@ import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 
 const landingPath = path.join(
   process.cwd(),
-  "design-handoff/expungement-ai-frontend/files-12/Expungement-Landing-Full.html"
+  "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html"
 );
 const noScriptRevealFallback = `
   #how-it-works .jstep {
@@ -77,6 +77,37 @@ export function ExpungementLandingHandoff() {
     .replaceAll('srcset="shot-', 'srcset="/expungement-ai/shot-')
     .replaceAll('src="wilma-avatar', 'src="/expungement-ai/wilma-avatar')
     .replaceAll('srcset="wilma-avatar', 'srcset="/expungement-ai/wilma-avatar')
+    // files-20 adds the "cost of a record" evidence imagery and the testimonials section.
+    .replaceAll('src="evidence-', 'src="/expungement-ai/evidence-')
+    .replaceAll('srcset="evidence-', 'srcset="/expungement-ai/evidence-')
+    .replaceAll('src="testimonial-', 'src="/expungement-ai/testimonial-')
+    .replaceAll('srcset="testimonial-', 'srcset="/expungement-ai/testimonial-')
+    // files-20 is a raw design: it ships several primary CTAs and the nav "Log in" as
+    // placeholder href="#" stubs (files-12 wired these to real destinations). Re-map them to
+    // the live targets so nothing ships as a dead link — same destinations as the prior build:
+    //   nav "Log in"         -> /expungement-ai/sign-in
+    //   "Start the free check" / "Preview the Briefcase" -> the screening funnel
+    //   "View sample packet"  -> the isolated demo modal (carries [data-sample-packet-trigger])
+    .replaceAll(
+      '<a href="#" class="navlogin" data-i18n="nav_login">',
+      '<a href="/expungement-ai/sign-in" class="navlogin" data-i18n="nav_login">'
+    )
+    .replaceAll(
+      '<a href="#" data-i18n="nav_login">',
+      '<a href="/expungement-ai/sign-in" data-i18n="nav_login">'
+    )
+    .replaceAll(
+      '<a href="#" class="btn btn-primary" data-i18n-html="elig_cta">',
+      '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="elig_cta">'
+    )
+    .replaceAll(
+      '<a href="#" class="btn btn-primary" data-i18n-html="brief_cta">',
+      '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="brief_cta">'
+    )
+    .replaceAll(
+      '<a href="#" class="btn btn-primary" data-i18n-html="sm_cta">',
+      '<a href="#sample" data-sample-packet-trigger="true" class="btn btn-primary" data-i18n-html="sm_cta">'
+    )
     // Primary funnel CTAs (the design's #elig anchors) enter the live screening flow.
     .replaceAll('href="#elig"', 'href="/expungement-ai/start"')
     // In-page section anchors become /expungement-ai#... so the smooth-scroll handler catches them.
@@ -94,7 +125,7 @@ export function ExpungementLandingHandoff() {
       {fontLinks}
       <style dangerouslySetInnerHTML={{ __html: `${styles}\n${noScriptRevealFallback}\n${landingDesignFixes}` }} />
       <div
-        data-handoff-source="design-handoff/expungement-ai-frontend/files-12/Expungement-Landing-Full.html"
+        data-handoff-source="design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: html }}
       />

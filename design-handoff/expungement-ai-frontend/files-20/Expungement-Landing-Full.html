@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expungement.ai — Clear your eligible record for $50, without hiring a lawyer</title>
+<meta name="description" content="Find out if your record may qualify, get your court-ready self-help packet, and file it yourself with step-by-step guidance. Free to check. $50 per case.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0B1320">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1320;--ink-2:#14213D;--slate:#5A6275;
+    --orange:#FF3B00;--orange-deep:#d93200;
+    --teal:#00A99D;--teal-bright:#2BC4B6;--mint:#3DE0B5;
+    --cream:#F7F3EC;--line:#ECE6DA;--sky:#6E94B0;--white:#fff;
+    --maxw:1180px;--sans:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6}
+  a{text-decoration:none;color:inherit}
+  img{max-width:100%;display:block}
+  ul{list-style:none}
+  h1,h2,h3,h4{line-height:1.1;letter-spacing:-.02em;font-weight:800}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .eyebrow{color:var(--teal);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+  .lead{color:var(--slate);font-size:16px;line-height:1.65}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:background .2s,box-shadow .2s,transform .2s}
+  .btn-primary{background:var(--orange);color:#fff;border-radius:14px;padding:16px 32px;font-size:16px;box-shadow:0 8px 24px rgba(255,59,0,.38)}
+  .btn-primary:hover{background:var(--orange-deep);transform:translateY(-1px);box-shadow:0 12px 32px rgba(255,59,0,.5)}
+  .btn-primary .arr{transition:transform .2s}
+  .btn-primary:hover .arr{transform:translateX(2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid #D6CFC1;border-radius:14px;padding:14px 28px;font-size:15px}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .btn:focus-visible,a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+  .announce{background:var(--ink);color:#fff;font-size:13.5px;height:40px;display:flex;align-items:center;position:relative;z-index:55}
+  .announce .wrap{display:flex;align-items:center;justify-content:center;gap:9px;width:100%}
+  .announce .gold{color:#FFD9B0;font-weight:700}
+  .announce a{margin-left:auto;text-decoration:underline;text-underline-offset:3px;opacity:.85}
+  .announce a:hover{opacity:1}
+
+  .nav{position:fixed;top:40px;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;transition:background .3s,box-shadow .3s,padding .3s,top .3s}
+  @media(min-width:1024px){.nav{padding:18px 44px}}
+  .nav.scrolled{top:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(12px);box-shadow:0 1px 0 rgba(15,31,92,.08),0 8px 30px rgba(15,31,92,.06);padding-top:12px;padding-bottom:12px}
+  .nav .brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 12px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .brand{color:var(--ink);text-shadow:none}
+  .nav .brand .logomark{width:30px;height:25px;flex-shrink:0}
+  .navlinks{display:none;gap:30px;align-items:center}
+  @media(min-width:880px){.navlinks{display:flex}}
+  .navlinks a{font-size:13.5px;color:rgba(255,255,255,.92);font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .navlinks a{color:#475067;text-shadow:none}
+  .nav.scrolled .navlinks a:hover{color:var(--ink)}
+  .navright{display:none;align-items:center;gap:16px}
+  @media(min-width:880px){.navright{display:flex}}
+  .navlogin{color:#fff;font-size:13.5px;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
+  .nav.scrolled .navlogin{color:#475067;text-shadow:none}
+  /* language toggle */
+  .langtoggle{display:inline-flex;border:1.5px solid rgba(255,255,255,.55);border-radius:10px;overflow:hidden;backdrop-filter:saturate(120%) blur(2px)}
+  .langtoggle .langbtn{font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:transparent;border:0;padding:7px 11px;cursor:pointer;line-height:1;transition:background .2s,color .2s;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+  .langtoggle .langbtn+.langbtn{border-left:1.5px solid rgba(255,255,255,.45)}
+  .langtoggle .langbtn.on{background:var(--orange);color:#fff;text-shadow:none}
+  .nav.scrolled .langtoggle{border-color:#D6CFC1}
+  .nav.scrolled .langtoggle .langbtn{color:#475067;text-shadow:none}
+  .nav.scrolled .langtoggle .langbtn+.langbtn{border-left-color:#E2DCCF}
+  .nav.scrolled .langtoggle .langbtn.on{background:var(--orange);color:#fff}
+  .m-lang{display:flex;gap:10px;margin-top:20px}
+  .m-langbtn{flex:1;font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid #E2DCCF;border-radius:12px;padding:13px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .m-langbtn.on{background:var(--orange);color:#fff;border-color:var(--orange)}
+  .navcta{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:#fff;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:10px;box-shadow:0 6px 16px rgba(255,59,0,.35);transition:background .2s}
+  .navcta:hover{background:var(--orange-deep)}
+  .navtoggle{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;padding:0 9px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:11px;cursor:pointer;backdrop-filter:blur(8px)}
+  .navtoggle span{display:block;height:2px;width:100%;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s}
+  .nav.scrolled .navtoggle{background:#0B13200d;border-color:#0B13201f}
+  .nav.scrolled .navtoggle span{background:var(--ink)}
+  @media(min-width:880px){.navtoggle{display:none}}
+  .nav.open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav.open .navtoggle span:nth-child(2){opacity:0}
+  .nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobilemenu{position:fixed;top:0;right:0;z-index:49;width:min(82vw,320px);height:100dvh;background:#fff;box-shadow:-12px 0 40px rgba(15,31,92,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:88px 28px 28px;gap:4px}
+  .nav.open ~ .mobilemenu{transform:none}
+  .mobilemenu a{color:var(--ink);font-size:17px;font-weight:600;padding:14px 0;border-bottom:1px solid #EEF1F6}
+  .mobilemenu .mcta{margin-top:18px;background:var(--orange);color:#fff;text-align:center;border-radius:12px;padding:15px;border-bottom:none;box-shadow:0 8px 22px rgba(255,59,0,.32)}
+  .menuscrim{position:fixed;inset:0;z-index:48;background:rgba(11,19,38,.45);opacity:0;pointer-events:none;transition:opacity .3s}
+  .nav.open ~ .menuscrim{opacity:1;pointer-events:auto}
+  @media(min-width:880px){.mobilemenu,.menuscrim{display:none}}
+
+  .hero{position:relative;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;background-color:var(--sky)}
+  .hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(13,25,60,.42) 0%,rgba(13,25,60,.30) 40%,rgba(13,25,60,.55) 100%)}
+  .sky{position:absolute;top:0;left:0;right:0;height:52%;z-index:2;pointer-events:none;overflow:visible}
+  .cloud{position:absolute;will-change:transform;opacity:0}
+  .cloud .p{position:absolute;border-radius:50%;background:radial-gradient(circle at 42% 40%,rgba(255,255,255,.96),rgba(255,255,255,.78) 38%,rgba(255,255,255,.32) 62%,rgba(255,255,255,0) 75%);filter:blur(4px)}
+  .c1{top:12%;width:340px;height:120px;animation:drift 90s linear infinite}
+  .c2{top:27%;width:240px;height:88px;animation:drift 120s linear infinite;animation-delay:-60s}
+  .c3{top:6%;width:440px;height:150px;animation:drift 150s linear infinite;animation-delay:-110s}
+  .c4{top:35%;width:180px;height:70px;animation:drift 105s linear infinite;animation-delay:-42s}
+  @keyframes drift{0%{transform:translateX(-48vw)}9%{opacity:.9}90%{opacity:.9}100%{transform:translateX(135vw)}}
+  .herowrap{flex:1;position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 8vh}
+  .textpanel{position:relative;display:flex;flex-direction:column;align-items:center;padding:34px 30px 30px;border-radius:28px;background:radial-gradient(120% 130% at 50% 30%,rgba(10,16,38,.52),rgba(10,16,38,.26) 60%,rgba(10,16,38,0) 100%)}
+  @media(min-width:640px){.textpanel{padding:40px 48px 36px}}
+  .h-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(8px);color:#fff;font-size:12.5px;font-weight:600;padding:7px 15px;border-radius:999px;margin-bottom:20px;animation:fu .8s ease both;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+  .h-eyebrow svg{width:14px;height:14px;color:var(--mint)}
+  .hero h1{color:#fff;font-weight:800;line-height:1.02;letter-spacing:-.03em;font-size:40px;text-shadow:0 4px 28px rgba(5,10,28,.85),0 2px 8px rgba(5,10,28,.7);animation:fu .8s ease both;max-width:20ch}
+  @media(min-width:640px){.hero h1{font-size:56px}}
+  @media(min-width:1024px){.hero h1{font-size:70px}}
+  .hero h1 .price{color:#FFD9B0}
+  .hero h1 .strike{color:rgba(255,255,255,.55);text-decoration:line-through;text-decoration-thickness:3px}
+  .hero .sub{color:#fff;font-size:17px;font-weight:500;line-height:1.5;max-width:42ch;margin-top:18px;text-shadow:0 2px 16px rgba(5,10,28,.8);animation:fu .8s ease both;animation-delay:.1s}
+  @media(min-width:1024px){.hero .sub{font-size:19px}}
+  .hero-cta-row{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;margin-top:28px;animation:fu .8s ease both;animation-delay:.2s}
+  .hero .bigcta{animation:fu .8s ease both,pulseBtn 2.6s ease-in-out infinite;animation-delay:.2s,1s}
+  .h-ghost{position:relative;isolation:isolate;background:rgba(13,19,32,.42);border:1px solid rgba(255,255,255,.40);color:#fff;border-radius:14px;padding:16px 28px;font-size:15px;font-weight:700;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .h-ghost:hover{background:rgba(13,19,32,.55);border-color:rgba(255,255,255,.6);transform:translateY(-1px)}
+  @keyframes pulseBtn{0%,100%{box-shadow:0 10px 30px rgba(255,59,0,.5)}50%{box-shadow:0 10px 44px rgba(255,59,0,.85)}}
+  .microcopy{margin-top:16px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 8px rgba(8,15,40,.5);animation:fu .8s ease both;animation-delay:.28s}
+  .trust{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 24px;animation:fu .8s ease both;animation-delay:.42s}
+  .trust .t{display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;font-weight:600;text-shadow:0 1px 8px rgba(8,15,40,.5)}
+  .trust .t svg{width:15px;height:15px;color:var(--mint);flex-shrink:0}
+  @keyframes fu{from{opacity:0;transform:translateY(22px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+
+  .ph{position:relative;background:repeating-linear-gradient(45deg,#EDE6D9,#EDE6D9 12px,#E5DCCB 12px,#E5DCCB 24px);border:1.5px dashed #C9BEA8;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#8A7E62;gap:6px;min-height:160px;padding:20px}
+  .ph .ph-ic{width:30px;height:30px;opacity:.6}
+  .ph .ph-l{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .ph .ph-s{font-size:11px;font-weight:500;opacity:.8;max-width:26ch;line-height:1.45}
+  .ph.round{border-radius:50%;min-height:0;width:84px;height:84px;flex-shrink:0;padding:0}
+  .ph.round .ph-l{font-size:9px}
+  .ph.dark{background:repeating-linear-gradient(45deg,#1B2540,#1B2540 12px,#222D4D 12px,#222D4D 24px);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.62)}
+  .sec-head{max-width:720px;margin:0 auto 48px}
+  .sec-head.center{text-align:center}
+  .sec-head h2{color:var(--ink);font-size:38px}
+  .sec-head p{margin-top:14px}
+  @media(max-width:640px){.sec-head h2{font-size:30px}}
+
+  .strip{background:var(--cream);padding:64px 20px}
+  .strip-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px}
+  .tcard .ic{width:36px;height:36px;border-radius:10px;background:#00A99D1f;color:var(--teal);display:grid;place-items:center;margin-bottom:16px}
+  .tcard h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+  .tcard p{font-size:14px;color:var(--slate)}
+
+  .problem{background:#fff;padding:84px 20px}
+  .problem-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .problem h2{font-size:38px;max-width:18ch}
+  .problem p{margin-top:18px}
+  .stat-mod{margin-top:24px;background:var(--cream);border-radius:16px;padding:22px 24px;font-size:15px;color:var(--ink)}
+  .fade-stack{display:flex;flex-direction:column;gap:13px}
+  .fade-row{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;font-weight:600;box-shadow:0 6px 18px rgba(15,31,92,.04)}
+  .fade-row:nth-child(1){opacity:.5}.fade-row:nth-child(2){opacity:.66}.fade-row:nth-child(3){opacity:.82}
+  .fade-row.path{opacity:1;border-color:var(--teal);background:#00A99D12;color:var(--teal)}
+  .fade-row .fic{width:34px;height:34px;border-radius:9px;background:var(--cream);display:grid;place-items:center;flex-shrink:0;color:var(--ink)}
+  .fade-row.path .fic{background:#fff;color:var(--teal)}
+
+  .elig{background:var(--cream);padding:84px 20px}
+  .elig-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .elig h2{font-size:36px}
+  .bullets{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+  .bullets li{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+  .bullets .ck{width:20px;height:20px;border-radius:50%;background:#00A99D26;color:var(--teal);display:grid;place-items:center;flex-shrink:0;margin-top:2px}
+  .mockcard{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(15,31,92,.10);padding:28px}
+  .mock-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .mock-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:700}
+  .mock-step{font-size:11px;color:var(--slate);font-weight:600}
+  .progress{height:6px;background:#EEE9DF;border-radius:999px;margin:14px 0 22px;overflow:hidden}
+  .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--orange));border-radius:999px}
+  .mock-q{font-size:20px;font-weight:700;margin-bottom:16px;letter-spacing:-.01em}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:9px 15px;font-size:14px;font-weight:600;background:#fff}
+  .chip.sel{border-color:var(--teal);background:#00A99D14;color:var(--teal)}
+  .tooltip{margin-top:14px;background:var(--cream);border-radius:12px;padding:11px 15px;font-size:13px;color:var(--ink)}
+
+  .how{background:#fff;padding:90px 20px 100px}
+  .journey{max-width:760px;margin:56px auto 0;position:relative;padding-left:8px}
+  .jline-track{position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:rgba(15,31,92,.10);border-radius:3px}
+  .jline{position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:linear-gradient(180deg,var(--teal),var(--orange));border-radius:3px;transform:scaleY(0);transform-origin:top;transition:transform 1.1s cubic-bezier(.4,0,.2,1)}
+  .jstep{position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 42px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .jstep:last-child{padding-bottom:0}
+  .jstep[data-i="0"]{transition-delay:.15s}.jstep[data-i="1"]{transition-delay:.33s}.jstep[data-i="2"]{transition-delay:.51s}
+  .jnode{position:relative;z-index:2;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 6px 18px rgba(15,31,92,.10)}
+  .jstep[data-i="0"] .jnode{border:3px solid var(--teal);color:var(--teal)}
+  .jstep[data-i="1"] .jnode{border:3px solid #1B7FB8;color:#1B7FB8}
+  .jstep[data-i="2"] .jnode{border:3px solid var(--orange);color:var(--orange)}
+  .jcard{background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px}
+  .jcard h3{font-size:19px;font-weight:700;color:var(--ink)}
+  .jcard p{margin-top:8px;color:var(--slate);font-size:15px}
+  .jshot{margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 24px rgba(15,31,92,.08);display:block;width:100%}
+  .jshot img{display:block;width:100%;height:auto}
+  .how .cta-wrap{text-align:center;margin-top:52px}
+
+  .brief{background:var(--ink);padding:84px 20px;overflow:hidden}
+  .brief-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center}
+  .brief .eyebrow{color:var(--teal-bright)}
+  .brief h2{color:#fff;font-size:38px}
+  .brief-grid p.lead{color:rgba(255,255,255,.7);margin-top:18px;max-width:44ch}
+  .brief-bullets{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+  .brief-bullets li{display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px}
+  .brief-bullets .bk{margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:var(--teal-bright);display:grid;place-items:center;flex-shrink:0;font-size:11px}
+  .briefcta{margin-top:30px}
+  .briefshot{display:block;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08)}
+  .briefshot img{display:block;width:100%;height:auto}
+  .window{border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);background:#FBFCFE;text-align:left}
+  .win-bar{background:#EEF1F6;border-bottom:1px solid #E2E6EE;padding:10px 16px;display:flex;align-items:center;gap:12px}
+  .win-dots{display:flex;gap:6px}
+  .win-dots span{width:10px;height:10px;border-radius:50%}
+  .win-url{flex:1;text-align:center;font-size:10px;color:#6B7280}
+  .win-metrics{display:grid;grid-template-columns:repeat(4,1fr);background:#F5F7FA;border-bottom:1px solid #ECEFF4}
+  .wm{padding:12px 14px;border-right:1px solid #ECEFF4}
+  .wm:last-child{border-right:none}
+  .wm .l{font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#9AA3B2;font-weight:600}
+  .wm .v{font-size:20px;font-weight:700;color:var(--ink)}
+  .wm .v.teal{color:var(--teal)}
+  .wm .s{font-size:9px;color:#8A93A6}
+  .win-body{padding:16px}
+  .next{border-radius:12px;background:linear-gradient(135deg,#0B1320,#1B2B80);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .next .nl{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:#7FE9DE;font-weight:600;margin-bottom:4px}
+  .next .nt{font-size:13px;font-weight:600;color:#fff}
+  .next .ns{font-size:10px;color:rgba(255,255,255,.6);margin-top:1px}
+  .next .nb{background:var(--orange);color:#fff;font-size:10px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap}
+  .cases{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .casebox{border-radius:10px;background:#fff;border:1px solid #ECEFF4;padding:12px 14px}
+  .casebox .ch{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .casebox .cn{font-size:12px;font-weight:600;color:var(--ink)}
+  .casebox .cm{font-size:9px;color:#8A93A6;margin-top:2px}
+  .ctag{font-size:8px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .ctag.green{color:var(--teal);background:#00A99D1f}
+  .ctag.amber{color:#C7861B;background:#C7861B1f}
+  .track{display:flex;align-items:center}
+  .track .seg{display:flex;align-items:center;flex:1}
+  .track .seg:last-child{flex:0}
+  .dotc{width:14px;height:14px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:700;flex-shrink:0}
+  .dotc.done{background:#3DD598;border:1.5px solid #3DD598;color:#fff}
+  .dotc.cur{background:#fff;border:1.5px solid var(--orange);color:var(--orange)}
+  .dotc.todo{background:#fff;border:1.5px solid #D4DAE4;color:#9AA3B2}
+  .bar{height:1.5px;flex:1;margin:0 2px}
+  .bar.done{background:#3DD598}.bar.todo{background:#E2E6EE}
+
+  .packet{background:var(--cream);padding:84px 20px}
+  .packet-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .packet h2{font-size:34px;max-width:16ch}
+  .pcards{display:flex;flex-direction:column;gap:14px}
+  .pcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;display:flex;gap:15px;align-items:flex-start}
+  .pcard .pn{width:38px;height:38px;border-radius:10px;background:var(--cream);color:var(--ink);display:grid;place-items:center;flex-shrink:0}
+  .pcard h4{font-size:17px;font-weight:700;margin-bottom:3px;letter-spacing:-.01em}
+  .pcard p{font-size:14px;color:var(--slate)}
+  .proof-side{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;font-size:14px;color:var(--slate)}
+  .proof-side b{display:block;margin-bottom:6px;color:var(--ink)}
+
+  .sample{background:#fff;padding:84px 20px}
+  .sample-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  .sample h2{font-size:34px}
+  .doc-preview{border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(15,31,92,.10);border:1px solid var(--line)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;background:#F5F7FA;border-bottom:1px solid #ECEFF4;padding:14px 18px}
+  .tabp{font-size:11px;font-weight:700;padding:7px 13px;border-radius:999px;color:var(--slate)}
+  .tabp.on{background:var(--ink);color:#fff}
+  .doc-body{padding:28px;position:relative;background:#fff}
+  .doc-line{height:9px;background:#EEE9DF;border-radius:4px;margin-bottom:12px}
+  .doc-line.title{height:16px;width:55%;background:#DDD6C8;margin-bottom:22px}
+  .w90{width:90%}.w80{width:80%}.w60{width:60%}.w40{width:40%}
+  .watermark{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);font-size:30px;font-weight:800;color:rgba(11,19,32,.06);letter-spacing:.1em;pointer-events:none}
+
+  .pricing{background:var(--cream);padding:84px 20px}
+  .pricing-inner{max-width:var(--maxw);margin:0 auto}
+  .pricing-head{text-align:center;max-width:720px;margin:0 auto 44px}
+  .pricing h2{color:var(--ink);font-size:38px}
+  .pricing-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+  .price-card{background:#fff;border-radius:24px;padding:44px 36px;box-shadow:0 20px 50px rgba(15,31,92,.08);text-align:left}
+  .price-top{display:flex;align-items:flex-end;justify-content:center;gap:12px}
+  .price-num{color:var(--ink);font-weight:800;font-size:64px;line-height:1}
+  .price-strike{color:#9AA3B2;text-decoration:line-through;font-size:24px;font-weight:700;margin-bottom:8px}
+  .price-sub{margin-top:8px;color:var(--slate);font-size:15px;text-align:center}
+  .price-free{margin-top:6px;color:var(--teal);font-size:14px;font-weight:600;text-align:center}
+  .price-list{margin-top:30px;max-width:460px;margin-left:auto;margin-right:auto}
+  .price-list .pl{display:flex;align-items:flex-start;gap:12px;font-size:15px;margin-bottom:14px}
+  .price-list .ck{margin-top:2px;width:20px;height:20px;border-radius:50%;background:#00A99D26;color:var(--teal);display:grid;place-items:center;flex-shrink:0;font-size:11px}
+  .price-not{margin-top:18px;max-width:460px;margin-left:auto;margin-right:auto}
+  .price-not .pl{display:flex;align-items:flex-start;gap:12px;font-size:15px;margin-bottom:11px;color:var(--slate)}
+  .price-not .xk{margin-top:2px;width:20px;height:20px;flex-shrink:0;display:grid;place-items:center;color:#B6BBC6;font-size:13px}
+  .price-card .btn-primary{margin:34px auto 0;display:flex;width:max-content}
+  .price-fine{margin-top:16px;color:#8A93A6;font-size:13px;text-align:center}
+  .compare{background:var(--ink);border-radius:24px;padding:44px 36px;color:#fff}
+  .compare h3{color:#fff;font-size:24px;line-height:1.2}
+  .compare>p{margin-top:14px;color:rgba(255,255,255,.72);font-size:15px;line-height:1.6}
+  .compare-rows{margin-top:26px;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.1);border-radius:14px;overflow:hidden}
+  .crow{display:grid;grid-template-columns:1.3fr 1fr 1fr;background:var(--ink)}
+  .crow.head{background:rgba(255,255,255,.04)}
+  .crow>div{padding:13px 14px;font-size:13px;display:flex;align-items:center}
+  .crow .lbl{color:rgba(255,255,255,.62);font-weight:500}
+  .crow.head .col{font-weight:700;font-size:12px;letter-spacing:.02em}
+  .crow .col.us{color:var(--mint)}
+  .crow .col.them{color:rgba(255,255,255,.55)}
+  .crow .v{color:#fff;font-weight:600;justify-content:flex-start}
+  .crow .v.them{color:rgba(255,255,255,.55);font-weight:500}
+  .compare-foot{margin-top:22px;font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+
+  .cred{background:#fff;padding:84px 20px}
+  .cred-inner{max-width:880px;margin:0 auto}
+  .cred-card{background:var(--cream);border-radius:24px;padding:48px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+  .cred-shield{width:80px;height:80px;border-radius:18px;background:var(--ink);display:grid;place-items:center;flex-shrink:0}
+  .cred-body{flex:1;min-width:260px}
+  .cred-body h2{color:var(--ink);font-size:30px;line-height:1.15}
+  .cred-body p{margin-top:16px;color:var(--slate);font-size:16px;line-height:1.65}
+  .cred-tags{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 24px}
+  .cred-tags span{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:14px;font-weight:600}
+  .cred-tags svg{width:16px;height:16px;flex-shrink:0}
+
+  .privacy{background:var(--ink);padding:84px 20px}
+  .privacy-inner{max-width:var(--maxw);margin:0 auto}
+  .privacy .eyebrow{color:var(--mint)}
+  .privacy h2{color:#fff;font-size:36px;max-width:20ch}
+  .privacy p.lead{color:rgba(255,255,255,.75);margin-top:18px;max-width:60ch}
+  .priv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+  .priv-item{display:flex;gap:11px;align-items:flex-start;font-size:15px;color:#fff}
+  .priv-item svg{width:18px;height:18px;color:var(--mint);flex-shrink:0;margin-top:3px}
+  .privacy .h-ghost{margin-top:34px;display:inline-flex}
+
+  .wilma{background:var(--cream);padding:84px 20px}
+  .wilma-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .wilma h2{font-size:36px}
+  .wilma-intro{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .wilma-face{width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;border:2px solid #fff;box-shadow:0 8px 22px rgba(15,31,92,.14)}
+  .wilma-intro .eyebrow{margin-bottom:0}
+  .chat-row{display:flex;gap:11px;align-items:flex-end}
+  .chat-row.botrow{align-items:flex-start}
+  .chat-ava{width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 4px 12px rgba(15,31,92,.12)}
+  .chat-row .bubble{margin-bottom:0;max-width:100%}
+  .prompts{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+  .prompt{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600}
+  .wilma-safe{margin-top:20px;font-size:13px;color:var(--slate);font-style:italic}
+  .chat{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(15,31,92,.08);padding:26px}
+  .bubble{padding:14px 18px;border-radius:16px;font-size:15px;margin-bottom:14px;max-width:88%}
+  .bubble:last-child{margin-bottom:0}
+  .bubble.user{background:var(--ink);color:#fff;margin-left:auto;border-bottom-right-radius:5px}
+  .bubble.bot{background:var(--cream);color:var(--ink);border-bottom-left-radius:5px}
+  .bubble .who{font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;margin-bottom:5px;font-weight:700}
+
+  .state{background:#fff;padding:84px 20px}
+  .state-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .state h2{font-size:36px}
+  .state-select{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;color:var(--slate);font-weight:600}
+  .state-result{margin-top:14px;background:#00A99D12;border:1px solid #00A99D33;border-radius:14px;padding:16px 20px;font-size:15px;color:var(--teal)}
+  .map-pane{background:var(--ink);border-radius:24px;padding:48px;text-align:center}
+  .map-pane .big{color:#fff;font-weight:800;font-size:60px;line-height:1}
+  .map-pane .lab{color:var(--teal-bright);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;font-weight:600}
+
+  .evidence{background:var(--cream);padding:84px 20px}
+  .ev-cards{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .ev-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 28px}
+  .ev-card h3{font-size:21px;font-weight:700;margin-bottom:10px;letter-spacing:-.01em}
+  .ev-card p{font-size:15px;color:var(--slate)}
+  .ev-note{max-width:1140px;margin:28px auto 0;padding:0 4px;font-size:13px;color:var(--slate);font-style:italic}
+
+  /* ---- image placeholder (swap the <img> inside later) ---- */
+  .imgph{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;
+      background:repeating-linear-gradient(45deg,#EEF1F6 0,#EEF1F6 12px,#E6EAF1 12px,#E6EAF1 24px);
+      border:2px dashed #B7C0CE;color:#5A6275;border-radius:14px;overflow:hidden}
+  .imgph .imgph-label{padding:10px 14px;font-size:12.5px;font-weight:600;line-height:1.5}
+  .imgph .imgph-label b{display:block;font-size:13px;color:var(--ink);letter-spacing:.01em}
+  .imgph .imgph-label span{display:block;font-family:var(--mono,monospace);font-size:11.5px;color:#7A8499;margin-top:2px}
+  .imgph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px}
+
+  /* evidence card photo placeholder (4:3) */
+  .ev-card .imgph{aspect-ratio:4/3;margin-bottom:18px}
+
+  /* ---- testimonials ---- */
+  .testi{background:var(--ink);padding:84px 20px}
+  .testi .sec-head h2{color:#fff}
+  .testi .sec-head .eyebrow{color:var(--teal-bright)}
+  .testi-cards{max-width:var(--maxw);margin:36px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .testi-card{background:#141E33;border:1px solid #25324B;border-radius:18px;padding:28px 26px;display:flex;flex-direction:column}
+  .testi-card .quote{color:#E7ECF4;font-size:16px;line-height:1.6;flex:1}
+  .testi-card .quote::before{content:"\201C";color:var(--orange);font-size:30px;line-height:0;vertical-align:-8px;margin-right:4px;font-weight:800}
+  .testi-person{display:flex;align-items:center;gap:14px;margin-top:22px}
+  .testi-person .imgph{box-sizing:border-box;width:56px;height:56px;min-width:56px;border-radius:50%;flex:0 0 56px;align-self:center}
+  .testi-person .imgph .imgph-label{padding:0;font-size:9px}
+  .testi-person .imgph img{border-radius:50%}
+  .testi-person .who b{display:block;color:#fff;font-size:15px;font-weight:700}
+  .testi-person .who span{display:block;color:#9AA8BE;font-size:13px;margin-top:1px}
+  .testi-note{max-width:1140px;margin:26px auto 0;padding:0 4px;font-size:13px;color:#8A93A6;font-style:italic;text-align:center}
+  @media(max-width:880px){.testi-cards{grid-template-columns:1fr}}
+
+  .faqsec{background:#fff;padding:80px 20px}
+  .faq-inner{max-width:720px;margin:0 auto}
+  .faqlist{margin-top:44px;display:flex;flex-direction:column;gap:14px}
+  details.faq{background:var(--cream);border-radius:14px;border:1px solid var(--line);overflow:hidden;transition:box-shadow .2s}
+  details.faq[open]{box-shadow:0 8px 28px rgba(15,31,92,.07)}
+  details.faq summary{list-style:none;cursor:pointer;padding:20px 24px;font-size:16.5px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary::after{content:"+";font-size:24px;font-weight:600;color:var(--teal);line-height:1;flex-shrink:0;transition:transform .2s}
+  details.faq[open] summary::after{transform:rotate(45deg)}
+  details.faq .ans{padding:0 24px 22px;color:var(--slate);font-size:15px;line-height:1.65}
+
+  .final{background:var(--ink);padding:84px 20px;text-align:center}
+  .final-inner{max-width:640px;margin:0 auto}
+  .final h2{color:#fff;font-size:44px;line-height:1.08}
+  @media(max-width:640px){.final h2{font-size:32px}}
+  .final p{margin-top:20px;color:rgba(255,255,255,.75);font-size:17px;line-height:1.6}
+  .final .btn-primary{margin-top:32px}
+  .final .micro{margin-top:16px;color:rgba(255,255,255,.55);font-size:13px}
+
+  footer{background:#0B1326;padding:56px 20px 40px}
+  .foot-inner{max-width:1000px;margin:0 auto}
+  .foot-top{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:space-between}
+  .foot-brand{max-width:360px}
+  .foot-brand a.fb{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px}
+  .foot-brand p{margin-top:14px;color:rgba(255,255,255,.5);font-size:13px;line-height:1.6}
+  .socials{margin-top:18px;display:flex;gap:12px}
+  .socials a{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.7);transition:background .2s}
+  .socials a:hover{background:rgba(255,255,255,.16);color:#fff}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+  .foot-cols h5{color:rgba(255,255,255,.4);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .foot-cols a{display:block;color:rgba(255,255,255,.8);font-size:14px;margin-bottom:11px}
+  .foot-cols a:hover{color:#fff}
+  .disclaimer{margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+  .disclaimer p{color:rgba(255,255,255,.45);font-size:12.5px;line-height:1.7;max-width:760px}
+  .foot-bottom{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .foot-bottom p{color:rgba(255,255,255,.35);font-size:12.5px}
+
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:#fff;box-shadow:0 -6px 24px rgba(15,31,92,.12);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+  .sticky-cta .btn-primary{width:100%;justify-content:center}
+  .sticky-cta .sl{text-align:center;font-size:12px;color:var(--slate);margin-top:6px}
+
+  @media(max-width:900px){
+    .strip-grid{grid-template-columns:1fr 1fr}
+    .problem-grid,.elig-grid,.packet-grid,.sample-grid,.wilma-grid,.state-grid,.pricing-cols{grid-template-columns:1fr;gap:40px}
+    .priv-grid,.ev-cards{grid-template-columns:1fr}
+    .sticky-cta{display:block}
+    body{padding-bottom:84px}
+  }
+  @media(max-width:560px){
+    .strip-grid{grid-template-columns:1fr}
+    .cases{grid-template-columns:1fr}
+    .win-metrics{grid-template-columns:repeat(2,1fr)}
+    .announce a{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .jline{transform:scaleY(1)!important}
+    .jstep{opacity:1!important;transform:none!important}
+    .cloud{opacity:.85!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="announce" role="region" aria-label="Site notice">
+  <div class="wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFD9B0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>
+    <span data-i18n-html="announce"><span class="gold">Free</span> eligibility check — no account, no payment, about 3 minutes.</span>
+    <a href="#elig" data-i18n="announce_cta">Check free</a>
+  </div>
+</div>
+
+<section class="hero" id="top">
+  <picture>
+    <source type="image/webp" srcset="hero-800.webp 800w, hero-1500.webp 1500w" sizes="100vw">
+    <img class="hero-bg" src="hero-1500.jpg" srcset="hero-1500.jpg 1500w" sizes="100vw"
+         width="1500" height="844" fetchpriority="high" decoding="async"
+         alt="An open mountain road leading toward a sunrise breaking between two peaks, evoking a fresh start.">
+  </picture>
+
+  <div class="sky">
+    <div class="cloud c1"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div>
+    <div class="cloud c2"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div></div>
+    <div class="cloud c3"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div></div>
+    <div class="cloud c4"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div></div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <a href="#top" class="brand">
+      <svg class="logomark" viewBox="0 0 192 158" aria-hidden="true"><defs><clipPath id="arch"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#arch)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#0B1320"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#F7F8FA"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>
+      Expungement.ai
+    </a>
+    <div class="navlinks">
+      <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+      <a href="#brief" data-i18n="nav_brief">What you get</a>
+      <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a href="#privacy" data-i18n="nav_privacy">Trust &amp; privacy</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    </div>
+    <div class="navright">
+      <div class="langtoggle" role="group" aria-label="Language / Idioma">
+        <button type="button" class="langbtn on" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="langbtn" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a href="#" class="navlogin" data-i18n="nav_login">Log in</a>
+      <a href="#elig" class="navcta" data-i18n-html="nav_cta">Check if I qualify &#8594;</a>
+    </div>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu"><span></span><span></span><span></span></button>
+  </nav>
+  <aside class="mobilemenu" id="mobilemenu" aria-hidden="true">
+    <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+    <a href="#brief" data-i18n="nav_brief">What you get</a>
+    <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+    <a href="#privacy" data-i18n="nav_privacy">Trust &amp; privacy</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    <a href="#" data-i18n="nav_login">Log in</a>
+    <a href="#elig" class="mcta" data-i18n-html="m_cta">Check if I qualify free &#8594;</a>
+    <div class="m-lang" role="group" aria-label="Language / Idioma">
+      <button type="button" class="m-langbtn on" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" class="m-langbtn" data-lang="es" aria-pressed="false">Español</button>
+    </div>
+  </aside>
+  <div class="menuscrim" id="menuscrim"></div>
+
+  <div class="herowrap">
+    <div class="textpanel">
+      <span data-i18n="hero_eyebrow" class="h-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg> Attorney-built self-help record clearing</span>
+      <h1 data-i18n-html="hero_h1">Clear your eligible record for <span class="price">$50</span>, not <span class="strike">$2,500</span> — without hiring a lawyer.</h1>
+      <p data-i18n="hero_sub" class="sub">Answer a few plain-English questions. We check whether your record may qualify, prepare your court-ready self-help paperwork, and show you exactly how to file it yourself. Free until your packet is ready.</p>
+      <div class="hero-cta-row">
+        <a href="#elig" class="btn btn-primary bigcta" data-i18n-html="hero_cta1">Check if I qualify free <span class="arr">&#8594;</span></a>
+        <a data-i18n="hero_cta2" href="#sample" class="btn h-ghost">See a sample packet</a>
+      </div>
+      <div class="microcopy" data-i18n-html="hero_micro">&#10003; About 3 minutes &nbsp;&middot;&nbsp; No account required &nbsp;&middot;&nbsp; No payment to start &nbsp;&middot;&nbsp; Private</div>
+      <div class="trust">
+        <div class="t" data-i18n-html="hero_t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Screening for all 50 states + DC</div>
+        <div class="t" data-i18n-html="hero_t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg> Built by a criminal defense attorney &amp; state lawmaker</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="strip-grid">
+    <div class="tcard"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div><h3 data-i18n="strip_h0">Free to check</h3><p data-i18n="strip_p0">See whether your record may qualify before you pay anything.</p></div>
+    <div class="tcard"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div><h3 data-i18n="strip_h1">No account required</h3><p data-i18n="strip_p1">Start privately without creating a login.</p></div>
+    <div class="tcard"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div><h3 data-i18n="strip_h2">Court-specific steps</h3><p data-i18n="strip_p2">Get filing instructions for the court that handled your case.</p></div>
+    <div class="tcard"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div><h3 data-i18n="strip_h3">Flat $50 per case</h3><p data-i18n="strip_p3">No subscription. Court fees, if any, are separate.</p></div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="problem-grid">
+    <div>
+      <p data-i18n="prob_eye" class="eyebrow">The barrier</p>
+      <h2 data-i18n="prob_h2">A record can keep showing up long after the case is over.</h2>
+      <p data-i18n="prob_lead" class="lead">Old arrests, dismissed charges, misdemeanors, and eligible convictions can still create friction when you apply for work, housing, school, licensing, or a fresh start. Expungement.ai helps you see whether the law gives you a path to clear it — then helps you take the next step.</p>
+      <div data-i18n="prob_stat" class="stat-mod">About 1 in 3 U.S. adults has a criminal record. Records can create barriers to jobs, occupational licensing, housing, and higher education.</div>
+      <div style="margin-top:26px"><a href="#elig" class="btn btn-primary" data-i18n-html="prob_cta">Check my eligibility <span class="arr">&#8594;</span></a></div>
+    </div>
+    <div class="fade-stack" aria-hidden="true">
+      <div class="fade-row"><span class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l-3 3 3 3M7 21l3-3-3-3"/></svg></span><span data-i18n="fade0">Job application</span></div>
+      <div class="fade-row"><span class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span><span data-i18n="fade1">Housing application</span></div>
+      <div class="fade-row"><span class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></span><span data-i18n="fade2">School &amp; licensing form</span></div>
+      <div class="fade-row path"><span class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span data-i18n="fade3">Eligible to clear?</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="elig" id="elig">
+  <div class="elig-grid">
+    <div>
+      <p data-i18n="elig_eye" class="eyebrow">Free eligibility check</p>
+      <h2 data-i18n="elig_h2">Start with what you know. We'll guide the rest.</h2>
+      <p data-i18n="elig_lead" class="lead" style="margin-top:16px">You do not need legal vocabulary to check your options. We ask plain-English questions, explain confusing terms, and flag issues before you spend money on paperwork.</p>
+      <ul class="bullets">
+        <li><span class="ck">&#10003;</span><span data-i18n="elig_b0">Choose "Not sure" when you do not know</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="elig_b1">See explanations as you go</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="elig_b2">Stop anytime</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="elig_b3">No account required to begin</span></li>
+      </ul>
+      <div style="margin-top:30px"><a href="#" class="btn btn-primary" data-i18n-html="elig_cta">Start the free check <span class="arr">&#8594;</span></a></div>
+    </div>
+    <div class="mockcard" aria-hidden="true">
+      <div class="mock-head"><span data-i18n="mock_title" class="mock-title">Eligibility check</span><span data-i18n="mock_step" class="mock-step">Question 2 of about 8</span></div>
+      <div class="progress"><i style="width:25%"></i></div>
+      <div data-i18n="mock_q" class="mock-q">What happened with the case?</div>
+      <div class="chips">
+        <span class="chip" data-i18n="chip0">Dismissed</span>
+        <span class="chip" data-i18n="chip1">Not guilty</span>
+        <span class="chip" data-i18n="chip2">Arrest only</span>
+        <span class="chip sel" data-i18n="chip3">Guilty / conviction</span>
+        <span class="chip" data-i18n="chip4">Still open</span>
+        <span class="chip" data-i18n="chip5">Not sure</span>
+      </div>
+      <div class="tooltip" data-i18n-html="mock_tip"><strong>Dismissed</strong> means the case ended without a conviction.</div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how-it-works">
+  <div class="sec-head center">
+    <p data-i18n="how_eye" class="eyebrow">How it works</p>
+    <h2 data-i18n="how_h2">Three steps. No legal maze.</h2>
+  </div>
+  <div class="journey">
+    <div class="jline-track"></div>
+    <div class="jline"></div>
+    <div class="jstep" data-i="0"><div class="jnode">1</div><div class="jcard"><h3 data-i18n="how_h0">Check if your record may qualify</h3><p data-i18n="how_p0">Answer plain-English questions about your case, state, and outcome. We show whether your record appears eligible before you pay.</p><picture class="jshot"><source type="image/webp" srcset="shot-eligibility.webp"><img src="shot-eligibility.png" width="760" height="569" loading="lazy" decoding="async" alt="Expungement.ai eligibility check screen asking whether you are checking your own record, with a progress rail."></picture></div></div>
+    <div class="jstep" data-i="1"><div class="jnode">2</div><div class="jcard"><h3 data-i18n="how_h1">Get your court-ready packet</h3><p data-i18n="how_p1">We prepare your self-help forms and instructions, including what to bring, where to file, and what fees or waivers may apply.</p><picture class="jshot"><source type="image/webp" srcset="shot-result.webp"><img src="shot-result.png" width="760" height="659" loading="lazy" decoding="async" alt="Eligibility result screen reading you may be able to clear this record, with a continue-to-packet button and a not-a-law-firm disclaimer."></picture></div></div>
+    <div class="jstep" data-i="2"><div class="jnode">3</div><div class="jcard"><h3 data-i18n="how_h2">File it yourself with guidance</h3><p data-i18n="how_p2">Download your packet, follow your checklist, and use your Briefcase to track what is done and what comes next.</p><picture class="jshot"><source type="image/webp" srcset="shot-briefcase.webp"><img src="shot-briefcase.png" width="760" height="428" loading="lazy" decoding="async" alt="The Briefcase dashboard showing two matters with step-by-step filing progress and a next-step card."></picture></div></div>
+  </div>
+  <div class="cta-wrap"><a href="#elig" class="btn btn-primary" data-i18n-html="how_cta">Check if I qualify free <span class="arr">&#8594;</span></a></div>
+</section>
+
+<section class="brief" id="brief">
+  <div class="brief-grid">
+    <div>
+      <p data-i18n="brief_eye" class="eyebrow">Your Briefcase</p>
+      <h2 data-i18n="brief_h2">Everything you need to file, organized in one place.</h2>
+      <p data-i18n="brief_lead" class="lead">No legal jargon. No scattered PDFs. No guessing what to do next. Your Briefcase shows each case, each document, and the next step for your court.</p>
+      <ul class="brief-bullets">
+        <li><span class="bk">&#10003;</span><span data-i18n="brief_b0">See every case status at a glance</span></li>
+        <li><span class="bk">&#10003;</span><span data-i18n="brief_b1">Download your prepared court documents</span></li>
+        <li><span class="bk">&#10003;</span><span data-i18n="brief_b2">Follow filing instructions for your court</span></li>
+        <li><span class="bk">&#10003;</span><span data-i18n="brief_b3">Track what is ready, filed, or waiting</span></li>
+        <li><span class="bk">&#10003;</span><span data-i18n="brief_b4">Ask Wilma to explain confusing steps in plain English</span></li>
+      </ul>
+      <div class="briefcta"><a href="#" class="btn btn-primary" data-i18n-html="brief_cta">Preview the Briefcase <span class="arr">&#8594;</span></a></div>
+    </div>
+    <picture class="briefshot">
+      <source type="image/webp" srcset="shot-briefcase.webp">
+      <img src="shot-briefcase.png" width="1180" height="664" loading="lazy" decoding="async" alt="The Expungement.ai Briefcase dashboard: a welcome header, a highlighted next step to file a Philadelphia petition, status metrics for matters, ready, documents, and cleared, and two matter cards with step-by-step filing progress.">
+    </picture>
+  </div>
+</section>
+
+<section class="packet">
+  <div class="packet-grid">
+    <div>
+      <p data-i18n="pk_eye" class="eyebrow">What you get</p>
+      <h2 data-i18n="pk_h2">Not generic forms. A packet built around your state, court, and case.</h2>
+      <p data-i18n="pk_lead" class="lead" style="margin-top:18px">Expungement rules vary by state, court, case type, and outcome. We use your answers to prepare a self-help filing packet and checklist matched to your situation, so you know what to file, where to file, and what to expect next.</p>
+      <ul class="bullets" style="margin-top:22px">
+        <li><span class="ck">&#10003;</span><span data-i18n="pk_b0">State-specific screening</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="pk_b1">Court-specific filing steps</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="pk_b2">Plain-English explanations</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="pk_b3">Attorney-reviewed document logic</span></li>
+        <li><span class="ck">&#10003;</span><span data-i18n="pk_b4">Clear boundaries when a lawyer may be needed</span></li>
+      </ul>
+      <div class="proof-side" data-i18n-html="pk_proof"><b>Why court-specific matters</b>Some courts require petitions to be filed where the case was resolved, multiple courts may require separate petitions, and filing fees or fee waivers can vary by case type and jurisdiction.</div>
+    </div>
+    <div class="pcards">
+      <div class="pcard"><span class="pn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span><div><h4 data-i18n="pc_h0">Petition</h4><p data-i18n="pc_p0">Your request to clear the record</p></div></div>
+      <div class="pcard"><span class="pn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><div><h4 data-i18n="pc_h1">Proposed order</h4><p data-i18n="pc_p1">The document the judge may sign</p></div></div>
+      <div class="pcard"><span class="pn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H3v10h18V11h-6"/><path d="M9 11V3h6v8"/><path d="m9 7 3 3 3-3"/></svg></span><div><h4 data-i18n="pc_h2">Filing checklist</h4><p data-i18n="pc_p2">Where to file, what to bring, and what to expect</p></div></div>
+      <div class="pcard"><span class="pn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5h4.5a1.5 1.5 0 0 1 0 3H10a1.5 1.5 0 0 0 0 3H15"/></svg></span><div><h4 data-i18n="pc_h3">Fee-waiver instructions</h4><p data-i18n="pc_p3">How to ask the court to waive filing fees when available</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sample" id="sample">
+  <div class="sample-grid">
+    <div>
+      <p data-i18n="sm_eye" class="eyebrow">Sample packet</p>
+      <h2 data-i18n="sm_h2">See what you'll get before you pay.</h2>
+      <p data-i18n="sm_lead" class="lead" style="margin-top:16px">Your packet is not a mystery purchase. Preview the types of documents and filing steps Expungement.ai prepares, then decide whether to continue when your own packet is ready.</p>
+      <div style="margin-top:26px"><a href="#" class="btn btn-primary" data-i18n-html="sm_cta">View sample packet <span class="arr">&#8594;</span></a></div>
+      <p data-i18n="sm_fine" style="margin-top:14px;color:var(--slate);font-size:13px">Sample only. Your actual forms depend on your state, court, case, and eligibility.</p>
+    </div>
+    <div class="doc-preview" aria-hidden="true">
+      <div class="tabs"><span class="tabp on" data-i18n="tab0">Petition</span><span class="tabp" data-i18n="tab1">Filing checklist</span><span class="tabp" data-i18n="tab2">Fee waiver</span><span class="tabp" data-i18n="tab3">Court instructions</span><span class="tabp" data-i18n="tab4">Next steps</span></div>
+      <div class="doc-body">
+        <div class="watermark">SAMPLE</div>
+        <div class="doc-line title"></div>
+        <div class="doc-line w90"></div><div class="doc-line w80"></div><div class="doc-line w60"></div><div class="doc-line w90"></div><div class="doc-line w40"></div><div class="doc-line w80"></div><div class="doc-line w60"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-head">
+      <p data-i18n="pr_eye" class="eyebrow">Pricing</p>
+      <h2 data-i18n="pr_h2">One flat price when your packet is ready.</h2>
+    </div>
+    <div class="pricing-cols">
+      <div class="price-card">
+        <div class="price-top"><span class="price-num">$50</span><span class="price-strike">$2,500</span></div>
+        <p data-i18n="pr_sub" class="price-sub">per case, all-in. Less than a lawyer typically charges.</p>
+        <p data-i18n="pr_free" class="price-free">Free eligibility check. Pay only when you're ready to file.</p>
+        <div class="price-list">
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl0">Eligibility screening</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl1">Prepared self-help court documents</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl2">Court-specific filing instructions</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl3">Fee-waiver guidance when available</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl4">Briefcase tracking</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span data-i18n="prl5">Wilma plain-English guidance</span></div>
+        </div>
+        <div class="price-not">
+          <div class="pl"><span class="xk">&#10005;</span><span data-i18n="prx0">Court filing fees, if your court charges them</span></div>
+          <div class="pl"><span class="xk">&#10005;</span><span data-i18n="prx1">Attorney representation</span></div>
+          <div class="pl"><span class="xk">&#10005;</span><span data-i18n="prx2">Guaranteed court approval</span></div>
+        </div>
+        <a href="#elig" class="btn btn-primary" data-i18n-html="pr_cta">Check if I qualify free <span class="arr">&#8594;</span></a>
+        <p class="price-fine" data-i18n="pr_fine">No subscription. No surprise platform fees. Many courts waive the filing fee, and we show you how to ask.</p>
+      </div>
+
+      <div class="compare">
+        <h3 data-i18n="cmp_h3">Why $50 instead of thousands?</h3>
+        <p data-i18n="cmp_p">A lawyer may manage legal strategy, representation, and filing for you. Expungement.ai prepares the self-help documents your court generally expects and shows you how to file them yourself. You do the filing; we make the paperwork and steps easier.</p>
+        <div class="compare-rows">
+          <div class="crow head">
+            <div class="lbl">&nbsp;</div>
+            <div data-i18n="cmp_us" class="col us">Expungement.ai</div>
+            <div data-i18n="cmp_them" class="col them">Hiring a lawyer</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r0" class="lbl">Typical cost</div>
+            <div data-i18n="cmp_v0" class="v">$50 per case</div>
+            <div data-i18n-html="cmp_v1" class="v them">$1,000&ndash;$2,500+</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r1" class="lbl">Eligibility check</div>
+            <div data-i18n="cmp_v2" class="v">Free</div>
+            <div data-i18n="cmp_v3" class="v them">Paid consult</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r2" class="lbl">Prepared documents</div>
+            <div data-i18n="cmp_v4" class="v">Included</div>
+            <div data-i18n="cmp_v5" class="v them">Included</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r3" class="lbl">Filing instructions</div>
+            <div data-i18n="cmp_v6" class="v">Court-specific</div>
+            <div data-i18n="cmp_v7" class="v them">Handled for you</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r4" class="lbl">Who files</div>
+            <div data-i18n="cmp_v8" class="v">You, with guidance</div>
+            <div data-i18n="cmp_v9" class="v them">The attorney</div>
+          </div>
+          <div class="crow">
+            <div data-i18n="cmp_r5" class="lbl">Representation</div>
+            <div data-i18n="cmp_v10" class="v them">Not included</div>
+            <div data-i18n="cmp_v11" class="v them">Included</div>
+          </div>
+        </div>
+        <p data-i18n="cmp_foot" class="compare-foot">Cost ranges are general estimates for attorney-assisted expungement and vary widely by case, court, and region. Expungement.ai is not a law firm and does not provide legal advice or representation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cred" id="trust">
+  <div class="cred-inner">
+    <div class="cred-card">
+      <div role="img" aria-label="Verified, attorney-reviewed" class="cred-shield">
+        <svg viewBox="0 0 64 64" style="width:46px;height:46px" aria-hidden="true"><path d="M32 5 L53 12 V32 C53 46 44 56 32 60 C20 56 11 46 11 32 V12 Z" fill="#1B2B80" stroke="#3DE0B5" stroke-width="3"/><path d="M23 33 L29 39 L42 24" fill="none" stroke="#3DE0B5" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="cred-body">
+        <p data-i18n="cr_eye" class="eyebrow">Why you can trust this</p>
+        <h2 data-i18n="cr_h2">Built by a criminal defense attorney and state lawmaker.</h2>
+        <p data-i18n="cr_p">Every document and every step is grounded in the actual law of your state, reviewed by attorneys who do this work. We don't cut corners with your record. A defective filing lands on a real person, and that person is you.</p>
+        <div class="cred-tags">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg><span data-i18n="cr_t0">Criminal defense attorney</span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg><span data-i18n="cr_t1">Sitting state legislator</span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="#00A99D" stroke-width="2.5"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/></svg><span data-i18n="cr_t2">Attorney-reviewed in every state we serve</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="privacy" id="privacy">
+  <div class="privacy-inner">
+    <p data-i18n="pv_eye" class="eyebrow">Trust &amp; privacy</p>
+    <h2 data-i18n="pv_h2">Your record is sensitive. Your privacy should be obvious.</h2>
+    <p data-i18n="pv_lead" class="lead">You can start the eligibility check without creating an account. We do not sell your information. We only ask for what we need to screen your options and prepare your packet.</p>
+    <div class="priv-grid">
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv0">No account required to begin</span></div>
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv1">Your information is never sold</span></div>
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv2">You control whether to continue</span></div>
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv3">Clear privacy policy before sensitive details</span></div>
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv4">Delete and export options in your account</span></div>
+      <div class="priv-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="pv5">Human support without judgment</span></div>
+    </div>
+    <a data-i18n="pv_cta" href="/privacy" class="btn h-ghost">Read our privacy promise</a>
+  </div>
+</section>
+
+<section class="wilma">
+  <div class="wilma-grid">
+    <div>
+      <div class="wilma-intro">
+        <picture>
+          <source type="image/webp" srcset="wilma-avatar.webp">
+          <img class="wilma-face" src="wilma-avatar.png" width="64" height="64" loading="lazy" decoding="async" alt="Wilma, the Expungement.ai filing guide: a friendly headset-wearing character in a dark suit and orange tie.">
+        </picture>
+        <p data-i18n="wl_eye" class="eyebrow">Your filing guide</p>
+      </div>
+      <h2 data-i18n="wl_h2">Meet Wilma, your plain-English filing guide.</h2>
+      <p data-i18n="wl_lead" class="lead" style="margin-top:16px">Wilma helps explain confusing steps, translate legal terms, and point you back to your checklist. She does not replace a lawyer or promise a court outcome — she helps you understand what to do next.</p>
+      <div class="prompts">
+        <span class="prompt" data-i18n="wl_p0">What does dismissed mean?</span>
+        <span class="prompt" data-i18n="wl_p1">Where do I file this packet?</span>
+        <span class="prompt" data-i18n="wl_p2">What should I bring to court?</span>
+        <span class="prompt" data-i18n="wl_p3">How do I ask for a fee waiver?</span>
+        <span class="prompt" data-i18n="wl_p4">What happens after I file?</span>
+      </div>
+      <p data-i18n="wl_safe" class="wilma-safe">Wilma provides general self-help guidance, not legal advice.</p>
+    </div>
+    <div class="chat" aria-hidden="true">
+      <div class="bubble user"><div class="who" data-i18n="wl_you">You</div><span data-i18n="wl_q">What does "file with the court" mean?</span></div>
+      <div class="chat-row botrow">
+        <img class="chat-ava" src="wilma-avatar-sm.webp" width="40" height="40" alt="" aria-hidden="true">
+        <div class="bubble bot"><div class="who">Wilma</div><span data-i18n="wl_a">It means bringing or submitting your completed packet to the court that handled your case. Your checklist shows the court address, what documents to include, and whether a filing fee or fee waiver may apply.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="state">
+  <div class="state-grid">
+    <div>
+      <p data-i18n="st_eye" class="eyebrow">Coverage</p>
+      <h2 data-i18n="st_h2">Screening and guidance for all 50 states + DC.</h2>
+      <p data-i18n="st_lead" class="lead" style="margin-top:16px">Record-clearing rules are different everywhere. Start with your state and case details, and we'll show what appears available before you pay. Packet availability depends on your result and jurisdiction.</p>
+      <div class="state-select"><span data-i18n="st_choose">Choose your state</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div data-i18n="st_result" class="state-result">We'll check your record type, outcome, waiting period, and court requirements.</div>
+    </div>
+    <div class="map-pane" aria-hidden="true"><div class="big">50 + DC</div><div data-i18n="st_lab" class="lab">States screened</div></div>
+  </div>
+</section>
+
+<section class="evidence">
+  <div class="sec-head center">
+    <p data-i18n="ev_eye" class="eyebrow">Why it matters</p>
+    <h2 data-i18n="ev_head">Clearing a record can change what comes next.</h2>
+  </div>
+  <div class="ev-cards">
+    <div class="ev-card"><div class="imgph"><picture><source type="image/webp" srcset="evidence-opportunity.webp"><img src="evidence-opportunity.jpg" width="800" height="600" loading="lazy" decoding="async" alt="A smiling tradesperson in work coveralls standing in a machine shop."></picture></div><h3 data-i18n="ev_h0">Opportunity</h3><p data-i18n="ev_p0">Criminal records can create barriers to jobs, occupational licensing, housing, and higher education.</p></div>
+    <div class="ev-card"><div class="imgph"><picture><source type="image/webp" srcset="evidence-access.webp"><img src="evidence-access.jpg" width="800" height="600" loading="lazy" decoding="async" alt="A woman at her kitchen table reviewing paperwork and bills with a laptop open."></picture></div><h3 data-i18n="ev_h1">Access</h3><p data-i18n="ev_p1">Legal help is often out of reach for people who need it most.</p></div>
+    <div class="ev-card"><div class="imgph"><picture><source type="image/webp" srcset="evidence-economic.webp"><img src="evidence-economic.jpg" width="800" height="600" loading="lazy" decoding="async" alt="A student writing notes beside a laptop at a library study table."></picture></div><h3 data-i18n="ev_h2">Economic lift</h3><p data-i18n="ev_p2">Research has found that people who obtain expungement experience a sharp upward turn in wage and employment trajectories.</p></div>
+  </div>
+  <p data-i18n="ev_note" class="ev-note">These studies show why record clearing matters. They do not guarantee any individual legal, employment, housing, or financial outcome.</p>
+</section>
+
+<section class="testi">
+  <div class="sec-head center">
+    <p data-i18n="ts_eye" class="eyebrow">In their words</p>
+    <h2 data-i18n="ts_h2">People who cleared their record with Expungement.ai.</h2>
+  </div>
+  <div class="testi-cards">
+    <!-- TESTIMONIAL 1 — Tanya R. -->
+    <div class="testi-card">
+      <p class="quote" data-i18n="ts_q0">I ain't gonna lie, I was nervous even putting my information in. But once I started, it was way simpler than I thought. It told me what I needed to know without making me feel dumb. I wish I had found this sooner.</p>
+      <div class="testi-person">
+        <div class="imgph"><picture><source type="image/webp" srcset="testimonial-1.webp"><img src="testimonial-1.jpg" width="200" height="200" loading="lazy" decoding="async" alt="Portrait of Tanya R."></picture></div>
+        <div class="who"><b data-i18n="ts_n0">Tanya R.</b><span data-i18n="ts_l0">Mississippi</span></div>
+      </div>
+    </div>
+    <!-- TESTIMONIAL 2 — Marcus D. -->
+    <div class="testi-card">
+      <p class="quote" data-i18n="ts_q1">I've worked hard to get my life straight, but that old case kept following me around. Every better job I applied for, I felt like I was waiting on the background check to mess it up. Expungement.ai helped me understand what I could actually do next.</p>
+      <div class="testi-person">
+        <div class="imgph"><picture><source type="image/webp" srcset="testimonial-2.webp"><img src="testimonial-2.jpg" width="200" height="200" loading="lazy" decoding="async" alt="Portrait of Marcus D."></picture></div>
+        <div class="who"><b data-i18n="ts_n1">Marcus D.</b><span data-i18n="ts_l1">Michigan</span></div>
+      </div>
+    </div>
+    <!-- TESTIMONIAL 3 — Lisa F. -->
+    <div class="testi-card">
+      <p class="quote" data-i18n="ts_q2">I didn't have money for a lawyer, and I didn't know who to ask without feeling embarrassed. This gave me a place to start. It wasn't magic, but it made the process feel less scary.</p>
+      <div class="testi-person">
+        <div class="imgph"><picture><source type="image/webp" srcset="testimonial-3.webp"><img src="testimonial-3.jpg" width="200" height="200" loading="lazy" decoding="async" alt="Portrait of Lisa F."></picture></div>
+        <div class="who"><b data-i18n="ts_n2">Lisa F.</b><span data-i18n="ts_l2">Pennsylvania</span></div>
+      </div>
+    </div>
+  </div>
+  <p data-i18n="ts_note" class="testi-note">Testimonials reflect individual experiences and are not a guarantee of any legal, employment, housing, or financial outcome.</p>
+</section>
+
+<section class="faqsec" id="faq">
+  <div class="faq-inner">
+    <div class="sec-head center" style="margin-bottom:0">
+      <p data-i18n="fq_eye" class="eyebrow">Questions</p>
+      <h2 data-i18n="fq_h2">The things people ask before they start</h2>
+    </div>
+    <div class="faqlist">
+      <details class="faq" open><summary data-i18n="fq_q0">Is this actually legit?</summary><div data-i18n="fq_a0" class="ans">Yes. People are often allowed to file record-clearing paperwork themselves. Expungement.ai is a self-help document preparation product: we screen your answers, prepare paperwork, and guide you through filing. We are not a law firm and do not represent you.</div></details>
+      <details class="faq"><summary data-i18n="fq_q1">Do I need a lawyer?</summary><div data-i18n="fq_a1" class="ans">Not always. Many people can file self-help petitions on their own, depending on their case and state. If your situation is complex, risky, or unclear, we'll tell you when speaking with a licensed attorney may be the better next step.</div></details>
+      <details class="faq"><summary data-i18n="fq_q2">Will this work in my state?</summary><div data-i18n="fq_a2" class="ans">Start with the free eligibility check. We screen for all 50 states + DC, but packet availability depends on your case, court, and jurisdiction.</div></details>
+      <details class="faq"><summary data-i18n="fq_q3">What does the $50 cover?</summary><div data-i18n="fq_a3" class="ans">The $50 per case covers your prepared documents, filing checklist, court-specific instructions, Briefcase access, and Wilma guidance. Court filing fees, if any, are separate.</div></details>
+      <details class="faq"><summary data-i18n="fq_q4">What if my petition is denied?</summary><div data-i18n="fq_a4" class="ans">No one can promise a court outcome. Our goal is to help you avoid filing something that clearly does not qualify and to make your packet complete, organized, and ready to file.</div></details>
+      <details class="faq"><summary data-i18n="fq_q5">Is my information private?</summary><div data-i18n="fq_a5" class="ans">Yes. You can begin without creating an account, and your information is never sold.</div></details>
+      <details class="faq"><summary data-i18n="fq_q6">Are you a law firm?</summary><div data-i18n="fq_a6" class="ans">No. Expungement.ai provides self-help document preparation and general filing guidance. We do not provide legal advice, represent you, or file on your behalf.</div></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="final-inner">
+    <h2 data-i18n="fn_h2">Your record does not have to be the thing that follows you.</h2>
+    <p data-i18n="fn_p">Find out whether you may qualify in about 3 minutes. It is free to check, private to start, and you only pay if you're ready to file your packet.</p>
+    <a href="#elig" class="btn btn-primary" data-i18n-html="fn_cta">Check if I qualify free <span class="arr">&#8594;</span></a>
+    <p class="micro" data-i18n="fn_micro">No account &middot; No payment to start &middot; Self-help guidance &middot; Not legal advice</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="fb">
+          <svg viewBox="0 0 192 158" style="width:26px;height:21px" aria-hidden="true"><defs><clipPath id="archf"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#archf)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#1B2B40"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#0B1326"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>
+          Expungement.ai
+        </a>
+        <p data-i18n="ft_blurb">Expungement.ai helps people prepare self-help record-clearing documents and filing guidance.</p>
+        <div class="socials">
+          <a href="https://instagram.com/expungement.ai" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" style="width:17px;height:17px"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/expungementai" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://linkedin.com/company/expungement-ai" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.36 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+          <a href="https://facebook.com/expungementai" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.03 4.39 11.03 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79v8.44C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-cols">
+        <div>
+          <h5 data-i18n="ft_product">Product</h5>
+          <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+          <a href="#brief" data-i18n="nav_brief">What you get</a>
+          <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+          <a href="#elig" data-i18n="ft_check">Check if you qualify</a>
+        </div>
+        <div>
+          <h5 data-i18n="ft_resources">Resources</h5>
+          <a href="#faq" data-i18n="nav_faq">FAQ</a>
+          <a href="#privacy" data-i18n="nav_privacy">Trust &amp; privacy</a>
+          <a href="#sample" data-i18n="ft_sample">Sample packet</a>
+        </div>
+        <div>
+          <h5 data-i18n="ft_legal">Legal</h5>
+          <a href="/privacy" data-i18n="ft_pp">Privacy policy</a>
+          <a href="/terms" data-i18n="ft_tos">Terms of service</a>
+          <a href="mailto:help@expungement.ai" data-i18n="ft_contact">Contact us</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <p data-i18n="ft_disc">Expungement.ai is not a law firm and is not a substitute for the advice of an attorney. We provide self-help document preparation and general information, not legal advice, and we do not represent you or file on your behalf. Using this site does not create an attorney-client relationship. Eligibility and outcomes depend on your individual circumstances and your state's laws. If you need legal advice, consult a licensed attorney in your state.</p>
+    </div>
+
+    <div class="foot-bottom">
+      <p data-i18n-html="ft_copy">&copy; 2026 Expungement.ai. All rights reserved.</p>
+      <p data-i18n="ft_priv">Your information stays private and is never sold.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <a href="#elig" class="btn btn-primary" data-i18n-html="sticky_cta">Check free <span class="arr">&#8594;</span></a>
+  <p class="sl" data-i18n="sticky_sl">No account &middot; 3 minutes</p>
+</div>
+
+<script>
+  (function(){
+    var nav=document.getElementById('nav');
+    function onScroll(){if(window.scrollY>40){nav.classList.add('scrolled');}else{nav.classList.remove('scrolled');}}
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+    var tgl=document.getElementById('navtoggle'),scrim=document.getElementById('menuscrim'),menu=document.getElementById('mobilemenu');
+    function setMenu(open){nav.classList.toggle('open',open);tgl.setAttribute('aria-expanded',open);tgl.setAttribute('aria-label',open?'Close menu':'Open menu');menu.setAttribute('aria-hidden',!open);document.body.style.overflow=open?'hidden':'';}
+    tgl.addEventListener('click',function(){setMenu(!nav.classList.contains('open'));});
+    scrim.addEventListener('click',function(){setMenu(false);});
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length>1){var el=document.querySelector(id);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'});}}});});
+  })();
+  (function(){
+    var sec=document.getElementById('how-it-works');if(!sec)return;
+    var line=sec.querySelector('.jline');var steps=sec.querySelectorAll('.jstep');var fired=false;
+    function reveal(){if(fired)return;var r=sec.getBoundingClientRect();if(r.top<window.innerHeight*0.8){fired=true;if(line)line.style.transform='scaleY(1)';steps.forEach(function(s){s.style.opacity='1';s.style.transform='none';});}}
+    window.addEventListener('scroll',reveal,{passive:true});reveal();
+  })();
+</script>
+
+<script>
+(function(){
+  var ES = {"announce": "<span class=\"gold\">Gratis</span> revisión de elegibilidad: sin cuenta, sin pago, unos 3 minutos.", "announce_cta": "Revisar gratis", "nav_how": "Cómo funciona", "nav_brief": "Qué recibes", "nav_pricing": "Precio", "nav_privacy": "Confianza y privacidad", "nav_faq": "Preguntas", "nav_login": "Iniciar sesión", "nav_cta": "¿Califico? &#8594;", "m_cta": "¿Califico? Revisar gratis &#8594;", "hero_eyebrow": "Borrado de antecedentes de autoayuda, creado por un abogado", "hero_h1": "Borre su antecedente elegible por <span class=\"price\">$50</span>, no <span class=\"strike\">$2,500</span>, sin contratar a un abogado.", "hero_sub": "Responda unas preguntas sencillas. Revisamos si su antecedente podría calificar, preparamos sus documentos de autoayuda listos para el tribunal y le mostramos exactamente cómo presentarlos usted mismo. Gratis hasta que su paquete esté listo.", "hero_cta1": "¿Califico? Revisar gratis <span class=\"arr\">&#8594;</span>", "hero_cta2": "Ver un paquete de ejemplo", "hero_micro": "&#10003; Unos 3 minutos &nbsp;&middot;&nbsp; Sin cuenta &nbsp;&middot;&nbsp; Sin pago para empezar &nbsp;&middot;&nbsp; Privado", "hero_t1": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"><path d=\"M20 6 9 17l-5-5\"/></svg> Revisión para los 50 estados + DC", "hero_t2": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"><path d=\"M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z\"/></svg> Creado por un abogado defensor penal y legislador estatal", "strip_h0": "Gratis para revisar", "strip_p0": "Vea si su antecedente podría calificar antes de pagar nada.", "strip_h1": "Sin cuenta", "strip_p1": "Comience en privado sin crear un acceso.", "strip_h2": "Pasos según su tribunal", "strip_p2": "Reciba instrucciones de presentación para el tribunal que atendió su caso.", "strip_h3": "$50 fijo por caso", "strip_p3": "Sin suscripción. Las tasas del tribunal, si las hay, son aparte.", "prob_eye": "La barrera", "prob_h2": "Un antecedente puede seguir apareciendo mucho después de que el caso terminó.", "prob_lead": "Arrestos antiguos, cargos desestimados, delitos menores y condenas elegibles aún pueden crear obstáculos al solicitar trabajo, vivienda, estudios, licencias o un nuevo comienzo. Expungement.ai le ayuda a ver si la ley le da una vía para borrarlo, y luego le ayuda a dar el siguiente paso.", "prob_stat": "Cerca de 1 de cada 3 adultos en EE. UU. tiene antecedentes penales. Los antecedentes pueden crear barreras para empleo, licencias profesionales, vivienda y educación superior.", "prob_cta": "Revisar mi elegibilidad <span class=\"arr\">&#8594;</span>", "fade0": "Solicitud de empleo", "fade1": "Solicitud de vivienda", "fade2": "Formulario de estudios y licencias", "fade3": "¿Elegible para borrar?", "elig_eye": "Revisión de elegibilidad gratis", "elig_h2": "Empiece con lo que sabe. Nosotros le guiamos en el resto.", "elig_lead": "No necesita vocabulario legal para revisar sus opciones. Hacemos preguntas sencillas, explicamos los términos confusos y señalamos problemas antes de que gaste dinero en documentos.", "elig_b0": "Elija \"No estoy seguro\" cuando no sepa", "elig_b1": "Vea explicaciones a medida que avanza", "elig_b2": "Deténgase cuando quiera", "elig_b3": "Sin cuenta para empezar", "elig_cta": "Comenzar la revisión gratis <span class=\"arr\">&#8594;</span>", "mock_title": "Revisión de elegibilidad", "mock_step": "Pregunta 2 de unas 8", "mock_q": "¿Qué pasó con el caso?", "chip0": "Desestimado", "chip1": "No culpable", "chip2": "Solo arresto", "chip3": "Culpable / condena", "chip4": "Aún abierto", "chip5": "No estoy seguro", "mock_tip": "<strong>Desestimado</strong> significa que el caso terminó sin condena.", "how_eye": "Cómo funciona", "how_h2": "Preséntelo usted mismo con guía", "how_h0": "Revise si su antecedente podría calificar", "how_p0": "Responda preguntas sencillas sobre su caso, estado y resultado. Le mostramos si su antecedente parece elegible antes de que pague.", "how_h1": "Reciba su paquete listo para el tribunal", "how_p1": "Preparamos sus formularios de autoayuda e instrucciones, incluyendo qué llevar, dónde presentar y qué tasas o exenciones pueden aplicar.", "how_p2": "Descargue su paquete, siga su lista y use su Maletín para llevar el control de lo hecho y lo que sigue.", "how_cta": "¿Califico? Revisar gratis <span class=\"arr\">&#8594;</span>", "brief_eye": "Su Maletín", "brief_h2": "Todo lo que necesita para presentar, organizado en un solo lugar.", "brief_lead": "Sin jerga legal. Sin PDF dispersos. Sin adivinar qué hacer después. Su Maletín muestra cada caso, cada documento y el siguiente paso para su tribunal.", "brief_b0": "Vea el estado de cada caso de un vistazo", "brief_b1": "Descargue sus documentos preparados para el tribunal", "brief_b2": "Siga las instrucciones de presentación de su tribunal", "brief_b3": "Controle qué está listo, presentado o en espera", "brief_b4": "Pida a Wilma que explique los pasos confusos en lenguaje sencillo", "brief_cta": "Ver el Maletín <span class=\"arr\">&#8594;</span>", "pk_eye": "Qué recibe", "pk_h2": "No formularios genéricos. Un paquete hecho según su estado, tribunal y caso.", "pk_lead": "Las reglas de borrado varían según el estado, el tribunal, el tipo de caso y el resultado. Usamos sus respuestas para preparar un paquete de autoayuda y una lista a la medida de su situación, para que sepa qué presentar, dónde y qué esperar después.", "pk_b0": "Revisión según su estado", "pk_b1": "Pasos de presentación según su tribunal", "pk_b2": "Explicaciones en lenguaje sencillo", "pk_b3": "Lógica de documentos revisada por abogados", "pk_b4": "Límites claros sobre cuándo puede necesitar un abogado", "pk_proof": "<b>Por qué importa el tribunal específico</b>Algunos tribunales exigen presentar la petición donde se resolvió el caso, varios tribunales pueden exigir peticiones separadas, y las tasas o exenciones pueden variar según el tipo de caso y la jurisdicción.", "pc_h0": "Petición", "pc_p0": "Su solicitud para borrar el antecedente", "pc_h1": "Orden propuesta", "pc_p1": "El documento que el juez puede firmar", "pc_h2": "Lista de presentación", "pc_p2": "Dónde presentar, qué llevar y qué esperar", "pc_h3": "Instrucciones de exención de tasas", "pc_p3": "Cómo pedir al tribunal que exima las tasas cuando sea posible", "sm_eye": "Paquete de ejemplo", "sm_h2": "Vea lo que recibirá antes de pagar.", "sm_lead": "Su paquete no es una compra a ciegas. Vea los tipos de documentos y pasos de presentación que prepara Expungement.ai, y luego decida si continuar cuando su propio paquete esté listo.", "sm_cta": "Ver paquete de ejemplo <span class=\"arr\">&#8594;</span>", "sm_fine": "Solo un ejemplo. Sus formularios reales dependen de su estado, tribunal, caso y elegibilidad.", "tab0": "Petición", "tab1": "Lista de presentación", "tab2": "Exención de tasas", "tab3": "Instrucciones del tribunal", "tab4": "Próximos pasos", "pr_eye": "Precio", "pr_h2": "Un precio fijo cuando su paquete esté listo.", "pr_sub": "por caso, todo incluido. Menos de lo que suele cobrar un abogado.", "pr_free": "Revisión de elegibilidad gratis. Pague solo cuando esté listo para presentar.", "prl0": "Revisión de elegibilidad", "prl1": "Documentos de autoayuda preparados para el tribunal", "prl2": "Instrucciones de presentación según su tribunal", "prl3": "Guía de exención de tasas cuando sea posible", "prl4": "Seguimiento con el Maletín", "prl5": "Guía de Wilma en lenguaje sencillo", "prx0": "Tasas de presentación del tribunal, si las cobra", "prx1": "Representación de un abogado", "prx2": "Aprobación garantizada del tribunal", "pr_cta": "¿Califico? Revisar gratis <span class=\"arr\">&#8594;</span>", "pr_fine": "Sin suscripción. Sin tarifas sorpresa de plataforma. Muchos tribunales eximen la tasa de presentación, y le mostramos cómo pedirlo.", "cmp_h3": "¿Por qué $50 en vez de miles?", "cmp_p": "Un abogado puede manejar la estrategia legal, la representación y la presentación por usted. Expungement.ai prepara los documentos de autoayuda que su tribunal suele esperar y le muestra cómo presentarlos usted mismo. Usted presenta; nosotros facilitamos el papeleo y los pasos.", "cmp_us": "Expungement.ai", "cmp_them": "Contratar un abogado", "cmp_r0": "Costo típico", "cmp_r1": "Revisión de elegibilidad", "cmp_r2": "Documentos preparados", "cmp_r3": "Instrucciones de presentación", "cmp_r4": "Quién presenta", "cmp_r5": "Representación", "cmp_v0": "$50 por caso", "cmp_v1": "$1,000&ndash;$2,500+", "cmp_v2": "Gratis", "cmp_v3": "Consulta pagada", "cmp_v4": "Incluido", "cmp_v5": "Incluido", "cmp_v6": "Según su tribunal", "cmp_v7": "Lo hacen por usted", "cmp_v8": "Usted, con guía", "cmp_v9": "El abogado", "cmp_v10": "No incluido", "cmp_v11": "Incluido", "cmp_foot": "Los rangos de costo son estimaciones generales para borrado con ayuda de abogado y varían mucho según el caso, el tribunal y la región. Expungement.ai no es un bufete de abogados y no brinda asesoría legal ni representación.", "cr_eye": "Por qué puede confiar", "cr_h2": "Creado por un abogado defensor penal y legislador estatal.", "cr_p": "Cada documento y cada paso se basa en la ley real de su estado, revisado por abogados que hacen este trabajo. No tomamos atajos con su antecedente. Una presentación defectuosa recae sobre una persona real, y esa persona es usted.", "cr_t0": "Abogado defensor penal", "cr_t1": "Legislador estatal en funciones", "cr_t2": "Revisado por abogados en cada estado que atendemos", "pv_eye": "Confianza y privacidad", "pv_h2": "Su antecedente es sensible. Su privacidad debe ser evidente.", "pv_lead": "Puede comenzar la revisión de elegibilidad sin crear una cuenta. No vendemos su información. Solo pedimos lo necesario para revisar sus opciones y preparar su paquete.", "pv0": "Sin cuenta para empezar", "pv1": "Su información nunca se vende", "pv2": "Usted decide si continuar", "pv3": "Política de privacidad clara antes de datos sensibles", "pv4": "Opciones de borrar y exportar en su cuenta", "pv5": "Apoyo humano sin juicios", "pv_cta": "Lea nuestra promesa de privacidad", "wl_eye": "Su guía de presentación", "wl_h2": "Conozca a Wilma, su guía de presentación en lenguaje sencillo.", "wl_lead": "Wilma ayuda a explicar pasos confusos, traducir términos legales y devolverle a su lista. No reemplaza a un abogado ni promete un resultado del tribunal: le ayuda a entender qué hacer después.", "wl_p0": "¿Qué significa desestimado?", "wl_p1": "¿Dónde presento este paquete?", "wl_p2": "¿Qué debo llevar al tribunal?", "wl_p3": "¿Cómo pido una exención de tasas?", "wl_p4": "¿Qué pasa después de presentar?", "wl_safe": "Wilma brinda guía general de autoayuda, no asesoría legal.", "wl_you": "Usted", "wl_q": "¿Qué significa \"presentar ante el tribunal\"?", "wl_a": "Significa llevar o entregar su paquete completo al tribunal que atendió su caso. Su lista muestra la dirección del tribunal, qué documentos incluir y si aplica una tasa de presentación o una exención.", "st_eye": "Cobertura", "st_h2": "Revisión y guía para los 50 estados + DC.", "st_lead": "Las reglas de borrado son distintas en cada lugar. Comience con su estado y los detalles del caso, y le mostraremos lo que parece disponible antes de pagar. La disponibilidad del paquete depende de su resultado y jurisdicción.", "st_choose": "Elija su estado", "st_result": "Revisaremos su tipo de antecedente, el resultado, el período de espera y los requisitos del tribunal.", "st_lab": "Estados revisados", "ev_eye": "Por qué importa", "ev_h2": "Impulso económico", "ev_h0": "Oportunidad", "ev_p0": "Los antecedentes penales pueden crear barreras para empleo, licencias profesionales, vivienda y educación superior.", "ev_h1": "Acceso", "ev_p1": "La ayuda legal suele estar fuera del alcance de quienes más la necesitan.", "ev_p2": "Estudios han encontrado que las personas que logran el borrado experimentan un fuerte aumento en sus salarios y empleo.", "ev_note": "Estos estudios muestran por qué importa el borrado de antecedentes. No garantizan ningún resultado legal, laboral, de vivienda o financiero individual.", "fq_eye": "Preguntas", "fq_h2": "Lo que la gente pregunta antes de empezar", "fq_q0": "¿Esto es realmente legítimo?", "fq_a0": "Sí. Con frecuencia las personas pueden presentar ellas mismas el papeleo para borrar antecedentes. Expungement.ai es un producto de preparación de documentos de autoayuda: revisamos sus respuestas, preparamos el papeleo y le guiamos en la presentación. No somos un bufete de abogados y no le representamos.", "fq_q1": "¿Necesito un abogado?", "fq_a1": "No siempre. Muchas personas pueden presentar peticiones de autoayuda por su cuenta, según su caso y estado. Si su situación es compleja, riesgosa o poco clara, le diremos cuándo hablar con un abogado con licencia puede ser el mejor siguiente paso.", "fq_q2": "¿Funcionará en mi estado?", "fq_a2": "Comience con la revisión de elegibilidad gratis. Revisamos los 50 estados + DC, pero la disponibilidad del paquete depende de su caso, tribunal y jurisdicción.", "fq_q3": "¿Qué cubre los $50?", "fq_a3": "Los $50 por caso cubren sus documentos preparados, la lista de presentación, las instrucciones según su tribunal, el acceso al Maletín y la guía de Wilma. Las tasas de presentación del tribunal, si las hay, son aparte.", "fq_q4": "¿Y si rechazan mi petición?", "fq_a4": "Nadie puede prometer un resultado del tribunal. Nuestra meta es ayudarle a evitar presentar algo que claramente no califica y a que su paquete esté completo, organizado y listo para presentar.", "fq_q5": "¿Mi información es privada?", "fq_a5": "Sí. Puede comenzar sin crear una cuenta, y su información nunca se vende.", "fq_q6": "¿Son un bufete de abogados?", "fq_a6": "No. Expungement.ai ofrece preparación de documentos de autoayuda y guía general de presentación. No brindamos asesoría legal, no le representamos ni presentamos en su nombre.", "fn_h2": "Su antecedente no tiene que ser lo que le persigue.", "fn_p": "Averigüe si podría calificar en unos 3 minutos. Es gratis revisar, privado para empezar, y solo paga si está listo para presentar su paquete.", "fn_cta": "¿Califico? Revisar gratis <span class=\"arr\">&#8594;</span>", "fn_micro": "Sin cuenta · Sin pago para empezar · Guía de autoayuda · No es asesoría legal", "ft_blurb": "Expungement.ai ayuda a las personas a preparar documentos de autoayuda para borrar antecedentes y guía de presentación.", "ft_product": "Producto", "ft_check": "¿Califico?", "ft_resources": "Recursos", "ft_sample": "Paquete de ejemplo", "ft_legal": "Legal", "ft_pp": "Política de privacidad", "ft_tos": "Términos del servicio", "ft_contact": "Contáctenos", "ft_disc": "Expungement.ai no es un bufete de abogados y no sustituye el consejo de un abogado. Ofrecemos preparación de documentos de autoayuda e información general, no asesoría legal, y no le representamos ni presentamos en su nombre. Usar este sitio no crea una relación abogado-cliente. La elegibilidad y los resultados dependen de sus circunstancias individuales y de las leyes de su estado. Si necesita asesoría legal, consulte a un abogado con licencia en su estado.", "ft_copy": "&copy; 2026 Expungement.ai. Todos los derechos reservados.", "ft_priv": "Su información se mantiene privada y nunca se vende.", "sticky_cta": "Revisar gratis <span class=\"arr\">&#8594;</span>", "sticky_sl": "Sin cuenta · 3 minutos", "_title": "Expungement.ai — Borre su antecedente elegible por $50, sin contratar un abogado", "_desc": "Averigüe si su antecedente podría calificar, reciba su paquete de autoayuda listo para el tribunal y preséntelo usted mismo con guía paso a paso. Gratis para revisar. $50 por caso.", "_toggle_aria": "Idioma", "ev_head": "Borrar un antecedente puede cambiar lo que viene después.", "ts_eye": "En sus palabras", "ts_h2": "Personas que borraron su antecedente con Expungement.ai.", "ts_q0": "No voy a mentir, estaba nerviosa hasta de poner mi información. Pero una vez que empecé, fue mucho más sencillo de lo que pensaba. Me dijo lo que necesitaba saber sin hacerme sentir tonta. Ojalá lo hubiera encontrado antes.", "ts_n0": "Tanya R.", "ts_l0": "Mississippi", "ts_q1": "He trabajado duro para enderezar mi vida, pero ese caso viejo me seguía persiguiendo. En cada mejor empleo al que aplicaba, sentía que estaba esperando a que la verificación de antecedentes lo arruinara. Expungement.ai me ayudó a entender qué podía hacer realmente después.", "ts_n1": "Marcus D.", "ts_l1": "Michigan", "ts_q2": "No tenía dinero para un abogado, y no sabía a quién preguntarle sin sentirme avergonzada. Esto me dio un punto de partida. No fue magia, pero hizo que el proceso diera menos miedo.", "ts_n2": "Lisa F.", "ts_l2": "Pennsylvania", "ts_note": "Los testimonios reflejan experiencias individuales y no garantizan ningún resultado legal, laboral, de vivienda o financiero."};
+  var EN = {}; // cache of original english per key (filled on first run)
+  var docEN = { title: document.title };
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) docEN.desc = metaDesc.getAttribute('content');
+
+  function nodes(){ return document.querySelectorAll('[data-i18n],[data-i18n-html]'); }
+
+  // cache english text once
+  nodes().forEach(function(el){
+    var k = el.getAttribute('data-i18n') || el.getAttribute('data-i18n-html');
+    if (!(k in EN)) EN[k] = el.getAttribute('data-i18n-html')!=null ? el.innerHTML : el.textContent;
+  });
+
+  function apply(lang){
+    var useES = lang === 'es';
+    nodes().forEach(function(el){
+      var htmlKey = el.getAttribute('data-i18n-html');
+      var k = el.getAttribute('data-i18n') || htmlKey;
+      var en = EN[k];
+      var val = useES && (k in ES) ? ES[k] : en;
+      if (val == null) return;
+      if (htmlKey != null) el.innerHTML = val; else el.textContent = val;
+    });
+    // document-level
+    document.documentElement.setAttribute('lang', useES ? 'es' : 'en');
+    document.title = useES ? ES._title : docEN.title;
+    if (metaDesc) metaDesc.setAttribute('content', useES ? ES._desc : docEN.desc);
+    // toggle button states
+    document.querySelectorAll('.langbtn, .m-langbtn').forEach(function(b){
+      var on = b.getAttribute('data-lang') === lang;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    try { localStorage.setItem('exp_lang', lang); } catch(e){}
+  }
+
+  document.querySelectorAll('.langbtn, .m-langbtn').forEach(function(b){
+    b.addEventListener('click', function(){ apply(b.getAttribute('data-lang')); });
+  });
+
+  // initial: saved pref, else browser hint, else EN
+  var saved = null;
+  try { saved = localStorage.getItem('exp_lang'); } catch(e){}
+  if (!saved) {
+    var nl = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (nl.indexOf('es') === 0) saved = 'es';
+  }
+  if (saved === 'es') apply('es');
+})();
+</script>
+
+</body>
+</html>
