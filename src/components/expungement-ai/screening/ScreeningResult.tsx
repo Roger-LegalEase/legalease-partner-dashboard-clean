@@ -45,6 +45,39 @@ const TONE_ACCENT: Record<Tone, { eyebrow: string; chip: string }> = {
   blocked: { eyebrow: "text-[#475A6E]", chip: "bg-[#EEF2F7] text-[#334155]" }
 };
 
+// Consumer-facing copy for the two packet-ready outcomes. The engine still returns its own
+// userLabel/reasons/nextSteps/pathwayId/sourceRefs on the evaluation (used internally and by the
+// packet generator); this card just renders plain-English equivalents instead of engine language.
+const PACKET_READY_RESULT_CODES: ReadonlySet<ResultCode> = new Set<ResultCode>(["packet_ready", "packet_ready_with_caution"]);
+
+/** Plain, fixed next steps shown for any packet-ready outcome. */
+const PACKET_READY_NEXT_STEPS = [
+  "Review your answers.",
+  "Generate your packet.",
+  "Read the filing checklist before you file anything with the court."
+];
+
+/** Pathways whose record-clearing route covers cases that did not end in a conviction. */
+const NON_CONVICTION_PATHWAY = /non-conviction|dismiss|no-disposition|acquit/i;
+
+function isNonConvictionPathway(evaluation: ScreeningEvaluation) {
+  return NON_CONVICTION_PATHWAY.test(evaluation.pathwayId ?? "");
+}
+
+function packetSubheading(stateName: string, evaluation: ScreeningEvaluation) {
+  if (stateName === "Mississippi" && isNonConvictionPathway(evaluation)) {
+    return "Based on your answers, Mississippi may have a record-clearing path for a case that was dismissed, had no final disposition, or ended in acquittal.";
+  }
+  return `Based on your answers, ${stateName} may have a record-clearing path for this case.`;
+}
+
+function packetWhyText(stateName: string, evaluation: ScreeningEvaluation) {
+  if (isNonConvictionPathway(evaluation)) {
+    return `Your answers match a ${stateName} expungement path for cases that did not end in a conviction.`;
+  }
+  return `Your answers match a ${stateName} expungement path based on the information you provided.`;
+}
+
 export function ScreeningResult({
   evaluation,
   stateName,
@@ -62,6 +95,8 @@ export function ScreeningResult({
   const accent = TONE_ACCENT[presentation.tone];
   const showPacketAction = isPaymentAllowed(evaluation);
   const missing = evaluation.missingQuestionIds ?? [];
+  const isPacketReady = PACKET_READY_RESULT_CODES.has(evaluation.resultCode);
+  const nextSteps = isPacketReady ? PACKET_READY_NEXT_STEPS : evaluation.nextSteps;
 
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
@@ -70,23 +105,28 @@ export function ScreeningResult({
         {presentation.eyebrow}
       </p>
       <h1 className="mt-3 text-[26px] font-extrabold leading-tight text-[#0B1320] md:text-[32px]">
-        {evaluation.userLabel}
+        {isPacketReady ? "You may be able to prepare an expungement packet." : evaluation.userLabel}
       </h1>
       <p className="mt-2 text-sm font-semibold text-[#8A93A6]">
-        {stateName}
-        {evaluation.pathwayId ? ` · ${evaluation.pathwayId}` : ""}
+        {isPacketReady ? packetSubheading(stateName, evaluation) : stateName}
       </p>
 
-      {evaluation.reasons.length > 0 ? (
+      {isPacketReady ? (
+        <Section title="Why">
+          <ul className="grid gap-2">
+            <li className="flex items-start gap-2 text-sm leading-6 text-[#475A6E]">
+              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
+              <span>{packetWhyText(stateName, evaluation)}</span>
+            </li>
+          </ul>
+        </Section>
+      ) : evaluation.reasons.length > 0 ? (
         <Section title="Why">
           <ul className="grid gap-2">
             {evaluation.reasons.map((reason, index) => (
               <li key={`${reason.code}-${index}`} className="flex items-start gap-2 text-sm leading-6 text-[#475A6E]">
                 <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
-                <span>
-                  {safeUserFacingEngineText(reason.text)}
-                  {reason.sourceRef ? <span className="ml-1 text-xs text-[#8A93A6]">({reason.sourceRef})</span> : null}
-                </span>
+                <span>{safeUserFacingEngineText(reason.text)}</span>
               </li>
             ))}
           </ul>
@@ -119,10 +159,10 @@ export function ScreeningResult({
         </Section>
       ) : null}
 
-      {evaluation.nextSteps.length > 0 ? (
+      {nextSteps.length > 0 ? (
         <Section title="Your next steps">
           <ol className="grid gap-2">
-            {evaluation.nextSteps.map((step, index) => (
+            {nextSteps.map((step, index) => (
               <li key={index} className="flex items-start gap-3 text-sm leading-6 text-[#475A6E]">
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#EEF2F7] text-[11px] font-bold text-[#334155]">
                   {index + 1}
@@ -134,7 +174,7 @@ export function ScreeningResult({
         </Section>
       ) : null}
 
-      {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} /> : null}
+      {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} stateName={stateName} /> : null}
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
         {showPacketAction ? (
@@ -170,25 +210,18 @@ export function ScreeningResult({
   );
 }
 
-const PACKET_MODE_TEXT: Record<PacketPlan["mode"], string> = {
-  official_form_overlay_or_source_form_set: "We would prepare your state's official form set for you to review and file.",
-  state_specific_custom_packet_from_source_rules: "We would prepare a custom packet built from your state's rules for you to review and file.",
-  automatic_relief_verification_and_guidance: "We would help you confirm automatic relief and what to do next."
-};
+function packetBodyText(mode: PacketPlan["mode"], stateName: string) {
+  if (mode === "automatic_relief_verification_and_guidance") {
+    return "We’ll help you confirm automatic relief and what to do next.";
+  }
+  return `We’ll prepare a ${stateName} expungement packet for you to review, including the documents and filing steps that match the information you provided.`;
+}
 
-function PacketPlanSummary({ plan }: { plan: PacketPlan }) {
+function PacketPlanSummary({ plan, stateName }: { plan: PacketPlan; stateName: string }) {
   return (
     <Section title="What your packet would include">
       <div className="rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3 text-sm leading-6 text-[#0B5C54]">
-        <p>{PACKET_MODE_TEXT[plan.mode] ?? "We would prepare a self-help packet for you to review and file."}</p>
-        {plan.requiredInputIds.length > 0 ? (
-          <p className="mt-1 text-xs text-[#0B5C54]/80">
-            Uses {plan.requiredInputIds.length} detail{plan.requiredInputIds.length === 1 ? "" : "s"} you provided.
-          </p>
-        ) : null}
-        {plan.sourceRuleRefs.length > 0 ? (
-          <p className="mt-1 text-xs text-[#0B5C54]/80">Based on: {plan.sourceRuleRefs.join(", ")}</p>
-        ) : null}
+        <p>{packetBodyText(plan.mode, stateName)}</p>
       </div>
     </Section>
   );
