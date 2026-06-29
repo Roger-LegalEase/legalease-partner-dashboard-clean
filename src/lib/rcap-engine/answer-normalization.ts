@@ -13,6 +13,18 @@ export function isUnknownAnswer(value: ScreeningAnswerValue | undefined) {
   return !text || text.includes("not sure") || text.includes("unknown") || text.includes("prefer not");
 }
 
+/**
+ * True only when a question is explicitly answered with an "I don't know"-style value
+ * ("I am not sure", "unknown", "prefer not"). Unlike {@link isUnknownAnswer}, a missing,
+ * undefined, or empty answer is NOT treated as unknown — absence of a required public answer
+ * is handled separately by {@link requiredMissingPublicQuestionIds}.
+ */
+export function isExplicitUnknownAnswer(value: ScreeningAnswerValue | undefined) {
+  const text = answerText(value).toLowerCase();
+  if (!text) return false;
+  return text.includes("not sure") || text.includes("unknown") || text.includes("prefer not");
+}
+
 export function isAffirmative(value: ScreeningAnswerValue | undefined) {
   const text = answerText(value).toLowerCase();
   return text === "true" || text === "yes" || text.startsWith("yes,") || text.includes("state or local");
