@@ -16,7 +16,7 @@
  * in `profile-loader.ts` is dropped and the data leaves the bundle.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import type {
   AnswerValue,
@@ -35,6 +35,7 @@ import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
+import { resolvePartnerSessionId } from "@/components/expungement-ai/screening/partner-session";
 import {
   EvaluatingState,
   EvaluationErrorState,
@@ -78,6 +79,14 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
 
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Partner/session mode follows the session the user *arrived* with: the server-provided prop, or —
+  // when the server render did not carry it (e.g. a statically optimized response) — a valid
+  // ?session= UUID read from the URL on the client. It is intentionally NOT derived from the live
+  // `sessionId` state, so a DTC user who later saves progress (which mints a sessionId) keeps the
+  // $50 consumer flow.
+  const effectiveInitialSessionId = resolvePartnerSessionId(initialSessionId, searchParams.get("session"));
+  const isPartnerSession = Boolean(effectiveInitialSessionId);
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
@@ -85,16 +94,12 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
-  const [sessionId, setSessionId] = useState<string | undefined>(initialSessionId);
+  const [sessionId, setSessionId] = useState<string | undefined>(effectiveInitialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
   const focusRef = useRef<HTMLDivElement>(null);
   const matterIdRef = useRef<string>(createMatterId());
-  // Partner/session mode is keyed to the session the user *arrived* with (the ?session= UUID from a
-  // partner intake), not the live `sessionId` state — a DTC user who later saves progress also gets a
-  // sessionId, and must keep the $50 consumer flow.
-  const isPartnerSession = Boolean(initialSessionId);
 
   useEffect(() => {
     // The component is remounted per state (keyed by the route), so initial state is already
