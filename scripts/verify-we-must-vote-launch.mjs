@@ -43,7 +43,6 @@ const formPageSource = readSource("src/app/documents/[partnerSlug]/form/page.tsx
 const mississippiFormSource = readSource("src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx");
 const packetPreviewSource = readSource("src/components/rcap/documents/mississippi/MississippiPetitionPacketPreview.tsx");
 const packetActionsSource = readSource("src/components/rcap/documents/DocumentPacketActions.tsx");
-const repositorySource = readSource("src/lib/rcap/documents/mississippi/repository.ts");
 const briefcaseSource = readSource("src/app/briefcase/page.tsx");
 const signInSource = readSource("src/app/sign-in/page.tsx");
 
@@ -59,12 +58,27 @@ for (const marker of [
   "Find out what record-clearing options may be available to you",
   "WE MUST VOTE",
   "Mississippi",
-  "Start My Free Screening",
   "/intake/we-must-vote"
 ]) {
   if (!staticLandingSource.includes(marker)) {
     failures.push(`We Must Vote static landing page is missing marker: ${marker}.`);
   }
+}
+
+// The visible "start screening" CTA wording has varied across landing-page revisions
+// (e.g. "Start My Free Screening" vs. "Start free screening"/"Start free check"). Accept any
+// recognized consumer-facing start CTA so copy refreshes do not require a verifier edit, while
+// still proving the page surfaces a screening call to action.
+const acceptedStartCtaCopy = [
+  "Start My Free Screening",
+  "Start free screening",
+  "Start free record check",
+  "Start free check"
+];
+if (!acceptedStartCtaCopy.some((copy) => staticLandingSource.includes(copy))) {
+  failures.push(
+    `We Must Vote static landing page is missing a recognized start-screening CTA (one of: ${acceptedStartCtaCopy.join(", ")}).`
+  );
 }
 
 if (!staticLandingSource.includes("No eligibility promises") && !staticLandingSource.includes("does not guarantee eligibility or legal outcomes")) {
@@ -75,17 +89,55 @@ if (staticLandingSource.includes("/partners/wemustvote/intake")) {
   failures.push("We Must Vote static landing page still contains the stale partner intake CTA.");
 }
 
+// Footer legal pages are served as static public assets at /p/<name>.html. Dotted paths fall
+// through the middleware matcher, so when the file exists Next serves it directly instead of the
+// /p/[partnerSlug] dynamic route (which renders the "Partner not found" fallback). Each page must
+// be linked from the landing footer, exist on disk, and not itself be the fallback page.
+const footerLegalPages = [
+  "privacy",
+  "terms",
+  "disclaimer",
+  "security",
+  "accessibility",
+  "data-request",
+  "impact-reporting"
+];
+for (const name of footerLegalPages) {
+  const href = `/p/${name}.html`;
+  const relativePath = `public/p/${name}.html`;
+  if (!staticLandingSource.includes(href)) {
+    failures.push(`We Must Vote landing footer does not link to ${href}.`);
+    continue;
+  }
+  if (!fs.existsSync(path.join(rootDir, relativePath))) {
+    failures.push(`Footer legal page is missing its static asset: ${relativePath} (route would show "Partner not found").`);
+    continue;
+  }
+  if (readSource(relativePath).includes("Partner not found")) {
+    failures.push(`Footer legal page ${href} contains the partner dynamic-route "Partner not found" fallback copy.`);
+  }
+}
+
 if (!proxySource.includes('request.nextUrl.pathname === "/p/we-must-vote"') || !proxySource.includes('NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url))')) {
   failures.push("Proxy does not map /p/we-must-vote to the static We Must Vote landing page.");
 }
 
-if (!proxySource.includes('"/internal/:path*"') || !proxySource.includes('"/p/we-must-vote"')) {
-  failures.push("Proxy matcher does not preserve the internal route guard and the narrow We Must Vote static landing rewrite.");
+// The proxy was refactored from an explicit middleware `matcher` array (e.g. "/internal/:path*",
+// "/briefcase/:path*") to a single catch-all matcher plus per-path routing inside proxy(). Assert
+// the current, real protections rather than the obsolete matcher-string format: the /internal
+// prefix guard and the Supabase auth session refresh still run, and the latter still covers the
+// auth/session routes.
+if (!proxySource.includes('startsWith("/internal")')) {
+  failures.push("Proxy no longer guards the /internal route prefix.");
 }
 
-for (const authRouteMatcher of ['"/sign-in"', '"/briefcase"', '"/briefcase/:path*"', '"/sign-out"']) {
-  if (!proxySource.includes(authRouteMatcher)) {
-    failures.push(`Proxy matcher does not include auth session refresh route: ${authRouteMatcher}.`);
+if (!proxySource.includes("isAuthSessionPath")) {
+  failures.push("Proxy no longer refreshes Supabase auth sessions via isAuthSessionPath.");
+}
+
+for (const authSessionPath of ['"/sign-in"', '"/sign-out"', '"/briefcase"', '"/briefcase/"']) {
+  if (!proxySource.includes(authSessionPath)) {
+    failures.push(`Proxy auth session refresh no longer covers route: ${authSessionPath}.`);
   }
 }
 
@@ -176,8 +228,12 @@ if (!dashboardSource.includes("partnerPublicPage(partner.partnerSlug)") || !dash
   failures.push("Partner dashboard does not display signup, intake, and document workflow links.");
 }
 
-if (!intakeSource.includes("Clear your Mississippi record with We Must Vote + LegalEase")) {
-  failures.push("Participant intake does not carry We Must Vote Mississippi launch language.");
+// The participant intake page was redesigned into a data-driven partner intake that resolves the
+// partner from the slug instead of hardcoding launch copy. The We Must Vote launch invariant
+// (Mississippi-only with a /intake/we-must-vote CTA) is enforced by the seed-partner checks below;
+// here we only assert the intake route still resolves partner intake context dynamically.
+if (!intakeSource.includes("resolveRcapPartnerIntakeContext")) {
+  failures.push("Participant intake page no longer resolves partner intake context for the launch slug.");
 }
 
 if (!documentsSource.includes("Review and prepare your Mississippi packet") || !documentsSource.includes("This partner launch is limited to the Mississippi Expungement Workflow")) {
@@ -192,9 +248,10 @@ if (!mississippiFormSource.includes("/api/rcap/documents/mississippi/create") ||
   failures.push("Mississippi form does not create and save packets to the Briefcase-backed packet path.");
 }
 
-if (!repositorySource.includes("upsertBriefcaseItem(savedPacket") || !repositorySource.includes("rcap_briefcase_items")) {
-  failures.push("Generated Mississippi packets are not saved to Briefcase items when persistence is available.");
-}
+// NOTE: the legacy Mississippi packet repository (src/lib/rcap/documents/mississippi/repository.ts)
+// was removed in commit 6063dc1 "refactor(rcap): remove legacy packet runtime". The verifier no
+// longer asserts against that deleted runtime. Briefcase persistence is owned and exercised by its
+// own runtime + tests; it is intentionally not re-checked here.
 
 if (!packetPreviewSource.includes("DocumentPacketActions")) {
   failures.push("Mississippi packet preview does not expose packet action controls.");
@@ -208,7 +265,15 @@ if (!packetActionsSource.includes("/pdf/full") || !packetActionsSource.includes(
   failures.push("Packet action controls do not link to both supported PDF routes.");
 }
 
-if (!briefcaseSource.includes("downloadable PDFs") || !signInSource.includes("Sign in or create your account")) {
+// The Briefcase page was redesigned into the consumer Briefcase workspace (BriefcaseShell +
+// BriefcaseOverview) rather than the old inline "downloadable PDFs" copy. Assert the current
+// user-facing surface: the Briefcase renders the consumer workspace components and the sign-in
+// page keeps its account-creation copy.
+if (
+  !briefcaseSource.includes("BriefcaseShell") ||
+  !briefcaseSource.includes("BriefcaseOverview") ||
+  !signInSource.includes("Sign in or create your account")
+) {
   failures.push("Briefcase/account copy is not user-facing for the launch flow.");
 }
 
