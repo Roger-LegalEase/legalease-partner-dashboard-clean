@@ -115,10 +115,12 @@ assert(!/isPartnerSession = Boolean\(initialSessionId\)/.test(flowSrc), "Partner
 assert(!/isPartnerSession = Boolean\(sessionId\)/.test(flowSrc), "Partner mode must NOT derive from the live sessionId state.");
 assert(flowSrc.includes('const BRIEFCASE_PATH = "/briefcase"'), "ScreeningFlow must define BRIEFCASE_PATH = '/briefcase'.");
 assert(flowSrc.includes("hasScreeningSession={isPartnerSession}"), "ScreeningFlow must pass hasScreeningSession to ScreeningResult.");
-assert(
-  /onPacketAction=\{\(\)\s*=>\s*router\.push\(isPartnerSession \? BRIEFCASE_PATH : PACKET_PATH\)\}/.test(flowSrc),
-  "ScreeningFlow must route the packet action to BRIEFCASE_PATH in partner mode and PACKET_PATH only for DTC."
-);
+// The packet action now runs through handlePacketAction: partner mode saves the result then opens
+// Briefcase; DTC keeps the PACKET_PATH pay-and-generate route. (Persistence asserted in
+// verify-rcap-briefcase-result-persistence.)
+assert(flowSrc.includes("onPacketAction={() => void handlePacketAction()}"), "ScreeningFlow must route the packet action through handlePacketAction.");
+assert(/if \(!isPartnerSession \|\| !evaluation\) \{\s*router\.push\(PACKET_PATH\)/.test(flowSrc), "DTC (no partner session) must keep the PACKET_PATH route, not save.");
+assert(flowSrc.includes("router.push(BRIEFCASE_PATH)"), "Partner mode must open Briefcase after saving.");
 
 // Source wiring: the route is dynamic and keyed by session mode so partner/DTC never share an instance.
 const pageSrc = readFileSync(path.join(process.cwd(), "src/app/expungement-ai/screening/[state]/page.tsx"), "utf8");

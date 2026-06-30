@@ -7,6 +7,7 @@ import type {
   CreateConsumerBriefcaseItemInput,
   ExpungementAiEligibilityResult
 } from "@/lib/expungement-ai/types";
+import { findItemForSession } from "@/lib/expungement-ai/save-result-policy";
 
 // Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS.
 // Safe fallback path: local/unconfigured shells return deterministic items without service-role writes.
@@ -38,6 +39,42 @@ type ConsumerBriefcaseRow = {
   created_at: string;
   updated_at: string;
 };
+
+/**
+ * Persist a completed screening result as a Briefcase matter, with duplicate protection.
+ * The same (userId, sourceSessionId) never creates a second matter: if one already exists we reuse
+ * it instead of inserting again, so a double click (or a save-after-login retry) is idempotent.
+ */
+export async function saveScreeningResultToBriefcase(
+  input: CreateConsumerBriefcaseItemInput
+): Promise<ConsumerBriefcaseItem> {
+  if (input.sourceSessionId) {
+    const existing = findItemForSession(await listBriefcaseItems(input.userId), input.sourceSessionId);
+    if (existing) return existing;
+  }
+  return createBriefcaseItem(input);
+}
+
+/**
+ * True when the screening session was started through an RCAP partner program. Used to drop the
+ * payment gate when saving the result (partner sessions are sponsored). Reuses the same lookup as
+ * isPartnerSponsoredPacketItem.
+ */
+export async function isRcapPartnerScreeningSession(sessionId: string): Promise<boolean> {
+  if (!sessionId) return false;
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+
+  const { data, error } = await supabase
+    .from("screening_sessions")
+    .select("session_id")
+    .eq("session_id", sessionId)
+    .eq("flow_mode", "rcap")
+    .not("partner_slug", "is", null)
+    .maybeSingle<{ session_id: string }>();
+
+  return !error && Boolean(data?.session_id);
+}
 
 export async function createBriefcaseItem(input: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
   const fallbackItem = fallbackItemFromCreateInput(input);
