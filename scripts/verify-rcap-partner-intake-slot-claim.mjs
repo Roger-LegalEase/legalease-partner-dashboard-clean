@@ -51,8 +51,9 @@ function verifySourceWiring() {
   assert(page.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake page must resolve partner context on load.");
   assert(page.includes("form action={startRcapPartnerScreening}"), "Partner intake start must require an explicit form action.");
   assert(page.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Start action must call the RPC wrapper.");
-  assert(page.includes("This link isn't active right now."), "Inactive-link copy is missing.");
-  assert(page.includes("This program is currently full. Please check back later or contact the organization that shared this link."), "Program-full copy is missing.");
+  assert(page.includes("This link is not active right now"), "Inactive-link copy is missing.");
+  assert(page.includes("This program is currently full"), "Program-full headline copy is missing.");
+  assert(page.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy is missing.");
   assert(!page.includes("RcapWilmaIntakeChat"), "Partner intake must not use the old Wilma intake chat path.");
   assert(!page.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
 

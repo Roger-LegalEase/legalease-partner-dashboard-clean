@@ -105,8 +105,9 @@ function verifySourceWiring() {
   assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake must resolve context on load.");
   assert(intakePage.includes("form action={startRcapPartnerScreening}"), "Partner intake start must be explicit.");
   assert(intakePage.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Partner intake start must call the RPC wrapper.");
-  assert(intakePage.includes("This link isn't active right now."), "Inactive link copy missing.");
-  assert(intakePage.includes("This program is currently full. Please check back later or contact the organization that shared this link."), "Program-full copy missing.");
+  assert(intakePage.includes("This link is not active right now"), "Inactive link copy missing.");
+  assert(intakePage.includes("This program is currently full"), "Program-full headline copy missing.");
+  assert(intakePage.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy missing.");
   assert(!intakePage.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
   assert(!intakePage.includes("/expungement-ai/pay"), "Partner intake must not route to pay.");
   assert(indexOf(intakePage, "claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })") > indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only be called in the explicit start action.");
