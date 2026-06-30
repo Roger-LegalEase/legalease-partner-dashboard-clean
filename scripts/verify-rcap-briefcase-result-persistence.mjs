@@ -77,12 +77,44 @@ assert(routeSrc.includes("getRcapBriefcaseAuthState"), "Save route must check th
 assert(routeSrc.includes('"auth_required"') && routeSrc.includes("401"), "Save route must 401 when signed out (for sign-in + retry).");
 assert(routeSrc.includes("saveScreeningResultToBriefcase"), "Save route must persist via saveScreeningResultToBriefcase.");
 assert(routeSrc.includes("isRcapPartnerScreeningSession"), "Save route must detect partner sessions server-side.");
+assert(routeSrc.includes("attachMississippiPacketInformationRequest"), "Partner Mississippi packet-ready save must attach the packet-information action.");
+assert(routeSrc.includes("isPartnerSession && isPacketReadyResult(body.resultCode) && isMississippiJurisdiction"), "Only verified partner Mississippi packet-ready saves may attach the packet-information action.");
+assert(routeSrc.includes('packetStatus: packet.packetStatus'), "Save route must return generated packet status.");
+assert(!routeSrc.includes("createConsumerPacketCheckout") && !routeSrc.includes("stripe"), "Save route must not call Stripe or checkout.");
 assert(!routeSrc.includes("body.answers") && !routeSrc.includes("toScreeningAnswers"), "Save route must never read raw answers.");
 
 const briefcaseSrc = read("src/lib/expungement-ai/briefcase.ts");
 assert(briefcaseSrc.includes("export async function saveScreeningResultToBriefcase"), "Persistence layer must expose saveScreeningResultToBriefcase.");
 assert(briefcaseSrc.includes("findItemForSession(await listBriefcaseItems"), "Persistence save must dedupe by source session.");
 assert(briefcaseSrc.includes("export async function isRcapPartnerScreeningSession"), "Persistence layer must expose partner-session detection.");
+assert(briefcaseSrc.includes("artifact_refs_json: input.artifactRefs ?? {}"), "New saved matters must default to empty artifact refs until generation attaches them.");
+assert(briefcaseSrc.includes("packet_status: input.packetStatus ?? \"not_started\""), "New saved matters must default packet_status to not_started before generation.");
+
+const packetGenerationSrc = read("src/lib/expungement-ai/packet-generation.ts");
+assert(packetGenerationSrc.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Partner-sponsored packet generation must not require payment.");
+assert(packetGenerationSrc.includes('resultCode === "packet_ready" || resultCode === "packet_ready_with_caution"'), "Only packet-ready result codes may generate packets.");
+assert(packetGenerationSrc.includes('item.packetStatus === "ready" && existing'), "Duplicate generation must return an existing ready artifact instead of regenerating.");
+assert(packetGenerationSrc.includes("attachPacketToBriefcaseItem") && packetGenerationSrc.includes('packetStatus: "ready"'), "Packet generation must attach artifact refs and mark packet_status ready.");
+assert(packetGenerationSrc.includes("mississippi_petition_information_required"), "Mississippi partner saves must create a completion action when packet fields are missing.");
+assert(packetGenerationSrc.includes("attachMississippiLegacyPacketArtifact"), "Generated Mississippi legacy packets must attach a PDF artifact to the consumer matter.");
+assert(packetGenerationSrc.includes("mississippi_legacy_petition_packet"), "Generated Mississippi legacy artifacts must be distinguishable from placeholder source-plan text.");
+
+const checkoutRouteSrc = read("src/app/api/expungement-ai/checkout/route.ts");
+assert(checkoutRouteSrc.includes("isPartnerSponsoredPacketItem") && checkoutRouteSrc.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Partner-sponsored matters must not enter checkout.");
+
+const documentsSrc = read("src/components/expungement-ai/BriefcaseViews.tsx");
+assert(documentsSrc.includes("packetCompletionActionFor"), "Documents tab must show Mississippi matters that need packet information.");
+assert(documentsSrc.includes("Complete packet information"), "Matter detail/docs must expose the packet-information CTA.");
+assert(documentsSrc.includes("Download") && documentsSrc.includes("artifact.downloadPath"), "Documents tab must expose download for generated packets.");
+
+const matterPageSrc = read("src/app/briefcase/[packetId]/page.tsx");
+assert(matterPageSrc.includes("packetCompletionActionFor") && matterPageSrc.includes("Complete packet information"), "Matter detail must show Complete packet information before a real packet exists.");
+
+const generateRouteSrc = read("src/app/api/rcap/documents/[packetId]/generate/route.ts");
+assert(generateRouteSrc.includes("consumerBriefcaseItemId") && generateRouteSrc.includes("attachMississippiLegacyPacketArtifact"), "Shared document generation must bridge generated Mississippi PDFs back to consumer Briefcase.");
+
+const msFormSrc = read("src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx");
+assert(msFormSrc.includes("consumerBriefcaseItemId") && msFormSrc.includes("generate"), "Mississippi information form must carry the consumer matter id through generation.");
 
 const flowSrc = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
 assert(flowSrc.includes('"/api/expungement-ai/screening/save-result"'), "Partner CTA must POST the result to the save route.");

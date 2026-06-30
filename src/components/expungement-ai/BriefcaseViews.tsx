@@ -83,6 +83,19 @@ export function packetArtifactFor(item: ConsumerBriefcaseItem) {
   return null;
 }
 
+export function packetCompletionActionFor(item: ConsumerBriefcaseItem) {
+  const refs = item.artifactRefs;
+  if (
+    refs &&
+    refs.source === "mississippi_petition_information_required" &&
+    typeof refs.actionPath === "string" &&
+    typeof refs.fileName === "string"
+  ) {
+    return refs as { actionPath: string; fileName: string; missingFields?: string[] };
+  }
+  return null;
+}
+
 /* ------------------------------------------------------------------ */
 /* Shared UI primitives                                                */
 /* ------------------------------------------------------------------ */
@@ -326,7 +339,7 @@ export function MattersView({ items }: { items: ConsumerBriefcaseItem[] }) {
 }
 
 export function DocumentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
-  const withDocs = items.filter((item) => isMatter(item) && packetArtifactFor(item) !== null);
+  const withDocs = items.filter((item) => isMatter(item) && (packetArtifactFor(item) !== null || packetCompletionActionFor(item) !== null));
   return (
     <section>
       <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Documents</h1>
@@ -399,6 +412,7 @@ export function SettingsView() {
 
 export function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
   const artifact = packetArtifactFor(item);
+  const completionAction = packetCompletionActionFor(item);
   const status = matterStatus(item);
   const isGuidanceOnly = status.isGuidance;
 
@@ -427,6 +441,15 @@ export function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={artifact.downloadPath}>
             <Download className="h-4 w-4" aria-hidden="true" /> Download
+          </Link>
+          <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
+            Open matter
+          </Link>
+        </div>
+      ) : completionAction && !isGuidanceOnly ? (
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={completionAction.actionPath}>
+            Complete packet information
           </Link>
           <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
             Open matter

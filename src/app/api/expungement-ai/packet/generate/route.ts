@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function safeArtifact(artifact: { fileName: string; generatedAt: string; downloadPath: string; source: string }) {
+function safeArtifact(artifact: { fileName: string; generatedAt: string; source: string; downloadPath?: string }) {
+  if (!artifact.downloadPath) return undefined;
   return {
     fileName: artifact.fileName,
     generatedAt: artifact.generatedAt,

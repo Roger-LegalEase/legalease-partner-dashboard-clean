@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
-import { MatterStatusBadge, MatterStepper } from "@/components/expungement-ai/BriefcaseViews";
+import { MatterStatusBadge, MatterStepper, packetCompletionActionFor } from "@/components/expungement-ai/BriefcaseViews";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 
@@ -25,6 +25,7 @@ export default async function BriefcasePacketPage({
   const auth = await requireConsumerBriefcaseSession();
   const item = await getBriefcaseItem(auth.userId, packetId);
   const artifact = packetArtifactFor(item?.artifactRefs);
+  const completionAction = item ? packetCompletionActionFor(item) : null;
   const isGuidanceOnly = item?.status === "guidance_saved" || item?.resultCode === "guidance_only" || item?.packetType === "guidance_packet";
 
   return (
@@ -117,6 +118,16 @@ export default async function BriefcasePacketPage({
                       </Link>
                     </div>
                   </div>
+                </div>
+              ) : completionAction && !isGuidanceOnly ? (
+                <div className="rounded-[16px] border border-[#ECEFF4] bg-white px-5 py-5">
+                  <p className="text-[14px] font-semibold text-[#1A1D26]">{completionAction.fileName}</p>
+                  <p className="mt-1 text-[13px] leading-6 text-[#5A6275]">
+                    We need Mississippi court and case details before preparing a petition packet.
+                  </p>
+                  <Link href={completionAction.actionPath} className="mt-4 inline-flex min-h-10 items-center justify-center rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white">
+                    Complete packet information
+                  </Link>
                 </div>
               ) : (
                 <p className="rounded-[16px] border border-[#ECEFF4] bg-white px-5 py-5 text-[13px] text-[#5A6275]">
