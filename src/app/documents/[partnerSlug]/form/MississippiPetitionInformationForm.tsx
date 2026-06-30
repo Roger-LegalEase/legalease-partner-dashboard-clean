@@ -30,10 +30,12 @@ type Draft = {
 
 export function MississippiPetitionInformationForm({
   partnerSlug,
-  session
+  session,
+  consumerBriefcaseItemId
 }: {
   partnerSlug: string;
   session: RcapIntakeSession;
+  consumerBriefcaseItemId?: string;
 }) {
   const [draft, setDraft] = useState<Draft>({
     courtType: "",
@@ -65,14 +67,26 @@ export function MississippiPetitionInformationForm({
     setIsSaving(true);
     setError(undefined);
     setMessage(undefined);
+    const isNewPacket = !packet;
     const endpoint = packet ? `/api/rcap/documents/${packet.id}/${generate ? "generate" : "save"}` : "/api/rcap/documents/mississippi/create";
-    const payload = packet && generate ? {} : { partnerSlug, intakeSessionId: session.id, ...draft };
+    const payload = packet && generate
+      ? { consumerBriefcaseItemId }
+      : { partnerSlug, intakeSessionId: session.id, consumerBriefcaseItemId, ...draft };
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    const body = (await response.json().catch(() => ({}))) as { packet?: RcapDocumentPacket; error?: string };
+    let body = (await response.json().catch(() => ({}))) as { packet?: RcapDocumentPacket; error?: string };
+    if (response.ok && generate && isNewPacket && body.packet) {
+      const generateResponse = await fetch(`/api/rcap/documents/${body.packet.id}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consumerBriefcaseItemId })
+      });
+      body = (await generateResponse.json().catch(() => ({}))) as { packet?: RcapDocumentPacket; error?: string };
+      if (!generateResponse.ok && !body.error) body.error = "We could not generate this packet yet.";
+    }
     setIsSaving(false);
     if (!response.ok || body.error || !body.packet) {
       setError(body.error ?? "We could not save this form yet.");

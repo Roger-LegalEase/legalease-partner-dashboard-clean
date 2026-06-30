@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       packetStatus: status.packetStatus,
       canDownload: status.canDownload,
-      artifact: status.artifactRefs ? {
+      artifact: status.artifactRefs && "downloadPath" in status.artifactRefs ? {
         fileName: status.artifactRefs.fileName,
         generatedAt: status.artifactRefs.generatedAt,
         downloadPath: status.artifactRefs.downloadPath,

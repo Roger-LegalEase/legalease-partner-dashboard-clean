@@ -22,9 +22,10 @@ export default async function PacketReadyPage({
   const confirmed = !partnerSponsored && item && checkoutStatus ? await recordConsumerPaymentConfirmation({ userId: auth.userId, item, status: checkoutStatus }) : null;
   const packetItem = partnerSponsored ? item : confirmed;
   let packet = packetItem ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: packetItem.id }) : null;
+  const needsPacketInformation = packet?.artifactRefs?.source === "mississippi_petition_information_required";
   let generationFailed = false;
 
-  if ((partnerSponsored || paid) && packetItem && packet?.packetStatus !== "ready") {
+  if ((partnerSponsored || paid) && packetItem && packet?.packetStatus !== "ready" && !needsPacketInformation) {
     try {
       packet = await generatePaidConsumerPacket({
         userId: auth.userId,
@@ -37,14 +38,14 @@ export default async function PacketReadyPage({
     }
   }
 
-  const packetReady = packet?.packetStatus === "ready" && Boolean(packet.artifactRefs);
+  const packetReady = packet?.packetStatus === "ready" && Boolean(packet.artifactRefs && "downloadPath" in packet.artifactRefs);
   const checkoutMode = checkoutStatus?.mode;
 
   return (
     <ConsumerPageShell wilmaContext="packet-ready" headerVariant="app">
       <section className="mx-auto max-w-4xl px-4 pb-16 pt-32 md:px-8">
         <div className="rounded-md border border-[#ECEFF4] bg-white p-6">
-          {packetReady && packetItem && packet?.artifactRefs ? (
+          {packetReady && packetItem && packet?.artifactRefs && "downloadPath" in packet.artifactRefs ? (
             <>
               <p className="text-xs font-bold uppercase text-[#00A99D]">{partnerSponsored ? "Partner-sponsored packet" : `Payment confirmed ${checkoutMode === "dry_run" ? "(dry-run)" : ""}`}</p>
               <h1 className="mt-3 text-4xl font-extrabold">Your packet is ready</h1>
@@ -69,6 +70,13 @@ export default async function PacketReadyPage({
                   {packetItem.nextSteps.map((step) => <li key={step}>{step}</li>)}
                 </ul>
               </div>
+            </>
+          ) : partnerSponsored && needsPacketInformation && packet?.artifactRefs?.source === "mississippi_petition_information_required" ? (
+            <>
+              <p className="text-xs font-bold uppercase text-[#00A99D]">Partner-sponsored packet</p>
+              <h1 className="mt-3 text-4xl font-extrabold">Complete packet information</h1>
+              <p className="mt-3 text-sm leading-6 text-[#5A6275]">We need Mississippi court and case details before preparing your petition packet. No payment is required for this sponsored matter.</p>
+              <Link className="mt-6 inline-flex min-h-11 items-center rounded-md bg-[#0B1320] px-5 text-sm font-bold text-white" href={packet.artifactRefs.actionPath}>Complete packet information</Link>
             </>
           ) : (partnerSponsored || paid) && generationFailed ? (
             <>

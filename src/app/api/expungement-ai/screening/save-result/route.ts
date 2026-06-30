@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { isRcapPartnerScreeningSession, saveScreeningResultToBriefcase } from "@/lib/expungement-ai/briefcase";
+import { attachMississippiPacketInformationRequest } from "@/lib/expungement-ai/packet-generation";
 import { buildSaveInput, isStorableResultCode, normalizePacketType } from "@/lib/expungement-ai/save-result-policy";
 import { getSafeRequestId, logSecurityWarn } from "@/lib/observability/logger";
 
@@ -52,7 +53,15 @@ export async function POST(request: Request) {
   );
 
   const item = await saveScreeningResultToBriefcase(input);
-  return NextResponse.json({ ok: true, itemId: item.id });
+  if (isPartnerSession && isPacketReadyResult(body.resultCode) && isMississippiJurisdiction(body.jurisdiction)) {
+    const packet = await attachMississippiPacketInformationRequest({
+      userId: auth.userId,
+      briefcaseItemId: item.id
+    });
+    return NextResponse.json({ ok: true, itemId: item.id, packetStatus: packet.packetStatus });
+  }
+
+  return NextResponse.json({ ok: true, itemId: item.id, packetStatus: item.packetStatus ?? "not_started" });
 }
 
 type SaveBody = {
@@ -81,4 +90,14 @@ async function readJson(request: Request): Promise<{ ok: true; value: SaveBody }
   } catch {
     return { ok: false, reason: "invalid_json" };
   }
+}
+
+function isPacketReadyResult(resultCode: unknown): resultCode is "packet_ready" | "packet_ready_with_caution" {
+  return resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
+}
+
+function isMississippiJurisdiction(jurisdiction: unknown) {
+  if (typeof jurisdiction !== "string") return false;
+  const normalized = jurisdiction.trim().toLowerCase();
+  return normalized === "ms" || normalized === "mississippi";
 }

@@ -17,12 +17,29 @@ export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
   packetId: string;
   fileName: string;
-  contentType: "text/plain";
+  contentType: "text/plain" | "application/pdf";
   generatedAt: string;
   source: "source_driven_packet_plan";
   packetPlanId: string;
   downloadPath: string;
   text: string;
+} | {
+  provider: "rcap_legacy_mississippi";
+  packetId: string;
+  fileName: string;
+  contentType: "application/pdf";
+  generatedAt: string;
+  source: "mississippi_legacy_petition_packet";
+  downloadPath: string;
+  courtPacketDownloadPath: string;
+} | {
+  provider: "rcap_legacy_mississippi";
+  packetId: string;
+  fileName: string;
+  generatedAt: string;
+  source: "mississippi_petition_information_required";
+  actionPath: string;
+  missingFields: string[];
 };
 
 export type ConsumerPacketStatus = {
@@ -116,7 +133,7 @@ export async function getConsumerPacketDownload({
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
   const artifactRefs = artifactRefsFor(item);
-  if (item.packetStatus !== "ready" || !artifactRefs) {
+  if (item.packetStatus !== "ready" || !artifactRefs || !("text" in artifactRefs)) {
     throw new ConsumerPacketNotReadyError();
   }
 
@@ -144,6 +161,63 @@ export async function attachPacketToBriefcaseItem({
   } });
 }
 
+export async function attachMississippiPacketInformationRequest({
+  userId,
+  briefcaseItemId
+}: {
+  userId: string;
+  briefcaseItemId: string;
+}): Promise<ConsumerPacketStatus> {
+  const item = await requireOwnedPacketItem(userId, briefcaseItemId);
+  await assertMississippiPartnerPacketReady(item);
+
+  const existing = artifactRefsFor(item);
+  if (item.packetStatus === "ready" && existing) {
+    return { packetStatus: "ready", artifactRefs: existing, canDownload: "downloadPath" in existing };
+  }
+  if (existing?.source === "mississippi_petition_information_required") {
+    return { packetStatus: item.packetStatus ?? "pending", artifactRefs: existing, canDownload: false };
+  }
+
+  const artifactRefs = buildMississippiPacketInformationArtifact(item);
+  await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
+    packetStatus: "pending",
+    artifactRefs
+  } });
+  return { packetStatus: "pending", artifactRefs, canDownload: false };
+}
+
+export async function attachMississippiLegacyPacketArtifact({
+  userId,
+  briefcaseItemId,
+  rcapPacketId
+}: {
+  userId: string;
+  briefcaseItemId: string;
+  rcapPacketId: string;
+}): Promise<ConsumerPacketStatus> {
+  const item = await requireOwnedPacketItem(userId, briefcaseItemId);
+  await assertMississippiPartnerPacketReady(item);
+
+  const existing = artifactRefsFor(item);
+  if (item.packetStatus === "ready" && existing?.source === "mississippi_legacy_petition_packet" && existing.packetId === rcapPacketId) {
+    return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
+  }
+
+  const artifactRefs: ConsumerPacketArtifactRefs = {
+    provider: "rcap_legacy_mississippi",
+    packetId: rcapPacketId,
+    fileName: "mississippi-petition-packet.pdf",
+    contentType: "application/pdf",
+    generatedAt: new Date().toISOString(),
+    source: "mississippi_legacy_petition_packet",
+    downloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/full`,
+    courtPacketDownloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/court`
+  };
+  await attachPacketToBriefcaseItem({ userId, item, artifactRefs });
+  return { packetStatus: "ready", artifactRefs, canDownload: true };
+}
+
 export async function requireOwnedPacketItem(userId: string, briefcaseItemId: string) {
   const item = await getBriefcaseItem(userId, briefcaseItemId);
   if (!item) throw new ConsumerPacketNotFoundError();
@@ -161,11 +235,14 @@ export function assertPacketGenerationAllowed(
   dryRunMode = false,
   options: { paymentRequired?: boolean } = {}
 ) {
-  if (!isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
-    throw new ConsumerPacketNotAllowedError(item.resultCode ?? "missing_result_code");
+  const resultCode = item.resultCode ?? "guidance_only";
+  const paymentRequired = options.paymentRequired ?? true;
+  const packetReadyResult = resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
+
+  if (!packetReadyResult || (paymentRequired && !isConsumerPaymentAllowed(resultCode, item.paymentAllowed))) {
+    throw new ConsumerPacketNotAllowedError(resultCode);
   }
 
-  const paymentRequired = options.paymentRequired ?? true;
   if (paymentRequired && item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) {
     throw new ConsumerPacketPaymentRequiredError();
   }
@@ -193,6 +270,50 @@ function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacke
     downloadPath: `/api/expungement-ai/packet/download?briefcaseItemId=${encodeURIComponent(item.id)}`,
     text
   };
+}
+
+function buildMississippiPacketInformationArtifact(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs {
+  const actionPath = `/documents/we-must-vote/form?briefcaseItemId=${encodeURIComponent(item.id)}`;
+  return {
+    provider: "rcap_legacy_mississippi",
+    packetId: item.id,
+    fileName: "Mississippi petition packet information",
+    generatedAt: new Date().toISOString(),
+    source: "mississippi_petition_information_required",
+    actionPath,
+    missingFields: [
+      "courtType",
+      "courtCounty",
+      "courtName",
+      "jurisdiction",
+      "causeNumber",
+      "charge",
+      "arrestDate",
+      "offenseDate",
+      "arrestingAgency",
+      "agencyCaseNumber",
+      "dispositionDate",
+      "convictionDate",
+      "sentenceCompletionDate",
+      "convictionLevel",
+      "hasZeroBalance",
+      "firstOffenderSignal",
+      "nonTrafficSignal",
+      "excludedOffenseScreening",
+      "oneFelonyExpungementSignal"
+    ]
+  };
+}
+
+async function assertMississippiPartnerPacketReady(item: ConsumerBriefcaseItem) {
+  const state = item.state.trim().toLowerCase();
+  if (state !== "ms" && state !== "mississippi") {
+    throw new ConsumerPacketNotAllowedError(item.resultCode ?? "guidance_only");
+  }
+  assertPacketGenerationAllowed(item, false, { paymentRequired: false });
+  if (!(await isPartnerSponsoredPacketItem(item))) {
+    throw new ConsumerPacketPaymentRequiredError();
+  }
 }
 
 async function updatePacketMetadata({

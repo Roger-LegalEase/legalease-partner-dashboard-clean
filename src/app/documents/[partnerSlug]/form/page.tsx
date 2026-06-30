@@ -15,14 +15,25 @@ export default async function MississippiPetitionInformationFormPage({
   searchParams
 }: {
   params: Promise<{ partnerSlug: string }>;
-  searchParams: Promise<{ session?: string | string[] }>;
+  searchParams: Promise<{ session?: string | string[]; briefcaseItemId?: string | string[] }>;
 }) {
   const [{ partnerSlug }, search] = await Promise.all([params, searchParams]);
   const partner = await getPartnerRecordBySlug(partnerSlug);
   const sessionId = typeof search.session === "string" ? search.session : undefined;
-  const session = sessionId ? await getRcapIntakeSession(sessionId) : undefined;
+  const briefcaseItemId = typeof search.briefcaseItemId === "string" ? search.briefcaseItemId : undefined;
+  const persistedSession = sessionId ? await getRcapIntakeSession(sessionId) : undefined;
   const isWeMustVote = partnerSlug === "we-must-vote";
   const state = isWeMustVote ? "MS" : partner?.targetState ?? partner?.state;
+  const session = persistedSession ?? (briefcaseItemId && partner ? {
+    id: "",
+    partnerSlug,
+    partnerId: partner.partnerId,
+    status: "started" as const,
+    currentStep: "understand_goal" as const,
+    state,
+    county: partner.targetCounty,
+    legalDisclaimerAccepted: true
+  } : undefined);
   const isMississippi = state?.toLowerCase() === "mississippi" || state?.toUpperCase() === "MS";
   const isIllinois = state?.toLowerCase() === "illinois" || state?.toUpperCase() === "IL";
   const isDc = isDcState(state);
@@ -74,7 +85,7 @@ export default async function MississippiPetitionInformationFormPage({
           ) : isDc ? (
             <DcMotionInformationForm partnerSlug={partnerSlug} session={session} />
           ) : (
-            <MississippiPetitionInformationForm partnerSlug={partnerSlug} session={session} />
+            <MississippiPetitionInformationForm partnerSlug={partnerSlug} session={session} consumerBriefcaseItemId={briefcaseItemId} />
           )}
         </section>
       </div>
