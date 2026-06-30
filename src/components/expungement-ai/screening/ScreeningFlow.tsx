@@ -64,6 +64,13 @@ function createMatterId(): string {
   return `matter-${Date.now().toString(36)}`;
 }
 
+function packetTypeForPlan(mode: string | undefined): "official_pdf_overlay" | "custom_pleading" | "guidance_packet" | undefined {
+  if (mode === "automatic_relief_verification_and_guidance") return "guidance_packet";
+  if (mode === "official_form_overlay_or_source_form_set") return "official_pdf_overlay";
+  if (mode === "state_specific_custom_packet_from_source_rules") return "custom_pleading";
+  return undefined;
+}
+
 async function markScreeningSessionCompleted(sessionId: string | undefined) {
   if (!sessionId) return;
   try {
@@ -197,6 +204,42 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     }
   }
 
+  // Partner result CTA: save the completed result as a real Briefcase matter, then open Briefcase.
+  // DTC (no partner session) keeps the existing pay-and-generate route, unchanged.
+  async function handlePacketAction() {
+    if (!isPartnerSession || !evaluation) {
+      router.push(PACKET_PATH);
+      return;
+    }
+    // Only the result is sent. Raw answers are never included in this payload.
+    const payload = {
+      jurisdiction: stateName,
+      resultCode: evaluation.resultCode,
+      pathwayLabel: `${stateName} record-clearing`,
+      packetType: packetTypeForPlan(evaluation.packetPlan?.mode),
+      paymentAllowed: evaluation.paymentAllowed,
+      summary: `${stateName} record-clearing result saved from your screening.`,
+      nextSteps: evaluation.nextSteps,
+      sourceSessionId: effectiveInitialSessionId
+    };
+    try {
+      const response = await fetch("/api/expungement-ai/screening/save-result", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (response.status === 401) {
+        // Preserve the intent to save, then send the user to sign in and come back to Briefcase.
+        window.sessionStorage.setItem("expungement-ai:pending-briefcase-save", JSON.stringify(payload));
+        router.push("/expungement-ai/sign-in?next=/briefcase");
+        return;
+      }
+    } catch {
+      // Best effort: still take the user to their Briefcase.
+    }
+    router.push(BRIEFCASE_PATH);
+  }
+
   function handleContinue() {
     const question = screens[currentIndex];
     if (blocksContinue(question, answers[question.id])) {
@@ -297,7 +340,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             stateName={stateName}
             questionPromptById={questionPromptById}
             onEditAnswers={goToQuestions}
-            onPacketAction={() => router.push(isPartnerSession ? BRIEFCASE_PATH : PACKET_PATH)}
+            onPacketAction={() => void handlePacketAction()}
             hasScreeningSession={isPartnerSession}
           />
         </div>
