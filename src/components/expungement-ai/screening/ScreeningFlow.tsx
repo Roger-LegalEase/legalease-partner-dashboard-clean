@@ -43,6 +43,9 @@ import {
 
 const PICKER_PATH = "/expungement-ai/screening";
 const PACKET_PATH = "/expungement-ai/packet-ready";
+// Where the packet action sends a partner/session-mode user. The direct-to-consumer
+// pay-and-generate flow (PACKET_PATH) does not apply when screening began through a partner.
+const BRIEFCASE_PATH = "/briefcase";
 
 type LoadState =
   | { status: "loading" }
@@ -88,6 +91,10 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
   const focusRef = useRef<HTMLDivElement>(null);
   const matterIdRef = useRef<string>(createMatterId());
+  // Partner/session mode is keyed to the session the user *arrived* with (the ?session= UUID from a
+  // partner intake), not the live `sessionId` state — a DTC user who later saves progress also gets a
+  // sessionId, and must keep the $50 consumer flow.
+  const isPartnerSession = Boolean(initialSessionId);
 
   useEffect(() => {
     // The component is remounted per state (keyed by the route), so initial state is already
@@ -285,7 +292,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             stateName={stateName}
             questionPromptById={questionPromptById}
             onEditAnswers={goToQuestions}
-            onPacketAction={() => router.push(PACKET_PATH)}
+            onPacketAction={() => router.push(isPartnerSession ? BRIEFCASE_PATH : PACKET_PATH)}
+            hasScreeningSession={isPartnerSession}
           />
         </div>
       </FlowFrame>

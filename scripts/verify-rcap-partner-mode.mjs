@@ -114,7 +114,7 @@ function verifySourceWiring() {
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
 
-  assert(screeningFlow.includes("onPacketAction={() => router.push(PACKET_PATH)}"), "RCAP screening flow must still define a packet action.");
+  assert(screeningFlow.includes("onPacketAction={() => router.push(isPartnerSession ? BRIEFCASE_PATH : PACKET_PATH)}"), "RCAP screening flow must still define a packet action (DTC -> PACKET_PATH, partner/session -> BRIEFCASE_PATH).");
   assert(!screeningFlow.includes("payment-adapter"), "RCAP screening flow must not invoke payment adapter.");
   assert(!screeningFlow.includes("payment-confirm"), "RCAP screening flow must not invoke payment-confirm.");
   const rcapPaymentRoutingStatus = screeningFlow.includes('const PACKET_PATH = "/expungement-ai/pay";')

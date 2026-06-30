@@ -83,13 +83,18 @@ export function ScreeningResult({
   stateName,
   questionPromptById,
   onEditAnswers,
-  onPacketAction
+  onPacketAction,
+  hasScreeningSession = false
 }: {
   evaluation: ScreeningEvaluation;
   stateName: string;
   questionPromptById: Record<string, string>;
   onEditAnswers: (focusQuestionId?: string) => void;
   onPacketAction: () => void;
+  // Partner/session mode: the screening was started through a partner program (a screening
+  // session already exists). In that mode the consumer pay-and-generate flow does not apply —
+  // the packet action saves to Briefcase and no $50 charge is shown here.
+  hasScreeningSession?: boolean;
 }) {
   const presentation = RESULT_PRESENTATION[evaluation.resultCode];
   const accent = TONE_ACCENT[presentation.tone];
@@ -184,7 +189,7 @@ export function ScreeningResult({
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            Generate my packet ($50)
+            {hasScreeningSession ? "Save this result to Briefcase" : "Generate my packet ($50)"}
           </button>
         ) : null}
         {missing.length > 0 ? (
@@ -204,6 +209,12 @@ export function ScreeningResult({
           Edit my answers
         </button>
       </div>
+
+      {showPacketAction && hasScreeningSession ? (
+        <p className="mt-3 rounded-xl bg-[#EEF2F7] px-3 py-2 text-[13px] leading-5 text-[#334155]">
+          This screening started through a partner program. You will not be asked to pay here.
+        </p>
+      ) : null}
 
       <p className="mt-5 border-t border-[#ECEFF4] pt-4 text-[12px] leading-5 text-[#8A93A6]">{UPL_DISCLAIMER}</p>
     </div>
