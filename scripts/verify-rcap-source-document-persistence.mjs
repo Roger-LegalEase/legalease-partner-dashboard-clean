@@ -15,7 +15,8 @@ const failures = [];
 await testSupabasePersistenceWritesAllReportingTables();
 await testFallbackIsLoudAndNonProductionOnly();
 await testProductionMisconfigurationBlocksPacketCreation();
-testMigrationAllowsSourceDrivenPackets();
+testSourceDocumentClassification();
+testMigrationConstraintScope();
 testGeneratorsWereNotTouched();
 
 if (failures.length > 0) {
@@ -28,7 +29,7 @@ console.log("RCAP source document persistence verification passed.");
 console.log("Supabase mode: writes rcap_document_packets, rcap_document_packet_inputs, and rcap_briefcase_items.");
 console.log("Local fallback: warning emitted and persisted=false.");
 console.log("Production misconfiguration: packet creation blocked.");
-console.log("Source-driven packet constraints: configured.");
+console.log("Source document classifications: DB-valid values selected before persistence.");
 console.log("Per-state generator logic: untouched by this commit.");
 
 async function testSupabasePersistenceWritesAllReportingTables() {
@@ -59,10 +60,14 @@ async function testSupabasePersistenceWritesAllReportingTables() {
   assert(writes.some((write) => write.table === "rcap_document_packets" && write.operation === "upsert"), "Missing rcap_document_packets upsert.");
   assert(writes.some((write) => write.table === "rcap_document_packet_inputs" && write.operation === "upsert"), "Missing rcap_document_packet_inputs upsert.");
   assert(writes.some((write) => write.table === "rcap_briefcase_items" && write.operation === "upsert"), "Missing rcap_briefcase_items upsert.");
-  assert(result.packet.documentType === "source_driven_packet", "Persisted packet changed document type.");
-  assert(result.packet.pathway === "source_engine_packet_plan", "Persisted packet changed pathway.");
+  assert(result.packet.documentType === "mississippi_non_conviction_petition", "Mississippi default packet should use a DB-valid document type.");
+  assert(result.packet.pathway === "non_conviction", "Mississippi default packet should use a DB-valid pathway.");
   assert(result.packet.status === "ready_for_review", "Persisted packet changed status semantics.");
   assert(result.packet.causeNumber === "2026-CR-1", "Persisted packet changed case-number mapping.");
+
+  const persistedPacket = stores.get(`rcap_document_packets:${result.packet.id}`);
+  assert(persistedPacket?.document_type === "mississippi_non_conviction_petition", "Persisted row should not use generic document_type.");
+  assert(persistedPacket?.pathway === "non_conviction", "Persisted row should not use generic pathway.");
 
   const cached = await repo.getRcapDocumentPacket(result.packet.id);
   assert(cached?.id === result.packet.id, "Created packet should be readable after persistence.");
@@ -120,7 +125,79 @@ async function testProductionMisconfigurationBlocksPacketCreation() {
   }
 }
 
-function testMigrationAllowsSourceDrivenPackets() {
+function testSourceDocumentClassification() {
+  const repo = loadSourceRepository({
+    partnerMode: "local_seeded",
+    supabaseConfigured: false,
+    supabase: null
+  });
+  const cases = [
+    {
+      label: "Mississippi misdemeanor",
+      input: { partnerSlug: "demo-partner", state: "MS", convictionLevel: "misdemeanor" },
+      documentType: "mississippi_misdemeanor_conviction_petition",
+      pathway: "misdemeanor_conviction"
+    },
+    {
+      label: "Mississippi felony",
+      input: { partnerSlug: "demo-partner", state: "MS", convictionLevel: "felony" },
+      documentType: "mississippi_felony_conviction_petition",
+      pathway: "felony_conviction"
+    },
+    {
+      label: "Mississippi non-conviction default",
+      input: { partnerSlug: "demo-partner", state: "MS" },
+      documentType: "mississippi_non_conviction_petition",
+      pathway: "non_conviction"
+    },
+    {
+      label: "Illinois expungement",
+      input: { partnerSlug: "demo-partner", state: "IL", remedyType: "expungement" },
+      documentType: "illinois_request_to_expungeseal_packet",
+      pathway: "expungement_non_conviction"
+    },
+    {
+      label: "Illinois sealing",
+      input: { partnerSlug: "demo-partner", state: "IL", remedyType: "sealing" },
+      documentType: "illinois_request_to_expungeseal_packet",
+      pathway: "sealing_conviction"
+    },
+    {
+      label: "DC actual innocence",
+      input: { partnerSlug: "demo-partner", state: "DC", reliefTrack: "actual_innocence_expungement" },
+      documentType: "dc_motion_to_expunge",
+      pathway: "motion_actual_innocence_expungement"
+    },
+    {
+      label: "DC interests of justice",
+      input: { partnerSlug: "demo-partner", state: "DC", reliefTrack: "interests_of_justice_sealing" },
+      documentType: "dc_motion_to_seal",
+      pathway: "motion_interests_of_justice_sealing"
+    },
+    {
+      label: "Pennsylvania fallback",
+      input: { partnerSlug: "demo-partner", state: "PA" },
+      documentType: undefined,
+      pathway: "more_information_needed"
+    },
+    {
+      label: "Texas Harris fallback",
+      input: { partnerSlug: "demo-partner", state: "TX", county: "Harris" },
+      documentType: undefined,
+      pathway: "more_information_needed"
+    }
+  ];
+
+  for (const testCase of cases) {
+    const classification = repo.resolveSourceDocumentClassification(testCase.input);
+    assert(classification.documentType === testCase.documentType, `${testCase.label} document_type mismatch.`);
+    assert(classification.pathway === testCase.pathway, `${testCase.label} pathway mismatch.`);
+    assert(classification.documentType !== "source_driven_packet", `${testCase.label} should not use generic document_type.`);
+    assert(classification.pathway !== "source_engine_packet_plan", `${testCase.label} should not use generic pathway.`);
+  }
+}
+
+function testMigrationConstraintScope() {
   const migration = fs.readFileSync(migrationPath, "utf8");
   for (const expected of ["source_driven_packet", "source_engine_packet_plan", "'PA'", "'TX'", "rcap_document_packets_source_state_idx"]) {
     assert(migration.includes(expected), `Source persistence migration missing ${expected}.`);

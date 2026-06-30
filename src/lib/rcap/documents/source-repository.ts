@@ -23,6 +23,12 @@ type PacketResult = Promise<{ ok: true; packet: RcapDocumentPacket; persisted: b
 type PacketAuditEvent =
   | { eventType: "created"; fromStatus?: null; toStatus: RcapDocumentPacket["status"] }
   | { eventType: "status_changed"; fromStatus: RcapDocumentPacket["status"]; toStatus: RcapDocumentPacket["status"] };
+type SourceDocumentClassification = {
+  state: string;
+  documentType?: string;
+  pathway: string;
+  status: RcapDocumentPacket["status"];
+};
 
 export type RcapReliefOutcomeAdminRow = {
   id: string;
@@ -187,6 +193,119 @@ export async function setRcapDocumentPacketReliefOutcome(input: {
   const cached = packets.get(packet.id);
   if (cached) packets.set(packet.id, { ...cached, reliefOutcome: packet.reliefOutcome, updatedAt: packet.updatedAt });
   return { ok: true, packet, changed: true };
+}
+
+export function resolveSourceDocumentClassification(input: SourceDocumentPacketInput): SourceDocumentClassification {
+  const state = String(input.state ?? "US").toUpperCase();
+  if (state === "MS") return resolveMississippiDocumentClassification(input);
+  if (state === "IL") return resolveIllinoisDocumentClassification(input);
+  if (state === "DC") return resolveDcDocumentClassification(input);
+  if (state === "PA" || state === "TX") {
+    return {
+      state,
+      pathway: "more_information_needed",
+      status: "ready_for_review"
+    };
+  }
+  return {
+    state,
+    pathway: "more_information_needed",
+    status: "missing_information"
+  };
+}
+
+function resolveMississippiDocumentClassification(input: SourceDocumentPacketInput): SourceDocumentClassification {
+  const convictionLevel = stringValue(input.convictionLevel);
+  if (convictionLevel === "misdemeanor") {
+    return {
+      state: "MS",
+      documentType: "mississippi_misdemeanor_conviction_petition",
+      pathway: "misdemeanor_conviction",
+      status: "ready_for_review"
+    };
+  }
+  if (convictionLevel === "felony") {
+    return {
+      state: "MS",
+      documentType: "mississippi_felony_conviction_petition",
+      pathway: "felony_conviction",
+      status: "ready_for_review"
+    };
+  }
+  return {
+    state: "MS",
+    documentType: "mississippi_non_conviction_petition",
+    pathway: "non_conviction",
+    status: "ready_for_review"
+  };
+}
+
+function resolveIllinoisDocumentClassification(input: SourceDocumentPacketInput): SourceDocumentClassification {
+  const remedyType = stringValue(input.remedyType);
+  if (remedyType === "sealing") {
+    return {
+      state: "IL",
+      documentType: "illinois_request_to_expungeseal_packet",
+      pathway: "sealing_conviction",
+      status: "ready_for_review"
+    };
+  }
+  if (remedyType === "needs_review") {
+    return {
+      state: "IL",
+      documentType: "illinois_request_to_expungeseal_packet",
+      pathway: "excluded_or_needs_review",
+      status: "ready_for_review"
+    };
+  }
+  return {
+    state: "IL",
+    documentType: "illinois_request_to_expungeseal_packet",
+    pathway: "expungement_non_conviction",
+    status: "ready_for_review"
+  };
+}
+
+function resolveDcDocumentClassification(input: SourceDocumentPacketInput): SourceDocumentClassification {
+  const reliefTrack = stringValue(input.reliefTrack);
+  if (reliefTrack === "automatic_expungement") {
+    return {
+      state: "DC",
+      documentType: "dc_filing_instructions",
+      pathway: "automatic_expungement",
+      status: "ready_for_review"
+    };
+  }
+  if (reliefTrack === "automatic_sealing") {
+    return {
+      state: "DC",
+      documentType: "dc_filing_instructions",
+      pathway: "automatic_sealing",
+      status: "ready_for_review"
+    };
+  }
+  if (reliefTrack === "actual_innocence_expungement") {
+    return {
+      state: "DC",
+      documentType: "dc_motion_to_expunge",
+      pathway: "motion_actual_innocence_expungement",
+      status: "ready_for_review"
+    };
+  }
+  if (reliefTrack === "interests_of_justice_sealing") {
+    return {
+      state: "DC",
+      documentType: "dc_motion_to_seal",
+      pathway: "motion_interests_of_justice_sealing",
+      status: "ready_for_review"
+    };
+  }
+  return {
+    state: "DC",
+    documentType: "dc_filing_instructions",
+    pathway: "needs_review",
+    status: "ready_for_review"
+  };
 }
 
 async function createSourceDocumentPacket(input: SourceDocumentPacketInput): PacketResult {
@@ -521,7 +640,7 @@ function packetFromRow(row: SourceDocumentPacketRow): RcapDocumentPacket {
   const filingNextStepsPacket = buildFilingNextStepsPacket({
     state: row.state,
     county: row.county ?? undefined,
-    documentType: row.document_type ?? "source_driven_packet",
+    documentType: row.document_type ?? "packet_information",
     pathway: row.pathway,
     filingInstructions,
     countyCourtInstructions,
@@ -578,13 +697,14 @@ function packetFromRow(row: SourceDocumentPacketRow): RcapDocumentPacket {
 }
 
 function packetFromInput(input: SourceDocumentPacketInput): RcapDocumentPacket {
-  const state = String(input.state ?? "US").toUpperCase();
+  const classification = resolveSourceDocumentClassification(input);
+  const state = classification.state;
   const now = new Date().toISOString();
   const filingNextStepsPacket = buildFilingNextStepsPacket({
     state,
     county: typeof input.county === "string" ? input.county : undefined,
-    documentType: "source_driven_packet",
-    pathway: "source_engine_packet_plan",
+    documentType: classification.documentType ?? "packet_information",
+    pathway: classification.pathway,
     countyCourtInstructions: ["Confirm court contact and location from the source-driven packet plan."],
     filingInstructions: ["Use the source-driven RCAP engine packet plan for this jurisdiction/pathway."],
     safetyDisclaimer: "This source-driven packet shell is not legal advice and requires review before filing."
@@ -598,9 +718,9 @@ function packetFromInput(input: SourceDocumentPacketInput): RcapDocumentPacket {
     personId: stringValue(input.personId),
     state,
     county: stringValue(input.county),
-    documentType: "source_driven_packet",
-    pathway: "source_engine_packet_plan",
-    status: "ready_for_review",
+    documentType: classification.documentType,
+    pathway: classification.pathway,
+    status: classification.status,
     reliefOutcome: "not_recorded",
     petitionerFirstName: stringValue(input.petitionerFirstName),
     petitionerLastName: stringValue(input.petitionerLastName),
