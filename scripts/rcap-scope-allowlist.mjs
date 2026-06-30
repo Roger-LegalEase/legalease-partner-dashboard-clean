@@ -69,6 +69,22 @@ export const ROGER_APPROVED_PARTNER_RESET_URL_FILES = [
   "src/app/auth/forgot-password/page.tsx"
 ];
 
+// Reviewed for PR #68: the We Must Vote Mississippi sponsored packet bridge connects
+// Expungement.ai Briefcase artifacts to the existing Mississippi packet information flow.
+// Keep this scoped to the exact files touched by that bridge; do not allow directories.
+export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
+  "src/app/api/expungement-ai/screening/save-result/route.ts",
+  "src/lib/expungement-ai/packet-generation.ts",
+  "src/components/expungement-ai/BriefcaseViews.tsx",
+  "src/app/briefcase/[packetId]/page.tsx",
+  "src/app/documents/[partnerSlug]/form/page.tsx",
+  "src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx",
+  "src/app/api/rcap/documents/[packetId]/generate/route.ts",
+  "src/app/api/expungement-ai/packet/generate/route.ts",
+  "src/app/api/expungement-ai/packet/status/route.ts",
+  "src/app/expungement-ai/packet-ready/page.tsx"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
@@ -77,5 +93,6 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SCREENING_RESUME_FILES,
   ...SCREENING_DROP_POINT_NUDGE_FILES,
   ...RCAP_PARTNER_MODE_FILES,
-  ...ROGER_APPROVED_PARTNER_RESET_URL_FILES
+  ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
+  ...MS_SPONSORED_PACKET_BRIDGE_FILES
 ];
