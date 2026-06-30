@@ -10,7 +10,7 @@ export default async function BriefcaseMattersPage() {
   const items = await listBriefcaseItems(auth.userId);
 
   return (
-    <BriefcaseShell userEmail={auth.userEmail}>
+    <BriefcaseShell userEmail={auth.userEmail} activeNav="matters" breadcrumb={<b className="text-[#1A1D26]">My matters</b>}>
       <MattersView items={items} />
     </BriefcaseShell>
   );

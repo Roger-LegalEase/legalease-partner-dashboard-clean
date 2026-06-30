@@ -10,7 +10,7 @@ export default async function BriefcasePaymentsPage() {
   const items = await listBriefcaseItems(auth.userId);
 
   return (
-    <BriefcaseShell userEmail={auth.userEmail}>
+    <BriefcaseShell userEmail={auth.userEmail} activeNav="settings" breadcrumb={<b className="text-[#1A1D26]">Payments</b>}>
       <PaymentsView items={items} />
     </BriefcaseShell>
   );

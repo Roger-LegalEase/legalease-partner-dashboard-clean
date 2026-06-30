@@ -8,7 +8,7 @@ export default async function BriefcaseRemindersPage() {
   const auth = await requireConsumerBriefcaseSession();
 
   return (
-    <BriefcaseShell userEmail={auth.userEmail}>
+    <BriefcaseShell userEmail={auth.userEmail} activeNav="settings" breadcrumb={<b className="text-[#1A1D26]">Reminders</b>}>
       <RemindersView />
     </BriefcaseShell>
   );
