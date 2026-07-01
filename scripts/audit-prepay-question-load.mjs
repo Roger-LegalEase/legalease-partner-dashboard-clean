@@ -5,6 +5,10 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { execFileSync } from "node:child_process";
+import { register } from "node:module";
+
+process.env.RCAP_EVALUATOR_TODAY = "2026-07-01";
+register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const ROOT = process.cwd();
 const DESIGNER_PUBLIC_PATH = path.join(ROOT, "src/lib/rcap-engine/compiled/all51.json");
@@ -111,6 +115,12 @@ function publicProfilesWithWilmaFacts() {
   }));
 }
 
+async function projectedPublicProfiles() {
+  const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
+  const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+  return Object.fromEntries(getAllJurisdictionProfiles().map((profile) => [profile.jurisdiction.code, projectPublicProfile(profile)]));
+}
+
 function loadEngineProfiles() {
   return Object.fromEntries(fs.readdirSync(ENGINE_PROFILES_DIR)
     .filter((file) => file.endsWith(".json"))
@@ -122,6 +132,7 @@ function loadEngineProfiles() {
 }
 
 function currentPhase(question, stageOrder, checkoutOrder) {
+  if (question.lifecyclePhase) return String(question.lifecyclePhase).startsWith("prepay_") ? "pre-payment" : "post-payment";
   if (question.id.startsWith(SOURCE_QUESTION_PREFIX)) return "unclear";
   const order = stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER;
   if (order < checkoutOrder) return "pre-payment";
@@ -265,8 +276,9 @@ function targetForState(code, keepCount, currentCount) {
   return Math.min(TARGET, Math.max(8, keepCount));
 }
 
-function buildReport() {
-  const publicProfiles = publicProfilesWithWilmaFacts();
+async function buildReport() {
+  const legacyPublicProfiles = publicProfilesWithWilmaFacts();
+  const publicProfiles = await projectedPublicProfiles();
   const engineProfiles = loadEngineProfiles();
   const routeInventory = maybeReadJson(ROUTE_INVENTORY_PATH, { routes: [], totals: {} });
   const routesByState = routeDataByState(routeInventory);
@@ -277,10 +289,15 @@ function buildReport() {
 
   for (const code of states) {
     const profile = publicProfiles[code];
+    const legacyProfile = legacyPublicProfiles[code];
     const engineProfile = engineProfiles[code] ?? {};
     const stageOrder = new Map((profile.flowStages ?? []).map((stage) => [stage.id, stage.order]));
+    const legacyStageOrder = new Map((legacyProfile.flowStages ?? []).map((stage) => [stage.id, stage.order]));
     const checkoutOrder = stageOrder.get("checkout") ?? 12;
+    const legacyCheckoutOrder = legacyStageOrder.get("checkout") ?? 12;
     const publicQuestions = (profile.questions ?? []).filter((q) => !String(q.id).startsWith(SOURCE_QUESTION_PREFIX));
+    const legacyPublicQuestions = (legacyProfile.questions ?? []).filter((q) => !String(q.id).startsWith(SOURCE_QUESTION_PREFIX));
+    const legacyPrepayCount = legacyPublicQuestions.filter((question) => currentPhase(question, legacyStageOrder, legacyCheckoutOrder) === "pre-payment").length;
     const paidRoutes = (routesByState.get(code) ?? []).filter((r) => r.bucket === "paid_now");
     const guidanceRoutes = (routesByState.get(code) ?? []).filter((r) => r.bucket === "permanent_guidance_not_a_paid_product" || r.bucket === "not_currently_operational" || r.bucket === "discard_or_duplicate");
 
@@ -321,7 +338,9 @@ function buildReport() {
       jurisdictionCode: code,
       jurisdictionName: profile.jurisdiction?.name ?? code,
       totalPublicQuestions: publicQuestions.length,
+      estimatedPrepaymentQuestionsBeforeProjectionFix: legacyPrepayCount,
       estimatedPrepaymentQuestionsCurrentlyAsked: currentPrepay.length,
+      estimatedPrepaymentQuestionsAfterProjectionFix: currentPrepay.length,
       estimatedPostPaymentPacketCompletionQuestions: publicQuestions.length - currentPrepay.length + recommendedPostpay.length,
       paidRoutesCount: paidRoutes.length,
       guidanceOnlyRoutesCount: guidanceRoutes.length,
@@ -343,15 +362,17 @@ function buildReport() {
 
   const stateRows = Object.values(byState);
   const top15 = [...stateRows]
-    .sort((a, b) => b.estimatedPrepaymentQuestionsCurrentlyAsked - a.estimatedPrepaymentQuestionsCurrentlyAsked || a.jurisdictionCode.localeCompare(b.jurisdictionCode))
+    .sort((a, b) => b.estimatedPrepaymentQuestionsBeforeProjectionFix - a.estimatedPrepaymentQuestionsBeforeProjectionFix || a.jurisdictionCode.localeCompare(b.jurisdictionCode))
     .slice(0, 15)
     .map((row) => ({
       state: row.jurisdictionCode,
       name: row.jurisdictionName,
+      beforePrepaymentQuestionCount: row.estimatedPrepaymentQuestionsBeforeProjectionFix,
       currentPrepaymentQuestionCount: row.estimatedPrepaymentQuestionsCurrentlyAsked,
+      afterPrepaymentQuestionCount: row.estimatedPrepaymentQuestionsAfterProjectionFix,
       targetPrepaymentQuestionCount: row.recommendedTargetPrepaymentCount,
       questionsToMoveAfterPayment: row.questionsThatCanMoveAfterPayment,
-      estimatedReduction: Math.max(0, row.estimatedPrepaymentQuestionsCurrentlyAsked - row.recommendedTargetPrepaymentCount),
+      estimatedReduction: Math.max(0, row.estimatedPrepaymentQuestionsBeforeProjectionFix - row.estimatedPrepaymentQuestionsAfterProjectionFix),
       biggestFrictionSource: row.biggestFrictionSource,
       recommendedNextAction: row.recommendedNextAction
     }));
@@ -402,15 +423,28 @@ function buildReport() {
     totals: {
       jurisdictions: stateRows.length,
       totalPublicQuestionsAcrossAllStates: stateRows.reduce((sum, row) => sum + row.totalPublicQuestions, 0),
+      totalEstimatedPrepaymentQuestionsBeforeProjectionFix: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsBeforeProjectionFix, 0),
       totalEstimatedPrepaymentQuestionsCurrentlyAsked: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsCurrentlyAsked, 0),
-      totalRecommendedToMovePostPaymentOrRemove: stateRows.reduce((sum, row) => sum + row.questionsThatCanMoveAfterPayment, 0),
+      totalEstimatedPrepaymentQuestionsAfterProjectionFix: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsAfterProjectionFix, 0),
+      totalRecommendedToMovePostPaymentOrRemove: stateRows.reduce((sum, row) => sum + Math.max(0, row.estimatedPrepaymentQuestionsBeforeProjectionFix - row.estimatedPrepaymentQuestionsAfterProjectionFix), 0),
+      totalMovedPostPaymentByProjectionFix: stateRows.reduce((sum, row) => sum + Math.max(0, row.estimatedPrepaymentQuestionsBeforeProjectionFix - row.estimatedPrepaymentQuestionsAfterProjectionFix), 0),
       totalMustRemainPrepayment: stateRows.reduce((sum, row) => sum + row.questions.filter((q) => q.recommendedPhase === "pre-payment").length, 0),
+      averageEstimatedPrepaymentQuestionsBeforeProjectionFix: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsBeforeProjectionFix, 0) / stateRows.length).toFixed(2)),
       averageEstimatedPrepaymentQuestionsPerState: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsCurrentlyAsked, 0) / stateRows.length).toFixed(2)),
-      medianEstimatedPrepaymentQuestionsPerState: median(stateRows.map((row) => row.estimatedPrepaymentQuestionsCurrentlyAsked))
+      averageEstimatedPrepaymentQuestionsAfterProjectionFix: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsAfterProjectionFix, 0) / stateRows.length).toFixed(2)),
+      medianEstimatedPrepaymentQuestionsBeforeProjectionFix: median(stateRows.map((row) => row.estimatedPrepaymentQuestionsBeforeProjectionFix)),
+      medianEstimatedPrepaymentQuestionsPerState: median(stateRows.map((row) => row.estimatedPrepaymentQuestionsCurrentlyAsked)),
+      medianEstimatedPrepaymentQuestionsAfterProjectionFix: median(stateRows.map((row) => row.estimatedPrepaymentQuestionsAfterProjectionFix))
     },
     top15HighestFrictionStatesBeforePayment: top15,
     statesOver12QuestionTarget: stateRows.filter((row) => row.exceeds12QuestionTarget).map((row) => ({ state: row.jurisdictionCode, count: row.estimatedPrepaymentQuestionsCurrentlyAsked })),
-    statesOver15QuestionHardCap: stateRows.filter((row) => row.exceeds15QuestionHardCap).map((row) => ({ state: row.jurisdictionCode, count: row.estimatedPrepaymentQuestionsCurrentlyAsked })),
+    statesOver15QuestionHardCap: stateRows.filter((row) => row.exceeds15QuestionHardCap).map((row) => ({
+      state: row.jurisdictionCode,
+      count: row.estimatedPrepaymentQuestionsCurrentlyAsked,
+      reason: row.jurisdictionCode === "NY"
+        ? "NY CPL 160.59/CPL 160.58 route-specific hard gates remain prepayment facts."
+        : "Needs legal review before any further reduction."
+    })),
     statesNeedingLegalReviewBeforeMovingQuestions: stateRows.filter((row) => row.needsLegalReviewBeforeMovingQuestions).map((row) => row.jurisdictionCode),
     questionTypeFriction: Object.fromEntries([...new Set(allQuestions.map((q) => q.category))].sort().map((cat) => [cat, allQuestions.filter((q) => q.category === cat).length])),
     deepDiveStates: deepDives,
@@ -470,6 +504,7 @@ function renderMarkdown(report) {
   const pa = report.pennsylvaniaDeepDive;
   const topRows = report.top15HighestFrictionStatesBeforePayment.map((row) => [
     row.state,
+    row.beforePrepaymentQuestionCount,
     row.currentPrepaymentQuestionCount,
     row.targetPrepaymentQuestionCount,
     row.questionsToMoveAfterPayment,
@@ -511,8 +546,8 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 ## Summary
 
 - Total public questions across all states: ${report.totals.totalPublicQuestionsAcrossAllStates}
-- Average estimated pre-payment questions per state: ${report.totals.averageEstimatedPrepaymentQuestionsPerState}
-- Median estimated pre-payment questions per state: ${report.totals.medianEstimatedPrepaymentQuestionsPerState}
+- Average estimated pre-payment questions per state: ${report.totals.averageEstimatedPrepaymentQuestionsBeforeProjectionFix} before -> ${report.totals.averageEstimatedPrepaymentQuestionsAfterProjectionFix} after
+- Median estimated pre-payment questions per state: ${report.totals.medianEstimatedPrepaymentQuestionsBeforeProjectionFix} before -> ${report.totals.medianEstimatedPrepaymentQuestionsAfterProjectionFix} after
 - Questions recommended to move post-payment / make optional / remove from checkout: ${report.totals.totalRecommendedToMovePostPaymentOrRemove}
 - Questions that must remain pre-payment: ${report.totals.totalMustRemainPrepayment}
 - States over 12-question target: ${report.statesOver12QuestionTarget.length}
@@ -521,11 +556,11 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 
 ## Top 15 Highest-Friction States Before Payment
 
-${mdTable(["State", "Current", "Target", "Move Later", "Reduction", "Biggest Source", "Next Action"], topRows)}
+${mdTable(["State", "Before", "After", "Target", "Move Later", "Reduction", "Biggest Source", "Next Action"], topRows)}
 
 ## States Over 15-Question Hard Cap
 
-${mdList(report.statesOver15QuestionHardCap.map((row) => `${row.state}: ${row.count}`))}
+${mdList(report.statesOver15QuestionHardCap.map((row) => `${row.state}: ${row.count} — ${row.reason}`))}
 
 ## States Needing Legal Review Before Moving Questions
 
@@ -593,12 +628,12 @@ Stage 2 — Paid packet completion:
 ## Per-State Details
 
 ${mdTable(
-  ["State", "Name", "Public Qs", "Current Prepay", "Target", "Move Later", "Paid Routes", "Guidance Routes", "Risk", ">12", ">15", "Legal Review"],
+  ["State", "Name", "Public Qs", "Prepay Before/After", "Target", "Move Later", "Paid Routes", "Guidance Routes", "Risk", ">12", ">15", "Legal Review"],
   Object.values(report.byState).map((row) => [
     row.jurisdictionCode,
     row.jurisdictionName,
     row.totalPublicQuestions,
-    row.estimatedPrepaymentQuestionsCurrentlyAsked,
+    `${row.estimatedPrepaymentQuestionsBeforeProjectionFix} -> ${row.estimatedPrepaymentQuestionsAfterProjectionFix}`,
     row.recommendedTargetPrepaymentCount,
     row.questionsThatCanMoveAfterPayment,
     row.paidRoutesCount,
@@ -612,8 +647,8 @@ ${mdTable(
 `;
 }
 
-function main() {
-  const report = buildReport();
+async function main() {
+  const report = await buildReport();
   fs.mkdirSync(path.dirname(JSON_OUT), { recursive: true });
   fs.mkdirSync(path.dirname(MD_OUT), { recursive: true });
   fs.writeFileSync(JSON_OUT, `${JSON.stringify(report, null, 2)}\n`);
@@ -624,8 +659,8 @@ function main() {
   console.log(`Paid jurisdictions: ${report.paidJurisdictions}`);
   console.log(`Paid routes: ${report.paidRoutes}`);
   console.log(`Public questions: ${report.totals.totalPublicQuestionsAcrossAllStates}`);
-  console.log(`Average prepay questions/state: ${report.totals.averageEstimatedPrepaymentQuestionsPerState}`);
-  console.log(`Median prepay questions/state: ${report.totals.medianEstimatedPrepaymentQuestionsPerState}`);
+  console.log(`Average prepay questions/state: ${report.totals.averageEstimatedPrepaymentQuestionsBeforeProjectionFix} before -> ${report.totals.averageEstimatedPrepaymentQuestionsAfterProjectionFix} after`);
+  console.log(`Median prepay questions/state: ${report.totals.medianEstimatedPrepaymentQuestionsBeforeProjectionFix} before -> ${report.totals.medianEstimatedPrepaymentQuestionsAfterProjectionFix} after`);
   console.log(`PA current -> target: ${report.pennsylvaniaDeepDive.currentEstimatedPrepaymentQuestionCount} -> ${report.pennsylvaniaDeepDive.recommendedPrepaymentCount}`);
   console.log(`States over hard cap: ${report.statesOver15QuestionHardCap.length}`);
   console.log(`Wrote ${path.relative(ROOT, JSON_OUT)}`);

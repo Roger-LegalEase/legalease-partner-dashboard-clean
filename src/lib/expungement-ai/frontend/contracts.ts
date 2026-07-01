@@ -96,6 +96,21 @@ export type ProfileQuestion = {
    * pathway.
    */
   contextOnly: boolean;
+  lifecyclePhase?:
+    | "prepay_required"
+    | "prepay_route_splitter"
+    | "prepay_hard_disqualifier"
+    | "prepay_timing_gate"
+    | "prepay_soft_confidence"
+    | "postpay_packet_field"
+    | "postpay_official_form_field"
+    | "postpay_custom_pleading_field"
+    | "postpay_external_document"
+    | "postpay_filing_readiness"
+    | "postpay_narrative"
+    | "postpay_service_or_mailing"
+    | "optional_or_later"
+    | "guidance_only";
   /** Present (non-empty) only for `single_choice` and `multi_select` in the source data. */
   options: string[] | null;
   /** Optional presentation-only labels keyed by the unchanged option value. */
@@ -111,6 +126,16 @@ export type JurisdictionProfile = {
   terminology: ProfileTerminology;
   flowStages: FlowStage[];
   questions: ProfileQuestion[];
+  postPaymentPacketCompletion?: {
+    requiredPacketCompletionFields: ProfileQuestion[];
+    officialFormFields: ProfileQuestion[];
+    customPleadingFields: ProfileQuestion[];
+    externalDocumentChecklist: ProfileQuestion[];
+    filingReadinessFields: ProfileQuestion[];
+    serviceOrMailingFields: ProfileQuestion[];
+    narrativeFields: ProfileQuestion[];
+    optionalFields: ProfileQuestion[];
+  };
 };
 
 /* ------------------------------------------------------------------ */

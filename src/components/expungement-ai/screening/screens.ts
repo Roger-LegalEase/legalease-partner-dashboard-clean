@@ -12,6 +12,16 @@
 import type { JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
+const POSTPAY_STAGES = new Set([
+  "record_readiness",
+  "case_details",
+  "packet_information"
+]);
+
+function isPrepayQuestion(question: ProfileQuestion) {
+  if (question.lifecyclePhase) return question.lifecyclePhase.startsWith("prepay_");
+  return !POSTPAY_STAGES.has(question.stage);
+}
 
 /** Ordered consumer question screens for a profile. */
 export function deriveScreens(profile: JurisdictionProfile): ProfileQuestion[] {
@@ -20,6 +30,7 @@ export function deriveScreens(profile: JurisdictionProfile): ProfileQuestion[] {
   return profile.questions
     .map((question, index) => ({ question, index }))
     .filter(({ question }) => !question.id.startsWith(SOURCE_QUESTION_PREFIX))
+    .filter(({ question }) => isPrepayQuestion(question))
     .sort((a, b) => {
       const orderA = stageOrder.get(a.question.stage) ?? Number.MAX_SAFE_INTEGER;
       const orderB = stageOrder.get(b.question.stage) ?? Number.MAX_SAFE_INTEGER;

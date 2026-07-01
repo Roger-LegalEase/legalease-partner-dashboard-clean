@@ -2,7 +2,7 @@ import "server-only";
 
 import crypto from "node:crypto";
 import { answerText, isAffirmative, isExplicitUnknownAnswer, isNegative, requiredMissingPublicQuestionIds, validatePublicAnswerQuestionIds } from "@/lib/rcap-engine/answer-normalization";
-import type { EngineProfile, PublicJurisdictionProfile, ScreeningAnswerValue, ScreeningEvaluation, ScreeningEvaluationRequest, ScreeningReason, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, ScreeningAnswerValue, ScreeningEvaluation, ScreeningEvaluationRequest, ScreeningReason, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
@@ -547,10 +547,15 @@ function ambiguityReason(publicProfile: PublicJurisdictionProfile, answers: Reco
   // internal `source_question_*` questions that are never shown and never answered; scanning those
   // would treat every completed screening as ambiguous. Missing/empty public answers are not
   // ambiguity here — required public answers are enforced by requiredMissingPublicQuestionIds().
-  const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && question.stage !== "case_details" && question.stage !== "record_readiness");
+  const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const ambiguous = legalFields.find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
+}
+
+function isPrepaymentQuestion(question: PublicQuestion) {
+  if (question.lifecyclePhase) return question.lifecyclePhase.startsWith("prepay_");
+  return !["record_readiness", "case_details", "packet_information"].includes(question.stage);
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
@@ -1161,8 +1166,8 @@ function labelForResult(resultCode: ScreeningResultCode) {
 
 function nextStepsForResult(resultCode: ScreeningResultCode) {
   const nextSteps: Record<ScreeningResultCode, string[]> = {
-    packet_ready: ["Save this result.", "Confirm every packet field.", "Generate the source-driven self-help packet only after payment is allowed."],
-    packet_ready_with_caution: ["Review the cautions.", "Confirm every packet field.", "Do not file until the packet and instructions are reviewed."],
+    packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete packet fields in Briefcase after payment.", "External documents affect filing readiness, not checkout eligibility."],
+    packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete packet fields in Briefcase after payment.", "Do not file until external documents, fees, fingerprints, and instructions are complete."],
     needs_more_info: ["Answer the missing source-defined questions.", "Use court records when possible.", "Run the evaluation again."],
     not_yet: ["Save the timing result.", "Confirm the anchor date from records.", "Return when the source-defined wait may be satisfied."],
     guidance_only: ["Review the state-specific guidance.", "Verify the record status with the listed source.", "Do not pay for a filing packet for this route."],

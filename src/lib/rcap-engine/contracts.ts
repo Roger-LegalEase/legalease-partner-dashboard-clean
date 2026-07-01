@@ -67,6 +67,21 @@ export type PublicQuestion = {
   required: boolean;
   contextOnly?: boolean;
   doesNotSelectPathway?: boolean;
+  lifecyclePhase?:
+    | "prepay_required"
+    | "prepay_route_splitter"
+    | "prepay_hard_disqualifier"
+    | "prepay_timing_gate"
+    | "prepay_soft_confidence"
+    | "postpay_packet_field"
+    | "postpay_official_form_field"
+    | "postpay_custom_pleading_field"
+    | "postpay_external_document"
+    | "postpay_filing_readiness"
+    | "postpay_narrative"
+    | "postpay_service_or_mailing"
+    | "optional_or_later"
+    | "guidance_only";
   options?: unknown;
   optionDisplay?: Record<string, {
     label: string;
@@ -94,6 +109,16 @@ export type PublicJurisdictionProfile = {
     screenType: string;
   }>;
   questions: PublicQuestion[];
+  postPaymentPacketCompletion?: {
+    requiredPacketCompletionFields: PublicQuestion[];
+    officialFormFields: PublicQuestion[];
+    customPleadingFields: PublicQuestion[];
+    externalDocumentChecklist: PublicQuestion[];
+    filingReadinessFields: PublicQuestion[];
+    serviceOrMailingFields: PublicQuestion[];
+    narrativeFields: PublicQuestion[];
+    optionalFields: PublicQuestion[];
+  };
   caseOutcomeOptions?: unknown[];
   copyGuardrails: string[];
 };

@@ -7,7 +7,7 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 ## Stabilization
 
 - Branch: `main`
-- Commit: `d64f8d4`
+- Commit: `b5db78e`
 - Paid jurisdictions: 51
 - Paid routes: 97
 - Source model: public designer profiles plus current public projection Wilma fact questions; raw `source_question_*` engine rows are not treated as public checkout facts.
@@ -15,276 +15,176 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 ## Summary
 
 - Total public questions across all states: 2274
-- Average estimated pre-payment questions per state: 44.59
-- Median estimated pre-payment questions per state: 45
-- Questions recommended to move post-payment / make optional / remove from checkout: 1776
-- Questions that must remain pre-payment: 498
-- States over 12-question target: 51
-- States over 15-question hard cap: 51
-- States needing legal review before moving questions: 51
+- Average estimated pre-payment questions per state: 44.59 before -> 9.8 after
+- Median estimated pre-payment questions per state: 45 before -> 10 after
+- Questions recommended to move post-payment / make optional / remove from checkout: 1774
+- Questions that must remain pre-payment: 370
+- States over 12-question target: 5
+- States over 15-question hard cap: 1
+- States needing legal review before moving questions: 1
 
 ## Top 15 Highest-Friction States Before Payment
 
-| State | Current | Target | Move Later | Reduction | Biggest Source | Next Action |
-| --- | --- | --- | --- | --- | --- | --- |
-| AK | 48 | 12 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| FL | 48 | 12 | 35 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| GA | 48 | 11 | 37 | 37 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| NE | 48 | 11 | 37 | 37 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| SC | 48 | 12 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| WV | 48 | 12 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| IL | 47 | 12 | 35 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| ME | 47 | 11 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| MO | 47 | 11 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| NJ | 47 | 12 | 35 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| TX | 47 | 11 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| VA | 47 | 12 | 35 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| WI | 47 | 11 | 36 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| WY | 47 | 12 | 35 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
-| AL | 46 | 11 | 35 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| State | Before | After | Target | Move Later | Reduction | Biggest Source | Next Action |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| AK | 48 | 11 | 9 | 2 | 37 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| FL | 48 | 12 | 10 | 2 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| GA | 48 | 11 | 9 | 2 | 37 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| NE | 48 | 12 | 9 | 3 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| SC | 48 | 13 | 10 | 3 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| WV | 48 | 12 | 9 | 3 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| IL | 47 | 11 | 9 | 2 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| ME | 47 | 12 | 9 | 3 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| MO | 47 | 12 | 9 | 3 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| NJ | 47 | 13 | 10 | 3 | 34 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| TX | 47 | 11 | 9 | 2 | 36 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| VA | 47 | 10 | 9 | 1 | 37 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| WI | 47 | 12 | 8 | 4 | 35 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| WY | 47 | 13 | 10 | 3 | 34 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
+| AL | 46 | 12 | 9 | 3 | 34 | optional_or_later | Move external-document, filing-readiness, official-form, narrative, and broad Wilma/source-detail prompts into paid packet completion; keep only route/timing/disqualifier triage before checkout. |
 
 ## States Over 15-Question Hard Cap
 
-- AK: 48
-- AL: 46
-- AR: 44
-- AZ: 45
-- CA: 45
-- CO: 44
-- CT: 44
-- DC: 46
-- DE: 44
-- FL: 48
-- GA: 48
-- HI: 43
-- IA: 44
-- ID: 44
-- IL: 47
-- IN: 42
-- KS: 42
-- KY: 44
-- LA: 46
-- MA: 44
-- MD: 46
-- ME: 47
-- MI: 45
-- MN: 45
-- MO: 47
-- MS: 37
-- MT: 46
-- NC: 45
-- ND: 37
-- NE: 48
-- NH: 37
-- NJ: 47
-- NM: 46
-- NV: 46
-- NY: 45
-- OH: 45
-- OK: 46
-- OR: 44
-- PA: 37
-- RI: 37
-- SC: 48
-- SD: 46
-- TN: 46
-- TX: 47
-- UT: 37
-- VA: 47
-- VT: 46
-- WA: 44
-- WI: 47
-- WV: 48
-- WY: 47
+- NY: 17 — NY CPL 160.59/CPL 160.58 route-specific hard gates remain prepayment facts.
 
 ## States Needing Legal Review Before Moving Questions
 
-- AK
-- AL
-- AR
-- AZ
-- CA
-- CO
-- CT
-- DC
-- DE
-- FL
-- GA
-- HI
-- IA
-- ID
-- IL
-- IN
-- KS
-- KY
-- LA
-- MA
-- MD
-- ME
-- MI
-- MN
-- MO
-- MS
-- MT
-- NC
-- ND
-- NE
-- NH
-- NJ
-- NM
-- NV
-- NY
-- OH
-- OK
-- OR
 - PA
-- RI
-- SC
-- SD
-- TN
-- TX
-- UT
-- VA
-- VT
-- WA
-- WI
-- WV
-- WY
 
 ## Question Types Creating Drop-Off
 
 - `external_document_field`: 153
-- `filing_readiness_field`: 106
-- `hard_disqualifier`: 176
-- `official_form_field`: 138
+- `filing_readiness_field`: 34
+- `hard_disqualifier`: 48
+- `official_form_field`: 266
 - `optional_or_later`: 800
-- `packet_completion_field`: 8
+- `packet_completion_field`: 557
 - `prepayment_eligibility_question`: 116
 - `route_splitter`: 176
-- `service_or_mailing_field`: 54
-- `soft_confidence_question`: 517
+- `service_or_mailing_field`: 36
+- `soft_confidence_question`: 58
 - `timing_gate`: 30
 
 ## Deep-Dive States
 
 ### PA — Pennsylvania
 
-- Current pre-payment flow: 37 public before-checkout questions; 30 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: None detected
-- External-document or filing-readiness fields: `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 30
+- Current pre-payment flow: 5 public before-checkout questions; 1 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`
+- Packet/form fields: `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `financial_obligations`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `route_family_detail`
+- Can move after payment / optional / remove: 33
 - Proposed minimum pre-payment count: 10
 - Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### TX — Texas
 
-- Current pre-payment flow: 47 public before-checkout questions; 36 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `identity_error`, `pending_cases`, `disposition_date`, `state_exclusion_categories`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `arrest_date`, `court`, `charge`, `county_or_filing_location`
-- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `route_family_detail`
-- Can move after payment / optional / remove: 36
-- Proposed minimum pre-payment count: 11
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 11 public before-checkout questions; 2 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `identity_error`, `pending_cases`, `disposition_date`, `state_exclusion_categories`
+- Packet/form fields: `arrest_date`, `court`, `charge`, `county_or_filing_location`, `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 38
+- Proposed minimum pre-payment count: 9
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### CA — California
 
-- Current pre-payment flow: 45 public before-checkout questions; 36 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `pending_cases`, `state_exclusion_categories`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `county`, `court`, `charge`
-- External-document or filing-readiness fields: `financial_obligations`, `criminal_history`, `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `route_family_detail`
-- Can move after payment / optional / remove: 36
-- Proposed minimum pre-payment count: 9
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 14 public before-checkout questions; 7 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `pending_cases`, `state_exclusion_categories`
+- Packet/form fields: `county`, `court`, `charge`, `waiting_rule_id`, `sentence_completion_actual_date`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `financial_obligations`, `criminal_history`, `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 38
+- Proposed minimum pre-payment count: 8
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Medium conversion risk: current flow exceeds the ideal 8-12 question target.
 
 ### IL — Illinois
 
-- Current pre-payment flow: 47 public before-checkout questions; 35 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `trafficking_status`, `pardon_status`, `disposition_date`, `state_exclusion_categories`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `court`, `charge`, `county_or_filing_location`
-- External-document or filing-readiness fields: `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 35
-- Proposed minimum pre-payment count: 12
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 11 public before-checkout questions; 2 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `trafficking_status`, `pardon_status`, `disposition_date`, `state_exclusion_categories`
+- Packet/form fields: `court`, `charge`, `county_or_filing_location`, `waiting_rule_id`, `sentence_completion_actual_date`, `financial_obligations`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 38
+- Proposed minimum pre-payment count: 9
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### MD — Maryland
 
-- Current pre-payment flow: 46 public before-checkout questions; 35 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `prior_relief`, `pardon_status`, `pending_cases`, `state_exclusion_categories`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `county`, `court`, `charge`
-- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `route_family_detail`
-- Can move after payment / optional / remove: 35
-- Proposed minimum pre-payment count: 11
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 12 public before-checkout questions; 3 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `prior_relief`, `pardon_status`, `pending_cases`, `state_exclusion_categories`
+- Packet/form fields: `county`, `court`, `charge`, `waiting_rule_id`, `sentence_completion_actual_date`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 37
+- Proposed minimum pre-payment count: 9
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### UT — Utah
 
-- Current pre-payment flow: 37 public before-checkout questions; 30 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: None detected
-- External-document or filing-readiness fields: `possible_pathway_context`, `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 30
+- Current pre-payment flow: 5 public before-checkout questions; 1 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`
+- Packet/form fields: `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `financial_obligations`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `possible_pathway_context`, `route_family_detail`
+- Can move after payment / optional / remove: 33
 - Proposed minimum pre-payment count: 8
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### RI — Rhode Island
 
-- Current pre-payment flow: 37 public before-checkout questions; 30 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: None detected
-- External-document or filing-readiness fields: `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 30
+- Current pre-payment flow: 5 public before-checkout questions; 1 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`
+- Packet/form fields: `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `financial_obligations`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `route_family_detail`
+- Can move after payment / optional / remove: 33
 - Proposed minimum pre-payment count: 8
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### FL — Florida
 
-- Current pre-payment flow: 48 public before-checkout questions; 35 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `prior_relief`, `trafficking_status`, `identity_error`, `disposition_date`, `state_exclusion_categories`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `county`, `court`, `charge`
-- External-document or filing-readiness fields: `criminal_history`, `record_documents`, `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 35
-- Proposed minimum pre-payment count: 12
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 12 public before-checkout questions; 2 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `prior_relief`, `trafficking_status`, `identity_error`, `disposition_date`, `state_exclusion_categories`
+- Packet/form fields: `county`, `court`, `charge`, `waiting_rule_id`, `sentence_completion_actual_date`, `financial_obligations`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `criminal_history`, `record_documents`, `route_family_detail`
+- Can move after payment / optional / remove: 38
+- Proposed minimum pre-payment count: 10
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### NV — Nevada
 
-- Current pre-payment flow: 46 public before-checkout questions; 37 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `pending_cases`, `disposition_date`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `arrest_date`, `court`, `charge`, `county_or_filing_location`
-- External-document or filing-readiness fields: `criminal_history`, `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `financial_obligations`, `route_family_detail`
-- Can move after payment / optional / remove: 37
-- Proposed minimum pre-payment count: 9
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 8 public before-checkout questions; 1 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `pardon_status`, `pending_cases`, `disposition_date`
+- Packet/form fields: `arrest_date`, `court`, `charge`, `county_or_filing_location`, `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `financial_obligations`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `criminal_history`, `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 39
+- Proposed minimum pre-payment count: 8
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 ### MA — Massachusetts
 
-- Current pre-payment flow: 44 public before-checkout questions; 35 are recommended for post-payment, optional handling, or removal from checkout.
-- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `identity_error`, `pending_cases`, `new_convictions_during_waiting_period`, `special_preconditions_confirmed`
-- Packet/form fields: `court`, `charge`, `county_or_filing_location`
-- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `sentence_completion_actual_date`, `route_family_detail`
-- Can move after payment / optional / remove: 35
-- Proposed minimum pre-payment count: 9
-- Legal risk notes: Legal review should confirm any detailed source/Wilma fact currently relied on for payment is either converted into a public simplified gate or moved after checkout with evaluator safety preserved.
-- Conversion risk notes: High conversion risk: current flow exceeds the 15-question hard cap before payment.
+- Current pre-payment flow: 8 public before-checkout questions; 2 are recommended for post-payment, optional handling, or removal from checkout.
+- True eligibility gates: `ownership_scope`, `jurisdiction_scope`, `case_outcome`, `offense_level`, `age_at_offense`, `identity_error`
+- Packet/form fields: `court`, `charge`, `county_or_filing_location`, `waiting_rule_id`, `sentence_completion_actual_date`, `sentence_completion_date`, `pending_cases`, `release_date`, `sentencing_date`, `discharge_date`, `last_conviction_date`, `conviction_date`, `probation_parole_supervision_end_date`, `new_convictions_during_waiting_period`, `eligible_conviction_count`, `eligible_conviction_class`, `special_preconditions_confirmed`
+- External-document or filing-readiness fields: `financial_obligations`, `record_documents`, `case_identifier`, `route_family_detail`
+- Can move after payment / optional / remove: 38
+- Proposed minimum pre-payment count: 8
+- Legal risk notes: Low to medium legal risk if route splitters, timing gates, pending-charge checks, and statutory exclusions remain before checkout.
+- Conversion risk notes: Lower conversion risk: current public triage is near the target budget.
 
 
 ## Pennsylvania Deep Dive
 
 - Current PA public question count: 37
-- Current estimated PA pre-payment question count: 37
+- Current estimated PA pre-payment question count: 5
 - Recommended PA pre-payment count: 10
-- Questions that should move after payment / optional / remove: 30
-- Questions that must stay before payment: 7
+- Questions that should move after payment / optional / remove: 33
+- Questions that must stay before payment: 4
 
 Route splitters needed before payment:
 
@@ -349,56 +249,56 @@ Stage 2 — Paid packet completion:
 
 ## Per-State Details
 
-| State | Name | Public Qs | Current Prepay | Target | Move Later | Paid Routes | Guidance Routes | Risk | >12 | >15 | Legal Review |
+| State | Name | Public Qs | Prepay Before/After | Target | Move Later | Paid Routes | Guidance Routes | Risk | >12 | >15 | Legal Review |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AK | Alaska | 48 | 48 | 12 | 36 | 1 | 2 | severe | yes | yes | yes |
-| AL | Alabama | 46 | 46 | 11 | 35 | 1 | 0 | severe | yes | yes | yes |
-| AR | Arkansas | 44 | 44 | 9 | 35 | 3 | 0 | severe | yes | yes | yes |
-| AZ | Arizona | 45 | 45 | 9 | 36 | 1 | 0 | severe | yes | yes | yes |
-| CA | California | 45 | 45 | 9 | 36 | 5 | 2 | severe | yes | yes | yes |
-| CO | Colorado | 44 | 44 | 9 | 35 | 1 | 1 | severe | yes | yes | yes |
-| CT | Connecticut | 44 | 44 | 9 | 35 | 1 | 4 | severe | yes | yes | yes |
-| DC | District of Columbia | 46 | 46 | 9 | 37 | 4 | 3 | severe | yes | yes | yes |
-| DE | Delaware | 44 | 44 | 9 | 35 | 1 | 2 | severe | yes | yes | yes |
-| FL | Florida | 48 | 48 | 12 | 35 | 1 | 1 | severe | yes | yes | yes |
-| GA | Georgia | 48 | 48 | 11 | 37 | 1 | 1 | severe | yes | yes | yes |
-| HI | Hawaii | 43 | 43 | 8 | 35 | 3 | 0 | severe | yes | yes | yes |
-| IA | Iowa | 44 | 44 | 9 | 35 | 1 | 0 | severe | yes | yes | yes |
-| ID | Idaho | 44 | 44 | 9 | 35 | 1 | 0 | severe | yes | yes | yes |
-| IL | Illinois | 47 | 47 | 12 | 35 | 7 | 1 | severe | yes | yes | yes |
-| IN | Indiana | 42 | 42 | 8 | 35 | 1 | 0 | severe | yes | yes | yes |
-| KS | Kansas | 42 | 42 | 8 | 35 | 1 | 1 | severe | yes | yes | yes |
-| KY | Kentucky | 44 | 44 | 9 | 35 | 1 | 2 | severe | yes | yes | yes |
-| LA | Louisiana | 46 | 46 | 9 | 37 | 6 | 2 | severe | yes | yes | yes |
-| MA | Massachusetts | 44 | 44 | 9 | 35 | 1 | 1 | severe | yes | yes | yes |
-| MD | Maryland | 46 | 46 | 11 | 35 | 1 | 1 | severe | yes | yes | yes |
-| ME | Maine | 47 | 47 | 11 | 36 | 1 | 1 | severe | yes | yes | yes |
-| MI | Michigan | 45 | 45 | 10 | 35 | 1 | 1 | severe | yes | yes | yes |
-| MN | Minnesota | 45 | 45 | 9 | 36 | 1 | 3 | severe | yes | yes | yes |
-| MO | Missouri | 47 | 47 | 11 | 36 | 3 | 0 | severe | yes | yes | yes |
-| MS | Mississippi | 37 | 37 | 8 | 30 | 13 | 0 | severe | yes | yes | yes |
-| MT | Montana | 46 | 46 | 11 | 35 | 3 | 1 | severe | yes | yes | yes |
-| NC | North Carolina | 45 | 45 | 10 | 35 | 1 | 0 | severe | yes | yes | yes |
-| ND | North Dakota | 37 | 37 | 8 | 30 | 4 | 0 | severe | yes | yes | yes |
-| NE | Nebraska | 48 | 48 | 11 | 37 | 2 | 3 | severe | yes | yes | yes |
-| NH | New Hampshire | 37 | 37 | 8 | 30 | 1 | 1 | severe | yes | yes | yes |
-| NJ | New Jersey | 47 | 47 | 12 | 35 | 2 | 0 | severe | yes | yes | yes |
-| NM | New Mexico | 46 | 46 | 10 | 36 | 2 | 1 | severe | yes | yes | yes |
-| NV | Nevada | 46 | 46 | 9 | 37 | 1 | 0 | severe | yes | yes | yes |
-| NY | New York | 45 | 45 | 11 | 34 | 2 | 3 | severe | yes | yes | yes |
-| OH | Ohio | 45 | 45 | 10 | 35 | 1 | 0 | severe | yes | yes | yes |
-| OK | Oklahoma | 46 | 46 | 11 | 35 | 1 | 2 | severe | yes | yes | yes |
-| OR | Oregon | 44 | 44 | 9 | 35 | 1 | 0 | severe | yes | yes | yes |
-| PA | Pennsylvania | 37 | 37 | 10 | 30 | 1 | 2 | severe | yes | yes | yes |
-| RI | Rhode Island | 37 | 37 | 8 | 30 | 1 | 0 | severe | yes | yes | yes |
-| SC | South Carolina | 48 | 48 | 12 | 36 | 1 | 1 | severe | yes | yes | yes |
-| SD | South Dakota | 46 | 46 | 11 | 35 | 1 | 2 | severe | yes | yes | yes |
-| TN | Tennessee | 46 | 46 | 10 | 36 | 1 | 0 | severe | yes | yes | yes |
-| TX | Texas | 47 | 47 | 11 | 36 | 1 | 1 | severe | yes | yes | yes |
-| UT | Utah | 37 | 37 | 8 | 30 | 1 | 4 | severe | yes | yes | yes |
-| VA | Virginia | 47 | 47 | 12 | 35 | 2 | 1 | severe | yes | yes | yes |
-| VT | Vermont | 46 | 46 | 11 | 35 | 1 | 0 | severe | yes | yes | yes |
-| WA | Washington | 44 | 44 | 9 | 35 | 1 | 0 | severe | yes | yes | yes |
-| WI | Wisconsin | 47 | 47 | 11 | 36 | 1 | 1 | severe | yes | yes | yes |
-| WV | West Virginia | 48 | 48 | 12 | 36 | 1 | 1 | severe | yes | yes | yes |
-| WY | Wyoming | 47 | 47 | 12 | 35 | 1 | 2 | severe | yes | yes | yes |
+| AK | Alaska | 48 | 48 -> 11 | 9 | 2 | 1 | 2 | low | no | no | no |
+| AL | Alabama | 46 | 46 -> 12 | 9 | 3 | 1 | 0 | low | no | no | no |
+| AR | Arkansas | 44 | 44 -> 10 | 8 | 3 | 3 | 0 | low | no | no | no |
+| AZ | Arizona | 45 | 45 -> 8 | 8 | 2 | 1 | 0 | low | no | no | no |
+| CA | California | 45 | 45 -> 14 | 8 | 7 | 5 | 2 | medium | yes | no | no |
+| CO | Colorado | 44 | 44 -> 7 | 8 | 1 | 1 | 1 | low | no | no | no |
+| CT | Connecticut | 44 | 44 -> 9 | 8 | 3 | 1 | 4 | low | no | no | no |
+| DC | District of Columbia | 46 | 46 -> 10 | 8 | 4 | 4 | 3 | low | no | no | no |
+| DE | Delaware | 44 | 44 -> 9 | 8 | 3 | 1 | 2 | low | no | no | no |
+| FL | Florida | 48 | 48 -> 12 | 10 | 2 | 1 | 1 | low | no | no | no |
+| GA | Georgia | 48 | 48 -> 11 | 9 | 2 | 1 | 1 | low | no | no | no |
+| HI | Hawaii | 43 | 43 -> 7 | 8 | 2 | 3 | 0 | low | no | no | no |
+| IA | Iowa | 44 | 44 -> 8 | 8 | 2 | 1 | 0 | low | no | no | no |
+| ID | Idaho | 44 | 44 -> 8 | 8 | 2 | 1 | 0 | low | no | no | no |
+| IL | Illinois | 47 | 47 -> 11 | 9 | 2 | 7 | 1 | low | no | no | no |
+| IN | Indiana | 42 | 42 -> 7 | 8 | 2 | 1 | 0 | low | no | no | no |
+| KS | Kansas | 42 | 42 -> 6 | 8 | 2 | 1 | 1 | low | no | no | no |
+| KY | Kentucky | 44 | 44 -> 8 | 8 | 2 | 1 | 2 | low | no | no | no |
+| LA | Louisiana | 46 | 46 -> 10 | 8 | 3 | 6 | 2 | low | no | no | no |
+| MA | Massachusetts | 44 | 44 -> 8 | 8 | 2 | 1 | 1 | low | no | no | no |
+| MD | Maryland | 46 | 46 -> 12 | 9 | 3 | 1 | 1 | low | no | no | no |
+| ME | Maine | 47 | 47 -> 12 | 9 | 3 | 1 | 1 | low | no | no | no |
+| MI | Michigan | 45 | 45 -> 9 | 8 | 1 | 1 | 1 | low | no | no | no |
+| MN | Minnesota | 45 | 45 -> 8 | 8 | 1 | 1 | 3 | low | no | no | no |
+| MO | Missouri | 47 | 47 -> 12 | 9 | 3 | 3 | 0 | low | no | no | no |
+| MS | Mississippi | 37 | 37 -> 5 | 8 | 1 | 13 | 0 | low | no | no | no |
+| MT | Montana | 46 | 46 -> 12 | 9 | 3 | 3 | 1 | low | no | no | no |
+| NC | North Carolina | 45 | 45 -> 11 | 8 | 3 | 1 | 0 | low | no | no | no |
+| ND | North Dakota | 37 | 37 -> 5 | 8 | 1 | 4 | 0 | low | no | no | no |
+| NE | Nebraska | 48 | 48 -> 12 | 9 | 3 | 2 | 3 | low | no | no | no |
+| NH | New Hampshire | 37 | 37 -> 7 | 8 | 3 | 1 | 1 | low | no | no | no |
+| NJ | New Jersey | 47 | 47 -> 13 | 10 | 3 | 2 | 0 | medium | yes | no | no |
+| NM | New Mexico | 46 | 46 -> 11 | 8 | 3 | 2 | 1 | low | no | no | no |
+| NV | Nevada | 46 | 46 -> 8 | 8 | 1 | 1 | 0 | low | no | no | no |
+| NY | New York | 45 | 45 -> 17 | 9 | 8 | 2 | 3 | high | yes | yes | no |
+| OH | Ohio | 45 | 45 -> 10 | 8 | 2 | 1 | 0 | low | no | no | no |
+| OK | Oklahoma | 46 | 46 -> 11 | 8 | 3 | 1 | 2 | low | no | no | no |
+| OR | Oregon | 44 | 44 -> 10 | 8 | 3 | 1 | 0 | low | no | no | no |
+| PA | Pennsylvania | 37 | 37 -> 5 | 10 | 1 | 1 | 2 | medium | no | no | yes |
+| RI | Rhode Island | 37 | 37 -> 5 | 8 | 1 | 1 | 0 | low | no | no | no |
+| SC | South Carolina | 48 | 48 -> 13 | 10 | 3 | 1 | 1 | medium | yes | no | no |
+| SD | South Dakota | 46 | 46 -> 11 | 8 | 3 | 1 | 2 | low | no | no | no |
+| TN | Tennessee | 46 | 46 -> 10 | 8 | 3 | 1 | 0 | low | no | no | no |
+| TX | Texas | 47 | 47 -> 11 | 9 | 2 | 1 | 1 | low | no | no | no |
+| UT | Utah | 37 | 37 -> 5 | 8 | 1 | 1 | 4 | low | no | no | no |
+| VA | Virginia | 47 | 47 -> 10 | 9 | 1 | 2 | 1 | low | no | no | no |
+| VT | Vermont | 46 | 46 -> 12 | 9 | 3 | 1 | 0 | low | no | no | no |
+| WA | Washington | 44 | 44 -> 10 | 8 | 3 | 1 | 0 | low | no | no | no |
+| WI | Wisconsin | 47 | 47 -> 12 | 8 | 4 | 1 | 1 | low | no | no | no |
+| WV | West Virginia | 48 | 48 -> 12 | 9 | 3 | 1 | 1 | low | no | no | no |
+| WY | Wyoming | 47 | 47 -> 13 | 10 | 3 | 1 | 2 | medium | yes | no | no |

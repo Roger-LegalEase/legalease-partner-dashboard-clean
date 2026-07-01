@@ -3,6 +3,42 @@ import "server-only";
 import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 
+type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
+
+const POSTPAY_STAGES = new Set(["record_readiness", "case_details", "packet_information"]);
+const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
+  "prepay_required",
+  "prepay_route_splitter",
+  "prepay_hard_disqualifier",
+  "prepay_timing_gate",
+  "prepay_soft_confidence"
+]);
+
+const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
+  CA: new Set([
+    "ca_prop64_qualifying_marijuana_offense",
+    "ca_prop64_lesser_or_no_offense",
+    "ca_prop64_branch",
+    "ca_prop64_relief_requested"
+  ]),
+  HI: new Set(["hi_court_order_confirmed"]),
+  IN: new Set(["in_prosecutor_consent_confirmed"]),
+  NY: new Set([
+    "ny_16059_total_eligible_convictions",
+    "ny_16059_felony_convictions",
+    "ny_16059_ineligible_offense",
+    "ny_16059_sex_offender_registration",
+    "ny_16059_pending_charge",
+    "ny_16059_post_last_conviction_crime",
+    "ny_16059_prior_sealing",
+    "ny_16058_treatment_program_completed"
+  ]),
+  WI: new Set([
+    "wi_expungement_ordered_at_sentencing",
+    "wi_no_probation_jail_prison"
+  ])
+};
+
 /**
  * Normalize a question's `options` to the public contract: a non-empty array of strings, or `null`.
  *
@@ -18,6 +54,100 @@ function normalizeQuestionOptions(options: unknown): string[] | null {
     return options as string[];
   }
   return null;
+}
+
+function questionText(question: PublicQuestion) {
+  const options = Array.isArray(question.options) ? question.options.join(" ") : "";
+  return `${question.id} ${question.stage} ${question.prompt ?? ""} ${question.helperText ?? ""} ${options}`.toLowerCase();
+}
+
+function lifecyclePhaseForQuestion(question: PublicQuestion): QuestionLifecyclePhase {
+  if (question.lifecyclePhase) return question.lifecyclePhase;
+  const text = questionText(question);
+
+  if (POSTPAY_STAGES.has(question.stage)) {
+    if (/patch|psp|sbi|scope report|chr\/scope|criminal[- ]history report|background check|fingerprint|certificate|certified|disposition|judgment|discharge paperwork|court paperwork|records handy|document|report/.test(text)) {
+      return "postpay_external_document";
+    }
+    if (/court|county|docket|case number|case_identifier|case_number|charge|statute|arrest date|filing location/.test(text)) {
+      return "postpay_official_form_field";
+    }
+    return "postpay_packet_field";
+  }
+
+  if (question.id === "ownership_scope" || question.id === "jurisdiction_scope") return "prepay_required";
+  if (question.id === "case_outcome" || question.id === "offense_level" || question.id === "possible_pathway_context") return "prepay_route_splitter";
+  if (/pending|open cases|sex offense|registration|violent|excluded|exclusion|domestic violence|traffick|identity theft|pardon|prior relief|court order|prosecutor consent|qualifying marijuana|lesser or no offense|offense bar|felony convictions|eligible convictions/.test(text)) {
+    return "prepay_hard_disqualifier";
+  }
+  if (/date|time|wait|waiting|finished|completed|sentence|probation|parole|supervision|release|conviction count|branch applies|relief requested/.test(text)) {
+    return "prepay_timing_gate";
+  }
+  if (question.contextOnly === true || question.doesNotSelectPathway === true || question.required === false) return "prepay_soft_confidence";
+  return "prepay_required";
+}
+
+function isPrepayQuestion(question: PublicQuestion) {
+  return PREPAY_PHASES.has(lifecyclePhaseForQuestion(question));
+}
+
+function postpayStageForPhase(phase: QuestionLifecyclePhase) {
+  if (phase === "postpay_external_document" || phase === "postpay_filing_readiness") return "record_readiness";
+  if (phase === "postpay_official_form_field" || phase === "postpay_service_or_mailing") return "case_details";
+  return "packet_information";
+}
+
+function phaseForWilmaFact(question: PublicQuestion, jurisdictionCode: string): QuestionLifecyclePhase {
+  if (STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS[jurisdictionCode]?.has(question.id)) {
+    return lifecyclePhaseForQuestion(question);
+  }
+  const text = questionText(question);
+  if (/patch|psp|sbi|scope|chr|fingerprint|certificate|certified|report|document|attachment|court order/.test(text)) return "postpay_external_document";
+  if (/fee|restitution|fine|cost|paid|ready/.test(text)) return "postpay_filing_readiness";
+  if (/statement|explain|hardship|rehabilitation|manifest|substantial justice/.test(text)) return "postpay_narrative";
+  if (/prosecutor|service|mail|agency|custodian|address/.test(text)) return "postpay_service_or_mailing";
+  return "postpay_packet_field";
+}
+
+function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: string, source: "designer" | "engine" | "wilma"): PublicQuestion {
+  const lifecyclePhase = source === "wilma"
+    ? phaseForWilmaFact(question, jurisdictionCode)
+    : lifecyclePhaseForQuestion(question);
+  const normalized = {
+    ...question,
+    lifecyclePhase,
+    stage: PREPAY_PHASES.has(lifecyclePhase) ? question.stage : postpayStageForPhase(lifecyclePhase),
+    options: normalizeQuestionOptions(question.options),
+    contextOnly: question.contextOnly === true,
+    doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
+  };
+  return normalized;
+}
+
+function normalizeFlowStages(profile: PublicJurisdictionProfile, questions: PublicQuestion[]) {
+  const idsByStage = new Map<string, string[]>();
+  for (const question of questions) {
+    if (!idsByStage.has(question.stage)) idsByStage.set(question.stage, []);
+    idsByStage.get(question.stage)?.push(question.id);
+  }
+  return profile.flowStages.map((stage) => ({
+    ...stage,
+    questionIds: [...new Set(idsByStage.get(stage.id) ?? [])]
+  }));
+}
+
+function postPaymentPacketCompletion(questions: PublicQuestion[]): NonNullable<PublicJurisdictionProfile["postPaymentPacketCompletion"]> {
+  const postpay = questions.filter((question) => !isPrepayQuestion(question));
+  return {
+    requiredPacketCompletionFields: postpay.filter((question) => question.lifecyclePhase === "postpay_packet_field"),
+    officialFormFields: postpay.filter((question) => question.lifecyclePhase === "postpay_official_form_field"),
+    customPleadingFields: postpay.filter((question) => question.lifecyclePhase === "postpay_custom_pleading_field"),
+    externalDocumentChecklist: postpay.filter((question) => question.lifecyclePhase === "postpay_external_document"),
+    filingReadinessFields: postpay.filter((question) => question.lifecyclePhase === "postpay_filing_readiness"),
+    serviceOrMailingFields: postpay.filter((question) => question.lifecyclePhase === "postpay_service_or_mailing"),
+    narrativeFields: postpay.filter((question) => question.lifecyclePhase === "postpay_narrative"),
+    optionalFields: postpay.filter((question) => question.lifecyclePhase === "optional_or_later" || question.lifecyclePhase === "prepay_soft_confidence")
+  };
 }
 
 const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
@@ -371,17 +501,22 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
 
 function withWilmaFactQuestions(profile: PublicJurisdictionProfile): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
-  const additions = WILMA_FACT_QUESTIONS.filter((question) => !existingIds.has(question.id));
-  if (additions.length === 0) return profile;
+  const additions = WILMA_FACT_QUESTIONS
+    .filter((question) => !existingIds.has(question.id))
+    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
+  if (additions.length === 0) {
+    return {
+      ...profile,
+      flowStages: normalizeFlowStages(profile, profile.questions),
+      postPaymentPacketCompletion: postPaymentPacketCompletion(profile.questions)
+    };
+  }
   const questions = [...profile.questions, ...additions];
   return {
     ...profile,
+    postPaymentPacketCompletion: postPaymentPacketCompletion(questions),
     questions,
-    flowStages: profile.flowStages.map((stage) => stage.id === "timing_and_completion"
-      ? { ...stage, questionIds: [...new Set([...(stage.questionIds ?? []), ...additions.filter((question) => question.stage === "timing_and_completion").map((question) => question.id)])] }
-      : stage.id === "state_specific_eligibility"
-        ? { ...stage, questionIds: [...new Set([...(stage.questionIds ?? []), ...additions.filter((question) => question.stage === "state_specific_eligibility").map((question) => question.id)])] }
-      : stage)
+    flowStages: normalizeFlowStages(profile, questions)
   };
 }
 
@@ -403,12 +538,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => ({
-        ...question,
-        options: normalizeQuestionOptions(question.options),
-        contextOnly: question.contextOnly === true,
-        doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
-      })),
+      questions: designerProfile.questions.map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "designer")),
       caseOutcomeOptions: designerProfile.caseOutcomeOptions,
       copyGuardrails: profile.copyGuardrails
     });
@@ -430,7 +560,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       questionIds: stage.questionIds?.filter((id) => questionIds.has(id)) ?? profile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
       screenType: stage.screenType
     })),
-    questions: profile.questions.map((question) => ({
+    questions: profile.questions.map((question) => normalizePublicQuestion({
       id: question.id,
       stage: question.stage,
       prompt: question.prompt,
@@ -439,9 +569,9 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       required: question.required,
       contextOnly: question.contextOnly === true,
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
-      options: normalizeQuestionOptions(question.options),
+      options: question.options,
       optionDisplay: question.optionDisplay
-    })),
+    }, profile.jurisdiction.code, "engine")),
     caseOutcomeOptions: profile.caseOutcomeOptions,
     copyGuardrails: profile.copyGuardrails
   });

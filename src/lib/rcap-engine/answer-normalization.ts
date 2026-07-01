@@ -51,6 +51,7 @@ export function requiredMissingPublicQuestionIds(publicProfile: PublicJurisdicti
   const publicIds = publicQuestionIdSet(publicProfile);
   return publicProfile.questions
     .filter((question) => publicIds.has(question.id))
+    .filter((question) => isPrepaymentQuestion(question))
     .filter((question) => question.required && question.contextOnly !== true)
     .filter((question) => !hasAnswer(answers[question.id]))
     .map((question) => question.id);
@@ -77,4 +78,9 @@ function publicQuestionIdSet(publicProfile: PublicJurisdictionProfile) {
     ...publicProfile.questions.map((question) => question.id),
     ...publicProfile.flowStages.flatMap((stage) => stage.questionIds)
   ]);
+}
+
+function isPrepaymentQuestion(question: { stage: string; lifecyclePhase?: string }) {
+  if (question.lifecyclePhase) return question.lifecyclePhase.startsWith("prepay_");
+  return !["record_readiness", "case_details", "packet_information"].includes(question.stage);
 }
