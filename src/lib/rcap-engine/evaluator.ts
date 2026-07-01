@@ -25,8 +25,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "CA:tool-1-dismissal-set-aside",
   "CA:tool-3-petition-based-felony-sealing",
   "CA:tool-4-arrest-record-sealing",
-  "CA:prop-64-currently-serving-petition-11361-8",
-  "CA:prop-64-completed-sentence-application-11361-8",
   "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
   "IL:adult-non-conviction-expungement",
   "IL:expungement-after-eligible-supervision-or-qualified-probation",
@@ -84,6 +82,8 @@ const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
 ]);
 
 const HARD_GATE_PENDING_ROUTES = new Set([
+  "CA:prop-64-currently-serving-petition-11361-8",
+  "CA:prop-64-completed-sentence-application-11361-8",
   "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
   "MD:eligible-conviction-expungement-under-crim-proc-10-110",
   "MD:cannabis-specific-expungement",
@@ -619,6 +619,7 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
   if (key === "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59") {
