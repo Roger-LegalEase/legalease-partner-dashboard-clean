@@ -773,6 +773,13 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Conn. Clean Slate erasure provisions; JD-CR-202 court petition",
+        "lawrence_review": "first_pass_ratified"
       }
     },
     {
@@ -883,7 +890,7 @@
     {
       "id": "absolute-pardon-resulting-in-erasure",
       "label": "Absolute pardon resulting in erasure",
-      "summary": "For a conviction outside Clean Slate, apply online 3 years or 5 years (felony) after disposition. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only. This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common 21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000 convictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the",
+      "summary": "For a conviction outside Clean Slate, apply online through the Board of Pardons and Paroles ePardon portal 3 years or 5 years (felony) after disposition. This is portal-assisted guidance, not a court filing packet; LegalEase may help organize supporting documents such as the Background Investigation Authorization and reference questionnaires for upload to ePardon. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only. This reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common 21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000 convictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the",
       "sourceRef": "section:359-371; source:overview; section:48-74; section:103-136; section:203-233; section:239-249; corpus-unit:29; corpus-unit:74",
       "sourceEvidenceRefs": [
         "section:359-371",
@@ -949,8 +956,11 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "pardon",
+      "filingRequired": false,
+      "packet_capable": false,
+      "court_filing_packet": false,
+      "support_document_prep_capable": true,
+      "routeType": "portal_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
         "Disposition / path Remedy Waiting period",
@@ -3235,34 +3245,12 @@
       {
         "pathwayId": "absolute-pardon-resulting-in-erasure",
         "pathwayLabel": "Absolute pardon resulting in erasure",
-        "mode": "official_form_overlay_or_source_form_set",
-        "formCandidates": [
-          {
-            "fileName": "Connecticut-JD-CR-202-Form.html",
-            "relativePath": "LegalEase Connecticut/Connecticut-JD-CR-202-Form.html",
-            "extension": ".html",
-            "kind": "official_form_or_packet",
-            "sha256": "4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec",
-            "sizeBytes": 17072
-          },
-          {
-            "fileName": "CR202.pdf",
-            "relativePath": "LegalEase Connecticut/CR202.pdf",
-            "extension": ".pdf",
-            "kind": "official_form_or_packet",
-            "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
-            "sizeBytes": 820630
-          },
-          {
-            "fileName": "petition-for-clean-slate-erasure.html",
-            "relativePath": "LegalEase Connecticut/petition-for-clean-slate-erasure.html",
-            "extension": ".html",
-            "kind": "official_form_or_packet",
-            "sha256": "d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a",
-            "sizeBytes": 54852
-          }
-        ],
-        "formMappingStatus": "source_candidate_identified",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "packet_capable": false,
+        "court_filing_packet": false,
+        "support_document_prep_capable": true,
         "sourceRuleRefs": [
           "section:359-371",
           "source:overview",
@@ -3284,13 +3272,11 @@
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [
-          "backend result is packet_ready or packet_ready_with_caution",
-          "every source-defined pathway fact is answered",
-          "all waiting and completion conditions are satisfied",
-          "no exclusion, ambiguity, or required-review flag remains",
-          "the selected form revision and filing location pass source-freshness checks"
+          "not applicable: Connecticut Absolute Pardon is portal-assisted guidance through the Board of Pardons and Paroles ePardon system, not a court filing packet"
         ],
         "noPacketWhen": [
+          "Connecticut Absolute Pardon route selected",
+          "Board of Pardons and Paroles ePardon portal application required",
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",
@@ -3656,7 +3642,7 @@
       "category": "pathway_detail",
       "startLine": 359,
       "endLine": 371,
-      "text": "For a conviction outside Clean Slate, apply online 3 years\n(misdemeanor) or 5 years (felony) after disposition. An\nAbsolute Pardon fully erases; a Provisional Pardon /\nCertificate of Employability gives employment relief only.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common\n21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000\nconvictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the\ncurrent text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given\nrecord, and the pardon process before relying on any rule here.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 8"
+      "text": "For a conviction outside Clean Slate, apply online through the BOPP ePardon portal 3 years\n(misdemeanor) or 5 years (felony) after disposition. This is portal-assisted guidance, not a court filing packet.\nLegalEase may help organize supporting documents, including the Background Investigation Authorization and reference questionnaires, for upload to ePardon. An\nAbsolute Pardon fully erases; a Provisional Pardon /\nCertificate of Employability gives employment relief only.\n\nThis reference is an internal training and retrieval aid for the Wilma assistant. It summarizes Connecticut statutes and common\n21-42) automates erasure of eligible post-2000 convictions but launched at scale only in late 2025 after years of delay, and pre-2000\nconvictions require petition JD-CR-202; Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the\ncurrent text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given\nrecord, and the pardon process before relying on any rule here.\n\nConnecticut Record Erasure — Agent Training Reference · LegalEase 8"
     }
   ],
   "frontendContract": {

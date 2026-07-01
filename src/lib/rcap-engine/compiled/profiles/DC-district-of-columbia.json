@@ -353,6 +353,39 @@
       "required": false,
       "source": "shared_filing_identity",
       "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
+    },
+    {
+      "id": "actual_innocence_basis",
+      "stage": "state_specific_eligibility",
+      "prompt": "For an actual-innocence motion, what facts show the offense did not occur or was not committed by you?",
+      "helperText": "A dismissal alone is not enough for this route. Wilma can help collect facts and documents, but cannot decide actual innocence.",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": true,
+      "options": [
+        "The offense did not occur",
+        "The offense was committed by someone else / wrong person",
+        "Only dismissed, with no actual-innocence facts",
+        "I am not sure"
+      ]
+    },
+    {
+      "id": "dc_offense_severity_group",
+      "stage": "state_specific_eligibility",
+      "prompt": "For a DC felony sealing motion, what Offense Severity Group does the record show?",
+      "helperText": "Packet/payment can open only if the offense is confirmed not to be in Offense Severity Group 1, 2, or 3.",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": true,
+      "options": [
+        "Not in Offense Severity Group 1, 2, or 3",
+        "Offense Severity Group 1",
+        "Offense Severity Group 2",
+        "Offense Severity Group 3",
+        "I am not sure"
+      ]
     }
   ],
   "caseOutcomeOptions": [
@@ -408,9 +441,9 @@
   ],
   "pathways": [
     {
-      "id": "automatic-expungement-under-d-c-code-16-802",
+      "id": "dc_auto_expungement_16_802",
       "label": "Automatic expungement under D.C. Code § 16-802",
-      "summary": "DC automatic expungement covers criminal records and court proceedings related only to citations, arrests, charges, or convictions for an offense that was later decriminalized, legalized, or held unconstitutional by the DC Court of Appeals or the U.S. Supreme Court. It also covers records related only to simple possession of any quantity of marijuana under 48-904.01(d)(1) before February 15, 2015, if the case reached final disposition and the prosecutor has not successfully moved to retain or contest the record. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\") The statute says eligible records are to be expunged by October…",
+      "summary": "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option. DC automatic expungement covers criminal records and court proceedings related only to citations, arrests, charges, or convictions for an offense that was later decriminalized, legalized, or held unconstitutional by the DC Court of Appeals or the U.S. Supreme Court. It also covers records related only to simple possession of any quantity of marijuana under 48-904.01(d)(1) before February 15, 2015, if the case reached final disposition and the prosecutor has not successfully moved to retain or contest the record. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\") The statute says eligible records are to be expunged by October…",
       "sourceRef": "section:35-47; section:15-26; pathways:15-26; corpus-unit:26",
       "sourceEvidenceRefs": [
         "section:35-47",
@@ -450,18 +483,12 @@
         "convicted_misdemeanor",
         "juvenile"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
-      "suggestedResultCode": "packet_ready_with_caution",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
+      "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years"
+        "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -482,9 +509,9 @@
       }
     },
     {
-      "id": "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
+      "id": "dc_actual_innocence_expungement_16_803",
       "label": "Actual-innocence expungement by motion under D.C. Code § 16-803",
-      "summary": "A person may file a written motion for expungement based on actual innocence if the case ended without conviction or acquittal, and the person proves by a preponderance of the evidence that the offense either did not occur or was not committed by the person. The motion may be filed at any time and must be served on the prosecutor. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\") The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not…",
+      "summary": "High-burden motion route. A dismissal alone does not qualify; the user must have facts/evidence that the offense did not occur or was not committed by them. A person may file a written motion for expungement based on actual innocence if the case ended without conviction or acquittal, and the person proves by a preponderance of the evidence that the offense either did not occur or was not committed by the person. The motion may be filed at any time and must be served on the prosecutor. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\") The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not…",
       "sourceRef": "section:48-68; section:15-26; pathways:15-26; corpus-unit:29; section:213-252; corpus-unit:32; corpus-unit:13; packet_logic:213-252",
       "sourceEvidenceRefs": [
         "section:48-68",
@@ -547,13 +574,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years"
+        "No ordinary waiting period; packet requires actual-innocence facts that the offense did not occur or was not committed by the person."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -572,12 +593,19 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "D.C. Code § 16-803",
+        "lawrence_review": "first_pass_ratified"
       }
     },
     {
-      "id": "automatic-sealing-under-d-c-code-16-805",
+      "id": "dc_auto_sealing_16_805",
       "label": "Automatic sealing under D.C. Code § 16-805",
-      "summary": "DC automatic sealing is written to cover: 1 Citations, arrests, or charges where the case ended without conviction or acquittal; and 2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") But automatic sealing is not available for listed categories, including intrafamily offenses, parental kidnapping, criminal abuse or financial exploitation of vulnerable adults/elderly persons, certain child neglect offenses, incest, misdemeanor sexual abuse, certain sex/obscenity/prostitution-related chapters, unexpired sex-offender-registration offenses,…",
+      "summary": "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option. DC automatic sealing is written to cover: 1 Citations, arrests, or charges where the case ended without conviction or acquittal; and 2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") But automatic sealing is not available for listed categories, including intrafamily offenses, parental kidnapping, criminal abuse or financial exploitation of vulnerable adults/elderly persons, certain child neglect offenses, incest, misdemeanor sexual abuse, certain sex/obscenity/prostitution-related chapters, unexpired sex-offender-registration offenses,…",
       "sourceRef": "section:69-82; pathways:15-26; section:15-26; corpus-unit:37",
       "sourceEvidenceRefs": [
         "section:69-82",
@@ -622,17 +650,10 @@
       ],
       "automatic": true,
       "filingRequired": false,
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years",
-        "Automatic sealing \u0014 16-805 DC automatic sealing is written to cover: 1 Citations, arrests, or charges where the case ended without conviction or acquittal; and 2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") But automatic sealing is not available for listed categories, including intrafamily offenses, parental kidnapping, criminal abuse or financial exploitation of vulnerable adults/elderly persons, certain child neglect offenses, incest, misdemeanor sexual abuse, certain sex/obscenity/prostitution-related chapters, unexpired sex-offender-registration offenses, dangerous crimes, crimes of violence, DUI, commercial-vehicle DUI, and operating while impaired. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") The statute says automatically sealed records should be…"
+        "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -653,8 +674,8 @@
       }
     },
     {
-      "id": "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-      "label": "Non-conviction sealing by motion under D.C. Code § 16-806",
+      "id": "dc_motion_seal_nonconviction_16_806",
+      "label": "Motion to seal non-conviction record under D.C. Code § 16-806",
       "summary": "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice. Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") possible_motion_sealing_non_conviction needs_interests_of_justice_showing temporary_law_verify_current_text_before_filing Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records,…",
       "sourceRef": "section:84-89; pathways:15-26; section:15-26; corpus-unit:15; corpus-unit:40",
       "sourceEvidenceRefs": [
@@ -689,114 +710,15 @@
         "record_type"
       ],
       "caseOutcomes": [
-        "acquitted",
-        "convicted_other",
-        "convicted_misdemeanor",
-        "juvenile"
-      ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
-      "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years"
-      ],
-      "exclusionRules": [
-        "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
-        "Effect of sealing After sealing, the record is removed from public view, and the person cannot be held guilty of perjury or false statement for failing to disclose the citation, arrest, charge, prosecution, disposition, or conviction in response to an inquiry. Public agencies must reply to public inquiries that no records are available. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-807\") But sealed records remain available in nonpublic form to the person or counsel; prosecutors, defense attorneys, law enforcement, corrections, pretrial, and supervision agencies for lawful purposes; certain licensing/employment entities where allowed; civil litigation related to the matter; and by court order for good cause. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-807\")",
-        "Effect of expungement Expungement restores the person to the status occupied before the citation, arrest, charge, or conviction, and the person cannot be treated as committing perjury or making a false statement for failing to disclose the record. Agencies must remove public references and respond to public inquiries that no records are available. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-804\") However, the statute allows the clerk, prosecutors, law enforcement, corrections, pretrial, and community supervision agencies to retain restricted nonpublic records, and those records may be accessed by the person/counsel, criminal justice actors for limited lawful purposes, civil litigation connected to the matter, or by court order for good cause. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-804\")",
-        "Automatic sealing - 16-805 DC automatic sealing is written to cover: 1 Citations, arrests, or charges where the case ended without conviction or acquittal; and 2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") But automatic sealing is not available for listed categories, including intrafamily offenses, parental kidnapping, criminal abuse or financial exploitation of vulnerable adults/elderly persons, certain child neglect offenses, incest, misdemeanor sexual abuse, certain sex/obscenity/prostitution-related chapters, unexpired sex-offender-registration offenses, dangerous crimes, crimes of violence, DUI, commercial-vehicle DUI, and operating while impaired. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\") Wilma status labels: possible_auto_sealing_non_conviction possible_auto_sealing_misdemeanor_10_years auto_sealing_excluded_offense auto_process_not_currently_operational_verify_dc_courts Wilma script: DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating.",
-        "Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible.",
-        "Effect of sealing After sealing, the record is removed from public view, and the person cannot be held guilty of perjury or false statement for failing to disclose the citation, arrest, charge, prosecution, disposition, or conviction in response to an inquiry.",
-        "Effect of expungement Expungement restores the person to the status occupied before the citation, arrest, charge, or conviction, and the person cannot be treated as committing perjury or making a false statement for failing to disclose the record.",
-        "Internal Wilma eligibility labels possible_auto_expungement_decriminalized_offense possible_auto_expungement_legalized_offense possible_auto_expungement_unconstitutional_offense possible_auto_expungement_marijuana_simple_possession_pre_2015_02_15 auto_process_not_currently_operational_verify_dc_courts prosecutor_retention_or_contest_possible possible_actual_innocence_expungement actual_innocence_offense_did_not_occur actual_innocence_wrong_person needs_actual_innocence_evidence not_automatic_acquittal_or_dismissal_no_presumption possible_auto_sealing_non_conviction possible_auto_sealing_misdemeanor_10_years auto_sealing_excluded_offense possible_motion_sealing_non_conviction possible_motion_sealing_misdemeanor_5_years possible_motion_sealing_felony_8_years not_eligible_osg_1_2_3_felony not_eligible_yet_waiting_period prosecutor_waiting_period_waiver_possible needs_interests_of_justice_showing needs_all_unsealed_unexpunged_history needs_prosecutor_service possible_fugitive_from_justice_sealing possible_incorrect_identity_record_correction possible_juvenile_sealing_two_years_after_discharge not_eligible_juvenile_later_conviction_or_adjudication not_eligible_juvenile_pending_case juvenile_later_felony_or_adjudication_nullifies_sealing 19."
-      ],
-      "frontendBranch": {
-        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
-        "missingFactsResult": "needs_more_info",
-        "unmetTimingResult": "not_yet",
-        "exclusionOrAmbiguityResult": "likely_not_eligible",
-        "matchedResult": "packet_ready_with_caution",
-        "paymentAllowed": true
-      }
-    },
-    {
-      "id": "fugitive-from-justice-sealing",
-      "label": "Fugitive-from-justice sealing",
-      "summary": "A DC fugitive-from-justice arrest may be sealed if the person was arrested in DC as a fugitive, waived extradition hearing and was released or detained under the statute, the fugitive case reached final disposition, the person appeared before the proper official in the other jurisdiction, and sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") Wilma status label:possible_fugitive_from_justice_sealing Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records Fugitive-from-justice sealing A DC…",
-      "sourceRef": "section:90-92; pathways:15-26; corpus-unit:42; section:291-326; corpus-unit:15; corpus-unit:140",
-      "sourceEvidenceRefs": [
-        "section:90-92",
-        "pathways:15-26",
-        "corpus-unit:42",
-        "section:291-326",
-        "corpus-unit:15",
-        "corpus-unit:140"
-      ],
-      "ruleClauses": [
-        "A DC fugitive-from-justice arrest may be sealed if the person was arrested in DC as a fugitive, waived extradition hearing and was released or detained under the statute, the fugitive case reached final disposition, the person appeared before the proper official in the other jurisdiction, and sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
-        "Wilma status label:possible_fugitive_from_justice_sealing",
-        "Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records",
-        "Fugitive-from-justice sealing A DC fugitive-from-justice arrest may be sealed if the person was arrested in DC as a fugitive, waived extradition hearing and was released or detained under the statute, the fugitive case reached final disposition, the person appeared before the proper official in the other jurisdiction, and sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") Wilma status label:possible_fugitive_from_justice_sealing C.",
-        "possible_auto_expungement_decriminalized_offense",
-        "possible_auto_expungement_legalized_offense",
-        "possible_auto_expungement_unconstitutional_offense",
-        "possible_auto_expungement_marijuana_simple_possession_pre_2015_02_15",
-        "auto_process_not_currently_operational_verify_dc_courts",
-        "prosecutor_retention_or_contest_possible",
-        "possible_actual_innocence_expungement",
-        "actual_innocence_offense_did_not_occur",
-        "needs_actual_innocence_evidence",
-        "not_automatic_acquittal_or_dismissal_no_presumption",
-        "possible_auto_sealing_non_conviction",
-        "possible_auto_sealing_misdemeanor_10_years",
-        "possible_motion_sealing_non_conviction",
-        "possible_motion_sealing_misdemeanor_5_years",
-        "possible_motion_sealing_felony_8_years",
-        "not_eligible_yet_waiting_period",
-        "prosecutor_waiting_period_waiver_possible",
-        "needs_interests_of_justice_showing",
-        "needs_all_unsealed_unexpunged_history",
-        "possible_fugitive_from_justice_sealing",
-        "possible_incorrect_identity_record_correction",
-        "possible_juvenile_sealing_two_years_after_discharge",
-        "not_eligible_juvenile_later_conviction_or_adjudication",
-        "not_eligible_juvenile_pending_case"
-      ],
-      "triggerFields": [
-        "case_outcome",
-        "residency_or_location",
-        "offense_level",
-        "offense_category",
-        "age_at_offense"
-      ],
-      "caseOutcomes": [
-        "convicted_other",
         "dismissed",
-        "acquitted",
-        "convicted_misdemeanor",
-        "convicted_felony",
-        "juvenile"
+        "acquitted"
       ],
       "automatic": false,
       "filingRequired": true,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "not_eligible_yet_waiting_period",
-        "prosecutor_waiting_period_waiver_possible"
+        "No ordinary waiting period for the motion route; packet still requires the § 16-806 motion facts and no exclusion/review flag."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -815,11 +737,18 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "D.C. Code § 16-806",
+        "lawrence_review": "first_pass_ratified"
       }
     },
     {
-      "id": "conviction-sealing-by-motion-under-d-c-code-16-806",
-      "label": "Conviction sealing by motion under D.C. Code § 16-806",
+      "id": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "label": "Motion to seal misdemeanor conviction after 5 years under D.C. Code § 16-806",
       "summary": "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice. Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") possible_motion_sealing_non_conviction needs_interests_of_justice_showing temporary_law_verify_current_text_before_filing For conviction records, 16-806 allows sealing by motion if:",
       "sourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
       "sourceEvidenceRefs": [
@@ -872,31 +801,14 @@
         "record_type"
       ],
       "caseOutcomes": [
-        "acquitted",
-        "convicted_other",
-        "diversion_or_deferred",
-        "convicted_misdemeanor",
-        "convicted_felony",
-        "juvenile"
+        "convicted_misdemeanor"
       ],
       "automatic": false,
       "filingRequired": true,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "For a misdemeanor, at least 5 years have passed since completion of sentence.",
-        "For a felony, at least 8 years have passed since completion of sentence.",
-        "The prosecutor may waive the conviction waiting periods in writing. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
-        "not_eligible_yet_waiting_period",
-        "prosecutor_waiting_period_waiver_possible",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years",
-        "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence."
+        "Misdemeanor conviction motion sealing under D.C. Code § 16-806: 5 years from completion of sentence."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -915,23 +827,46 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "D.C. Code § 16-806",
+        "lawrence_review": "first_pass_ratified"
       }
     },
     {
-      "id": "incorrect-identity-or-mistaken-arrest-record-correction",
-      "label": "Incorrect-identity or mistaken-arrest record correction",
-      "summary": "Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records Pathway Authority Best used for Automatic expungement D.C. Code 16-802 Decriminalized/legalized/unconstitutional offenses and old simple marijuana possession Expungement by motion D.C. Code 16-803 Actual innocence Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years",
-      "sourceRef": "pathways:15-26; section:15-26; section:291-326; corpus-unit:58; corpus-unit:15; corpus-unit:59; corpus-unit:140",
+      "id": "dc_motion_seal_felony_conviction_8yr_16_806",
+      "label": "Motion to seal felony conviction after 8 years under D.C. Code § 16-806",
+      "summary": "Felony conviction motion sealing under D.C. Code § 16-806. Packet/payment is gated unless the offense is confirmed not to be in Offense Severity Group 1, 2, or 3. The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice. Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") possible_motion_sealing_non_conviction needs_interests_of_justice_showing temporary_law_verify_current_text_before_filing For conviction records, 16-806 allows sealing by motion if:",
+      "sourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
       "sourceEvidenceRefs": [
+        "section:84-89",
+        "section:93-110",
         "pathways:15-26",
         "section:15-26",
-        "section:291-326",
-        "corpus-unit:58",
+        "corpus-unit:41",
+        "corpus-unit:43",
         "corpus-unit:15",
-        "corpus-unit:59",
-        "corpus-unit:140"
+        "corpus-unit:40"
       ],
       "ruleClauses": [
+        "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice. Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
+        "possible_motion_sealing_non_conviction",
+        "needs_interests_of_justice_showing",
+        "temporary_law_verify_current_text_before_filing",
+        "For conviction records, 16-806 allows sealing by motion if:",
+        "For a misdemeanor, at least 5 years have passed since completion of sentence.",
+        "For a felony, at least 8 years have passed since completion of sentence.",
+        "Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible.",
+        "The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
+        "means unconditional discharge from incarceration, commitment, probation, parole, or supervised release, whichever is latest. Nonpayment of fines, restitution, or other monetary assessments does not prevent sentence completion under the definition. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-801\")",
+        "The prosecutor may waive the conviction waiting periods in writing. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
+        "possible_motion_sealing_misdemeanor_5_years",
+        "possible_motion_sealing_felony_8_years",
+        "not_eligible_yet_waiting_period",
+        "prosecutor_waiting_period_waiver_possible",
         "Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records",
         "Pathway Authority Best used for",
         "Automatic expungement D.C. Code 16-802 Decriminalized/legalized/unconstitutional offenses and old simple marijuana possession",
@@ -940,55 +875,30 @@
         "Juvenile sealing D.C. Code 16-2335 Juvenile delinquency / Family Court records",
         "Important operational warning: DC\u0019s statutory automatic sealing/expungement provisions exist in the Code, but the DC Courts page currently says the automatic provisions in the Second Chance Amendment Act of 2022 are not yet in effect and that no cases are currently being automatically sealed or expunged. Wilma should therefore treat automatic relief as a statutory pathway to verify, not a process to promise. (",
         "\"https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records\")",
-        "possible_auto_expungement_decriminalized_offense",
-        "possible_auto_expungement_legalized_offense",
-        "possible_auto_expungement_unconstitutional_offense",
-        "possible_auto_expungement_marijuana_simple_possession_pre_2015_02_15",
-        "auto_process_not_currently_operational_verify_dc_courts",
-        "prosecutor_retention_or_contest_possible",
-        "possible_actual_innocence_expungement",
-        "actual_innocence_offense_did_not_occur",
-        "needs_actual_innocence_evidence",
-        "not_automatic_acquittal_or_dismissal_no_presumption",
-        "possible_auto_sealing_non_conviction",
-        "possible_auto_sealing_misdemeanor_10_years",
-        "possible_motion_sealing_non_conviction",
-        "possible_motion_sealing_misdemeanor_5_years",
-        "possible_motion_sealing_felony_8_years",
-        "not_eligible_yet_waiting_period",
-        "prosecutor_waiting_period_waiver_possible",
-        "needs_interests_of_justice_showing",
-        "needs_all_unsealed_unexpunged_history",
-        "possible_fugitive_from_justice_sealing"
+        "Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\") Wilma status labels: possible_motion_sealing_non_conviction needs_interests_of_justice_showing temporary_law_verify_current_text_before_filing B.",
+        "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence.",
+        "Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records Juvenile sealing D.C.",
+        "Non-conviction sealing by motion The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice."
       ],
       "triggerFields": [
         "case_outcome",
+        "disposition_date",
         "offense_level",
         "offense_category",
+        "sentence_completion_date",
+        "financial_obligations",
         "age_at_offense",
         "record_type"
       ],
       "caseOutcomes": [
-        "convicted_other",
-        "dismissed",
-        "acquitted",
-        "convicted_misdemeanor",
-        "juvenile"
+        "convicted_felony"
       ],
       "automatic": false,
       "filingRequired": true,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
-        "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
-        "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
-        "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
-        "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
-        "Automatic sealing D.C. Code 16-805 Non-convictions and eligible misdemeanor convictions after 10 years",
-        "not_eligible_yet_waiting_period",
-        "prosecutor_waiting_period_waiver_possible"
+        "Felony conviction motion sealing under D.C. Code § 16-806: 8 years from completion of sentence; unavailable for Offense Severity Group 1, 2, or 3."
       ],
       "exclusionRules": [
         "Conviction sealing by motion For conviction records, 16-806 allows sealing by motion if: For a misdemeanor, at least 5 years have passed since completion of sentence. For a felony, at least 8 years have passed since completion of sentence. Offense Severity Group 1, 2, or 3 felonies on the DC Sentencing Commission Master Grid are not eligible. The person proves by a preponderance of the evidence that sealing is in the interests of justice. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")",
@@ -1007,12 +917,19 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "D.C. Code § 16-806",
+        "lawrence_review": "first_pass_ratified"
       }
     },
     {
-      "id": "juvenile-record-sealing-under-d-c-code-16-2335",
-      "label": "Juvenile-record sealing under D.C. Code § 16-2335",
-      "summary": "DC juvenile records may be sealed on motion by the person, or on the Family Division\u0019s own motion, if: The person has reached majority if the case involved neglect; or Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and The person has not later been convicted of a crime or adjudicated delinquent or in need of supervision; and No proceeding is pending seeking such conviction or adjudication. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-2335\")",
+      "id": "dc_juvenile_sealing_16_2335",
+      "label": "Juvenile sealing under D.C. Code § 16-2335",
+      "summary": "Guidance-only in the adult flow. Family Court juvenile packet generation is a future build and is not part of the adult Criminal Division packet. DC juvenile records may be sealed on motion by the person, or on the Family Division\u0019s own motion, if: The person has reached majority if the case involved neglect; or Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and The person has not later been convicted of a crime or adjudicated delinquent or in need of supervision; and No proceeding is pending seeking such conviction or adjudication. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-2335\")",
       "sourceRef": "section:148-161; corpus-unit:64",
       "sourceEvidenceRefs": [
         "section:148-161",
@@ -1044,10 +961,10 @@
         "convicted_other",
         "juvenile"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "juvenile",
-      "suggestedResultCode": "packet_ready_with_caution",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "juvenile_guidance",
+      "suggestedResultCode": "guidance_only",
       "waitingRules": [
         "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
         "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
@@ -1095,10 +1012,10 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1118,10 +1035,10 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_actual_innocence_expungement_16_803",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1142,10 +1059,8 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "automatic-expungement-under-d-c-code-16-802",
-        "automatic-sealing-under-d-c-code-16-805",
-        "fugitive-from-justice-sealing"
+        "dc_auto_expungement_16_802",
+        "dc_auto_sealing_16_805"
       ]
     },
     {
@@ -1174,10 +1089,9 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1210,7 +1124,7 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "automatic-expungement-under-d-c-code-16-802"
+        "dc_auto_expungement_16_802"
       ]
     },
     {
@@ -1228,10 +1142,10 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "automatic-expungement-under-d-c-code-16-802",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_actual_innocence_expungement_16_803",
+        "dc_juvenile_sealing_16_2335",
+        "dc_auto_expungement_16_802",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1249,9 +1163,9 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -1291,10 +1205,9 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_auto_sealing_16_805",
+        "dc_juvenile_sealing_16_2335",
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1347,10 +1260,9 @@
       },
       "sourceRef": "overview:6-14",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "fugitive-from-justice-sealing",
-        "conviction-sealing-by-motion-under-d-c-code-16-806",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_auto_sealing_16_805",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1368,10 +1280,9 @@
       },
       "sourceRef": "overview:6-14",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "fugitive-from-justice-sealing",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_actual_innocence_expungement_16_803",
+        "dc_juvenile_sealing_16_2335",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1389,10 +1300,10 @@
       },
       "sourceRef": "overview:6-14",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "automatic-sealing-under-d-c-code-16-805",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_actual_innocence_expungement_16_803",
+        "dc_auto_sealing_16_805",
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1410,10 +1321,9 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_actual_innocence_expungement_16_803",
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -1435,10 +1345,8 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "fugitive-from-justice-sealing",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1462,7 +1370,7 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -1482,10 +1390,10 @@
       },
       "sourceRef": "pathways:15-26",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_juvenile_sealing_16_2335",
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1503,8 +1411,7 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1522,10 +1429,9 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_actual_innocence_expungement_16_803",
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -1543,8 +1449,7 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1566,8 +1471,8 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1585,10 +1490,8 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "fugitive-from-justice-sealing",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1611,10 +1514,10 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "automatic-sealing-under-d-c-code-16-805",
-        "automatic-expungement-under-d-c-code-16-802",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_auto_sealing_16_805",
+        "dc_auto_expungement_16_802",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1637,10 +1540,8 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "fugitive-from-justice-sealing",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1662,7 +1563,7 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805"
+        "dc_auto_sealing_16_805"
       ]
     },
     {
@@ -1700,10 +1601,8 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "fugitive-from-justice-sealing"
+        "dc_juvenile_sealing_16_2335",
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
@@ -1725,10 +1624,10 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "conviction-sealing-by-motion-under-d-c-code-16-806",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_juvenile_sealing_16_2335",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1746,7 +1645,7 @@
       },
       "sourceRef": "packet_logic:213-252",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -1764,8 +1663,8 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
@@ -1783,8 +1682,7 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1808,8 +1706,8 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_juvenile_sealing_16_2335",
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1827,9 +1725,9 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "automatic-expungement-under-d-c-code-16-802",
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_juvenile_sealing_16_2335",
+        "dc_auto_expungement_16_802",
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1855,10 +1753,10 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "conviction-sealing-by-motion-under-d-c-code-16-806",
-        "automatic-sealing-under-d-c-code-16-805"
+        "dc_juvenile_sealing_16_2335",
+        "dc_motion_seal_nonconviction_16_806",
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+        "dc_auto_sealing_16_805"
       ]
     },
     {
@@ -1880,8 +1778,7 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
-        "incorrect-identity-or-mistaken-arrest-record-correction"
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
@@ -1906,17 +1803,16 @@
       },
       "sourceRef": "referral_triggers:253-290",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805",
-        "juvenile-record-sealing-under-d-c-code-16-2335",
-        "incorrect-identity-or-mistaken-arrest-record-correction"
+        "dc_auto_sealing_16_805",
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
-      "id": "route-automatic-expungement-under-d-c-code-16-802",
+      "id": "route-dc_auto_expungement_16_802",
       "priority": 80,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "automatic-expungement-under-d-c-code-16-802",
+        "backendPathwayId": "dc_auto_expungement_16_802",
         "requiredFields": [
           "case_outcome",
           "offense_category",
@@ -1939,21 +1835,21 @@
         "sourceConditionText": "Automatic expungement under D.C. Code § 16-802"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "render_jurisdiction_pathway_result",
-        "paymentAllowed": true
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout",
+        "paymentAllowed": false
       },
       "sourceRef": "section:35-47; section:15-26; pathways:15-26; corpus-unit:26",
       "candidatePathwayIds": [
-        "automatic-expungement-under-d-c-code-16-802"
+        "dc_auto_expungement_16_802"
       ]
     },
     {
-      "id": "route-actual-innocence-expungement-by-motion-under-d-c-code-16-803",
+      "id": "route-dc_actual_innocence_expungement_16_803",
       "priority": 81,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
+        "backendPathwayId": "dc_actual_innocence_expungement_16_803",
         "requiredFields": [
           "case_outcome",
           "disposition_date",
@@ -1972,12 +1868,14 @@
         ],
         "caseOutcomes": [
           "dismissed",
-          "acquitted",
-          "convicted_other",
-          "convicted_misdemeanor",
-          "juvenile"
+          "acquitted"
         ],
-        "sourceConditionText": "Actual-innocence expungement by motion under D.C. Code § 16-803"
+        "sourceConditionText": "Actual-innocence expungement by motion under D.C. Code § 16-803",
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "no ordinary waiting period"
+        }
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1986,15 +1884,15 @@
       },
       "sourceRef": "section:48-68; section:15-26; pathways:15-26; corpus-unit:29; section:213-252; corpus-unit:32; corpus-unit:13; packet_logic:213-252",
       "candidatePathwayIds": [
-        "actual-innocence-expungement-by-motion-under-d-c-code-16-803"
+        "dc_actual_innocence_expungement_16_803"
       ]
     },
     {
-      "id": "route-automatic-sealing-under-d-c-code-16-805",
+      "id": "route-dc_auto_sealing_16_805",
       "priority": 82,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "automatic-sealing-under-d-c-code-16-805",
+        "backendPathwayId": "dc_auto_sealing_16_805",
         "requiredFields": [
           "case_outcome",
           "offense_level",
@@ -2023,20 +1921,20 @@
       },
       "then": {
         "suggestedResultCode": "guidance_only",
-        "frontendAction": "render_jurisdiction_pathway_result",
+        "frontendAction": "save_state_guidance_no_checkout",
         "paymentAllowed": false
       },
       "sourceRef": "section:69-82; pathways:15-26; section:15-26; corpus-unit:37",
       "candidatePathwayIds": [
-        "automatic-sealing-under-d-c-code-16-805"
+        "dc_auto_sealing_16_805"
       ]
     },
     {
-      "id": "route-non-conviction-sealing-by-motion-under-d-c-code-16-806",
+      "id": "route-dc_motion_seal_nonconviction_16_806",
       "priority": 83,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "non-conviction-sealing-by-motion-under-d-c-code-16-806",
+        "backendPathwayId": "dc_motion_seal_nonconviction_16_806",
         "requiredFields": [
           "case_outcome",
           "disposition_date",
@@ -2054,12 +1952,15 @@
           "record_type"
         ],
         "caseOutcomes": [
-          "acquitted",
-          "convicted_other",
-          "convicted_misdemeanor",
-          "juvenile"
+          "dismissed",
+          "acquitted"
         ],
-        "sourceConditionText": "Non-conviction sealing by motion under D.C. Code § 16-806"
+        "sourceConditionText": "Motion to seal non-conviction record under D.C. Code § 16-806",
+        "duration": {
+          "value": 0,
+          "unit": "days",
+          "raw": "no ordinary waiting period"
+        }
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2068,55 +1969,15 @@
       },
       "sourceRef": "section:84-89; pathways:15-26; section:15-26; corpus-unit:15; corpus-unit:40",
       "candidatePathwayIds": [
-        "non-conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_nonconviction_16_806"
       ]
     },
     {
-      "id": "route-fugitive-from-justice-sealing",
-      "priority": 84,
-      "stage": "evaluation",
-      "when": {
-        "backendPathwayId": "fugitive-from-justice-sealing",
-        "requiredFields": [
-          "case_outcome",
-          "residency_or_location",
-          "offense_level",
-          "offense_category",
-          "age_at_offense"
-        ],
-        "fieldsReferenced": [
-          "case_outcome",
-          "residency_or_location",
-          "offense_level",
-          "offense_category",
-          "age_at_offense"
-        ],
-        "caseOutcomes": [
-          "convicted_other",
-          "dismissed",
-          "acquitted",
-          "convicted_misdemeanor",
-          "convicted_felony",
-          "juvenile"
-        ],
-        "sourceConditionText": "Fugitive-from-justice sealing"
-      },
-      "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "render_jurisdiction_pathway_result",
-        "paymentAllowed": true
-      },
-      "sourceRef": "section:90-92; pathways:15-26; corpus-unit:42; section:291-326; corpus-unit:15; corpus-unit:140",
-      "candidatePathwayIds": [
-        "fugitive-from-justice-sealing"
-      ]
-    },
-    {
-      "id": "route-conviction-sealing-by-motion-under-d-c-code-16-806",
+      "id": "route-dc_motion_seal_misdemeanor_conviction_5yr_16_806",
       "priority": 85,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "conviction-sealing-by-motion-under-d-c-code-16-806",
+        "backendPathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
         "requiredFields": [
           "case_outcome",
           "disposition_date",
@@ -2138,14 +1999,14 @@
           "record_type"
         ],
         "caseOutcomes": [
-          "acquitted",
-          "convicted_other",
-          "diversion_or_deferred",
-          "convicted_misdemeanor",
-          "convicted_felony",
-          "juvenile"
+          "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Conviction sealing by motion under D.C. Code § 16-806"
+        "sourceConditionText": "Motion to seal misdemeanor conviction after 5 years under D.C. Code § 16-806",
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        }
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2154,54 +2015,15 @@
       },
       "sourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
       "candidatePathwayIds": [
-        "conviction-sealing-by-motion-under-d-c-code-16-806"
+        "dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ]
     },
     {
-      "id": "route-incorrect-identity-or-mistaken-arrest-record-correction",
-      "priority": 86,
-      "stage": "evaluation",
-      "when": {
-        "backendPathwayId": "incorrect-identity-or-mistaken-arrest-record-correction",
-        "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "record_type"
-        ],
-        "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "record_type"
-        ],
-        "caseOutcomes": [
-          "convicted_other",
-          "dismissed",
-          "acquitted",
-          "convicted_misdemeanor",
-          "juvenile"
-        ],
-        "sourceConditionText": "Incorrect-identity or mistaken-arrest record correction"
-      },
-      "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "render_jurisdiction_pathway_result",
-        "paymentAllowed": true
-      },
-      "sourceRef": "pathways:15-26; section:15-26; section:291-326; corpus-unit:58; corpus-unit:15; corpus-unit:59; corpus-unit:140",
-      "candidatePathwayIds": [
-        "incorrect-identity-or-mistaken-arrest-record-correction"
-      ]
-    },
-    {
-      "id": "route-juvenile-record-sealing-under-d-c-code-16-2335",
+      "id": "route-dc_juvenile_sealing_16_2335",
       "priority": 87,
       "stage": "evaluation",
       "when": {
-        "backendPathwayId": "juvenile-record-sealing-under-d-c-code-16-2335",
+        "backendPathwayId": "dc_juvenile_sealing_16_2335",
         "requiredFields": [
           "case_outcome",
           "offense_level",
@@ -2221,16 +2043,16 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile-record sealing under D.C. Code § 16-2335"
+        "sourceConditionText": "Juvenile sealing under D.C. Code § 16-2335"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "render_jurisdiction_pathway_result",
-        "paymentAllowed": true
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout",
+        "paymentAllowed": false
       },
       "sourceRef": "section:148-161; corpus-unit:64",
       "candidatePathwayIds": [
-        "juvenile-record-sealing-under-d-c-code-16-2335"
+        "dc_juvenile_sealing_16_2335"
       ]
     },
     {
@@ -2250,6 +2072,52 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-dc_motion_seal_felony_conviction_8yr_16_806",
+      "priority": 86,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
+        "requiredFields": [
+          "case_outcome",
+          "disposition_date",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "age_at_offense",
+          "record_type"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "disposition_date",
+          "offense_level",
+          "offense_category",
+          "sentence_completion_date",
+          "financial_obligations",
+          "age_at_offense",
+          "record_type"
+        ],
+        "caseOutcomes": [
+          "convicted_felony"
+        ],
+        "sourceConditionText": "Motion to seal felony conviction after 8 years under D.C. Code § 16-806",
+        "duration": {
+          "value": 8,
+          "unit": "years",
+          "raw": "8 years"
+        }
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
+      "candidatePathwayIds": [
+        "dc_motion_seal_felony_conviction_8yr_16_806"
+      ]
     }
   ],
   "waitingPeriodRules": [
@@ -2335,6 +2203,35 @@
       "fieldsReferenced": [
         "sentence_completion_date",
         "charge"
+      ]
+    },
+    {
+      "id": "wait-dc-806-misdemeanor-5yr",
+      "ruleText": "D.C. Code § 16-806 misdemeanor conviction sealing motion: 5 years from sentence completion.",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "sentence completion",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "wait-dc-806-felony-8yr",
+      "ruleText": "D.C. Code § 16-806 felony conviction sealing motion: 8 years from sentence completion; offense must not be in Offense Severity Group 1, 2, or 3.",
+      "duration": {
+        "value": 8,
+        "unit": "years",
+        "raw": "8 years"
+      },
+      "anchor": "sentence completion",
+      "fieldsReferenced": [
+        "case_outcome",
+        "sentence_completion_date",
+        "dc_offense_severity_group"
       ]
     }
   ],
@@ -2430,11 +2327,11 @@
     "genericLegalFallbackAllowed": false,
     "pathways": [
       {
-        "pathwayId": "automatic-expungement-under-d-c-code-16-802",
+        "pathwayId": "dc_auto_expungement_16_802",
         "pathwayLabel": "Automatic expungement under D.C. Code § 16-802",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
-        "formMappingStatus": "custom_or_manual_mapping_required",
+        "formMappingStatus": "not_required",
         "sourceRuleRefs": [
           "section:35-47",
           "section:15-26",
@@ -2450,6 +2347,7 @@
           "the selected form revision and filing location pass source-freshness checks"
         ],
         "noPacketWhen": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option.",
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",
@@ -2459,7 +2357,7 @@
         ]
       },
       {
-        "pathwayId": "actual-innocence-expungement-by-motion-under-d-c-code-16-803",
+        "pathwayId": "dc_actual_innocence_expungement_16_803",
         "pathwayLabel": "Actual-innocence expungement by motion under D.C. Code § 16-803",
         "mode": "state_specific_custom_packet_from_source_rules",
         "formCandidates": [],
@@ -2493,7 +2391,7 @@
         ]
       },
       {
-        "pathwayId": "automatic-sealing-under-d-c-code-16-805",
+        "pathwayId": "dc_auto_sealing_16_805",
         "pathwayLabel": "Automatic sealing under D.C. Code § 16-805",
         "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
@@ -2513,6 +2411,7 @@
           "the selected form revision and filing location pass source-freshness checks"
         ],
         "noPacketWhen": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option.",
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",
@@ -2522,8 +2421,8 @@
         ]
       },
       {
-        "pathwayId": "non-conviction-sealing-by-motion-under-d-c-code-16-806",
-        "pathwayLabel": "Non-conviction sealing by motion under D.C. Code § 16-806",
+        "pathwayId": "dc_motion_seal_nonconviction_16_806",
+        "pathwayLabel": "Motion to seal non-conviction record under D.C. Code § 16-806",
         "mode": "state_specific_custom_packet_from_source_rules",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
@@ -2552,39 +2451,8 @@
         ]
       },
       {
-        "pathwayId": "fugitive-from-justice-sealing",
-        "pathwayLabel": "Fugitive-from-justice sealing",
-        "mode": "state_specific_custom_packet_from_source_rules",
-        "formCandidates": [],
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceRuleRefs": [
-          "section:90-92",
-          "pathways:15-26",
-          "corpus-unit:42",
-          "section:291-326",
-          "corpus-unit:15",
-          "corpus-unit:140"
-        ],
-        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
-        "packetReadyWhen": [
-          "backend result is packet_ready or packet_ready_with_caution",
-          "every source-defined pathway fact is answered",
-          "all waiting and completion conditions are satisfied",
-          "no exclusion, ambiguity, or required-review flag remains",
-          "the selected form revision and filing location pass source-freshness checks"
-        ],
-        "noPacketWhen": [
-          "automatic or no-filing route",
-          "needs_more_info",
-          "not_yet",
-          "needs_review",
-          "likely_not_eligible",
-          "hard_stop"
-        ]
-      },
-      {
-        "pathwayId": "conviction-sealing-by-motion-under-d-c-code-16-806",
-        "pathwayLabel": "Conviction sealing by motion under D.C. Code § 16-806",
+        "pathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+        "pathwayLabel": "Motion to seal misdemeanor conviction after 5 years under D.C. Code § 16-806",
         "mode": "state_specific_custom_packet_from_source_rules",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
@@ -2616,19 +2484,20 @@
         ]
       },
       {
-        "pathwayId": "incorrect-identity-or-mistaken-arrest-record-correction",
-        "pathwayLabel": "Incorrect-identity or mistaken-arrest record correction",
+        "pathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
+        "pathwayLabel": "Motion to seal felony conviction after 8 years under D.C. Code § 16-806",
         "mode": "state_specific_custom_packet_from_source_rules",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
+          "section:84-89",
+          "section:93-110",
           "pathways:15-26",
           "section:15-26",
-          "section:291-326",
-          "corpus-unit:58",
+          "corpus-unit:41",
+          "corpus-unit:43",
           "corpus-unit:15",
-          "corpus-unit:59",
-          "corpus-unit:140"
+          "corpus-unit:40"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [
@@ -2636,7 +2505,8 @@
           "every source-defined pathway fact is answered",
           "all waiting and completion conditions are satisfied",
           "no exclusion, ambiguity, or required-review flag remains",
-          "the selected form revision and filing location pass source-freshness checks"
+          "the selected form revision and filing location pass source-freshness checks",
+          "offense severity is confirmed not to be Offense Severity Group 1, 2, or 3"
         ],
         "noPacketWhen": [
           "automatic or no-filing route",
@@ -2648,11 +2518,11 @@
         ]
       },
       {
-        "pathwayId": "juvenile-record-sealing-under-d-c-code-16-2335",
-        "pathwayLabel": "Juvenile-record sealing under D.C. Code § 16-2335",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "pathwayId": "dc_juvenile_sealing_16_2335",
+        "pathwayLabel": "Juvenile sealing under D.C. Code § 16-2335",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
-        "formMappingStatus": "custom_or_manual_mapping_required",
+        "formMappingStatus": "not_required",
         "sourceRuleRefs": [
           "section:148-161",
           "corpus-unit:64"
@@ -2666,6 +2536,7 @@
           "the selected form revision and filing location pass source-freshness checks"
         ],
         "noPacketWhen": [
+          "Juvenile sealing is guidance-only in the adult flow; no adult Criminal Division packet is generated.",
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",
@@ -2689,7 +2560,9 @@
       "pathway_id",
       "record_type",
       "residency_or_location",
-      "sentence_completion_date"
+      "sentence_completion_date",
+      "actual_innocence_basis",
+      "dc_offense_severity_group"
     ],
     "sourceFormStatements": [],
     "attachments": [
@@ -2975,14 +2848,17 @@
     "failures": [],
     "warnings": [],
     "counts": {
-      "pathways": 8,
-      "questions": 13,
-      "decisionRules": 47,
-      "waitingRules": 6,
+      "pathways": 7,
+      "questions": 15,
+      "decisionRules": 46,
+      "waitingRules": 8,
       "exclusions": 8,
       "sourceFiles": 3,
       "officialForms": 1
     },
-    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+    "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production",
+    "dcTemporaryAmendmentsExpire": "2026-09-11",
+    "reverifyBefore": "2026-09-01",
+    "lawrenceRulingApplied": "automatic DC routes guidance-only/not operational; §16-806 motion routes packet-capable with felony severity gate; §16-803 actual-innocence gate; juvenile guidance-only in adult flow"
   }
 }

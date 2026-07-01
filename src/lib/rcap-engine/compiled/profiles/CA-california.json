@@ -505,7 +505,14 @@
       },
       "sourceEvidenceRefs": [
         "pathways:71-114"
-      ]
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Cal. Penal Code § 1203.4 et seq.",
+        "lawrence_review": "first_pass_ratified"
+      }
     },
     {
       "id": "tool-2-automatic-relief",
@@ -582,7 +589,14 @@
       },
       "sourceEvidenceRefs": [
         "pathways:71-114"
-      ]
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Cal. Penal Code § 1203.49 / SB 731 framework",
+        "lawrence_review": "first_pass_ratified"
+      }
     },
     {
       "id": "tool-4-arrest-record-sealing",
@@ -618,7 +632,14 @@
       },
       "sourceEvidenceRefs": [
         "pathways:71-114"
-      ]
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Cal. Penal Code §§ 851.91, 851.8",
+        "lawrence_review": "first_pass_ratified"
+      }
     },
     {
       "id": "tool-5-proposition-64-marijuana-relief",
@@ -660,7 +681,108 @@
       },
       "sourceEvidenceRefs": [
         "pathways:71-114"
-      ]
+      ],
+      "lawrenceRatification": {
+        "status": "hold_guidance",
+        "packet_capable": false,
+        "payment_allowed_when_engine_confirms": false,
+        "legal_basis": "California Health & Safety Code §§ 11361.8, 11361.9; compiled profile marks this route automatic/no-filing pending Lawrence clarification on petition branch",
+        "lawrence_review": "classification_question_hold_guidance"
+      }
+    },
+    {
+      "id": "prop-64-currently-serving-petition-11361-8",
+      "label": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
+      "summary": "User-filed court petition under Health & Safety Code § 11361.8 for a person currently serving a sentence for a qualifying marijuana conviction that would be no offense or a lesser offense under Proposition 64/AUMA. Court may consider public-safety risk, so eligibility to file is packet-ready with caution.",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "Health & Safety Code § 11361.8 currently-serving petition.",
+        "Qualifying marijuana conviction.",
+        "Offense would be no crime or a lesser offense under Proposition 64/AUMA.",
+        "Court may consider public-safety risk."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "ca_prop64_branch",
+        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_lesser_or_no_offense"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready_with_caution",
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched the HSC § 11361.8 currently-serving petition branch after evaluating source facts.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "needs_review",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Cal. Health & Safety Code § 11361.8 currently-serving petition; Lawrence ruling pending final confirmation of built gate",
+        "lawrence_review": "built_gate_pending_lawrence_confirmation"
+      }
+    },
+    {
+      "id": "prop-64-completed-sentence-application-11361-8",
+      "label": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+      "summary": "User-filed court application under Health & Safety Code § 11361.8 for a person who completed sentence on a qualifying marijuana conviction that would be no offense or a lesser offense under Proposition 64/AUMA and requests dismissal/sealing or redesignation. The statute presumes eligibility unless rebutted by clear and convincing evidence.",
+      "sourceRef": "pathways:71-114",
+      "ruleClauses": [
+        "Health & Safety Code § 11361.8 completed-sentence application.",
+        "Qualifying marijuana conviction.",
+        "Offense would be no crime or a lesser offense under Proposition 64/AUMA.",
+        "Dismissal/sealing or redesignation requested.",
+        "Eligibility presumed unless rebutted by clear and convincing evidence."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_category",
+        "ca_prop64_branch",
+        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_lesser_or_no_offense",
+        "ca_prop64_relief_requested"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "suggestedResultCode": "packet_ready",
+      "routeType": "court_filing",
+      "frontendBranch": {
+        "entryCondition": "Backend matched the HSC § 11361.8 completed-sentence application branch after evaluating source facts.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "needs_review",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready",
+        "paymentAllowed": true
+      },
+      "sourceEvidenceRefs": [
+        "pathways:71-114"
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Cal. Health & Safety Code § 11361.8 completed-sentence application; Lawrence ruling pending final confirmation of built gate",
+        "lawrence_review": "built_gate_pending_lawrence_confirmation"
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -2687,6 +2809,86 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-prop-64-currently-serving-petition-11361-8",
+      "priority": 85,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "prop-64-currently-serving-petition-11361-8",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "HSC § 11361.8 currently-serving marijuana petition"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "prop-64-currently-serving-petition-11361-8"
+      ]
+    },
+    {
+      "id": "route-prop-64-completed-sentence-application-11361-8",
+      "priority": 86,
+      "stage": "evaluation",
+      "when": {
+        "backendPathwayId": "prop-64-completed-sentence-application-11361-8",
+        "requiredFields": [
+          "case_outcome",
+          "offense_category",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense",
+          "ca_prop64_relief_requested"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense",
+          "ca_prop64_relief_requested"
+        ],
+        "caseOutcomes": [
+          "convicted_misdemeanor",
+          "convicted_felony",
+          "convicted_other"
+        ],
+        "sourceConditionText": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready",
+        "frontendAction": "render_jurisdiction_pathway_result",
+        "paymentAllowed": true
+      },
+      "sourceRef": "pathways:71-114",
+      "candidatePathwayIds": [
+        "prop-64-completed-sentence-application-11361-8"
+      ]
     }
   ],
   "waitingPeriodRules": [
@@ -3202,6 +3404,79 @@
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "prop-64-currently-serving-petition-11361-8",
+        "pathwayLabel": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "requiredInputIds": [
+          "case_outcome",
+          "charge",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense"
+        ],
+        "selectionRule": "Use only HSC § 11361.8 Prop 64 petition/application facts. Do not substitute automatic relief, PC 1203.4, SB 731, or generic California waiting rules.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "qualifying marijuana conviction is confirmed",
+          "offense would be no offense or a lesser offense under Prop 64/AUMA",
+          "branch is confirmed as currently-serving petition or completed-sentence application",
+          "no exclusion, ambiguity, or required-review flag remains"
+        ],
+        "noPacketWhen": [
+          "automatic marijuana relief only",
+          "non-marijuana offense",
+          "offense would not be no offense or lesser under Prop 64",
+          "branch not confirmed",
+          "needs_more_info",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "prop-64-completed-sentence-application-11361-8",
+        "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "pathways:71-114"
+        ],
+        "requiredInputIds": [
+          "case_outcome",
+          "charge",
+          "court",
+          "ca_prop64_branch",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense",
+          "ca_prop64_relief_requested"
+        ],
+        "selectionRule": "Use only HSC § 11361.8 Prop 64 petition/application facts. Do not substitute automatic relief, PC 1203.4, SB 731, or generic California waiting rules.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "qualifying marijuana conviction is confirmed",
+          "offense would be no offense or a lesser offense under Prop 64/AUMA",
+          "branch is confirmed as currently-serving petition or completed-sentence application",
+          "no exclusion, ambiguity, or required-review flag remains"
+        ],
+        "noPacketWhen": [
+          "automatic marijuana relief only",
+          "non-marijuana offense",
+          "offense would not be no offense or lesser under Prop 64",
+          "branch not confirmed",
+          "needs_more_info",
           "needs_review",
           "likely_not_eligible",
           "hard_stop"

@@ -28,6 +28,7 @@ const designerAll51 = readJson(path.join(compiledRoot, "all51.json"));
 const designerIllinois = readJson(path.join(compiledRoot, "IL.json"));
 const evaluatorSource = fs.readFileSync(path.join(root, "src/lib/rcap-engine/evaluator.ts"), "utf8");
 const answerNormalizationSource = fs.readFileSync(path.join(root, "src/lib/rcap-engine/answer-normalization.ts"), "utf8");
+const packageSource = fs.readFileSync(path.join(root, "package.json"), "utf8");
 
 assert(profileFiles.length === 51, `Expected 51 compiled profiles, found ${profileFiles.length}.`);
 assert(packetSummary.jurisdictions === 51, "Packet summary must report 51 jurisdictions.");
@@ -35,6 +36,14 @@ assert(finalValidation.passed === true, "Source packet final validation must be 
 assert(finalValidation.metrics?.profiles === 51, "Final validation must cover 51 profiles.");
 assert(evaluatorSource.includes("projectPublicProfile") && evaluatorSource.includes("requiredMissingPublicQuestionIds") && evaluatorSource.includes("validatePublicAnswerQuestionIds"), "Evaluator must validate and require only projected public profile question ids.");
 assert(answerNormalizationSource.includes("requiredMissingPublicQuestionIds") && answerNormalizationSource.includes("validatePublicAnswerQuestionIds"), "Answer normalization must expose public profile gates.");
+assert(!evaluatorSource.includes("addYears(disposition, 3"), "Evaluator must not use the old hard-coded 3-year waiting-period gate.");
+assert(!evaluatorSource.includes("return profile.pathways[0]"), "Evaluator must not silently fall back to the first pathway.");
+assert(evaluatorSource.includes("orderedDecisionRules"), "Evaluator must apply compiled orderedDecisionRules.");
+assert(evaluatorSource.includes("route.deterministic") && evaluatorSource.includes("isPacketPlanFulfillmentReady(plan)"), "Payment must require a deterministic compiled rule match and packet-plan fulfillment.");
+assert(fs.existsSync(path.join(root, "scripts/verify-rcap-evaluator-rule-driven-safety.mjs")), "Rule-driven evaluator safety verifier must exist.");
+assert(fs.existsSync(path.join(root, "scripts/verify-rcap-evaluator-all51-provability.mjs")), "All-51 evaluator provability verifier must exist.");
+assert(packageSource.includes('"rcap:verify-rule-driven-evaluator-safety"'), "package.json must expose the rule-driven evaluator safety verifier.");
+assert(packageSource.includes('"rcap:verify-all51-provability"'), "package.json must expose the all-51 evaluator provability verifier.");
 
 const codes = new Set();
 const slugs = new Set();

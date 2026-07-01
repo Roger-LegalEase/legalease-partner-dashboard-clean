@@ -120,15 +120,25 @@ export type EngineProfile = {
     sourceRef: string;
     sourceEvidenceRefs?: string[];
     suggestedResultCode?: ScreeningResultCode;
+    lawrenceRatification?: {
+      status: "ratified_deployable" | "corrected_awaiting_reconfirmation" | "hard_gate_pending" | "hold_guidance";
+      packet_capable: boolean;
+      payment_allowed_when_engine_confirms: boolean;
+      legal_basis: string;
+      lawrence_review: string;
+    };
   }>;
   orderedDecisionRules: Array<{
     id: string;
     priority: number;
     stage: string;
     when: {
+      backendPathwayId?: string;
+      requiredFields?: string[];
       fieldsReferenced?: string[];
       caseOutcomes?: string[];
       sourceConditionText?: string;
+      duration?: unknown;
     };
     then: {
       suggestedResultCode?: ScreeningResultCode;
