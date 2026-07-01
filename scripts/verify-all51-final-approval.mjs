@@ -106,6 +106,9 @@ function assertNoRestrictedChanges() {
     "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
     "supabase/phase-35c-rcap-claim-screening-session.sql",
     "supabase/phase-35d-rcap-slot-lifecycle.sql",
+    // Phase 37 (reviewed): additive constraint/index expansion on rcap_document_packets for the
+    // all-51 source-driven packet set; does not alter RLS, auth, Stripe, or generated packet behavior.
+    "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql",
     // Roger approved this single auth-route change: passwordResetRedirectTo() may prefer
     // NEXT_PUBLIC_PARTNER_APP_URL and fall back to NEXT_PUBLIC_APP_URL so partner password-reset
     // links use https://legaleasepartner.com. Scoped to that one-line redirect-base change only —

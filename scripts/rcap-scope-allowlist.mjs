@@ -38,7 +38,11 @@ export const EXPUNGEMENT_DATA_LAYER_FILES = [
   "supabase/phase-28-consumer-packet-generation-status.sql",
   "supabase/phase-29-consumer-wilma-telemetry.sql",
   "supabase/phase-31-legalease-os-support-queue.sql",
-  "supabase/phase-32-expungement-screening-sessions.sql"
+  "supabase/phase-32-expungement-screening-sessions.sql",
+  // Phase 37 (reviewed): additive constraint/index expansion on rcap_document_packets for the
+  // all-51 source-driven packet set. Its header states it does not alter RLS, auth, Stripe, or
+  // generated packet behavior; it only widens the allowed state/pathway/document-type values.
+  "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql"
 ];
 
 export const SCREENING_DROP_POINT_NUDGE_FILES = [
