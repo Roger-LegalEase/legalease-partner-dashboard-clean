@@ -118,8 +118,51 @@ const EXPLICIT_OVERRIDES = {
   // Hawaii deferred-acceptance routes: the sellable step (court deferred-acceptance discharge motion vs
   // the later HCJDC application) is legally ambiguous in the source; hold for legal confirmation.
   "HI:deferred-acceptance-one-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS ch. 853 deferred-acceptance discharge is a court process, but expungement is via the HCJDC application. Confirm which is the sellable user-filed step." },
-  "HI:deferred-prostitution-three-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS § 712-1200 deferred-acceptance/prostitution discharge vs later HCJDC application. Confirm the sellable user-filed step." }
+  "HI:deferred-prostitution-three-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS § 712-1200 deferred-acceptance/prostitution discharge vs later HCJDC application. Confirm the sellable user-filed step." },
+  // Alaska CourtView removal (AK_CV_810) — HELD via Legal Action Required. The official Form TF-810
+  // (CourtView exclusion under AS 22.35.030 / Admin. R. 40) is NOT present as a fillable form in the
+  // Nationwide Alaska folder (only an HTML agent-reference describes it), and TF-810 maps to the
+  // AUTOMATIC AS 22.35.030 confidentiality route, not a user-filed court petition. No invented form:
+  // Alaska stays a zero-paid jurisdiction until the official TF-810 PDF (or an approved custom
+  // substitute) and the sellable user-filed step are supplied. This is the honest 50/51 outcome.
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": { forceLegalActionRequired: true, larReason: "AK_CV_810 CourtView removal held: official Form TF-810 (CourtView exclusion, AS 22.35.030 / Admin. R. 40) is absent from the Nationwide Alaska folder and TF-810 maps to the automatic AS 22.35.030 confidentiality route, not a user-filed petition. Supply the official TF-810 form (or approved custom substitute) and confirm the sellable user-filed step before promoting Alaska. Do not invent the form." }
 };
+
+// Explicit product-strategy metadata (Phase 3) for routes where the form strategy, packet document
+// type, or filing-readiness is a specific legal/product decision rather than the packet-mode default.
+// checkoutEligibility is ALWAYS derived from the paid bucket (never overridden). filingReadiness values:
+// ready_to_file | needs_external_document | needs_fee_or_fingerprint_step | needs_court_or_agency_followup
+// | guidance_only. Outside documents (SBI/PATCH/CHR/SCOPE/fingerprints) are filing-readiness only, NOT
+// checkout blockers.
+const PRODUCT_STRATEGY_OVERRIDES = {
+  // Final Five (minus AK) first-paid routes.
+  "NV:general-conviction-record-sealing-under-nrs-179-245": { formStrategy: "custom_pleading_allowed", packetDocumentType: "custom_pleading_packet", filingReadiness: "needs_external_document", externalDocuments: ["Current verified criminal-history record (CHR/SCOPE)", "Certified dispositions / judgment of conviction", "Probation/parole/prison discharge paperwork", "Fingerprints where required", "Prosecutor review/stipulation step", "Court/county filing fee"] },
+  "DE:discretionary-court-expungement-under-11-del-c-4374": { formStrategy: "official_form_required", packetDocumentType: "official_form_plus_addendum", filingReadiness: "needs_external_document", externalDocuments: ["SBI criminal-history / SBI eligibility letter", "Certified case documents", "Superior Court filing fee"] },
+  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": { formStrategy: "official_form_primary", packetDocumentType: "official_form_plus_addendum", filingReadiness: "ready_to_file", externalDocuments: [] },
+  "PA:path-a-non-conviction-expungement": { formStrategy: "official_form_primary", packetDocumentType: "official_form_plus_addendum", filingReadiness: "needs_external_document", externalDocuments: ["PATCH / PSP criminal-history report", "Expected PATCH fee", "Certified case documents"] },
+  // Alaska CourtView removal (AK_CV_810) is HELD: the official TF-810 form is not present in the
+  // Nationwide Alaska folder and TF-810 maps to the automatic AS 22.35.030 route. Held via LAR.
+  "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": { formStrategy: "official_form_required", packetDocumentType: "official_form_plus_addendum", filingReadiness: "guidance_only", externalDocuments: [] }
+};
+
+function deriveProductStrategy(route, key) {
+  const override = PRODUCT_STRATEGY_OVERRIDES[key] ?? {};
+  const mode = route.packetMode;
+  const formStrategy = override.formStrategy ?? (
+    mode === "official_form_overlay_or_source_form_set" ? "official_form_primary"
+    : mode === "state_specific_custom_packet_from_source_rules" ? "custom_pleading_allowed"
+    : "guidance_only");
+  const packetDocumentType = override.packetDocumentType ?? (
+    mode === "official_form_overlay_or_source_form_set" ? "official_form_plus_addendum"
+    : mode === "state_specific_custom_packet_from_source_rules" ? "custom_pleading_packet"
+    : mode === "automatic_relief_verification_and_guidance" ? "guidance_only"
+    : "next_steps_packet");
+  const checkoutEligibility = route.bucket === "paid_now" ? "eligible" : "not_eligible";
+  const filingReadiness = route.bucket === "paid_now"
+    ? (override.filingReadiness ?? "ready_to_file")
+    : "guidance_only";
+  return { formStrategy, packetDocumentType, checkoutEligibility, filingReadiness, externalDocuments: override.externalDocuments ?? [] };
+}
 
 // Structured routeType -> product route type (NOT summary regex).
 function productRouteTypeFor(pathway, key) {
@@ -452,7 +495,8 @@ const metadata = {
     currentlyOperative: r.currentlyOperative, paymentProductEligible: r.paymentProductEligible,
     isAdministrativeApplication: r.isAdministrativeApplication, legalSignoffStatus: r.legalSignoffStatus,
     packetFulfillmentStatus: r.packetFulfillmentStatus, paidRouteBlocker: primaryBlockerToMetadata(r.primaryBlocker, r.bucket),
-    evaluatorTier: r.evaluatorTier, openLegalActionRequiredItems: r.legalActionRequiredItemIds
+    evaluatorTier: r.evaluatorTier, openLegalActionRequiredItems: r.legalActionRequiredItemIds,
+    ...deriveProductStrategy(r, r.routeKey)
   }]))
 };
 function primaryBlockerToMetadata(b, bucket) {

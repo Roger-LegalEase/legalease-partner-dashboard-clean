@@ -158,7 +158,33 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "VT:dui-sealing",
   "WA:non-conviction-record-deletion-under-rcw-10-97-060",
   "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
-  "WY:felony-conviction-expungement-w-s-7-13-1502"
+  "WY:felony-conviction-expungement-w-s-7-13-1502",
+  // ---- Final Five (minus AK) — first-paid route per remaining zero-paid jurisdiction (signoff 2026-07-01) ----
+  // Each is a genuine user-filed court route with a source-backed compiled-rule match, a named
+  // source-specific waiting rule (resolved via the public waiting_rule_id fact), a coded
+  // route-specific safety gate, and a fulfillment-ready packet plan. Proven both-direction by
+  // verify-rcap-no-generic-fallbacks + all51-provability. Alaska is intentionally NOT promoted:
+  // its CourtView TF-810 form is absent from the Nationwide folder and maps to the automatic
+  // AS 22.35.030 route, so AK_CV_810 is held via a Legal Action Required item (never an invented form).
+  // NV — NRS 179.245 general conviction record sealing (custom pleading packet). The five source
+  // waiting periods (10/7/5/2/1yr by offense class) are disambiguated by the public waiting_rule_id
+  // fact, and the offense exclusions (crime against a child, sexual offense, etc.) are enforced by the
+  // compiled NRS 179.245 exclusion rules. Moved out of HARD_GATE_PENDING.
+  "NV:general-conviction-record-sealing-under-nrs-179-245",
+  // DE — 11 Del. C. § 4374 discretionary court expungement (official Superior Court adult petition +
+  // order + instructions from the Nationwide Delaware folder; deSuperiorExpungementSafetyGate). SBI
+  // criminal-history letter is filingReadiness=needs_external_document, NOT a checkout blocker.
+  "DE:discretionary-court-expungement-under-11-del-c-4374",
+  // MA — M.G.L. c. 276 § 100A adult conviction CORI sealing (official Petition to Seal). The 3yr
+  // (misdemeanor) / 7yr (felony) wait is coded in the MA specialRouteTiming split, and the sex-offender
+  // and offense exclusions come from the compiled § 100A rules. Moved out of HELD_GUIDANCE. Copy =
+  // record sealing, not expungement.
+  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+  // PA — Pa.R.Crim.P. 790 court-case expungement (official AOPC Rule 790 petition + blank order).
+  // The rule-driven engine owns route selection and payment; the legacy PA generator may only render
+  // after this route ID is selected. Moved out of HELD_GUIDANCE. PATCH report is
+  // filingReadiness=needs_external_document, NOT a checkout blocker.
+  "PA:path-a-non-conviction-expungement"
 ]);
 
 // Legally signed-off administrative-application packet routes. These are the ONLY non-court-petition
@@ -192,7 +218,12 @@ const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
 // review short-circuit is skipped for these so the caution packet + payment can open; they still
 // pass every timing, precondition, exclusion, and pending-charge gate first.
 const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set([
-  "ID:withheld-judgment-idaho-code-19-2604-review-branch"
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+  // DE § 4374 discretionary court expungement is a discretionary Superior Court petition whose compiled
+  // source rule is conservatively needs_review; ratified 2026-07-01 as a caution-tier packet route. It
+  // still passes every timing, exclusion, and pending-charge gate (deSuperiorExpungementSafetyGate)
+  // first, and the manifest-injustice discretion is disclosed in the packet.
+  "DE:discretionary-court-expungement-under-11-del-c-4374"
 ]);
 
 const HARD_GATE_PENDING_ROUTES = new Set([
@@ -208,7 +239,6 @@ const HARD_GATE_PENDING_ROUTES = new Set([
   "MI:set-aside-by-application-under-mcl-780-621",
   "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
   "NH:conviction-annulment-under-rsa-651-5",
-  "NV:general-conviction-record-sealing-under-nrs-179-245",
   "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
   "OK:other-eligible-misdemeanor-conviction-expungement",
   "OK:one-eligible-nonviolent-felony-conviction-expungement",
@@ -258,7 +288,6 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "LA:expungement-by-redaction-for-multi-person-records",
   "LA:human-trafficking-survivor-expungement-fee-exempt-route",
   "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
-  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
   "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
   "MA:juvenile-record-sealing-under-100b",
   "MA:time-based-expungement-under-100f-100j",
@@ -278,7 +307,6 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "NE:juvenile-petition-backstop",
   "MI:human-trafficking-related-set-aside-application",
   "WI:human-trafficking-prostitution-relief-under-973-015-2m",
-  "PA:path-a-non-conviction-expungement",
   "PA:path-b-complete-acquittal-not-guilty-expungement",
   "PA:path-c-summary-conviction-expungement",
   "PA:path-d-ard-expungement",
@@ -601,6 +629,30 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (ilProstitutionGate) return ilProstitutionGate;
   const hiAdminGate = hiAdminApplicationSafetyGate(profile, answers, pathway);
   if (hiAdminGate) return hiAdminGate;
+  const deGate = deSuperiorExpungementSafetyGate(profile, answers, pathway);
+  if (deGate) return deGate;
+  return undefined;
+}
+
+// Delaware § 4374 discretionary Superior/Family Court expungement gate (legal signoff 2026-07-01).
+// § 4374 discretionary relief is unavailable for the statutorily excluded offenses (the § 4201(c)
+// violent-felony schedule, § 4373(b)-listed and domestic-violence offenses, and other named § 4372(f)
+// exclusions). The public state_exclusion_categories fact carries those flags; any flagged category
+// fails closed, and an unconfirmed ("I am not sure") answer also fails closed. The § 4375 post-pardon
+// route and the mandatory/automatic § 4373 track are separate pathways and are not sold here.
+function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "DE" || pathway.id !== "discretionary-court-expungement-under-11-del-c-4374") return undefined;
+  const jurisdiction = profile.jurisdiction.code;
+  const raw = Array.isArray(answers.state_exclusion_categories)
+    ? answers.state_exclusion_categories.map((value) => String(value).toLowerCase())
+    : [answerText(answers.state_exclusion_categories).toLowerCase()];
+  const values = raw.filter((value) => value.trim().length > 0);
+  if (values.length === 0 || values.some((value) => /not sure|unknown/.test(value)) || isExplicitUnknownAnswer(answers.state_exclusion_categories)) {
+    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "Delaware § 4374 discretionary expungement requires confirming the offense is not a § 4201(c) violent felony, a § 4373(b)-listed or domestic-violence offense, or another statutorily excluded offense before a packet decision.", pathway.sourceRef);
+  }
+  if (values.some((value) => !/none of these/.test(value))) {
+    return reason(jurisdiction, "de_4374_excluded_offense_not_eligible", "Delaware § 4374 discretionary expungement excludes § 4201(c) violent felonies, § 4373(b)-listed and domestic-violence offenses, and other statutorily named offenses; those cannot open a discretionary court packet.", pathway.sourceRef);
+  }
   return undefined;
 }
 
@@ -884,6 +936,30 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   // disposition_date is the available anchor proxy for "sentence fully satisfied".
   if (key === "ME:adult-conviction-sealing") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 4, unit: "years", raw: "4 years" }, "Maine CR-218 adult conviction sealing (eligible Class E crimes) requires four years after the sentence is fully satisfied (disposition date used as the available anchor).");
+  }
+  // ---- Delaware § 4374 discretionary court expungement (legal signoff 2026-07-01) ----
+  // 11 Del. C. § 4374 discretionary waits from the compiled DE waiting-period rules: a single
+  // misdemeanor not listed in § 4373(b) = 3 years (wait-06); a single nonviolent felony = 7 years
+  // (wait-09), each running from conviction (later of conviction/release/disposition used as the
+  // available anchor). The stricter § 4373(b)-listed (7yr) and multi-case (5yr) sub-tiers are folded
+  // into the exclusion gate; the § 4375 post-pardon no-wait relief is a separate pathway.
+  if (key === "DE:discretionary-court-expungement-under-11-del-c-4374") {
+    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
+    if (/felony/.test(level)) {
+      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 7, unit: "years", raw: "7 years" }, "Delaware § 4374 discretionary expungement of a single nonviolent felony requires seven years from conviction or release (later of conviction/release/disposition used as the available anchor).");
+    }
+    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 3, unit: "years", raw: "3 years" }, "Delaware § 4374 discretionary expungement of a single misdemeanor not listed in § 4373(b) requires three years from conviction (later of conviction/release/disposition used as the available anchor).");
+  }
+  // ---- Massachusetts § 100A CORI conviction sealing (legal signoff 2026-07-01) ----
+  // M.G.L. c. 276 § 100A sealing runs three years (misdemeanor) or seven years (felony) from the later
+  // of disposition or release from custody/supervision, with no disqualifying conviction during the
+  // period. This is record SEALING (Commissioner of Probation Petition to Seal), not expungement.
+  if (key === "MA:adult-conviction-sealing-under-m-g-l-c-276-100a") {
+    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
+    if (/felony/.test(level)) {
+      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date", "sentence_completion_actual_date"], { value: 7, unit: "years", raw: "7 years" }, "M.G.L. c. 276 § 100A sealing of a felony conviction requires seven years from the later of disposition or release from custody/supervision (later of the available anchors used).");
+    }
+    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date", "sentence_completion_actual_date"], { value: 3, unit: "years", raw: "3 years" }, "M.G.L. c. 276 § 100A sealing of a misdemeanor conviction requires three years from the later of disposition or release from custody/supervision (later of the available anchors used).");
   }
   // ---- Illinois felony-prostitution relief (corrected, awaiting Lawrence reconfirmation) ----
   // 20 ILCS 2630/5.2(j) motion to vacate/expunge a Class 4 felony prostitution conviction is

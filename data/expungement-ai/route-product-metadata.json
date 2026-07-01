@@ -1,7 +1,7 @@
 {
   "generatedBy": "scripts/audit-petition-route-inventory.mjs",
   "note": "Explicit per-route product metadata. Derived from the STRUCTURED compiled routeType + EXPLICIT_OVERRIDES (Phase 4), never from summary regex. paymentProductEligible=true only for routes the evaluator currently opens payment for (ratified + court/admin + fulfillment-ready).",
-  "headCommit": "597afa8ab5c88fbe77ac3ec21154a8af966152bb",
+  "headCommit": "6f46f2fab3f58db4aa733ae844e97d4425e71744",
   "routes": {
     "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": {
       "productRouteType": "automatic_relief",
@@ -12,9 +12,16 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "not_applicable",
       "packetFulfillmentStatus": "not_applicable",
-      "paidRouteBlocker": "not_paid_product",
+      "paidRouteBlocker": "legal_action_required",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [
+        "LAR-003"
+      ],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AK:executive-pardon-backstop": {
       "productRouteType": "board_or_pardon",
@@ -27,7 +34,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AK:juvenile-record-sealing-as-47-12-300": {
       "productRouteType": "court_petition",
@@ -40,7 +52,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": {
       "productRouteType": "court_petition",
@@ -55,7 +72,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-002"
-      ]
+      ],
+      "formStrategy": "official_form_required",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085": {
       "productRouteType": "court_motion",
@@ -70,7 +92,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-001"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AL:eligible-conviction-expungement-under-the-redeemer-act": {
       "productRouteType": "court_petition",
@@ -83,7 +110,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "AL:human-trafficking-victim-expungement": {
       "productRouteType": "court_petition",
@@ -97,8 +129,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-005"
-      ]
+        "LAR-006"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AL:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a": {
       "productRouteType": "court_petition",
@@ -112,8 +149,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-003"
-      ]
+        "LAR-004"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AL:pardoned-felony-expungement-under-ala-code-15-27-2-c": {
       "productRouteType": "court_petition",
@@ -127,8 +169,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-004"
-      ]
+        "LAR-005"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AR:situation-a-non-convictions": {
       "productRouteType": "court_petition",
@@ -141,7 +188,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "AR:situation-b-misdemeanor-convictions": {
       "productRouteType": "court_petition",
@@ -154,7 +206,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "AR:situation-c-felony-convictions": {
       "productRouteType": "court_petition",
@@ -167,7 +224,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "AZ:remedy-1-record-sealing": {
       "productRouteType": "court_petition",
@@ -180,7 +242,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "AZ:remedy-2-set-aside-of-a-conviction": {
       "productRouteType": "court_motion",
@@ -194,8 +261,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-006"
-      ]
+        "LAR-007"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "AZ:remedy-3-marijuana-expungement": {
       "productRouteType": "court_petition",
@@ -209,8 +281,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-007"
-      ]
+        "LAR-008"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CA:prop-64-completed-sentence-application-11361-8": {
       "productRouteType": "court_petition",
@@ -223,7 +300,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CA:prop-64-currently-serving-petition-11361-8": {
       "productRouteType": "court_petition",
@@ -236,7 +318,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CA:tool-1-dismissal-set-aside": {
       "productRouteType": "court_motion",
@@ -249,7 +336,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CA:tool-2-automatic-relief": {
       "productRouteType": "automatic_relief",
@@ -262,7 +354,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CA:tool-3-petition-based-felony-sealing": {
       "productRouteType": "court_petition",
@@ -275,7 +372,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CA:tool-4-arrest-record-sealing": {
       "productRouteType": "court_petition",
@@ -288,7 +390,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CA:tool-5-proposition-64-marijuana-relief": {
       "productRouteType": "automatic_relief",
@@ -301,7 +408,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "duplicate",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CO:automatic-clean-slate-sealing-13-3-117": {
       "productRouteType": "automatic_relief",
@@ -314,7 +426,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CO:juvenile-expungement-19-1-306": {
       "productRouteType": "court_petition",
@@ -328,8 +445,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-009"
-      ]
+        "LAR-010"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CO:petition-based-conviction-sealing-jdf-612-24-72-706": {
       "productRouteType": "court_petition",
@@ -343,8 +465,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-008"
-      ]
+        "LAR-009"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704": {
       "productRouteType": "court_petition",
@@ -357,7 +484,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "CT:absolute-pardon-resulting-in-erasure": {
       "productRouteType": "board_or_pardon",
@@ -370,7 +502,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions": {
       "productRouteType": "automatic_relief",
@@ -383,7 +520,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CT:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a": {
       "productRouteType": "automatic_relief",
@@ -396,7 +538,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CT:cannabis-conviction-erasure": {
       "productRouteType": "automatic_relief",
@@ -409,7 +556,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202": {
       "productRouteType": "court_petition",
@@ -422,7 +574,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "DC:dc_actual_innocence_expungement_16_803": {
       "productRouteType": "court_petition",
@@ -435,7 +592,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "DC:dc_auto_expungement_16_802": {
       "productRouteType": "automatic_relief",
@@ -448,7 +610,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_operational",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "DC:dc_auto_sealing_16_805": {
       "productRouteType": "automatic_relief",
@@ -461,7 +628,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_operational",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "DC:dc_juvenile_sealing_16_2335": {
       "productRouteType": "guidance_only",
@@ -474,7 +646,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "DC:dc_motion_seal_felony_conviction_8yr_16_806": {
       "productRouteType": "court_petition",
@@ -487,7 +664,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806": {
       "productRouteType": "court_petition",
@@ -500,7 +682,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "DC:dc_motion_seal_nonconviction_16_806": {
       "productRouteType": "court_petition",
@@ -513,21 +700,33 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "DE:discretionary-court-expungement-under-11-del-c-4374": {
       "productRouteType": "court_petition",
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": false,
+      "paymentProductEligible": true,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "needs_reconfirm",
-      "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
-      "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-010"
+      "legalSignoffStatus": "signed_off",
+      "packetFulfillmentStatus": "ready",
+      "paidRouteBlocker": "none",
+      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_required",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "needs_external_document",
+      "externalDocuments": [
+        "SBI criminal-history / SBI eligibility letter",
+        "Certified case documents",
+        "Superior Court filing fee"
       ]
     },
     "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a": {
@@ -543,7 +742,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-011"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a": {
       "productRouteType": "automatic_relief",
@@ -556,7 +760,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "DE:pardon-based-discretionary-expungement-under-11-del-c-4375": {
       "productRouteType": "board_or_pardon",
@@ -569,7 +778,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:administrative-expunction-mistaken-or-unlawful-arrest": {
       "productRouteType": "court_petition",
@@ -584,7 +798,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-017"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:automatic-sealing-943-0595": {
       "productRouteType": "automatic_relief",
@@ -597,7 +816,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:court-ordered-expunction-943-0585": {
       "productRouteType": "court_petition",
@@ -610,7 +834,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "FL:court-ordered-sealing-943-059": {
       "productRouteType": "court_petition",
@@ -625,7 +854,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-012"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:early-juvenile-expunction-943-0515": {
       "productRouteType": "court_petition",
@@ -640,7 +874,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-016"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:human-trafficking-victim-expunction-943-0583": {
       "productRouteType": "court_petition",
@@ -655,7 +894,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-013"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:juvenile-diversion-expunction-943-0582": {
       "productRouteType": "court_petition",
@@ -670,7 +914,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-015"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "FL:lawful-self-defense-expunction-943-0578": {
       "productRouteType": "court_petition",
@@ -685,7 +934,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-014"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "GA:automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": {
       "productRouteType": "automatic_relief",
@@ -698,7 +952,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "GA:non-conviction-record-restriction-through-the-agency-prosecutor-process": {
       "productRouteType": "court_petition",
@@ -713,7 +972,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-018"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "GA:restriction-and-sealing-of-a-pardoned-felony": {
       "productRouteType": "court_petition",
@@ -728,7 +992,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-019"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": {
       "productRouteType": "court_petition",
@@ -741,7 +1010,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "GA:youthful-first-offender-restriction-route": {
       "productRouteType": "court_petition",
@@ -756,7 +1030,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-020"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "HI:deferred-acceptance-one-year": {
       "productRouteType": "unknown",
@@ -771,7 +1050,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-021"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "HI:deferred-prostitution-three-year": {
       "productRouteType": "unknown",
@@ -786,7 +1070,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-022"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "HI:dui-under-21-conviction": {
       "productRouteType": "administrative_application",
@@ -799,7 +1088,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "HI:first-time-drug-conviction": {
       "productRouteType": "administrative_application",
@@ -812,7 +1106,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "HI:nonconviction-arrest-expungement": {
       "productRouteType": "administrative_application",
@@ -825,7 +1124,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IA:minor-prostitution-7251": {
       "productRouteType": "court_petition",
@@ -840,7 +1144,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-026"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IA:misdemeanor-901c3": {
       "productRouteType": "court_petition",
@@ -855,7 +1164,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-023"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IA:nonconviction-901c2": {
       "productRouteType": "court_petition",
@@ -868,7 +1182,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IA:public-intoxication-12346": {
       "productRouteType": "court_petition",
@@ -883,7 +1202,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-024"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IA:underage-alcohol-12347": {
       "productRouteType": "court_petition",
@@ -898,7 +1222,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-025"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ID:clean-slate-shielding-under-idaho-code-67-3004-11": {
       "productRouteType": "court_petition",
@@ -913,7 +1242,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-028"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ID:human-trafficking-survivor-vacatur-and-expungement": {
       "productRouteType": "court_motion",
@@ -928,7 +1262,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-030"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ID:juvenile-expungement": {
       "productRouteType": "court_petition",
@@ -943,7 +1282,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-029"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10": {
       "productRouteType": "court_petition",
@@ -958,7 +1302,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-027"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ID:withheld-judgment-idaho-code-19-2604-review-branch": {
       "productRouteType": "court_petition",
@@ -971,7 +1320,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:adult-conviction-sealing": {
       "productRouteType": "court_petition",
@@ -984,7 +1338,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:adult-non-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -997,7 +1356,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:cannabis-specific-automatic-or-petition-expungement": {
       "productRouteType": "court_petition",
@@ -1010,7 +1374,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:clean-slate-automatic-sealing": {
       "productRouteType": "automatic_relief",
@@ -1023,7 +1392,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IL:criminal-identity-theft-mistaken-identity-relief": {
       "productRouteType": "court_petition",
@@ -1036,7 +1410,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:expungement-after-eligible-supervision-or-qualified-probation": {
       "productRouteType": "court_petition",
@@ -1049,7 +1428,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:felony-prostitution-relief": {
       "productRouteType": "court_petition",
@@ -1062,7 +1446,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IL:human-trafficking-survivor-vacatur-and-expungement": {
       "productRouteType": "court_motion",
@@ -1077,7 +1466,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-031"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IL:juvenile-automatic-or-petition-expungement": {
       "productRouteType": "court_petition",
@@ -1090,7 +1484,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IN:conviction-expungement-with-records-marked-expunged": {
       "productRouteType": "court_petition",
@@ -1105,7 +1504,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-034"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IN:conviction-expungement-with-sealed-confidential-access": {
       "productRouteType": "court_petition",
@@ -1118,7 +1522,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "IN:juvenile-allegation-expungement": {
       "productRouteType": "court_petition",
@@ -1133,7 +1542,12 @@
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-033"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "IN:non-conviction-arrest-or-criminal-charge-expungement": {
       "productRouteType": "court_petition",
@@ -1148,7 +1562,12 @@
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-032"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KS:conviction-or-diversion-216614": {
       "productRouteType": "court_petition",
@@ -1163,7 +1582,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-035"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KS:drug-registration-relief-coordination": {
       "productRouteType": "automatic_relief",
@@ -1176,7 +1600,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KS:prostitution-coercion": {
       "productRouteType": "court_petition",
@@ -1191,7 +1620,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-036"
-      ]
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KS:specialty-court-accelerated": {
       "productRouteType": "court_petition",
@@ -1204,7 +1638,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "KY:felony-conviction-431073": {
       "productRouteType": "court_motion",
@@ -1219,7 +1658,12 @@
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-037"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KY:juvenile-automatic-dismissal": {
       "productRouteType": "automatic_relief",
@@ -1232,7 +1676,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KY:juvenile-petition-610330": {
       "productRouteType": "automatic_relief",
@@ -1245,7 +1694,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "KY:misdemeanor-violation-traffic-conviction": {
       "productRouteType": "court_petition",
@@ -1258,7 +1712,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "KY:nonconviction-431076": {
       "productRouteType": "court_petition",
@@ -1273,7 +1732,12 @@
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
         "LAR-038"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:automated-expungement-status-verification-art-985-2": {
       "productRouteType": "automatic_relief",
@@ -1286,7 +1750,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:expungement-by-redaction-for-multi-person-records": {
       "productRouteType": "court_petition",
@@ -1301,7 +1770,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-040"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:felony-article-893-e-set-aside-followed-by-expungement": {
       "productRouteType": "court_motion",
@@ -1314,7 +1788,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "LA:felony-ten-year-clean-period-expungement": {
       "productRouteType": "court_petition",
@@ -1327,7 +1806,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "LA:first-offender-pardon-felony-expungement": {
       "productRouteType": "board_or_pardon",
@@ -1340,7 +1824,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:first-offense-marijuana-expungement-after-90-days-art-998": {
       "productRouteType": "court_petition",
@@ -1353,7 +1842,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "LA:human-trafficking-survivor-expungement-fee-exempt-route": {
       "productRouteType": "court_petition",
@@ -1368,7 +1862,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-041"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:immediate-expungement-after-successful-court-program-completion-art-985-3": {
       "productRouteType": "court_petition",
@@ -1383,7 +1882,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-042"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction": {
       "productRouteType": "court_petition",
@@ -1398,7 +1902,12 @@
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
         "LAR-039"
-      ]
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement": {
       "productRouteType": "court_motion",
@@ -1411,7 +1920,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "LA:misdemeanor-five-year-clean-period-expungement": {
       "productRouteType": "court_petition",
@@ -1424,7 +1938,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "LA:non-conviction-arrest-expungement": {
       "productRouteType": "court_petition",
@@ -1437,22 +1956,30 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": {
       "productRouteType": "court_petition",
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": false,
+      "paymentProductEligible": true,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "legal_reconfirmation",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-043"
-      ]
+      "legalSignoffStatus": "signed_off",
+      "packetFulfillmentStatus": "ready",
+      "paidRouteBlocker": "none",
+      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MA:automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c": {
       "productRouteType": "automatic_relief",
@@ -1465,7 +1992,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c": {
       "productRouteType": "court_petition",
@@ -1479,8 +2011,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-044"
-      ]
+        "LAR-043"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MA:juvenile-record-sealing-under-100b": {
       "productRouteType": "court_petition",
@@ -1494,8 +2031,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-045"
-      ]
+        "LAR-044"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MA:marijuana-only-expungement": {
       "productRouteType": "court_petition",
@@ -1509,8 +2051,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-048"
-      ]
+        "LAR-047"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k": {
       "productRouteType": "court_petition",
@@ -1524,8 +2071,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-047"
-      ]
+        "LAR-046"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MA:time-based-expungement-under-100f-100j": {
       "productRouteType": "court_petition",
@@ -1539,8 +2091,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-046"
-      ]
+        "LAR-045"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:adult-non-conviction-expungement-under-crim-proc-10-105": {
       "productRouteType": "court_petition",
@@ -1553,7 +2110,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MD:automatic-expungement-under-crim-proc-10-105-1": {
       "productRouteType": "automatic_relief",
@@ -1566,7 +2128,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:cannabis-specific-expungement": {
       "productRouteType": "court_petition",
@@ -1580,8 +2147,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-051"
-      ]
+        "LAR-050"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:eligible-conviction-expungement-under-crim-proc-10-110": {
       "productRouteType": "court_petition",
@@ -1595,8 +2167,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-050"
-      ]
+        "LAR-049"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:juvenile-expungement": {
       "productRouteType": "court_petition",
@@ -1610,8 +2187,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-053"
-      ]
+        "LAR-052"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:police-record-expungement-when-no-charge-was-filed-under-10-103": {
       "productRouteType": "court_petition",
@@ -1625,8 +2207,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-049"
-      ]
+        "LAR-048"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MD:second-chance-act-shielding": {
       "productRouteType": "court_petition",
@@ -1640,8 +2227,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-052"
-      ]
+        "LAR-051"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ME:adult-conviction-sealing": {
       "productRouteType": "court_petition",
@@ -1654,7 +2246,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "ME:adult-non-conviction-record-relief": {
       "productRouteType": "court_petition",
@@ -1668,8 +2265,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-055"
-      ]
+        "LAR-054"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ME:juvenile-sealing": {
       "productRouteType": "court_petition",
@@ -1683,8 +2285,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-056"
-      ]
+        "LAR-055"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ME:pardon-route": {
       "productRouteType": "board_or_pardon",
@@ -1697,7 +2304,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ME:sex-trafficking-sexual-exploitation-survivor-sealing": {
       "productRouteType": "court_petition",
@@ -1711,8 +2323,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-054"
-      ]
+        "LAR-053"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MI:automatic-clean-slate-set-aside-under-mcl-780-621g": {
       "productRouteType": "automatic_relief",
@@ -1725,7 +2342,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MI:first-offense-owi-set-aside-by-application": {
       "productRouteType": "court_motion",
@@ -1739,8 +2361,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-058"
-      ]
+        "LAR-057"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MI:human-trafficking-related-set-aside-application": {
       "productRouteType": "court_motion",
@@ -1754,8 +2381,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-059"
-      ]
+        "LAR-058"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": {
       "productRouteType": "court_motion",
@@ -1768,7 +2400,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MI:set-aside-by-application-under-mcl-780-621": {
       "productRouteType": "court_motion",
@@ -1782,8 +2419,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-057"
-      ]
+        "LAR-056"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11": {
       "productRouteType": "prosecutor_or_agency",
@@ -1796,7 +2438,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MN:automatic-clean-slate-expungement-under-609a-015": {
       "productRouteType": "automatic_relief",
@@ -1809,7 +2456,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MN:automatic-mistaken-identity-expungement-under-609a-017": {
       "productRouteType": "automatic_relief",
@@ -1822,7 +2474,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06": {
       "productRouteType": "court_petition",
@@ -1836,8 +2493,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-060"
-      ]
+        "LAR-059"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MN:petition-based-expungement-under-609a-02-03": {
       "productRouteType": "court_petition",
@@ -1850,7 +2512,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025": {
       "productRouteType": "court_petition",
@@ -1864,8 +2531,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-061"
-      ]
+        "LAR-060"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MO:closed-record-outcome-under-rsmo-610-105": {
       "productRouteType": "court_petition",
@@ -1879,8 +2551,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-062"
-      ]
+        "LAR-061"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123": {
       "productRouteType": "court_petition",
@@ -1894,8 +2571,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-063"
-      ]
+        "LAR-062"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130": {
       "productRouteType": "court_petition",
@@ -1908,7 +2590,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MO:first-minor-in-possession-alcohol-expungement-under-311-326": {
       "productRouteType": "court_petition",
@@ -1922,8 +2609,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-065"
-      ]
+        "LAR-064"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140": {
       "productRouteType": "court_petition",
@@ -1936,7 +2628,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MO:marijuana-expungement-under-missouri-constitution-article-xiv": {
       "productRouteType": "court_petition",
@@ -1950,8 +2647,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-064"
-      ]
+        "LAR-063"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MO:stolen-or-mistaken-identity-expungement-under-610-145": {
       "productRouteType": "court_petition",
@@ -1964,7 +2666,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
       "productRouteType": "court_petition",
@@ -1977,7 +2684,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:dui-nonadjudication": {
       "productRouteType": "court_petition",
@@ -1990,7 +2702,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:eligible-felony-conviction-expungement-99-19-71": {
       "productRouteType": "court_petition",
@@ -2003,7 +2720,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1": {
       "productRouteType": "court_petition",
@@ -2016,7 +2738,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:first-offense-controlled-substance-conditional-discharge-relief": {
       "productRouteType": "court_petition",
@@ -2029,7 +2756,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:first-offense-dui-expungement": {
       "productRouteType": "court_petition",
@@ -2042,7 +2774,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:human-trafficking-survivor-vacatur-and-expungement": {
       "productRouteType": "court_motion",
@@ -2055,7 +2792,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:intervention-court-completion-expungement": {
       "productRouteType": "court_petition",
@@ -2068,7 +2810,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:minor-in-possession-underage-alcohol-expungement": {
       "productRouteType": "court_petition",
@@ -2081,7 +2828,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal": {
       "productRouteType": "court_petition",
@@ -2094,7 +2846,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:nonadjudication-under-99-15-26": {
       "productRouteType": "court_petition",
@@ -2107,7 +2864,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:pretrial-intervention-or-diversion-expungement": {
       "productRouteType": "court_petition",
@@ -2120,7 +2882,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59": {
       "productRouteType": "court_petition",
@@ -2133,7 +2900,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MT:deferred-sentence-dismissal-or-confidentiality-route": {
       "productRouteType": "court_petition",
@@ -2146,7 +2918,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MT:doj-record-removal-update-request": {
       "productRouteType": "prosecutor_or_agency",
@@ -2159,7 +2936,12 @@
       "packetFulfillmentStatus": "needs_form_mapping",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "MT:marijuana-related-redesignation-expungement-under-mmrta": {
       "productRouteType": "court_petition",
@@ -2172,7 +2954,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": {
       "productRouteType": "court_petition",
@@ -2185,7 +2972,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "MT:non-conviction-criminal-history-removal-through-criss": {
       "productRouteType": "court_petition",
@@ -2199,8 +2991,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-066"
-      ]
+        "LAR-065"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": {
       "productRouteType": "court_petition",
@@ -2213,7 +3010,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5": {
       "productRouteType": "court_petition",
@@ -2227,8 +3029,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-067"
-      ]
+        "LAR-066"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes": {
       "productRouteType": "court_petition",
@@ -2242,8 +3049,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-068"
-      ]
+        "LAR-067"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ND:deferred-imposition-dismissal-and-sealing": {
       "productRouteType": "court_petition",
@@ -2256,7 +3068,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "ND:dui-record-sealing-under-the-separate-dui-statute": {
       "productRouteType": "court_petition",
@@ -2270,8 +3087,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-070"
-      ]
+        "LAR-069"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "ND:first-offense-possession-sealing": {
       "productRouteType": "court_petition",
@@ -2284,7 +3106,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1": {
       "productRouteType": "court_petition",
@@ -2297,7 +3124,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "ND:marijuana-specific-summary-pardon-or-sealing-relief": {
       "productRouteType": "court_petition",
@@ -2310,7 +3142,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05": {
       "productRouteType": "court_petition",
@@ -2324,8 +3161,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-069"
-      ]
+        "LAR-068"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:automatic-nonconviction-sealing": {
       "productRouteType": "automatic_relief",
@@ -2338,7 +3180,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:juvenile-automatic-sealing": {
       "productRouteType": "automatic_relief",
@@ -2351,7 +3198,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:juvenile-petition-backstop": {
       "productRouteType": "court_petition",
@@ -2365,8 +3217,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-073"
-      ]
+        "LAR-072"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:law-enforcement-error-expungement": {
       "productRouteType": "court_petition",
@@ -2380,8 +3237,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-072"
-      ]
+        "LAR-071"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:pardon-then-seal": {
       "productRouteType": "board_or_pardon",
@@ -2394,7 +3256,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NE:set-aside-incarceration-one-year-or-less": {
       "productRouteType": "court_motion",
@@ -2407,7 +3274,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NE:set-aside-probation-fine-community-service": {
       "productRouteType": "court_motion",
@@ -2420,7 +3292,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NE:trafficking-survivor-set-aside-and-seal": {
       "productRouteType": "court_motion",
@@ -2434,8 +3311,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-071"
-      ]
+        "LAR-070"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NH:annulment-after-dismissal-acquittal-or-nonprosecution": {
       "productRouteType": "court_motion",
@@ -2448,7 +3330,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NH:annulment-of-a-vacated-conviction": {
       "productRouteType": "court_motion",
@@ -2462,8 +3349,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-074"
-      ]
+        "LAR-073"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NH:conviction-annulment-under-rsa-651-5": {
       "productRouteType": "court_motion",
@@ -2477,8 +3369,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-075"
-      ]
+        "LAR-074"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NH:dwi-dui-annulment": {
       "productRouteType": "court_motion",
@@ -2492,8 +3389,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-077"
-      ]
+        "LAR-076"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NH:marijuana-possession-annulment-under-rsa-651-5-b": {
       "productRouteType": "court_motion",
@@ -2507,8 +3409,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-076"
-      ]
+        "LAR-075"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NH:out-of-state-federal-or-military-record-guidance": {
       "productRouteType": "unknown",
@@ -2521,7 +3428,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6": {
       "productRouteType": "court_petition",
@@ -2534,7 +3446,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3": {
       "productRouteType": "court_petition",
@@ -2548,8 +3465,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-079"
-      ]
+        "LAR-078"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1": {
       "productRouteType": "court_petition",
@@ -2562,7 +3484,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3": {
       "productRouteType": "court_petition",
@@ -2576,8 +3503,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-078"
-      ]
+        "LAR-077"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NM:cannabis-expungement": {
       "productRouteType": "automatic_relief",
@@ -2590,7 +3522,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NM:cannabis-sentence-dismissal-incarcerated-person-pathway": {
       "productRouteType": "court_petition",
@@ -2603,7 +3540,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NM:conviction": {
       "productRouteType": "court_petition",
@@ -2617,8 +3559,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-080"
-      ]
+        "LAR-079"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NM:dna-sample-profile-expungement": {
       "productRouteType": "court_petition",
@@ -2632,8 +3579,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-081"
-      ]
+        "LAR-080"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NM:no-conviction-released-without-conviction": {
       "productRouteType": "court_petition",
@@ -2646,7 +3598,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NV:controlled-substance-possession-sealing-under-nrs-453-3365": {
       "productRouteType": "court_petition",
@@ -2660,8 +3617,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-087"
-      ]
+        "LAR-085"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211": {
       "productRouteType": "court_petition",
@@ -2675,22 +3637,37 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-083"
-      ]
+        "LAR-081"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NV:general-conviction-record-sealing-under-nrs-179-245": {
       "productRouteType": "court_petition",
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": false,
+      "paymentProductEligible": true,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "gate_build",
-      "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-082"
+      "legalSignoffStatus": "signed_off",
+      "packetFulfillmentStatus": "ready",
+      "paidRouteBlocker": "none",
+      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "needs_external_document",
+      "externalDocuments": [
+        "Current verified criminal-history record (CHR/SCOPE)",
+        "Certified dispositions / judgment of conviction",
+        "Probation/parole/prison discharge paperwork",
+        "Fingerprints where required",
+        "Prosecutor review/stipulation step",
+        "Court/county filing fee"
       ]
     },
     "NV:non-conviction-record-sealing": {
@@ -2705,8 +3682,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-088"
-      ]
+        "LAR-086"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NV:probation-or-specialty-court-dismissal-set-aside-sealing": {
       "productRouteType": "court_motion",
@@ -2720,8 +3702,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-084"
-      ]
+        "LAR-082"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NV:reentry-program-sealing-under-nrs-179-259": {
       "productRouteType": "court_petition",
@@ -2735,8 +3722,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-085"
-      ]
+        "LAR-083"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247": {
       "productRouteType": "court_motion",
@@ -2750,8 +3742,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-086"
-      ]
+        "LAR-084"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NY:automatic-clean-slate-sealing-under-cpl-160-57": {
       "productRouteType": "automatic_relief",
@@ -2764,7 +3761,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55": {
       "productRouteType": "automatic_relief",
@@ -2777,7 +3779,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "NY:conditional-treatment-sealing-under-cpl-160-58": {
       "productRouteType": "court_petition",
@@ -2790,7 +3797,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59": {
       "productRouteType": "court_petition",
@@ -2803,7 +3815,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "NY:marijuana-record-destruction-under-the-mrta": {
       "productRouteType": "automatic_relief",
@@ -2816,7 +3833,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32": {
       "productRouteType": "court_petition",
@@ -2830,8 +3852,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-089"
-      ]
+        "LAR-087"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": {
       "productRouteType": "court_petition",
@@ -2844,7 +3871,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "OH:certain-firearm-carry-conviction-expungement-under-2953-35": {
       "productRouteType": "court_petition",
@@ -2858,8 +3890,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-093"
-      ]
+        "LAR-091"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:human-trafficking-survivor-conviction-expungement-under-2953-36": {
       "productRouteType": "court_petition",
@@ -2873,8 +3910,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-091"
-      ]
+        "LAR-089"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521": {
       "productRouteType": "court_petition",
@@ -2888,8 +3930,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-092"
-      ]
+        "LAR-090"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:juvenile-sealing-and-expungement": {
       "productRouteType": "court_petition",
@@ -2903,8 +3950,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-094"
-      ]
+        "LAR-092"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OH:marijuana-hashish-possession-expungement-under-2953-321": {
       "productRouteType": "court_petition",
@@ -2918,8 +3970,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-090"
-      ]
+        "LAR-088"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:acquittal-dismissal-or-other-no-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -2932,7 +3989,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "OK:arrest-with-no-charges-filed": {
       "productRouteType": "court_petition",
@@ -2946,8 +4008,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-095"
-      ]
+        "LAR-093"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:clean-slate-automatic-expungement": {
       "productRouteType": "automatic_relief",
@@ -2960,7 +4027,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:conviction-reversed-and-case-dismissed": {
       "productRouteType": "court_petition",
@@ -2974,8 +4046,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-096"
-      ]
+        "LAR-094"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:deferred-sentence-court-record-expungement-under-991-c": {
       "productRouteType": "court_petition",
@@ -2989,8 +4066,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-106"
-      ]
+        "LAR-104"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:dna-factual-innocence-expungement": {
       "productRouteType": "court_petition",
@@ -3004,8 +4086,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-097"
-      ]
+        "LAR-095"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:felony-reclassified-as-a-misdemeanor": {
       "productRouteType": "court_petition",
@@ -3019,8 +4106,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-105"
-      ]
+        "LAR-103"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:fine-only-misdemeanor-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3034,8 +4126,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-101"
-      ]
+        "LAR-099"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:human-trafficking-survivor-relief": {
       "productRouteType": "court_petition",
@@ -3049,8 +4146,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-107"
-      ]
+        "LAR-105"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:juvenile-record-expungement": {
       "productRouteType": "court_petition",
@@ -3064,8 +4166,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-109"
-      ]
+        "LAR-107"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:misdemeanor-deferred-dismissal-expungement": {
       "productRouteType": "court_petition",
@@ -3079,8 +4186,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-098"
-      ]
+        "LAR-096"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:nonviolent-felony-deferred-dismissal-expungement": {
       "productRouteType": "court_petition",
@@ -3094,8 +4206,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-099"
-      ]
+        "LAR-097"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:not-more-than-two-eligible-felony-convictions-expungement": {
       "productRouteType": "court_petition",
@@ -3109,8 +4226,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-104"
-      ]
+        "LAR-102"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:one-eligible-nonviolent-felony-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3124,8 +4246,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-103"
-      ]
+        "LAR-101"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:other-eligible-misdemeanor-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3139,8 +4266,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-102"
-      ]
+        "LAR-100"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:pardon-based-expungement": {
       "productRouteType": "board_or_pardon",
@@ -3153,7 +4285,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:up-to-two-felony-deferred-dismissal-expungement": {
       "productRouteType": "court_petition",
@@ -3167,8 +4304,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-100"
-      ]
+        "LAR-098"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OK:victim-protective-order-record-relief": {
       "productRouteType": "court_petition",
@@ -3182,8 +4324,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-108"
-      ]
+        "LAR-106"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OR:marijuana-specific-set-aside-redesignation": {
       "productRouteType": "court_motion",
@@ -3197,8 +4344,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-111"
-      ]
+        "LAR-109"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": {
       "productRouteType": "court_motion",
@@ -3211,7 +4363,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a": {
       "productRouteType": "court_motion",
@@ -3225,22 +4382,34 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-110"
-      ]
+        "LAR-108"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-a-non-conviction-expungement": {
       "productRouteType": "court_petition",
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": false,
+      "paymentProductEligible": true,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "legal_reconfirmation",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-112"
+      "legalSignoffStatus": "signed_off",
+      "packetFulfillmentStatus": "ready",
+      "paidRouteBlocker": "none",
+      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "needs_external_document",
+      "externalDocuments": [
+        "PATCH / PSP criminal-history report",
+        "Expected PATCH fee",
+        "Certified case documents"
       ]
     },
     "PA:path-b-complete-acquittal-not-guilty-expungement": {
@@ -3255,8 +4424,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-113"
-      ]
+        "LAR-110"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-c-summary-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3270,8 +4444,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-114"
-      ]
+        "LAR-111"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-d-ard-expungement": {
       "productRouteType": "court_petition",
@@ -3285,8 +4464,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-115"
-      ]
+        "LAR-112"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-e-age-70-expungement": {
       "productRouteType": "court_petition",
@@ -3300,8 +4484,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-116"
-      ]
+        "LAR-113"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-f-deceased-person-expungement": {
       "productRouteType": "court_petition",
@@ -3315,8 +4504,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-117"
-      ]
+        "LAR-114"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-g-underage-drinking-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3330,8 +4524,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-118"
-      ]
+        "LAR-115"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-h-pardon-based-expungement": {
       "productRouteType": "board_or_pardon",
@@ -3344,7 +4543,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-i-petition-for-limited-access": {
       "productRouteType": "court_petition",
@@ -3358,8 +4562,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-119"
-      ]
+        "LAR-116"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-j-clean-slate-automatic-limited-access": {
       "productRouteType": "automatic_relief",
@@ -3372,7 +4581,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "PA:path-k-human-trafficking-vacatur-expungement": {
       "productRouteType": "court_motion",
@@ -3386,8 +4600,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-120"
-      ]
+        "LAR-117"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-a-first-offender-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3401,8 +4620,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-121"
-      ]
+        "LAR-118"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-b-multiple-misdemeanor-expungement": {
       "productRouteType": "court_petition",
@@ -3416,8 +4640,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-122"
-      ]
+        "LAR-119"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-c-deferred-sentence-expungement": {
       "productRouteType": "court_petition",
@@ -3431,8 +4660,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-123"
-      ]
+        "LAR-120"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-d-non-conviction-sealing-expungement": {
       "productRouteType": "court_petition",
@@ -3446,8 +4680,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-124"
-      ]
+        "LAR-121"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-e-filed-complaint-relief-under-12-10-12": {
       "productRouteType": "court_petition",
@@ -3461,8 +4700,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-125"
-      ]
+        "LAR-122"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-f-marijuana-possession-expungement": {
       "productRouteType": "court_petition",
@@ -3475,7 +4719,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "RI:path-g-decriminalized-offense-expungement": {
       "productRouteType": "court_petition",
@@ -3489,8 +4738,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-126"
-      ]
+        "LAR-123"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "RI:path-h-commercial-sexual-activity-related-expungement": {
       "productRouteType": "court_petition",
@@ -3504,8 +4758,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-127"
-      ]
+        "LAR-124"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:diversion-or-program-completion-expungement": {
       "productRouteType": "court_petition",
@@ -3518,7 +4777,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "SC:eligible-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3532,8 +4796,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-130"
-      ]
+        "LAR-127"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:general-sessions-non-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3547,8 +4816,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-128"
-      ]
+        "LAR-125"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:human-trafficking-survivor-expungement": {
       "productRouteType": "court_petition",
@@ -3562,8 +4836,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-131"
-      ]
+        "LAR-128"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:juvenile-expungement": {
       "productRouteType": "court_petition",
@@ -3577,8 +4856,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-132"
-      ]
+        "LAR-129"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:pardon-guidance-for-otherwise-ineligible-convictions": {
       "productRouteType": "board_or_pardon",
@@ -3591,7 +4875,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SC:summary-court-non-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3605,8 +4894,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-129"
-      ]
+        "LAR-126"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27": {
       "productRouteType": "court_petition",
@@ -3619,7 +4913,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases": {
       "productRouteType": "automatic_relief",
@@ -3632,7 +4931,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:controlled-substance-deferred-disposition-route": {
       "productRouteType": "court_petition",
@@ -3646,8 +4950,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-135"
-      ]
+        "LAR-132"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:diversion-expungement": {
       "productRouteType": "court_petition",
@@ -3661,8 +4970,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-133"
-      ]
+        "LAR-130"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:juvenile-delinquency-sealing": {
       "productRouteType": "court_petition",
@@ -3676,8 +4990,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-136"
-      ]
+        "LAR-133"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:juvenile-trafficking-expungement": {
       "productRouteType": "court_petition",
@@ -3691,8 +5010,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-137"
-      ]
+        "LAR-134"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:pardon-based-sealing": {
       "productRouteType": "board_or_pardon",
@@ -3705,7 +5029,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "SD:suspended-imposition-of-sentence-sealing": {
       "productRouteType": "court_petition",
@@ -3719,8 +5048,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-134"
-      ]
+        "LAR-131"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106": {
       "productRouteType": "court_petition",
@@ -3733,7 +5067,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313": {
       "productRouteType": "court_petition",
@@ -3747,8 +5086,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-138"
-      ]
+        "LAR-135"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107": {
       "productRouteType": "court_petition",
@@ -3762,8 +5106,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-139"
-      ]
+        "LAR-136"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TN:pathway-4-two-offense-expunction-under-40-32-101-k": {
       "productRouteType": "court_petition",
@@ -3777,8 +5126,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-140"
-      ]
+        "LAR-137"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07": {
       "productRouteType": "automatic_relief",
@@ -3791,7 +5145,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a": {
       "productRouteType": "court_petition",
@@ -3804,7 +5163,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "TX:expunction-after-pardon-or-actual-innocence-relief": {
       "productRouteType": "court_petition",
@@ -3818,8 +5182,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-143"
-      ]
+        "LAR-140"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:expunction-after-qualifying-class-c-deferred-disposition": {
       "productRouteType": "court_petition",
@@ -3833,8 +5202,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-144"
-      ]
+        "LAR-141"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:expunction-after-qualifying-dismissal-or-quash": {
       "productRouteType": "court_petition",
@@ -3848,8 +5222,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-142"
-      ]
+        "LAR-139"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period": {
       "productRouteType": "court_petition",
@@ -3863,8 +5242,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-141"
-      ]
+        "LAR-138"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:first-offense-dwi-nondisclosure": {
       "productRouteType": "court_petition",
@@ -3878,8 +5262,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-147"
-      ]
+        "LAR-144"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725": {
       "productRouteType": "court_petition",
@@ -3893,8 +5282,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-145"
-      ]
+        "LAR-142"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735": {
       "productRouteType": "court_petition",
@@ -3908,8 +5302,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-146"
-      ]
+        "LAR-143"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-a-automatic-clean-slate-expungement": {
       "productRouteType": "automatic_relief",
@@ -3922,7 +5321,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice": {
       "productRouteType": "automatic_relief",
@@ -3935,7 +5339,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals": {
       "productRouteType": "automatic_relief",
@@ -3948,7 +5357,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility": {
       "productRouteType": "court_petition",
@@ -3962,8 +5376,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-148"
-      ]
+        "LAR-145"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-e-petition-based-non-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3977,8 +5396,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-149"
-      ]
+        "LAR-146"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-f-petition-based-conviction-expungement": {
       "productRouteType": "court_petition",
@@ -3992,8 +5416,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-150"
-      ]
+        "LAR-147"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-i-traffic-offense-expungement-or-deletion": {
       "productRouteType": "court_petition",
@@ -4006,7 +5435,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "UT:path-j-cannabis-possession-petition-without-a-bci-certificate": {
       "productRouteType": "court_petition",
@@ -4020,8 +5454,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-151"
-      ]
+        "LAR-148"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-k-pardon-based-expungement": {
       "productRouteType": "board_or_pardon",
@@ -4034,7 +5473,12 @@
       "packetFulfillmentStatus": "needs_form_mapping",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-l-vacatur-human-trafficking-related-expungement": {
       "productRouteType": "court_motion",
@@ -4048,8 +5492,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-152"
-      ]
+        "LAR-149"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "UT:path-m-juvenile-expungement": {
       "productRouteType": "court_petition",
@@ -4063,8 +5512,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-153"
-      ]
+        "LAR-150"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VA:automatic-sealing-no-filing": {
       "productRouteType": "automatic_relief",
@@ -4077,7 +5531,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VA:petition-based-sealing": {
       "productRouteType": "court_petition",
@@ -4090,7 +5549,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "VA:regime-1-expungement-available-now": {
       "productRouteType": "court_petition",
@@ -4103,7 +5567,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "VT:adult-conviction-expungement-narrow-statutory-route": {
       "productRouteType": "court_petition",
@@ -4117,8 +5586,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-154"
-      ]
+        "LAR-151"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:adult-felony-conviction-sealing": {
       "productRouteType": "court_petition",
@@ -4132,8 +5606,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-156"
-      ]
+        "LAR-153"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:adult-misdemeanor-conviction-sealing": {
       "productRouteType": "court_petition",
@@ -4147,8 +5626,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-155"
-      ]
+        "LAR-152"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:dui-sealing": {
       "productRouteType": "court_petition",
@@ -4161,7 +5645,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "VT:juvenile-sealing": {
       "productRouteType": "court_petition",
@@ -4175,8 +5664,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-160"
-      ]
+        "LAR-157"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:non-conviction-sealing": {
       "productRouteType": "court_petition",
@@ -4190,8 +5684,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-157"
-      ]
+        "LAR-154"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g": {
       "productRouteType": "court_petition",
@@ -4205,8 +5704,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-159"
-      ]
+        "LAR-156"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "VT:young-adult-sealing-for-offenses-committed-at-ages-18-21": {
       "productRouteType": "court_petition",
@@ -4220,8 +5724,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-158"
-      ]
+        "LAR-155"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:adult-felony-vacation-under-rcw-9-94a-640": {
       "productRouteType": "court_motion",
@@ -4235,8 +5744,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-162"
-      ]
+        "LAR-159"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060": {
       "productRouteType": "court_motion",
@@ -4250,8 +5764,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-161"
-      ]
+        "LAR-158"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:blake-drug-possession-vacation-and-refund-route": {
       "productRouteType": "court_motion",
@@ -4265,8 +5784,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-163"
-      ]
+        "LAR-160"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:juvenile-record-sealing-under-rcw-13-50-260": {
       "productRouteType": "court_petition",
@@ -4280,8 +5804,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-166"
-      ]
+        "LAR-163"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:misdemeanor-cannabis-conviction-vacation": {
       "productRouteType": "court_motion",
@@ -4295,8 +5824,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-164"
-      ]
+        "LAR-161"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WA:non-conviction-record-deletion-under-rcw-10-97-060": {
       "productRouteType": "court_petition",
@@ -4309,7 +5843,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "WA:victim-survivor-conviction-vacation-route": {
       "productRouteType": "court_motion",
@@ -4323,8 +5862,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-165"
-      ]
+        "LAR-162"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WI:adult-conviction-expungement-under-wis-stat-973-015": {
       "productRouteType": "court_petition",
@@ -4337,7 +5881,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "WI:adult-non-conviction-arrest-only-record-correction-or-removal": {
       "productRouteType": "court_petition",
@@ -4351,8 +5900,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-167"
-      ]
+        "LAR-164"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WI:executive-pardon-guidance": {
       "productRouteType": "board_or_pardon",
@@ -4365,7 +5919,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WI:human-trafficking-prostitution-relief-under-973-015-2m": {
       "productRouteType": "court_petition",
@@ -4379,8 +5938,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-168"
-      ]
+        "LAR-165"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m": {
       "productRouteType": "court_petition",
@@ -4394,8 +5958,13 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-169"
-      ]
+        "LAR-166"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a": {
       "productRouteType": "court_petition",
@@ -4408,7 +5977,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "WV:eligible-conviction-expungement-under-w-va-code-61-11-26": {
       "productRouteType": "court_petition",
@@ -4422,8 +5996,13 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-171"
-      ]
+        "LAR-168"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:first-offense-drug-possession-conditional-discharge-relief": {
       "productRouteType": "court_petition",
@@ -4437,8 +6016,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-172"
-      ]
+        "LAR-169"
+      ],
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:juvenile-record-relief": {
       "productRouteType": "court_petition",
@@ -4452,8 +6036,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-174"
-      ]
+        "LAR-171"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication": {
       "productRouteType": "court_petition",
@@ -4467,8 +6056,13 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-170"
-      ]
+        "LAR-167"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:pardon-based-expungement": {
       "productRouteType": "board_or_pardon",
@@ -4481,7 +6075,12 @@
       "packetFulfillmentStatus": "needs_custom_packet",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WV:sex-trafficking-victim-vacatur-and-expungement": {
       "productRouteType": "court_motion",
@@ -4495,8 +6094,13 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-173"
-      ]
+        "LAR-170"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WY:adult-non-conviction-expungement-w-s-7-13-1401": {
       "productRouteType": "automatic_relief",
@@ -4509,7 +6113,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WY:felony-conviction-expungement-w-s-7-13-1502": {
       "productRouteType": "court_petition",
@@ -4522,7 +6131,12 @@
       "packetFulfillmentStatus": "ready",
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
+      "externalDocuments": []
     },
     "WY:human-trafficking-victim-vacatur-w-s-6-2-708": {
       "productRouteType": "court_motion",
@@ -4536,8 +6150,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-175"
-      ]
+        "LAR-172"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WY:juvenile-minor-expungement-w-s-14-6-241": {
       "productRouteType": "court_petition",
@@ -4551,8 +6170,13 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-176"
-      ]
+        "LAR-173"
+      ],
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     },
     "WY:misdemeanor-conviction-expungement-w-s-7-13-1501": {
       "productRouteType": "automatic_relief",
@@ -4565,7 +6189,12 @@
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": []
+      "openLegalActionRequiredItems": [],
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
     }
   }
 }
