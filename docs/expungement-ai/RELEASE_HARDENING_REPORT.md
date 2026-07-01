@@ -59,11 +59,15 @@ RED verifier remains.
 | Packet-generation dry run | GREEN (offline) / **BLOCKED** (DB) | `npm run rcap:verify-packet-generation-dry-run` | engine + plan + guard + labels + both-direction proven; DB persistence blocked | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | **RED until DB smoke** |
 | Stripe test readiness | GREEN (static) / **BLOCKED** (E2E) | `npm run expungement:verify-stripe-test-readiness` | $50 self-help copy clean, gate + success/cancel proven; no live/test session created | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | **RED until test E2E** |
 | Briefcase delivery | GREEN (static) / **BLOCKED** (DB) | `npm run expungement:verify-briefcase-delivery` | payload + labels + fee separation proven; DB delivery blocked | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | **RED until DB smoke** |
-| RCAP partner-sponsored flow | GREEN | (covered by the three above via `resolveSavePaymentAllowed`) | sponsored sessions force `paymentAllowed=false`; no consumer checkout | — | Ready (logic); DB delivery blocked with the rest |
+| RCAP partner-sponsored flow | GREEN | (covered by the three above via `resolveSavePaymentAllowed`) | sponsored sessions force `paymentAllowed=false`; no consumer checkout | — | Ready |
 | TypeScript | GREEN | `npx tsc --noEmit` | clean | — | Ready |
 | Changed-file lint | GREEN | `npx eslint <changed>` | clean | — | Ready |
 | Launch verifier noise | GREEN / DOCUMENTED | see Phase 2 above | 2 fixed, 2 documented non-blocking | — | Ready |
-| **Production deploy readiness** | **BLOCKED** | — | — | Supabase + Stripe env, then DB/Stripe smokes | **Do not deploy** |
+| **Production deploy readiness** | **GREEN_PENDING_MANUAL_STRIPE_QA** | see Env.local section | Supabase/Briefcase/RCAP smokes GREEN with `.env.local`; Stripe test-mode static GREEN | Roger's manual live-site Stripe QA | **Do not deploy from here** |
+
+> **Env-backed update (2026-07-01):** With `.env.local` loaded, the packet-generation, Briefcase DB
+> delivery, and RCAP partner-sponsored smokes ran against the real Supabase and are **GREEN** (labeled
+> test records, fully cleaned up). See the **Env.local / Live Site Manual Stripe QA** section below.
 
 Production deploy readiness stays **BLOCKED** until all of: (1) packet-generation DB smoke GREEN,
 (2) Stripe test-mode E2E GREEN, (3) Briefcase DB delivery GREEN, (4) RCAP sponsored DB delivery GREEN,
@@ -76,3 +80,99 @@ Production deploy readiness stays **BLOCKED** until all of: (1) packet-generatio
    test-mode checkout-session E2E (success → packet-ready, cancel → no packet).
 3. Apply `supabase/phase-37-…sql` in the target environment (reviewed, additive) before packet persistence.
 4. Standard post-build QA / counsel / source-freshness review before flipping any route to `live`.
+
+---
+
+## Env.local / Live Site Manual Stripe QA
+
+**Update 2026-07-01 — env-backed smoke run with `.env.local` (Node `--env-file`, no secrets printed/committed).**
+
+### Env presence (values never printed)
+| Variable | Status |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | present |
+| `SUPABASE_SERVICE_ROLE_KEY` | present |
+| `STRIPE_SECRET_KEY` | present — **TEST mode** (`sk_test_` prefix) |
+| `STRIPE_WEBHOOK_SECRET` | present |
+
+### Supabase packet-generation smoke — **GREEN**
+Ran against the real Supabase (service-role `getSupabaseAdminClient`) — the same admin client the app
+uses. One clearly-labeled test auth user (`release-smoke+all51-<ts>@example.com`,
+`user_metadata.purpose = release-hardening-smoke`) with 11 test Briefcase items across the required
+routes, each carrying the engine result + packet plan + `filingReadiness` + external-document checklist
++ separate fee guidance in `artifact_refs_json`, then **retrieved back through the DB** and **deleted**.
+
+| Case | Route | Result | payment_allowed | Retrieved | packet_status |
+| --- | --- | --- | --- | --- | --- |
+| Final Five | AK CourtView (TF-810) | packet_ready_with_caution | true | ✓ | ready |
+| Final Five | DE § 4374 discretionary | packet_ready | true | ✓ | ready |
+| Final Five | MA § 100A CORI sealing | packet_ready_with_caution | true | ✓ | ready |
+| Final Five | NV NRS 179.245 sealing | packet_ready_with_caution | true | ✓ | ready |
+| Final Five | PA Rule 790 expungement | packet_ready_with_caution | true | ✓ | ready |
+| Special | HI HCJDC admin application | packet_ready_with_caution | true | ✓ | ready |
+| Baseline | CA PC 1203.4 set-aside | packet_ready_with_caution | true | ✓ | ready |
+| Baseline | IL adult conviction sealing | packet_ready_with_caution | true | ✓ | ready |
+| Baseline | ND general sealing | packet_ready_with_caution | true | ✓ | ready |
+| Partner-sponsored | NV NRS 179.245 (sponsored) | packet_ready_with_caution | **false** (suppressed) | ✓ | not_started |
+| Negative | AK ordinary conviction | likely_not_eligible | false | ✓ | not_started |
+
+### Briefcase DB delivery smoke — **GREEN**
+Each persisted item was retrieved through the existing `consumer_briefcase_items` payload and carried:
+packet metadata (`packet_type`, `packet_status`), official-form references / custom-packet type,
+`filingReadiness`, external-document checklist, and fee guidance flagged **separate** from the $50
+self-help packet fee. Labels are legally correct (AK CourtView removal, NV/MA sealing, PA Rule 790
+expungement, HI administrative application). No new Briefcase UI.
+
+### RCAP partner-sponsored smoke — **GREEN**
+Sponsored NV case: engine `paymentAllowed=true` but `resolveSavePaymentAllowed(partner=true, …)` forced
+the persisted `payment_allowed=false` and `packet_status=not_started` — **no consumer checkout**, same
+engine + same packet payload + existing Briefcase path, `source_session_id` tagged
+`rcap-partner-smoke-<ts>`. No separate RCAP legal logic.
+
+### Test records created / cleaned
+- 1 test auth user + 11 test Briefcase items, all tagged `release-hardening-smoke` / `[TEST]`.
+- **Cleanup: complete.** Deleted the test user (cascade) and all items; verified `remaining_test_rows=0`.
+  Every write/delete was scoped to the test `user_id` only — no live customer row was touched.
+
+### Stripe — automated status: **GREEN test-mode (static) / live-site E2E: MANUAL by Roger**
+`STRIPE_SECRET_KEY` is a **test** key, so `expungement:verify-stripe-test-readiness` (copy/gate/flow
+static + pure-policy proofs) is GREEN. Per instruction, **no Stripe session was created automatically**
+(the site is live and Roger runs Stripe manually). Full checkout E2E is left to Roger's manual live-site
+QA below.
+
+#### Manual live-site Stripe QA checklist (for Roger)
+**Consumer paid route**
+1. Start at the live Expungement.ai front-end.
+2. Choose a verified paid state/route (e.g., NV record sealing, or AK CourtView).
+3. Complete screening with qualifying facts.
+4. Confirm the result shows the correct legal label (record sealing / CourtView removal — not "expungement" for sealing states).
+5. Confirm checkout appears only because `paymentAllowed=true`.
+6. Confirm the checkout line item reads **"Expungement.ai self-help packet"** ($50).
+7. Confirm it does **not** say court fee, filing fee, agency fee, government fee, attorney fee, or legal fee.
+8. Complete a test/live payment **only if Roger intentionally chooses to**.
+9. Confirm the success path returns to the packet/Briefcase flow (`/packet-ready`).
+10. Confirm the packet appears or packet-generation status is visible in the Briefcase.
+
+**Consumer no-payment route**
+1. Choose a disqualifying / guidance-only route (e.g., AK ordinary conviction, or a not-yet timing case).
+2. Confirm no checkout appears.
+3. Confirm no paid packet is generated.
+
+**Partner-sponsored route**
+1. Use the existing RCAP partner intake flow (`/intake/[partner]`).
+2. Complete an eligible screening.
+3. Confirm no consumer checkout appears.
+4. Confirm the sponsored packet path is used.
+5. Confirm partner/session/packet tracking uses the existing logic (no separate RCAP engine).
+
+**Stripe failure / cancel**
+1. Start checkout, then cancel before paying.
+2. Confirm no paid packet is generated (cancel returns to `/pay`).
+3. Confirm the user can safely return / retry.
+
+### Production readiness: **GREEN_PENDING_MANUAL_STRIPE_QA**
+All local/static verifiers GREEN; Supabase packet-generation smoke GREEN; Briefcase DB delivery GREEN;
+RCAP sponsored smoke GREEN; Stripe live automation was **not** run; manual Stripe checklist created; no
+deploy occurred; no generic fallback. The only remaining gate before live announcement is **Roger's
+manual live-site Stripe QA** above (and the standard counsel / source-freshness review before flipping
+any route to `live`).
