@@ -85,7 +85,7 @@ function evaluatorTreatsAsCourtFiled(profile, pathway) {
   const key = routeKey(profile, pathway);
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
-  if (code === "AK") return false;
+  if (code === "AK") return pathway.id === "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"; // TF-810 CourtView exclusion request is the one user-filed AK court route
   if (ADMIN_APPLICATION_ROUTES.has(key)) return false; // Hawaii HCJDC = admin application, not court
   if (code === "CT" && pathway.id === "absolute-pardon-resulting-in-erasure") return false;
   if (code === "CT" && pathway.id === "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202") return true;
@@ -119,13 +119,12 @@ const EXPLICIT_OVERRIDES = {
   // the later HCJDC application) is legally ambiguous in the source; hold for legal confirmation.
   "HI:deferred-acceptance-one-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS ch. 853 deferred-acceptance discharge is a court process, but expungement is via the HCJDC application. Confirm which is the sellable user-filed step." },
   "HI:deferred-prostitution-three-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS § 712-1200 deferred-acceptance/prostitution discharge vs later HCJDC application. Confirm the sellable user-filed step." },
-  // Alaska CourtView removal (AK_CV_810) — HELD via Legal Action Required. The official Form TF-810
-  // (CourtView exclusion under AS 22.35.030 / Admin. R. 40) is NOT present as a fillable form in the
-  // Nationwide Alaska folder (only an HTML agent-reference describes it), and TF-810 maps to the
-  // AUTOMATIC AS 22.35.030 confidentiality route, not a user-filed court petition. No invented form:
-  // Alaska stays a zero-paid jurisdiction until the official TF-810 PDF (or an approved custom
-  // substitute) and the sellable user-filed step are supplied. This is the honest 50/51 outcome.
-  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": { forceLegalActionRequired: true, larReason: "AK_CV_810 CourtView removal held: official Form TF-810 (CourtView exclusion, AS 22.35.030 / Admin. R. 40) is absent from the Nationwide Alaska folder and TF-810 maps to the automatic AS 22.35.030 confidentiality route, not a user-filed petition. Supply the official TF-810 form (or approved custom substitute) and confirm the sellable user-filed step before promoting Alaska. Do not invent the form." }
+  // Alaska CourtView removal (AK_CV_810) — PROMOTED. Roger supplied the official Alaska Court System
+  // Form TF-810 ("Request to Exclude Case from Online Public Index (CourtView)", AS 22.35.030 /
+  // Admin. R. 40). It is a user-filed request at the local trial court (court_application), limited to
+  // acquittal/dismissal cases and available 60 days after the acquittal/dismissal. CourtView removal,
+  // NOT general expungement. AK LAR-003 resolved by the official form.
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": { productRouteType: "court_application", filingForum: "court", userFiled: true, legalSignoffStatus: "signed_off" }
 };
 
 // Explicit product-strategy metadata (Phase 3) for routes where the form strategy, packet document
@@ -140,9 +139,8 @@ const PRODUCT_STRATEGY_OVERRIDES = {
   "DE:discretionary-court-expungement-under-11-del-c-4374": { formStrategy: "official_form_required", packetDocumentType: "official_form_plus_addendum", filingReadiness: "needs_external_document", externalDocuments: ["SBI criminal-history / SBI eligibility letter", "Certified case documents", "Superior Court filing fee"] },
   "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": { formStrategy: "official_form_primary", packetDocumentType: "official_form_plus_addendum", filingReadiness: "ready_to_file", externalDocuments: [] },
   "PA:path-a-non-conviction-expungement": { formStrategy: "official_form_primary", packetDocumentType: "official_form_plus_addendum", filingReadiness: "needs_external_document", externalDocuments: ["PATCH / PSP criminal-history report", "Expected PATCH fee", "Certified case documents"] },
-  // Alaska CourtView removal (AK_CV_810) is HELD: the official TF-810 form is not present in the
-  // Nationwide Alaska folder and TF-810 maps to the automatic AS 22.35.030 route. Held via LAR.
-  "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": { formStrategy: "official_form_required", packetDocumentType: "official_form_plus_addendum", filingReadiness: "guidance_only", externalDocuments: [] }
+  // Alaska CourtView removal (AK_CV_810) — official TF-810 form; user files at the local trial court.
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": { formStrategy: "official_form_required", packetDocumentType: "official_form_plus_addendum", filingReadiness: "needs_court_or_agency_followup", externalDocuments: ["File the TF-810 request at your local Alaska trial court", "Proof of SIS and/or the order setting aside charges (if applicable)", "Certified disposition showing acquittal or dismissal (if requested)"] }
 };
 
 function deriveProductStrategy(route, key) {

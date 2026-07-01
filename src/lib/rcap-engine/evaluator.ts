@@ -159,13 +159,18 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "WA:non-conviction-record-deletion-under-rcw-10-97-060",
   "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
   "WY:felony-conviction-expungement-w-s-7-13-1502",
-  // ---- Final Five (minus AK) — first-paid route per remaining zero-paid jurisdiction (signoff 2026-07-01) ----
-  // Each is a genuine user-filed court route with a source-backed compiled-rule match, a named
-  // source-specific waiting rule (resolved via the public waiting_rule_id fact), a coded
+  // ---- Final Five — first-paid route per remaining zero-paid jurisdiction (signoff 2026-07-01) ----
+  // Each is a genuine user-filed court route with a source-backed compiled-rule match, a coded
   // route-specific safety gate, and a fulfillment-ready packet plan. Proven both-direction by
-  // verify-rcap-no-generic-fallbacks + all51-provability. Alaska is intentionally NOT promoted:
-  // its CourtView TF-810 form is absent from the Nationwide folder and maps to the automatic
-  // AS 22.35.030 route, so AK_CV_810 is held via a Legal Action Required item (never an invented form).
+  // verify-rcap-no-generic-fallbacks + all51-provability.
+  // AK — TF-810 CourtView exclusion request (AK_CV_810). Roger supplied the official Alaska Court System
+  // Form TF-810 ("Request to Exclude Case from Online Public Index (CourtView)", AS 22.35.030 /
+  // Admin. R. 40); it is a user-filed request filed at the local trial court. Limited to acquittal /
+  // dismissal cases (akCourtViewExclusionSafetyGate), 60 days after the acquittal/dismissal
+  // (specialRouteTiming). This is CourtView removal, NOT general expungement, and does not erase DPS
+  // criminal-history records. Reclassified from the automatic AS 22.35.030 confidentiality route now
+  // that the official user-filed form exists; AK LAR-003 resolved.
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
   // NV — NRS 179.245 general conviction record sealing (custom pleading packet). The five source
   // waiting periods (10/7/5/2/1yr by offense class) are disambiguated by the public waiting_rule_id
   // fact, and the offense exclusions (crime against a child, sexual offense, etc.) are enforced by the
@@ -631,6 +636,24 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (hiAdminGate) return hiAdminGate;
   const deGate = deSuperiorExpungementSafetyGate(profile, answers, pathway);
   if (deGate) return deGate;
+  const akGate = akCourtViewExclusionSafetyGate(profile, answers, pathway);
+  if (akGate) return akGate;
+  return undefined;
+}
+
+// Alaska TF-810 CourtView exclusion request gate (legal signoff 2026-07-01). The paid TF-810 packet is
+// limited to the CourtView-removal category: a case that ended in acquittal or dismissal (AS 22.35.030 /
+// Admin. R. 40, § 1). An ordinary conviction — including a marijuana-possession conviction, which stays
+// no-payment until 2027-01-01 — has no CourtView-removal or general-expungement packet and remains
+// guidance-only. This keeps Alaska narrow: CourtView removal, never general expungement.
+function akCourtViewExclusionSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "AK" || pathway.id !== "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") return undefined;
+  const jurisdiction = profile.jurisdiction.code;
+  const outcome = normalizeCaseOutcome(answers.case_outcome);
+  const raw = answerText(answers.case_outcome).toLowerCase();
+  if (!["dismissed", "acquitted"].includes(outcome) && !/no conviction|not convicted|non-conviction|dismiss|acquit/.test(raw)) {
+    return reason(jurisdiction, "ak_courtview_removal_requires_acquittal_or_dismissal_not_eligible", "Alaska CourtView removal (Form TF-810) is limited to a case that ended in acquittal or dismissal; an ordinary conviction has no CourtView-removal or general-expungement packet and stays guidance-only.", pathway.sourceRef);
+  }
   return undefined;
 }
 
@@ -936,6 +959,13 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   // disposition_date is the available anchor proxy for "sentence fully satisfied".
   if (key === "ME:adult-conviction-sealing") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 4, unit: "years", raw: "4 years" }, "Maine CR-218 adult conviction sealing (eligible Class E crimes) requires four years after the sentence is fully satisfied (disposition date used as the available anchor).");
+  }
+  // ---- Alaska TF-810 CourtView exclusion request (legal signoff 2026-07-01) ----
+  // AS 22.35.030 / Admin. R. 40(a): a case that ended in acquittal or dismissal is excluded from the
+  // public online index 60 days after the acquittal or dismissal. disposition_date is the acquittal/
+  // dismissal date anchor.
+  if (key === "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
   }
   // ---- Delaware § 4374 discretionary court expungement (legal signoff 2026-07-01) ----
   // 11 Del. C. § 4374 discretionary waits from the compiled DE waiting-period rules: a single
@@ -1452,7 +1482,10 @@ function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPath
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
 
-  if (code === "AK") return false;
+  // Alaska: the ONLY user-filed court route is the TF-810 CourtView exclusion request (AS 22.35.030 /
+  // Admin. R. 40), filed at the local trial court. Every other Alaska route (mistaken-identity DPS
+  // sealing, SIS set-aside, juvenile, pardon) stays non-court / guidance-only.
+  if (code === "AK") return pathway.id === "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40";
   // Hawaii HCJDC routes are administrative applications, not court petitions. They are paid via
   // routeIsAdministrativeApplicationPacket, and must never be described as court filings.
   if (routeIsAdministrativeApplicationPacket(profile, pathway)) return false;

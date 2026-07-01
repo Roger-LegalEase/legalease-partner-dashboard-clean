@@ -2,6 +2,8 @@
 
 Status: **active**. Baseline commit `d42c015` (PR #70, `fix/all51-rule-driven-provability`), 68 paid routes across 26 jurisdictions.
 
+**Update 2026-07-01 — 51/51 paid jurisdictions (97 paid routes).** Final Four promoted (NV NRS 179.245, DE § 4374, MA § 100A, PA Rule 790), then **Alaska promoted**: `AK_CV_810` — the official Alaska Court System **Form TF-810** ("Request to Exclude Case from Online Public Index (CourtView)", AS 22.35.030 / Admin. R. 40) — a user-filed request at the local trial court, limited to acquittal/dismissal cases (`akCourtViewExclusionSafetyGate`), available 60 days after the acquittal/dismissal. This is **CourtView removal, not general expungement**; it does not erase DPS criminal-history records or guarantee removal from private background-check databases. AK LAR-003 (missing TF-810 form) is **resolved**; the Alaska DPS mistaken-identity and SIS set-aside route-depth items (LAR-001/002) remain open. Zero-paid jurisdictions: **0**.
+
 This document records the legal-team signoff and the product/engineering rules that govern which
 record-clearing routes may become **paid packet** routes. It is the controlling reference for the
 `RATIFIED_DEPLOYABLE_ROUTES` allowlist, the petition-route inventory, the route product-metadata map,

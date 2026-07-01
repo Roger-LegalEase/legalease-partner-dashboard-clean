@@ -686,7 +686,7 @@
     },
     {
       "id": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-      "label": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)",
+      "label": "CourtView removal / exclusion of acquittals and dismissals (TF-810 · AS 22.35.030 / Admin. R. 40)",
       "summary": "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a high bar and a narrow remedy — it is not a general path for clearing accurate records. A person whose information is sealed under this section may deny the existence of the information and of the arrest, charge, conviction, or sentence. Confidentiality of acquittals / dismissals (AS 22.35.030, Admin. Rule 40) The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were…",
       "sourceRef": "pathways:78-118; section:78-118; corpus-unit:33; section:119-151; section:223-251; corpus-unit:1; corpus-unit:64; corpus-unit:98",
       "sourceEvidenceRefs": [
@@ -758,9 +758,9 @@
         "juvenile"
       ],
       "automatic": false,
-      "filingRequired": false,
-      "routeType": "automatic_or_administrative",
-      "suggestedResultCode": "guidance_only",
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
         "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
@@ -2548,7 +2548,7 @@
         "sourceConditionText": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)"
       },
       "then": {
-        "suggestedResultCode": "guidance_only",
+        "suggestedResultCode": "packet_ready_with_caution",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": false
       },
@@ -3110,10 +3110,19 @@
       },
       {
         "pathwayId": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-        "pathwayLabel": "Confidentiality of acquittals and dismissals (AS 22.35.030 / Administrative Rule 40)",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formCandidates": [],
-        "formMappingStatus": "not_required",
+        "pathwayLabel": "CourtView removal / exclusion of acquittals and dismissals (TF-810 · AS 22.35.030 / Admin. R. 40)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "tf-810.pdf",
+            "relativePath": "LegalEase Alaska/tf-810.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+            "sizeBytes": 85386
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
         "sourceRuleRefs": [
           "pathways:78-118",
           "section:78-118",
