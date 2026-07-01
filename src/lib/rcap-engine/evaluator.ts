@@ -114,7 +114,51 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // Expungement to attach; without it they fail closed. See docs/expungement-ai/HAWAII_ADMIN_APPLICATION_PACKET.md.
   "HI:nonconviction-arrest-expungement",
   "HI:first-time-drug-conviction",
-  "HI:dui-under-21-conviction"
+  "HI:dui-under-21-conviction",
+  // ---- Target 51 Batch 1 — legal reconfirmation (signoff 2026-07-01) ----
+  // CORRECTED_AWAITING_RECONFIRM routes that were built with corrected route-specific wait/anchor/gate
+  // logic and were held only for legal reconfirmation. Legal signed off 2026-07-01; only those PROVEN
+  // both-direction (open when qualifying, block when disqualified) by verify-rcap-no-generic-fallbacks
+  // + all51-provability are promoted. The remaining held routes stayed in CORRECTED because a
+  // qualifying case did not open payment (missing intake fact / anchor) — they need more than a
+  // reconfirmation and were NOT promoted.
+  "IN:conviction-expungement-with-sealed-confidential-access",
+  "ND:deferred-imposition-dismissal-and-sealing",
+  "NY:conditional-treatment-sealing-under-cpl-160-58",
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+  // ---- Target 51 Batch 1 — ready-pending-ratification first-paid routes (signoff 2026-07-01) ----
+  // Untiered routes that already reach packet_ready deterministically (compiled source-rule match +
+  // route-specific source waiting rule + exclusion gates); held from payment only by non-ratification.
+  // FL: § 943.0585 court-ordered expunction (non-conviction). SD: § 23A-3-27 adult arrest-record
+  // expungement (non-conviction).
+  "FL:court-ordered-expunction-943-0585",
+  "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
+  // ---- Target 51 Batch 2 — route-metadata first-paid routes (signoff 2026-07-01) ----
+  // Real user-filed court routes the text heuristic did not recognize; ratifying gives them explicit
+  // court-route recognition (isCourtFiledPetitionRoute returns true for ratified routes). Each is
+  // proven both-direction by verify-rcap-no-generic-fallbacks + all51-provability; any that did not
+  // open payment when qualifying was reverted and held (see LEGAL_ACTION_REQUIRED.md). AK is excluded
+  // (jurisdiction hard-coded non-court); MA/PA excluded (held-guidance / legacy-preserved).
+  "AL:eligible-conviction-expungement-under-the-redeemer-act",
+  "AZ:remedy-1-record-sealing",
+  // DE:discretionary-court-expungement-under-11-del-c-4374 held: a qualifying case did not open
+  // payment in both-direction proof (needs an intake fact/anchor beyond metadata). See LEGAL_ACTION_REQUIRED.md.
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+  // NV:controlled-substance-possession-sealing-under-nrs-453-3365 held: compiled summary/id mismatch
+  // (summary is trafficking-victim NRS 179.247, not the § 453.3365 drug route) and an ambiguous
+  // multi-wait that fails closed. Needs a clean NV route selection + source fix. See LEGAL_ACTION_REQUIRED.md.
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+  "OK:acquittal-dismissal-or-other-no-conviction-expungement",
+  "RI:path-f-marijuana-possession-expungement",
+  "SC:diversion-or-program-completion-expungement",
+  "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+  "UT:path-i-traffic-offense-expungement-or-deletion",
+  "VT:dui-sealing",
+  "WA:non-conviction-record-deletion-under-rcw-10-97-060",
+  "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+  "WY:felony-conviction-expungement-w-s-7-13-1502"
 ]);
 
 // Legally signed-off administrative-application packet routes. These are the ONLY non-court-petition
@@ -131,15 +175,16 @@ const HI_ADMIN_CONVICTION_ROUTES = new Set([
   "HI:dui-under-21-conviction"
 ]);
 
+// Held routes that carry corrected wait/anchor logic but did NOT pass both-direction proof during
+// Target 51 Batch 1 (a qualifying case did not open payment — a required intake fact/anchor is missing,
+// or the relief is automatic and not a paid product). They stay held (no payment) pending that work;
+// see docs/expungement-ai/LEGAL_ACTION_REQUIRED.md. WY:adult-non-conviction is automatic-relief and is
+// held as a non-paid product.
 const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
   "IN:non-conviction-arrest-or-criminal-charge-expungement",
-  "IN:conviction-expungement-with-sealed-confidential-access",
   "IN:juvenile-allegation-expungement",
   "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-  "ND:deferred-imposition-dismissal-and-sealing",
-  "WY:adult-non-conviction-expungement-w-s-7-13-1401",
-  "NY:conditional-treatment-sealing-under-cpl-160-58",
-  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+  "WY:adult-non-conviction-expungement-w-s-7-13-1401"
 ]);
 
 // Ratified routes whose compiled source rule is conservatively `needs_review` but which Lawrence

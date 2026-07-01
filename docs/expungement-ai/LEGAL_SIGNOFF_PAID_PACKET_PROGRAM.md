@@ -113,6 +113,39 @@ Payment may open only when **all** of these hold:
   ambiguity that blocks a route from becoming paid.
 - `scripts/verify-rcap-no-generic-fallbacks.mjs` — fails closed on any banned pattern.
 
+## Legal signoff record — Target 51 (2026-07-01)
+
+- **Date of signoff:** 2026-07-01.
+- **Signed off by / role:** LegalEase legal team (business/legal signoff relayed by Roger). Role of the
+  individual reviewer not recorded in-repo — if a named attorney sign-off is required for production,
+  capture it before `approved_for_live`.
+- **Scope:** pursue every currently operative user-filed court petition / motion / application route,
+  plus the Hawaii administrative application packet, that can be **safely screened and packetized**.
+- **Important:** this is a program/strategy signoff. Per the Legal Completeness Protocol it is **not**
+  treated as technical proof. A route moved to `paid_now` only after passing full per-route
+  verification (deterministic source-rule match, route-specific wait/anchor enforced, disqualifiers
+  block, public intake facts, fulfillment-ready packet, both-direction verifier GREEN). Routes that
+  needed missing source material were **held**, not promoted.
+
+Applicability of the signoff by category (what it did / did not unlock this build):
+
+| Category | Signoff applies | Outcome this build |
+| --- | --- | --- |
+| 6 "legal-reconfirmation-only" first-paid picks | yes | Only the genuinely-wired CORRECTED routes reconfirmed → promoted (IN conviction-sealed, ND deferred, NY 160.58, TN pathway-1). The MA/PA/IN-non-conviction picks were `HELD_GUIDANCE`/legacy or returned `needs_more_info` and were **held**. |
+| 18 route-metadata first-paid picks | yes | 15 promoted (AL, AZ, MI, NC, NH, OH, OK, RI, SC, TX, UT, VT, WA, WV, WY). **Held:** AK (jurisdiction hard-coded non-court), DE (did not open when qualified), NV (compiled summary/id mismatch + ambiguous wait). |
+| 42 gate-build routes | yes (strategy) | **Not promoted** — each needs its coded substantive gate + confirmed exclusion list first. Held in `HARD_GATE_PENDING`. |
+| 33 wait-anchor routes | yes (strategy) | **Not promoted** — need the specific wait/anchor confirmed/wired first. |
+| 18 intake-fix routes | yes (strategy) | **Not promoted** — need the nexus/intake question built first. |
+| Hawaii administrative application packet | yes | Promoted (3 HCJDC routes), unchanged this build. |
+
+Plus 2 ready-pending-ratification untiered first-paid routes promoted (FL § 943.0585, SD § 23A-3-27).
+
+**Resolution of Legal Action Required rows:** the machine LAR feed
+(`data/expungement-ai/reports/legal-action-required.json`) is regenerated from the current
+classification, so a route's LAR rows disappear when it reaches `paid_now` (resolved by promotion +
+both-direction proof). The **basis** for each resolution is this signoff plus the verifier GREEN state
+recorded in the Target 51 report. Rows for held routes remain open with their exact missing item.
+
 ## Do-not list for this environment
 
 Do not deploy. Do not run Stripe. Do not mark anything live. Do not undo the safe 68. Do not
