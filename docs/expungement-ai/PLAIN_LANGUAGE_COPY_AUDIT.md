@@ -1,6 +1,6 @@
 # Plain-Language and Bilingual Copy Audit
 
-Generated: 2026-07-01T18:34:33.014Z
+Generated: 2026-07-01T19:11:14.743Z
 
 Branch: `unknown`  
 Commit: `unknown`

@@ -1,9 +1,32 @@
 import "server-only";
 
+import { createRequire } from "node:module";
 import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 
 type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
+type TranslatedProfileQuestion = {
+  id: string;
+  translations?: {
+    es?: {
+      prompt?: string;
+      helperText?: string;
+    };
+  };
+  optionDisplay?: Record<string, {
+    label?: string;
+    helperText?: string;
+    translations?: {
+      es?: {
+        label?: string;
+        helperText?: string;
+      };
+    };
+  }>;
+};
+type TranslatedProfile = { questions?: TranslatedProfileQuestion[] };
+const require = createRequire(import.meta.url);
+const TRANSLATED_PROFILES = require("../expungement-ai/frontend/profiles/all51.json") as Record<string, TranslatedProfile>;
 
 const POSTPAY_STAGES = new Set(["record_readiness", "case_details", "packet_information"]);
 const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
@@ -122,6 +145,24 @@ function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: str
     doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
   };
   return normalized;
+}
+
+function withDisplayTranslations(question: PublicQuestion, jurisdictionCode: string): PublicQuestion {
+  const translatedQuestion = TRANSLATED_PROFILES[jurisdictionCode]?.questions?.find((item) => item.id === question.id);
+  if (!translatedQuestion) return question;
+  const optionDisplay = { ...(question.optionDisplay ?? {}) };
+  for (const [option, display] of Object.entries(translatedQuestion.optionDisplay ?? {})) {
+    optionDisplay[option] = {
+      ...(optionDisplay[option] ?? { label: display.label ?? option }),
+      ...(optionDisplay[option]?.helperText ? {} : display.helperText ? { helperText: display.helperText } : {}),
+      translations: display.translations
+    };
+  }
+  return {
+    ...question,
+    translations: translatedQuestion.translations,
+    optionDisplay: Object.keys(optionDisplay).length ? optionDisplay : question.optionDisplay
+  };
 }
 
 function normalizeFlowStages(profile: PublicJurisdictionProfile, questions: PublicQuestion[]) {
@@ -538,7 +579,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "designer")),
+      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
       caseOutcomeOptions: designerProfile.caseOutcomeOptions,
       copyGuardrails: profile.copyGuardrails
     });
@@ -560,7 +601,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       questionIds: stage.questionIds?.filter((id) => questionIds.has(id)) ?? profile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
       screenType: stage.screenType
     })),
-    questions: profile.questions.map((question) => normalizePublicQuestion({
+    questions: profile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion({
       id: question.id,
       stage: question.stage,
       prompt: question.prompt,
@@ -571,7 +612,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
       options: question.options,
       optionDisplay: question.optionDisplay
-    }, profile.jurisdiction.code, "engine")),
+    }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
     caseOutcomeOptions: profile.caseOutcomeOptions,
     copyGuardrails: profile.copyGuardrails
   });

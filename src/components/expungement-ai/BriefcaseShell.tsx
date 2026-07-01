@@ -75,14 +75,14 @@ export function BriefcaseShell({
             {PRIMARY_NAV.map(({ key, href, label, Icon }) => (
               <NavItem key={label} href={href} label={label} Icon={Icon} active={activeNav === key} />
             ))}
-            <p className="mt-4 mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35">Account</p>
+            <p className="mt-4 mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35"><LocalizedText k="briefcase.account" fallback="Account" /></p>
             {ACCOUNT_NAV.map(({ key, href, label, Icon }) => (
               <NavItem key={label} href={href} label={label} Icon={Icon} active={false && activeNav === key} />
             ))}
           </nav>
 
           <div className="mt-auto rounded-xl bg-white/[0.05] p-3.5">
-            <p className="text-[12px] font-semibold text-white">Stuck on something?</p>
+            <p className="text-[12px] font-semibold text-white"><LocalizedText k="briefcase.stuck" fallback="Stuck on something?" /></p>
             <p className="mt-1 text-[11px] leading-5 text-white/55"><LocalizedText k="briefcase.wilma_help" fallback="Wilma can explain any step in plain language, anytime." /></p>
             <a
               href="#ask-wilma"
@@ -101,7 +101,7 @@ export function BriefcaseShell({
           <header className="flex h-[62px] shrink-0 items-center justify-between border-b border-[#ECEFF4] bg-[#FBFCFE] px-5 md:px-7">
             <div className="flex items-center gap-2.5">
               <Link href="/briefcase" className="grid h-7 w-7 place-items-center rounded-md bg-[#00A99D] text-[12px] font-extrabold text-white md:hidden">E</Link>
-              <p className="text-[13px] text-[#8A93A6]">{breadcrumb ?? <b className="text-[#1A1D26]">Briefcase</b>}</p>
+              <p className="text-[13px] text-[#8A93A6]">{breadcrumb ?? <b className="text-[#1A1D26]"><LocalizedText k="briefcase.label" fallback="Briefcase" /></b>}</p>
             </div>
             <div className="flex items-center gap-3">
               <span className="grid h-[34px] w-[34px] place-items-center rounded-[9px] border border-[#ECEFF4] bg-white text-[#8A93A6]">
@@ -134,7 +134,7 @@ export function BriefcaseShell({
               }`}
             >
               <Icon className="h-5 w-5" aria-hidden="true" />
-              {label}
+              <LocalizedText k={`briefcase.nav.${label.toLowerCase().replace(/\s+/g, "_")}`} fallback={label} />
             </Link>
           )
         )}

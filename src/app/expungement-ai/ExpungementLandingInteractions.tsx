@@ -2,12 +2,16 @@
 
 import { useEffect } from "react";
 
-export function ExpungementLandingInteractions() {
+export function ExpungementLandingInteractions({
+  dictionaries
+}: {
+  dictionaries: {
+    en: Record<string, string>;
+    es: Record<string, string>;
+  };
+}) {
   useEffect(() => {
     const nav = document.getElementById("nav");
-    if (!nav) {
-      return;
-    }
 
     const navToggle = document.getElementById("navtoggle");
     const scrim = document.getElementById("menuscrim");
@@ -15,14 +19,17 @@ export function ExpungementLandingInteractions() {
     const cleanup: Array<() => void> = [];
 
     const onScroll = () => {
+      if (!nav) return;
       nav.classList.toggle("scrolled", window.scrollY > 40);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    cleanup.push(() => window.removeEventListener("scroll", onScroll));
-    onScroll();
+    if (nav) {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      cleanup.push(() => window.removeEventListener("scroll", onScroll));
+      onScroll();
+    }
 
-    if (navToggle && scrim && menu) {
+    if (nav && navToggle && scrim && menu) {
       const setMenu = (open: boolean) => {
         nav.classList.toggle("open", open);
         navToggle.setAttribute("aria-expanded", String(open));
@@ -55,9 +62,54 @@ export function ExpungementLandingInteractions() {
       });
     }
 
+    const applyLanguage = (lang: "en" | "es") => {
+      const dictionary = lang === "es" ? dictionaries.es : dictionaries.en;
+      const setHtmlContent = (element: Element, value: string) => {
+        element.innerHTML = value;
+      };
+      const setTextContent = (element: Element, value: string) => {
+        element.textContent = value;
+      };
+
+      document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((element) => {
+        const key = element.getAttribute("data-i18n") ?? "";
+        const value = dictionary[key];
+        if (typeof value === "string") setTextContent(element, value);
+      });
+      document.querySelectorAll<HTMLElement>("[data-i18n-html]").forEach((element) => {
+        const key = element.getAttribute("data-i18n-html") ?? "";
+        const value = dictionary[key];
+        if (typeof value === "string") setHtmlContent(element, value);
+      });
+      document.documentElement.setAttribute("lang", lang);
+      document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((item) => {
+        const on = item.getAttribute("data-lang") === lang;
+        item.classList.toggle("on", on);
+        item.setAttribute("aria-pressed", String(on));
+      });
+      try {
+        window.localStorage.setItem("exp_lang", lang);
+      } catch {
+        // Ignore storage failures; runtime pages still receive the event below.
+      }
+      window.dispatchEvent(new Event("expungement-ai:language-change"));
+    };
+
+    const initialLanguage = (() => {
+      try {
+        const saved = window.localStorage.getItem("exp_lang");
+        if (saved === "es" || saved === "en") return saved;
+      } catch {
+        // Ignore storage failures; fall back below.
+      }
+      const navLanguage = navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
+      return navLanguage;
+    })();
+    applyLanguage(initialLanguage);
+
     document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((button) => {
       const onLanguageClick = () => {
-        window.dispatchEvent(new Event("expungement-ai:language-change"));
+        applyLanguage(button.getAttribute("data-lang") === "es" ? "es" : "en");
       };
       button.addEventListener("click", onLanguageClick);
       cleanup.push(() => button.removeEventListener("click", onLanguageClick));
@@ -93,7 +145,7 @@ export function ExpungementLandingInteractions() {
     return () => {
       cleanup.forEach((dispose) => dispose());
     };
-  }, []);
+  }, [dictionaries.en, dictionaries.es]);
 
   return null;
 }

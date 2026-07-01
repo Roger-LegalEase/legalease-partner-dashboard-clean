@@ -86,7 +86,19 @@ export type PublicQuestion = {
   optionDisplay?: Record<string, {
     label: string;
     helperText?: string;
+    translations?: {
+      es?: {
+        label?: string;
+        helperText?: string;
+      };
+    };
   }>;
+  translations?: {
+    es?: {
+      prompt?: string;
+      helperText?: string;
+    };
+  };
 };
 
 export type PublicJurisdictionProfile = {

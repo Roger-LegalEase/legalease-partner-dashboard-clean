@@ -12,7 +12,13 @@ import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai
 
 // The filing stepper is always the same five steps. It applies to packet matters only; guidance
 // matters never show it (the spec: a stalled stepper would read as failure).
-const STAGES = ["Reviewed", "Prepared", "File it", "Court", "Decision"] as const;
+const STAGES = [
+  { label: "Reviewed", key: "briefcase.stage.reviewed" },
+  { label: "Prepared", key: "briefcase.stage.prepared" },
+  { label: "File it", key: "briefcase.stage.file_it" },
+  { label: "Court", key: "briefcase.stage.court" },
+  { label: "Decision", key: "briefcase.stage.decision" }
+] as const;
 
 type PillTone = "teal" | "amber" | "gray" | "green" | "red" | "care";
 
@@ -108,7 +114,7 @@ function StatusPill({ label, tone }: { label: string; tone: PillTone }) {
 function Stepper({ done, current, className = "" }: { done: number; current: number; className?: string }) {
   return (
     <div className={`flex items-start ${className}`}>
-      {STAGES.map((label, i) => {
+      {STAGES.map(({ label, key }, i) => {
         const isDone = i < done;
         const isCurrent = i === current;
         const node = isDone
@@ -125,7 +131,7 @@ function Stepper({ done, current, className = "" }: { done: number; current: num
               {isDone ? <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" /> : i + 1}
             </span>
             <span className={`mt-1.5 text-center text-[9.5px] ${isDone || isCurrent ? "font-semibold text-[#1A1D26]" : "font-medium text-[#8A93A6]"}`}>
-              {label}
+              <LocalizedText k={key} fallback={label} />
             </span>
           </div>
         );
@@ -163,11 +169,11 @@ export function BriefcaseAuthGate() {
   return (
     <main className="min-h-screen bg-[#F7F3EC] px-4 py-20 text-[#0B1320]">
       <section className="mx-auto max-w-xl rounded-2xl border border-[#ECEFF4] bg-white p-6">
-        <p className="text-xs font-bold uppercase text-[#00A99D]">Account required</p>
-        <h1 className="mt-3 text-3xl font-extrabold">Sign in to open your Briefcase</h1>
-        <p className="mt-3 text-sm leading-6 text-[#5A6275]">Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase.</p>
+        <p className="text-xs font-bold uppercase text-[#00A99D]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
+        <h1 className="mt-3 text-3xl font-extrabold"><LocalizedText k="briefcase.sign_in_title" fallback="Sign in to open your Briefcase" /></h1>
+        <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase." /></p>
         <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in">
-          Sign in
+          <LocalizedText k="common.sign_in" fallback="Sign in" />
         </a>
       </section>
       <WilmaBubble context="briefcase" />
@@ -183,12 +189,12 @@ function EmptyBriefcase() {
           <path d="M3 7h18v13H3zM8 7V4h8v3" />
         </svg>
       </span>
-      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]">Let&apos;s find out what you can clear</h2>
+      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Let's find out what you can clear" /></h2>
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
-        Answer a few plain questions about your record. It takes about 3 minutes, it&apos;s free, and you&apos;ll see exactly where you stand before paying anything.
+        <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything." />
       </p>
       <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
-        Check if I qualify
+        <LocalizedText k="briefcase.empty_cta" fallback="Check if I qualify" />
       </Link>
     </div>
   );
@@ -245,14 +251,17 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
   const readyToFile = matters.filter((m) => ["packet_ready", "completed"].includes(matterCareState(m)));
   const documents = matters.filter((m) => packetArtifactFor(m) !== null);
   const next = pickNextStep(matters);
+  const recordWord = inProgress.length === 1 ? "record" : "records";
 
   return (
     <section>
-      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{name ? `Welcome back, ${name}` : "Welcome back"}</h1>
+      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">
+        <LocalizedText k="briefcase.welcome_back" fallback="Welcome back" />{name ? `, ${name}` : ""}
+      </h1>
       <p className="mt-1 text-[13px] text-[#8A93A6]">
         {inProgress.length > 0
-          ? `You have ${inProgress.length} ${inProgress.length === 1 ? "record" : "records"} in progress. Here's where things stand.`
-          : "Here's where your records stand."}
+          ? <LocalizedText k="briefcase.progress_body" fallback="You have {count} {recordWord} in progress. Here's where things stand." vars={{ count: inProgress.length, recordWord }} />
+          : <LocalizedText k="briefcase.stand_body" fallback="Here's where your records stand." />}
       </p>
 
       {next ? (
@@ -361,8 +370,8 @@ export function DocumentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
 export function RemindersView() {
   return (
     <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
-      <h1 className="text-[22px] font-extrabold text-[#0B1320]">Reminders</h1>
-      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]">Waiting-period reminders and filing follow-ups are saved here when the engine recommends them. You will never miss a window without a heads-up.</p>
+      <h1 className="text-[22px] font-extrabold text-[#0B1320]"><LocalizedText k="briefcase.reminders" fallback="Reminders" /></h1>
+      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.reminders_body" fallback="Waiting-period reminders and filing follow-ups are saved here when the engine recommends them. You will never miss a window without a heads-up." /></p>
     </section>
   );
 }
@@ -371,19 +380,19 @@ export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
   const paid = items.filter((item) => item.packetReady);
   return (
     <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
-      <h1 className="flex items-center gap-2 text-[22px] font-extrabold text-[#0B1320]"><CreditCard className="h-5 w-5" aria-hidden="true" /> Payment history</h1>
+      <h1 className="flex items-center gap-2 text-[22px] font-extrabold text-[#0B1320]"><CreditCard className="h-5 w-5" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" /></h1>
       <div className="mt-4 space-y-3">
         {paid.length ? (
           paid.map((item) => (
             <div key={item.id} className="rounded-[12px] bg-[#F7F3EC] p-4 text-sm">
-              <p className="font-bold text-[#0B1320]">$50 one-time packet payment: {item.paymentStatus ?? "not_applicable"}</p>
+              <p className="font-bold text-[#0B1320]">$50 <LocalizedText k="payment.one_time" fallback="one-time" />: {item.paymentStatus ?? "not_applicable"}</p>
               <p className="mt-1 text-[#5A6275]">{item.title}</p>
-              <p className="mt-1 text-[#5A6275]">Packet: {item.packetStatus ?? "not_started"}</p>
-              {item.receiptUrl ? <p className="mt-1 text-[#5A6275]">Receipt: {item.receiptUrl}</p> : null}
+              <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.packetStatus ?? "not_started"}</p>
+              {item.receiptUrl ? <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.receipt" fallback="Receipt" />: {item.receiptUrl}</p> : null}
             </div>
           ))
         ) : (
-          <p className="text-[13px] text-[#5A6275]">No payments yet. You only pay when a packet is ready, and you will see the price first.</p>
+          <p className="text-[13px] text-[#5A6275]"><LocalizedText k="briefcase.no_payments" fallback="No payments yet. You only pay when a packet is ready, and you will see the price first." /></p>
         )}
       </div>
     </section>
@@ -393,14 +402,14 @@ export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
 export function SettingsView() {
   return (
     <section id="profile" className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
-      <h1 className="text-[22px] font-extrabold text-[#0B1320]">Profile and settings</h1>
-      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]">Your account preferences live here. This pass does not change partner auth, sessions, or billing.</p>
+      <h1 className="text-[22px] font-extrabold text-[#0B1320]"><LocalizedText k="briefcase.profile_settings" fallback="Profile and settings" /></h1>
+      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.settings_body" fallback="Your account preferences live here. This pass does not change partner auth, sessions, or billing." /></p>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/payments">
-          <CreditCard className="h-4 w-4" aria-hidden="true" /> Payment history
+          <CreditCard className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" />
         </Link>
         <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/expungement-ai/support">
-          <LifeBuoy className="h-4 w-4" aria-hidden="true" /> Get technical support
+          <LifeBuoy className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.technical_support" fallback="Get technical support" />
         </Link>
       </div>
     </section>

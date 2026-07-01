@@ -6,10 +6,12 @@ import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 const genericError = "We could not sign you in. Check your email and password and try again.";
 
 export function ConsumerSignInForm() {
+  const { t: translate } = useLocalization();
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -25,7 +27,7 @@ export function ConsumerSignInForm() {
     const password = String(formData.get("password") ?? "");
 
     if (!email || !password) {
-      setErrorMessage(genericError);
+      setErrorMessage(translate("signin.error", genericError));
       setIsSubmitting(false);
       return;
     }
@@ -44,7 +46,7 @@ export function ConsumerSignInForm() {
     });
 
     if (error) {
-      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : genericError);
+      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : translate("signin.error", genericError));
       setIsSubmitting(false);
       return;
     }
@@ -52,7 +54,7 @@ export function ConsumerSignInForm() {
     const { data: sessionData } = await supabase.auth.getSession();
 
     if (!sessionData.session) {
-      setErrorMessage(genericError);
+      setErrorMessage(translate("signin.error", genericError));
       setIsSubmitting(false);
       return;
     }
@@ -71,7 +73,7 @@ export function ConsumerSignInForm() {
 
       <form className="mt-6 grid gap-4" onSubmit={signInWithPassword}>
         <label className="grid gap-1.5">
-          <span className="text-sm font-bold text-[#0B1320]">Email</span>
+          <span className="text-sm font-bold text-[#0B1320]">{translate("common.email", "Email")}</span>
           <input
             autoComplete="email"
             className="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25"
@@ -81,7 +83,7 @@ export function ConsumerSignInForm() {
           />
         </label>
         <label className="grid gap-1.5">
-          <span className="text-sm font-bold text-[#0B1320]">Password</span>
+          <span className="text-sm font-bold text-[#0B1320]">{translate("common.password", "Password")}</span>
           <div className="flex min-h-11 overflow-hidden rounded-md border border-[#ECEFF4] bg-white shadow-sm transition focus-within:border-[#00A99D] focus-within:ring-2 focus-within:ring-[#00A99D]/25">
             <input
               autoComplete="current-password"
@@ -91,13 +93,13 @@ export function ConsumerSignInForm() {
               type={isPasswordVisible ? "text" : "password"}
             />
             <button
-              aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+              aria-label={isPasswordVisible ? translate("signin.hide_password", "Hide password") : translate("signin.show_password", "Show password")}
               className="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={isSubmitting}
               onClick={() => setIsPasswordVisible((visible) => !visible)}
               type="button"
             >
-              {isPasswordVisible ? "Hide" : "Show"}
+              {isPasswordVisible ? translate("common.hide", "Hide") : translate("common.show", "Show")}
             </button>
           </div>
         </label>
@@ -107,13 +109,13 @@ export function ConsumerSignInForm() {
           disabled={isSubmitting}
           type="submit"
         >
-          {isSubmitting ? "Signing in..." : "Sign in"}
+          {isSubmitting ? translate("signin.signing_in", "Signing in...") : translate("common.sign_in", "Sign in")}
         </button>
       </form>
 
       <div className="mt-5">
         <Link href="/auth/forgot-password" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
-          Forgot your password?
+          {translate("signin.forgot", "Forgot your password?")}
         </Link>
       </div>
     </>
