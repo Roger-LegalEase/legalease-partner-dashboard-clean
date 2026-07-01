@@ -94,16 +94,16 @@ export const EXTERNAL_DOCUMENT_COPY: CriticalCopyEntry[] = [
 ];
 
 export const ROUTE_LABEL_COPY: CriticalCopyEntry[] = [
-  { id: "route.ak.courtview_removal", surface: "result_panel", en: "CourtView Removal", es: "Eliminación de CourtView" },
-  { id: "route.nv.record_sealing", surface: "result_panel", en: "Record Sealing", es: "Sellado de antecedentes" },
-  { id: "route.ma.cori_sealing", surface: "result_panel", en: "CORI Sealing", es: "Sellado de CORI" },
-  { id: "route.ma.dismissed_case_sealing", surface: "result_panel", en: "Dismissed Case Sealing", es: "Sellado de caso desestimado" },
-  { id: "route.ma.marijuana_expungement", surface: "result_panel", en: "Marijuana Expungement", es: "Borrado de antecedente de marihuana" },
-  { id: "route.pa.court_case_expungement", surface: "result_panel", en: "Court Case Expungement", es: "Borrado de caso judicial" },
-  { id: "route.pa.summary_expungement", surface: "result_panel", en: "Summary Expungement", es: "Borrado de condena sumaria" },
-  { id: "route.pa.limited_access", surface: "result_panel", en: "Limited Access / Sealing", es: "Acceso limitado / sellado" },
+  { id: "route.ak.courtview_removal", surface: "result_panel", en: "CourtView Removal", es: "Eliminación de CourtView (CourtView Removal)" },
+  { id: "route.nv.record_sealing", surface: "result_panel", en: "Record Sealing", es: "Sellado de antecedentes (Record Sealing)" },
+  { id: "route.ma.cori_sealing", surface: "result_panel", en: "CORI Sealing", es: "Sellado CORI (CORI Sealing)" },
+  { id: "route.ma.dismissed_case_sealing", surface: "result_panel", en: "Dismissed Case Sealing", es: "sellado de caso desestimado (Dismissed Case Sealing)" },
+  { id: "route.ma.marijuana_expungement", surface: "result_panel", en: "Marijuana Expungement", es: "expungement de marihuana (Marijuana Expungement)" },
+  { id: "route.pa.court_case_expungement", surface: "result_panel", en: "Court Case Expungement", es: "Expungement de caso judicial (Court Case Expungement)" },
+  { id: "route.pa.summary_expungement", surface: "result_panel", en: "Summary Expungement", es: "Expungement sumario (Summary Expungement)" },
+  { id: "route.pa.limited_access", surface: "result_panel", en: "Limited Access / Sealing", es: "Acceso limitado / sellado (Limited Access / Sealing)" },
   { id: "route.hi.admin_application", surface: "result_panel", en: "Administrative Application", es: "Solicitud administrativa" },
-  { id: "route.de.discretionary_expungement", surface: "result_panel", en: "Discretionary Expungement Packet", es: "Paquete de borrado discrecional" }
+  { id: "route.de.discretionary_expungement", surface: "result_panel", en: "Discretionary Expungement Packet", es: "Paquete de expungement discrecional (Discretionary Expungement Packet)" }
 ];
 
 export const NO_PAYMENT_COPY: CriticalCopyEntry[] = [

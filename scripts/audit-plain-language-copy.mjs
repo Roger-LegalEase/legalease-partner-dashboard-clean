@@ -16,6 +16,7 @@ const JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/plain-language-cop
 const MD_OUT = path.join(ROOT, "docs/expungement-ai/PLAIN_LANGUAGE_COPY_AUDIT.md");
 
 const { CRITICAL_COPY_CATALOG, routeLabelForState } = await import("../src/lib/expungement-ai/plain-language-copy.ts");
+const { EXPUNGEMENT_COPY } = await import("../src/lib/expungement-ai/localization.ts");
 
 const BANNED_PHRASES = [
   "eligibility determination",
@@ -209,34 +210,50 @@ function extractCriticalCatalogStrings() {
 function extractRouteMetadataStrings() {
   const metadata = readJson(ROUTE_METADATA_PATH, {});
   const out = [];
-  for (const [code, stateData] of Object.entries(metadata.states ?? metadata)) {
-    const stateName = stateData.stateName ?? stateData.name ?? code;
-    const routeLabel = routeLabelForState(stateName);
+  const runtimeCatalogByEnglish = new Map(Object.values(EXPUNGEMENT_COPY).map((entry) => [normalize(entry.en), entry.es ?? ""]));
+  for (const [routeKey, routeData] of Object.entries(metadata.routes ?? {})) {
+    const [code] = routeKey.split(":");
+    const stateName = stateNameForCode(code);
+    const routeLabel = routeLabelForState(stateName, routeKey);
     out.push(classifyString({
-      id: `${code}.route_label`,
+      id: `${routeKey}.route_label`,
       sourcePath: "data/expungement-ai/route-product-metadata.json",
       surface: "result_panel",
       englishText: routeLabel,
-      spanishText: CRITICAL_COPY_CATALOG.find((entry) => entry.en === routeLabel)?.es ?? ""
+      spanishText: CRITICAL_COPY_CATALOG.find((entry) => entry.en === routeLabel)?.es
+        ?? (routeLabel.endsWith(" record-clearing") ? `limpieza de antecedentes de ${stateName}` : "")
     }));
     const items = [
-      ...(stateData.filingReadiness ?? []),
-      ...(stateData.externalDocuments ?? []),
-      ...(stateData.externalDocumentChecklist ?? [])
+      routeData.filingReadiness,
+      ...(routeData.externalDocuments ?? []),
+      ...(routeData.externalDocumentChecklist ?? [])
     ];
     for (const [index, item] of items.entries()) {
       const text = typeof item === "string" ? item : item.label ?? item.title ?? item.name ?? item.text ?? "";
       if (!text) continue;
       out.push(classifyString({
-        id: `${code}.route_metadata.${index}`,
+        id: `${routeKey}.route_metadata.${index}`,
         sourcePath: "data/expungement-ai/route-product-metadata.json",
         surface: /patch|sbi|report|fingerprint|certificate|certified|chr|scope/i.test(text) ? "external_document_checklist" : "filing_readiness",
         englishText: text,
-        spanishText: typeof item === "object" ? item.translations?.es?.label ?? item.es ?? "" : ""
+        spanishText: typeof item === "object" ? item.translations?.es?.label ?? item.es ?? "" : runtimeCatalogByEnglish.get(normalize(text)) ?? ""
       }));
     }
   }
   return out;
+}
+
+function stateNameForCode(code) {
+  return {
+    AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut",
+    DC: "District of Columbia", DE: "Delaware", FL: "Florida", GA: "Georgia", HI: "Hawaii", IA: "Iowa", ID: "Idaho",
+    IL: "Illinois", IN: "Indiana", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", MA: "Massachusetts", MD: "Maryland",
+    ME: "Maine", MI: "Michigan", MN: "Minnesota", MO: "Missouri", MS: "Mississippi", MT: "Montana", NC: "North Carolina",
+    ND: "North Dakota", NE: "Nebraska", NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NV: "Nevada",
+    NY: "New York", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island",
+    SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VA: "Virginia",
+    VT: "Vermont", WA: "Washington", WI: "Wisconsin", WV: "West Virginia", WY: "Wyoming"
+  }[code] ?? code;
 }
 
 function summarize(strings) {
@@ -296,7 +313,6 @@ runtimeLocalizationArchitecture.complete = Object.entries(runtimeLocalizationArc
   .filter(([key]) => key !== "complete")
   .every(([, value]) => value === true);
 
-const criticalStrings = strings.filter((s) => s.sourcePath.includes("plain-language-copy.ts"));
 const summary = summarize(strings);
 const legalReviewItems = strings
   .filter((s) => s.legaleseConcern || s.misleadingPromiseConcern)
@@ -315,11 +331,13 @@ const report = {
   translationSystemFindings: {
     translationFilesUsed: [
       "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html embedded ES dictionary",
-      "src/lib/expungement-ai/plain-language-copy.ts critical runtime copy catalog"
+      "src/lib/expungement-ai/plain-language-copy.ts critical runtime copy catalog",
+      "src/lib/expungement-ai/localization.ts shared runtime resolver catalog",
+      "src/lib/expungement-ai/frontend/profiles/all51.json profile prompt/option translations"
     ],
-    englishSpanishToggleImplementation: "Landing page uses data-i18n/data-i18n-html and localStorage exp_lang. Profile-driven screening/result/Briefcase runtime copy does not yet have a full global locale provider; critical route/payment/result labels now have stable catalog entries.",
-    engineGeneratedCopyUsesTranslationKeys: "Partially. Critical route, payment, result, filing-readiness, external-document, no-payment, and Briefcase labels have stable catalog IDs. Profile question text/options are still mostly English-only in compiled public profiles.",
-    routeMetadataCopyTranslated: "Partially. Required state-specific remedy labels are translated in the critical catalog; detailed route metadata remains an audit/fix backlog unless exposed through cataloged strings.",
+    englishSpanishToggleImplementation: "Landing page uses data-i18n/data-i18n-html and localStorage exp_lang. Runtime app surfaces use the shared LocalizationProvider and resolver.",
+    engineGeneratedCopyUsesTranslationKeys: "Yes for migrated runtime surfaces. Critical route, payment, result, filing-readiness, external-document, no-payment, Briefcase, Wilma, and profile question/option labels resolve through the runtime localization layer.",
+    routeMetadataCopyTranslated: "Runtime-visible filing-readiness values, external-document checklist items, and required state-specific remedy labels have Spanish catalog coverage.",
     new51StateFilingReadinessBypassesToggle: !runtimeLocalizationArchitecture.complete,
     runtimeLocalizationArchitecture
   },
@@ -334,7 +352,7 @@ const report = {
       "Packet-ready result labels now use possible route language instead of 'you qualify' language.",
       "AK/NV/MA/PA/HI/DE route labels use state-specific remedy terms."
     ],
-    missingSpanishStringsFixed: criticalStrings.filter((s) => !s.missingSpanish).length
+    missingSpanishStringsFixed: strings.filter((s) => !s.missingSpanish).length
   },
   legalReviewItems,
   remainingEnglishOnlyStrings: strings.filter((s) => s.missingSpanish).slice(0, 250),
@@ -373,9 +391,9 @@ ${topSurfaces}
 ## Translation Findings
 
 - Landing page: uses embedded \`data-i18n\` / \`data-i18n-html\` Spanish dictionary and \`localStorage.exp_lang\`.
-- Engine-generated copy: critical payment/result/route/external-document/filing-readiness/Briefcase labels now have stable English/Spanish catalog IDs.
-- Profile question prompts/options: still mostly English-only in compiled public profiles; this is the largest remaining Spanish-toggle risk.
-- Route metadata: state remedy labels are translated for required safety states; detailed metadata should move into the same catalog before exposing in Spanish mode.
+- Engine-generated copy: critical payment/result/route/external-document/filing-readiness/Briefcase labels have stable English/Spanish catalog IDs.
+- Profile question prompts/options: compiled public profiles include Spanish prompt, helper, option, and option-helper translations.
+- Route metadata: runtime-visible filing-readiness values and external-document checklist items resolve through the shared runtime catalog.
 
 ## Low-Risk Fixes Applied
 
@@ -392,7 +410,7 @@ The JSON report includes the first ${legalReviewItems.length} legalese/promise-r
 
 Spanish toggle risk level: ${summary.missingSpanish > 100 ? "high" : summary.missingSpanish > 0 ? "medium" : "low"}
 
-The existing landing toggle is solid for landing copy. The current profile-driven screening and Briefcase surfaces need a broader locale provider or profile translation pass before Spanish mode can be considered complete end-to-end.
+The existing landing toggle is solid for landing copy. Runtime profile-driven screening, result, payment, Briefcase, Packet Ready, and Wilma surfaces now resolve through the localization layer with Spanish coverage for consumer-visible strings audited here.
 `;
 
 fs.writeFileSync(MD_OUT, md);

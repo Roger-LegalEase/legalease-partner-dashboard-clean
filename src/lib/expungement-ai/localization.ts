@@ -18,6 +18,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "common.download": { en: "Download", es: "Descargar" },
   "common.open_matter": { en: "Open matter", es: "Abrir asunto" },
   "common.ask_wilma": { en: "Ask Wilma", es: "Preguntar a Wilma" },
+  "common.try_again": { en: "Try again", es: "Intentar de nuevo" },
 
   "screening.free_screening": { en: "Free screening", es: "Revisión gratis" },
   "screening.where_record": { en: "Where is the record?", es: "¿Dónde está el antecedente?" },
@@ -53,7 +54,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "answer.prefer_not": { en: "Prefer not to say", es: "Prefiero no decirlo" },
   "answer.dont_know_date": { en: "I don't know the date", es: "No sé la fecha" },
 
-  "result.packet_title": { en: "You may be able to prepare an expungement packet.", es: "Es posible que pueda preparar un paquete de borrado." },
+  "result.packet_title": { en: "You may be able to prepare an expungement packet.", es: "Es posible que pueda preparar un paquete de limpieza de antecedentes." },
   "result.path_available": { en: "A path may be available", es: "Puede haber una ruta disponible" },
   "result.path_available_caution": { en: "A path may be available, with cautions", es: "Puede haber una ruta disponible, con advertencias" },
   "result.more_details": { en: "A few more details needed", es: "Faltan algunos detalles" },
@@ -69,12 +70,35 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.edit_answers": { en: "Edit my answers", es: "Editar mis respuestas" },
   "result.add_details": { en: "Add these details", es: "Agregar estos detalles" },
   "result.save_briefcase": { en: "Save this result to Briefcase", es: "Guardar este resultado en el Maletín" },
+  "result.reviewing": { en: "Reviewing your answers...", es: "Revisando sus respuestas..." },
+  "result.reviewing_body": {
+    en: "This only takes a moment. We are checking what you told us. We do not guess, and nothing here is a decision yet.",
+    es: "Esto solo toma un momento. Estamos revisando lo que nos compartió. No adivinamos, y nada aquí es una decisión todavía."
+  },
+  "result.safe_stop": { en: "We stopped to keep this safe", es: "Nos detuvimos para mantener esto seguro" },
+  "result.something_wrong": { en: "Something went wrong", es: "Algo salió mal" },
+  "result.unreadable_title": { en: "We couldn't read this result reliably.", es: "No pudimos leer este resultado de forma confiable." },
+  "result.check_failed_title": { en: "We couldn't check your record just now.", es: "No pudimos revisar su antecedente en este momento." },
+  "result.unreadable_body": {
+    en: "The result came back in a form we did not expect, so we stopped rather than show you something that might be wrong. Your answers are not lost. Please try again.",
+    es: "El resultado llegó en un formato que no esperábamos, así que nos detuvimos en lugar de mostrar algo que podría estar incorrecto. Sus respuestas no se perdieron. Intente de nuevo."
+  },
+  "result.connection_body": {
+    en: "This was a connection problem, not a decision about your record. Please try again in a moment.",
+    es: "Esto fue un problema de conexión, no una decisión sobre su antecedente. Intente de nuevo en un momento."
+  },
+  "result.back_to_answers": { en: "Back to my answers", es: "Volver a mis respuestas" },
   "result.partner_no_pay": { en: "This screening started through a partner program. You will not be asked to pay here.", es: "Esta revisión comenzó por medio de un programa asociado. No se le pedirá pagar aquí." },
   "result.upl_disclaimer": {
     en: "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; court approval is not guaranteed. Review everything before filing.",
     es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; la aprobación del tribunal no está garantizada. Revise todo antes de presentar."
   },
   "missing.tell_more": { en: "Tell us more about {field}.", es: "Cuéntenos más sobre {field}." },
+
+  "filing.ready_to_file": { en: "ready_to_file", es: "listo para presentar" },
+  "filing.guidance_only": { en: "guidance_only", es: "solo guía" },
+  "filing.needs_external_document": { en: "needs_external_document", es: "necesita un documento externo" },
+  "filing.needs_court_or_agency_followup": { en: "needs_court_or_agency_followup", es: "necesita seguimiento con el tribunal o la agencia" },
 
   "payment.generate_packet": { en: "Generate my self-help packet - $50", es: "Generar mi paquete de autoayuda - $50" },
   "payment.step": { en: "Step 2 of 2", es: "Paso 2 de 2" },
@@ -144,16 +168,32 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "wilma.prompt.packet-ready": { en: "Want help with next steps?", es: "¿Quiere ayuda con los próximos pasos?" },
   "wilma.prompt.briefcase": { en: "Want me to explain this matter status?", es: "¿Quiere que explique el estado de este asunto?" },
 
-  "route.ak.courtview_removal": { en: "CourtView Removal", es: "Eliminación de CourtView" },
-  "route.nv.record_sealing": { en: "Record Sealing", es: "Sellado de antecedentes" },
-  "route.ma.cori_sealing": { en: "CORI Sealing", es: "Sellado de CORI" },
-  "route.ma.dismissed_case_sealing": { en: "Dismissed Case Sealing", es: "Sellado de caso desestimado" },
-  "route.ma.marijuana_expungement": { en: "Marijuana Expungement", es: "Borrado de antecedente de marihuana" },
-  "route.pa.court_case_expungement": { en: "Court Case Expungement", es: "Borrado de caso judicial" },
-  "route.pa.summary_expungement": { en: "Summary Expungement", es: "Borrado de condena sumaria" },
-  "route.pa.limited_access": { en: "Limited Access / Sealing", es: "Acceso limitado / sellado" },
+  "external_doc.1": { en: "File the TF-810 request at your local Alaska trial court", es: "Presente la solicitud TF-810 en su tribunal local de primera instancia de Alaska" },
+  "external_doc.2": { en: "Proof of SIS and/or the order setting aside charges (if applicable)", es: "Prueba del SIS y/o de la orden que dejó sin efecto los cargos, si aplica" },
+  "external_doc.3": { en: "Certified disposition showing acquittal or dismissal (if requested)", es: "Resolución certificada que muestre absolución o desestimación, si se solicita" },
+  "external_doc.4": { en: "SBI criminal-history / SBI eligibility letter", es: "Informe de antecedentes penales del SBI o carta de elegibilidad del SBI" },
+  "external_doc.5": { en: "Certified case documents", es: "Documentos certificados del caso" },
+  "external_doc.6": { en: "Superior Court filing fee", es: "Cuota de presentación del Tribunal Superior" },
+  "external_doc.7": { en: "Current verified criminal-history record (CHR/SCOPE)", es: "Registro actual verificado de antecedentes penales (CHR/SCOPE)" },
+  "external_doc.8": { en: "Certified dispositions / judgment of conviction", es: "Resoluciones certificadas / sentencia de condena" },
+  "external_doc.9": { en: "Probation/parole/prison discharge paperwork", es: "Documentos de finalización de probation, parole o prisión" },
+  "external_doc.10": { en: "Fingerprints where required", es: "Huellas digitales cuando se requieran" },
+  "external_doc.11": { en: "Prosecutor review/stipulation step", es: "Paso de revisión o estipulación de la fiscalía" },
+  "external_doc.12": { en: "Court/county filing fee", es: "Cuota de presentación del tribunal o condado" },
+  "external_doc.13": { en: "PATCH / PSP criminal-history report", es: "Informe de antecedentes penales PATCH / PSP" },
+  "external_doc.14": { en: "Expected PATCH fee", es: "Cuota esperada de PATCH" },
+
+  "route.generic.record_clearing": { en: "{state} record-clearing", es: "limpieza de antecedentes de {state}" },
+  "route.ak.courtview_removal": { en: "CourtView Removal", es: "Eliminación de CourtView (CourtView Removal)" },
+  "route.nv.record_sealing": { en: "Record Sealing", es: "Sellado de antecedentes (Record Sealing)" },
+  "route.ma.cori_sealing": { en: "CORI Sealing", es: "Sellado CORI (CORI Sealing)" },
+  "route.ma.dismissed_case_sealing": { en: "Dismissed Case Sealing", es: "sellado de caso desestimado (Dismissed Case Sealing)" },
+  "route.ma.marijuana_expungement": { en: "Marijuana Expungement", es: "expungement de marihuana (Marijuana Expungement)" },
+  "route.pa.court_case_expungement": { en: "Court Case Expungement", es: "Expungement de caso judicial (Court Case Expungement)" },
+  "route.pa.summary_expungement": { en: "Summary Expungement", es: "Expungement sumario (Summary Expungement)" },
+  "route.pa.limited_access": { en: "Limited Access / Sealing", es: "Acceso limitado / sellado (Limited Access / Sealing)" },
   "route.hi.admin_application": { en: "Administrative Application", es: "Solicitud administrativa" },
-  "route.de.discretionary_expungement": { en: "Discretionary Expungement Packet", es: "Paquete de borrado discrecional" }
+  "route.de.discretionary_expungement": { en: "Discretionary Expungement Packet", es: "Paquete de expungement discrecional (Discretionary Expungement Packet)" }
 };
 
 const EXACT_ENGLISH_INDEX = new Map<string, string>();
@@ -179,7 +219,9 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }) {
   if (options?.key) return t(locale, options.key, text, options.vars);
   const key = EXACT_ENGLISH_INDEX.get(normalize(text));
-  return key ? t(locale, key, text, options?.vars) : interpolate(text, options?.vars);
+  if (key) return t(locale, key, text, options?.vars);
+  if (locale === "es") return resolveSpanishPattern(text, options?.vars);
+  return interpolate(text, options?.vars);
 }
 
 export function runtimeCopyKeyForText(text: string) {
@@ -208,7 +250,7 @@ export function routeLabelKeyForState(stateName: string, pathwayId?: string) {
     if (pathway.includes("limited") || pathway.includes("seal") || pathway.includes("791")) return "route.pa.limited_access";
     return "route.pa.court_case_expungement";
   }
-  return "";
+  return "route.generic.record_clearing";
 }
 
 function normalize(text: string) {
@@ -217,4 +259,28 @@ function normalize(text: string) {
 
 function slugify(text: string) {
   return normalize(text).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+}
+
+function resolveSpanishPattern(text: string, vars?: Record<string, string | number | undefined>) {
+  const normalized = interpolate(normalize(text), vars);
+  const possibleRoute = normalized.match(/^Based on your answers, there may be a (.+) route for this case\.$/);
+  if (possibleRoute) return `Según lo que compartió, puede haber una ruta de ${possibleRoute[1]} para este caso.`;
+
+  const mississippi = normalized.match(/^Based on your answers, Mississippi may have a record-clearing path for a case that was dismissed, had no final disposition, or ended in acquittal\.$/);
+  if (mississippi) return "Según lo que compartió, Mississippi puede tener una ruta de limpieza de antecedentes para un caso desestimado, sin resultado final o terminado en absolución.";
+
+  const nonConviction = normalized.match(/^Your answers match a (.+) path for cases that did not end in a conviction\.$/);
+  if (nonConviction) return `Sus respuestas coinciden con una ruta de ${nonConviction[1]} para casos que no terminaron en condena.`;
+
+  const possible = normalized.match(/^This looks like a possible (.+) route based on the information you provided\.$/);
+  if (possible) return `Esto parece una posible ruta de ${possible[1]} según la información que compartió.`;
+
+  const packet = normalized.match(/^We’ll prepare a (.+) self-help packet for you to review, including the documents and filing steps that match the information you provided\.$/);
+  if (packet) return `Prepararemos un paquete de autoayuda de ${packet[1]} para que lo revise, incluyendo los documentos y pasos de presentación que correspondan a la información que compartió.`;
+
+  if (normalized === "We’ll help you confirm automatic relief and what to do next.") {
+    return "Le ayudaremos a confirmar la opción automática y qué hacer después.";
+  }
+
+  return normalized;
 }

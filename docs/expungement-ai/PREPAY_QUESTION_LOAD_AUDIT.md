@@ -7,7 +7,7 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 ## Stabilization
 
 - Branch: `main`
-- Commit: `66ffa5e`
+- Commit: `cc4e401`
 - Paid jurisdictions: 51
 - Paid routes: 97
 - Source model: public designer profiles plus current public projection Wilma fact questions; raw `source_question_*` engine rows are not treated as public checkout facts.

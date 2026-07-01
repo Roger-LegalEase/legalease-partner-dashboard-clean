@@ -121,7 +121,7 @@ export function ScreeningResult({
   const isPacketReady = PACKET_READY_RESULT_CODES.has(evaluation.resultCode);
   const nextSteps = isPacketReady ? PACKET_READY_NEXT_STEPS : evaluation.nextSteps;
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
-  const routeLabel = routeLabelKey ? translate(routeLabelKey) : `${stateName} record-clearing`;
+  const routeLabel = translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
 
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
@@ -270,16 +270,14 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 /** Calm transition while the engine reviews the answers. No outcome is shown or implied. */
 export function EvaluatingState() {
+  const { t: translate } = useLocalization();
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" aria-busy="true" aria-live="polite">
       <div className="flex items-center gap-3">
         <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E8EF] border-t-[#00A99D] motion-reduce:animate-none" aria-hidden="true" />
-        <p className="text-base font-bold text-[#0B1320]">Reviewing your answers…</p>
+        <p className="text-base font-bold text-[#0B1320]">{translate("result.reviewing", "Reviewing your answers...")}</p>
       </div>
-      <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-        This only takes a moment. We are checking what you told us. We do not guess, and nothing here
-        is a decision yet.
-      </p>
+      <p className="mt-3 text-sm leading-6 text-[#5A6275]">{translate("result.reviewing_body")}</p>
     </div>
   );
 }
@@ -299,19 +297,18 @@ export function EvaluationErrorState({
   onEditAnswers: () => void;
 }) {
   const malformed = kind === "malformed_response";
+  const { t: translate } = useLocalization();
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" role="alert">
       <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] text-[#B45309]">
         <AlertTriangle className="h-5 w-5" aria-hidden="true" />
-        {malformed ? "We stopped to keep this safe" : "Something went wrong"}
+        {malformed ? translate("result.safe_stop", "We stopped to keep this safe") : translate("result.something_wrong", "Something went wrong")}
       </p>
       <h1 className="mt-3 text-[24px] font-extrabold leading-tight text-[#0B1320]">
-        {malformed ? "We couldn't read this result reliably." : "We couldn't check your record just now."}
+        {malformed ? translate("result.unreadable_title") : translate("result.check_failed_title")}
       </h1>
       <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-        {malformed
-          ? "The result came back in a form we did not expect, so we stopped rather than show you something that might be wrong. Your answers are not lost. Please try again."
-          : "This was a connection problem, not a decision about your record. Please try again in a moment."}
+        {malformed ? translate("result.unreadable_body") : translate("result.connection_body")}
       </p>
       <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
         <button
@@ -319,14 +316,14 @@ export function EvaluationErrorState({
           onClick={onRetry}
           className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
         >
-          Try again
+          {translate("common.try_again", "Try again")}
         </button>
         <button
           type="button"
           onClick={onEditAnswers}
           className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
-          Back to my answers
+          {translate("result.back_to_answers", "Back to my answers")}
         </button>
       </div>
     </div>

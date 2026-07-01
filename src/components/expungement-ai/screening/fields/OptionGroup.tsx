@@ -43,6 +43,12 @@ export type OptionGroupProps = SingleProps | MultiProps;
 type OptionDisplayMap = Record<string, {
   label: string;
   helperText?: string;
+  translations?: {
+    es?: {
+      label?: string;
+      helperText?: string;
+    };
+  };
 }>;
 
 export function OptionGroup(props: OptionGroupProps) {
@@ -77,10 +83,14 @@ export function OptionGroup(props: OptionGroupProps) {
         const display = props.optionDisplay?.[option];
         const label = display?.label ?? option;
         const localizedLabel = display?.label
-          ? localizeProfileText(locale, display.label, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.label` })
+          ? locale === "es" && display.translations?.es?.label
+            ? display.translations.es.label
+            : localizeProfileText(locale, display.label, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.label` })
           : localize(option, { key: runtimeCopyKeyForText(option) });
         const localizedHelper = display?.helperText
-          ? localizeProfileText(locale, display.helperText, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.helper` })
+          ? locale === "es" && display.translations?.es?.helperText
+            ? display.translations.es.helperText
+            : localizeProfileText(locale, display.helperText, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.helper` })
           : "";
         const checked = isChecked(option);
         return (

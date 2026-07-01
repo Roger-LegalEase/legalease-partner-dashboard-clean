@@ -47,11 +47,21 @@ export function QuestionField({
   const helperId = question.helperText ? `${fieldId}-helper` : undefined;
   const describedBy = [contextId, helperId, errorId].filter(Boolean).join(" ") || undefined;
   const optional = question.contextOnly || !question.required;
+  const promptText =
+    locale === "es" && question.translations?.es?.prompt
+      ? question.translations.es.prompt
+      : localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" });
+  const helperText =
+    locale === "es" && question.translations?.es?.helperText
+      ? question.translations.es.helperText
+      : question.helperText
+        ? localizeProfileText(locale, question.helperText, { state: stateCode, questionId: question.id, part: "helper" })
+        : "";
 
   const heading = (
     <PromptHeading
       id={promptId}
-      prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })}
+      prompt={promptText}
       optional={optional}
       contextOnly={question.contextOnly}
       optionalLabel={translate("common.optional", "Optional")}
@@ -61,7 +71,7 @@ export function QuestionField({
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
   const helperNode = question.helperText ? (
     <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
-      {localizeProfileText(locale, question.helperText, { state: stateCode, questionId: question.id, part: "helper" })}
+      {helperText}
     </p>
   ) : null;
   const errorNode = error ? (
@@ -81,7 +91,7 @@ export function QuestionField({
             ? YES_NO_PREFER_NOT_OPTIONS
             : question.options ?? [];
 
-      if (options.length === 0) return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
+      if (options.length === 0) return <MalformedQuestion prompt={promptText} />;
 
       return (
         <div className="grid gap-3">
@@ -108,7 +118,7 @@ export function QuestionField({
 
     case "multi_select": {
       const options = question.options ?? [];
-      if (options.length === 0) return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
+      if (options.length === 0) return <MalformedQuestion prompt={promptText} />;
 
       return (
         <div className="grid gap-3">
@@ -181,7 +191,7 @@ export function QuestionField({
     default:
       // Unknown/unsupported question type: render a calm note. The flow treats this as
       // non-blocking so a malformed type can never strand the user or fake a result.
-      return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
+      return <MalformedQuestion prompt={promptText} />;
   }
 }
 
