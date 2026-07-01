@@ -176,3 +176,50 @@ RCAP sponsored smoke GREEN; Stripe live automation was **not** run; manual Strip
 deploy occurred; no generic fallback. The only remaining gate before live announcement is **Roger's
 manual live-site Stripe QA** above (and the standard counsel / source-freshness review before flipping
 any route to `live`).
+
+---
+
+## Deploy Hold — phase-37 migration confirmation (2026-07-01)
+
+**Status: DEPLOY HELD.** Manual live-site Stripe QA passed and predeploy is GREEN (14/14 verifiers +
+`tsc` + `npm run build` all GREEN), but the production deploy is **held** until the reviewed additive
+migration `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql` is confirmed
+applied in the **production** Supabase project. Do not assume it is applied; do not deploy while the
+migration status is unknown.
+
+- **Target Supabase project ref:** `wwtwtsmywnckfkdaqqeg`
+- **Migration file:** `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql`
+- **Read-only check result:** INCONCLUSIVE. `rcap_document_packets` holds 4 rows, all `state='MS'`
+  (legacy), which both the pre-37 constraint (`MS,IL,DC,PA,TX`) and phase-37 (all 51 states) allow.
+  `supabase-js` cannot introspect a CHECK constraint without an RPC, and the repo has no Supabase CLI /
+  migration-tracking table, so the constraint definition cannot be read programmatically.
+- **Consumer impact:** none — the consumer $50 flow persists to `consumer_briefcase_items`, which has
+  **no** jurisdiction CHECK (the env-backed smoke wrote all 51 states, including AK, successfully).
+  phase-37 only governs the **RCAP partner** `rcap_document_packets` persistence path.
+
+### Confirmation options (pick one)
+1. **Dashboard (recommended):** run in the Supabase SQL editor for project `wwtwtsmywnckfkdaqqeg`:
+   ```sql
+   select conname, pg_get_constraintdef(oid) as def
+   from pg_constraint
+   where conname = 'rcap_document_packets_state_check';
+   ```
+   `def` includes `'AK'` / all 51 → **applied**; only `'MS','IL','DC','PA','TX'` → **not applied**.
+2. **Labeled control+probe (on request):** insert a self-cleaning `state='MS'` control + `state='AK'`
+   probe into `rcap_document_packets`; `AK` success = applied, `check_violation` = not applied; delete both.
+
+### Confirmation record (fill on confirmation)
+| Field | Value |
+| --- | --- |
+| Applied? | _pending_ |
+| Confirmed by | _pending_ |
+| How confirmed | _pending (dashboard query / probe)_ |
+| Timestamp | _pending_ |
+| Target Supabase project | `wwtwtsmywnckfkdaqqeg` |
+| Migration filename | `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql` |
+
+### Resume path (after confirmation)
+1. If **not applied**, Roger applies phase-37 via the Supabase dashboard / approved migration workflow.
+2. Re-run the RCAP partner document-packet smoke if the migration was just applied.
+3. Merge `fix/all51-rule-driven-provability` → `main`, then deploy from `main` (`npx vercel --prod`)
+   per `docs/PHASE_17_PRODUCTION_DEPLOYMENT.md`. Do not change domains/aliases unless instructed.
