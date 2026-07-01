@@ -97,7 +97,15 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // IL — 20 ILCS 2630/5.2(j) felony-prostitution relief (event; Class 4 felony hard gate)
   "IL:felony-prostitution-relief",
   // ID — Idaho Code § 19-2604(1) withheld-judgment set-aside (event; caution-tier)
-  "ID:withheld-judgment-idaho-code-19-2604-review-branch"
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+  // ---- Lawrence ratification 2026-07-01 (gate-coded hard-gate routes) ----
+  // These two families already have coded, tested substantive gates (caRouteSafetyGate,
+  // nyCpl16059SafetyGate). Lawrence confirmed them; promoted from HARD_GATE_PENDING to deployable.
+  // NY CPL 160.59 — 10yr wait, ≤2 convictions / ≤1 felony, offense-exclusion + pending + prior-sealing gate
+  "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+  // CA HSC § 11361.8 Prop 64 — qualifying-marijuana + lesser/no-offense + branch gate
+  "CA:prop-64-currently-serving-petition-11361-8",
+  "CA:prop-64-completed-sentence-application-11361-8"
 ]);
 
 const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
@@ -120,9 +128,6 @@ const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set([
 ]);
 
 const HARD_GATE_PENDING_ROUTES = new Set([
-  "CA:prop-64-currently-serving-petition-11361-8",
-  "CA:prop-64-completed-sentence-application-11361-8",
-  "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
   "MD:eligible-conviction-expungement-under-crim-proc-10-110",
   "MD:cannabis-specific-expungement",
   "MD:second-chance-act-shielding",

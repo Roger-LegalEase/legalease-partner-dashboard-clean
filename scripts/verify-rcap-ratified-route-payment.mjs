@@ -45,7 +45,29 @@ const ROUTES = [
   // Illinois — felony hard gate: a misdemeanor prostitution record must fail closed
   { code: "IL", route: /felony-prostitution-relief/, name: "IL felony-prostitution event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony", hardGate: { mutate: (a) => { a.offense_level = "Misdemeanor"; a.charge = "Synthetic misdemeanor prostitution"; }, label: "misdemeanor prostitution" } },
   // Idaho
-  { code: "ID", route: /withheld-judgment-idaho-code-19-2604/, name: "ID withheld-judgment set-aside event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" }
+  { code: "ID", route: /withheld-judgment-idaho-code-19-2604/, name: "ID withheld-judgment set-aside event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" },
+  // NY CPL 160.59 — 10yr wait; gate: <=2 convictions, <=1 felony. Hard gate: 3 convictions fails closed.
+  {
+    code: "NY", route: /discretionary-conviction-sealing-by-petition-under-cpl-160-59/, name: "NY 160.59 10yr", wait: { value: 10, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony",
+    setup: (a, date) => {
+      a.sentencing_date = date; a.release_date = date;
+      a.ny_16059_total_eligible_convictions = 1; a.ny_16059_felony_convictions = 1;
+      a.ny_16059_ineligible_offense = "No"; a.ny_16059_sex_offender_registration = "No";
+      a.ny_16059_pending_charge = "No"; a.ny_16059_post_last_conviction_crime = "No"; a.ny_16059_prior_sealing = "No";
+    },
+    hardGate: { mutate: (a) => { a.ny_16059_total_eligible_convictions = 3; }, label: "3 eligible convictions" }
+  },
+  // CA HSC 11361.8 Prop 64 — gate: qualifying marijuana + lesser/no offense + branch. Hard gate: non-qualifying fails closed.
+  {
+    code: "CA", route: /prop-64-currently-serving-petition-11361-8/, name: "CA Prop64 currently-serving event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony",
+    setup: (a) => { a.ca_prop64_qualifying_marijuana_offense = "Yes"; a.ca_prop64_lesser_or_no_offense = "Yes"; a.ca_prop64_branch = "currently serving"; a.ca_prop64_relief_requested = "dismissal and sealing"; },
+    hardGate: { mutate: (a) => { a.ca_prop64_qualifying_marijuana_offense = "No"; }, label: "non-qualifying marijuana offense" }
+  },
+  {
+    code: "CA", route: /prop-64-completed-sentence-application-11361-8/, name: "CA Prop64 completed-sentence event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony",
+    setup: (a) => { a.ca_prop64_qualifying_marijuana_offense = "Yes"; a.ca_prop64_lesser_or_no_offense = "Yes"; a.ca_prop64_branch = "completed sentence"; a.ca_prop64_relief_requested = "dismissal and sealing"; },
+    hardGate: { mutate: (a) => { a.ca_prop64_lesser_or_no_offense = "No"; }, label: "not a lesser/no offense under Prop 64" }
+  }
 ];
 
 function assert(condition, message) {
@@ -105,6 +127,7 @@ function answerFor(question, spec, date) {
 function evaluate(spec, date, mutate) {
   const answers = {};
   for (const question of projectPublicProfile(spec.profile).questions) answers[question.id] = answerFor(question, spec, date);
+  if (spec.setup) spec.setup(answers, date);
   if (mutate) mutate(answers);
   return evaluateScreening({
     jurisdiction: spec.profile.jurisdiction.code,

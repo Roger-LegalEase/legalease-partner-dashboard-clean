@@ -7,7 +7,11 @@ Generated on the `fix/all51-rule-driven-provability` line of work. Engine date p
 > NE §29-2264, VA incl. OES form-readiness, ME CR-218, IL felony-prostitution, ID withheld-judgment)
 > as legally correct. All 16 route keys were promoted from `CORRECTED_AWAITING_RECONFIRM_ROUTES` →
 > `RATIFIED_DEPLOYABLE_ROUTES` in `evaluator.ts` (confirmation date + statutory basis attached inline
-> per route). **The $50 clamp now opens** for qualifying cases. Deployable route count: **49 → 65**.
+> per route). **The $50 clamp now opens** for qualifying cases. Deployable route count: **49 → 65**,
+> then **65 → 68** by additionally promoting the two already-gate-coded families (NY CPL 160.59 +
+> CA Prop 64 ×2) out of HARD_GATE_PENDING. The other ~42 hard-gate-pending routes stay held because
+> their named substantive eligibility gate is not yet implemented in code — promoting them would open
+> payment on records the engine cannot screen.
 > Hard gate built: IL felony-prostitution requires a Class 4 felony (misdemeanor fails closed). ID
 > withheld-judgment upgraded from its compiled `needs_review` rule to caution-tier packet via
 > `RATIFIED_CAUTION_OVERRIDE_ROUTES`. Payment proof: `scripts/verify-rcap-ratified-route-payment.mjs`
