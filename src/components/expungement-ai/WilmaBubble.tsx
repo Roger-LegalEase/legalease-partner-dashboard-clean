@@ -4,6 +4,7 @@ import { Maximize2, Minimize2, Send } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 const WILMA_AVATAR_SRC = "/expungement-ai/wilma-avatar.png";
 const WILMA_CHAT_ENDPOINT = "/api/expungement-ai/wilma/chat";
@@ -72,6 +73,7 @@ export function WilmaBubble({
   // and NEVER briefcaseItemId. Defaults to the authenticated route (unchanged behavior).
   mode?: "authenticated" | "public";
 }) {
+  const { locale, t: translate } = useLocalization();
   const isPublic = mode === "public";
   const [isOpen, setIsOpen] = useState(false);
   // Regular vs expanded chat size. Transient: lives only while the chat is open and resets to
@@ -94,7 +96,7 @@ export function WilmaBubble({
   // The rendered widget id, kept in a ref so handleSubmit can reset() it between turns to
   // mint a fresh single-use token (the previous one is spent server-side after each send).
   const turnstileWidgetRef = useRef<string | undefined>(undefined);
-  const prompt = promptForContext(context);
+  const prompt = translate(promptKeyForContext(context), promptForContext(context));
   const hasGuideAnswer = messages.some((item) => item.role === "guide");
   // Render-only mirror of the server-side kill-switch flag. In production Wilma's availability is
   // checked server-side on every request (`wilma_enabled`); this client flag only mirrors it so
@@ -176,7 +178,7 @@ export function WilmaBubble({
     // spent/empty token the server would 403 — tell the user and keep their text so they can
     // resend the moment the fresh token lands. Only relevant when the challenge is configured.
     if (isPublic && siteKey && !turnstileToken) {
-      setMessages((current) => [...current, { id: Date.now(), role: "guide", text: WILMA_CHALLENGE_PENDING }]);
+      setMessages((current) => [...current, { id: Date.now(), role: "guide", text: translate("wilma.challenge_pending", WILMA_CHALLENGE_PENDING) }]);
       return;
     }
     const userMessage = trimmedMessage;
@@ -196,7 +198,9 @@ export function WilmaBubble({
         briefcaseItemId?: string;
         conversationId?: string;
         turnstileToken?: string;
+        locale?: string;
       } = { message: userMessage, pageContext: context, history };
+      requestBody.locale = locale;
       if (isPublic) {
         // Anonymous payload: state picker + conversation id + bot token. NEVER briefcaseItemId.
         if (selectedState) requestBody.state = selectedState;
@@ -216,7 +220,7 @@ export function WilmaBubble({
       // rate limit, turn cap, challenge failure). Prefer it; only fall back when it's missing —
       // and never leave the turn with no reply at all, regardless of status code.
       const serverReply = typeof data?.response === "string" && data.response.trim() ? data.response.trim() : "";
-      const replyText = serverReply || WILMA_TRANSPORT_FALLBACK;
+      const replyText = serverReply || translate("wilma.transport_fallback", WILMA_TRANSPORT_FALLBACK);
       setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: replyText }]);
     } catch {
       setMessages((current) => [...current, { id: nextId + 1, role: "guide", text: WILMA_TRANSPORT_FALLBACK }]);
@@ -248,12 +252,12 @@ export function WilmaBubble({
               />
               <div>
                 <p className="text-sm font-bold">Wilma</p>
-                <p className="text-xs text-white/60">Guide</p>
+                <p className="text-xs text-white/60">{translate("wilma.guide", "Guide")}</p>
               </div>
             </div>
             <div className="flex items-center gap-1">
               <button
-                aria-label={expanded ? "Collapse chat" : "Expand chat"}
+                aria-label={expanded ? translate("wilma.collapse", "Collapse chat") : translate("wilma.expand", "Expand chat")}
                 aria-pressed={expanded}
                 className="grid place-items-center rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
                 data-wilma-resize-toggle="true"
@@ -263,7 +267,7 @@ export function WilmaBubble({
                 {expanded ? <Minimize2 className="h-4 w-4" aria-hidden="true" /> : <Maximize2 className="h-4 w-4" aria-hidden="true" />}
               </button>
               <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => { setIsOpen(false); setExpanded(false); }} type="button">
-                Close
+                {translate("wilma.close", "Close")}
               </button>
             </div>
           </div>
@@ -272,14 +276,14 @@ export function WilmaBubble({
               <>
                 {isPublic ? (
                   <label className="flex items-center gap-2 text-xs font-semibold text-[#5A6275]">
-                    <span className="shrink-0">Your state</span>
+                    <span className="shrink-0">{translate("wilma.your_state", "Your state")}</span>
                     <select
-                      aria-label="Your state"
+                      aria-label={translate("wilma.your_state", "Your state")}
                       className="min-h-9 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-2 text-sm text-[#0B1320] outline-none focus:border-[#00A99D]"
                       value={selectedState}
                       onChange={(event) => setSelectedState(event.target.value)}
                     >
-                      <option value="">Select a state (optional)</option>
+                      <option value="">{translate("wilma.select_state", "Select a state (optional)")}</option>
                       {US_STATES.map((item) => (
                         <option key={item.code} value={item.code}>{item.name}</option>
                       ))}
@@ -302,7 +306,7 @@ export function WilmaBubble({
                         data-wilma-thinking="true"
                         role="status"
                       >
-                        <span className="sr-only">Wilma is thinking…</span>
+                        <span className="sr-only">{translate("wilma.thinking", "Wilma is thinking...")}</span>
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275] [animation-delay:-0.3s]" aria-hidden="true" />
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275] [animation-delay:-0.15s]" aria-hidden="true" />
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5A6275]" aria-hidden="true" />
@@ -311,12 +315,12 @@ export function WilmaBubble({
                   </div>
                 ) : (
                   <div className="rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]">
-                    Need help? Ask Wilma to explain this in plain English.
+                    {translate("wilma.need_help", "Need help? Ask Wilma to explain this in plain English.")}
                   </div>
                 )}
                 {reported && hasGuideAnswer ? (
                   <p className="text-xs font-semibold text-[#5A6275]" data-wilma-report-response="true" role="status">
-                    Reported, thank you. A reviewer will take a look.
+                    {translate("wilma.reported", "Reported, thank you. A reviewer will take a look.")}
                   </p>
                 ) : hasGuideAnswer ? (
                   <button
@@ -325,21 +329,21 @@ export function WilmaBubble({
                     type="button"
                     onClick={() => setReported(true)}
                   >
-                    Report this response
+                    {translate("wilma.report_response", "Report this response")}
                   </button>
                 ) : null}
                 {isPublic && siteKey ? <div ref={turnstileRef} className="min-h-[1px]" /> : null}
                 <form className="flex gap-2" onSubmit={handleSubmit}>
                   <input
-                    aria-label="Message Wilma"
+                    aria-label={translate("wilma.message", "Message Wilma")}
                     className="min-h-10 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20 disabled:cursor-not-allowed disabled:bg-[#F4F6FA]"
                     disabled={isSending}
                     onChange={(event) => setMessage(event.target.value)}
-                    placeholder={isSending ? "Wilma is thinking…" : currentQuestion ? "Ask Wilma about this question" : "Ask Wilma"}
+                    placeholder={isSending ? translate("wilma.thinking", "Wilma is thinking...") : currentQuestion ? translate("wilma.ask_question", "Ask Wilma about this question") : translate("common.ask_wilma", "Ask Wilma")}
                     value={message}
                   />
                   <button
-                    aria-label="Send message"
+                    aria-label={translate("wilma.send", "Send message")}
                     className="grid h-10 w-10 place-items-center rounded-lg bg-[#FF3B00] text-white disabled:cursor-not-allowed disabled:bg-[#C7CDD8]"
                     disabled={!trimmedMessage || isSending}
                     type="submit"
@@ -347,24 +351,24 @@ export function WilmaBubble({
                     <Send className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </form>
-                <p className="text-[11px] leading-4 text-[#5A6275]">Wilma is a guide, not legal advice.</p>
+                <p className="text-[11px] leading-4 text-[#5A6275]">{translate("wilma.not_advice", "Wilma is a guide, not legal advice.")}</p>
               </>
             ) : (
               <div className="rounded-xl bg-[#F7F3EC] p-4 text-sm leading-6 text-[#0B1320]" data-wilma-kill-switch-fallback="true">
-                Wilma is taking a quick break. The screening tool and your Briefcase still have what you need to keep going.
+                {translate("wilma.resting_body", "Wilma is taking a quick break. The screening tool and your Briefcase still have what you need to keep going.")}
               </div>
             )}
           </div>
         </section>
       ) : null}
       <button
-        aria-label="Ask Wilma"
+        aria-label={translate("common.ask_wilma", "Ask Wilma")}
         className="flex min-h-12 items-center gap-3 rounded-full border border-[#ECEFF4] bg-white py-2 pl-4 pr-2 text-sm font-bold text-[#0B1320] shadow-xl"
         data-wilma-bubble="true"
         onClick={() => { setIsOpen((value) => !value); setExpanded(false); }}
         type="button"
       >
-        <span className="hidden sm:inline">{wilmaEnabled ? prompt : "Wilma is resting"}</span>
+        <span className="hidden sm:inline">{wilmaEnabled ? prompt : translate("wilma.resting", "Wilma is resting")}</span>
         <Image
           alt="Wilma guide"
           className="h-9 w-9 rounded-full object-cover"
@@ -390,4 +394,8 @@ function promptForContext(context: WilmaPageContext) {
   };
 
   return prompts[context];
+}
+
+function promptKeyForContext(context: WilmaPageContext) {
+  return `wilma.prompt.${context}`;
 }

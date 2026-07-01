@@ -55,6 +55,14 @@ export function ExpungementLandingInteractions() {
       });
     }
 
+    document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((button) => {
+      const onLanguageClick = () => {
+        window.dispatchEvent(new Event("expungement-ai:language-change"));
+      };
+      button.addEventListener("click", onLanguageClick);
+      cleanup.push(() => button.removeEventListener("click", onLanguageClick));
+    });
+
     const smoothAnchors = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="/expungement-ai#"]'));
     smoothAnchors.forEach((anchor) => {
       const onClick = (event: MouseEvent) => {

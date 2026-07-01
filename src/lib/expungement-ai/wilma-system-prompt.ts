@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { WilmaContext } from "@/lib/expungement-ai/wilma-context";
+import type { Locale } from "@/lib/expungement-ai/localization";
 
 export const wilmaSystemPromptSource = "Wilma-System-Prompt.md";
 
@@ -82,9 +83,12 @@ Every reply should pass two tests at once: did you hold the line, AND would the 
 // STATE_CONTENT is the ONLY source of legal facts Wilma may state (nothing from training).
 export function buildWilmaSystemPrompt(
   context: WilmaContext,
-  options?: { surface?: "authenticated" | "public_landing" }
+  options?: { surface?: "authenticated" | "public_landing"; locale?: Locale }
 ): string {
   const isPublic = options?.surface === "public_landing";
+  const languageInstruction = options?.locale === "es"
+    ? "Respond to the user in Spanish unless they clearly ask for another language. Keep all legal guardrails exactly the same."
+    : "Respond to the user in English unless they clearly ask for another language.";
   const filled = WILMA_SYSTEM_PROMPT_TEMPLATE.replaceAll("{{CASE_CONTEXT}}", "(see CASE CONTEXT below)")
     .replaceAll("{{STATE}}", stateDisplay(context))
     .replaceAll("{{STATE_CONTENT}}", "(see VERIFIED STATE CONTENT below)")
@@ -109,6 +113,9 @@ export function buildWilmaSystemPrompt(
     "---",
     "",
     "# RUNTIME REFERENCE (injected; not your words to the user)",
+    "",
+    "## RESPONSE LANGUAGE",
+    languageInstruction,
     "",
     ...caseContextSection,
     "",

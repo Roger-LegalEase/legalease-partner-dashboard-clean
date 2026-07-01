@@ -1,7 +1,7 @@
 # Expungement.ai / RCAP — Petition / Application-Route Inventory
 
 > **Audit / report only. No runtime behavior changed by this script.** No route moved between control sets.
-> Head commit `b5db78ed8e793924fc2a97e4cbf8d85d105e4f39`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
+> Head commit `66ffa5e9425aabaafd19ad347b8d0b3515229c7c`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
 
 ## Headline totals
 

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Sora } from "next/font/google";
 import { Bell, FileText, Layers, LayoutGrid, Plus, Settings, User } from "lucide-react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
+import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 const sora = Sora({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
@@ -82,15 +83,15 @@ export function BriefcaseShell({
 
           <div className="mt-auto rounded-xl bg-white/[0.05] p-3.5">
             <p className="text-[12px] font-semibold text-white">Stuck on something?</p>
-            <p className="mt-1 text-[11px] leading-5 text-white/55">Wilma can explain any step in plain language, anytime.</p>
+            <p className="mt-1 text-[11px] leading-5 text-white/55"><LocalizedText k="briefcase.wilma_help" fallback="Wilma can explain any step in plain language, anytime." /></p>
             <a
               href="#ask-wilma"
               className="mt-2.5 grid min-h-9 w-full place-items-center rounded-lg bg-[#FF3B00] text-[12px] font-semibold text-white"
             >
-              Ask Wilma
+              <LocalizedText k="common.ask_wilma" fallback="Ask Wilma" />
             </a>
             <Link href="/expungement-ai/support" className="mt-2 block text-center text-[11px] font-medium text-white/45 hover:text-white/70">
-              Contact support
+              <LocalizedText k="briefcase.contact_support" fallback="Contact support" />
             </Link>
           </div>
         </aside>
@@ -111,7 +112,7 @@ export function BriefcaseShell({
                   href="/expungement-ai/check"
                   className="flex items-center gap-1.5 rounded-[9px] bg-[#FF3B00] px-4 py-2.5 text-[13px] font-semibold text-white"
                 >
-                  <Plus className="h-[15px] w-[15px]" aria-hidden="true" strokeWidth={2.4} /> New record check
+                  <Plus className="h-[15px] w-[15px]" aria-hidden="true" strokeWidth={2.4} /> <LocalizedText k="briefcase.new_check" fallback="New record check" />
                 </Link>
               ) : null}
             </div>
@@ -153,7 +154,7 @@ function NavItem({ href, label, Icon, active }: { href: string; label: string; I
       }`}
     >
       <Icon className={`h-[17px] w-[17px] ${active ? "text-[#2BC4B6]" : ""}`} aria-hidden="true" />
-      {label}
+      <LocalizedText k={`briefcase.nav.${label.toLowerCase().replace(/\s+/g, "_")}`} fallback={label} />
     </Link>
   );
 }

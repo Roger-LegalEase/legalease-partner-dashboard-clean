@@ -22,6 +22,7 @@ import {
 } from "@/lib/expungement-ai/wilma-rate-limit";
 import { verifyTurnstileToken } from "@/lib/expungement-ai/wilma-bot-challenge";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
+import { normalizeLocale, t, type Locale } from "@/lib/expungement-ai/localization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,25 +38,27 @@ type PublicWilmaRequest = {
   history?: WilmaTurn[];
   turnstileToken?: string;
   conversationId?: string;
+  locale?: string;
 };
 
 // Only non-case-bearing surfaces are valid on the anonymous path.
 const PUBLIC_PAGE_CONTEXTS: WilmaPageContext[] = ["landing", "pricing", "start"];
 
-const RATE_LIMIT_COPY = "I'm getting a lot of questions right at this moment — give me a few seconds and try again. The free screening tool is always available in the meantime.";
+const RATE_LIMIT_COPY = "I'm getting a lot of questions right at this moment - give me a few seconds and try again. The free screening tool is always available in the meantime.";
 const BOT_COPY = "I couldn't verify this request. Refresh the page and try again, or head straight to the free screening tool.";
-const TURNS_COPY = "We've covered a lot here. This is a great point to start the free screening — it checks your details against your state's rules and saves your place.";
+const TURNS_COPY = "We've covered a lot here. This is a great point to start the free screening - it checks your details against your state's rules and saves your place.";
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null) as PublicWilmaRequest | null;
   const message = body?.message?.trim();
+  const locale: Locale = normalizeLocale(body?.locale);
   const requestedContext = body?.pageContext;
   const pageContext: WilmaPageContext = requestedContext && PUBLIC_PAGE_CONTEXTS.includes(requestedContext)
     ? requestedContext
     : "landing";
 
   if (!message) {
-    return NextResponse.json({ error: "message is required." }, { status: 400 });
+    return NextResponse.json({ error: t(locale, "wilma.message_required", "message is required.") }, { status: 400 });
   }
 
   // 1. Kill-switch — before any other work or model call.
@@ -66,7 +69,7 @@ export async function POST(request: NextRequest) {
   // 2. Message length — reject overlong input before spending tokens.
   if (message.length > MAX_MESSAGE_CHARS_PUBLIC) {
     return NextResponse.json(
-      { response: `Mind keeping it under ${MAX_MESSAGE_CHARS_PUBLIC} characters? Shorter questions are easier for me to answer well.`, blocked: false },
+      { response: t(locale, "wilma.too_long", "Mind keeping it under {count} characters? Shorter questions are easier for me to answer well.", { count: MAX_MESSAGE_CHARS_PUBLIC }), blocked: false },
       { status: 400 }
     );
   }
@@ -77,19 +80,19 @@ export async function POST(request: NextRequest) {
   // 3. Bot challenge (Turnstile). Disabled when no secret is configured (staging).
   const challenge = await verifyTurnstileToken(body?.turnstileToken, clientIp);
   if (!challenge.ok) {
-    return NextResponse.json({ response: BOT_COPY, blocked: false, challenge: challenge.reason }, { status: 403 });
+    return NextResponse.json({ response: t(locale, "wilma.bot", BOT_COPY), blocked: false, challenge: challenge.reason }, { status: 403 });
   }
 
   // 4. Per-IP rate limit + per-conversation turn cap.
   const decision = await consumePublicRateLimit(ipHash, body?.conversationId);
   if (decision.kind === "rate_limited") {
     return NextResponse.json(
-      { response: RATE_LIMIT_COPY, blocked: false, scope: decision.scope },
+      { response: t(locale, "wilma.rate_limit", RATE_LIMIT_COPY), blocked: false, scope: decision.scope },
       { status: 429, headers: { "retry-after": String(decision.retryAfterSeconds) } }
     );
   }
   if (decision.kind === "turns_exceeded") {
-    return NextResponse.json({ response: TURNS_COPY, blocked: false });
+    return NextResponse.json({ response: t(locale, "wilma.turns", TURNS_COPY), blocked: false });
   }
 
   // 5. Public context — state content only, NEVER a case. A case id is never read here.
@@ -111,7 +114,8 @@ export async function POST(request: NextRequest) {
     history,
     surface: "public_landing",
     model: WILMA_PUBLIC_MODEL,
-    forceFallback
+    forceFallback,
+    locale
   });
 
   // 8. Meter spend against the daily cap when a live call actually happened.

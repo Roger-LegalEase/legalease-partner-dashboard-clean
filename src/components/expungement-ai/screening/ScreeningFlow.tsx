@@ -36,6 +36,7 @@ import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { resolvePartnerSessionId } from "@/components/expungement-ai/screening/partner-session";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import {
   EvaluatingState,
   EvaluationErrorState,
@@ -87,6 +88,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t: translate } = useLocalization();
   // Partner/session mode follows the session the user *arrived* with: the server-provided prop, or —
   // when the server render did not carry it (e.g. a statically optimized response) — a valid
   // ?session= UUID read from the URL on the client. It is intentionally NOT derived from the live
@@ -243,7 +245,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   function handleContinue() {
     const question = screens[currentIndex];
     if (blocksContinue(question, answers[question.id])) {
-      setError("Please answer this question to continue.");
+      setError(translate("screening.answer_required", "Please answer this question to continue."));
       focusRef.current?.focus();
       return;
     }
@@ -354,8 +356,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     <FlowFrame currentQuestion={question.prompt} state={state}>
       <ProgressRail current={currentIndex + 1} total={screens.length} />
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{stateName} screening</p>
-        <p className="text-xs font-semibold text-[#8A93A6]">Free</p>
+        <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{translate("screening.state_screening", "{state} screening", { state: stateName })}</p>
+        <p className="text-xs font-semibold text-[#8A93A6]">{translate("common.free", "Free")}</p>
       </div>
       <div
         ref={focusRef}
@@ -366,6 +368,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
           <QuestionField
             key={question.id}
             question={question}
+            stateCode={profile.jurisdiction.code}
             value={answers[question.id]}
             onChange={(value) => setAnswer(question.id, value)}
             error={error}
@@ -377,7 +380,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             onClick={handleContinue}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
-            Continue &rarr;
+            {translate("common.continue", "Continue")} &rarr;
           </button>
           <button
             type="button"
@@ -387,14 +390,14 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             }}
             className="min-h-[48px] rounded-[14px] border border-[#D7DEE8] bg-[#FBFCFE] px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
           >
-            Save progress
+            {translate("screening.save_progress", "Save progress")}
           </button>
           <button
             type="button"
             onClick={handleBack}
             className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
           >
-            Back
+            {translate("common.back", "Back")}
           </button>
         </div>
       </div>
@@ -408,7 +411,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
         />
       ) : null}
       <p className="mt-4 text-center text-[12.5px] leading-6 text-[#8A93A6]">
-        This is legal information, not legal advice. The engine decides the result; we never do.
+        {translate("screening.legal_info", "This is legal information, not legal advice. The engine decides the result; we never do.")}
       </p>
     </FlowFrame>
   );
@@ -427,20 +430,21 @@ function SaveProgressDialog({
   onClose: () => void;
   onSave: () => void;
 }) {
+  const { t: translate } = useLocalization();
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-[#0B1320]/50 px-4">
       <div className="w-full max-w-md rounded-2xl border border-[#ECEFF4] bg-white p-5 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="save-progress-title">
-        <h2 id="save-progress-title" className="text-xl font-extrabold text-[#0B1320]">Save your progress</h2>
+        <h2 id="save-progress-title" className="text-xl font-extrabold text-[#0B1320]">{translate("screening.save_progress", "Save your progress")}</h2>
         <p className="mt-2 text-sm leading-6 text-[#5A6275]">
-          We&apos;ll only use this email to send you a link back to your saved progress.
+          {translate("screening.save_progress_email", "We'll only use this email to send you a link back to your saved progress.")}
         </p>
         {status === "sent" ? (
           <p className="mt-4 rounded-xl bg-[#E7F7F4] p-4 text-sm font-semibold text-[#0B1320]">
-            If the email is valid, a saved-progress link has been sent.
+            {translate("screening.save_progress_sent", "If the email is valid, a saved-progress link has been sent.")}
           </p>
         ) : (
           <label className="mt-4 grid gap-2 text-sm font-bold text-[#0B1320]">
-            Email
+            {translate("screening.email", "Email")}
             <input
               className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] px-4 text-[15.5px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]"
               type="email"
@@ -451,20 +455,20 @@ function SaveProgressDialog({
           </label>
         )}
         {status === "error" ? (
-          <p className="mt-3 text-sm font-semibold text-[#C2410C]">We couldn&apos;t save that progress right now.</p>
+          <p className="mt-3 text-sm font-semibold text-[#C2410C]">{translate("screening.save_progress_error", "We couldn't save that progress right now.")}</p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row-reverse">
           {status === "sent" ? (
             <button type="button" onClick={onClose} className="min-h-[44px] rounded-xl bg-[#FF3B00] px-5 py-2 text-sm font-extrabold text-white">
-              Continue
+              {translate("common.continue", "Continue")}
             </button>
           ) : (
             <button type="button" onClick={onSave} disabled={status === "saving"} className="min-h-[44px] rounded-xl bg-[#FF3B00] px-5 py-2 text-sm font-extrabold text-white disabled:opacity-60">
-              {status === "saving" ? "Sending..." : "Send link"}
+              {status === "saving" ? translate("screening.sending", "Sending...") : translate("screening.send_link", "Send link")}
             </button>
           )}
           <button type="button" onClick={onClose} className="min-h-[44px] rounded-xl border border-[#E4E8EF] px-5 py-2 text-sm font-bold text-[#0B1320]">
-            Continue without saving
+            {translate("screening.continue_without_saving", "Continue without saving")}
           </button>
         </div>
       </div>
@@ -496,6 +500,7 @@ function FlowFrame({
 }
 
 function LoadingState() {
+  const { t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" aria-busy="true" aria-live="polite">
@@ -506,26 +511,27 @@ function LoadingState() {
           <div className="h-12 animate-pulse rounded-xl bg-[#F2F4F8] motion-reduce:animate-none" />
           <div className="h-12 animate-pulse rounded-xl bg-[#F2F4F8] motion-reduce:animate-none" />
         </div>
-        <p className="mt-6 text-sm text-[#5A6275]">Loading your state&apos;s questions…</p>
+        <p className="mt-6 text-sm text-[#5A6275]">{translate("screening.loading", "Loading your state's questions...")}</p>
       </div>
     </FlowFrame>
   );
 }
 
 function MissingProfileState({ state, onPick }: { state: string; onPick: () => void }) {
+  const { t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
-        <h1 className="text-[24px] font-extrabold text-[#0B1320]">We could not find that state.</h1>
+        <h1 className="text-[24px] font-extrabold text-[#0B1320]">{translate("screening.missing_state_title", "We could not find that state.")}</h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-          &ldquo;{state}&rdquo; does not match a state we screen yet. Pick your state to start again.
+          {translate("screening.missing_state_body", "\"{state}\" does not match a state we screen yet. Pick your state to start again.", { state })}
         </p>
         <button
           type="button"
           onClick={onPick}
           className="mt-6 min-h-[48px] rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white"
         >
-          Choose your state
+          {translate("screening.choose_state", "Choose your state")}
         </button>
       </div>
     </FlowFrame>
@@ -533,20 +539,20 @@ function MissingProfileState({ state, onPick }: { state: string; onPick: () => v
 }
 
 function MalformedProfileState({ onPick }: { onPick: () => void }) {
+  const { t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
-        <h1 className="text-[24px] font-extrabold text-[#0B1320]">Something went wrong loading these questions.</h1>
+        <h1 className="text-[24px] font-extrabold text-[#0B1320]">{translate("screening.malformed_title", "Something went wrong loading these questions.")}</h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-          We could not load this state&apos;s screening questions correctly, so we stopped rather than
-          show you something unreliable. Please try again in a moment.
+          {translate("screening.malformed_body", "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.")}
         </p>
         <button
           type="button"
           onClick={onPick}
           className="mt-6 min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320]"
         >
-          Back to states
+          {translate("screening.back_to_states", "Back to states")}
         </button>
       </div>
     </FlowFrame>

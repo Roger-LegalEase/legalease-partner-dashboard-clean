@@ -2,8 +2,10 @@
 
 import { CreditCard } from "lucide-react";
 import { useState } from "react";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: string }) {
+  const { t: translate } = useLocalization();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: s
     const payload = await response.json().catch(() => null) as { checkoutUrl?: string; error?: string } | null;
 
     if (!response.ok || !payload?.checkoutUrl) {
-      setError(payload?.error ?? "Checkout is not available right now.");
+      setError(payload?.error ?? translate("payment.error", "Checkout is not available right now."));
       setIsLoading(false);
       return;
     }
@@ -38,7 +40,7 @@ export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: s
         type="button"
       >
         <CreditCard className="h-4 w-4" aria-hidden="true" />
-        {isLoading ? "Starting checkout..." : "Start $50 checkout"}
+        {isLoading ? translate("payment.starting", "Starting checkout...") : translate("payment.generate_packet", "Generate my self-help packet - $50")}
       </button>
       {error ? <p className="mt-3 text-sm font-semibold text-[#B42318]">{error}</p> : null}
     </div>

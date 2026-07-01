@@ -7,6 +7,7 @@ import { guardWilmaResponse } from "@/lib/expungement-ai/wilma-safety";
 import { createWilmaTelemetryRecord, logWilmaExchange } from "@/lib/expungement-ai/wilma-telemetry";
 import { generateWilmaReply, normalizeWilmaHistory, type WilmaTurn } from "@/lib/expungement-ai/wilma-model";
 import { type WilmaPageContext } from "@/lib/expungement-ai/wilma";
+import { normalizeLocale, t, type Locale } from "@/lib/expungement-ai/localization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ type WilmaChatRequest = {
   pageContext?: WilmaPageContext;
   state?: string;
   briefcaseItemId?: string;
+  locale?: string;
   // Prior turns in this conversation, oldest first, excluding the current message.
   // Normalized (validated, bounded) server-side before reaching the model.
   history?: WilmaTurn[];
@@ -26,9 +28,10 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null) as WilmaChatRequest | null;
   const message = body?.message?.trim();
   const pageContext = body?.pageContext ?? "briefcase";
+  const locale: Locale = normalizeLocale(body?.locale);
 
   if (!message) {
-    return NextResponse.json({ error: "message is required." }, { status: 400 });
+    return NextResponse.json({ error: t(locale, "wilma.message_required", "message is required.") }, { status: 400 });
   }
 
   if (isWilmaKillSwitchActive()) {
@@ -43,7 +46,7 @@ export async function POST(request: NextRequest) {
   });
 
   const history = normalizeWilmaHistory(body?.history);
-  const reply = await generateWilmaReply({ message, context, history });
+  const reply = await generateWilmaReply({ message, context, history, locale });
   const draftResponse = reply.text;
   const guardResult = guardWilmaResponse({ userMessage: message, draftResponse, context });
   const telemetry = createWilmaTelemetryRecord({

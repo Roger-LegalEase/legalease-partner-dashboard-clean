@@ -3,6 +3,7 @@ import "server-only";
 import type { WilmaContext } from "@/lib/expungement-ai/wilma-context";
 import { buildWilmaSystemPrompt } from "@/lib/expungement-ai/wilma-system-prompt";
 import { draftWilmaPlaceholderResponse, wilmaLiveModelVersion, wilmaModelVersion } from "@/lib/expungement-ai/wilma";
+import type { Locale } from "@/lib/expungement-ai/localization";
 
 export type WilmaReply = {
   text: string;
@@ -72,7 +73,8 @@ export async function generateWilmaReply({
   history = [],
   surface = "authenticated",
   model,
-  forceFallback = false
+  forceFallback = false,
+  locale = "en"
 }: {
   message: string;
   context: WilmaContext;
@@ -86,8 +88,9 @@ export async function generateWilmaReply({
   // When true (e.g. the daily spend cap is exhausted, or the rate store is unreachable),
   // skip the provider entirely and serve the deterministic, guardrail-safe fallback.
   forceFallback?: boolean;
+  locale?: Locale;
 }): Promise<WilmaReply> {
-  const fallbackText = draftWilmaPlaceholderResponse(message);
+  const fallbackText = draftWilmaPlaceholderResponse(message, locale);
   const apiKey = process.env.OPENAI_API_KEY;
   if (forceFallback || !apiKey) {
     return { text: fallbackText, modelVersion: wilmaModelVersion };
@@ -105,7 +108,7 @@ export async function generateWilmaReply({
       body: JSON.stringify({
         model: resolvedModel,
         input: [
-          { role: "system", content: buildWilmaSystemPrompt(context, { surface }) },
+          { role: "system", content: buildWilmaSystemPrompt(context, { surface, locale }) },
           ...history.map((turn) => ({
             role: turn.role === "guide" ? "assistant" : "user",
             content: turn.text

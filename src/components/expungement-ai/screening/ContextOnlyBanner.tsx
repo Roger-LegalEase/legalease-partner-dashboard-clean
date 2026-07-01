@@ -4,8 +4,10 @@
  * blocks Continue.
  */
 import { Info } from "lucide-react";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 export function ContextOnlyBanner({ id }: { id?: string }) {
+  const { t: translate } = useLocalization();
   return (
     <p
       id={id}
@@ -13,8 +15,8 @@ export function ContextOnlyBanner({ id }: { id?: string }) {
     >
       <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
       <span>
-        <strong className="font-bold">Optional.</strong> This question is just for context. It does not
-        decide your result and you can skip it.
+        <strong className="font-bold">{translate("common.optional", "Optional")}.</strong>{" "}
+        {translate("screening.context_note", "This question is just for context. It does not decide your result and you can skip it.")}
       </span>
     </p>
   );

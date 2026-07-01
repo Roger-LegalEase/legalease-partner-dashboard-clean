@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
+import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 /* ------------------------------------------------------------------ */
 /* Status + stepper model (presentation only; reads engine status)     */
@@ -101,7 +102,7 @@ export function packetCompletionActionFor(item: ConsumerBriefcaseItem) {
 /* ------------------------------------------------------------------ */
 
 function StatusPill({ label, tone }: { label: string; tone: PillTone }) {
-  return <span className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${PILL_TONE[tone]}`}>{label}</span>;
+  return <span className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${PILL_TONE[tone]}`}><LocalizedRuntimeText text={label} /></span>;
 }
 
 function Stepper({ done, current, className = "" }: { done: number; current: number; className?: string }) {
@@ -148,7 +149,7 @@ export function MatterStepper({ item, className = "" }: { item: ConsumerBriefcas
 function SectionHeader({ title, action }: { title: string; action?: ReactNode }) {
   return (
     <div className="mb-3.5 mt-7 flex items-center justify-between first:mt-0">
-      <h2 className="text-[15px] font-bold text-[#0B1320]">{title}</h2>
+      <h2 className="text-[15px] font-bold text-[#0B1320]"><LocalizedRuntimeText text={title} /></h2>
       {action}
     </div>
   );
@@ -228,9 +229,9 @@ function pickNextStep(matters: ConsumerBriefcaseItem[]): NextStep | null {
 function StatCard({ label, value, sub, teal = false }: { label: string; value: number; sub: string; teal?: boolean }) {
   return (
     <div className="rounded-[14px] border border-[#ECEFF4] bg-white px-4 py-4">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.07em] text-[#8A93A6]">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.07em] text-[#8A93A6]"><LocalizedRuntimeText text={label} /></p>
       <p className={`mt-1.5 text-[28px] font-extrabold leading-none ${teal ? "text-[#00A99D]" : "text-[#0B1320]"}`}>{value}</p>
-      <p className="mt-1.5 text-[11px] text-[#8A93A6]">{sub}</p>
+      <p className="mt-1.5 text-[11px] text-[#8A93A6]"><LocalizedRuntimeText text={sub} /></p>
     </div>
   );
 }
@@ -258,13 +259,13 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
         <div className="mt-5 flex flex-col items-start gap-4 rounded-[16px] bg-gradient-to-br from-[#0B1320] to-[#1B2B40] p-6 text-white sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#7FE9DE]">
-              <span className="h-[7px] w-[7px] rounded-full bg-[#00A99D] shadow-[0_0_8px_#00A99D]" aria-hidden="true" /> Your next step
+              <span className="h-[7px] w-[7px] rounded-full bg-[#00A99D] shadow-[0_0_8px_#00A99D]" aria-hidden="true" /> <LocalizedText k="briefcase.your_next_step" fallback="Your next step" />
             </p>
-            <h3 className="text-[20px] font-bold">{next.headline}</h3>
-            <p className="mt-1.5 max-w-[52ch] text-[13px] leading-6 text-white/70">{next.body}</p>
+            <h3 className="text-[20px] font-bold"><LocalizedRuntimeText text={next.headline} /></h3>
+            <p className="mt-1.5 max-w-[52ch] text-[13px] leading-6 text-white/70"><LocalizedRuntimeText text={next.body} /></p>
           </div>
           <Link href={next.href} className="inline-flex shrink-0 items-center gap-2 rounded-[11px] bg-[#FF3B00] px-5 py-3 text-[14px] font-bold text-white">
-            {next.ctaLabel} <ArrowRight className="h-4 w-4" strokeWidth={2.4} aria-hidden="true" />
+            <LocalizedRuntimeText text={next.ctaLabel} /> <ArrowRight className="h-4 w-4" strokeWidth={2.4} aria-hidden="true" />
           </Link>
         </div>
       ) : null}
@@ -276,7 +277,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
         <StatCard label="Cleared" value={0} sub="So far" />
       </div>
 
-      <SectionHeader title="Your matters" action={<Link href="/briefcase/matters" className="text-[13px] font-semibold text-[#00A99D]">View all</Link>} />
+      <SectionHeader title="Your matters" action={<Link href="/briefcase/matters" className="text-[13px] font-semibold text-[#00A99D]"><LocalizedText k="briefcase.view_all" fallback="View all" /></Link>} />
       <div className="grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
           <MatterCard key={item.id} item={item} />
@@ -311,7 +312,7 @@ function MatterCard({ item }: { item: ConsumerBriefcaseItem }) {
         <Stepper done={status.stepper.done} current={status.stepper.current} className="mt-1.5" />
       ) : (
         <p className="rounded-[10px] bg-[#F7F3EC] px-3.5 py-2.5 text-[12.5px] leading-5 text-[#5A6275]">
-          What we can do here: we saved your state-specific next steps. Open this matter to read them.
+          <LocalizedText k="briefcase.guidance_card" fallback="What we can do here: we saved your state-specific next steps. Open this matter to read them." />
         </p>
       )}
     </Link>
@@ -327,8 +328,8 @@ export function MattersView({ items }: { items: ConsumerBriefcaseItem[] }) {
   if (matters.length === 0) return <EmptyBriefcase />;
   return (
     <section>
-      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">My matters</h1>
-      <p className="mt-1 text-[13px] text-[#8A93A6]">Each record you check is saved here as its own matter. Open one to see its documents and next steps.</p>
+      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedText k="briefcase.my_matters" fallback="My matters" /></h1>
+      <p className="mt-1 text-[13px] text-[#8A93A6]"><LocalizedText k="briefcase.my_matters_body" fallback="Each record you check is saved here as its own matter. Open one to see its documents and next steps." /></p>
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
           <MatterCard key={item.id} item={item} />
@@ -342,14 +343,14 @@ export function DocumentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
   const withDocs = items.filter((item) => isMatter(item) && (packetArtifactFor(item) !== null || packetCompletionActionFor(item) !== null));
   return (
     <section>
-      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Documents</h1>
-      <p className="mt-1 text-[13px] text-[#8A93A6]">Your documents live inside the matter they belong to. Here is every matter that has documents ready.</p>
+      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedText k="briefcase.documents" fallback="Documents" /></h1>
+      <p className="mt-1 text-[13px] text-[#8A93A6]"><LocalizedText k="briefcase.documents_body" fallback="Your documents live inside the matter they belong to. Here is every matter that has documents ready." /></p>
       <div className="mt-5 space-y-4">
         {withDocs.length ? (
           withDocs.map((item) => <BriefcaseItemCard key={item.id} item={item} />)
         ) : (
           <p className="rounded-[14px] border border-[#ECEFF4] bg-white px-5 py-6 text-[13px] text-[#5A6275]">
-            Your documents will appear here after you generate a packet for one of your matters.
+            <LocalizedText k="briefcase.documents_empty" fallback="Your documents will appear here after you generate a packet for one of your matters." />
           </p>
         )}
       </div>
@@ -430,34 +431,34 @@ export function BriefcaseItemCard({ item }: { item: ConsumerBriefcaseItem }) {
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>
 
-      {item.nextSteps.length ? <h3 className="mt-4 text-[13px] font-bold text-[#0B1320]">Next steps</h3> : null}
+      {item.nextSteps.length ? <h3 className="mt-4 text-[13px] font-bold text-[#0B1320]"><LocalizedText k="common.next_steps" fallback="Next steps" /></h3> : null}
       <ul className="mt-2 space-y-1 text-[13px] leading-6 text-[#5A6275]">
         {item.nextSteps.map((step) => (
-          <li key={step}>{step}</li>
+          <li key={step}><LocalizedRuntimeText text={step} /></li>
         ))}
       </ul>
 
       {artifact && !isGuidanceOnly ? (
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={artifact.downloadPath}>
-            <Download className="h-4 w-4" aria-hidden="true" /> Download
+            <Download className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="common.download" fallback="Download" />
           </Link>
           <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
-            Open matter
+            <LocalizedText k="common.open_matter" fallback="Open matter" />
           </Link>
         </div>
       ) : completionAction && !isGuidanceOnly ? (
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={completionAction.actionPath}>
-            Complete packet information
+            <LocalizedText k="briefcase.complete_packet_information" fallback="Complete packet information" />
           </Link>
           <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
-            Open matter
+            <LocalizedText k="common.open_matter" fallback="Open matter" />
           </Link>
         </div>
       ) : (
         <Link className="mt-4 inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
-          Open matter
+          <LocalizedText k="common.open_matter" fallback="Open matter" />
         </Link>
       )}
     </article>

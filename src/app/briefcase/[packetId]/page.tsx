@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge, MatterStepper, packetCompletionActionFor } from "@/components/expungement-ai/BriefcaseViews";
+import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 
@@ -53,55 +54,55 @@ export default async function BriefcasePacketPage({
             <>
               {/* Guidance matter: next steps are the deliverable. No filing stepper, no pay/generate. */}
               <p className="mt-5 rounded-[12px] bg-[#F7F3EC] px-4 py-3 text-[13px] leading-6 text-[#5A6275]">
-                What we can do here: we saved real, state-specific next steps for this record. There is no court packet to buy for this path.
+                <LocalizedText k="briefcase.guidance_detail" fallback="What we can do here: we saved real, state-specific next steps for this record. There is no court packet to buy for this path." />
               </p>
               <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-                <h2 className="text-[16px] font-bold text-[#0B1320]">Next steps</h2>
+                <h2 className="text-[16px] font-bold text-[#0B1320]"><LocalizedText k="common.next_steps" fallback="Next steps" /></h2>
                 <ol className="mt-4 space-y-4">
                   {item.nextSteps.map((step, i) => (
                     <li key={step} className="flex gap-3.5">
                       <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] bg-[#F7F3EC] text-[12px] font-bold text-[#00A99D]">{i + 1}</span>
-                      <p className="pt-0.5 text-[13.5px] leading-6 text-[#5A6275]">{step}</p>
+                      <p className="pt-0.5 text-[13.5px] leading-6 text-[#5A6275]"><LocalizedRuntimeText text={step} /></p>
                     </li>
                   ))}
                 </ol>
                 <p className="mt-5 border-t border-[#ECEFF4] pt-4 text-[12.5px] leading-6 text-[#8A93A6]">
-                  A court-ready packet may become available for this path later. We will save it here if it does.
+                  <LocalizedText k="briefcase.packet_later" fallback="A self-help packet may become available for this path later. We will save it here if it does." />
                 </p>
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma to explain this
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.ask_wilma_explain" fallback="Ask Wilma to explain this" />
                 </Link>
               </div>
             </>
           ) : (
             <>
               {/* How to file: the highest-care block, above the documents. */}
-              <h2 className="mb-3 mt-7 text-[15px] font-bold text-[#0B1320]">How to file</h2>
+              <h2 className="mb-3 mt-7 text-[15px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.how_to_file" fallback="How to file" /></h2>
               <div className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-                <h3 className="text-[16px] font-bold text-[#0B1320]">You&apos;re ready. Here&apos;s exactly what to do.</h3>
-                <p className="mb-5 mt-1 text-[13px] leading-6 text-[#5A6275]">You file the paperwork yourself. We prepared everything and will walk you through each step.</p>
+                <h3 className="text-[16px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.ready_exactly" fallback="You're ready. Here's exactly what to do." /></h3>
+                <p className="mb-5 mt-1 text-[13px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.file_yourself" fallback="You file the paperwork yourself. We prepared everything and will walk you through each step." /></p>
                 {filingSteps(item.nextSteps).map((step, i, all) => (
                   <div key={step.title} className="relative flex gap-3.5 pb-5 last:pb-0">
                     {i < all.length - 1 ? <span className="absolute left-[13px] top-[30px] bottom-0 w-0.5 bg-[#ECEFF4]" aria-hidden="true" /> : null}
                     <span className="z-[1] grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] bg-[#F7F3EC] text-[12px] font-bold text-[#00A99D]">{i + 1}</span>
                     <div className="pt-0.5">
-                      <p className="text-[14px] font-semibold text-[#1A1D26]">{step.title}</p>
-                      {step.detail ? <p className="mt-0.5 text-[13px] leading-6 text-[#5A6275]">{step.detail}</p> : null}
+                      <p className="text-[14px] font-semibold text-[#1A1D26]"><LocalizedRuntimeText text={step.title} /></p>
+                      {step.detail ? <p className="mt-0.5 text-[13px] leading-6 text-[#5A6275]"><LocalizedRuntimeText text={step.detail} /></p> : null}
                     </div>
                   </div>
                 ))}
                 <button type="button" className="mt-2 rounded-[8px] bg-[#0B1320] px-5 py-3 text-[13px] font-bold text-white">
-                  I&apos;ve filed this, mark as submitted
+                  <LocalizedText k="briefcase.mark_submitted" fallback="I've filed this, mark as submitted" />
                 </button>
               </div>
 
               {/* Your documents (nested in the matter) */}
               <div className="mb-3 mt-7 flex items-center justify-between">
-                <h2 className="text-[15px] font-bold text-[#0B1320]">Your documents</h2>
+                <h2 className="text-[15px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.your_documents" fallback="Your documents" /></h2>
                 {artifact && !isGuidanceOnly ? (
-                  <Link href={artifact.downloadPath} className="text-[13px] font-semibold text-[#00A99D]">Download all</Link>
+                  <Link href={artifact.downloadPath} className="text-[13px] font-semibold text-[#00A99D]"><LocalizedText k="briefcase.download_all" fallback="Download all" /></Link>
                 ) : null}
               </div>
               {artifact && !isGuidanceOnly ? (
@@ -110,11 +111,11 @@ export default async function BriefcasePacketPage({
                     <span className="grid h-[46px] w-[38px] shrink-0 place-items-center rounded-md border border-[#E2E6EE] bg-[#EEF1F6] text-[10px] font-bold text-[#8A93A6]">PDF</span>
                     <div className="min-w-0">
                       <p className="text-[14px] font-semibold text-[#1A1D26]">{artifact.fileName}</p>
-                      <p className="mt-0.5 text-[11px] text-[#8A93A6]">Prepared, ready to print. Generated {new Date(artifact.generatedAt).toLocaleDateString()}</p>
+                      <p className="mt-0.5 text-[11px] text-[#8A93A6]"><LocalizedText k="briefcase.prepared_ready" fallback="Prepared, ready to print." /> Generated {new Date(artifact.generatedAt).toLocaleDateString()}</p>
                     </div>
                     <div className="ml-auto flex gap-2">
                       <Link href={artifact.downloadPath} className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#0B1320] px-3.5 py-2 text-[12px] font-semibold text-white">
-                        <Download className="h-3.5 w-3.5" aria-hidden="true" /> Download
+                        <Download className="h-3.5 w-3.5" aria-hidden="true" /> <LocalizedText k="common.download" fallback="Download" />
                       </Link>
                     </div>
                   </div>

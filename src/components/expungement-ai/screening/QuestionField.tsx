@@ -20,21 +20,26 @@ import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
 import { OrUnknownField } from "@/components/expungement-ai/screening/fields/OrUnknownField";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { localizeProfileText } from "@/lib/expungement-ai/localization";
 
 const YES_NO_UNSURE_OPTIONS = ["Yes", "No", "I am not sure"];
 const YES_NO_PREFER_NOT_OPTIONS = ["Yes", "No", "Prefer not to say"];
 
 export function QuestionField({
   question,
+  stateCode,
   value,
   onChange,
   error
 }: {
   question: ProfileQuestion;
+  stateCode: string;
   value: AnswerValue | undefined;
   onChange: (value: AnswerValue) => void;
   error?: string | null;
 }) {
+  const { locale, t: translate } = useLocalization();
   const fieldId = `q-${question.id}`;
   const promptId = `${fieldId}-prompt`;
   const errorId = error ? `${fieldId}-error` : undefined;
@@ -44,18 +49,24 @@ export function QuestionField({
   const optional = question.contextOnly || !question.required;
 
   const heading = (
-    <PromptHeading id={promptId} prompt={question.prompt} optional={optional} contextOnly={question.contextOnly} />
+    <PromptHeading
+      id={promptId}
+      prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })}
+      optional={optional}
+      contextOnly={question.contextOnly}
+      optionalLabel={translate("common.optional", "Optional")}
+    />
   );
   const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
   const helperNode = question.helperText ? (
     <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
-      {question.helperText}
+      {localizeProfileText(locale, question.helperText, { state: stateCode, questionId: question.id, part: "helper" })}
     </p>
   ) : null;
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
-      {error}
+      {translate("screening.answer_required", error)}
     </p>
   ) : null;
 
@@ -70,7 +81,7 @@ export function QuestionField({
             ? YES_NO_PREFER_NOT_OPTIONS
             : question.options ?? [];
 
-      if (options.length === 0) return <MalformedQuestion prompt={question.prompt} />;
+      if (options.length === 0) return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
 
       return (
         <div className="grid gap-3">
@@ -82,6 +93,8 @@ export function QuestionField({
             name={fieldId}
             options={options}
             optionDisplay={question.optionDisplay}
+            questionId={question.id}
+            stateCode={stateCode}
             value={typeof value === "string" ? value : ""}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
@@ -95,7 +108,7 @@ export function QuestionField({
 
     case "multi_select": {
       const options = question.options ?? [];
-      if (options.length === 0) return <MalformedQuestion prompt={question.prompt} />;
+      if (options.length === 0) return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
 
       return (
         <div className="grid gap-3">
@@ -107,6 +120,8 @@ export function QuestionField({
             name={fieldId}
             options={options}
             optionDisplay={question.optionDisplay}
+            questionId={question.id}
+            stateCode={stateCode}
             value={Array.isArray(value) ? value : []}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
@@ -150,7 +165,7 @@ export function QuestionField({
           <OrUnknownField
             id={fieldId}
             inputType={config.inputType}
-            unknownLabel={config.unknownLabel}
+            unknownLabel={translate(config.unknownKey, config.unknownLabel)}
             placeholder={config.placeholder}
             value={readOrUnknown(value)}
             onChange={(next: OrUnknownValue) => onChange(next)}
@@ -166,44 +181,46 @@ export function QuestionField({
     default:
       // Unknown/unsupported question type: render a calm note. The flow treats this as
       // non-blocking so a malformed type can never strand the user or fake a result.
-      return <MalformedQuestion prompt={question.prompt} />;
+      return <MalformedQuestion prompt={localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" })} />;
   }
 }
 
 const OR_UNKNOWN_CONFIG = {
-  text_or_unknown: { inputType: "text" as const, unknownLabel: "I'm not sure", placeholder: undefined },
-  number_or_range: { inputType: "number" as const, unknownLabel: "I'm not sure", placeholder: undefined },
-  date_or_unknown: { inputType: "date" as const, unknownLabel: "I don't know the date", placeholder: undefined }
+  text_or_unknown: { inputType: "text" as const, unknownLabel: "I'm not sure", unknownKey: "answer.not_sure", placeholder: undefined },
+  number_or_range: { inputType: "number" as const, unknownLabel: "I'm not sure", unknownKey: "answer.not_sure", placeholder: undefined },
+  date_or_unknown: { inputType: "date" as const, unknownLabel: "I don't know the date", unknownKey: "answer.dont_know_date", placeholder: undefined }
 };
 
 function PromptHeading({
   id,
   prompt,
   optional,
-  contextOnly
+  contextOnly,
+  optionalLabel
 }: {
   id: string;
   prompt: string;
   optional: boolean;
   contextOnly: boolean;
+  optionalLabel: string;
 }) {
   return (
     <h1 id={id} className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">
       {prompt}
       {optional && !contextOnly ? (
-        <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#8A93A6]">Optional</span>
+        <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#8A93A6]">{optionalLabel}</span>
       ) : null}
     </h1>
   );
 }
 
 function MalformedQuestion({ prompt }: { prompt: string }) {
+  const { t: translate } = useLocalization();
   return (
     <div className="grid gap-2">
       <h1 className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</h1>
       <p className="rounded-xl border border-[#F4D9C7] bg-[#FDF1E8] px-4 py-3 text-[13px] leading-6 text-[#9A3412]">
-        We could not show this question right now. You can continue, and a reviewer will follow up if
-        this detail is needed.
+        {translate("screening.question_unavailable", "We could not show this question right now. You can continue, and a reviewer will follow up if this detail is needed.")}
       </p>
     </div>
   );

@@ -8,6 +8,7 @@
  */
 import Link from "next/link";
 import { listAvailableJurisdictions } from "@/lib/expungement-ai/frontend/profile-loader";
+import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 export function StatePicker() {
   const jurisdictions = listAvailableJurisdictions();
@@ -15,13 +16,12 @@ export function StatePicker() {
   return (
     <section className="mx-auto max-w-3xl px-4 pb-16 pt-28 font-sans md:px-8">
       <div className="mb-6">
-        <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]">Free screening</p>
+        <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]"><LocalizedText k="screening.free_screening" fallback="Free screening" /></p>
         <h1 className="mt-3 text-[30px] font-extrabold leading-tight text-[#0B1320] md:text-[38px]">
-          Where is the record?
+          <LocalizedText k="screening.where_record" fallback="Where is the record?" />
         </h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-          Choose the state or district where the case happened. We will ask a few plain questions for
-          that place. This is legal information, not legal advice, and there is no payment to check.
+          <LocalizedText k="screening.state_picker_body" fallback="Choose the state or district where the case happened. We will ask a few plain questions for that place. This is legal information, not legal advice, and there is no payment to check." />
         </p>
       </div>
 

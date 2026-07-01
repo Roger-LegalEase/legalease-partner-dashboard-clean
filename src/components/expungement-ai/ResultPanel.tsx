@@ -3,6 +3,7 @@ import { AlertTriangle, Bell, CheckCircle2, FileText, HelpCircle, Lock, MapPinne
 import type { ComponentType, ReactNode } from "react";
 import type { ExpungementAiEligibilityResult, ExpungementAiResultCode } from "@/lib/expungement-ai/types";
 import { friendlyMissingFieldLabel, safeUserFacingEngineText } from "@/lib/expungement-ai/missing-fields";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 type BranchPresentation = {
   tag: string;
@@ -16,10 +17,10 @@ type BranchPresentation = {
 
 const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = {
   packet_ready: {
-    tag: "Packet ready",
-    title: "You may be eligible.",
-    body: "Based on your answers, the engine returned a packet-ready self-help path. The court makes the final decision.",
-    primary: "Generate my packet - $50",
+    tag: "Possible packet route",
+    title: "A packet route may be available.",
+    body: "Based on your answers, there may be a packet route. The court makes the final decision.",
+    primary: "Generate my self-help packet - $50",
     secondary: "Review what this packet includes",
     tone: "teal",
     icon: CheckCircle2
@@ -28,7 +29,7 @@ const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = 
     tag: "Possible path",
     title: "You may have a path.",
     body: "Your answers suggest a possible self-help path with cautions. Review everything carefully before filing.",
-    primary: "Generate my packet - $50",
+    primary: "Generate my self-help packet - $50",
     secondary: "Review the cautions",
     tone: "cream",
     icon: ShieldCheck
@@ -117,6 +118,7 @@ export function nonPaymentBranchesNeverShowPayGate(resultCode: ExpungementAiResu
 }
 
 export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult }) {
+  const { locale, t: translate, text: localizeText } = useLocalization();
   const showPayGate = shouldShowConsumerPayGate(result);
   const presentation = branchPresentation[result.resultCode];
   const Icon = presentation.icon;
@@ -127,23 +129,23 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
         <Icon className="h-8 w-8" aria-hidden />
       </div>
       <div className="mt-5 text-center">
-        <span className={tagClass(presentation.tone)}>{presentation.tag}</span>
-        <h1 className="mx-auto mt-4 max-w-2xl text-[30px] font-extrabold leading-tight text-[#0B1320] md:text-[42px]">{presentation.title}</h1>
-        <p className="mx-auto mt-3 max-w-2xl text-[15.5px] leading-7 text-[#5A6275]">{presentation.body}</p>
+        <span className={tagClass(presentation.tone)}>{localizeText(presentation.tag)}</span>
+        <h1 className="mx-auto mt-4 max-w-2xl text-[30px] font-extrabold leading-tight text-[#0B1320] md:text-[42px]">{localizeText(presentation.title)}</h1>
+        <p className="mx-auto mt-3 max-w-2xl text-[15.5px] leading-7 text-[#5A6275]">{localizeText(presentation.body)}</p>
         {result.pathwayLabel ? <p className="mx-auto mt-4 w-fit rounded-full bg-[#F7F3EC] px-4 py-2 text-xs font-extrabold text-[#0B1320]">{result.pathwayLabel}</p> : null}
       </div>
 
       <div className="mt-7 grid gap-4 md:grid-cols-2">
-        <ResultList title="Why" icon={<CheckCircle2 className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.reasons.map(safeUserFacingEngineText)} />
-        <ResultList title="Next steps" icon={<FileText className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.nextSteps.map(safeUserFacingEngineText)} />
+        <ResultList title={translate("common.why", "Why")} icon={<CheckCircle2 className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.reasons.map((item) => safeUserFacingEngineText(item, { locale }))} />
+        <ResultList title={translate("common.next_steps", "Next steps")} icon={<FileText className="h-5 w-5 text-[#00A99D]" aria-hidden />} items={result.nextSteps.map((item) => safeUserFacingEngineText(item, { locale }))} />
       </div>
 
       {result.missingInfo?.length ? (
         <div className="mt-4 rounded-xl border border-[#E0A93B]/30 bg-[#E0A93B]/10 p-4 text-sm text-[#0B1320]">
-          <b>Still needed:</b>
+          <b>{translate("result.still_need", "Still needed:")}</b>
           <ul className="mt-2 grid gap-1">
             {result.missingInfo.map((fieldId) => (
-              <li key={fieldId}>{friendlyMissingFieldLabel(fieldId)}</li>
+              <li key={fieldId}>{friendlyMissingFieldLabel(fieldId, null, locale)}</li>
             ))}
           </ul>
         </div>
@@ -154,26 +156,26 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
           <div className="rounded-2xl border border-[#FF3B00]/30 bg-[#FF3B00]/10 p-5" data-consumer-pay-gate="visible">
             <p className="flex items-center gap-2 text-sm font-extrabold text-[#0B1320]">
               <Lock className="h-5 w-5 text-[#FF3B00]" aria-hidden />
-              Generate your packet for $50
+              {translate("payment.generate_packet", "Generate my self-help packet - $50")}
             </p>
-            <p className="mt-2 text-sm leading-6 text-[#5A6275]">One-time payment. Your generated packet saves to Briefcase after checkout.</p>
+            <p className="mt-2 text-sm leading-6 text-[#5A6275]">{translate("payment.supporting_copy", "The $50 covers Expungement.ai packet generation. Court, agency, or background-report fees are separate.")}</p>
             <Link className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-[13px] bg-[#FF3B00] px-5 text-sm font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] md:w-fit" href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`}>
-              {presentation.primary}
+              {localizeText(presentation.primary)}
             </Link>
           </div>
         ) : (
           <div className="rounded-2xl border border-[#ECEFF4] bg-[#FBFCFE] p-5" data-consumer-pay-gate="hidden">
             <p className="flex items-center gap-2 text-sm font-extrabold text-[#0B1320]">
               <ShieldCheck className="h-5 w-5 text-[#00A99D]" aria-hidden />
-              Saved to Briefcase. No payment is available for this result.
+              {translate("result.no_payment_saved", "Saved to Briefcase. No payment is available for this result.")}
             </p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <Link className="inline-flex min-h-12 flex-1 items-center justify-center rounded-[13px] bg-[#0B1320] px-5 text-sm font-extrabold text-white" href={result.resultCode === "needs_more_info" ? `/expungement-ai/check?state=${encodeURIComponent(result.state)}` : "/briefcase"}>
-                {presentation.primary}
+                {localizeText(presentation.primary)}
               </Link>
               {presentation.secondary ? (
                 <Link className="inline-flex min-h-12 flex-1 items-center justify-center rounded-[13px] border border-[#D9DEE8] px-5 text-sm font-extrabold text-[#0B1320]" href="/expungement-ai/support">
-                  {presentation.secondary}
+                  {localizeText(presentation.secondary)}
                 </Link>
               ) : null}
             </div>
@@ -181,8 +183,8 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
         )}
       </div>
 
-      <p className="mt-5 text-xs leading-5 text-[#5A6275]">{result.disclaimer}</p>
-      <p className="mt-2 text-xs font-bold text-[#00A99D]">Saved to your Briefcase.</p>
+      <p className="mt-5 text-xs leading-5 text-[#5A6275]">{localizeText(result.disclaimer)}</p>
+      <p className="mt-2 text-xs font-bold text-[#00A99D]">{translate("result.saved_briefcase", "Saved to your Briefcase.")}</p>
     </section>
   );
 }

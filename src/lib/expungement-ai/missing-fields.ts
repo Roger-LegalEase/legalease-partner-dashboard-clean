@@ -1,4 +1,5 @@
 import type { ProfileQuestion, QuestionType } from "@/lib/expungement-ai/frontend/contracts";
+import { resolveRuntimeText, t, type Locale } from "@/lib/expungement-ai/localization";
 
 type MissingFieldFallback = {
   prompt: string;
@@ -21,14 +22,14 @@ const FRIENDLY_MISSING_FIELD_FALLBACKS: Record<string, MissingFieldFallback> = {
   }
 };
 
-export function friendlyMissingFieldLabel(fieldId: string, profileQuestion?: Pick<ProfileQuestion, "prompt"> | null) {
+export function friendlyMissingFieldLabel(fieldId: string, profileQuestion?: Pick<ProfileQuestion, "prompt"> | null, locale: Locale = "en") {
   const fallback = FRIENDLY_MISSING_FIELD_FALLBACKS[fieldId];
-  if (fallback) return fallback.prompt;
+  if (fallback) return resolveRuntimeText(locale, fallback.prompt);
 
   const prompt = profileQuestion?.prompt?.trim();
   if (prompt && !looksLikeRawFieldKey(prompt)) return prompt;
 
-  return `Tell us more about ${humanizeFieldId(fieldId)}.`;
+  return t(locale, "missing.tell_more", "Tell us more about {field}.", { field: humanizeFieldId(fieldId) });
 }
 
 export function questionForMissingField(fieldId: string, profileQuestion?: ProfileQuestion | null): ProfileQuestion {
@@ -55,10 +56,12 @@ export function questionForMissingField(fieldId: string, profileQuestion?: Profi
   };
 }
 
-export function safeUserFacingEngineText(text: string) {
-  return text
+export function safeUserFacingEngineText(text: string, options?: { locale?: Locale }) {
+  const locale = options?.locale ?? "en";
+  const sanitized = text
     .replace(/source_question_[a-z0-9_-]+/gi, "A source detail")
-    .replace(/\b(age_at_offense|trafficking_status|pardon_status)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId));
+    .replace(/\b(age_at_offense|trafficking_status|pardon_status)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
+  return resolveRuntimeText(locale, sanitized);
 }
 
 function looksLikeRawFieldKey(value: string) {

@@ -8,6 +8,8 @@
  * prompt/legend is provided by the parent <fieldset> in QuestionField.
  */
 import { useId } from "react";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { localizeProfileText, runtimeCopyKeyForText } from "@/lib/expungement-ai/localization";
 
 type SingleProps = {
   mode: "single";
@@ -19,6 +21,8 @@ type SingleProps = {
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
+  questionId: string;
+  stateCode: string;
 };
 
 type MultiProps = {
@@ -31,6 +35,8 @@ type MultiProps = {
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
+  questionId: string;
+  stateCode: string;
 };
 
 export type OptionGroupProps = SingleProps | MultiProps;
@@ -41,6 +47,7 @@ type OptionDisplayMap = Record<string, {
 
 export function OptionGroup(props: OptionGroupProps) {
   const groupId = useId();
+  const { locale, text: localize } = useLocalization();
   const inputType = props.mode === "single" ? "radio" : "checkbox";
 
   function isChecked(option: string): boolean {
@@ -68,6 +75,13 @@ export function OptionGroup(props: OptionGroupProps) {
       {props.options.map((option, index) => {
         const id = `${groupId}-${index}`;
         const display = props.optionDisplay?.[option];
+        const label = display?.label ?? option;
+        const localizedLabel = display?.label
+          ? localizeProfileText(locale, display.label, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.label` })
+          : localize(option, { key: runtimeCopyKeyForText(option) });
+        const localizedHelper = display?.helperText
+          ? localizeProfileText(locale, display.helperText, { state: props.stateCode, questionId: props.questionId, part: `option.${option}.helper` })
+          : "";
         const checked = isChecked(option);
         return (
           <label
@@ -91,9 +105,9 @@ export function OptionGroup(props: OptionGroupProps) {
               aria-invalid={props.invalid || undefined}
             />
             <span className="grid gap-1">
-              <span>{display?.label ?? option}</span>
+              <span>{localizedLabel || label}</span>
               {display?.helperText ? (
-                <span className="text-[12.5px] font-medium leading-5 text-[#5A6275]">{display.helperText}</span>
+                <span className="text-[12.5px] font-medium leading-5 text-[#5A6275]">{localizedHelper}</span>
               ) : null}
             </span>
           </label>
