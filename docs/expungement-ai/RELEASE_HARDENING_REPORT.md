@@ -232,3 +232,36 @@ migration), confirming the state constraint was the isolated variable.
 2. Re-run predeploy checks from `main`; `npm run build`.
 3. `npx vercel --prod` (Vercel authed as `roger947`). Do not change domains/aliases unless instructed.
 4. Post-deploy production smoke (existing consumer + RCAP surfaces).
+
+---
+
+## Production Deployment — EXECUTED (2026-07-01)
+
+| Field | Value |
+| --- | --- |
+| Merge | `fix/all51-rule-driven-provability` → `main` (fast-forward, `f76d3f0` → `7287910`); `origin/main` pushed |
+| Predeploy | 14/14 verifiers + `tsc` GREEN (from `main`) |
+| Build | `npm run build` GREEN (Vercel build 51s) |
+| Deploy | `npx vercel --prod --yes` → `readyState: READY`, `target: production` |
+| Deployment id | `dpl_7SN2x3DxrDMbYh8tuYRTdtu6PUyK` |
+| Deployment URL | `https://legalease-partner-dashboard-clean-6un11i1ge-roger947s-projects.vercel.app` |
+| Production alias | `https://legalease.com` |
+| Domains changed | none (existing prod alias) |
+
+### Post-deploy production smoke — GREEN (read-only; no payments)
+| Surface | Result |
+| --- | --- |
+| `legalease.com/api/health` | 200 · `ok:true` · `db:ok` |
+| `legalease.com/` | 200 |
+| Expungement.ai landing | 200 · Wilma + self-help copy present |
+| Consumer state picker | 200 · `data-state-count="51"` (all 51 via existing StatePicker) |
+| Screening `NV` / `AK` (CourtView) | 200 · existing screening flow |
+| `legaleasepartner.com/` partner landing | 200 |
+| `/intake/we-must-vote` partner intake | 200 |
+
+Not driven headlessly (client-JS): the post-screening result labels and the $50 pay-gate visibility —
+already proven pre-deploy by the env-backed Supabase/Briefcase smoke + consumer-adapter +
+all51-frontend-integration verifiers, and re-confirmed live by Roger's manual Stripe QA.
+
+**Deployment status: GREEN.** 51/51 paid jurisdictions live on the existing front-end; no new intake /
+Briefcase / checkout UI; no generic fallback; phase-37 applied; health + DB OK in production.
