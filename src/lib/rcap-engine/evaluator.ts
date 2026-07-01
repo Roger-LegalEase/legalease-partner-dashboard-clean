@@ -78,7 +78,25 @@ const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
   "ND:deferred-imposition-dismissal-and-sealing",
   "WY:adult-non-conviction-expungement-w-s-7-13-1401",
   "NY:conditional-treatment-sealing-under-cpl-160-58",
-  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+  // Batch: held petition routes corrected to route-specific wait/anchor/gates.
+  // Payment stays clamped shut (needs_review) until Lawrence ratifies the derived values.
+  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+  "LA:non-conviction-arrest-expungement",
+  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+  "LA:misdemeanor-five-year-clean-period-expungement",
+  "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+  "LA:felony-article-893-e-set-aside-followed-by-expungement",
+  "LA:felony-ten-year-clean-period-expungement",
+  "NE:set-aside-probation-fine-community-service",
+  "NE:set-aside-incarceration-one-year-or-less",
+  "VA:regime-1-expungement-available-now",
+  "VA:petition-based-sealing",
+  "ME:adult-conviction-sealing",
+  "IL:felony-prostitution-relief",
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch"
 ]);
 
 const HARD_GATE_PENDING_ROUTES = new Set([
@@ -130,7 +148,6 @@ const HARD_GATE_PENDING_ROUTES = new Set([
 ]);
 
 const HELD_GUIDANCE_ROUTES = new Set([
-  "IL:felony-prostitution-relief",
   "CA:tool-5-proposition-64-marijuana-relief",
   "IN:conviction-expungement-with-records-marked-expunged",
   "KS:prostitution-coercion",
@@ -139,16 +156,10 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "NM:dna-sample-profile-expungement",
   "OR:marijuana-specific-set-aside-redesignation",
   "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-  "VA:regime-1-expungement-available-now",
-  "VA:petition-based-sealing",
   "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
-  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-  "LA:non-conviction-arrest-expungement",
-  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
-  "LA:misdemeanor-five-year-clean-period-expungement",
-  "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-  "LA:felony-article-893-e-set-aside-followed-by-expungement",
-  "LA:felony-ten-year-clean-period-expungement",
+  // Trafficking-survivor vacatur requires a "offense resulted from trafficking" nexus that cannot be
+  // modeled from a single collected fact; held guidance-only (fail safe) until the nexus is modelable.
+  "ID:human-trafficking-survivor-vacatur-and-expungement",
   "LA:first-offender-pardon-felony-expungement",
   "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
   "LA:expungement-by-redaction-for-multi-person-records",
@@ -160,20 +171,14 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "MA:time-based-expungement-under-100f-100j",
   "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
   "MA:marijuana-only-expungement",
-  "ME:adult-conviction-sealing",
   "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
   "ME:adult-non-conviction-record-relief",
   "ME:pardon-route",
   "ME:juvenile-sealing",
-  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
   "MO:closed-record-outcome-under-rsmo-610-105",
   "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
   "MO:marijuana-expungement-under-missouri-constitution-article-xiv",
-  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
   "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
-  "NE:set-aside-probation-fine-community-service",
-  "NE:set-aside-incarceration-one-year-or-less",
   "NE:trafficking-survivor-set-aside-and-seal",
   "NE:pardon-then-seal",
   "NE:law-enforcement-error-expungement",
@@ -667,6 +672,88 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "no wait" }, "Tennessee non-conviction expunction has no five-year wait after dismissal, no true bill, or not guilty disposition.");
   }
+  // ---- Missouri (corrected, awaiting Lawrence reconfirmation) ----
+  // The compiled profile only exposes disposition_date as a date anchor; the true statutory clock is
+  // completion of the authorized disposition. disposition_date is used as the available proxy anchor
+  // and flagged for Lawrence in the ratification worksheet.
+  if (key === "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140") {
+    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
+    if (/felony/.test(level)) {
+      return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 3, unit: "years", raw: "3 years" }, "RSMo 610.140 sets a three-year wait for a felony conviction, running from completion of the authorized disposition (disposition date used as the available anchor).");
+    }
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 1, unit: "years", raw: "1 year" }, "RSMo 610.140 sets a one-year wait for a misdemeanor, ordinance, or infraction conviction, running from completion of the authorized disposition (disposition date used as the available anchor).");
+  }
+  if (key === "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 10, unit: "years", raw: "10 years" }, "RSMo 610.130 sets a ten-year wait for a first intoxication-related traffic or boating offense (disposition date used as the available anchor for sentence completion).");
+  }
+  if (key === "MO:stolen-or-mistaken-identity-expungement-under-610-145") {
+    return { status: "satisfied" };
+  }
+  // ---- Louisiana (corrected, awaiting Lawrence reconfirmation) ----
+  // disposition_date is the available anchor proxy for completion of sentence/probation/parole.
+  // Fee/admin rows (Art. 983 fee cap; DWI-diversion 5-year-from-arrest) are separated from the
+  // eligibility clean-period waits and flagged for Lawrence. 894(B)/893(E) are the set-aside routes
+  // (event-based once the set-aside is granted); the 5yr/10yr clean-period routes are distinct.
+  if (key === "LA:non-conviction-arrest-expungement") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "Louisiana non-conviction (dismissal/acquittal/DA decline) expungement has no clean-period wait; the DWI-pretrial-diversion 5-year-from-arrest rule is flagged for Lawrence.");
+  }
+  if (key === "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after set-aside" }, "Louisiana Art. 894(B) misdemeanor set-aside-then-expungement is event-based once the set-aside is granted; the set-aside-granted precondition is flagged for Lawrence.");
+  }
+  if (key === "LA:misdemeanor-five-year-clean-period-expungement") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 5, unit: "years", raw: "5 years" }, "Louisiana Art. 977 misdemeanor clean-period expungement requires five years from completion of sentence/probation/parole (disposition date used as the available anchor).");
+  }
+  if (key === "LA:first-offense-marijuana-expungement-after-90-days-art-998") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 90, unit: "days", raw: "90 days" }, "Louisiana Art. 998 first-offense marijuana expungement requires 90 days from conviction (disposition date used as the available anchor).");
+  }
+  if (key === "LA:felony-article-893-e-set-aside-followed-by-expungement") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after set-aside" }, "Louisiana Art. 893(E) felony set-aside-then-expungement is event-based once the set-aside is granted; the set-aside-granted precondition and Art. 978(B) exclusions are flagged for Lawrence.");
+  }
+  if (key === "LA:felony-ten-year-clean-period-expungement") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 10, unit: "years", raw: "10 years" }, "Louisiana Art. 978 felony clean-period expungement requires ten years from completion of sentence/probation/parole (disposition date used as the available anchor).");
+  }
+  // ---- Nebraska (corrected, awaiting Lawrence reconfirmation) ----
+  // Neb. Rev. Stat. § 29-2264 set-aside is a SET-ASIDE, not sealing/erasure: the conviction stays
+  // visible with a set-aside notation. No fixed numeric wait; the remedy runs from satisfactory
+  // completion of the sentence, enforced by the generic completion blockers above.
+  if (key === "NE:set-aside-probation-fine-community-service" || key === "NE:set-aside-incarceration-one-year-or-less") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "runs from sentence completion" }, "Nebraska § 29-2264 conviction SET-ASIDE (record stays visible with a set-aside notation, not sealed) runs from satisfactory completion of the sentence; there is no fixed waiting period.");
+  }
+  // ---- Virginia (corrected, awaiting Lawrence reconfirmation) ----
+  // Effective law pinned as of 2026-07-01. Regime 1 non-conviction expungement (§ 19.2-392.2) is
+  // long-standing and event-based. Petition-based sealing (§ 19.2-392.12/.12:1) became effective
+  // 2026-07-01; its 7yr (misdemeanor) / 10yr (Class 5/6 felony or larceny) waits are wired, but OES
+  // form-readiness and the full exclusion / felony-history-bar list are flagged for Lawrence.
+  if (key === "VA:regime-1-expungement-available-now") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "Virginia § 19.2-392.2 expungement of non-convictions has no waiting period.");
+  }
+  if (key === "VA:petition-based-sealing") {
+    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
+    if (/felony/.test(level)) {
+      return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 10, unit: "years", raw: "10 years" }, "Virginia § 19.2-392.12 petition-based sealing of an eligible Class 5/6 felony or larceny requires ten years from conviction or release, whichever is later (disposition date used as the available anchor).");
+    }
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 7, unit: "years", raw: "7 years" }, "Virginia § 19.2-392.12 petition-based sealing of an eligible misdemeanor requires seven conviction-free years (disposition date used as the available anchor).");
+  }
+  // ---- Maine (corrected, awaiting Lawrence reconfirmation) ----
+  // disposition_date is the available anchor proxy for "sentence fully satisfied".
+  if (key === "ME:adult-conviction-sealing") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 4, unit: "years", raw: "4 years" }, "Maine CR-218 adult conviction sealing (eligible Class E crimes) requires four years after the sentence is fully satisfied (disposition date used as the available anchor).");
+  }
+  // ---- Illinois felony-prostitution relief (corrected, awaiting Lawrence reconfirmation) ----
+  // 20 ILCS 2630/5.2(j) motion to vacate/expunge a Class 4 felony prostitution conviction is
+  // event-based once any sentence/condition is completed. The Class-4-felony-prostitution offense
+  // gate and the trafficking-survivor (5.2(h)) overlap are flagged for Lawrence.
+  if (key === "IL:felony-prostitution-relief") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after sentence completion" }, "Illinois 20 ILCS 2630/5.2(j) relief for a Class 4 felony prostitution conviction is available after any sentence or condition is completed; there is no additional waiting period.");
+  }
+  // ---- Idaho withheld-judgment set-aside (corrected, awaiting Lawrence reconfirmation) ----
+  // I.C. § 19-2604(1) set-aside dismisses the charge and restores civil rights after successful
+  // completion of a withheld judgment; it is a discretionary court motion (caution-tier once
+  // ratified) and is a SET-ASIDE, not an expungement. Event-based once probation is completed
+  // (disposition_date used as the available anchor for completion of the withheld-judgment term).
+  if (key === "ID:withheld-judgment-idaho-code-19-2604-review-branch") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after probation completion" }, "Idaho § 19-2604(1) set-aside (dismisses the charge and restores civil rights; not an expungement) is available after successful completion of the withheld judgment; there is no additional waiting period.");
+  }
   return undefined;
 }
 
@@ -1159,6 +1246,11 @@ function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPath
   )) return true;
   if (code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") return true;
   if (routeIsRatifiedDeployable(profile, pathway)) return true;
+  // Corrected-but-awaiting-reconfirm routes are user-filed court petitions/motions that we have
+  // classified as such during the build; treat them as court-filed so they reach the reconfirm
+  // hold instead of dropping to the generic non-court guidance branch. Payment is still clamped by
+  // the routeIsRatifiedDeployable gate in the payment calculation.
+  if (routeIsCorrectedAwaitingReconfirm(profile, pathway)) return true;
 
   if (/automatic|no filing|without any petition|without a petition|by operation of law|clean slate automatic/.test(text)) return false;
   if (/board of pardons|epardon|pardon portal|executive clemency|governor.?s pardon|executive-pardon|pardon guidance/.test(text)) return false;
