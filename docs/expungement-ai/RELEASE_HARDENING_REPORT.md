@@ -181,11 +181,10 @@ any route to `live`).
 
 ## Deploy Hold — phase-37 migration confirmation (2026-07-01)
 
-**Status: DEPLOY HELD.** Manual live-site Stripe QA passed and predeploy is GREEN (14/14 verifiers +
-`tsc` + `npm run build` all GREEN), but the production deploy is **held** until the reviewed additive
-migration `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql` is confirmed
-applied in the **production** Supabase project. Do not assume it is applied; do not deploy while the
-migration status is unknown.
+**Status: CLEARED — phase-37 confirmed applied in production; RCAP partner migration smoke GREEN.**
+Manual live-site Stripe QA passed and predeploy is GREEN (14/14 verifiers + `tsc` + `npm run build`).
+The prior deploy hold on `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql` is
+**resolved** (details below). Deploy proceeds via the standard reviewed main-branch path.
 
 - **Target Supabase project ref:** `wwtwtsmywnckfkdaqqeg`
 - **Migration file:** `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql`
@@ -208,18 +207,28 @@ migration status is unknown.
 2. **Labeled control+probe (on request):** insert a self-cleaning `state='MS'` control + `state='AK'`
    probe into `rcap_document_packets`; `AK` success = applied, `check_violation` = not applied; delete both.
 
-### Confirmation record (fill on confirmation)
+### Confirmation record
 | Field | Value |
 | --- | --- |
-| Applied? | _pending_ |
-| Confirmed by | _pending_ |
-| How confirmed | _pending (dashboard query / probe)_ |
-| Timestamp | _pending_ |
+| Applied? | **YES** |
+| Confirmed by | Roger (roman.roger@gmail.com) |
+| How confirmed | Supabase SQL editor `pg_get_constraintdef` on `rcap_document_packets_state_check` (before: `CHECK ((state = 'MS'::text))`; after: all 51 jurisdictions) + independent release-hardening RCAP partner migration smoke (state-only control/probe) |
+| Timestamp | 2026-07-01 |
 | Target Supabase project | `wwtwtsmywnckfkdaqqeg` |
 | Migration filename | `supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql` |
+| Before | `CHECK ((state = 'MS'::text))` |
+| After | `state in (AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY)` |
 
-### Resume path (after confirmation)
-1. If **not applied**, Roger applies phase-37 via the Supabase dashboard / approved migration workflow.
-2. Re-run the RCAP partner document-packet smoke if the migration was just applied.
-3. Merge `fix/all51-rule-driven-provability` → `main`, then deploy from `main` (`npx vercel --prod`)
-   per `docs/PHASE_17_PRODUCTION_DEPLOYMENT.md`. Do not change domains/aliases unless instructed.
+### RCAP partner document-packet migration smoke — **GREEN**
+Against prod `rcap_document_packets`: a `state='MS'` control (both constraints allow it) inserted OK,
+and a probe **identical except `state='AK'`** (a phase-37-only jurisdiction) also inserted OK — proving
+the widened state constraint is live in production. Both labeled test rows
+(`partner_slug='release-hardening-smoke'`) were deleted; `remaining rows = 0`. An earlier probe that
+also changed `pathway` correctly failed on `rcap_document_packets_pathway_check` (unrelated to the
+migration), confirming the state constraint was the isolated variable.
+
+### Deploy path (now unblocked)
+1. Merge `fix/all51-rule-driven-provability` → `main`.
+2. Re-run predeploy checks from `main`; `npm run build`.
+3. `npx vercel --prod` (Vercel authed as `roger947`). Do not change domains/aliases unless instructed.
+4. Post-deploy production smoke (existing consumer + RCAP surfaces).
