@@ -105,7 +105,30 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
   // CA HSC § 11361.8 Prop 64 — qualifying-marijuana + lesser/no-offense + branch gate
   "CA:prop-64-currently-serving-petition-11361-8",
-  "CA:prop-64-completed-sentence-application-11361-8"
+  "CA:prop-64-completed-sentence-application-11361-8",
+  // ---- Hawaii administrative application packet (legal signoff 2026-07-01) ----
+  // NOT court petitions. These are the HCJDC 159(b) application to the Hawaii Criminal Justice Data
+  // Center (Dept. of the Attorney General) under HRS § 831-3.2 (non-conviction) and §§ 706-622.5/.8/.9,
+  // 291E-64(e) (conviction). Payment opens via isLegallyApprovedAdministrativeApplicationRoute, gated
+  // by hiAdminApplicationSafetyGate. The conviction tracks require a confirmed Court Order Granting
+  // Expungement to attach; without it they fail closed. See docs/expungement-ai/HAWAII_ADMIN_APPLICATION_PACKET.md.
+  "HI:nonconviction-arrest-expungement",
+  "HI:first-time-drug-conviction",
+  "HI:dui-under-21-conviction"
+]);
+
+// Legally signed-off administrative-application packet routes. These are the ONLY non-court-petition
+// routes permitted to open payment (Hawaii HCJDC 159(b) application). Every other automatic / admin /
+// board / pardon / prosecutor / no-filing route stays guidance-only. Adding a route here requires the
+// same legal signoff and both-direction verifier proof as a court-petition route.
+const ADMINISTRATIVE_APPLICATION_PACKET_ROUTES = new Set([
+  "HI:nonconviction-arrest-expungement",
+  "HI:first-time-drug-conviction",
+  "HI:dui-under-21-conviction"
+]);
+const HI_ADMIN_CONVICTION_ROUTES = new Set([
+  "HI:first-time-drug-conviction",
+  "HI:dui-under-21-conviction"
 ]);
 
 const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
@@ -402,7 +425,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const paymentAllowed = route.deterministic === true
     && Boolean(plan)
     && routeIsRatifiedDeployable(profile, pathway)
-    && isCourtFiledPetitionRoute(profile, pathway)
+    && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
 
   return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
@@ -513,6 +536,13 @@ function routeIsHeldGuidance(profile: EngineProfile, pathway: CompiledPathway) {
   return HELD_GUIDANCE_ROUTES.has(routeKey(profile, pathway));
 }
 
+// A legally signed-off administrative-application packet route (currently only the Hawaii HCJDC 159(b)
+// application). Payment is permitted for these EXACTLY like a user-filed court petition, but the
+// product copy must label them administrative applications, never court petitions.
+function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway: CompiledPathway) {
+  return ADMINISTRATIVE_APPLICATION_PACKET_ROUTES.has(routeKey(profile, pathway));
+}
+
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   const caGate = caRouteSafetyGate(profile, answers, pathway);
   if (caGate) return caGate;
@@ -524,6 +554,34 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (dcGate) return dcGate;
   const ilProstitutionGate = ilFelonyProstitutionSafetyGate(profile, answers, pathway);
   if (ilProstitutionGate) return ilProstitutionGate;
+  const hiAdminGate = hiAdminApplicationSafetyGate(profile, answers, pathway);
+  if (hiAdminGate) return hiAdminGate;
+  return undefined;
+}
+
+// Hawaii HCJDC 159(b) administrative application gate (legal signoff 2026-07-01).
+// Non-conviction track (HRS § 831-3.2): opens only for an arrest/charge that did not result in a
+// conviction. Conviction track (§§ 706-622.5/.8/.9, 291E-64(e)): opens only when the applicant
+// confirms they already hold a Court Order Granting Expungement to attach — the HCJDC application
+// requires that order. Missing/unsure court-order confirmation fails closed (no payment).
+function hiAdminApplicationSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "HI" || !ADMINISTRATIVE_APPLICATION_PACKET_ROUTES.has(routeKey(profile, pathway))) return undefined;
+  const jurisdiction = profile.jurisdiction.code;
+  if (pathway.id === "nonconviction-arrest-expungement") {
+    const outcome = normalizeCaseOutcome(answers.case_outcome);
+    const raw = answerText(answers.case_outcome).toLowerCase();
+    if (!["arrest_no_charge", "dismissed", "acquitted"].includes(outcome) && !/no conviction|not convicted|non-conviction/.test(raw)) {
+      return reason(jurisdiction, "hi_831_3_2_nonconviction_required_not_eligible", "The Hawaii HCJDC § 831-3.2 non-conviction application requires an arrest or charge that did not result in a conviction; a conviction record uses the conviction-expungement track.", pathway.sourceRef);
+    }
+  }
+  if (HI_ADMIN_CONVICTION_ROUTES.has(routeKey(profile, pathway))) {
+    if (!answerText(answers.hi_court_order_confirmed).trim() || isExplicitUnknownAnswer(answers.hi_court_order_confirmed)) {
+      return reason(jurisdiction, "hi_court_order_confirmation_missing", "The Hawaii HCJDC conviction-expungement application requires an attached Court Order Granting Expungement; confirm whether you already have that order before an application packet can open.", pathway.sourceRef);
+    }
+    if (!isAffirmative(answers.hi_court_order_confirmed)) {
+      return reason(jurisdiction, "hi_court_order_not_confirmed_not_eligible", "The Hawaii HCJDC conviction-expungement application cannot be assembled without a Court Order Granting Expungement to attach. Obtain that order from the sentencing court first; this is guidance only until the order exists.", pathway.sourceRef);
+    }
+  }
   return undefined;
 }
 
@@ -797,6 +855,16 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "ID:withheld-judgment-idaho-code-19-2604-review-branch") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after probation completion" }, "Idaho § 19-2604(1) set-aside (dismisses the charge and restores civil rights; not an expungement) is available after successful completion of the withheld judgment; there is no additional waiting period.");
   }
+  // ---- Hawaii HCJDC 159(b) administrative application (legal signoff 2026-07-01) ----
+  // Event-based, not a numeric waiting period. Non-conviction eligibility is established once the
+  // arrest/charge resolved without a conviction (HRS § 831-3.2); conviction eligibility is established
+  // by the attached Court Order Granting Expungement (gated in hiAdminApplicationSafetyGate).
+  if (key === "HI:nonconviction-arrest-expungement") {
+    return { status: "satisfied" };
+  }
+  if (key === "HI:first-time-drug-conviction" || key === "HI:dui-under-21-conviction") {
+    return { status: "satisfied" };
+  }
   return undefined;
 }
 
@@ -879,7 +947,7 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
       return reason(jurisdiction, "cr_266_sentence_type_not_confirmed", "Wisconsin CR-266 support is guidance-only unless the record confirms no probation, jail, or prison sentence.", pathway.sourceRef);
     }
   }
-  if (!isCourtFiledPetitionRoute(profile, pathway)) {
+  if (!isCourtFiledPetitionRoute(profile, pathway) && !routeIsAdministrativeApplicationPacket(profile, pathway)) {
     return reason(jurisdiction, "guidance_only_no_user_filed_court_petition", guidanceTextForProductRoute(profile, pathway), pathway.sourceRef);
   }
   return undefined;
@@ -1264,6 +1332,9 @@ function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPath
   const plan = packetPlanForPathway(profile, pathway.id);
 
   if (code === "AK") return false;
+  // Hawaii HCJDC routes are administrative applications, not court petitions. They are paid via
+  // routeIsAdministrativeApplicationPacket, and must never be described as court filings.
+  if (routeIsAdministrativeApplicationPacket(profile, pathway)) return false;
   if (code === "CT" && pathway.id === "absolute-pardon-resulting-in-erasure") return false;
   if (code === "CT" && pathway.id === "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202") return true;
   if (code === "DC") return pathway.id === "dc_actual_innocence_expungement_16_803"

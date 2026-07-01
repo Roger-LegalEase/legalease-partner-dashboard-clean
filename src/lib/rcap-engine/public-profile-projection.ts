@@ -214,6 +214,17 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
+    id: "hi_court_order_confirmed",
+    stage: "timing_and_completion",
+    prompt: "For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?",
+    helperText: "the HCJDC conviction application requires the court order to be attached; without it this is guidance only, not a paid application packet",
+    type: "yes_no_unsure",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
     id: "ny_16059_total_eligible_convictions",
     stage: "timing_and_completion",
     prompt: "For NY CPL 160.59, how many total eligible convictions would be included?",
