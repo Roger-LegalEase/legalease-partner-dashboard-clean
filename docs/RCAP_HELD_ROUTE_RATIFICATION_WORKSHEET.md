@@ -2,6 +2,17 @@
 
 Generated on the `fix/all51-rule-driven-provability` line of work. Engine date pinned to **2026-07-01**.
 
+> ## ✅ RATIFIED 2026-07-01
+> Lawrence confirmed all 8 held-route groups below (MO 610.140, MO 610.130/610.145, LA 894(B)/893(E),
+> NE §29-2264, VA incl. OES form-readiness, ME CR-218, IL felony-prostitution, ID withheld-judgment)
+> as legally correct. All 16 route keys were promoted from `CORRECTED_AWAITING_RECONFIRM_ROUTES` →
+> `RATIFIED_DEPLOYABLE_ROUTES` in `evaluator.ts` (confirmation date + statutory basis attached inline
+> per route). **The $50 clamp now opens** for qualifying cases. Deployable route count: **49 → 65**.
+> Hard gate built: IL felony-prostitution requires a Class 4 felony (misdemeanor fails closed). ID
+> withheld-judgment upgraded from its compiled `needs_review` rule to caution-tier packet via
+> `RATIFIED_CAUTION_OVERRIDE_ROUTES`. Payment proof: `scripts/verify-rcap-ratified-route-payment.mjs`
+> (18 cases green). Not deployed — this is branch state pending a separate deploy.
+
 ## What this batch does
 
 Each held petition route below had its **actual problem fixed** in the engine

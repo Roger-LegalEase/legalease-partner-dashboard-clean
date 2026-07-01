@@ -1,15 +1,14 @@
 import { register } from "node:module";
 
-// Both-direction proof for routes moved from HELD_GUIDANCE to the
-// CORRECTED_AWAITING_RECONFIRM tier. These routes are BUILT (route-specific
-// wait/anchor/gates corrected) but the $50 clamp stays SHUT pending Lawrence's
-// ratification. The proof therefore demonstrates:
-//   - qualifying + wait satisfied  -> needs_review + lawrence_reconfirmation_required, payment=false
-//     (reaches the reconfirm hold: not a false sell, not a false guidance/exclusion drop)
-//   - just-under wait               -> not_yet, payment=false
-//   - just-over wait                -> needs_review (reconfirm hold), payment=false
-//   - non-qualifying (pending case) -> fails closed (not_yet/needs_review/likely_not_eligible/needs_more_info), payment=false
-//   - payment is ALWAYS false (clamp shut for the whole tier)
+// Both-direction PAYMENT proof for the held petition routes that Lawrence ratified on 2026-07-01
+// and that were promoted from CORRECTED_AWAITING_RECONFIRM_ROUTES into RATIFIED_DEPLOYABLE_ROUTES.
+// The $50 clamp is now OPEN for qualifying cases, so the proof asserts:
+//   - qualifying + wait satisfied  -> packet_ready(_with_caution) + paymentAllowed=TRUE + compiled_rule_match
+//   - just-under wait               -> not_yet, no payment
+//   - just-over wait                -> packet_ready(_with_caution) + payment
+//   - special_preconditions_confirmed = No -> fails closed, no payment (source-listed precondition gate)
+//   - pending case                  -> fails closed, no payment
+//   - route-specific hard gate (IL felony requirement) -> fails closed, no payment
 process.env.RCAP_EVALUATOR_TODAY = "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -21,33 +20,31 @@ const TODAY = new Date("2026-07-01T00:00:00.000Z");
 const failures = [];
 const rows = [];
 
-// Each route: the pathway to route to (by label regex), the route's OWN corrected
-// wait, the case_outcome/offense that select it. wait:{value,unit} or null for event-based.
 const ROUTES = [
   // Missouri
   { code: "MO", route: /610-140/, name: "MO 610.140 felony 3yr", wait: { value: 3, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
   { code: "MO", route: /610-140/, name: "MO 610.140 misdemeanor 1yr", wait: { value: 1, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "MO", route: /610-130/, name: "MO 610.130 first-DWI 10yr", wait: { value: 10, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "MO", route: /610-145/, name: "MO 610.145 mistaken-identity event", wait: null, caseOutcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offenseLevel: "Misdemeanor" },
-  // Louisiana — 894(B)/893(E) set-aside routes are event-based; clean-period routes are 5yr (mis) / 10yr (fel)
+  // Louisiana
   { code: "LA", route: /^non-conviction-arrest-expungement$/, name: "LA non-conviction event", wait: null, caseOutcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /894-b-set-aside/, name: "LA 894(B) set-aside event", wait: null, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /misdemeanor-five-year-clean-period/, name: "LA misdemeanor 5yr clean", wait: { value: 5, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /first-offense-marijuana.*998/, name: "LA marijuana 90d", wait: { value: 90, unit: "days" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /893-e-set-aside/, name: "LA 893(E) set-aside event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
   { code: "LA", route: /felony-ten-year-clean-period/, name: "LA felony 10yr clean", wait: { value: 10, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
-  // Nebraska — § 29-2264 set-aside (record stays visible), runs from sentence completion, no fixed wait
+  // Nebraska
   { code: "NE", route: /set-aside-probation-fine-community-service/, name: "NE set-aside probation event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" },
   { code: "NE", route: /set-aside-incarceration-one-year-or-less/, name: "NE set-aside incarceration event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Felony" },
-  // Virginia — regime-1 non-conviction expungement (event-based) + petition-based sealing (mis 7yr / fel 10yr)
+  // Virginia
   { code: "VA", route: /regime-1-expungement-available-now/, name: "VA regime-1 non-conviction event", wait: null, caseOutcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offenseLevel: "Misdemeanor" },
   { code: "VA", route: /petition-based-sealing/, name: "VA petition sealing misdemeanor 7yr", wait: { value: 7, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "VA", route: /petition-based-sealing/, name: "VA petition sealing felony 10yr", wait: { value: 10, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
-  // Maine — CR-218 adult conviction sealing (Class E), 4yr
+  // Maine
   { code: "ME", route: /^adult-conviction-sealing$/, name: "ME adult conviction sealing 4yr", wait: { value: 4, unit: "years" }, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" },
-  // Illinois — 20 ILCS 2630/5.2(j) felony-prostitution relief, event-based after sentence completion
-  { code: "IL", route: /felony-prostitution-relief/, name: "IL felony-prostitution event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
-  // Idaho — § 19-2604(1) withheld-judgment set-aside, event-based after probation completion (caution-tier)
+  // Illinois — felony hard gate: a misdemeanor prostitution record must fail closed
+  { code: "IL", route: /felony-prostitution-relief/, name: "IL felony-prostitution event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony", hardGate: { mutate: (a) => { a.offense_level = "Misdemeanor"; a.charge = "Synthetic misdemeanor prostitution"; }, label: "misdemeanor prostitution" } },
+  // Idaho
   { code: "ID", route: /withheld-judgment-idaho-code-19-2604/, name: "ID withheld-judgment set-aside event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" }
 ];
 
@@ -94,7 +91,8 @@ function answerFor(question, spec, date) {
   if (id === "county_or_filing_location" || id === "county") return "Synthetic County";
   if (id === "case_identifier") return "SYN-CASE-001";
   if (id === "offense_category") return "None of these";
-  if (id === "age_at_offense" || id === "prior_conviction_count" || id === "prior_felony_count") return id === "age_at_offense" ? 30 : 0;
+  if (id === "age_at_offense") return 30;
+  if (id === "prior_conviction_count" || id === "prior_felony_count") return 0;
   if (question.type === "number_or_range") return 30;
   if (question.type === "multi_select") return ["None of these"];
   if (question.type === "yes_no_unsure" || question.type === "yes_no_prefer_not_to_say") return "No";
@@ -111,12 +109,16 @@ function evaluate(spec, date, mutate) {
   return evaluateScreening({
     jurisdiction: spec.profile.jurisdiction.code,
     profileVersion: spec.profile.profileVersion,
-    matterId: `awaiting-reconfirm-${spec.profile.jurisdiction.code}-${spec.pathway.id}`,
+    matterId: `ratified-payment-${spec.profile.jurisdiction.code}-${spec.pathway.id}`,
     answers
   });
 }
 
-const RECONFIRM_REASON = "reconfirmation_required";
+function packetOpen(evaluation) {
+  return evaluation.paymentAllowed === true && (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution");
+}
+
+let anyPaymentOpened = false;
 
 for (const route of ROUTES) {
   const profile = getProfileByJurisdiction(route.code);
@@ -125,18 +127,28 @@ for (const route of ROUTES) {
   if (!pathway) continue;
   const spec = { ...route, profile, pathway };
 
-  // qualifying: anchor far in the past so any positive wait is satisfied
+  // qualifying: anchor far in the past so any positive wait is satisfied -> clamp OPENS
   const qualifying = evaluate(spec, "2000-01-01");
-  const held = qualifying.resultCode === "needs_review"
-    && qualifying.paymentAllowed === false
-    && qualifying.reasons.some((reason) => reason.code.includes(RECONFIRM_REASON));
-  assert(held, `${route.name}: qualifying case must reach the reconfirm hold (needs_review + lawrence_reconfirmation_required, no payment); got ${qualifying.resultCode}/${qualifying.paymentAllowed} [${qualifying.reasons.map((r) => r.code).join(",")}].`);
+  assert(packetOpen(qualifying), `${route.name}: qualifying case must open the packet + payment; got ${qualifying.resultCode}/${qualifying.paymentAllowed} [${qualifying.reasons.map((r) => r.code).join(",")}].`);
+  assert(qualifying.reasons.some((r) => r.code.includes("compiled_rule_match")), `${route.name}: paid result must carry a compiled_rule_match reason.`);
+  if (packetOpen(qualifying)) anyPaymentOpened = true;
 
-  // fail-closed: a pending case must block regardless of timing
-  const pendingBlocked = evaluate(spec, "2000-01-01", (answers) => { answers.pending_cases = "Yes"; });
-  assert(pendingBlocked.paymentAllowed === false
-    && ["not_yet", "needs_review", "likely_not_eligible", "needs_more_info"].includes(pendingBlocked.resultCode),
-    `${route.name}: pending case must fail closed; got ${pendingBlocked.resultCode}/${pendingBlocked.paymentAllowed}.`);
+  // source-listed precondition gate: if not confirmed, must fail closed / no payment
+  const preconditionsUnconfirmed = evaluate(spec, "2000-01-01", (a) => { a.special_preconditions_confirmed = "No"; });
+  assert(!packetOpen(preconditionsUnconfirmed) && preconditionsUnconfirmed.paymentAllowed === false,
+    `${route.name}: unconfirmed special preconditions must fail closed; got ${preconditionsUnconfirmed.resultCode}/${preconditionsUnconfirmed.paymentAllowed}.`);
+
+  // pending case: must fail closed / no payment
+  const pending = evaluate(spec, "2000-01-01", (a) => { a.pending_cases = "Yes"; });
+  assert(!packetOpen(pending) && pending.paymentAllowed === false,
+    `${route.name}: pending case must fail closed; got ${pending.resultCode}/${pending.paymentAllowed}.`);
+
+  // route-specific hard gate (e.g. IL felony requirement)
+  if (route.hardGate) {
+    const gated = evaluate(spec, "2000-01-01", route.hardGate.mutate);
+    assert(!packetOpen(gated) && gated.paymentAllowed === false,
+      `${route.name}: hard gate (${route.hardGate.label}) must fail closed; got ${gated.resultCode}/${gated.paymentAllowed}.`);
+  }
 
   let boundary = "event-based (no numeric wait)";
   if (route.wait) {
@@ -144,27 +156,24 @@ for (const route of ROUTES) {
     const under = evaluate(spec, dates.under);
     const over = evaluate(spec, dates.over);
     boundary = `${route.wait.value} ${route.wait.unit}: under=${under.resultCode}/${under.paymentAllowed} over=${over.resultCode}/${over.paymentAllowed}`;
-    assert(under.resultCode === "not_yet" && under.paymentAllowed === false,
+    assert(!packetOpen(under) && under.paymentAllowed === false && under.resultCode === "not_yet",
       `${route.name}: just-under wait must be not_yet/no-payment; got ${under.resultCode}/${under.paymentAllowed}.`);
-    assert(over.resultCode === "needs_review" && over.paymentAllowed === false && over.reasons.some((r) => r.code.includes(RECONFIRM_REASON)),
-      `${route.name}: just-over wait must reach reconfirm hold/no-payment; got ${over.resultCode}/${over.paymentAllowed}.`);
+    assert(packetOpen(over), `${route.name}: just-over wait must open the packet + payment; got ${over.resultCode}/${over.paymentAllowed}.`);
   }
 
-  // clamp: payment must be false in every branch
-  assert(qualifying.paymentAllowed === false && pendingBlocked.paymentAllowed === false,
-    `${route.name}: payment must stay clamped shut for awaiting-reconfirm routes.`);
-
-  rows.push(`${route.code} | ${pathway.label} | qualifying=${qualifying.resultCode}/${qualifying.paymentAllowed} | pending=${pendingBlocked.resultCode} | ${boundary}`);
+  rows.push(`${route.code} | ${pathway.label} | qualifying=${qualifying.resultCode}/${qualifying.paymentAllowed} | preconds=${preconditionsUnconfirmed.resultCode} | pending=${pending.resultCode} | ${boundary}`);
 }
 
-console.log("awaiting_reconfirm_route_proofs:");
+assert(anyPaymentOpened, "No ratified route opened payment — the clamp did not open as expected.");
+
+console.log("ratified_route_payment_proofs:");
 for (const row of rows) console.log(row);
 
 if (failures.length > 0) {
-  console.error("verify-rcap-awaiting-reconfirm-routes failed:");
+  console.error("verify-rcap-ratified-route-payment failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log("verify-rcap-awaiting-reconfirm-routes: OK");
-console.log("Built held routes reach the reconfirm hold when qualifying, fail closed otherwise, and keep the $50 clamp shut pending Lawrence ratification.");
+console.log("verify-rcap-ratified-route-payment: OK");
+console.log("Lawrence-ratified held routes open the $50 packet when qualifying, fail closed on unconfirmed preconditions / pending charges / hard-gate violations, and flip payment at the wait boundary.");

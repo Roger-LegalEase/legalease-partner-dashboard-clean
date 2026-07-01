@@ -67,7 +67,37 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
   "DC:dc_motion_seal_felony_conviction_8yr_16_806",
   "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
-  "WI:adult-conviction-expungement-under-wis-stat-973-015"
+  "WI:adult-conviction-expungement-under-wis-stat-973-015",
+  // ---- Lawrence ratification: 2026-07-01 ----
+  // Basis: Lawrence reviewed and confirmed the corrected wait / anchor / gate for each held petition
+  // route in docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md as legally correct, including VA OES
+  // form-readiness. Promoted from CORRECTED_AWAITING_RECONFIRM to deployable; the $50 clamp now opens
+  // for qualifying cases (still gated by state_exclusion_categories where present and by the
+  // source-listed special_preconditions_confirmed gate everywhere, per the engine's ratified model).
+  // MO — RSMo ch. 610: 610.140 (felony 3yr / misd 1yr), 610.130 (10yr), 610.145 (event)
+  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+  // LA — La. C.Cr.P. arts. 894/893/977/978/998: 894(B)/893(E) set-aside (event) split from the
+  // 5yr (misd) / 10yr (felony) clean-period routes; 998 marijuana 90-day
+  "LA:non-conviction-arrest-expungement",
+  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+  "LA:misdemeanor-five-year-clean-period-expungement",
+  "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+  "LA:felony-article-893-e-set-aside-followed-by-expungement",
+  "LA:felony-ten-year-clean-period-expungement",
+  // NE — Neb. Rev. Stat. § 29-2264 conviction SET-ASIDE (record stays visible), runs from completion
+  "NE:set-aside-probation-fine-community-service",
+  "NE:set-aside-incarceration-one-year-or-less",
+  // VA — § 19.2-392.2 non-conviction expungement (event) + § 19.2-392.12 petition sealing (misd 7yr / felony 10yr)
+  "VA:regime-1-expungement-available-now",
+  "VA:petition-based-sealing",
+  // ME — 15 M.R.S. §§ 2261–2264 CR-218 adult conviction sealing (Class E), 4yr
+  "ME:adult-conviction-sealing",
+  // IL — 20 ILCS 2630/5.2(j) felony-prostitution relief (event; Class 4 felony hard gate)
+  "IL:felony-prostitution-relief",
+  // ID — Idaho Code § 19-2604(1) withheld-judgment set-aside (event; caution-tier)
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch"
 ]);
 
 const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
@@ -78,24 +108,14 @@ const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
   "ND:deferred-imposition-dismissal-and-sealing",
   "WY:adult-non-conviction-expungement-w-s-7-13-1401",
   "NY:conditional-treatment-sealing-under-cpl-160-58",
-  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
-  // Batch: held petition routes corrected to route-specific wait/anchor/gates.
-  // Payment stays clamped shut (needs_review) until Lawrence ratifies the derived values.
-  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
-  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
-  "LA:non-conviction-arrest-expungement",
-  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
-  "LA:misdemeanor-five-year-clean-period-expungement",
-  "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-  "LA:felony-article-893-e-set-aside-followed-by-expungement",
-  "LA:felony-ten-year-clean-period-expungement",
-  "NE:set-aside-probation-fine-community-service",
-  "NE:set-aside-incarceration-one-year-or-less",
-  "VA:regime-1-expungement-available-now",
-  "VA:petition-based-sealing",
-  "ME:adult-conviction-sealing",
-  "IL:felony-prostitution-relief",
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+]);
+
+// Ratified routes whose compiled source rule is conservatively `needs_review` but which Lawrence
+// ratified (2026-07-01) as caution-tier packet routes (e.g. discretionary court set-asides). The
+// review short-circuit is skipped for these so the caution packet + payment can open; they still
+// pass every timing, precondition, exclusion, and pending-charge gate first.
+const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set([
   "ID:withheld-judgment-idaho-code-19-2604-review-branch"
 ]);
 
@@ -366,7 +386,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   }
 
   const ruleCode = route.rule.then?.suggestedResultCode;
-  if (ruleCode === "needs_review") {
+  if (ruleCode === "needs_review" && !routeIsRatifiedCautionOverride(profile, pathway)) {
     return result(profile, request, "needs_review", [reason(jurisdiction, `compiled_rule_review.${route.rule.id}`, "The matched compiled source rule requires review before a packet decision.", route.rule.sourceRef ?? pathway.sourceRef)], {
       paymentAllowed: false
     });
@@ -476,6 +496,10 @@ function routeIsCorrectedAwaitingReconfirm(profile: EngineProfile, pathway: Comp
   return CORRECTED_AWAITING_RECONFIRM_ROUTES.has(routeKey(profile, pathway));
 }
 
+function routeIsRatifiedCautionOverride(profile: EngineProfile, pathway: CompiledPathway) {
+  return RATIFIED_CAUTION_OVERRIDE_ROUTES.has(routeKey(profile, pathway));
+}
+
 function routeIsHardGatePending(profile: EngineProfile, pathway: CompiledPathway) {
   return HARD_GATE_PENDING_ROUTES.has(routeKey(profile, pathway));
 }
@@ -493,6 +517,20 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (nyTreatmentGate) return nyTreatmentGate;
   const dcGate = dcSafetyGate(profile, answers, pathway);
   if (dcGate) return dcGate;
+  const ilProstitutionGate = ilFelonyProstitutionSafetyGate(profile, answers, pathway);
+  if (ilProstitutionGate) return ilProstitutionGate;
+  return undefined;
+}
+
+function ilFelonyProstitutionSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "IL" || pathway.id !== "felony-prostitution-relief") return undefined;
+  // 20 ILCS 2630/5.2(j) relief is limited to a Class 4 felony prostitution conviction. A non-felony
+  // prostitution record uses a different sealing route, so the felony-prostitution packet must not
+  // open for a misdemeanor. Ratified by Lawrence 2026-07-01.
+  const level = `${answerText(answers.offense_level)} ${answerText(answers.charge)}`.toLowerCase();
+  if (!/felony/.test(level)) {
+    return reason(profile.jurisdiction.code, "il_prostitution_felony_required_not_eligible", "20 ILCS 2630/5.2(j) prostitution-conviction relief is limited to a Class 4 felony conviction; a misdemeanor prostitution record uses a different sealing route.", pathway.sourceRef);
+  }
   return undefined;
 }
 
