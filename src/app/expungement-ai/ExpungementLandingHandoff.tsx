@@ -140,10 +140,12 @@ export function ExpungementLandingHandoff() {
 }
 
 function extractLandingDictionaries(source: string) {
+  const en = readDictionary(source, "EN");
   const es = readDictionary(source, "ES");
+  applyEnglishWorkflowOverrides(en);
   applySpanishSafetyOverrides(es);
   return {
-    en: readDictionary(source, "EN"),
+    en,
     es
   };
 }
@@ -160,6 +162,12 @@ function readDictionary(source: string, name: "EN" | "ES") {
   } catch {
     return {};
   }
+}
+
+function applyEnglishWorkflowOverrides(en: Record<string, string>) {
+  Object.assign(en, {
+    elig_cta: "Start free check <span class=\"arr\">&#8594;</span>"
+  });
 }
 
 function applySpanishSafetyOverrides(es: Record<string, string>) {

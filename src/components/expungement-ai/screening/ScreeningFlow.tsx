@@ -524,7 +524,7 @@ function MissingProfileState({ state, onPick }: { state: string; onPick: () => v
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
         <h1 className="text-[24px] font-extrabold text-[#0B1320]">{translate("screening.missing_state_title", "We could not find that state.")}</h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
-          {translate("screening.missing_state_body", "\"{state}\" does not match a state we screen yet. Pick your state to start again.", { state })}
+          {translate("screening.missing_state_body", "\"{state}\" does not match a supported state or district. Pick from the state list to start again.", { state })}
         </p>
         <button
           type="button"

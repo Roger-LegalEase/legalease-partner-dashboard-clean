@@ -18,11 +18,11 @@ export default function StartPage() {
             Answer a few plain questions for free. Your answers and result save privately to Briefcase. You only see payment when the engine returns a packet-ready path.
           </p>
           <div className="mx-auto mt-7 max-w-sm">
-            <FlowButton href="/expungement-ai/check">Start free &rarr;</FlowButton>
+            <FlowButton href="/expungement-ai/screening">Start free &rarr;</FlowButton>
           </div>
           <p className="mt-3 text-[13px] font-semibold">
-            <Link className="text-[#0E9C8E] underline underline-offset-4" href="/expungement-ai/screening">
-              Or try the new guided all-51 check
+            <Link className="text-[#0E9C8E] underline underline-offset-4" href="/briefcase">
+              Already started? Open Briefcase
             </Link>
           </p>
           <p className="mt-4 text-[12.5px] leading-6 text-[#8A93A6]">Takes about 3 minutes. No card to check. This is legal information, not legal advice.</p>

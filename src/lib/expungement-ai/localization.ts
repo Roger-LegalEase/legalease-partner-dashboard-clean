@@ -41,6 +41,10 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   },
   "screening.loading": { en: "Loading your state's questions...", es: "Cargando las preguntas de su estado..." },
   "screening.missing_state_title": { en: "We could not find that state.", es: "No pudimos encontrar ese estado." },
+  "screening.missing_state_body": {
+    en: "\"{state}\" does not match a supported state or district. Pick from the state list to start again.",
+    es: "\"{state}\" no coincide con un estado o distrito compatible. Elija una opción de la lista de estados para empezar de nuevo."
+  },
   "screening.choose_state": { en: "Choose your state", es: "Elija su estado" },
   "screening.malformed_title": { en: "Something went wrong loading these questions.", es: "Algo salió mal al cargar estas preguntas." },
   "screening.malformed_body": {
@@ -202,6 +206,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.complete_packet_information": { en: "Complete packet information", es: "Completar información del paquete" },
   "briefcase.contact_support": { en: "Contact support", es: "Contactar ayuda" },
   "briefcase.wilma_help": { en: "Wilma can explain any step in plain language, anytime.", es: "Wilma puede explicar cualquier paso en lenguaje sencillo, cuando lo necesite." },
+  "packet.ask_wilma_next": { en: "Ask Wilma about next steps", es: "Preguntar a Wilma sobre los próximos pasos" },
   "briefcase.my_matters_body": {
     en: "Each record you check is saved here as its own matter. Open one to see its documents and next steps.",
     es: "Cada antecedente que revise se guarda aquí como su propio asunto. Abra uno para ver sus documentos y próximos pasos."

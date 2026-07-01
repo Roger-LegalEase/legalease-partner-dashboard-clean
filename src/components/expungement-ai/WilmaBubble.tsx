@@ -105,6 +105,18 @@ export function WilmaBubble({
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const trimmedMessage = message.trim();
 
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === "#ask-wilma") {
+        setIsOpen(true);
+        setExpanded(false);
+      }
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
+
   // Load and render the Turnstile widget for the anonymous surface, when a site key is set.
   // With no site key (e.g. staging pre-launch), the token stays undefined and the server
   // treats the challenge as disabled.
@@ -232,7 +244,7 @@ export function WilmaBubble({
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 font-sans" data-wilma-surface={context}>
+    <div id="ask-wilma" className="fixed bottom-4 right-4 z-50 font-sans" data-wilma-surface={context}>
       {isOpen ? (
         <section
           className={`mb-3 flex max-h-[calc(100dvh-6rem)] flex-col overflow-hidden rounded-2xl border border-[#ECEFF4] bg-white shadow-2xl ${
