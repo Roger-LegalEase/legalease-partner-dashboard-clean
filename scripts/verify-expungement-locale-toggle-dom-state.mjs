@@ -165,7 +165,7 @@ function assertEnglishState(label, dom) {
   assert(state.esPressed === "false", `${label}: ES aria-pressed must be false.`, dom);
   assert(langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must have active visual class.`, dom);
   assert(!langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must not have active visual class.`, dom);
-  assert(state.hero.includes("Prepare a self-help packet for $50"), `${label}: English hero headline not visible.`, dom);
+  assert(state.hero.includes("Find out if your record can be cleared"), `${label}: English hero headline not visible.`, dom);
   assert(state.navHow === "How it works", `${label}: English nav How it works not visible.`, dom);
   assert(state.navBrief === "What you get", `${label}: English nav What you get not visible.`, dom);
   assert(state.navPricing === "Price", `${label}: English nav Price not visible.`, dom);
@@ -184,7 +184,7 @@ function assertSpanishState(label, dom) {
   assert(state.enPressed === "false", `${label}: EN aria-pressed must be false.`, dom);
   assert(langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must have active visual class.`, dom);
   assert(!langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must not have active visual class.`, dom);
-  assert(state.hero.includes("Prepare un paquete de autoayuda por $50"), `${label}: Spanish hero headline not visible.`, dom);
+  assert(state.hero.includes("Vea si su antecedente puede limpiarse"), `${label}: Spanish hero headline not visible.`, dom);
   assert(state.navHow === "Cómo funciona", `${label}: Spanish nav Cómo funciona not visible.`, dom);
   assert(state.navBrief === "Qué recibes", `${label}: Spanish nav Qué recibes not visible.`, dom);
   assert(state.navPricing === "Precio", `${label}: Spanish nav Precio not visible.`, dom);
@@ -207,11 +207,11 @@ function assertNoProductionScreenshotBug(label, dom) {
 function englishLandingTextVisible(dom) {
   const state = stateSnapshot(dom);
   return [
-    "Prepare a self-help packet for $50",
+    "Find out if your record can be cleared",
     "How it works",
     "What you get",
     "Trust & privacy",
-    "Start free check",
+    "Check my record free",
     "Log in"
   ].some((text) => [state.hero, state.navHow, state.navBrief, state.navPrivacy, state.primaryCta, state.navLogin].some((value) => value.includes(text)));
 }
@@ -219,7 +219,7 @@ function englishLandingTextVisible(dom) {
 function spanishLandingTextVisible(dom) {
   const state = stateSnapshot(dom);
   return [
-    "Prepare un paquete de autoayuda por $50",
+    "Vea si su antecedente puede limpiarse",
     "Cómo funciona",
     "Qué recibes",
     "Confianza y privacidad",
@@ -297,8 +297,8 @@ function htmlToText(value) {
 }
 
 assert(Object.keys(dictionaries.en).length > 100, "Real English landing dictionary must be extracted from rendered handoff HTML.");
-assert(dictionaries.en.hero_h1?.includes("Prepare a self-help packet for"), "English hero dictionary must include the production hero headline.");
-assert(dictionaries.es.hero_h1?.includes("Prepare un paquete de autoayuda por"), "Spanish hero dictionary must include the Spanish hero headline.");
+assert(dictionaries.en.hero_h1?.includes("Find out if your record can be cleared"), "English hero dictionary must include the production hero headline.");
+assert(dictionaries.es.hero_h1?.includes("Vea si su antecedente puede limpiarse"), "Spanish hero dictionary must include the Spanish hero headline.");
 
 let dom = makeDom({}, { navigatorLanguage: "es-MX" });
 assert(applyInitial(dom) === "en", "Fresh/private browser must default to English.", dom);

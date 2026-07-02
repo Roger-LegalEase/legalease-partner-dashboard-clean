@@ -18,6 +18,8 @@ function includes(source, marker, label) {
 
 const landingInteractions = read("src/app/expungement-ai/ExpungementLandingInteractions.tsx");
 const landingHandoff = read("src/app/expungement-ai/ExpungementLandingHandoff.tsx");
+const landingLocaleController = read("src/app/expungement-ai/landing-locale-controller.ts");
+const landingHandoffUtils = read("src/app/expungement-ai/landing-handoff-utils.ts");
 const localizationProvider = read("src/components/expungement-ai/LocalizationProvider.tsx");
 const consumerSignInForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
 const signInPage = read("src/app/expungement-ai/sign-in/page.tsx");
@@ -30,24 +32,25 @@ const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
 const localization = read("src/lib/expungement-ai/localization.ts");
 
 // Landing locale: copy and active toggle must be applied by the same locale value.
-includes(landingInteractions, 'const applyLanguage = (lang: "en" | "es"', "landing controlled language function");
-includes(landingInteractions, 'const dictionary = normalizedLang === "es" ? dictionaries.es : dictionaries.en', "landing visible-copy locale source");
-includes(landingInteractions, 'document.querySelectorAll<HTMLElement>("[data-i18n]")', "landing text translation");
-includes(landingInteractions, 'document.querySelectorAll<HTMLElement>("[data-i18n-html]")', "landing HTML translation");
+includes(landingInteractions, "applyExpungementLocale", "landing uses shared locale controller");
+includes(landingLocaleController, "export function applyExpungementLocale", "landing controlled language function");
+includes(landingLocaleController, 'const dictionary = normalizedLocale === "es" ? options.dictionaries.es : options.dictionaries.en', "landing visible-copy locale source");
+includes(landingLocaleController, 'document.querySelectorAll<HTMLElement>("[data-i18n]")', "landing text translation");
+includes(landingLocaleController, 'document.querySelectorAll<HTMLElement>("[data-i18n-html]")', "landing HTML translation");
 includes(landingInteractions, 'document.querySelectorAll<HTMLButtonElement>("[data-lang]")', "landing toggle state update");
-includes(landingInteractions, 'item.getAttribute("data-lang") === normalizedLang', "landing active state derives from same locale");
-includes(landingInteractions, 'item.classList.toggle("on", on)', "landing visual active class update");
-includes(landingInteractions, 'item.setAttribute("aria-pressed", String(on))', "landing accessible active state update");
-includes(landingInteractions, 'applyLanguage(initialLanguage);', "landing initial locale applies copy and active state together");
-includes(landingInteractions, 'persistExpungementLocale(normalizedLang)', "landing click persists explicit locale");
-includes(landingInteractions, 'window.addEventListener("expungement-ai:language-change", onSharedLanguageChange)', "landing listens to shared locale event");
+includes(landingLocaleController, 'button.getAttribute("data-lang") === normalizedLocale', "landing active state derives from same locale");
+includes(landingLocaleController, 'button.classList.toggle("on", active)', "landing visual active class update");
+includes(landingLocaleController, 'button.setAttribute("aria-pressed", String(active))', "landing accessible active state update");
+includes(landingInteractions, "applyLanguage(readSavedExpungementLocale()", "landing initial locale applies copy and active state together");
+includes(landingLocaleController, "persistExpungementLocaleValue(normalizedLocale)", "landing click persists explicit locale");
+includes(landingInteractions, "window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onSharedLanguageChange)", "landing listens to shared locale event");
 assert(!/applyLanguage\(initialLanguage,\s*\{\s*persist:\s*true\s*\}/.test(landingInteractions), "Landing initial load must not rebroadcast stale locale and desync React surfaces.");
-includes(localizationProvider, 'window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)', "shared locale explicit persistence");
-assert(!localizationProvider.includes("removeItem(LOCALE_STORAGE_KEY"), "English must be persisted explicitly, not represented by clearing storage.");
+includes(landingLocaleController, 'window.localStorage.setItem(EXPUNGEMENT_LOCALE_STORAGE_KEY, nextLocale)', "shared locale explicit persistence");
+assert(!landingLocaleController.includes("removeItem(EXPUNGEMENT_LOCALE_STORAGE_KEY"), "English must be persisted explicitly, not represented by clearing storage.");
 
 // Landing dictionaries must contain the actual visible Spanish and English hero copy that Roger saw.
-includes(landingHandoff, "Prepare un paquete de autoayuda", "landing Spanish hero copy");
-includes(landingHandoff, "Start free check", "landing English CTA copy");
+includes(landingHandoffUtils, "Find out if your record can be cleared", "landing English hero copy");
+includes(landingHandoffUtils, "Check my record free", "landing English CTA copy");
 
 // Account gate: conversion intent defaults to create-account; header sign-in remains sign-in.
 includes(consumerSignInForm, 'type AuthMode = "create" | "signin"', "account gate two-state mode");
@@ -68,7 +71,7 @@ assert(!consumerSignInForm.includes("stripe"), "Consumer sign-in form must not c
 assert(!signInPage.includes("Sign in to continue") || signInPage.includes("<ConsumerSignInForm />"), "Server sign-in page must not hardcode a stale title outside mode state.");
 
 includes(consumerNav, 'href="/expungement-ai/sign-in?mode=signin"', "header sign-in explicit sign-in mode");
-includes(landingHandoff, 'href="/expungement-ai/sign-in?mode=signin"', "landing nav sign-in explicit sign-in mode");
+includes(landingHandoffUtils, 'href="/expungement-ai/sign-in?mode=signin"', "landing nav sign-in explicit sign-in mode");
 includes(authHelper, 'redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`)', "auth helper create-account redirect");
 includes(payPage, 'requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`)', "pay page preserves next");
 includes(packetReadyPage, 'requireConsumerBriefcaseSession(`/expungement-ai/packet-ready${queryString(params)}`)', "packet-ready page preserves next");
