@@ -10,7 +10,6 @@ const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-pro
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { safeUserFacingEngineText } = await import("../src/lib/expungement-ai/missing-fields.ts");
 const { deriveScreens } = await import("../src/components/expungement-ai/screening/screens.ts");
-const { toScreeningAnswers } = await import("../src/components/expungement-ai/screening/answers.ts");
 
 const failures = [];
 const BANNED_CONSUMER_TERMS = [
@@ -22,10 +21,12 @@ const BANNED_CONSUMER_TERMS = [
   /evaluator/i,
   /engine decides/i,
   /diagnostic/i,
-  /\brule\b/i
+  /\bqualify\b/i,
+  /\bapproved\b/i,
+  /\bguaranteed\b/i
 ];
 const ROOT = process.cwd();
-const EXPECTED_DATE_PROMPT = "What date did the case end or get resolved?";
+const EXPECTED_TIMING_PROMPT = "About how long ago did this case end or get resolved?";
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -44,32 +45,36 @@ assert(profileRouteSource.includes("projectPublicProfile(profile)"), "/api/expun
 const profile = getProfileByJurisdiction("MS");
 assert(profile, "Mississippi profile must exist.");
 const publicProfile = projectPublicProfile(profile);
-const dateQuestion = publicProfile.questions.find((question) => question.id === "disposition_date");
-assert(dateQuestion, "Mississippi public profile must include disposition_date.");
-assert(dateQuestion?.required === true, "Mississippi disposition_date must be required before evaluation.");
-assert(dateQuestion?.lifecyclePhase === "prepay_timing_gate", "Mississippi disposition_date must be a prepay timing gate.");
-assert(dateQuestion?.stage === "timing_and_completion", "Mississippi disposition_date must remain in timing_and_completion.");
-assert(dateQuestion?.prompt === EXPECTED_DATE_PROMPT, "Mississippi disposition_date prompt must be consumer-grade.");
-assert(dateQuestion?.helperText?.includes("court docket"), "Mississippi disposition_date helper must point users to court records.");
+const timingQuestion = publicProfile.questions.find((question) => question.id === "resolved_timing_bucket");
+assert(timingQuestion, "Mississippi public profile must include resolved_timing_bucket.");
+assert(timingQuestion?.required === true, "Mississippi resolved_timing_bucket must be required before evaluation.");
+assert(timingQuestion?.lifecyclePhase === "prepay_timing_gate", "Mississippi resolved_timing_bucket must be a prepay timing gate.");
+assert(timingQuestion?.stage === "timing_and_completion", "Mississippi resolved_timing_bucket must remain in timing_and_completion.");
+assert(timingQuestion?.prompt === EXPECTED_TIMING_PROMPT, "Mississippi must ask approximate timing, not an exact date.");
+assert(timingQuestion?.helperText?.includes("An estimate is okay for this free screening."), "Mississippi timing helper must explain estimates are acceptable.");
+assert(!publicProfile.questions.some((question) => question.id === "disposition_date" && question.lifecyclePhase?.startsWith("prepay_")), "Mississippi prepayment profile must not expose exact disposition_date.");
+
+const courtQuestion = publicProfile.questions.find((question) => question.id === "court_requirements_completed");
+assert(courtQuestion, "Mississippi public profile must include court_requirements_completed.");
 
 const screens = deriveScreens(publicProfile);
 const screenIds = screens.map((question) => question.id);
 assert(screens.length > 5, `Mississippi derived screen count must be more than 5; got ${screens.length}.`);
-assert(screenIds.includes("disposition_date"), "ScreeningFlow-derived MS screens must include disposition_date.");
-assert(screenIds.indexOf("disposition_date") > screenIds.indexOf("possible_pathway_context"), "Date question should appear after route/source selection.");
-assert(screens.find((question) => question.id === "disposition_date")?.prompt === EXPECTED_DATE_PROMPT, "Derived date screen must use consumer-grade prompt.");
+assert(screenIds.includes("resolved_timing_bucket"), "ScreeningFlow-derived MS screens must include resolved_timing_bucket.");
+assert(screenIds.includes("court_requirements_completed"), "ScreeningFlow-derived MS screens must include court_requirements_completed.");
+assert(!screenIds.includes("disposition_date"), "ScreeningFlow-derived MS screens must not include disposition_date.");
 
-function buildAnswers(dateValue) {
-  const uiAnswers = {};
-  for (const question of publicProfile.questions) {
-    if (question.id === "ownership_scope") uiAnswers[question.id] = "Yes";
-    if (question.id === "jurisdiction_scope") uiAnswers[question.id] = "State or local";
-    if (question.id === "case_outcome") uiAnswers[question.id] = "Dismissed, no-billed, nolle prosequi, or not prosecuted";
-    if (question.id === "offense_level") uiAnswers[question.id] = "Misdemeanor";
-    if (question.id === "possible_pathway_context") uiAnswers[question.id] = "Non-conviction expungement for dismissal, no disposition, or acquittal";
-    if (question.id === "disposition_date" && dateValue !== undefined) uiAnswers[question.id] = dateValue;
-  }
-  return toScreeningAnswers(uiAnswers);
+function buildAnswers(bucket = "gt_10_years") {
+  return {
+    ownership_scope: "Yes",
+    jurisdiction_scope: "State or local",
+    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    offense_level: "Misdemeanor",
+    possible_pathway_context: "Non-conviction expungement for dismissal, no disposition, or acquittal",
+    resolved_timing_bucket: bucket,
+    court_requirements_completed: "yes",
+    pending_cases: "No"
+  };
 }
 
 function evaluate(name, answers) {
@@ -87,33 +92,28 @@ function evaluate(name, answers) {
   return result;
 }
 
-const happy = evaluate("happy", buildAnswers("2020-01-01"));
+const happy = evaluate("happy", buildAnswers("gt_10_years"));
 assert(
   happy.resultCode === "packet_ready" || happy.resultCode === "packet_ready_with_caution",
   `Mississippi supported happy path should be packet-ready, got ${happy.resultCode}.`
 );
 assert(happy.paymentAllowed === true, "Mississippi supported happy path should allow payment only after packet-ready result.");
 
-const missingDate = evaluate("missing-date", buildAnswers(undefined));
-assert(missingDate.resultCode === "needs_more_info", `Missing-date path should return needs_more_info, got ${missingDate.resultCode}.`);
-assert(missingDate.paymentAllowed === false, "Missing-date path must not allow payment.");
-assert(missingDate.missingQuestionIds.includes("disposition_date"), "Missing-date path must ask for disposition_date.");
-assertNoConsumerLeak("missing-date-missing-list", missingDate.missingQuestionIds);
+const unsureTiming = evaluate("unsure-timing", buildAnswers("not_sure"));
+assert(unsureTiming.resultCode === "needs_more_info", `Unsure timing should return needs_more_info, got ${unsureTiming.resultCode}.`);
+assert(unsureTiming.paymentAllowed === false, "Unsure timing must not allow payment.");
+assert(unsureTiming.missingQuestionIds.includes("resolved_timing_bucket"), "Unsure timing must point back to resolved_timing_bucket.");
 
-const unknownDate = evaluate("unknown-date", buildAnswers({ unknown: true }));
-const unknownDisplay = [
-  unknownDate.userLabel,
-  ...unknownDate.reasons.map((reason) => safeUserFacingEngineText(reason.text)),
-  ...unknownDate.nextSteps.map((step) => safeUserFacingEngineText(step))
-].join(" ");
-assert(unknownDate.paymentAllowed === false, "Unknown-date path must not allow payment.");
-assert(unknownDate.resultCode === "needs_more_info", `Unknown-date path should return needs_more_info, got ${unknownDate.resultCode}.`);
-assert(
-  unknownDisplay.includes("We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.")
-    || unknownDisplay.includes("We need one more detail before we can prepare the right packet."),
-  "Unknown-date path must show plain-language missing-date copy."
-);
-assertNoConsumerLeak("unknown-date-display", [unknownDisplay]);
+const stillOpen = evaluate("still-open", buildAnswers("still_open"));
+assert(stillOpen.resultCode === "not_yet", `Still-open timing should return not_yet, got ${stillOpen.resultCode}.`);
+assert(stillOpen.paymentAllowed === false, "Still-open timing must not allow payment.");
+
+const incompleteCourt = evaluate("court-no", {
+  ...buildAnswers("gt_10_years"),
+  court_requirements_completed: "no"
+});
+assert(incompleteCourt.resultCode === "not_yet", `Court-incomplete path should return not_yet, got ${incompleteCourt.resultCode}.`);
+assert(incompleteCourt.paymentAllowed === false, "Court-incomplete path must not allow payment.");
 
 const screeningFlowSource = fs.readFileSync(path.join(ROOT, "src/components/expungement-ai/screening/ScreeningFlow.tsx"), "utf8");
 const localizationSource = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/localization.ts"), "utf8");
@@ -128,8 +128,8 @@ if (failures.length > 0) {
 }
 
 console.log("Mississippi Expungement.ai result-path verifier passed.");
-console.log(`Public profile date question: ${dateQuestion?.id} · ${dateQuestion?.lifecyclePhase} · required=${dateQuestion?.required}`);
+console.log(`Public timing question: ${timingQuestion?.id} · ${timingQuestion?.lifecyclePhase} · required=${timingQuestion?.required}`);
 console.log(`Derived screens: ${screens.length} (${screenIds.join(" -> ")})`);
 console.log(`Happy path: ${happy.resultCode}, paymentAllowed=${happy.paymentAllowed}`);
-console.log(`Missing date: ${missingDate.resultCode}, missing=${missingDate.missingQuestionIds.join(",")}`);
-console.log(`Unknown date: ${unknownDate.resultCode}, paymentAllowed=${unknownDate.paymentAllowed}`);
+console.log(`Unsure timing: ${unsureTiming.resultCode}, missing=${unsureTiming.missingQuestionIds.join(",")}`);
+console.log(`Still open: ${stillOpen.resultCode}, paymentAllowed=${stillOpen.paymentAllowed}`);

@@ -10,6 +10,8 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const ROOT = process.cwd();
 const { CRITICAL_COPY_CATALOG, ROUTE_LABEL_COPY, PAYMENT_GATE_COPY, RESULT_COPY, EXTERNAL_DOCUMENT_COPY, NO_PAYMENT_COPY } =
   await import("../src/lib/expungement-ai/plain-language-copy.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 
 const errors = [];
 const notes = [];
@@ -52,6 +54,20 @@ for (const entry of NO_PAYMENT_COPY) {
 
 for (const entry of EXTERNAL_DOCUMENT_COPY) {
   assert(hasEnEs(entry), `External-document checklist string missing bilingual entry: ${entry.id}`);
+}
+
+const msPublicProfile = projectPublicProfile(getProfileByJurisdiction("MS"));
+const timingQuestion = msPublicProfile.questions.find((question) => question.id === "resolved_timing_bucket");
+assert(timingQuestion?.translations?.es?.prompt, "Approximate timing question missing Spanish prompt.");
+assert(timingQuestion?.translations?.es?.helperText, "Approximate timing helper missing Spanish translation.");
+for (const option of timingQuestion?.options ?? []) {
+  assert(timingQuestion?.optionDisplay?.[option]?.translations?.es?.label, `Approximate timing option ${option} missing Spanish label.`);
+}
+const courtGateQuestion = msPublicProfile.questions.find((question) => question.id === "court_requirements_completed");
+assert(courtGateQuestion?.translations?.es?.prompt, "Court requirements question missing Spanish prompt.");
+assert(courtGateQuestion?.translations?.es?.helperText, "Court requirements helper missing Spanish translation.");
+for (const option of courtGateQuestion?.options ?? []) {
+  assert(courtGateQuestion?.optionDisplay?.[option]?.translations?.es?.label, `Court requirements option ${option} missing Spanish label.`);
 }
 
 const requiredStateLabels = [

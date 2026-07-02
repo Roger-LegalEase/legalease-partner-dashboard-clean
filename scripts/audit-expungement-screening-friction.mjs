@@ -1,11 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
+import { register } from "node:module";
 
 const root = process.cwd();
 const compiledRoot = path.join(root, "src/lib/rcap-engine/compiled");
-const publicProfilesPath = path.join(compiledRoot, "all51.json");
 const engineProfilesRoot = path.join(compiledRoot, "profiles");
 const reportPath = path.join(root, "docs/expungement-ai/SCREENING_FRICTION_AUDIT.md");
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 
 const EXPECTED_JURISDICTION_COUNT = 51;
 const SOURCE_QUESTION_PREFIX = "source_question";
@@ -34,6 +39,8 @@ const eligibilityIds = new Set([
   "sentence_completion_date",
   "financial_obligations",
   "pending_cases",
+  "resolved_timing_bucket",
+  "court_requirements_completed",
   "disposition_date",
   "age_at_offense",
   "pardon_status",
@@ -159,12 +166,15 @@ function table(rows) {
 }
 
 function main() {
-  const publicProfiles = readJson(publicProfilesPath);
   const engineFiles = fs.readdirSync(engineProfilesRoot).filter((file) => file.endsWith(".json")).sort();
   const engineProfiles = new Map(engineFiles.map((file) => {
     const profile = readJson(path.join(engineProfilesRoot, file));
     return [profile.jurisdiction.code, profile];
   }));
+  const publicProfiles = Object.fromEntries(getAllJurisdictionProfiles().map((profile) => [
+    profile.jurisdiction.code,
+    projectPublicProfile(profile)
+  ]));
 
   const codes = Object.keys(publicProfiles).sort();
   if (codes.length !== EXPECTED_JURISDICTION_COUNT) {

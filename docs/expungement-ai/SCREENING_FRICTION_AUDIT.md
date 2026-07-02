@@ -8,35 +8,35 @@ Scope: audit only. This report inspects the current compiled public profile proj
 ## Executive summary
 
 - Total jurisdictions reviewed: 51
-- Current average visible pre-payment question count: 14.3
-- Estimated reducible question count: 303
-- Low-risk jurisdictions: 3
-- Medium-risk jurisdictions: 7
+- Current average visible pre-payment question count: 46.2
+- Estimated reducible question count: 507
+- Low-risk jurisdictions: 0
+- Medium-risk jurisdictions: 10
 - High-risk jurisdictions: 41
 
 Top 10 friction-heavy states:
-1. SC South Carolina: 19 visible questions, 8 candidate reducible questions, high legal/source risk
-2. NE Nebraska: 19 visible questions, 7 candidate reducible questions, high legal/source risk
-3. GA Georgia: 18 visible questions, 8 candidate reducible questions, high legal/source risk
-4. ME Maine: 18 visible questions, 7 candidate reducible questions, medium legal/source risk
-5. MO Missouri: 18 visible questions, 7 candidate reducible questions, high legal/source risk
-6. NJ New Jersey: 18 visible questions, 7 candidate reducible questions, high legal/source risk
-7. WV West Virginia: 18 visible questions, 7 candidate reducible questions, high legal/source risk
-8. WY Wyoming: 18 visible questions, 7 candidate reducible questions, high legal/source risk
-9. AK Alaska: 17 visible questions, 7 candidate reducible questions, high legal/source risk
-10. FL Florida: 17 visible questions, 7 candidate reducible questions, high legal/source risk
+1. GA Georgia: 50 visible questions, 12 candidate reducible questions, high legal/source risk
+2. SC South Carolina: 50 visible questions, 12 candidate reducible questions, high legal/source risk
+3. AK Alaska: 50 visible questions, 11 candidate reducible questions, high legal/source risk
+4. FL Florida: 50 visible questions, 11 candidate reducible questions, high legal/source risk
+5. NE Nebraska: 50 visible questions, 11 candidate reducible questions, high legal/source risk
+6. WV West Virginia: 50 visible questions, 11 candidate reducible questions, high legal/source risk
+7. ME Maine: 49 visible questions, 11 candidate reducible questions, medium legal/source risk
+8. MO Missouri: 49 visible questions, 11 candidate reducible questions, high legal/source risk
+9. WI Wisconsin: 49 visible questions, 11 candidate reducible questions, high legal/source risk
+10. WY Wyoming: 49 visible questions, 11 candidate reducible questions, high legal/source risk
 
 Top 10 safest conversion-improvement candidates:
-1. ME Maine: 7 candidate reducible questions, high upside, medium payment-gate risk
-2. NV Nevada: 7 candidate reducible questions, high upside, medium payment-gate risk
-3. HI Hawaii: 6 candidate reducible questions, high upside, medium payment-gate risk
-4. IN Indiana: 6 candidate reducible questions, high upside, medium payment-gate risk
-5. OH Ohio: 6 candidate reducible questions, high upside, medium payment-gate risk
-6. VT Vermont: 6 candidate reducible questions, high upside, medium payment-gate risk
-7. WA Washington: 6 candidate reducible questions, high upside, medium payment-gate risk
-8. MS Mississippi: 1 candidate reducible questions, low upside, medium payment-gate risk
-9. ND North Dakota: 1 candidate reducible questions, low upside, medium payment-gate risk
-10. RI Rhode Island: 1 candidate reducible questions, low upside, medium payment-gate risk
+1. ME Maine: 11 candidate reducible questions, high upside, medium payment-gate risk
+2. NV Nevada: 11 candidate reducible questions, high upside, medium payment-gate risk
+3. HI Hawaii: 10 candidate reducible questions, high upside, medium payment-gate risk
+4. IN Indiana: 10 candidate reducible questions, high upside, medium payment-gate risk
+5. OH Ohio: 10 candidate reducible questions, high upside, medium payment-gate risk
+6. VT Vermont: 10 candidate reducible questions, high upside, medium payment-gate risk
+7. WA Washington: 10 candidate reducible questions, high upside, medium payment-gate risk
+8. MS Mississippi: 5 candidate reducible questions, high upside, medium payment-gate risk
+9. ND North Dakota: 5 candidate reducible questions, high upside, medium payment-gate risk
+10. RI Rhode Island: 5 candidate reducible questions, high upside, medium payment-gate risk
 
 
 ## Method
@@ -50,7 +50,7 @@ Classification is conservative. A question is only proposed for later post-payme
 
 ### AK - Alaska
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -66,22 +66,59 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Alaska did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -95,13 +132,42 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### AL - Alabama
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -118,20 +184,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Alabama did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -146,13 +247,40 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### AR - Arkansas
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -167,20 +295,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Arkansas did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -193,13 +356,40 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### AZ - Arizona
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 47
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -212,22 +402,59 @@ Questions:
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Arizona did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -238,13 +465,42 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### CA - California
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -260,21 +516,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -288,12 +578,38 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 
 
 ### CO - Colorado
 
-- Current visible pre-payment question count: 12
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -308,17 +624,54 @@ Questions:
 - `age_at_offense` (eligibility-decision): How old were you when this happened?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Colorado did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -330,11 +683,40 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### CT - Connecticut
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -351,17 +733,52 @@ Questions:
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Connecticut did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -375,11 +792,38 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### DC - District of Columbia
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -395,19 +839,56 @@ Questions:
 - `actual_innocence_basis` (unclear): For an actual-innocence motion, what facts show the offense did not occur or was not committed by you?
 - `dc_offense_severity_group` (unclear): For a DC felony sealing motion, what Offense Severity Group does the record show?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in District of Columbia did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -421,12 +902,41 @@ Questions that must remain pre-payment:
 - `actual_innocence_basis`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `dc_offense_severity_group`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### DE - Delaware
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -443,17 +953,52 @@ Questions:
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Delaware did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -467,11 +1012,38 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### FL - Florida
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -488,20 +1060,57 @@ Questions:
 - `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -516,13 +1125,42 @@ Questions that must remain pre-payment:
 - `trafficking_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### GA - Georgia
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -538,23 +1176,59 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -568,14 +1242,42 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### HI - Hawaii
 
-- Current visible pre-payment question count: 11
+- Current visible pre-payment question count: 44
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -588,18 +1290,55 @@ Questions:
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Hawaii did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -610,11 +1349,40 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### IA - Iowa
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -630,17 +1398,53 @@ Questions:
 - `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -653,11 +1457,39 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### ID - Idaho
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -671,19 +1503,56 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -695,12 +1564,41 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### IL - Illinois
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -716,20 +1614,57 @@ Questions:
 - `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Illinois did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -743,13 +1678,42 @@ Questions that must remain pre-payment:
 - `trafficking_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### IN - Indiana
 
-- Current visible pre-payment question count: 11
+- Current visible pre-payment question count: 43
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -762,18 +1726,54 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `age_at_offense` (eligibility-decision): How old were you when this happened?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `case_number` (packet-preparation): What's the case number?
 - `charge` (packet-preparation): What does the record say you were charged with?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -784,11 +1784,39 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### KS - Kansas
 
-- Current visible pre-payment question count: 11
+- Current visible pre-payment question count: 43
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -802,17 +1830,53 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -823,11 +1887,39 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### KY - Kentucky
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -843,17 +1935,53 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -866,11 +1994,39 @@ Questions that must remain pre-payment:
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### LA - Louisiana
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -886,22 +2042,57 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `case_number` (packet-preparation): What's the case number?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Louisiana did the case happen?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -915,13 +2106,40 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MA - Massachusetts
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -937,17 +2155,53 @@ Questions:
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Massachusetts did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -960,11 +2214,39 @@ Questions that must remain pre-payment:
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MD - Maryland
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 47
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -984,17 +2266,51 @@ Questions:
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1011,11 +2327,37 @@ Questions that must remain pre-payment:
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### ME - Maine
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -1033,21 +2375,56 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Maine did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1063,12 +2440,39 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MI - Michigan
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1085,17 +2489,53 @@ Questions:
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Michigan did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1109,11 +2549,39 @@ Questions that must remain pre-payment:
 - `trafficking_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MN - Minnesota
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 47
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1127,21 +2595,58 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Minnesota did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1153,12 +2658,41 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MO - Missouri
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1175,21 +2709,56 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Missouri did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1204,16 +2773,43 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MS - Mississippi
 
-- Current visible pre-payment question count: 5
-- Legal/source-risk level: low
-- Conversion upside: low
+- Current visible pre-payment question count: 39
+- Legal/source-risk level: medium
+- Conversion upside: high
 - Payment-gate risk: medium
 - Recommended action: source review first
 
@@ -1223,9 +2819,46 @@ Questions:
 - `case_outcome` (eligibility-decision): How did the case end?
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1235,11 +2868,41 @@ Questions that must remain pre-payment:
 - `jurisdiction_scope`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### MT - Montana
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1257,19 +2920,54 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1285,12 +2983,39 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NC - North Carolina
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 47
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1306,20 +3031,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in North Carolina did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1333,15 +3093,42 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### ND - North Dakota
 
-- Current visible pre-payment question count: 5
-- Legal/source-risk level: low
-- Conversion upside: low
+- Current visible pre-payment question count: 38
+- Legal/source-risk level: medium
+- Conversion upside: high
 - Payment-gate risk: medium
 - Recommended action: source review first
 
@@ -1351,9 +3138,45 @@ Questions:
 - `case_outcome` (eligibility-decision): How did the case end?
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1363,11 +3186,40 @@ Questions that must remain pre-payment:
 - `jurisdiction_scope`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NE - Nebraska
 
-- Current visible pre-payment question count: 19
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1385,22 +3237,57 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1416,15 +3303,42 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NH - New Hampshire
 
-- Current visible pre-payment question count: 7
+- Current visible pre-payment question count: 38
 - Legal/source-risk level: high
-- Conversion upside: low
+- Conversion upside: high
 - Payment-gate risk: high
 - Recommended action: attorney review first
 
@@ -1436,9 +3350,43 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1450,11 +3398,38 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NJ - New Jersey
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1475,17 +3450,51 @@ Questions:
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in New Jersey did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1503,11 +3512,37 @@ Questions that must remain pre-payment:
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NM - New Mexico
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1524,20 +3559,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in New Mexico did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1552,13 +3622,40 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NV - Nevada
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -1572,22 +3669,59 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Nevada did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1599,13 +3733,42 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### NY - New York
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 47
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1619,22 +3782,58 @@ Questions:
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in New York did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1646,13 +3845,41 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### OH - Ohio
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -1670,17 +3897,52 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Ohio did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1695,11 +3957,38 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### OK - Oklahoma
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1716,19 +4005,55 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Oklahoma did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1743,12 +4068,40 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### OR - Oregon
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 46
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1763,20 +4116,55 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1789,15 +4177,42 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### PA - Pennsylvania
 
-- Current visible pre-payment question count: 5
+- Current visible pre-payment question count: 38
 - Legal/source-risk level: high
-- Conversion upside: low
+- Conversion upside: high
 - Payment-gate risk: high
 - Recommended action: attorney review first
 
@@ -1807,9 +4222,45 @@ Questions:
 - `case_outcome` (eligibility-decision): How did the case end?
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1819,13 +4270,42 @@ Questions that must remain pre-payment:
 - `jurisdiction_scope`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### RI - Rhode Island
 
-- Current visible pre-payment question count: 5
-- Legal/source-risk level: low
-- Conversion upside: low
+- Current visible pre-payment question count: 38
+- Legal/source-risk level: medium
+- Conversion upside: high
 - Payment-gate risk: medium
 - Recommended action: source review first
 
@@ -1835,9 +4315,45 @@ Questions:
 - `case_outcome` (eligibility-decision): How did the case end?
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1847,11 +4363,40 @@ Questions that must remain pre-payment:
 - `jurisdiction_scope`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### SC - South Carolina
 
-- Current visible pre-payment question count: 19
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1870,21 +4415,56 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in South Carolina did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1901,12 +4481,39 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### SD - South Dakota
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1923,19 +4530,55 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in South Dakota did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1950,12 +4593,40 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### TN - Tennessee
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1970,22 +4641,58 @@ Questions:
 - `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Tennessee did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -1998,13 +4705,41 @@ Questions that must remain pre-payment:
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### TX - Texas
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2020,21 +4755,57 @@ Questions:
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Texas did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2048,16 +4819,44 @@ Questions that must remain pre-payment:
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### UT - Utah
 
-- Current visible pre-payment question count: 5
+- Current visible pre-payment question count: 38
 - Legal/source-risk level: high
-- Conversion upside: low
+- Conversion upside: high
 - Payment-gate risk: high
 - Recommended action: attorney review first
 
@@ -2067,9 +4866,45 @@ Questions:
 - `case_outcome` (eligibility-decision): How did the case end?
 - `offense_level` (eligibility-decision): What kind of charge was it?
 - `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
-None.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2079,11 +4914,40 @@ Questions that must remain pre-payment:
 - `jurisdiction_scope`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### VA - Virginia
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2098,20 +4962,58 @@ Questions:
 - `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Virginia did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_date` (eligibility-decision): Is the sentence complete, including incarceration, probation, parole, supervision, treatment, and community service?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2124,13 +5026,43 @@ Questions that must remain pre-payment:
 - `trafficking_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `identity_error`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `state_exclusion_categories`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### VT - Vermont
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 48
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -2148,19 +5080,54 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Vermont did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2176,12 +5143,39 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### WA - Washington
 
-- Current visible pre-payment question count: 15
+- Current visible pre-payment question count: 45
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -2199,17 +5193,51 @@ Questions:
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Washington did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2224,11 +5252,37 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### WI - Wisconsin
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2244,21 +5298,58 @@ Questions:
 - `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
 - `criminal_history` (packet-preparation): Do you have your background check or court records handy?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `financial_obligations` (eligibility-decision): Are all fines, fees, costs, and restitution listed for this case paid or otherwise satisfied?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Wisconsin did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2272,12 +5363,41 @@ Questions that must remain pre-payment:
 - `trafficking_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### WV - West Virginia
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 50
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2295,20 +5415,56 @@ Questions:
 - `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
-- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `case_number` (packet-preparation): What's the case number?
 - `charge` (packet-preparation): What does the record say you were charged with?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `pending_cases` (eligibility-decision): Does the person currently have any pending criminal charge?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2324,13 +5480,41 @@ Questions that must remain pre-payment:
 - `pardon_status`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
-- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `arrest_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ### WY - Wyoming
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 49
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2349,19 +5533,54 @@ Questions:
 - `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
 - `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 - `pending_cases` (eligibility-decision): Do you have any open cases right now?
-- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `resolved_timing_bucket` (eligibility-decision): About how long ago did this case end or get resolved?
+- `court_requirements_completed` (eligibility-decision): Have you completed everything the court ordered in this case?
 - `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `case_identifier` (packet-preparation): What's the case number?
+- `sentence_completion_actual_date` (eligibility-decision): What date does the record show the sentence was fully completed?
+- `route_family_detail` (unclear): Which source route family detail does the record support?
+- `wi_expungement_ordered_at_sentencing` (packet-preparation): For Wisconsin adult conviction expungement, did the sentencing court order expungement at sentencing?
+- `hi_court_order_confirmed` (packet-preparation): For a Hawaii HCJDC conviction-expungement application, do you already have a signed Court Order Granting Expungement that you can attach?
 - `court` (packet-preparation): Which court or agency handled the case?
 - `charge` (packet-preparation): What does the record say you were charged with?
 - `county_or_filing_location` (packet-preparation): Where in Wyoming did the case happen?
-- `case_identifier` (packet-preparation): What's the case number?
+- `in_prosecutor_consent_confirmed` (unclear): For Indiana higher-felony expungement, is prosecutor consent confirmed?
+- `disposition_date` (eligibility-decision): What date did the case end or get resolved?
+- `waiting_rule_id` (eligibility-decision): Which source waiting-period row matches this record?
+- `release_date` (unclear): What release date appears in the record?
+- `sentencing_date` (unclear): What sentencing date appears in the record?
+- `discharge_date` (packet-preparation): What discharge date appears in the record?
+- `last_conviction_date` (eligibility-decision): What is the most recent conviction date shown in the record?
+- `conviction_date` (eligibility-decision): What exact conviction date appears in the record?
+- `probation_parole_supervision_end_date` (eligibility-decision): What date did probation, parole, or supervision end?
+- `new_convictions_during_waiting_period` (eligibility-decision): Does the record show any new conviction during the waiting period?
+- `eligible_conviction_count` (eligibility-decision): How many convictions appear to be in the selected eligible route family?
+- `eligible_conviction_class` (eligibility-decision): What offense class or level does the record show for the selected route?
+- `special_preconditions_confirmed` (unclear): Are all source-listed special preconditions confirmed from records?
+- `wi_no_probation_jail_prison` (eligibility-decision): For Wisconsin CR-266 support, does the sentencing record show no probation, jail, or prison sentence?
+- `ny_16059_total_eligible_convictions` (eligibility-decision): For NY CPL 160.59, how many total eligible convictions would be included?
+- `ny_16059_felony_convictions` (eligibility-decision): For NY CPL 160.59, how many of those convictions are felonies?
+- `ny_16059_ineligible_offense` (eligibility-decision): For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?
+- `ny_16059_sex_offender_registration` (unclear): For NY CPL 160.59, does the record require sex-offender registration?
+- `ny_16059_pending_charge` (packet-preparation): For NY CPL 160.59, is any criminal charge currently pending?
+- `ny_16059_post_last_conviction_crime` (eligibility-decision): For NY CPL 160.59, has there been any crime after the most recent conviction?
+- `ny_16059_prior_sealing` (unclear): For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?
+- `ny_16058_treatment_program_completed` (unclear): For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?
+- `ca_prop64_qualifying_marijuana_offense` (eligibility-decision): For California HSC 11361.8, is the conviction a qualifying marijuana offense?
+- `ca_prop64_lesser_or_no_offense` (unclear): For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?
+- `ca_prop64_branch` (unclear): Which California HSC 11361.8 branch applies?
+- `ca_prop64_relief_requested` (eligibility-decision): For a completed-sentence HSC 11361.8 application, what relief is requested?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
+- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `wi_expungement_ordered_at_sentencing`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `hi_court_order_confirmed`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `discharge_date`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
+- `ny_16059_pending_charge`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2378,7 +5597,34 @@ Questions that must remain pre-payment:
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `financial_obligations`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `pending_cases`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `resolved_timing_bucket`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `court_requirements_completed`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `sentence_completion_actual_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `route_family_detail`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `in_prosecutor_consent_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `waiting_rule_id`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `release_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `sentencing_date`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `last_conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `conviction_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `probation_parole_supervision_end_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `new_convictions_during_waiting_period`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_count`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `eligible_conviction_class`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `special_preconditions_confirmed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `wi_no_probation_jail_prison`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_total_eligible_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_felony_convictions`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_ineligible_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_sex_offender_registration`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16059_post_last_conviction_crime`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ny_16059_prior_sealing`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ny_16058_treatment_program_completed`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_qualifying_marijuana_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `ca_prop64_lesser_or_no_offense`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_branch`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `ca_prop64_relief_requested`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
 
 ## Guardrails
@@ -2410,28 +5656,28 @@ Tests required before a behavior-changing phase:
 - UI tests proving only source-approved packet-preparation questions move after payment and no Stripe or checkout logic changes.
 
 States to pilot first:
-- ME Maine: 7 candidate questions, medium legal/source risk
-- NV Nevada: 7 candidate questions, medium legal/source risk
-- HI Hawaii: 6 candidate questions, medium legal/source risk
-- IN Indiana: 6 candidate questions, medium legal/source risk
-- OH Ohio: 6 candidate questions, medium legal/source risk
+- ME Maine: 11 candidate questions, medium legal/source risk
+- NV Nevada: 11 candidate questions, medium legal/source risk
+- HI Hawaii: 10 candidate questions, medium legal/source risk
+- IN Indiana: 10 candidate questions, medium legal/source risk
+- OH Ohio: 10 candidate questions, medium legal/source risk
 
 States not to touch without review:
-- NE Nebraska: 19 questions, 7 candidates, high legal/source risk
-- SC South Carolina: 19 questions, 8 candidates, high legal/source risk
-- GA Georgia: 18 questions, 8 candidates, high legal/source risk
-- MO Missouri: 18 questions, 7 candidates, high legal/source risk
-- NJ New Jersey: 18 questions, 7 candidates, high legal/source risk
-- WV West Virginia: 18 questions, 7 candidates, high legal/source risk
-- WY Wyoming: 18 questions, 7 candidates, high legal/source risk
-- AL Alabama: 17 questions, 6 candidates, high legal/source risk
-- AK Alaska: 17 questions, 7 candidates, high legal/source risk
-- FL Florida: 17 questions, 7 candidates, high legal/source risk
-- LA Louisiana: 17 questions, 7 candidates, high legal/source risk
-- MD Maryland: 17 questions, 7 candidates, high legal/source risk
-- MT Montana: 17 questions, 7 candidates, high legal/source risk
-- NM New Mexico: 17 questions, 6 candidates, high legal/source risk
-- TX Texas: 17 questions, 6 candidates, high legal/source risk
+- AK Alaska: 50 questions, 11 candidates, high legal/source risk
+- FL Florida: 50 questions, 11 candidates, high legal/source risk
+- GA Georgia: 50 questions, 12 candidates, high legal/source risk
+- NE Nebraska: 50 questions, 11 candidates, high legal/source risk
+- SC South Carolina: 50 questions, 12 candidates, high legal/source risk
+- WV West Virginia: 50 questions, 11 candidates, high legal/source risk
+- IL Illinois: 49 questions, 10 candidates, high legal/source risk
+- MO Missouri: 49 questions, 11 candidates, high legal/source risk
+- TX Texas: 49 questions, 10 candidates, high legal/source risk
+- VA Virginia: 49 questions, 10 candidates, high legal/source risk
+- WI Wisconsin: 49 questions, 11 candidates, high legal/source risk
+- WY Wyoming: 49 questions, 11 candidates, high legal/source risk
+- AL Alabama: 48 questions, 10 candidates, high legal/source risk
+- DC District of Columbia: 48 questions, 10 candidates, high legal/source risk
+- LA Louisiana: 48 questions, 11 candidates, high legal/source risk
 
 Rollback plan:
 - Keep the current all-pre-payment profile-driven flow behind the existing screen derivation.
@@ -2453,28 +5699,28 @@ Friction-heavy states:
 
 | State | Visible questions | Candidate reducible | Legal/source risk | Conversion upside | Payment-gate risk |
 | --- | ---: | ---: | --- | --- | --- |
-| SC South Carolina | 19 | 8 | high | high | high |
-| NE Nebraska | 19 | 7 | high | high | high |
-| GA Georgia | 18 | 8 | high | high | high |
-| ME Maine | 18 | 7 | medium | high | medium |
-| MO Missouri | 18 | 7 | high | high | high |
-| NJ New Jersey | 18 | 7 | high | high | high |
-| WV West Virginia | 18 | 7 | high | high | high |
-| WY Wyoming | 18 | 7 | high | high | high |
-| AK Alaska | 17 | 7 | high | high | high |
-| FL Florida | 17 | 7 | high | high | high |
+| GA Georgia | 50 | 12 | high | high | high |
+| SC South Carolina | 50 | 12 | high | high | high |
+| AK Alaska | 50 | 11 | high | high | high |
+| FL Florida | 50 | 11 | high | high | high |
+| NE Nebraska | 50 | 11 | high | high | high |
+| WV West Virginia | 50 | 11 | high | high | high |
+| ME Maine | 49 | 11 | medium | high | medium |
+| MO Missouri | 49 | 11 | high | high | high |
+| WI Wisconsin | 49 | 11 | high | high | high |
+| WY Wyoming | 49 | 11 | high | high | high |
 
 Safest candidates:
 
 | State | Visible questions | Candidate reducible | Legal/source risk | Conversion upside | Recommended action |
 | --- | ---: | ---: | --- | --- | --- |
-| ME Maine | 18 | 7 | medium | high | source review first |
-| NV Nevada | 15 | 7 | medium | high | source review first |
-| HI Hawaii | 11 | 6 | medium | high | source review first |
-| IN Indiana | 11 | 6 | medium | high | source review first |
-| OH Ohio | 15 | 6 | medium | high | source review first |
-| VT Vermont | 17 | 6 | medium | high | source review first |
-| WA Washington | 15 | 6 | medium | high | source review first |
-| MS Mississippi | 5 | 1 | low | low | source review first |
-| ND North Dakota | 5 | 1 | low | low | source review first |
-| RI Rhode Island | 5 | 1 | low | low | source review first |
+| ME Maine | 49 | 11 | medium | high | source review first |
+| NV Nevada | 48 | 11 | medium | high | source review first |
+| HI Hawaii | 44 | 10 | medium | high | source review first |
+| IN Indiana | 43 | 10 | medium | high | source review first |
+| OH Ohio | 46 | 10 | medium | high | source review first |
+| VT Vermont | 48 | 10 | medium | high | source review first |
+| WA Washington | 45 | 10 | medium | high | source review first |
+| MS Mississippi | 39 | 5 | medium | high | source review first |
+| ND North Dakota | 38 | 5 | medium | high | source review first |
+| RI Rhode Island | 38 | 5 | medium | high | source review first |

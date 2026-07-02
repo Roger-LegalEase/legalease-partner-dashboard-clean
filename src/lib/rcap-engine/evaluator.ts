@@ -1048,6 +1048,8 @@ function latestAnchorTiming(profile: EngineProfile, answers: Record<string, Scre
     .map((id) => ({ id, date: parseDateAnswer(answers[id]) }))
     .filter((candidate): candidate is { id: string; date: Date } => Boolean(candidate.date));
   if (dates.length === 0) {
+    const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, text);
+    if (bucketTiming) return bucketTiming;
     return {
       status: "missing_anchor",
       reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `One of ${anchorIds.join(", ")} is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
@@ -1063,6 +1065,8 @@ function timingFromAnchor(profile: EngineProfile, answers: Record<string, Screen
   const jurisdiction = profile.jurisdiction.code;
   const anchor = parseDateAnswer(answers[anchorId]);
   if (!anchor) {
+    const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, text);
+    if (bucketTiming) return bucketTiming;
     return {
       status: "missing_anchor",
       reason: reason(jurisdiction, "waiting_anchor_missing", `The ${anchorId} date is needed before the corrected source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
@@ -1083,6 +1087,48 @@ function timingFromAnchor(profile: EngineProfile, answers: Record<string, Screen
     };
   }
   return { status: "satisfied" };
+}
+
+function timingFromResolvedBucket(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, duration: CompiledDuration, text: string): TimingResult | undefined {
+  const jurisdiction = profile.jurisdiction.code;
+  const bucket = answerText(answers[RESOLVED_TIMING_BUCKET_FIELD_ID]);
+  if (!bucket) return undefined;
+  if (bucket === "not_sure") {
+    return {
+      status: "missing_anchor",
+      reason: reason(jurisdiction, "timing_bucket_unknown", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: [RESOLVED_TIMING_BUCKET_FIELD_ID]
+    };
+  }
+  if (bucket === "still_open") {
+    return {
+      status: "not_yet",
+      reason: reason(jurisdiction, "case_still_open", "This may not be ready yet. Most record-clearing paths require the case to be resolved first.", rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  const window = TIMING_BUCKET_WINDOWS[bucket];
+  if (!window) return undefined;
+  const requiredYears = durationInYears(duration);
+  if (requiredYears === undefined) {
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, "waiting_rule_not_executed", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  if (requiredYears <= 0) return { status: "satisfied" };
+  if (window.minYears >= requiredYears) return { status: "satisfied" };
+  const overlapsBoundary = window.maxYears === undefined ? false : window.maxYears > requiredYears;
+  return {
+    status: "not_yet",
+    reason: reason(jurisdiction, overlapsBoundary ? "timing_bucket_overlaps_waiting_period" : "timing_bucket_too_recent", `${text} This may not be ready yet. The timing estimate does not clearly satisfy the waiting period.`, rule.sourceRef ?? pathway.sourceRef)
+  };
+}
+
+function durationInYears(duration: CompiledDuration) {
+  if (duration.unit === "years") return duration.value;
+  if (duration.unit === "months") return duration.value / 12;
+  if (duration.unit === "days") return duration.value / 365;
+  return undefined;
 }
 
 function latestTimingResult(first: TimingResult, second: TimingResult): TimingResult {
@@ -1262,6 +1308,24 @@ type SelectedWaitingRule = {
   routeScore: number;
 };
 
+const RESOLVED_TIMING_BUCKET_FIELD_ID = "resolved_timing_bucket";
+const COURT_REQUIREMENTS_FIELD_ID = "court_requirements_completed";
+
+type TimingBucketWindow = {
+  minYears: number;
+  maxYears?: number;
+};
+
+const TIMING_BUCKET_WINDOWS: Record<string, TimingBucketWindow> = {
+  lt_1_year: { minYears: 0, maxYears: 1 },
+  years_1_to_2: { minYears: 1, maxYears: 2 },
+  years_2_to_3: { minYears: 2, maxYears: 3 },
+  years_3_to_5: { minYears: 3, maxYears: 5 },
+  years_5_to_7: { minYears: 5, maxYears: 7 },
+  years_7_to_10: { minYears: 7, maxYears: 10 },
+  gt_10_years: { minYears: 10 }
+};
+
 function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>): RouteMatch {
   const jurisdiction = profile.jurisdiction.code;
   const selectedPathway = selectPathway(profile, answers);
@@ -1362,16 +1426,24 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
 
 function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult {
   const jurisdiction = profile.jurisdiction.code;
-  if (isNegative(answers.sentence_completion_date) || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  const courtRequirement = answerText(answers[COURT_REQUIREMENTS_FIELD_ID]);
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
-      reason: reason(jurisdiction, "timing_or_completion_blocker", "The source-defined completion, supervision, or pending-case condition is not satisfied.", rule.sourceRef)
+      reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)
+    };
+  }
+  if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations)) {
+    return {
+      status: "missing_anchor",
+      reason: reason(jurisdiction, "court_requirements_unknown", "We need one more detail before we can prepare the right packet.", rule.sourceRef),
+      missingQuestionIds: [COURT_REQUIREMENTS_FIELD_ID]
     };
   }
   if (isNegative(answers.special_preconditions_confirmed) || isExplicitUnknownAnswer(answers.special_preconditions_confirmed)) {
     return {
       status: "needs_review",
-      reason: reason(jurisdiction, "special_preconditions_unconfirmed", "Source-listed special preconditions must be confirmed before a packet decision.", rule.sourceRef)
+      reason: reason(jurisdiction, "special_preconditions_unconfirmed", "We need one more detail before we can prepare the right packet.", rule.sourceRef)
     };
   }
   if (profile.jurisdiction.code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") {
@@ -1411,10 +1483,12 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   }
   const anchor = parseDateAnswer(answers[anchorId]);
   if (!anchor) {
+    const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, "The court or agency makes the final decision.");
+    if (bucketTiming) return bucketTiming;
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef),
-      missingQuestionIds: [anchorId]
+      reason: reason(jurisdiction, "waiting_anchor_missing", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: [RESOLVED_TIMING_BUCKET_FIELD_ID]
     };
   }
 
@@ -1428,7 +1502,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   if (earliest > evaluationToday()) {
     return {
       status: "not_yet",
-      reason: reason(jurisdiction, "waiting_period_not_satisfied", `The source-specific waiting period runs until ${earliest.toISOString().slice(0, 10)}.`, rule.sourceRef ?? pathway.sourceRef)
+      reason: reason(jurisdiction, "waiting_period_not_satisfied", `This may not be ready yet. The waiting period appears to run until ${earliest.toISOString().slice(0, 10)}. The court or agency makes the final decision.`, rule.sourceRef ?? pathway.sourceRef)
     };
   }
   return { status: "satisfied" };

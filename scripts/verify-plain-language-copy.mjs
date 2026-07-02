@@ -52,6 +52,20 @@ const guaranteeWords = [
   "remove from all background checks"
 ];
 
+const consumerTechnicalLeaks = [
+  "date anchor",
+  "source review",
+  "packet decision",
+  "safely executable",
+  "evaluator",
+  "engine decides",
+  "rule diagnostic",
+  "diagnostic",
+  "qualify",
+  "approved",
+  "guaranteed"
+];
+
 for (const entry of CRITICAL_COPY_CATALOG) {
   const text = clean(entry.en).toLowerCase();
   for (const phrase of bannedLegalese) {
@@ -59,6 +73,9 @@ for (const entry of CRITICAL_COPY_CATALOG) {
   }
   for (const phrase of guaranteeWords) {
     assert(!text.includes(phrase), `Guarantee phrase appears in critical copy ${entry.id}: ${phrase}`);
+  }
+  for (const phrase of consumerTechnicalLeaks) {
+    assert(!text.includes(phrase), `Consumer technical/prohibited copy appears in critical copy ${entry.id}: ${phrase}`);
   }
   if (entry.surface === "wilma_question") {
     assert(clean(entry.en).length <= 150, `Question text too long in critical copy ${entry.id}`);
@@ -92,6 +109,9 @@ for (const rel of checkedFiles) {
   const source = fs.readFileSync(path.join(ROOT, rel), "utf8");
   for (const phrase of guaranteeWords) {
     assert(!source.toLowerCase().includes(phrase), `${rel} includes guarantee phrase: ${phrase}`);
+  }
+  for (const phrase of consumerTechnicalLeaks) {
+    assert(!source.toLowerCase().includes(phrase), `${rel} includes consumer technical/prohibited phrase: ${phrase}`);
   }
   if (/court-ready/i.test(source)) warn(`${rel} includes court-ready language; confirm it is not visible payment/result copy.`);
 }

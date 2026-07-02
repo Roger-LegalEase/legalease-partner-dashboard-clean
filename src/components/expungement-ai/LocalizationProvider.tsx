@@ -30,7 +30,7 @@ function initialLocale(): Locale {
   }
   const docLang = document.documentElement.lang;
   if (docLang?.toLowerCase().startsWith("es")) return "es";
-  return navigator.language?.toLowerCase().startsWith("es") ? "es" : DEFAULT_LOCALE;
+  return DEFAULT_LOCALE;
 }
 
 export function LocalizationProvider({ children }: { children: ReactNode }) {

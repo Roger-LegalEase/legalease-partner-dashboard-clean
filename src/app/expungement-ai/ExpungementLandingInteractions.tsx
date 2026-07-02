@@ -66,9 +66,6 @@ export function ExpungementLandingInteractions({
     const applyLanguage = (lang: "en" | "es", options: { persist?: boolean } = {}) => {
       const normalizedLang = lang === "es" ? "es" : "en";
       const root = document.documentElement;
-      if (root.dataset.expungementAiLocale === normalizedLang && !options.persist) {
-        return;
-      }
       const dictionary = normalizedLang === "es" ? dictionaries.es : dictionaries.en;
       const setHtmlContent = (element: Element, value: string) => {
         element.innerHTML = value;
@@ -106,8 +103,7 @@ export function ExpungementLandingInteractions({
       } catch {
         // Ignore storage failures; fall back below.
       }
-      const navLanguage = navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
-      return navLanguage;
+      return "en";
     })();
     applyLanguage(initialLanguage);
 

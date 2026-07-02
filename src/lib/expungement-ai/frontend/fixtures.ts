@@ -89,7 +89,7 @@ export const RESULT_GALLERY: readonly ScreeningEvaluation[] = [
     userLabel: "You may have a path, with a few cautions.",
     reasons: [{ code: "gallery", text: "Illustrative example: a path is available but carries cautions to review first." }],
     missingQuestionIds: [],
-    cautions: ["Some details on this path are sensitive to your exact charge.", "Court approval is not guaranteed."],
+    cautions: ["Some details on this path are sensitive to your exact charge.", "The court or agency makes the final decision."],
     nextSteps: ["Read the cautions carefully.", "Generate your self-help packet if you want to proceed.", "Review every document before filing."],
     paymentAllowed: true,
     packetPlan: {

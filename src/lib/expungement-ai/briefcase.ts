@@ -471,7 +471,7 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
 }
 
 export function consumerDisclaimer() {
-  return "Expungement.ai is self-help software, not a law firm. Court approval is not guaranteed. Review all documents before filing.";
+  return "Expungement.ai is self-help software, not a law firm. The court or agency makes the final decision. Review all documents before filing.";
 }
 
 async function getConsumerBriefcaseClient() {

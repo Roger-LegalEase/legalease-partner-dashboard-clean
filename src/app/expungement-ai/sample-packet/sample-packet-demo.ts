@@ -126,7 +126,7 @@ export const samplePacketTabs: SamplePacketTab[] = [
       {
         title: "Good to know",
         lines: [
-          "Many courts waive or reduce the filing fee when a petitioner qualifies.",
+          "Many courts waive or reduce the filing fee when a petitioner meets the court's fee-waiver rules.",
           "Approval is up to the court — submitting an IFP request does not guarantee a waiver.",
           "If the waiver is denied, the clerk will tell you the amount due before your petition moves forward."
         ]

@@ -63,8 +63,145 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ])
 };
 const STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS: Record<string, Set<string>> = {
-  MS: new Set(["disposition_date"])
+  MS: new Set(["resolved_timing_bucket"])
 };
+
+const PREPAY_EXACT_TIMING_ANCHOR_IDS = new Set([
+  "disposition_date",
+  "dismissal_date",
+  "completion_date",
+  "sentence_completion_date",
+  "sentence_completion_actual_date",
+  "case_closed_date",
+  "conviction_date",
+  "last_conviction_date",
+  "arrest_date",
+  "release_date",
+  "sentencing_date",
+  "discharge_date",
+  "probation_parole_supervision_end_date"
+]);
+
+const PREPAY_COURT_COMPLETION_IDS = new Set([
+  "sentence_completion_date",
+  "financial_obligations"
+]);
+
+const TIMING_BUCKET_OPTIONS = [
+  "lt_1_year",
+  "years_1_to_2",
+  "years_2_to_3",
+  "years_3_to_5",
+  "years_5_to_7",
+  "years_7_to_10",
+  "gt_10_years",
+  "not_sure",
+  "still_open"
+];
+
+const TIMING_BUCKET_DISPLAY: NonNullable<PublicQuestion["optionDisplay"]> = {
+  lt_1_year: {
+    label: "Less than 1 year ago",
+    translations: { es: { label: "Hace menos de 1 año" } }
+  },
+  years_1_to_2: {
+    label: "1-2 years ago",
+    translations: { es: { label: "Hace 1 a 2 años" } }
+  },
+  years_2_to_3: {
+    label: "2-3 years ago",
+    translations: { es: { label: "Hace 2 a 3 años" } }
+  },
+  years_3_to_5: {
+    label: "3-5 years ago",
+    translations: { es: { label: "Hace 3 a 5 años" } }
+  },
+  years_5_to_7: {
+    label: "5-7 years ago",
+    translations: { es: { label: "Hace 5 a 7 años" } }
+  },
+  years_7_to_10: {
+    label: "7-10 years ago",
+    translations: { es: { label: "Hace 7 a 10 años" } }
+  },
+  gt_10_years: {
+    label: "More than 10 years ago",
+    translations: { es: { label: "Hace más de 10 años" } }
+  },
+  not_sure: {
+    label: "I'm not sure",
+    translations: { es: { label: "No estoy seguro" } }
+  },
+  still_open: {
+    label: "The case is still open",
+    translations: { es: { label: "El caso todavía está abierto" } }
+  }
+};
+
+const COURT_REQUIREMENTS_OPTIONS = ["yes", "no", "not_sure", "not_applicable"];
+
+const COURT_REQUIREMENTS_DISPLAY: NonNullable<PublicQuestion["optionDisplay"]> = {
+  yes: {
+    label: "Yes",
+    translations: { es: { label: "Sí" } }
+  },
+  no: {
+    label: "No",
+    translations: { es: { label: "No" } }
+  },
+  not_sure: {
+    label: "I'm not sure",
+    translations: { es: { label: "No estoy seguro" } }
+  },
+  not_applicable: {
+    label: "This does not apply to my case",
+    translations: { es: { label: "Esto no se aplica a mi caso" } }
+  }
+};
+
+function timingBucketQuestion(question: PublicQuestion, lifecyclePhase: QuestionLifecyclePhase, required: boolean): PublicQuestion {
+  return {
+    id: "resolved_timing_bucket",
+    stage: question.stage,
+    prompt: "About how long ago did this case end or get resolved?",
+    helperText: "An estimate is okay for this free screening. You can use the date the case was dismissed, resolved, or when you finished what the court ordered. We may ask for exact case details later before generating documents.",
+    type: "single_choice",
+    required,
+    contextOnly: false,
+    doesNotSelectPathway: false,
+    lifecyclePhase,
+    options: TIMING_BUCKET_OPTIONS,
+    optionDisplay: TIMING_BUCKET_DISPLAY,
+    translations: {
+      es: {
+        prompt: "¿Hace aproximadamente cuánto terminó o se resolvió este caso?",
+        helperText: "Una estimación está bien para esta revisión gratis. Puede usar la fecha en que el caso fue desestimado, se resolvió o cuando terminó lo que ordenó el tribunal. Es posible que pidamos detalles exactos del caso más adelante, antes de generar documentos."
+      }
+    }
+  };
+}
+
+function courtRequirementsQuestion(stage: string, lifecyclePhase: QuestionLifecyclePhase, required: boolean): PublicQuestion {
+  return {
+    id: "court_requirements_completed",
+    stage,
+    prompt: "Have you completed everything the court ordered in this case?",
+    helperText: "This can include probation, parole, fines, fees, restitution, classes, treatment, community service, jail time, or anything else the court required.",
+    type: "single_choice",
+    required,
+    contextOnly: false,
+    doesNotSelectPathway: false,
+    lifecyclePhase,
+    options: COURT_REQUIREMENTS_OPTIONS,
+    optionDisplay: COURT_REQUIREMENTS_DISPLAY,
+    translations: {
+      es: {
+        prompt: "¿Ha completado todo lo que el tribunal ordenó en este caso?",
+        helperText: "Esto puede incluir libertad condicional, libertad bajo palabra, multas, cuotas, restitución, clases, tratamiento, servicio comunitario, tiempo en la cárcel o cualquier otra cosa que el tribunal haya requerido."
+      }
+    }
+  };
+}
 
 /**
  * Normalize a question's `options` to the public contract: a non-empty array of strings, or `null`.
@@ -140,7 +277,14 @@ function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: str
   const lifecyclePhase = source === "wilma"
     ? phaseForWilmaFact(question, jurisdictionCode)
     : lifecyclePhaseForQuestion(question);
-  const requiredPrepayFact = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode]?.has(question.id) === true;
+  const requiredFactIds = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode];
+  const requiredPrepayFact = requiredFactIds?.has(question.id) === true;
+  if (lifecyclePhase === "prepay_timing_gate" && PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id) && question.type === "date_or_unknown") {
+    return timingBucketQuestion(question, lifecyclePhase, requiredPrepayFact || requiredFactIds?.has("resolved_timing_bucket") === true || question.required);
+  }
+  if (lifecyclePhase === "prepay_timing_gate" && PREPAY_COURT_COMPLETION_IDS.has(question.id)) {
+    return courtRequirementsQuestion(question.stage, lifecyclePhase, question.required);
+  }
   const normalized = {
     ...question,
     lifecyclePhase,
@@ -151,6 +295,25 @@ function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: str
     doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
   };
   return normalized;
+}
+
+function dedupeQuestionsById(questions: PublicQuestion[]) {
+  const seen = new Set<string>();
+  return questions.filter((question) => {
+    if (seen.has(question.id)) return false;
+    seen.add(question.id);
+    return true;
+  });
+}
+
+function withBroadCourtRequirementsGate(questions: PublicQuestion[]) {
+  if (questions.some((question) => question.id === "court_requirements_completed")) return questions;
+  const timingQuestion = questions.find((question) => question.id === "resolved_timing_bucket" && question.lifecyclePhase === "prepay_timing_gate");
+  if (!timingQuestion) return questions;
+  return [
+    ...questions,
+    courtRequirementsQuestion(timingQuestion.stage, "prepay_timing_gate", true)
+  ];
 }
 
 function withDisplayTranslations(question: PublicQuestion, jurisdictionCode: string): PublicQuestion {
@@ -562,14 +725,16 @@ function withWilmaFactQuestions(profile: PublicJurisdictionProfile): PublicJuris
   const additions = WILMA_FACT_QUESTIONS
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
+  const baseQuestions = withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions));
   if (additions.length === 0) {
     return {
       ...profile,
-      flowStages: normalizeFlowStages(profile, profile.questions),
-      postPaymentPacketCompletion: postPaymentPacketCompletion(profile.questions)
+      questions: baseQuestions,
+      flowStages: normalizeFlowStages(profile, baseQuestions),
+      postPaymentPacketCompletion: postPaymentPacketCompletion(baseQuestions)
     };
   }
-  const questions = [...profile.questions, ...additions];
+  const questions = withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions]));
   return {
     ...profile,
     postPaymentPacketCompletion: postPaymentPacketCompletion(questions),

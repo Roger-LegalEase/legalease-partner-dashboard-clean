@@ -98,15 +98,15 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.may_need_wait": { en: "You may need to wait", es: "Es posible que tenga que esperar" },
   "result.state_next_steps": { en: "Next steps for your state", es: "Próximos pasos para su estado" },
   "result.not_supported": { en: "Not supported yet", es: "Aún no compatible" },
-  "result.may_not_qualify": { en: "This record may not match a self-help path", es: "Es posible que este antecedente no coincida con una ruta de autoayuda" },
+  "result.may_not_match": { en: "This record may not match a self-help path", es: "Es posible que este antecedente no coincida con una ruta de autoayuda" },
   "result.needs_review": { en: "This needs review", es: "Esto necesita revisión" },
   "result.ms_missing_detail_title": {
     en: "We need one more detail before we can prepare the right packet.",
     es: "Necesitamos un detalle más antes de preparar el paquete correcto."
   },
   "result.ms_missing_date_anchor": {
-    en: "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.",
-    es: "Necesitamos la fecha del caso, la fecha de desestimación, la fecha de disposición o la fecha de finalización usada para revisar el período de espera."
+    en: "We need one more detail before we can prepare the right packet.",
+    es: "Necesitamos un detalle más antes de preparar el paquete correcto."
   },
   "result.ms_missing_date_next_step": {
     en: "Save your progress and update your answers when you have that detail.",
@@ -139,17 +139,17 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.back_to_answers": { en: "Back to my answers", es: "Volver a mis respuestas" },
   "result.partner_no_pay": { en: "This screening started through a partner program. You will not be asked to pay here.", es: "Esta revisión comenzó por medio de un programa asociado. No se le pedirá pagar aquí." },
   "result.upl_disclaimer": {
-    en: "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; court approval is not guaranteed. Review everything before filing.",
-    es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; la aprobación del tribunal no está garantizada. Revise todo antes de presentar."
+    en: "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.",
+    es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; el tribunal o la agencia toma la decisión final. Revise todo antes de presentar."
   },
   "missing.tell_more": { en: "Tell us more about {field}.", es: "Cuéntenos más sobre {field}." },
   "profile.MS.disposition_date.prompt": {
-    en: "What date did the case end or get resolved?",
-    es: "¿En qué fecha terminó o se resolvió el caso?"
+    en: "About how long ago did this case end or get resolved?",
+    es: "¿Hace aproximadamente cuánto terminó o se resolvió este caso?"
   },
   "profile.MS.disposition_date.helper": {
-    en: "You can usually find this on the court docket, judgment, dismissal, or disposition record. Use your best court-record date.",
-    es: "Por lo general puede encontrarla en el expediente del tribunal, la sentencia, la desestimación o el registro de disposición. Use la mejor fecha que aparezca en el registro judicial."
+    en: "An estimate is okay for this free screening. We may ask for exact case details later before generating documents.",
+    es: "Una estimación está bien para esta revisión gratis. Es posible que pidamos detalles exactos del caso más adelante, antes de generar documentos."
   },
 
   "filing.ready_to_file": { en: "ready_to_file", es: "listo para presentar" },
@@ -300,8 +300,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Inicie sesión para volver a su Maletín y continuar donde se quedó."
   },
   "signin.disclaimer": {
-    en: "Expungement.ai is self-help software, not a law firm. Court approval is not guaranteed.",
-    es: "Expungement.ai es software de autoayuda, no un bufete de abogados. La aprobación del tribunal no está garantizada."
+    en: "Expungement.ai is self-help software, not a law firm. The court or agency makes the final decision.",
+    es: "Expungement.ai es software de autoayuda, no un bufete de abogados. El tribunal o la agencia toma la decisión final."
   },
   "signin.error": {
     en: "We could not sign you in. Check your email and password and try again.",

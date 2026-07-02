@@ -8,9 +8,40 @@ type MissingFieldFallback = {
 };
 
 const FRIENDLY_MISSING_FIELD_FALLBACKS: Record<string, MissingFieldFallback> = {
+  resolved_timing_bucket: {
+    prompt: "About how long ago did this case end or get resolved?",
+    type: "single_choice",
+    options: [
+      "lt_1_year",
+      "years_1_to_2",
+      "years_2_to_3",
+      "years_3_to_5",
+      "years_5_to_7",
+      "years_7_to_10",
+      "gt_10_years",
+      "not_sure",
+      "still_open"
+    ]
+  },
+  court_requirements_completed: {
+    prompt: "Have you completed everything the court ordered in this case?",
+    type: "single_choice",
+    options: ["yes", "no", "not_sure", "not_applicable"]
+  },
   disposition_date: {
-    prompt: "What date did the case end or get resolved?",
-    type: "date_or_unknown"
+    prompt: "About how long ago did this case end or get resolved?",
+    type: "single_choice",
+    options: [
+      "lt_1_year",
+      "years_1_to_2",
+      "years_2_to_3",
+      "years_3_to_5",
+      "years_5_to_7",
+      "years_7_to_10",
+      "gt_10_years",
+      "not_sure",
+      "still_open"
+    ]
   },
   age_at_offense: {
     prompt: "How old were you when the case happened?",
@@ -65,7 +96,7 @@ export function safeUserFacingEngineText(text: string, options?: { locale?: Loca
   const plain = consumerSafeEngineText(text, locale);
   const sanitized = text
     .replace(/source_question_[a-z0-9_-]+/gi, "A source detail")
-    .replace(/\b(age_at_offense|trafficking_status|pardon_status|disposition_date)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
+    .replace(/\b(age_at_offense|trafficking_status|pardon_status|disposition_date|resolved_timing_bucket|court_requirements_completed)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
   if (plain) return plain;
   return resolveRuntimeText(locale, sanitized);
 }
@@ -86,7 +117,7 @@ function consumerSafeEngineText(text: string, locale: Locale) {
     if (waitUntil) {
       return resolveRuntimeText(locale, `The waiting period appears to run until ${waitUntil[1]}. The court or agency makes the final decision.`);
     }
-    return t(locale, "result.ms_missing_date_anchor", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.");
+    return t(locale, "result.ms_missing_date_anchor", "We need one more detail before we can prepare the right packet.");
   }
   if (text === "Get source review before any filing packet is generated.") {
     return t(locale, "result.ms_missing_date_next_step", "Save your progress and update your answers when you have that detail.");

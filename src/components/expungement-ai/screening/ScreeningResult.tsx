@@ -23,7 +23,7 @@ import { useLocalization } from "@/components/expungement-ai/LocalizationProvide
 import { routeLabelKeyForState } from "@/lib/expungement-ai/localization";
 
 const UPL_DISCLAIMER =
-  "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; court approval is not guaranteed. Review everything before filing.";
+  "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.";
 
 type Tone = "positive" | "caution" | "info" | "wait" | "blocked";
 
@@ -46,7 +46,7 @@ const RESULT_EYEBROW_KEYS: Record<ResultCode, string> = {
   not_yet: "result.may_need_wait",
   guidance_only: "result.state_next_steps",
   not_covered_yet: "result.not_supported",
-  likely_not_eligible: "result.may_not_qualify",
+  likely_not_eligible: "result.may_not_match",
   needs_review: "result.needs_review",
   hard_stop: "result.cannot_help"
 };
