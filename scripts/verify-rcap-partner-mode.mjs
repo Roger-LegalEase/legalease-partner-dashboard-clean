@@ -32,6 +32,7 @@ try {
   await db.exec(read("supabase/phase-35b-rcap-screening-session-partner-mode.sql"));
   await db.exec(read("supabase/phase-35c-rcap-claim-screening-session.sql"));
   await db.exec(read("supabase/phase-35d-rcap-slot-lifecycle.sql"));
+  await db.exec(read("supabase/phase-39-rcap-partner-packet-cap.sql"));
 
   await verifyDtcSessionStorageDefaults(db);
   await verifyEligibilitySameAcrossModes();
@@ -64,13 +65,13 @@ console.log("1. DTC payment path, checkout/payment-confirm, and packet routing v
 console.log(`2. RCAP payment-skip routing: ${rcapPaymentRoutingStatus}.`);
 console.log("3. Identical answers produce identical evaluation results across DTC/RCAP modes.");
 console.log("4. Unknown/inactive partner fails closed with no session or slot consumption.");
-console.log("5. Hard cap N+1 returns capacity_full after exactly N sessions are inserted.");
-console.log("6. Concurrency: exactly one success, one capacity_full, one inserted session.");
+console.log("5. Partner screening starts do not consume packet cap.");
+console.log("6. Concurrent partner screening starts do not consume packet cap.");
 console.log("7. Rollback-on-failure proven at runtime with a forced insert constraint failure.");
 console.log("8. Intake page load does not claim a slot; claim happens only on explicit start.");
 console.log("9. Expiry release is once-only and ignores DTC sessions.");
-console.log("10. Completion consumes the claimed slot and prevents later release.");
-console.log("11. Recompute uses the same expiry predicate and self-corrects stale claimed rows.");
+console.log("10. Screening completion does not consume partner packet cap.");
+console.log("11. Partner packet generation consumes packet cap exactly once.");
 console.log("12. Partner usage event payload is aggregate-only and contains no PII.");
 console.log("13. DTC save/resume and pay/packet boundaries remain intact.");
 console.log("14. Scope guard allowlist remains centralized.");
@@ -100,7 +101,7 @@ function verifySourceWiring() {
   const resumeService = read("src/lib/expungement-ai/screening-resume-service.ts");
   const allowlist = read("scripts/rcap-scope-allowlist.mjs");
   const lifecycle = read("src/lib/expungement-ai/rcap-slot-lifecycle.ts");
-  const migration = read("supabase/phase-35d-rcap-slot-lifecycle.sql");
+  const migration = read("supabase/phase-39-rcap-partner-packet-cap.sql");
 
   assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake must resolve context on load.");
   assert(intakePage.includes("form action={startRcapPartnerScreening}"), "Partner intake start must be explicit.");
@@ -159,9 +160,10 @@ function verifySourceWiring() {
   assert(allowlist.includes("supabase/phase-35d-rcap-slot-lifecycle.sql"), "RCAP lifecycle migration must be centrally allowlisted.");
   assert(allowlist.includes("src/lib/expungement-ai/nudge-os-events.ts"), "Partner usage event emitter must be centrally allowlisted.");
   assert(migration.includes("rcap_screening_session_is_release_expired"), "Shared expiry predicate missing from migration.");
-  assert(countOccurrences(migration, "public.rcap_screening_session_is_release_expired(") >= 2, "Release and recompute must both call the shared expiry predicate.");
+  assert(countOccurrences(migration, "public.rcap_screening_session_is_release_expired(") >= 1, "Release must call the shared expiry predicate.");
   assert(lifecycle.includes('rpc("release_expired_rcap_screening_slots"'), "Lifecycle helper must call release RPC.");
   assert(lifecycle.includes('rpc("consume_rcap_screening_session"'), "Lifecycle helper must call consume RPC.");
+  assert(lifecycle.includes('rpc("record_rcap_partner_packet_generation"'), "Lifecycle helper must call partner packet-generation usage RPC.");
   assert(lifecycle.includes('rpc("recompute_rcap_partner_entitlements"'), "Lifecycle helper must call recompute RPC.");
 
   return rcapPaymentRoutingStatus;
@@ -234,10 +236,9 @@ async function verifyHardCapViaRpc(db) {
   for (let index = 0; index < 4; index += 1) {
     claims.push(await claimSession(db, "hard-cap", "MS"));
   }
-  assert(claims.filter((claim) => claim.ok).length === 3, "Hard cap N must allow exactly N sessions.");
-  assert(claims[3].ok === false && claims[3].reason === "capacity_full", "N+1 claim must return capacity_full.");
-  assert((await countSessions(db, "hard-cap")) === 3, "Exactly N sessions must be inserted.");
-  assert((await usedSlots(db, "hard-cap")) === 3, "screenings_used must equal N after hard cap.");
+  assert(claims.every((claim) => claim.ok), "Partner screening starts must not be blocked by packet cap.");
+  assert((await countSessions(db, "hard-cap")) === 4, "Every explicit partner screening start should insert a session.");
+  assert((await usedSlots(db, "hard-cap")) === 0, "Partner screening starts must not consume packet cap.");
 }
 
 async function verifyRpcConcurrency(db) {
@@ -247,10 +248,9 @@ async function verifyRpcConcurrency(db) {
     claimSession(db, "concurrent-start", "MS")
   ]);
 
-  assert(claims.filter((claim) => claim.ok).length === 1, "Exactly one concurrent RPC should succeed.");
-  assert(claims.filter((claim) => claim.reason === "capacity_full").length === 1, "Exactly one concurrent RPC should return capacity_full.");
-  assert((await countSessions(db, "concurrent-start")) === 1, "Concurrency must insert exactly one session.");
-  assert((await usedSlots(db, "concurrent-start")) === 1, "Concurrency must consume exactly one slot.");
+  assert(claims.every((claim) => claim.ok), "Concurrent partner screening starts should both succeed.");
+  assert((await countSessions(db, "concurrent-start")) === 2, "Concurrency must insert both screening sessions.");
+  assert((await usedSlots(db, "concurrent-start")) === 0, "Concurrent screening starts must not consume packet cap.");
 }
 
 async function verifyRpcRollbackOnInsertFailure(db) {
@@ -293,7 +293,7 @@ async function verifyReleaseOnExpiry(db) {
   const first = await db.query("select * from public.release_expired_rcap_screening_slots($1)", ["2026-06-22T00:00:00.000Z"]);
   assert(first.rows.length === 1, "First release pass must report one partner.");
   assert(first.rows[0].released_count === 1, "First release pass must release one slot.");
-  assert((await usedSlots(db, "release-once")) === 0, "Release must decrement used slots.");
+  assert((await usedSlots(db, "release-once")) === 0, "Release must not change packet cap usage.");
   assert((await slotState(db, claim.session_id)) === "released", "Release must flip claimed -> released.");
 
   const second = await db.query("select * from public.release_expired_rcap_screening_slots($1)", ["2026-06-22T00:00:00.000Z"]);
@@ -317,18 +317,18 @@ async function verifyCompletionConsumesSlot(db) {
   await seedPartner(db, "complete-one", { allowed: 2, used: 0 });
   const claim = await claimSession(db, "complete-one", "MS");
   assert(claim.ok === true, "Completion fixture claim failed.");
-  assert((await usedSlots(db, "complete-one")) === 1, "Claim must consume exactly one slot.");
+  assert((await usedSlots(db, "complete-one")) === 0, "Claim must not consume packet cap.");
 
   const consumed = await db.query("select * from public.consume_rcap_screening_session($1)", [claim.session_id]);
-  assert(consumed.rows[0].consumed === true, "Completion must consume the claimed slot.");
-  assert((await usedSlots(db, "complete-one")) === 1, "Completion must not change used slots.");
+  assert(consumed.rows[0].consumed === true, "Completion must mark the screening complete.");
+  assert((await usedSlots(db, "complete-one")) === 0, "Completion must not consume packet cap.");
   const session = await one(db, "select status, claimed_slot_state from public.screening_sessions where session_id = $1", [claim.session_id]);
   assert(session.status === "completed", "Completion must set status completed.");
-  assert(session.claimed_slot_state === "consumed", "Completion must set claimed_slot_state consumed.");
+  assert(session.claimed_slot_state === "claimed", "Completion must preserve claimed state until packet generation.");
 
   const second = await db.query("select * from public.consume_rcap_screening_session($1)", [claim.session_id]);
   assert(second.rows[0].consumed === false, "Second completion pass must no-op.");
-  assert((await usedSlots(db, "complete-one")) === 1, "Second completion pass must not change used slots.");
+  assert((await usedSlots(db, "complete-one")) === 0, "Second completion pass must not change packet cap.");
 
   await db.query(
     "update public.screening_sessions set created_at = $1, resume_token_expires_at = $2 where session_id = $3",
@@ -336,17 +336,17 @@ async function verifyCompletionConsumesSlot(db) {
   );
   const release = await db.query("select * from public.release_expired_rcap_screening_slots($1)", ["2026-06-22T00:00:00.000Z"]);
   assert(release.rows.length === 0, "Consumed session must not be releasable later.");
-  assert((await usedSlots(db, "complete-one")) === 1, "Consumed session must never be reclaimed.");
+  assert((await usedSlots(db, "complete-one")) === 0, "Completed screening must not consume packet cap.");
 }
 
 async function verifyRecomputeHelper(db) {
   await seedPartner(db, "recompute-one", { allowed: 10, used: 0 });
-  const consumed = await claimSession(db, "recompute-one", "MS");
+  const packetGenerated = await claimSession(db, "recompute-one", "MS");
   const active = await claimSession(db, "recompute-one", "MS");
   const expired = await claimSession(db, "recompute-one", "MS");
-  assert(consumed.ok && active.ok && expired.ok, "Recompute fixture claims failed.");
+  assert(packetGenerated.ok && active.ok && expired.ok, "Recompute fixture claims failed.");
 
-  await db.query("select * from public.consume_rcap_screening_session($1)", [consumed.session_id]);
+  await db.query("select * from public.record_rcap_partner_packet_generation($1)", [packetGenerated.session_id]);
   await db.query(
     "update public.screening_sessions set created_at = $1, resume_token_expires_at = $2, status = 'in_progress' where session_id = $3",
     ["2026-06-01T00:00:00.000Z", "2026-06-08T00:00:00.000Z", expired.session_id]
@@ -362,13 +362,13 @@ async function verifyRecomputeHelper(db) {
   await db.query("update public.partner_entitlement set screenings_used = 9 where partner_slug = $1", ["recompute-one"]);
 
   const first = await db.query("select * from public.recompute_rcap_partner_entitlements($1, $2)", ["recompute-one", "2026-06-22T00:00:00.000Z"]);
-  assert(first.rows[0].ledger_count === 2, "Recompute must count consumed + active-not-expired only.");
-  assert(first.rows[0].screenings_used === 2, "Recompute must converge screenings_used to the true ledger.");
-  assert((await usedSlots(db, "recompute-one")) === 2, "Recompute must persist the true ledger count.");
+  assert(first.rows[0].ledger_count === 1, "Recompute must count packet-generated sessions only.");
+  assert(first.rows[0].screenings_used === 1, "Recompute must converge screenings_used to the packet-generation ledger.");
+  assert((await usedSlots(db, "recompute-one")) === 1, "Recompute must persist packet-generation ledger count.");
   assert((await slotState(db, expired.session_id)) === "claimed", "Expired claimed row should remain claimed until release; recompute still excludes it.");
 
   const second = await db.query("select * from public.recompute_rcap_partner_entitlements($1, $2)", ["recompute-one", "2026-06-22T00:00:00.000Z"]);
-  assert(second.rows[0].ledger_count === 2 && second.rows[0].screenings_used === 2, "Recompute must be idempotent.");
+  assert(second.rows[0].ledger_count === 1 && second.rows[0].screenings_used === 1, "Recompute must be idempotent.");
 }
 
 async function verifyUsageEventNoPii() {

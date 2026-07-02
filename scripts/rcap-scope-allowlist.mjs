@@ -62,7 +62,11 @@ export const RCAP_PARTNER_MODE_FILES = [
   "supabase/phase-35-rcap-partner-entitlement.sql",
   "supabase/phase-35b-rcap-screening-session-partner-mode.sql",
   "supabase/phase-35c-rcap-claim-screening-session.sql",
-  "supabase/phase-35d-rcap-slot-lifecycle.sql"
+  "supabase/phase-35d-rcap-slot-lifecycle.sql",
+  // Phase 39 (reviewed): partner-only packet-cap semantics. Partner accounts,
+  // screening starts, and screening completion do not consume cap; packet cap
+  // is recorded only by the partner packet-generation RPC.
+  "supabase/phase-39-rcap-partner-packet-cap.sql"
 ];
 
 // Roger approved this single auth-route change: passwordResetRedirectTo() may prefer

@@ -113,13 +113,52 @@ set search_path = ''
 as $$
   with consumed_session as (
     update public.screening_sessions ss
+    set status = 'completed',
+        updated_at = now()
+    where ss.session_id = p_session_id
+      and ss.flow_mode = 'rcap'
+      and ss.partner_slug is not null
+      and ss.status <> 'completed'
+    returning ss.partner_slug, ss.claimed_slot_state, ss.status
+  )
+  select true, cs.partner_slug, cs.claimed_slot_state, cs.status
+  from consumed_session cs
+  union all
+  select false, ss.partner_slug, ss.claimed_slot_state, ss.status
+  from public.screening_sessions ss
+  where ss.session_id = p_session_id
+    and ss.flow_mode = 'rcap'
+    and not exists (select 1 from consumed_session)
+  limit 1;
+$$;
+
+comment on function public.consume_rcap_screening_session(uuid) is
+  'Marks an attributed RCAP screening session completed without consuming partner packet capacity.';
+
+create or replace function public.record_rcap_partner_packet_generation(
+  p_session_id uuid
+)
+returns table (
+  recorded boolean,
+  partner_slug text,
+  claimed_slot_state text,
+  status text,
+  screenings_used integer,
+  screenings_allowed integer
+)
+language sql
+security definer
+set search_path = ''
+as $$
+  with counted_session as (
+    update public.screening_sessions ss
     set claimed_slot_state = 'consumed',
         status = 'completed',
         updated_at = now()
     where ss.session_id = p_session_id
       and ss.flow_mode = 'rcap'
       and ss.partner_slug is not null
-      and ss.claimed_slot_state <> 'consumed'
+      and ss.claimed_slot_state = 'claimed'
       and exists (
         select 1
         from public.partner_entitlement pe
@@ -132,24 +171,37 @@ as $$
     update public.partner_entitlement pe
     set screenings_used = pe.screenings_used + 1,
         updated_at = now()
-    from consumed_session cs
+    from counted_session cs
     where pe.partner_slug = cs.partner_slug
       and pe.screenings_used < pe.screenings_allowed
-    returning pe.partner_slug
+    returning pe.partner_slug, pe.screenings_used, pe.screenings_allowed
   )
-  select true, cs.partner_slug, cs.claimed_slot_state, cs.status
-  from consumed_session cs
+  select
+    true,
+    cs.partner_slug,
+    cs.claimed_slot_state,
+    cs.status,
+    ie.screenings_used,
+    ie.screenings_allowed
+  from counted_session cs
   join incremented_entitlement ie on ie.partner_slug = cs.partner_slug
   union all
-  select false, ss.partner_slug, ss.claimed_slot_state, ss.status
+  select
+    false,
+    ss.partner_slug,
+    ss.claimed_slot_state,
+    ss.status,
+    pe.screenings_used,
+    pe.screenings_allowed
   from public.screening_sessions ss
+  left join public.partner_entitlement pe on pe.partner_slug = ss.partner_slug
   where ss.session_id = p_session_id
     and ss.flow_mode = 'rcap'
-    and not exists (select 1 from consumed_session)
+    and not exists (select 1 from counted_session)
   limit 1;
 $$;
 
-comment on function public.consume_rcap_screening_session(uuid) is
+comment on function public.record_rcap_partner_packet_generation(uuid) is
   'Consumes one partner packet-cap unit exactly once when a partner-covered packet is generated.';
 
 create or replace function public.release_expired_rcap_screening_slots(
@@ -238,3 +290,27 @@ $$;
 
 comment on function public.recompute_rcap_partner_entitlements(text, timestamptz) is
   'Rebuilds partner_entitlement.screenings_used from consumed partner packet-generation sessions only.';
+
+revoke all on function public.claim_rcap_screening_session(text, text) from public;
+revoke all on function public.consume_rcap_screening_session(uuid) from public;
+revoke all on function public.record_rcap_partner_packet_generation(uuid) from public;
+revoke all on function public.release_expired_rcap_screening_slots(timestamptz) from public;
+revoke all on function public.recompute_rcap_partner_entitlements(text, timestamptz) from public;
+
+revoke all on function public.claim_rcap_screening_session(text, text) from anon;
+revoke all on function public.consume_rcap_screening_session(uuid) from anon;
+revoke all on function public.record_rcap_partner_packet_generation(uuid) from anon;
+revoke all on function public.release_expired_rcap_screening_slots(timestamptz) from anon;
+revoke all on function public.recompute_rcap_partner_entitlements(text, timestamptz) from anon;
+
+revoke all on function public.claim_rcap_screening_session(text, text) from authenticated;
+revoke all on function public.consume_rcap_screening_session(uuid) from authenticated;
+revoke all on function public.record_rcap_partner_packet_generation(uuid) from authenticated;
+revoke all on function public.release_expired_rcap_screening_slots(timestamptz) from authenticated;
+revoke all on function public.recompute_rcap_partner_entitlements(text, timestamptz) from authenticated;
+
+grant execute on function public.claim_rcap_screening_session(text, text) to service_role;
+grant execute on function public.consume_rcap_screening_session(uuid) to service_role;
+grant execute on function public.record_rcap_partner_packet_generation(uuid) to service_role;
+grant execute on function public.release_expired_rcap_screening_slots(timestamptz) to service_role;
+grant execute on function public.recompute_rcap_partner_entitlements(text, timestamptz) to service_role;
