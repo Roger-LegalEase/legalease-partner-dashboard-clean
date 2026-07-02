@@ -30,6 +30,17 @@ export async function consumeRcapScreeningSession(sessionId: string): Promise<Rc
   }
 }
 
+export function shouldConsumePartnerPacketCap(input: {
+  isPartnerCovered: boolean;
+  packetWasAlreadyReady: boolean;
+}) {
+  return input.isPartnerCovered && !input.packetWasAlreadyReady;
+}
+
+export async function recordPartnerPacketUsage(sessionId: string): Promise<RcapSlotLifecycleResult> {
+  return consumeRcapScreeningSession(sessionId);
+}
+
 export async function releaseExpiredRcapScreeningSlots(now?: string): Promise<RcapSlotLifecycleResult> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, error: "supabase_not_configured" };

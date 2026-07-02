@@ -3,6 +3,7 @@ import {
   claimRcapPartnerScreeningSession,
   resolveRcapPartnerIntakeContext
 } from "@/lib/expungement-ai/rcap-partner-intake";
+import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 
 const UPL_DISCLAIMER =
   "Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.";
@@ -32,7 +33,10 @@ export default async function RcapPartnerIntakePage({
 }) {
   const [{ partnerSlug }, search] = await Promise.all([params, searchParams]);
   const status = typeof search.status === "string" ? search.status : "";
-  const context = await resolveRcapPartnerIntakeContext(partnerSlug);
+  const [context, auth] = await Promise.all([
+    resolveRcapPartnerIntakeContext(partnerSlug),
+    getRcapBriefcaseAuthState()
+  ]);
 
   if (!context) {
     return (
@@ -75,11 +79,11 @@ export default async function RcapPartnerIntakePage({
             </span>
 
             <h1 className="mt-5 text-[30px] font-black leading-[1.12] tracking-[-0.01em] text-[#0B1320] md:text-[40px]">
-              Start your {state} record-clearing check
+              {context.organizationName} × LegalEase
             </h1>
             <p className="mt-4 max-w-xl text-[15.5px] leading-7 text-[#475A6E] md:text-[16.5px]">
-              Answer a few private questions to see whether a record-clearing path may be available.
-              This screening is powered by Expungement.ai through {context.organizationName}.
+              Create a free account to save your answers, access your Briefcase, and receive
+              support through {context.organizationName}. Then start your {state} record-clearing screening.
             </p>
 
             <ul className="mt-6 flex flex-wrap gap-2.5">
@@ -96,21 +100,25 @@ export default async function RcapPartnerIntakePage({
               screeningState={state}
             />
 
-            <form action={startRcapPartnerScreening} className="mt-8">
-              <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
-              <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
-              <button
-                type="submit"
-                className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
-              >
-                Start screening
-                <span aria-hidden="true">&rarr;</span>
-              </button>
-              <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
-                You can stop at any time. Your answers are used to guide this screening and prepare
-                next steps.
-              </p>
-            </form>
+            {auth.isAuthenticated ? (
+              <form action={startRcapPartnerScreening} className="mt-8">
+                <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
+                <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+                <button
+                  type="submit"
+                  className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
+                >
+                  Start your record-clearing screening
+                  <span aria-hidden="true">&rarr;</span>
+                </button>
+                <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
+                  Your screening happens inside your account so your answers, result, next steps, and
+                  Briefcase stay available even if no packet path is available right now.
+                </p>
+              </form>
+            ) : (
+              <AccountFirstActions partnerSlug={context.partnerSlug} />
+            )}
           </div>
 
           <div className="border-t border-[#F0ECE3] bg-[#FBF8F2] px-7 py-4 md:px-10">
@@ -119,6 +127,35 @@ export default async function RcapPartnerIntakePage({
         </div>
       </section>
     </PageShell>
+  );
+}
+
+function AccountFirstActions({ partnerSlug }: { partnerSlug: string }) {
+  const next = `/intake/${encodeURIComponent(partnerSlug)}`;
+  const createHref = `/expungement-ai/sign-in?mode=create&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
+  const signInHref = `/expungement-ai/sign-in?mode=signin&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
+  return (
+    <div className="mt-8 rounded-[20px] border border-[#EFE9DD] bg-[#FCFAF5] p-4">
+      <h2 className="text-[18px] font-black text-[#0B1320]">Create your free Briefcase</h2>
+      <p className="mt-2 text-[14px] leading-6 text-[#475A6E]">
+        Partner participants sign in before screening so their answers and next steps are saved.
+        Creating an account, verifying email, and completing screening do not count against the partner packet cap.
+      </p>
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+        <a
+          href={createHref}
+          className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[15px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+        >
+          Start your record-clearing screening
+        </a>
+        <a
+          href={signInHref}
+          className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] border border-[#D7DEE8] bg-white px-6 py-3.5 text-[15px] font-extrabold text-[#0B1320] transition hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
+        >
+          Sign in to continue
+        </a>
+      </div>
+    </div>
   );
 }
 
