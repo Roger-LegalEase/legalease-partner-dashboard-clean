@@ -1,26 +1,24 @@
 import fs from "node:fs";
-import Module from "node:module";
 import path from "node:path";
 import crypto from "node:crypto";
-import { createRequire } from "node:module";
+import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 import { PGlite } from "@electric-sql/pglite";
 
-const require = createRequire(import.meta.url);
-const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const moduleCache = new Map();
 const failures = [];
 let rcapPaymentRoutingStatus = "pending-on-prompt-3";
 
-const persistence = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/screening-session-persistence.ts"));
-const { evaluateExpungementAiMatter } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/expungement-ai-adapter.ts"));
-const { getProfileByJurisdiction } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/profile-registry.ts"));
-const { projectPublicProfile } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/public-profile-projection.ts"));
-const { toScreeningAnswers } = loadTsModule(path.join(rootDir, "src/components/expungement-ai/screening/answers.ts"));
-const { buildPartnerUsageWindowEventPayload } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/nudge-os-events.ts"));
-const { saveEligibilityResultToBriefcase } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/briefcase.ts"));
-const { ConsumerPacketPaymentRequiredError, generatePaidConsumerPacket } = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/packet-generation.ts"));
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const persistence = await import("../src/lib/expungement-ai/screening-session-persistence.ts");
+const { evaluateExpungementAiMatter } = await import("../src/lib/rcap-engine/expungement-ai-adapter.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+const { toScreeningAnswers } = await import("../src/components/expungement-ai/screening/answers.ts");
+const { buildPartnerUsageWindowEventPayload } = await import("../src/lib/expungement-ai/nudge-os-events.ts");
+const { saveEligibilityResultToBriefcase } = await import("../src/lib/expungement-ai/briefcase.ts");
+const { ConsumerPacketPaymentRequiredError, generatePaidConsumerPacket } = await import("../src/lib/expungement-ai/packet-generation.ts");
 
 try {
   rcapPaymentRoutingStatus = verifySourceWiring();
@@ -89,6 +87,8 @@ function verifySourceWiring() {
   const checkoutRoute = read("src/app/api/expungement-ai/checkout/route.ts");
   const paymentConfirmRoute = read("src/app/api/expungement-ai/payment/confirm/route.ts");
   const packetGenerateRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
+  const pendingCreateRoute = read("src/app/api/expungement-ai/screening/pending/route.ts");
+  const pendingClaimRoute = read("src/app/api/expungement-ai/screening/pending/claim/route.ts");
   const saveResumeRoute = read("src/app/api/expungement-ai/screening/save-resume/route.ts");
   const resumeConfirmRoute = read("src/app/api/expungement-ai/screening/resume/confirm/route.ts");
   const frontendEvaluate = read("src/lib/expungement-ai/frontend/evaluate.ts");
@@ -115,27 +115,31 @@ function verifySourceWiring() {
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
 
-  assert(screeningFlow.includes("onPacketAction={() => void handlePacketAction()}"), "RCAP screening flow must still define a packet action (handlePacketAction: DTC -> PACKET_PATH, partner/session -> save then BRIEFCASE_PATH).");
-  assert(screeningFlow.includes("router.push(PACKET_PATH)") && screeningFlow.includes("router.push(BRIEFCASE_PATH)"), "RCAP packet action must keep DTC PACKET_PATH and partner BRIEFCASE_PATH routes.");
+  assert(screeningFlow.includes("onPacketAction={() => void handlePacketAction()}"), "RCAP screening flow must still define a packet action.");
+  assert(screeningFlow.includes("/api/expungement-ai/screening/save-result"), "DTC packet action must save the completed result before payment.");
+  assert(screeningFlow.includes("/api/expungement-ai/screening/pending"), "Anonymous DTC packet action must persist a server-side pending result before auth.");
+  assert(screeningFlow.includes('next: "/expungement-ai/pay"'), "Anonymous DTC packet action must preserve payment as the next destination.");
+  assert(screeningFlow.includes("router.push(BRIEFCASE_PATH)"), "Partner/session packet action must route to Briefcase.");
+  assert(screeningFlow.includes("sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined"), "DTC saves must not carry a partner source session.");
   assert(!screeningFlow.includes("payment-adapter"), "RCAP screening flow must not invoke payment adapter.");
   assert(!screeningFlow.includes("payment-confirm"), "RCAP screening flow must not invoke payment-confirm.");
-  const rcapPaymentRoutingStatus = screeningFlow.includes('const PACKET_PATH = "/expungement-ai/pay";')
-    ? "pending-on-prompt-3"
-    : (() => {
-        assert(screeningFlow.includes('const PACKET_PATH = "/expungement-ai/packet-ready";'), "RCAP screening flow must route directly to packet-ready once Prompt 3 lands.");
-        assert(!screeningFlow.includes("/expungement-ai/pay"), "RCAP screening flow must not route to pay once Prompt 3 lands.");
-        return "pass";
-      })();
+  const rcapPaymentRoutingStatus = "pass";
 
   assert(resultPanel.includes('href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`'), "DTC result panel must still route packet-ready results to pay.");
   assert(screeningResult.includes("showPacketAction = isPaymentAllowed(evaluation);"), "ScreeningFlow result UI must still clamp payment display to paymentAllowed.");
+  assert(screeningResult.includes('hasScreeningSession ? translate("result.save_briefcase", "Continue to my Briefcase") : translate("payment.generate_packet", "Generate my packet - $50")'), "Partner-covered result CTA must say Continue to my Briefcase while DTC says Generate my packet - $50.");
+  assert(screeningResult.includes("result.partner_no_pay"), "Partner-covered result must show no-payment supporting copy.");
+  assert(!screeningResult.includes("Generate my packet - $50") || screeningResult.includes("hasScreeningSession ?"), "DTC $50 copy must remain behind the non-partner branch.");
   assert(payPage.includes("assertCheckoutAllowed(item);"), "Pay page must still gate checkout through payment adapter.");
   assert(payPage.includes("Open this page from a packet-ready Briefcase result to start checkout."), "Pay page routing copy missing.");
   assert(packetReadyPage.includes("payment confirmation or explicit dry-run confirmation"), "Packet-ready page must still confirm payment before showing ready state.");
   assert(dtcStartPage.includes("Start free &rarr;"), "DTC start page must still route into the normal consumer check flow.");
-  assert(dtcStartPage.includes("/expungement-ai/check"), "DTC start page must still link into the existing check flow.");
+  assert(dtcStartPage.includes("/expungement-ai/screening"), "DTC start page must still link into the existing screening flow.");
   assert(checkoutRoute.includes("createConsumerPacketCheckout"), "Checkout route must invoke consumer packet checkout.");
   assert(paymentConfirmRoute.includes("recordConsumerPaymentConfirmation"), "Payment confirm route must invoke payment confirmation.");
+  assert(pendingCreateRoute.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist explicit DTC/partner source attribution.");
+  assert(pendingClaimRoute.includes('data.product === "rcap_partner" || !item.paymentAllowed'), "Pending claim must bypass Stripe for partner-covered results only.");
+  assert(pendingClaimRoute.includes('/expungement-ai/pay?briefcaseItemId='), "Pending claim must send DTC results to the payment gate.");
   assert(packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation route must invoke paid packet generation.");
   assert(saveResumeRoute.includes("saveScreeningResumeLink"), "Save-resume route must stay wired.");
   assert(resumeConfirmRoute.includes("confirmScreeningResume"), "Resume-confirm route must stay wired.");
@@ -772,56 +776,4 @@ function restoreEnv(key, value) {
 
 function read(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
-}
-
-function loadTsModule(filename) {
-  const resolved = path.resolve(filename);
-  const cached = moduleCache.get(resolved);
-  if (cached) return cached.exports;
-
-  const source = fs.readFileSync(resolved, "utf8");
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      esModuleInterop: true,
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2022
-    }
-  }).outputText;
-
-  const mod = new Module(resolved);
-  mod.filename = resolved;
-  mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  moduleCache.set(resolved, mod);
-  mod.require = (request) => {
-    if (request === "server-only") return {};
-    const nextFile = resolveTsRequest(request, path.dirname(resolved));
-    if (nextFile?.endsWith(".json")) return require(nextFile);
-    return nextFile ? loadTsModule(nextFile) : require(request);
-  };
-  mod._compile(transpiled, resolved);
-  return mod.exports;
-}
-
-function resolveTsRequest(request, basedir) {
-  if (request.startsWith("@/")) {
-    const candidate = path.join(rootDir, "src", request.slice(2));
-    return resolveExistingModuleFile(candidate);
-  }
-
-  if (request.startsWith(".")) {
-    return resolveExistingModuleFile(path.resolve(basedir, request));
-  }
-
-  return null;
-}
-
-function resolveExistingModuleFile(candidate) {
-  for (const extension of [".ts", ".tsx", ".js", ".json"]) {
-    if (fs.existsSync(`${candidate}${extension}`)) return `${candidate}${extension}`;
-  }
-  for (const indexFile of ["index.ts", "index.tsx", "index.js"]) {
-    const file = path.join(candidate, indexFile);
-    if (fs.existsSync(file)) return file;
-  }
-  return null;
 }

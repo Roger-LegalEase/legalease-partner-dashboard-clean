@@ -113,7 +113,11 @@ function assertNoRestrictedChanges() {
     // NEXT_PUBLIC_PARTNER_APP_URL and fall back to NEXT_PUBLIC_APP_URL so partner password-reset
     // links use https://legaleasepartner.com. Scoped to that one-line redirect-base change only —
     // no token, session, or Supabase auth logic — and to this one file. Do not broaden it.
-    "src/app/auth/forgot-password/page.tsx"
+    "src/app/auth/forgot-password/page.tsx",
+    // Expungement.ai DTC release gate: auth confirmation claims pending screening results and
+    // Phase 38 is migration-file-only until Roger approves applying it in Supabase.
+    "src/app/auth/set-password/page.tsx",
+    "supabase/phase-38-expungement-pending-screening-results.sql"
   ]);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))

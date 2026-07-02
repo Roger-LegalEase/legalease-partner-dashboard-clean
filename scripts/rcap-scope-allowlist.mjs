@@ -73,6 +73,14 @@ export const ROGER_APPROVED_PARTNER_RESET_URL_FILES = [
   "src/app/auth/forgot-password/page.tsx"
 ];
 
+// Reviewed for Expungement.ai DTC release gate: auth confirmation may claim a pending DTC
+// screening result and continue to payment; Phase 38 is a migration file only and must not be
+// applied to production except through Roger-approved DB process.
+export const DTC_PENDING_RESULT_RELEASE_GATE_FILES = [
+  "src/app/auth/set-password/page.tsx",
+  "supabase/phase-38-expungement-pending-screening-results.sql"
+];
+
 // Reviewed for PR #68: the We Must Vote Mississippi sponsored packet bridge connects
 // Expungement.ai Briefcase artifacts to the existing Mississippi packet information flow.
 // Keep this scoped to the exact files touched by that bridge; do not allow directories.
@@ -98,5 +106,6 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SCREENING_DROP_POINT_NUDGE_FILES,
   ...RCAP_PARTNER_MODE_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
+  ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
   ...MS_SPONSORED_PACKET_BRIDGE_FILES
 ];
