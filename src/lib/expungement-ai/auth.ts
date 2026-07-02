@@ -8,11 +8,12 @@ export type ConsumerBriefcaseSession = RcapBriefcaseAuthState & {
   userId: string;
 };
 
-export async function requireConsumerBriefcaseSession(): Promise<ConsumerBriefcaseSession> {
+export async function requireConsumerBriefcaseSession(nextPath?: string): Promise<ConsumerBriefcaseSession> {
   const auth = await getRcapBriefcaseAuthState();
 
   if (!auth.isAuthenticated) {
-    redirect("/expungement-ai/sign-in");
+    const next = nextPath && nextPath.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/briefcase";
+    redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`);
   }
 
   return auth as ConsumerBriefcaseSession;

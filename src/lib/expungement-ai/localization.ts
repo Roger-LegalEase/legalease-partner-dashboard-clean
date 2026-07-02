@@ -252,10 +252,19 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "nav.pricing": { en: "Pricing", es: "Precio" },
   "nav.start_free": { en: "Start free", es: "Comenzar gratis" },
   "signin.account": { en: "Your Expungement.ai account", es: "Su cuenta de Expungement.ai" },
+  "signin.create_title": { en: "Create your account", es: "Cree su cuenta" },
+  "signin.create_body": {
+    en: "Create an account to save your result, continue to checkout, and return to your packet in your Briefcase.",
+    es: "Cree una cuenta para guardar su resultado, continuar al pago y volver a su paquete en su Maletín."
+  },
+  "signin.create_submit": { en: "Create account and continue", es: "Crear cuenta y continuar" },
+  "signin.creating": { en: "Creating account...", es: "Creando cuenta..." },
+  "signin.switch_to_signin": { en: "Already have an account? Sign in", es: "¿Ya tiene una cuenta? Inicie sesión" },
+  "signin.switch_to_create": { en: "New here? Create account", es: "¿Es nuevo aquí? Cree una cuenta" },
   "signin.title": { en: "Sign in to continue", es: "Inicie sesión para continuar" },
   "signin.body": {
-    en: "Sign in to save your record-clearing result, return to your Briefcase, and keep your next steps in one place.",
-    es: "Inicie sesión para guardar su resultado de limpieza de antecedentes, volver a su Maletín y mantener sus próximos pasos en un solo lugar."
+    en: "Sign in to return to your Briefcase and continue where you left off.",
+    es: "Inicie sesión para volver a su Maletín y continuar donde se quedó."
   },
   "signin.disclaimer": {
     en: "Expungement.ai is self-help software, not a law firm. Court approval is not guaranteed.",
@@ -264,6 +273,14 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "signin.error": {
     en: "We could not sign you in. Check your email and password and try again.",
     es: "No pudimos iniciar sesión. Revise su correo electrónico y contraseña e intente de nuevo."
+  },
+  "signin.create_error": {
+    en: "We could not create your account. Check your email and password and try again.",
+    es: "No pudimos crear su cuenta. Revise su correo electrónico y contraseña e intente de nuevo."
+  },
+  "signin.confirm_email": {
+    en: "Check your email to finish creating your account.",
+    es: "Revise su correo electrónico para terminar de crear su cuenta."
   },
   "signin.signing_in": { en: "Signing in...", es: "Iniciando sesión..." },
   "signin.forgot": { en: "Forgot your password?", es: "¿Olvidó su contraseña?" },

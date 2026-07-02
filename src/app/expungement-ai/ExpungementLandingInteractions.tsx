@@ -63,7 +63,7 @@ export function ExpungementLandingInteractions({
       });
     }
 
-    const applyLanguage = (lang: "en" | "es") => {
+    const applyLanguage = (lang: "en" | "es", options: { persist?: boolean } = {}) => {
       const dictionary = lang === "es" ? dictionaries.es : dictionaries.en;
       const setHtmlContent = (element: Element, value: string) => {
         element.innerHTML = value;
@@ -88,7 +88,11 @@ export function ExpungementLandingInteractions({
         item.classList.toggle("on", on);
         item.setAttribute("aria-pressed", String(on));
       });
-      persistExpungementLocale(lang);
+      if (options.persist) {
+        persistExpungementLocale(lang);
+      } else {
+        document.documentElement.setAttribute("lang", lang);
+      }
     };
 
     const initialLanguage = (() => {
@@ -103,9 +107,16 @@ export function ExpungementLandingInteractions({
     })();
     applyLanguage(initialLanguage);
 
+    const onSharedLanguageChange = (event: Event) => {
+      const lang = event instanceof CustomEvent && event.detail?.locale === "es" ? "es" : "en";
+      applyLanguage(lang);
+    };
+    window.addEventListener("expungement-ai:language-change", onSharedLanguageChange);
+    cleanup.push(() => window.removeEventListener("expungement-ai:language-change", onSharedLanguageChange));
+
     document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((button) => {
       const onLanguageClick = () => {
-        applyLanguage(button.getAttribute("data-lang") === "es" ? "es" : "en");
+        applyLanguage(button.getAttribute("data-lang") === "es" ? "es" : "en", { persist: true });
       };
       button.addEventListener("click", onLanguageClick);
       cleanup.push(() => button.removeEventListener("click", onLanguageClick));

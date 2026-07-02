@@ -37,7 +37,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
             </Link>
             <Link
               className="inline-flex min-h-10 items-center gap-2 rounded-md border border-[#E4E8EF] px-3 text-sm font-semibold text-[#0B1320] hover:bg-[#F1F4F9]"
-              href="/expungement-ai/sign-in"
+              href="/expungement-ai/sign-in?mode=signin"
             >
               <LogIn className="h-4 w-4" aria-hidden="true" />
               <LocalizedText k="common.sign_in" fallback="Sign in" />
@@ -59,7 +59,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
           <Link href="/briefcase"><LocalizedText k="briefcase.label" fallback="Briefcase" /></Link>
         </div>
         <div className="flex items-center gap-2">
-          <Link className="hidden min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:inline-flex" href="/expungement-ai/sign-in">
+          <Link className="hidden min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:inline-flex" href="/expungement-ai/sign-in?mode=signin">
             <LogIn className="h-4 w-4" aria-hidden="true" />
             <LocalizedText k="common.sign_in" fallback="Sign in" />
           </Link>

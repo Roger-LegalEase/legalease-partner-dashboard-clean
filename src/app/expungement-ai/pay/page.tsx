@@ -11,8 +11,8 @@ export default async function PayPage({
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const auth = await requireConsumerBriefcaseSession();
   const params = (await searchParams) ?? {};
+  const auth = await requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`);
   const briefcaseItemId = value(params.briefcaseItemId);
   const item = briefcaseItemId ? await getBriefcaseItem(auth.userId, briefcaseItemId) : null;
   const checkoutAllowed = Boolean(item);
@@ -86,4 +86,14 @@ export default async function PayPage({
 
 function value(input: string | string[] | undefined) {
   return Array.isArray(input) ? input[0] : input;
+}
+
+function queryString(params: Record<string, string | string[] | undefined>) {
+  const search = new URLSearchParams();
+  for (const [key, input] of Object.entries(params)) {
+    const item = value(input);
+    if (item) search.set(key, item);
+  }
+  const text = search.toString();
+  return text ? `?${text}` : "";
 }

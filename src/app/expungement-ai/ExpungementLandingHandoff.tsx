@@ -86,16 +86,16 @@ export function ExpungementLandingHandoff() {
     // files-20 is a raw design: it ships several primary CTAs and the nav "Log in" as
     // placeholder href="#" stubs (files-12 wired these to real destinations). Re-map them to
     // the live targets so nothing ships as a dead link — same destinations as the prior build:
-    //   nav "Log in"         -> /expungement-ai/sign-in
+    //   nav "Log in"         -> /expungement-ai/sign-in?mode=signin
     //   "Start the free check" / "Preview the Briefcase" -> the screening funnel
     //   "View sample packet"  -> the isolated demo modal (carries [data-sample-packet-trigger])
     .replaceAll(
       '<a href="#" class="navlogin" data-i18n="nav_login">',
-      '<a href="/expungement-ai/sign-in" class="navlogin" data-i18n="nav_login">'
+      '<a href="/expungement-ai/sign-in?mode=signin" class="navlogin" data-i18n="nav_login">'
     )
     .replaceAll(
       '<a href="#" data-i18n="nav_login">',
-      '<a href="/expungement-ai/sign-in" data-i18n="nav_login">'
+      '<a href="/expungement-ai/sign-in?mode=signin" data-i18n="nav_login">'
     )
     .replaceAll(
       '<a href="#" class="btn btn-primary" data-i18n-html="elig_cta">',

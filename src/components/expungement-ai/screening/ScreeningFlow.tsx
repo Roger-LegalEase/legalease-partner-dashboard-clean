@@ -261,7 +261,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       if (response.status === 401) {
         // Preserve the intent to save, then send the user to sign in and come back to Briefcase.
         window.sessionStorage.setItem("expungement-ai:pending-briefcase-save", JSON.stringify(payload));
-        router.push("/expungement-ai/sign-in?next=/briefcase");
+        router.push("/expungement-ai/sign-in?mode=create&next=/briefcase");
         return;
       }
     } catch {

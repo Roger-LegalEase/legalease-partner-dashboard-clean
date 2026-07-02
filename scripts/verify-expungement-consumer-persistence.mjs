@@ -47,7 +47,10 @@ const adapterSource = read("src/lib/expungement-ai/eligibility-adapter.ts");
 const migrationSource = exists(migrationPath) ? read(migrationPath) : "";
 
 assert(packageSource.includes('"expungement:verify-consumer-persistence"'), "Missing expungement:verify-consumer-persistence npm script.");
-assert(authSource.includes('redirect("/expungement-ai/sign-in")'), "Logged-out Briefcase users must redirect to /expungement-ai/sign-in.");
+assert(
+  authSource.includes('redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`)'),
+  "Logged-out Briefcase users must redirect to create-account mode with a safe next path."
+);
 assert(authSource.includes("getRcapBriefcaseAuthState"), "Consumer auth guard must reuse existing session utility.");
 
 for (const route of briefcaseRoutes) {
@@ -97,9 +100,22 @@ for (const file of changedFiles) {
     "src/lib/expungement-ai/checkout-reconciliation.ts",
     "src/lib/expungement-ai/packet-generation.ts",
     "src/lib/expungement-ai/payment-adapter.ts",
+    "src/lib/expungement-ai/auth.ts",
+    "src/lib/expungement-ai/localization.ts",
+    "src/app/expungement-ai/ExpungementLandingInteractions.tsx",
+    "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
+    "src/app/expungement-ai/sign-in/page.tsx",
+    "src/app/expungement-ai/pay/page.tsx",
+    "src/app/expungement-ai/packet-ready/page.tsx",
+    "src/components/expungement-ai/BriefcaseViews.tsx",
+    "src/components/expungement-ai/ConsumerNav.tsx",
+    "src/components/expungement-ai/ConsumerSignInForm.tsx",
+    "src/components/expungement-ai/screening/ScreeningFlow.tsx",
     "scripts/verify-expungement-consumer-checkout.mjs",
     "scripts/verify-expungement-consumer-adapter.mjs",
-    "scripts/verify-expungement-consumer-persistence.mjs"
+    "scripts/verify-expungement-consumer-persistence.mjs",
+    "scripts/verify-expungement-mobile-locale-hotfix.mjs",
+    "scripts/verify-expungement-auth-locale-conversion-hotfix.mjs"
   ].includes(file)) continue;
   if (file === migrationPath) continue;
   if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
@@ -125,7 +141,7 @@ if (failures.length) {
 }
 
 console.log("Expungement.ai consumer persistence verification passed.");
-console.log("Briefcase routes redirect logged-out users to /expungement-ai/sign-in.");
+console.log("Briefcase routes redirect logged-out users to create-account mode with safe next paths.");
 console.log("Consumer Briefcase adapter create/list/get/update methods are present.");
 console.log("consumer_briefcase_items migration exists with owner-scoped RLS.");
 console.log("Partner, Stripe, Supabase global auth, billing, secrets, and deployment files are untouched.");

@@ -172,8 +172,8 @@ export function BriefcaseAuthGate() {
         <p className="text-xs font-bold uppercase text-[#00A99D]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
         <h1 className="mt-3 text-3xl font-extrabold"><LocalizedText k="briefcase.sign_in_title" fallback="Sign in to open your Briefcase" /></h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase." /></p>
-        <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in">
-          <LocalizedText k="common.sign_in" fallback="Sign in" />
+        <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in?mode=create&next=/briefcase">
+          <LocalizedText k="signin.create_submit" fallback="Create account and continue" />
         </a>
       </section>
       <WilmaBubble context="briefcase" />
