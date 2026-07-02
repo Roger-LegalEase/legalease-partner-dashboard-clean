@@ -36,6 +36,7 @@ const profileLoader = read("src/lib/expungement-ai/frontend/profile-loader.ts");
 const screeningFlow = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
 const localizationProvider = read("src/components/expungement-ai/LocalizationProvider.tsx");
 const landingInteractions = read("src/app/expungement-ai/ExpungementLandingInteractions.tsx");
+const localeController = read("src/app/expungement-ai/landing-locale-controller.ts");
 const profileRoute = read("src/app/api/expungement-ai/profiles/[state]/route.ts");
 
 assertIncludes(profileLoader, 'fetchJsonWithTimeout(`/api/expungement-ai/profiles/${encodeURIComponent(key)}`', "profile-loader live endpoint");
@@ -52,10 +53,13 @@ assertIncludes(screeningFlow, 'translate("common.try_again", "Try again")', "Scr
 assertIncludes(screeningFlow, 'translate("screening.malformed_title"', "ScreeningFlow calm error state");
 
 assertIncludes(localizationProvider, "setLocale: (locale: Locale) => void", "LocalizationProvider controlled setter");
-assertIncludes(localizationProvider, 'window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)', "LocalizationProvider explicit locale persistence");
-assertIncludes(localizationProvider, "new CustomEvent(LOCALE_EVENT_NAME", "LocalizationProvider locale event detail");
-assertIncludes(landingInteractions, "persistExpungementLocale(normalizedLang)", "landing language toggle shared persistence");
-assert(!localizationProvider.includes("removeItem(LOCALE_STORAGE_KEY"), "English must be persisted explicitly, not represented by removing Spanish state.");
+assertIncludes(localizationProvider, "persistExpungementLocaleValue(nextLocale)", "LocalizationProvider explicit locale persistence");
+assertIncludes(localizationProvider, "new CustomEvent(EXPUNGEMENT_LOCALE_EVENT_NAME", "LocalizationProvider locale event detail");
+assertIncludes(landingInteractions, "applyExpungementLocale", "landing language toggle shared controller");
+assertIncludes(localeController, 'EXPUNGEMENT_LOCALE_STORAGE_KEY = "exp_lang"', "single Expungement.ai locale key");
+assertIncludes(localeController, "window.localStorage.setItem(EXPUNGEMENT_LOCALE_STORAGE_KEY, nextLocale)", "shared controller explicit locale persistence");
+assertIncludes(localeController, "window.localStorage.removeItem(key)", "shared controller legacy stale key cleanup");
+assert(!localeController.includes("navigator.language"), "Locale controller must not use browser language.");
 
 assertIncludes(profileRoute, '"Cache-Control": "no-store, max-age=0"', "profile endpoint cache control");
 

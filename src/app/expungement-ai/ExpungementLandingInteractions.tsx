@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { persistExpungementLocale } from "@/components/expungement-ai/LocalizationProvider";
+import {
+  applyExpungementLocale,
+  EXPUNGEMENT_LOCALE_EVENT_NAME,
+  readSavedExpungementLocale
+} from "@/app/expungement-ai/landing-locale-controller";
+import type { Locale } from "@/lib/expungement-ai/localization";
 
 export function ExpungementLandingInteractions({
   dictionaries
@@ -63,56 +68,22 @@ export function ExpungementLandingInteractions({
       });
     }
 
-    const applyLanguage = (lang: "en" | "es", options: { persist?: boolean } = {}) => {
-      const normalizedLang = lang === "es" ? "es" : "en";
-      const root = document.documentElement;
-      const dictionary = normalizedLang === "es" ? dictionaries.es : dictionaries.en;
-      const setHtmlContent = (element: Element, value: string) => {
-        element.innerHTML = value;
-      };
-      const setTextContent = (element: Element, value: string) => {
-        element.textContent = value;
-      };
-
-      document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((element) => {
-        const key = element.getAttribute("data-i18n") ?? "";
-        const value = dictionary[key];
-        if (typeof value === "string") setTextContent(element, value);
+    const applyLanguage = (lang: Locale, options: { persist?: boolean; dispatch?: boolean } = {}) => {
+      applyExpungementLocale(lang, {
+        dictionaries,
+        persist: options.persist,
+        dispatch: options.dispatch
       });
-      document.querySelectorAll<HTMLElement>("[data-i18n-html]").forEach((element) => {
-        const key = element.getAttribute("data-i18n-html") ?? "";
-        const value = dictionary[key];
-        if (typeof value === "string") setHtmlContent(element, value);
-      });
-      root.setAttribute("lang", normalizedLang);
-      root.dataset.expungementAiLocale = normalizedLang;
-      document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((item) => {
-        const on = item.getAttribute("data-lang") === normalizedLang;
-        item.classList.toggle("on", on);
-        item.setAttribute("aria-pressed", String(on));
-      });
-      if (options.persist) {
-        persistExpungementLocale(normalizedLang);
-      }
     };
 
-    const initialLanguage = (() => {
-      try {
-        const saved = window.localStorage.getItem("exp_lang");
-        if (saved === "es" || saved === "en") return saved;
-      } catch {
-        // Ignore storage failures; fall back below.
-      }
-      return "en";
-    })();
-    applyLanguage(initialLanguage);
+    applyLanguage(readSavedExpungementLocale(), { persist: false, dispatch: false });
 
     const onSharedLanguageChange = (event: Event) => {
       const lang = event instanceof CustomEvent && event.detail?.locale === "es" ? "es" : "en";
-      applyLanguage(lang);
+      applyLanguage(lang, { persist: false, dispatch: false });
     };
-    window.addEventListener("expungement-ai:language-change", onSharedLanguageChange);
-    cleanup.push(() => window.removeEventListener("expungement-ai:language-change", onSharedLanguageChange));
+    window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onSharedLanguageChange);
+    cleanup.push(() => window.removeEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onSharedLanguageChange));
 
     document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((button) => {
       const onLanguageClick = () => {
@@ -152,7 +123,7 @@ export function ExpungementLandingInteractions({
     return () => {
       cleanup.forEach((dispose) => dispose());
     };
-  }, [dictionaries.en, dictionaries.es]);
+  }, [dictionaries]);
 
   return null;
 }

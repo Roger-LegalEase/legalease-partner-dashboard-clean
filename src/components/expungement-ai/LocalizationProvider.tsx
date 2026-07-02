@@ -1,6 +1,12 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  EXPUNGEMENT_LOCALE_EVENT_NAME,
+  EXPUNGEMENT_LOCALE_STORAGE_KEY,
+  persistExpungementLocaleValue,
+  readSavedExpungementLocale
+} from "@/app/expungement-ai/landing-locale-controller";
 import { DEFAULT_LOCALE, normalizeLocale, resolveRuntimeText, t, type Locale } from "@/lib/expungement-ai/localization";
 
 type LocalizationContextValue = {
@@ -17,20 +23,9 @@ const LocalizationContext = createContext<LocalizationContextValue>({
   text: (value, options) => resolveRuntimeText(DEFAULT_LOCALE, value, options)
 });
 
-const LOCALE_STORAGE_KEY = "exp_lang";
-const LOCALE_EVENT_NAME = "expungement-ai:language-change";
-
 function initialLocale(): Locale {
   if (typeof window === "undefined") return DEFAULT_LOCALE;
-  try {
-    const saved = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-    if (saved) return normalizeLocale(saved);
-  } catch {
-    // Ignore storage failures; default to English.
-  }
-  const docLang = document.documentElement.lang;
-  if (docLang?.toLowerCase().startsWith("es")) return "es";
-  return DEFAULT_LOCALE;
+  return readSavedExpungementLocale();
 }
 
 export function LocalizationProvider({ children }: { children: ReactNode }) {
@@ -38,7 +33,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
-      if (event.key === LOCALE_STORAGE_KEY) setLocale(normalizeLocale(event.newValue));
+      if (event.key === EXPUNGEMENT_LOCALE_STORAGE_KEY) setLocale(normalizeLocale(event.newValue));
     };
     const onLanguage = (event: Event) => {
       const nextLocale = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : initialLocale();
@@ -46,10 +41,10 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
     };
 
     window.addEventListener("storage", onStorage);
-    window.addEventListener(LOCALE_EVENT_NAME, onLanguage);
+    window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguage);
     return () => {
       window.removeEventListener("storage", onStorage);
-      window.removeEventListener(LOCALE_EVENT_NAME, onLanguage);
+      window.removeEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguage);
     };
   }, []);
 
@@ -75,13 +70,11 @@ export function useLocalization() {
 export function persistExpungementLocale(locale: Locale) {
   if (typeof window === "undefined") return;
   const nextLocale = normalizeLocale(locale);
-  try {
-    window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale);
-  } catch {
-    // Runtime copy still updates from the event when storage is unavailable.
-  }
+  persistExpungementLocaleValue(nextLocale);
   document.documentElement.setAttribute("lang", nextLocale);
-  window.dispatchEvent(new CustomEvent(LOCALE_EVENT_NAME, { detail: { locale: nextLocale } }));
+  document.documentElement.dataset.locale = nextLocale;
+  document.documentElement.dataset.expungementAiLocale = nextLocale;
+  window.dispatchEvent(new CustomEvent(EXPUNGEMENT_LOCALE_EVENT_NAME, { detail: { locale: nextLocale } }));
 }
 
 export function LocalizedText({
