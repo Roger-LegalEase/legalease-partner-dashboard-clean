@@ -36,8 +36,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "screening.save_progress": { en: "Save progress", es: "Guardar progreso" },
   "screening.answer_required": { en: "Please answer this question to continue.", es: "Responda esta pregunta para continuar." },
   "screening.legal_info": {
-    en: "This is legal information, not legal advice. The engine decides the result; we never do.",
-    es: "Esto es información legal, no asesoría legal. El motor decide el resultado; nosotros no."
+    en: "This is legal information, not legal advice. Expungement.ai prepares self-help materials based on your answers; the court or agency makes the final decision.",
+    es: "Esto es información legal, no asesoría legal. Expungement.ai prepara materiales de autoayuda según sus respuestas; el tribunal o la agencia toma la decisión final."
   },
   "screening.loading": { en: "Loading your state's questions...", es: "Cargando las preguntas de su estado..." },
   "screening.missing_state_title": { en: "We could not find that state.", es: "No pudimos encontrar ese estado." },
@@ -80,8 +80,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Necesitamos un detalle más antes de preparar el paquete correcto."
   },
   "result.ms_missing_date_anchor": {
-    en: "We need the case date, disposition date, or completion date used to check the waiting period.",
-    es: "Necesitamos la fecha del caso, la fecha de disposición o la fecha de finalización usada para revisar el período de espera."
+    en: "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.",
+    es: "Necesitamos la fecha del caso, la fecha de desestimación, la fecha de disposición o la fecha de finalización usada para revisar el período de espera."
   },
   "result.ms_missing_date_next_step": {
     en: "Save your progress and update your answers when you have that detail.",
@@ -119,12 +119,12 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   },
   "missing.tell_more": { en: "Tell us more about {field}.", es: "Cuéntenos más sobre {field}." },
   "profile.MS.disposition_date.prompt": {
-    en: "What date should we use to check the waiting period for this case?",
-    es: "¿Qué fecha debemos usar para revisar el período de espera de este caso?"
+    en: "What date did the case end or get resolved?",
+    es: "¿En qué fecha terminó o se resolvió el caso?"
   },
   "profile.MS.disposition_date.helper": {
-    en: "Use the case date, disposition date, or completion date from your court record.",
-    es: "Use la fecha del caso, la fecha de disposición o la fecha de finalización que aparece en su registro judicial."
+    en: "You can usually find this on the court docket, judgment, dismissal, or disposition record. Use your best court-record date.",
+    es: "Por lo general puede encontrarla en el expediente del tribunal, la sentencia, la desestimación o el registro de disposición. Use la mejor fecha que aparezca en el registro judicial."
   },
 
   "filing.ready_to_file": { en: "ready_to_file", es: "listo para presentar" },

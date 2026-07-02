@@ -201,8 +201,8 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
   {
     id: "disposition_date",
     stage: "timing_and_completion",
-    prompt: "What date should we use to check the waiting period for this case?",
-    helperText: "Use the case date, disposition date, or completion date from your court record.",
+    prompt: "What date did the case end or get resolved?",
+    helperText: "You can usually find this on the court docket, judgment, dismissal, or disposition record. Use your best court-record date.",
     type: "date_or_unknown",
     required: false,
     contextOnly: false,

@@ -439,7 +439,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
         />
       ) : null}
       <p className="mt-4 text-center text-[12.5px] leading-6 text-[#8A93A6]">
-        {translate("screening.legal_info", "This is legal information, not legal advice. The engine decides the result; we never do.")}
+        {translate("screening.legal_info", "This is legal information, not legal advice. Expungement.ai prepares self-help materials based on your answers; the court or agency makes the final decision.")}
       </p>
     </FlowFrame>
   );

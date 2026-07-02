@@ -9,7 +9,7 @@ type MissingFieldFallback = {
 
 const FRIENDLY_MISSING_FIELD_FALLBACKS: Record<string, MissingFieldFallback> = {
   disposition_date: {
-    prompt: "What date should we use to check the waiting period for this case?",
+    prompt: "What date did the case end or get resolved?",
     type: "date_or_unknown"
   },
   age_at_offense: {
@@ -71,19 +71,33 @@ export function safeUserFacingEngineText(text: string, options?: { locale?: Loca
 }
 
 function consumerSafeEngineText(text: string, locale: Locale) {
-  if (text === "The answers require source review before a packet decision.") {
+  if (
+    text === "The answers require source review before a packet decision."
+    || /source review|packet decision|compiled source rule|deterministic compiled|evaluator|diagnostic/i.test(text)
+  ) {
     return t(locale, "result.ms_missing_detail_title", "We need one more detail before we can prepare the right packet.");
   }
   if (
     text === "The source-specific waiting period has no safely executable date anchor."
     || /^The .+ date is needed before the source-specific waiting period can be evaluated\.$/.test(text)
+    || /date anchor|safely executable|source-specific waiting period/i.test(text)
   ) {
-    return t(locale, "result.ms_missing_date_anchor", "We need the case date, disposition date, or completion date used to check the waiting period.");
+    const waitUntil = text.match(/\b(\d{4}-\d{2}-\d{2})\b/);
+    if (waitUntil) {
+      return resolveRuntimeText(locale, `The waiting period appears to run until ${waitUntil[1]}. The court or agency makes the final decision.`);
+    }
+    return t(locale, "result.ms_missing_date_anchor", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.");
   }
   if (text === "Get source review before any filing packet is generated.") {
     return t(locale, "result.ms_missing_date_next_step", "Save your progress and update your answers when you have that detail.");
   }
-  return "";
+  const softened = text
+    .replace(/source-defined/gi, "state")
+    .replace(/source-backed/gi, "state")
+    .replace(/source-listed/gi, "required")
+    .replace(/source-specific/gi, "state")
+    .replace(/engine decides/gi, "the court or agency makes the final decision");
+  return softened === text ? "" : softened;
 }
 
 function looksLikeRawFieldKey(value: string) {

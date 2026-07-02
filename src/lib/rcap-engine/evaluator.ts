@@ -390,6 +390,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const exclusion = exclusionReason(profile, answers);
   if (exclusion) return result(profile, request, exclusion.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible", [exclusion]);
 
+  const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
+  if (unknownDateQuestionIds.length > 0) {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.")], {
+      missingQuestionIds: unknownDateQuestionIds,
+      paymentAllowed: false
+    });
+  }
+
   const ambiguity = ambiguityReason(publicProfile, answers);
   if (ambiguity) return result(profile, request, "needs_review", [ambiguity]);
 
@@ -551,6 +559,14 @@ function ambiguityReason(publicProfile: PublicJurisdictionProfile, answers: Reco
   const ambiguous = legalFields.find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
+}
+
+function requiredUnknownPublicDateQuestionIds(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>) {
+  return publicProfile.questions
+    .filter((question) => question.required && question.contextOnly !== true && isPrepaymentQuestion(question))
+    .filter((question) => question.type === "date_or_unknown")
+    .filter((question) => isExplicitUnknownAnswer(answers[question.id]))
+    .map((question) => question.id);
 }
 
 function isPrepaymentQuestion(question: PublicQuestion) {
@@ -898,6 +914,9 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "no wait" }, "Tennessee non-conviction expunction has no five-year wait after dismissal, no true bill, or not guilty disposition.");
   }
+  if (key === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
+    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "MS non-conviction expungement runs from the case ending in dismissal, no disposition, or acquittal.");
+  }
   // ---- Missouri (corrected, awaiting Lawrence reconfirmation) ----
   // The compiled profile only exposes disposition_date as a date anchor; the true statutory clock is
   // completion of the authorized disposition. disposition_date is used as the available proxy anchor
@@ -1169,7 +1188,7 @@ function nextStepsForResult(resultCode: ScreeningResultCode) {
     packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete packet fields in Briefcase after payment.", "External documents affect filing readiness, not checkout eligibility."],
     packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete packet fields in Briefcase after payment.", "Do not file until external documents, fees, fingerprints, and instructions are complete."],
     needs_more_info: [
-      "We need the case date, disposition date, or completion date used to check the waiting period.",
+      "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.",
       "Save your progress and update your answers when you have that detail."
     ],
     not_yet: ["Save the timing result.", "Confirm the anchor date from records.", "Return when the source-defined wait may be satisfied."],
@@ -1387,14 +1406,14 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
     return {
       status: "needs_review",
-      reason: reason(jurisdiction, "waiting_anchor_not_determined", "We need the case date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef)
+      reason: reason(jurisdiction, "waiting_anchor_not_determined", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef)
     };
   }
   const anchor = parseDateAnswer(answers[anchorId]);
   if (!anchor) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", "We need the case date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: [anchorId]
     };
   }
@@ -1715,7 +1734,7 @@ function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answer
     "conviction_date",
     "probation_parole_supervision_end_date"
   ];
-  return preferred.find((field) => parseDateAnswer(answers[field]));
+  return preferred.find((field) => answerText(answers[field]).trim() !== "");
 }
 
 function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
