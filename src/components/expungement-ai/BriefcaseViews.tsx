@@ -13,11 +13,12 @@ import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai
 // The filing stepper is always the same five steps. It applies to packet matters only; guidance
 // matters never show it (the spec: a stalled stepper would read as failure).
 const STAGES = [
-  { label: "Reviewed", key: "briefcase.stage.reviewed" },
-  { label: "Prepared", key: "briefcase.stage.prepared" },
-  { label: "File it", key: "briefcase.stage.file_it" },
-  { label: "Court", key: "briefcase.stage.court" },
-  { label: "Decision", key: "briefcase.stage.decision" }
+  { label: "Free screening", key: "briefcase.stage.free_screening" },
+  { label: "Account created", key: "briefcase.stage.account_created" },
+  { label: "Payment", key: "briefcase.stage.payment" },
+  { label: "Packet information", key: "briefcase.stage.packet_information" },
+  { label: "Packet generated", key: "briefcase.stage.packet_generated" },
+  { label: "Filing next steps", key: "briefcase.stage.filing_next_steps" }
 ] as const;
 
 type PillTone = "teal" | "amber" | "gray" | "green" | "red" | "care";
@@ -43,11 +44,11 @@ type MatterStatus = {
 
 const CARE_TO_STATUS: Record<MatterCareState, Omit<MatterStatus, "careState" | "isGuidance">> = {
   guidance_only: { pillLabel: "Guidance saved", pillTone: "teal", stepper: null },
-  saved: { pillLabel: "Reviewing eligibility", pillTone: "gray", stepper: { done: 0, current: 0 } },
+  saved: { pillLabel: "A path may be available", pillTone: "gray", stepper: { done: 1, current: 1 } },
   needs_attention: { pillLabel: "Needs your attention", pillTone: "red", stepper: { done: 0, current: 0 } },
-  packet_ready: { pillLabel: "Ready to file", pillTone: "teal", stepper: { done: 2, current: 2 } },
-  completed: { pillLabel: "Ready to file", pillTone: "teal", stepper: { done: 2, current: 2 } },
-  waiting: { pillLabel: "With the court", pillTone: "amber", stepper: { done: 3, current: 3 } },
+  packet_ready: { pillLabel: "A path may be available", pillTone: "teal", stepper: { done: 2, current: 2 } },
+  completed: { pillLabel: "Packet ready", pillTone: "teal", stepper: { done: 5, current: 5 } },
+  waiting: { pillLabel: "With the court", pillTone: "amber", stepper: { done: 5, current: 5 } },
   denied: { pillLabel: "Needs a closer look", pillTone: "care", stepper: { done: 1, current: -1 } }
 };
 
@@ -189,12 +190,12 @@ function EmptyBriefcase() {
           <path d="M3 7h18v13H3zM8 7V4h8v3" />
         </svg>
       </span>
-      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Let's find out what you can clear" /></h2>
+      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Start a free record check" /></h2>
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
         <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything." />
       </p>
       <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
-        <LocalizedText k="briefcase.empty_cta" fallback="Check if I qualify" />
+        <LocalizedText k="briefcase.empty_cta" fallback="Start a free record check" />
       </Link>
     </div>
   );
@@ -217,8 +218,15 @@ function pickNextStep(matters: ConsumerBriefcaseItem[]): NextStep | null {
       case "needs_attention":
         return { headline: `Finish your ${item.title} check`, body: "We need one more thing before this can move forward. Open it to see what to add.", ctaLabel: "See what we need", href };
       case "packet_ready":
+        if (item.paymentAllowed && item.paymentStatus !== "paid") {
+          return { headline: "A path may be available.", body: `Open ${item.title} to continue to payment before packet generation.`, ctaLabel: "Continue to payment", href: `/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(item.id)}` };
+        }
+        if (!item.paymentAllowed && item.sourceSessionId) {
+          return { headline: "Your record-clearing packet is covered through your partner.", body: "We need a few more details before we can generate your documents and next-step instructions.", ctaLabel: "Finish my packet information", href };
+        }
+        return { headline: "Your packet is almost ready.", body: "We need a few more details before we can generate your documents and next-step instructions.", ctaLabel: "Finish my packet information", href };
       case "completed":
-        return { headline: "You're ready to file", body: `Your packet for ${item.title} is ready. We'll show you exactly where to take it and what to expect.`, ctaLabel: "Show me how to file", href };
+        return { headline: "Packet ready", body: `Your packet for ${item.title} is ready with filing next steps.`, ctaLabel: "Download my packet", href };
       case "waiting":
         return { headline: "Your case is with the court", body: `${item.title} is filed and waiting on a decision. There's nothing to do right now. We'll help you keep track.`, ctaLabel: "See your matter", href };
       case "guidance_only":

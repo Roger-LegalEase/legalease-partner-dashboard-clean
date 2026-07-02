@@ -22,8 +22,8 @@ export const PAYMENT_GATE_COPY: CriticalCopyEntry[] = [
   {
     id: "payment.generate_self_help_packet",
     surface: "payment_gate",
-    en: "Generate my self-help packet - $50",
-    es: "Generar mi paquete de autoayuda - $50"
+    en: "Generate my packet - $50",
+    es: "Generar mi paquete - $50"
   },
   {
     id: "payment.supporting_copy",

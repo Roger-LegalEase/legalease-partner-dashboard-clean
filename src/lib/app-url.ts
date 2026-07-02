@@ -18,7 +18,8 @@ export function absoluteAppUrl(path: string) {
 }
 
 export function getPartnerAppBaseUrl() {
-  return configuredBaseUrl("NEXT_PUBLIC_PARTNER_APP_URL") ??
+  return configuredBaseUrl("NEXT_PUBLIC_LEGALEASE_PARTNER_URL") ??
+    configuredBaseUrl("NEXT_PUBLIC_PARTNER_APP_URL") ??
     configuredBaseUrl("NEXT_PUBLIC_APP_URL") ??
     (process.env.NODE_ENV === "production" ? productionPartnerAppUrl : localAppUrl);
 }

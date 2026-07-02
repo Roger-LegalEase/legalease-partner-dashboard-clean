@@ -40,7 +40,7 @@ export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: s
         type="button"
       >
         <CreditCard className="h-4 w-4" aria-hidden="true" />
-        {isLoading ? translate("payment.starting", "Starting checkout...") : translate("payment.generate_packet", "Generate my self-help packet - $50")}
+        {isLoading ? translate("payment.starting", "Starting checkout...") : translate("payment.generate_packet", "Generate my packet - $50")}
       </button>
       {error ? <p className="mt-3 text-sm font-semibold text-[#B42318]">{error}</p> : null}
     </div>

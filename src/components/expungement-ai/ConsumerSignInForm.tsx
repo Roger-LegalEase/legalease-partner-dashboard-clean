@@ -5,6 +5,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
+import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
@@ -24,6 +25,10 @@ export function ConsumerSignInForm() {
   const nextPath = useMemo(() => {
     if (typeof window === "undefined") return "/briefcase";
     return safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"), "/briefcase");
+  }, []);
+  const pendingId = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return safePendingId(new URLSearchParams(window.location.search).get("pending"));
   }, []);
 
   async function submitAuth(event: FormEvent<HTMLFormElement>) {
@@ -53,7 +58,14 @@ export function ConsumerSignInForm() {
 
     const supabase = createBrowserSupabaseClient();
     const response = mode === "create"
-      ? await supabase.auth.signUp({ email, password, options: captchaOptions(captchaToken) })
+      ? await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          ...captchaOptions(captchaToken),
+          emailRedirectTo: expungementAuthRedirectTo(nextPath, pendingId)
+        }
+      })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
 
     if (response.error) {
@@ -71,6 +83,12 @@ export function ConsumerSignInForm() {
         setErrorMessage(errorCopy);
       }
       setIsSubmitting(false);
+      return;
+    }
+
+    if (pendingId) {
+      const claimed = await claimPendingResult(pendingId, nextPath);
+      window.location.assign(claimed);
       return;
     }
 
@@ -173,6 +191,38 @@ export function ConsumerSignInForm() {
       </div>
     </>
   );
+}
+
+async function claimPendingResult(pendingId: string, fallbackNext: string) {
+  try {
+    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pendingId, next: fallbackNext })
+    });
+    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
+    return safeAppRedirectPath(payload?.redirectTo, fallbackNext);
+  } catch {
+    return fallbackNext;
+  }
+}
+
+function expungementAuthRedirectTo(nextPath: string, pendingId: string) {
+  const params = new URLSearchParams({ next: safeAppRedirectPath(nextPath, "/briefcase") });
+  if (pendingId) params.set("pending", pendingId);
+  const path = `/auth/set-password?${params.toString()}`;
+  if (typeof window !== "undefined" && isExpungementHost(window.location.hostname)) {
+    return `${window.location.origin}${path}`;
+  }
+  return absoluteExpungementAiUrl(path);
+}
+
+function isExpungementHost(hostname: string) {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app") || hostname === "expungement.ai" || hostname === "www.expungement.ai";
+}
+
+function safePendingId(value: string | null) {
+  return value && /^[0-9a-f-]{36}$/i.test(value) ? value : "";
 }
 
 function initialAuthMode(): AuthMode {

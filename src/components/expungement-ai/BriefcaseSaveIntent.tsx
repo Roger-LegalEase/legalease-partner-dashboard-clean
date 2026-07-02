@@ -16,16 +16,23 @@ export function BriefcaseSaveIntent() {
 
   useEffect(() => {
     const raw = window.sessionStorage.getItem(PENDING_KEY);
-    if (!raw) return;
+    const pendingId = new URLSearchParams(window.location.search).get("pending");
+    if (!raw && !pendingId) return;
     window.sessionStorage.removeItem(PENDING_KEY);
     let cancelled = false;
     (async () => {
       try {
-        const response = await fetch("/api/expungement-ai/screening/save-result", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: raw
-        });
+        const response = pendingId
+          ? await fetch("/api/expungement-ai/screening/pending/claim", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pendingId, next: "/briefcase" })
+          })
+          : await fetch("/api/expungement-ai/screening/save-result", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: raw
+          });
         if (!cancelled && response.ok) router.refresh();
       } catch {
         // Best effort. The result is still viewable from the screening flow if this fails.

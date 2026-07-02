@@ -64,7 +64,7 @@ export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
     id: "fixture-denied",
     status: "not_eligible",
     resultCode: "likely_not_eligible",
-    summary: "This record may not qualify for self-help filing.",
+    summary: "This record may not match a self-help filing path.",
     nextSteps: ["Review the reasons.", "Consider a legal aid or attorney review."]
   },
   {

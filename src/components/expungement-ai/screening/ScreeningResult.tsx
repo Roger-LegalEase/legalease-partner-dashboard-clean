@@ -29,12 +29,12 @@ type Tone = "positive" | "caution" | "info" | "wait" | "blocked";
 
 const RESULT_PRESENTATION: Record<ResultCode, { eyebrow: string; tone: Tone; icon: ReactNode }> = {
   packet_ready: { eyebrow: "A path may be available", tone: "positive", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
-  packet_ready_with_caution: { eyebrow: "A path may be available, with cautions", tone: "caution", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
+  packet_ready_with_caution: { eyebrow: "A path may be available.", tone: "caution", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
   needs_more_info: { eyebrow: "A few more details needed", tone: "info", icon: <HelpCircle className="h-5 w-5" aria-hidden="true" /> },
   not_yet: { eyebrow: "You may need to wait", tone: "wait", icon: <Clock className="h-5 w-5" aria-hidden="true" /> },
   guidance_only: { eyebrow: "Next steps for your state", tone: "info", icon: <Info className="h-5 w-5" aria-hidden="true" /> },
   not_covered_yet: { eyebrow: "Not supported yet", tone: "info", icon: <Info className="h-5 w-5" aria-hidden="true" /> },
-  likely_not_eligible: { eyebrow: "This record may not qualify", tone: "blocked", icon: <AlertTriangle className="h-5 w-5" aria-hidden="true" /> },
+  likely_not_eligible: { eyebrow: "This record may not match a self-help path", tone: "blocked", icon: <AlertTriangle className="h-5 w-5" aria-hidden="true" /> },
   needs_review: { eyebrow: "This needs review", tone: "info", icon: <HelpCircle className="h-5 w-5" aria-hidden="true" /> },
   hard_stop: { eyebrow: "We can't help with this record", tone: "blocked", icon: <ShieldAlert className="h-5 w-5" aria-hidden="true" /> }
 };
@@ -79,6 +79,9 @@ function isNonConvictionPathway(evaluation: ScreeningEvaluation) {
 }
 
 function packetSubheading(stateName: string, evaluation: ScreeningEvaluation, routeLabel: string) {
+  if (PACKET_READY_RESULT_CODES.has(evaluation.resultCode)) {
+    return "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.";
+  }
   if (stateName === "Mississippi" && isNonConvictionPathway(evaluation)) {
     return "Based on your answers, Mississippi may have a record-clearing path for a case that was dismissed, had no final disposition, or ended in acquittal.";
   }
@@ -160,6 +163,11 @@ export function ScreeningResult({
 
       {evaluation.cautions.length > 0 ? (
         <Section title={translate("result.cautions", "Please read these cautions")}>
+          {isPacketReady ? (
+            <p className="mb-2 text-sm leading-6 text-[#475A6E]">
+              {translate("result.caution_support", "We'll flag anything you should review before filing. The court or agency makes the final decision.")}
+            </p>
+          ) : null}
           <ul className="grid gap-2">
             {evaluation.cautions.map((caution, index) => (
               <li key={index} className="flex items-start gap-2 rounded-xl bg-[#FDF1E8] px-3 py-2 text-sm leading-6 text-[#9A3412]">
@@ -209,7 +217,7 @@ export function ScreeningResult({
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            {hasScreeningSession ? translate("result.save_briefcase", "Save this result to Briefcase") : translate("payment.generate_packet", "Generate my self-help packet - $50")}
+            {hasScreeningSession ? translate("result.save_briefcase", "Continue to my Briefcase") : translate("payment.generate_packet", "Generate my packet - $50")}
           </button>
         ) : null}
         {missing.length > 0 ? (
@@ -226,7 +234,7 @@ export function ScreeningResult({
           onClick={() => onEditAnswers()}
           className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
-          {translate("result.edit_answers", "Edit my answers")}
+          {isPacketReady ? translate("payment.save_later", "Save and come back later") : translate("result.edit_answers", "Edit my answers")}
         </button>
       </div>
 

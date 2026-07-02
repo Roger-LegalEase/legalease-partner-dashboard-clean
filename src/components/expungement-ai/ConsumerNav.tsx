@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { Briefcase, HelpCircle, LogIn } from "lucide-react";
+import { Briefcase, HelpCircle, LogIn, LogOut, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWordmark";
 import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 export type ConsumerNavVariant = "marketing" | "app";
 
@@ -22,6 +26,8 @@ export type ConsumerNavVariant = "marketing" | "app";
  * `/expungement-ai`.
  */
 export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVariant }) {
+  const isAuthenticated = useConsumerAuthState();
+
   if (variant === "app") {
     return (
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-[#E4E8EF] bg-white/95 px-4 py-3 text-[#0B1320] backdrop-blur md:px-8">
@@ -35,13 +41,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
               <Briefcase className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline"><LocalizedText k="briefcase.label" fallback="Briefcase" /></span>
             </Link>
-            <Link
-              className="inline-flex min-h-10 items-center gap-2 rounded-md border border-[#E4E8EF] px-3 text-sm font-semibold text-[#0B1320] hover:bg-[#F1F4F9]"
-              href="/expungement-ai/sign-in?mode=signin"
-            >
-              <LogIn className="h-4 w-4" aria-hidden="true" />
-              <LocalizedText k="common.sign_in" fallback="Sign in" />
-            </Link>
+            <AuthControl isAuthenticated={isAuthenticated} light />
           </div>
         </nav>
       </header>
@@ -59,10 +59,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
           <Link href="/briefcase"><LocalizedText k="briefcase.label" fallback="Briefcase" /></Link>
         </div>
         <div className="flex items-center gap-2">
-          <Link className="hidden min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:inline-flex" href="/expungement-ai/sign-in?mode=signin">
-            <LogIn className="h-4 w-4" aria-hidden="true" />
-            <LocalizedText k="common.sign_in" fallback="Sign in" />
-          </Link>
+          <AuthControl isAuthenticated={isAuthenticated} />
           <Link className="inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:hidden" href="/expungement-ai/support" aria-label="Support">
             <HelpCircle className="h-4 w-4" aria-hidden="true" />
           </Link>
@@ -74,4 +71,50 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
       </nav>
     </header>
   );
+}
+
+function AuthControl({ isAuthenticated, light = false }: { isAuthenticated: boolean; light?: boolean }) {
+  if (isAuthenticated) {
+    return (
+      <div className="hidden items-center gap-1 md:flex">
+        <Link className={light ? appButtonClass : marketingButtonClass} href="/briefcase">
+          <User className="h-4 w-4" aria-hidden="true" />
+          <LocalizedText k="briefcase.account" fallback="Account" />
+        </Link>
+        <Link className={light ? appButtonClass : marketingButtonClass} href="/sign-out">
+          <LogOut className="h-4 w-4" aria-hidden="true" />
+          <LocalizedText k="common.sign_out" fallback="Sign out" />
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <Link className={light ? appButtonClass : marketingButtonClass} href="/expungement-ai/sign-in?mode=signin">
+      <LogIn className="h-4 w-4" aria-hidden="true" />
+      <LocalizedText k="common.sign_in" fallback="Sign in" />
+    </Link>
+  );
+}
+
+const marketingButtonClass = "hidden min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:inline-flex";
+const appButtonClass = "inline-flex min-h-10 items-center gap-2 rounded-md border border-[#E4E8EF] px-3 text-sm font-semibold text-[#0B1320] hover:bg-[#F1F4F9]";
+
+function useConsumerAuthState() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    let mounted = true;
+    const supabase = createBrowserSupabaseClient();
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) setIsAuthenticated(Boolean(data.session));
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (mounted) setIsAuthenticated(Boolean(session));
+    });
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+  return isAuthenticated;
 }

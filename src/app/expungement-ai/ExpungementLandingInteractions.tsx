@@ -64,7 +64,12 @@ export function ExpungementLandingInteractions({
     }
 
     const applyLanguage = (lang: "en" | "es", options: { persist?: boolean } = {}) => {
-      const dictionary = lang === "es" ? dictionaries.es : dictionaries.en;
+      const normalizedLang = lang === "es" ? "es" : "en";
+      const root = document.documentElement;
+      if (root.dataset.expungementAiLocale === normalizedLang && !options.persist) {
+        return;
+      }
+      const dictionary = normalizedLang === "es" ? dictionaries.es : dictionaries.en;
       const setHtmlContent = (element: Element, value: string) => {
         element.innerHTML = value;
       };
@@ -82,16 +87,15 @@ export function ExpungementLandingInteractions({
         const value = dictionary[key];
         if (typeof value === "string") setHtmlContent(element, value);
       });
-      document.documentElement.setAttribute("lang", lang);
+      root.setAttribute("lang", normalizedLang);
+      root.dataset.expungementAiLocale = normalizedLang;
       document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((item) => {
-        const on = item.getAttribute("data-lang") === lang;
+        const on = item.getAttribute("data-lang") === normalizedLang;
         item.classList.toggle("on", on);
         item.setAttribute("aria-pressed", String(on));
       });
       if (options.persist) {
-        persistExpungementLocale(lang);
-      } else {
-        document.documentElement.setAttribute("lang", lang);
+        persistExpungementLocale(normalizedLang);
       }
     };
 

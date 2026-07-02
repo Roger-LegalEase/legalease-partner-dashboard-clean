@@ -44,7 +44,6 @@ import {
 } from "@/components/expungement-ai/screening/ScreeningResult";
 
 const PICKER_PATH = "/expungement-ai/screening";
-const PACKET_PATH = "/expungement-ai/packet-ready";
 const PROFILE_LOAD_GUARD_MS = 12_000;
 // Where the packet action sends a partner/session-mode user. The direct-to-consumer
 // pay-and-generate flow (PACKET_PATH) does not apply when screening began through a partner.
@@ -237,11 +236,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   // Partner result CTA: save the completed result as a real Briefcase matter, then open Briefcase.
   // DTC (no partner session) keeps the existing pay-and-generate route, unchanged.
   async function handlePacketAction() {
-    if (!isPartnerSession || !evaluation) {
-      router.push(PACKET_PATH);
-      return;
-    }
-    // Only the result is sent. Raw answers are never included in this payload.
+    if (!evaluation) return;
+
     const payload = {
       jurisdiction: stateName,
       resultCode: evaluation.resultCode,
@@ -250,8 +246,53 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       paymentAllowed: evaluation.paymentAllowed,
       summary: `${stateName} record-clearing result saved from your screening.`,
       nextSteps: evaluation.nextSteps,
-      sourceSessionId: effectiveInitialSessionId
+      sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
     };
+
+    if (!isPartnerSession) {
+      try {
+        const response = await fetch("/api/expungement-ai/screening/save-result", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json().catch(() => null) as { itemId?: string } | null;
+        if (response.ok && result?.itemId) {
+          router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`);
+          return;
+        }
+        if (response.status !== 401) {
+          router.push("/briefcase");
+          return;
+        }
+      } catch {
+        // Continue into pending handoff so auth can recover the completed result.
+      }
+
+      const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...payload,
+          product: "expungement_ai_dtc",
+          jurisdiction: stateName,
+          answers,
+          profileVersion: profile.profileVersion,
+          matterId: matterIdRef.current,
+          packetPlan: evaluation.packetPlan ?? {}
+        })
+      }).catch(() => null);
+      const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
+      const params = new URLSearchParams({
+        mode: "create",
+        next: "/expungement-ai/pay"
+      });
+      if (pending?.pendingId) params.set("pending", pending.pendingId);
+      router.push(`/expungement-ai/sign-in?${params.toString()}`);
+      return;
+    }
+
+    // Partner mode saves only the result. Raw answers are never included in this payload.
     try {
       const response = await fetch("/api/expungement-ai/screening/save-result", {
         method: "POST",

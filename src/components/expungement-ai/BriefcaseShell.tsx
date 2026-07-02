@@ -4,6 +4,7 @@ import { Sora } from "next/font/google";
 import { Bell, FileText, Layers, LayoutGrid, Plus, Settings, User } from "lucide-react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWordmark";
 
 const sora = Sora({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
@@ -56,9 +57,8 @@ export function BriefcaseShell({
       <div className="flex min-h-screen">
         {/* Sidebar (desktop) */}
         <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col bg-[#0B1326] p-4 text-white md:flex">
-          <Link href="/briefcase" className="mb-7 flex items-center gap-2.5 px-1.5 text-[16px] font-bold text-white">
-            <span className="grid h-6 w-6 place-items-center rounded-md bg-[#00A99D] text-[11px] font-extrabold text-[#0B1326]">E</span>
-            Expungement.ai
+          <Link href="/briefcase" className="mb-7 flex items-center gap-2.5 px-1.5 text-white" aria-label="Expungement.ai Briefcase">
+            <ExpungementWordmark tone="light" idSuffix="briefcase-sidebar" />
           </Link>
 
           <div className="mb-6 flex items-center gap-2.5 rounded-xl bg-white/[0.05] p-2.5">
@@ -93,6 +93,9 @@ export function BriefcaseShell({
             <Link href="/expungement-ai/support" className="mt-2 block text-center text-[11px] font-medium text-white/45 hover:text-white/70">
               <LocalizedText k="briefcase.contact_support" fallback="Contact support" />
             </Link>
+          </div>
+          <div className="mt-3 px-1.5 text-[11px] font-semibold text-white/65" aria-label="Powered by LegalEase">
+            Powered by <span className="text-white">LegalEase</span>
           </div>
         </aside>
 

@@ -9,7 +9,7 @@
  *   - guidance_only   -> guidance saved, no packet to buy
  *   - waiting         -> a waiting period may apply (offer a reminder)
  *   - needs_attention -> we need more from the user, or the record type is not supported yet
- *   - denied          -> the record may not qualify (most sensitive; extra-care copy)
+ *   - denied          -> the record may not match a self-help path (most sensitive; extra-care copy)
  *   - completed       -> the self-help packet was generated and downloaded
  *   - packet_ready    -> a packet can be generated
  *   - saved           -> a plain saved check
@@ -88,7 +88,7 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
     badge: "Extra care",
     tone: "care",
     blurb:
-      "This record may not qualify for self-help filing right now. That is not the end of the road. A legal aid office or an attorney can review your specific situation.",
+      "This record may not match a self-help filing path right now. That is not the end of the road. A legal aid office or an attorney can review your specific situation.",
     showCallout: true
   },
   completed: {

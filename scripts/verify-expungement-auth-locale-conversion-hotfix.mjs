@@ -31,15 +31,15 @@ const localization = read("src/lib/expungement-ai/localization.ts");
 
 // Landing locale: copy and active toggle must be applied by the same locale value.
 includes(landingInteractions, 'const applyLanguage = (lang: "en" | "es"', "landing controlled language function");
-includes(landingInteractions, 'const dictionary = lang === "es" ? dictionaries.es : dictionaries.en', "landing visible-copy locale source");
+includes(landingInteractions, 'const dictionary = normalizedLang === "es" ? dictionaries.es : dictionaries.en', "landing visible-copy locale source");
 includes(landingInteractions, 'document.querySelectorAll<HTMLElement>("[data-i18n]")', "landing text translation");
 includes(landingInteractions, 'document.querySelectorAll<HTMLElement>("[data-i18n-html]")', "landing HTML translation");
 includes(landingInteractions, 'document.querySelectorAll<HTMLButtonElement>("[data-lang]")', "landing toggle state update");
-includes(landingInteractions, 'item.getAttribute("data-lang") === lang', "landing active state derives from same locale");
+includes(landingInteractions, 'item.getAttribute("data-lang") === normalizedLang', "landing active state derives from same locale");
 includes(landingInteractions, 'item.classList.toggle("on", on)', "landing visual active class update");
 includes(landingInteractions, 'item.setAttribute("aria-pressed", String(on))', "landing accessible active state update");
 includes(landingInteractions, 'applyLanguage(initialLanguage);', "landing initial locale applies copy and active state together");
-includes(landingInteractions, 'persistExpungementLocale(lang)', "landing click persists explicit locale");
+includes(landingInteractions, 'persistExpungementLocale(normalizedLang)', "landing click persists explicit locale");
 includes(landingInteractions, 'window.addEventListener("expungement-ai:language-change", onSharedLanguageChange)', "landing listens to shared locale event");
 assert(!/applyLanguage\(initialLanguage,\s*\{\s*persist:\s*true\s*\}/.test(landingInteractions), "Landing initial load must not rebroadcast stale locale and desync React surfaces.");
 includes(localizationProvider, 'window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)', "shared locale explicit persistence");
@@ -72,7 +72,7 @@ includes(landingHandoff, 'href="/expungement-ai/sign-in?mode=signin"', "landing 
 includes(authHelper, 'redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`)', "auth helper create-account redirect");
 includes(payPage, 'requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`)', "pay page preserves next");
 includes(packetReadyPage, 'requireConsumerBriefcaseSession(`/expungement-ai/packet-ready${queryString(params)}`)', "packet-ready page preserves next");
-includes(screeningFlow, '"/expungement-ai/sign-in?mode=create&next=/briefcase"', "screening save-result conversion handoff");
+includes(screeningFlow, 'mode: "create"', "screening save-result conversion handoff");
 includes(briefcaseViews, 'href="/expungement-ai/sign-in?mode=create&next=/briefcase"', "Briefcase auth gate create handoff");
 
 for (const key of [

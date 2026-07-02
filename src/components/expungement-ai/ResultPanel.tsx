@@ -18,19 +18,19 @@ type BranchPresentation = {
 const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = {
   packet_ready: {
     tag: "Possible packet route",
-    title: "A packet route may be available.",
-    body: "Based on your answers, there may be a packet route. The court makes the final decision.",
-    primary: "Generate my self-help packet - $50",
-    secondary: "Review what this packet includes",
+    title: "A path may be available.",
+    body: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
+    primary: "Generate my packet - $50",
+    secondary: "Save and come back later",
     tone: "teal",
     icon: CheckCircle2
   },
   packet_ready_with_caution: {
     tag: "Possible path",
-    title: "You may have a path.",
-    body: "Your answers suggest a possible self-help path with cautions. Review everything carefully before filing.",
-    primary: "Generate my self-help packet - $50",
-    secondary: "Review the cautions",
+    title: "A path may be available.",
+    body: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
+    primary: "Generate my packet - $50",
+    secondary: "Save and come back later",
     tone: "cream",
     icon: ShieldCheck
   },
@@ -156,8 +156,11 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
           <div className="rounded-2xl border border-[#FF3B00]/30 bg-[#FF3B00]/10 p-5" data-consumer-pay-gate="visible">
             <p className="flex items-center gap-2 text-sm font-extrabold text-[#0B1320]">
               <Lock className="h-5 w-5 text-[#FF3B00]" aria-hidden />
-              {translate("payment.generate_packet", "Generate my self-help packet - $50")}
+              {translate("payment.generate_packet", "Generate my packet - $50")}
             </p>
+            {result.resultCode === "packet_ready_with_caution" ? (
+              <p className="mt-2 text-sm leading-6 text-[#5A6275]">{translate("result.caution_support", "We'll flag anything you should review before filing. The court or agency makes the final decision.")}</p>
+            ) : null}
             <p className="mt-2 text-sm leading-6 text-[#5A6275]">{translate("payment.supporting_copy", "The $50 covers Expungement.ai packet generation. Court, agency, or background-report fees are separate.")}</p>
             <Link className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-[13px] bg-[#FF3B00] px-5 text-sm font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] md:w-fit" href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`}>
               {localizeText(presentation.primary)}

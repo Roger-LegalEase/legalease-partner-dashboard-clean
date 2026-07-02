@@ -20,6 +20,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "common.ask_wilma": { en: "Ask Wilma", es: "Preguntar a Wilma" },
   "common.try_again": { en: "Try again", es: "Intentar de nuevo" },
   "common.sign_in": { en: "Sign in", es: "Iniciar sesión" },
+  "common.sign_out": { en: "Sign out", es: "Cerrar sesión" },
   "common.email": { en: "Email", es: "Correo electrónico" },
   "common.password": { en: "Password", es: "Contraseña" },
   "common.show": { en: "Show", es: "Mostrar" },
@@ -82,14 +83,22 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "answer.prefer_not": { en: "Prefer not to say", es: "Prefiero no decirlo" },
   "answer.dont_know_date": { en: "I don't know the date", es: "No sé la fecha" },
 
-  "result.packet_title": { en: "You may be able to prepare an expungement packet.", es: "Es posible que pueda preparar un paquete de limpieza de antecedentes." },
-  "result.path_available": { en: "A path may be available", es: "Puede haber una ruta disponible" },
-  "result.path_available_caution": { en: "A path may be available, with cautions", es: "Puede haber una ruta disponible, con advertencias" },
+  "result.packet_title": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
+  "result.packet_body": {
+    en: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
+    es: "Según lo que compartió, puede haber una ruta disponible para limpiar antecedentes. Expungement.ai puede ayudarle a generar un paquete de autoayuda e instrucciones de próximos pasos."
+  },
+  "result.path_available": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
+  "result.path_available_caution": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
+  "result.caution_support": {
+    en: "We'll flag anything you should review before filing. The court or agency makes the final decision.",
+    es: "Marcaremos cualquier cosa que deba revisar antes de presentar. El tribunal o la agencia toma la decisión final."
+  },
   "result.more_details": { en: "A few more details needed", es: "Faltan algunos detalles" },
   "result.may_need_wait": { en: "You may need to wait", es: "Es posible que tenga que esperar" },
   "result.state_next_steps": { en: "Next steps for your state", es: "Próximos pasos para su estado" },
   "result.not_supported": { en: "Not supported yet", es: "Aún no compatible" },
-  "result.may_not_qualify": { en: "This record may not qualify", es: "Es posible que este antecedente no califique" },
+  "result.may_not_qualify": { en: "This record may not match a self-help path", es: "Es posible que este antecedente no coincida con una ruta de autoayuda" },
   "result.needs_review": { en: "This needs review", es: "Esto necesita revisión" },
   "result.ms_missing_detail_title": {
     en: "We need one more detail before we can prepare the right packet.",
@@ -148,7 +157,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "filing.needs_external_document": { en: "needs_external_document", es: "necesita un documento externo" },
   "filing.needs_court_or_agency_followup": { en: "needs_court_or_agency_followup", es: "necesita seguimiento con el tribunal o la agencia" },
 
-  "payment.generate_packet": { en: "Generate my self-help packet - $50", es: "Generar mi paquete de autoayuda - $50" },
+  "payment.generate_packet": { en: "Generate my packet - $50", es: "Generar mi paquete - $50" },
+  "payment.save_later": { en: "Save and come back later", es: "Guardar y volver después" },
   "payment.step": { en: "Step 2 of 2", es: "Paso 2 de 2" },
   "payment.title": { en: "Generate your self-help packet.", es: "Genere su paquete de autoayuda." },
   "payment.support": {
@@ -188,23 +198,24 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.reviewing_eligibility": { en: "Reviewing eligibility", es: "Revisando la ruta" },
   "briefcase.with_court": { en: "With the court", es: "Con el tribunal" },
   "briefcase.closer_look": { en: "Needs a closer look", es: "Necesita una revisión más cuidadosa" },
-  "briefcase.stage.reviewed": { en: "Reviewed", es: "Revisado" },
-  "briefcase.stage.prepared": { en: "Prepared", es: "Preparado" },
-  "briefcase.stage.file_it": { en: "File it", es: "Presentar" },
-  "briefcase.stage.court": { en: "Court", es: "Tribunal" },
-  "briefcase.stage.decision": { en: "Decision", es: "Decisión" },
+  "briefcase.stage.free_screening": { en: "Free screening", es: "Revisión gratis" },
+  "briefcase.stage.account_created": { en: "Account created", es: "Cuenta creada" },
+  "briefcase.stage.payment": { en: "Payment", es: "Pago" },
+  "briefcase.stage.packet_information": { en: "Packet information", es: "Información del paquete" },
+  "briefcase.stage.packet_generated": { en: "Packet generated", es: "Paquete generado" },
+  "briefcase.stage.filing_next_steps": { en: "Filing next steps", es: "Próximos pasos de presentación" },
   "briefcase.account_required": { en: "Account required", es: "Se requiere una cuenta" },
   "briefcase.sign_in_title": { en: "Sign in to open your Briefcase", es: "Inicie sesión para abrir su Maletín" },
   "briefcase.sign_in_body": {
     en: "Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase.",
     es: "Cada usuario de Expungement.ai tiene una cuenta, y cada revisión, resultado, paquete, recordatorio, pago y conversación con Wilma se guarda en el Maletín."
   },
-  "briefcase.empty_title": { en: "Let's find out what you can clear", es: "Veamos qué opciones pueden estar disponibles" },
+  "briefcase.empty_title": { en: "Start a free record check", es: "Comenzar una revisión gratis de antecedentes" },
   "briefcase.empty_body": {
     en: "Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything.",
     es: "Responda unas preguntas sencillas sobre su antecedente. Toma unos 3 minutos, es gratis, y verá dónde está antes de pagar algo."
   },
-  "briefcase.empty_cta": { en: "Check if I qualify", es: "Revisar mi ruta" },
+  "briefcase.empty_cta": { en: "Start a free record check", es: "Comenzar una revisión gratis" },
   "briefcase.welcome_back": { en: "Welcome back", es: "Bienvenido de nuevo" },
   "briefcase.progress_body": {
     en: "You have {count} {recordWord} in progress. Here's where things stand.",
@@ -230,6 +241,12 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.no_payments": {
     en: "No payments yet. You only pay when a packet is ready, and you will see the price first.",
     es: "Aún no hay pagos. Solo paga cuando un paquete está listo, y verá el precio primero."
+  },
+  "briefcase.generate_packet": { en: "Generate my packet", es: "Generar mi paquete" },
+  "briefcase.generating_packet": { en: "Generating packet...", es: "Generando paquete..." },
+  "briefcase.generate_error": {
+    en: "We could not generate the packet right now. Try again or contact support.",
+    es: "No pudimos generar el paquete ahora. Intente de nuevo o contacte a soporte."
   },
   "briefcase.profile_settings": { en: "Profile and settings", es: "Perfil y configuración" },
   "briefcase.settings_body": {

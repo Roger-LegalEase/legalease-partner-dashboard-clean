@@ -176,6 +176,7 @@ for (const file of changedFiles) {
   if (file === "supabase/phase-31-legalease-os-support-queue.sql") continue;
   if (file === "supabase/phase-32-expungement-screening-sessions.sql") continue;
   if (file === "supabase/phase-33-expungement-screening-resume-links.sql") continue;
+  if (file === "supabase/phase-38-expungement-pending-screening-results.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }

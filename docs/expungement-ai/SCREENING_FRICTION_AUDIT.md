@@ -8,29 +8,29 @@ Scope: audit only. This report inspects the current compiled public profile proj
 ## Executive summary
 
 - Total jurisdictions reviewed: 51
-- Current average visible pre-payment question count: 14.6
-- Estimated reducible question count: 318
+- Current average visible pre-payment question count: 14.3
+- Estimated reducible question count: 303
 - Low-risk jurisdictions: 3
 - Medium-risk jurisdictions: 7
 - High-risk jurisdictions: 41
 
 Top 10 friction-heavy states:
-1. WV West Virginia: 20 visible questions, 9 candidate reducible questions, high legal/source risk
-2. NE Nebraska: 20 visible questions, 8 candidate reducible questions, high legal/source risk
-3. GA Georgia: 19 visible questions, 9 candidate reducible questions, high legal/source risk
-4. SC South Carolina: 19 visible questions, 8 candidate reducible questions, high legal/source risk
-5. FL Florida: 18 visible questions, 8 candidate reducible questions, high legal/source risk
-6. LA Louisiana: 18 visible questions, 8 candidate reducible questions, high legal/source risk
-7. MD Maryland: 18 visible questions, 8 candidate reducible questions, high legal/source risk
-8. ME Maine: 18 visible questions, 7 candidate reducible questions, medium legal/source risk
-9. MO Missouri: 18 visible questions, 7 candidate reducible questions, high legal/source risk
-10. NJ New Jersey: 18 visible questions, 7 candidate reducible questions, high legal/source risk
+1. SC South Carolina: 19 visible questions, 8 candidate reducible questions, high legal/source risk
+2. NE Nebraska: 19 visible questions, 7 candidate reducible questions, high legal/source risk
+3. GA Georgia: 18 visible questions, 8 candidate reducible questions, high legal/source risk
+4. ME Maine: 18 visible questions, 7 candidate reducible questions, medium legal/source risk
+5. MO Missouri: 18 visible questions, 7 candidate reducible questions, high legal/source risk
+6. NJ New Jersey: 18 visible questions, 7 candidate reducible questions, high legal/source risk
+7. WV West Virginia: 18 visible questions, 7 candidate reducible questions, high legal/source risk
+8. WY Wyoming: 18 visible questions, 7 candidate reducible questions, high legal/source risk
+9. AK Alaska: 17 visible questions, 7 candidate reducible questions, high legal/source risk
+10. FL Florida: 17 visible questions, 7 candidate reducible questions, high legal/source risk
 
 Top 10 safest conversion-improvement candidates:
-1. IN Indiana: 8 candidate reducible questions, high upside, medium payment-gate risk
-2. ME Maine: 7 candidate reducible questions, high upside, medium payment-gate risk
-3. NV Nevada: 7 candidate reducible questions, high upside, medium payment-gate risk
-4. HI Hawaii: 6 candidate reducible questions, high upside, medium payment-gate risk
+1. ME Maine: 7 candidate reducible questions, high upside, medium payment-gate risk
+2. NV Nevada: 7 candidate reducible questions, high upside, medium payment-gate risk
+3. HI Hawaii: 6 candidate reducible questions, high upside, medium payment-gate risk
+4. IN Indiana: 6 candidate reducible questions, high upside, medium payment-gate risk
 5. OH Ohio: 6 candidate reducible questions, high upside, medium payment-gate risk
 6. VT Vermont: 6 candidate reducible questions, high upside, medium payment-gate risk
 7. WA Washington: 6 candidate reducible questions, high upside, medium payment-gate risk
@@ -58,22 +58,22 @@ Classification is conservative. A question is only proposed for later post-payme
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Alaska, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Alaska case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Alaska descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Alaska category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the Alaska criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Alaska (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Alaska was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Alaska did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -109,22 +109,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Alabama, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Alabama case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Alabama descriptions sound close to your situation?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Alabama category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Alabama (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Alabama was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Alabama did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -160,20 +160,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Arkansas, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Arkansas case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Arkansas descriptions sound close to your situation?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Arkansas category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Arkansas (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Arkansas was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Arkansas did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -207,19 +207,19 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Arizona, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Arizona case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Arizona descriptions sound close to your situation?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Arizona category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the Arizona criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Arizona (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Arizona was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Arizona did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -244,7 +244,7 @@ Questions that must remain pre-payment:
 
 ### CA - California
 
-- Current visible pre-payment question count: 17
+- Current visible pre-payment question count: 16
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -252,22 +252,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from California, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the California case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these California descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any California category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the California criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What California county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in California (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in California was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -275,7 +274,6 @@ Proposed post-payment candidates:
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -303,17 +301,17 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Colorado, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Colorado case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Colorado descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Colorado category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Colorado (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Colorado was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Colorado did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -344,19 +342,19 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Connecticut, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Connecticut case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Connecticut descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Connecticut category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Connecticut (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Connecticut was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Connecticut did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -381,7 +379,7 @@ Questions that must remain pre-payment:
 
 ### DC - District of Columbia
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 15
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -389,18 +387,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from District of Columbia, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the District of Columbia case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these District of Columbia descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in District of Columbia (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `actual_innocence_basis` (unclear): For an actual-innocence motion, what facts show the offense did not occur or was not committed by you?
+- `dc_offense_severity_group` (unclear): For a DC felony sealing motion, what Offense Severity Group does the record show?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in District of Columbia was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in District of Columbia did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -418,6 +418,8 @@ Questions that must remain pre-payment:
 - `case_outcome`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `offense_level`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `age_at_offense`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
+- `actual_innocence_basis`: Unclear classification. Treat as pre-payment until source review proves otherwise.
+- `dc_offense_severity_group`: Unclear classification. Treat as pre-payment until source review proves otherwise.
 - `sentence_completion_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 - `disposition_date`: This is used to determine scope, pathway, timing, exclusion, or result code and should remain pre-payment unless source logic is rewritten and re-reviewed.
 
@@ -432,19 +434,19 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Delaware, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Delaware case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Delaware descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Delaware category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Delaware (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Delaware was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Delaware did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -469,7 +471,7 @@ Questions that must remain pre-payment:
 
 ### FL - Florida
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 17
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -477,23 +479,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Florida, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Florida case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Florida descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Florida or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Florida category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the Florida criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Florida county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Florida (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Florida was the case handled?
+- `charge` (packet-preparation): What does the record say you were charged with?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -501,7 +502,6 @@ Proposed post-payment candidates:
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -522,7 +522,7 @@ Questions that must remain pre-payment:
 
 ### GA - Georgia
 
-- Current visible pre-payment question count: 19
+- Current visible pre-payment question count: 18
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -530,24 +530,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Georgia, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Georgia case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Georgia descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Georgia or elsewhere?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Georgia category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the Georgia criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
-- `county` (packet-preparation): What Georgia county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Georgia (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Georgia was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -555,7 +554,6 @@ Proposed post-payment candidates:
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -585,16 +583,16 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Hawaii, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Hawaii case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Hawaii descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Hawaii (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Hawaii was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Hawaii did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -616,7 +614,7 @@ Questions that must remain pre-payment:
 
 ### IA - Iowa
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 13
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -624,26 +622,24 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Iowa, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Iowa case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Iowa descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Iowa or elsewhere?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Iowa county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Iowa (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Iowa was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -661,7 +657,7 @@ Questions that must remain pre-payment:
 
 ### ID - Idaho
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 13
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -669,26 +665,24 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Idaho, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Idaho case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Idaho descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Idaho or elsewhere?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Idaho county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Idaho (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Idaho was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -714,21 +708,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Illinois, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Illinois case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Illinois descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Illinois category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Illinois (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Illinois was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Illinois did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -755,7 +749,7 @@ Questions that must remain pre-payment:
 
 ### IN - Indiana
 
-- Current visible pre-payment question count: 13
+- Current visible pre-payment question count: 11
 - Legal/source-risk level: medium
 - Conversion upside: high
 - Payment-gate risk: medium
@@ -763,18 +757,16 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Indiana, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Indiana case or record end?
-- `possible_pathway_context` (review-caution): Do any of these Indiana descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Indiana county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Indiana (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `case_number` (packet-preparation): What is the case, cause, docket, or arrest number?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Indiana was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `case_number` (packet-preparation): What's the case number?
+- `charge` (packet-preparation): What does the record say you were charged with?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -782,8 +774,6 @@ Proposed post-payment candidates:
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -798,7 +788,7 @@ Questions that must remain pre-payment:
 
 ### KS - Kansas
 
-- Current visible pre-payment question count: 12
+- Current visible pre-payment question count: 11
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -806,24 +796,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Kansas, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Kansas case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Kansas descriptions sound close to your situation?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Kansas county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Kansas (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Kansas was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -839,7 +827,7 @@ Questions that must remain pre-payment:
 
 ### KY - Kentucky
 
-- Current visible pre-payment question count: 14
+- Current visible pre-payment question count: 13
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -847,26 +835,24 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Kentucky, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Kentucky case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Kentucky descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Kentucky county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Kentucky (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Kentucky was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -884,7 +870,7 @@ Questions that must remain pre-payment:
 
 ### LA - Louisiana
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 17
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -892,23 +878,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Louisiana, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Louisiana case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Louisiana descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Louisiana criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Louisiana (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `case_number` (packet-preparation): What is the case, cause, docket, or arrest number?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Louisiana was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `case_number` (packet-preparation): What's the case number?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Louisiana did the case happen?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -917,7 +902,6 @@ Proposed post-payment candidates:
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
 - `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -945,18 +929,18 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Massachusetts, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Massachusetts case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Massachusetts descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Massachusetts (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Massachusetts was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Massachusetts did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -980,7 +964,7 @@ Questions that must remain pre-payment:
 
 ### MD - Maryland
 
-- Current visible pre-payment question count: 18
+- Current visible pre-payment question count: 17
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -988,30 +972,28 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Maryland, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Maryland case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Maryland descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Maryland or elsewhere?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Maryland category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Maryland county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Maryland (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Maryland was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -1041,23 +1023,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Maine, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Maine case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Maine descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Maine criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Maine (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Maine was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Maine did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1094,19 +1076,19 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Michigan, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Michigan case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Michigan descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Michigan or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Michigan category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Michigan (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Michigan was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Michigan did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1139,19 +1121,19 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Minnesota, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Minnesota case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Minnesota descriptions sound close to your situation?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Minnesota criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Minnesota (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Minnesota was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Minnesota did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1184,23 +1166,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Missouri, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Missouri case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Missouri descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Missouri or elsewhere?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Missouri category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Missouri (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Missouri was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Missouri did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1237,10 +1219,10 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Mississippi, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Mississippi case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Mississippi descriptions sound close to your situation?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Mississippi (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 
 Proposed post-payment candidates:
 None.
@@ -1265,22 +1247,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Montana, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Montana case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Montana descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Montana or elsewhere?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Montana criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Montana county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Montana (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1316,21 +1298,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from North Carolina, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the North Carolina case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these North Carolina descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in North Carolina or elsewhere?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any North Carolina category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in North Carolina (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in North Carolina was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in North Carolina did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1365,10 +1347,10 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from North Dakota, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the North Dakota case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these North Dakota descriptions sound close to your situation?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in North Dakota (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 
 Proposed post-payment candidates:
 None.
@@ -1385,7 +1367,7 @@ Questions that must remain pre-payment:
 
 ### NE - Nebraska
 
-- Current visible pre-payment question count: 20
+- Current visible pre-payment question count: 19
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1393,25 +1375,24 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Nebraska, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Nebraska case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Nebraska descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Nebraska criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
-- `county` (packet-preparation): What Nebraska county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Nebraska (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Nebraska was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1419,7 +1400,6 @@ Proposed post-payment candidates:
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -1450,12 +1430,12 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from New Hampshire, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the New Hampshire case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these New Hampshire descriptions sound close to your situation?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in New Hampshire (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
 
 Proposed post-payment candidates:
 None.
@@ -1482,23 +1462,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from New Jersey, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the New Jersey case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these New Jersey descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in New Jersey or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any New Jersey category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in New Jersey (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in New Jersey was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in New Jersey did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1535,22 +1515,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from New Mexico, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the New Mexico case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these New Mexico descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in New Mexico (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in New Mexico was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in New Mexico did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1586,20 +1566,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Nevada, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Nevada case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Nevada descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Nevada criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Nevada (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Nevada was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Nevada did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1633,20 +1613,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from New York, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the New York case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these New York descriptions sound close to your situation?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any New York category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the New York criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in New York (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in New York was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in New York did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1680,20 +1660,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Ohio, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Ohio case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Ohio descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Ohio (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Ohio was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Ohio did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1727,21 +1707,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Oklahoma, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Oklahoma case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Oklahoma descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Oklahoma (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Oklahoma was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Oklahoma did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1768,7 +1748,7 @@ Questions that must remain pre-payment:
 
 ### OR - Oregon
 
-- Current visible pre-payment question count: 16
+- Current visible pre-payment question count: 15
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -1776,28 +1756,26 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Oregon, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Oregon case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Oregon descriptions sound close to your situation?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Oregon category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `county` (packet-preparation): What Oregon county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Oregon (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Oregon was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
 - `county`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
@@ -1825,10 +1803,10 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Pennsylvania, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Pennsylvania case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Pennsylvania descriptions sound close to your situation?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Pennsylvania (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 
 Proposed post-payment candidates:
 None.
@@ -1853,10 +1831,10 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Rhode Island, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Rhode Island case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Rhode Island descriptions sound close to your situation?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Rhode Island (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 
 Proposed post-payment candidates:
 None.
@@ -1881,24 +1859,24 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from South Carolina, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the South Carolina case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these South Carolina descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in South Carolina or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the South Carolina criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in South Carolina (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in South Carolina was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in South Carolina did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1936,21 +1914,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from South Dakota, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the South Dakota case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these South Dakota descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in South Dakota (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in South Dakota was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in South Dakota did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -1985,21 +1963,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Tennessee, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Tennessee case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Tennessee descriptions sound close to your situation?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Tennessee or elsewhere?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Tennessee category that the source identifies as excluded or review-required?
-- `criminal_history` (packet-preparation): Do you have the Tennessee criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Tennessee (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Tennessee was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Tennessee did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2034,22 +2012,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Texas, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Texas case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Texas descriptions sound close to your situation?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Texas category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Texas (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Texas was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Texas did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2085,10 +2063,10 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Utah, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Utah case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Utah descriptions sound close to your situation?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Utah (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
 
 Proposed post-payment candidates:
 None.
@@ -2113,20 +2091,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Virginia, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Virginia case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Virginia descriptions sound close to your situation?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `state_exclusion_categories` (eligibility-decision): Does the record involve any Virginia category that the source identifies as excluded or review-required?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Virginia (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `state_exclusion_categories` (eligibility-decision): Did the case involve any of these?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Virginia was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Virginia did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2160,22 +2138,22 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Vermont, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Vermont case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Vermont descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `identity_error` (eligibility-decision): Was the arrest or record caused by mistaken identity, identity theft, or law-enforcement error?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Vermont (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `identity_error` (eligibility-decision): Was this arrest a mistake — wrong person, identity theft, or an error?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Vermont was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Vermont did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2211,20 +2189,20 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Washington, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Washington case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Washington descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Washington (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Washington was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Washington did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2258,21 +2236,21 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Wisconsin, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Wisconsin case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Wisconsin descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `criminal_history` (packet-preparation): Do you have the Wisconsin criminal-history report, court docket, or certified disposition needed to verify the record?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Wisconsin (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `criminal_history` (packet-preparation): Do you have your background check or court records handy?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Wisconsin was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Wisconsin did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `criminal_history`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2299,7 +2277,7 @@ Questions that must remain pre-payment:
 
 ### WV - West Virginia
 
-- Current visible pre-payment question count: 20
+- Current visible pre-payment question count: 18
 - Legal/source-risk level: high
 - Conversion upside: high
 - Payment-gate risk: high
@@ -2307,25 +2285,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from West Virginia, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the West Virginia case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these West Virginia descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in West Virginia or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
-- `arrest_date` (eligibility-decision): When did the arrest or citation occur?
-- `county` (packet-preparation): What West Virginia county, parish, borough, district, or local filing area handled the case?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in West Virginia (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
+- `arrest_date` (eligibility-decision): When did the arrest happen?
+- `county` (packet-preparation): Which county (or local area) handled the case?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `case_number` (packet-preparation): What is the case, cause, docket, or arrest number?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in West Virginia was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `case_number` (packet-preparation): What's the case number?
+- `charge` (packet-preparation): What does the record say you were charged with?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2333,8 +2309,6 @@ Proposed post-payment candidates:
 - `court`: Court or filing location is generally a form-routing and filing-logistics detail.
 - `case_number`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 - `charge`: Exact charge/statute detail is usually needed to fill and verify a packet after a pathway is otherwise clear.
-- `county_or_filing_location`: Court or filing location is generally a form-routing and filing-logistics detail.
-- `case_identifier`: This looks like case-detail collection needed to assemble a packet, not a standalone eligibility or pathway fact.
 
 Proposed caution candidates:
 - `possible_pathway_context`: The current profile marks this as context-only and does-not-select-pathway, so it is a candidate for a later optional/collapsed or post-payment treatment if tests preserve evaluator outcomes.
@@ -2364,23 +2338,23 @@ Questions that must remain pre-payment:
 
 Questions:
 - `ownership_scope` (eligibility-decision): Are you asking about your own record?
-- `jurisdiction_scope` (eligibility-decision): Is this a state or local matter from Wyoming, rather than a federal matter?
-- `case_outcome` (eligibility-decision): How did the Wyoming case or record end?
-- `offense_level` (eligibility-decision): What level or type was the charge?
-- `possible_pathway_context` (review-caution): Do any of these Wyoming descriptions sound close to your situation?
-- `age_at_offense` (eligibility-decision): How old were you when the offense or case began?
-- `prior_relief` (review-caution): Have you previously received record-clearing relief in Wyoming or elsewhere?
-- `trafficking_status` (eligibility-decision): Was this offense connected to your status as a human-trafficking or sex-trafficking survivor?
-- `pardon_status` (eligibility-decision): Have you received a pardon, certificate of rehabilitation, or similar executive relief for this conviction?
-- `sentence_completion_date` (eligibility-decision): Have you completed every part of the sentence, supervision, probation, parole, classes, or community service?
-- `financial_obligations` (eligibility-decision): Are all fines, restitution, court costs, and other required financial obligations resolved?
-- `pending_cases` (eligibility-decision): Do you currently have any pending criminal charge, open case, probation, parole, or other supervision?
-- `disposition_date` (eligibility-decision): When was the case disposed of, dismissed, completed, or discharged?
-- `record_documents` (packet-preparation): Do you have court paperwork or a criminal-history record showing the exact charge and outcome?
+- `jurisdiction_scope` (eligibility-decision): Did this case happen in Wyoming (not a federal case)?
+- `case_outcome` (eligibility-decision): How did the case end?
+- `offense_level` (eligibility-decision): What kind of charge was it?
+- `possible_pathway_context` (review-caution): Do any of these sound like your situation?
+- `age_at_offense` (eligibility-decision): How old were you when this happened?
+- `prior_relief` (review-caution): Have you had a record cleared before, anywhere?
+- `trafficking_status` (eligibility-decision): Did this happen because you were a victim of human trafficking?
+- `pardon_status` (eligibility-decision): Have you gotten a pardon or similar official relief for this?
+- `sentence_completion_date` (eligibility-decision): Have you finished everything the court ordered?
+- `financial_obligations` (eligibility-decision): Have you paid off everything the court charged?
+- `pending_cases` (eligibility-decision): Do you have any open cases right now?
+- `disposition_date` (eligibility-decision): When did the case end or finish?
+- `record_documents` (packet-preparation): Do you have your court paperwork handy?
 - `court` (packet-preparation): Which court or agency handled the case?
-- `charge` (packet-preparation): What charge, statute, or record description appears on the record?
-- `county_or_filing_location` (packet-preparation): Where in Wyoming was the case handled?
-- `case_identifier` (packet-preparation): What case, docket, cause, or arrest number appears on the record?
+- `charge` (packet-preparation): What does the record say you were charged with?
+- `county_or_filing_location` (packet-preparation): Where in Wyoming did the case happen?
+- `case_identifier` (packet-preparation): What's the case number?
 
 Proposed post-payment candidates:
 - `record_documents`: Record/document readiness is important for packet assembly and filing verification, but it looks more like post-payment fulfillment unless the answer is being used as a true source-defined eligibility blocker.
@@ -2436,28 +2410,28 @@ Tests required before a behavior-changing phase:
 - UI tests proving only source-approved packet-preparation questions move after payment and no Stripe or checkout logic changes.
 
 States to pilot first:
-- IN Indiana: 8 candidate questions, medium legal/source risk
 - ME Maine: 7 candidate questions, medium legal/source risk
 - NV Nevada: 7 candidate questions, medium legal/source risk
 - HI Hawaii: 6 candidate questions, medium legal/source risk
+- IN Indiana: 6 candidate questions, medium legal/source risk
 - OH Ohio: 6 candidate questions, medium legal/source risk
 
 States not to touch without review:
-- NE Nebraska: 20 questions, 8 candidates, high legal/source risk
-- WV West Virginia: 20 questions, 9 candidates, high legal/source risk
-- GA Georgia: 19 questions, 9 candidates, high legal/source risk
+- NE Nebraska: 19 questions, 7 candidates, high legal/source risk
 - SC South Carolina: 19 questions, 8 candidates, high legal/source risk
-- FL Florida: 18 questions, 8 candidates, high legal/source risk
-- LA Louisiana: 18 questions, 8 candidates, high legal/source risk
-- MD Maryland: 18 questions, 8 candidates, high legal/source risk
+- GA Georgia: 18 questions, 8 candidates, high legal/source risk
 - MO Missouri: 18 questions, 7 candidates, high legal/source risk
 - NJ New Jersey: 18 questions, 7 candidates, high legal/source risk
+- WV West Virginia: 18 questions, 7 candidates, high legal/source risk
 - WY Wyoming: 18 questions, 7 candidates, high legal/source risk
 - AL Alabama: 17 questions, 6 candidates, high legal/source risk
 - AK Alaska: 17 questions, 7 candidates, high legal/source risk
-- CA California: 17 questions, 8 candidates, high legal/source risk
+- FL Florida: 17 questions, 7 candidates, high legal/source risk
+- LA Louisiana: 17 questions, 7 candidates, high legal/source risk
+- MD Maryland: 17 questions, 7 candidates, high legal/source risk
 - MT Montana: 17 questions, 7 candidates, high legal/source risk
 - NM New Mexico: 17 questions, 6 candidates, high legal/source risk
+- TX Texas: 17 questions, 6 candidates, high legal/source risk
 
 Rollback plan:
 - Keep the current all-pre-payment profile-driven flow behind the existing screen derivation.
@@ -2479,25 +2453,25 @@ Friction-heavy states:
 
 | State | Visible questions | Candidate reducible | Legal/source risk | Conversion upside | Payment-gate risk |
 | --- | ---: | ---: | --- | --- | --- |
-| WV West Virginia | 20 | 9 | high | high | high |
-| NE Nebraska | 20 | 8 | high | high | high |
-| GA Georgia | 19 | 9 | high | high | high |
 | SC South Carolina | 19 | 8 | high | high | high |
-| FL Florida | 18 | 8 | high | high | high |
-| LA Louisiana | 18 | 8 | high | high | high |
-| MD Maryland | 18 | 8 | high | high | high |
+| NE Nebraska | 19 | 7 | high | high | high |
+| GA Georgia | 18 | 8 | high | high | high |
 | ME Maine | 18 | 7 | medium | high | medium |
 | MO Missouri | 18 | 7 | high | high | high |
 | NJ New Jersey | 18 | 7 | high | high | high |
+| WV West Virginia | 18 | 7 | high | high | high |
+| WY Wyoming | 18 | 7 | high | high | high |
+| AK Alaska | 17 | 7 | high | high | high |
+| FL Florida | 17 | 7 | high | high | high |
 
 Safest candidates:
 
 | State | Visible questions | Candidate reducible | Legal/source risk | Conversion upside | Recommended action |
 | --- | ---: | ---: | --- | --- | --- |
-| IN Indiana | 13 | 8 | medium | high | source review first |
 | ME Maine | 18 | 7 | medium | high | source review first |
 | NV Nevada | 15 | 7 | medium | high | source review first |
 | HI Hawaii | 11 | 6 | medium | high | source review first |
+| IN Indiana | 11 | 6 | medium | high | source review first |
 | OH Ohio | 15 | 6 | medium | high | source review first |
 | VT Vermont | 17 | 6 | medium | high | source review first |
 | WA Washington | 15 | 6 | medium | high | source review first |

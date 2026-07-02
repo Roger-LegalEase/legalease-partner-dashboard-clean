@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge, MatterStepper, packetCompletionActionFor } from "@/components/expungement-ai/BriefcaseViews";
+import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
 import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
@@ -131,9 +132,25 @@ export default async function BriefcasePacketPage({
                   </Link>
                 </div>
               ) : (
-                <p className="rounded-[16px] border border-[#ECEFF4] bg-white px-5 py-5 text-[13px] text-[#5A6275]">
-                  Your documents will appear here once your packet is generated.
-                </p>
+                <div className="rounded-[16px] border border-[#ECEFF4] bg-white px-5 py-5">
+                  {item.paymentAllowed && item.paymentStatus !== "paid" ? (
+                    <>
+                      <p className="text-[14px] font-semibold text-[#1A1D26]">A path may be available.</p>
+                      <p className="mt-1 text-[13px] leading-6 text-[#5A6275]">Continue to payment before packet generation.</p>
+                      <Link href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(item.id)}`} className="mt-4 inline-flex min-h-10 items-center justify-center rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white">
+                        Continue to payment
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[14px] font-semibold text-[#1A1D26]">Your packet is almost ready.</p>
+                      <p className="mt-1 text-[13px] leading-6 text-[#5A6275]">
+                        We need any remaining packet information before we generate your documents and next-step instructions.
+                      </p>
+                      <PacketGenerateButton briefcaseItemId={item.id} />
+                    </>
+                  )}
+                </div>
               )}
 
               <div className="mt-6 flex flex-wrap gap-3">

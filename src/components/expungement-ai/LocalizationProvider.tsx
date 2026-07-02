@@ -34,10 +34,9 @@ function initialLocale(): Locale {
 }
 
 export function LocalizationProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
+  const [locale, setLocale] = useState<Locale>(() => initialLocale());
 
   useEffect(() => {
-    Promise.resolve().then(() => setLocale(initialLocale()));
     const onStorage = (event: StorageEvent) => {
       if (event.key === LOCALE_STORAGE_KEY) setLocale(normalizeLocale(event.newValue));
     };

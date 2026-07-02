@@ -106,6 +106,11 @@ export default function SetPasswordPage() {
       }
 
       if (data.session) {
+        if (isExpungementNext(detectedNextPath)) {
+          const claimedNext = await claimExpungementPending(detectedNextPath);
+          window.location.assign(claimedNext);
+          return;
+        }
         setState("ready");
         return;
       }
@@ -376,6 +381,30 @@ function defaultNextPath() {
 }
 
 function scrubAuthUrl(nextPath: string) {
+  const search = new URLSearchParams(window.location.search);
   const cleanParams = new URLSearchParams({ next: safeAppRedirectPath(nextPath) });
+  const pending = search.get("pending");
+  if (pending && /^[0-9a-f-]{36}$/i.test(pending)) cleanParams.set("pending", pending);
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
+}
+
+function isExpungementNext(nextPath: string) {
+  return nextPath.startsWith("/expungement-ai") || nextPath.startsWith("/briefcase");
+}
+
+async function claimExpungementPending(nextPath: string) {
+  const params = new URLSearchParams(window.location.search);
+  const pendingId = params.get("pending");
+  if (!pendingId || !/^[0-9a-f-]{36}$/i.test(pendingId)) return safeAppRedirectPath(nextPath, "/briefcase");
+  try {
+    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pendingId, next: nextPath })
+    });
+    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
+    return safeAppRedirectPath(payload?.redirectTo, safeAppRedirectPath(nextPath, "/briefcase"));
+  } catch {
+    return safeAppRedirectPath(nextPath, "/briefcase");
+  }
 }

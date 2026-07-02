@@ -54,7 +54,7 @@ assertIncludes(screeningFlow, 'translate("screening.malformed_title"', "Screenin
 assertIncludes(localizationProvider, "setLocale: (locale: Locale) => void", "LocalizationProvider controlled setter");
 assertIncludes(localizationProvider, 'window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)', "LocalizationProvider explicit locale persistence");
 assertIncludes(localizationProvider, "new CustomEvent(LOCALE_EVENT_NAME", "LocalizationProvider locale event detail");
-assertIncludes(landingInteractions, "persistExpungementLocale(lang)", "landing language toggle shared persistence");
+assertIncludes(landingInteractions, "persistExpungementLocale(normalizedLang)", "landing language toggle shared persistence");
 assert(!localizationProvider.includes("removeItem(LOCALE_STORAGE_KEY"), "English must be persisted explicitly, not represented by removing Spanish state.");
 
 assertIncludes(profileRoute, '"Cache-Control": "no-store, max-age=0"', "profile endpoint cache control");

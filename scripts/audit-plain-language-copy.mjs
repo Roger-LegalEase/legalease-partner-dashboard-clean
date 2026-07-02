@@ -93,8 +93,8 @@ function recommendedRewrite(text, surface) {
   const clean = normalize(text);
   if (/court-ready/i.test(clean)) return clean.replace(/court-ready self-help paperwork/gi, "self-help paperwork").replace(/court-ready/gi, "ready to review");
   if (/you may be eligible/i.test(clean)) return clean.replace(/You may be eligible\.?/gi, "A packet route may be available.");
-  if (/generate my packet/i.test(clean)) return clean.replace(/Generate my packet/gi, "Generate my self-help packet");
-  if (/start \$50 checkout/i.test(clean)) return "Generate my self-help packet - $50";
+  if (/generate my self-help packet/i.test(clean)) return clean.replace(/Generate my self-help packet/gi, "Generate my packet");
+  if (/start \$50 checkout/i.test(clean)) return "Generate my packet - $50";
   if (surface === "wilma_question" && clean.length > 150) return "Split this into one plain question, with legal terms explained in helper text.";
   if (includesAny(clean, GUARANTEE_PHRASES).length) return "Use: Based on your answers, there may be a packet route.";
   return "";
@@ -397,7 +397,7 @@ ${topSurfaces}
 
 ## Low-Risk Fixes Applied
 
-- Payment CTA now uses: "Generate my self-help packet - $50".
+- Payment CTA now uses: "Generate my packet - $50".
 - Payment support copy separates Expungement.ai packet generation from court, agency, and background-report fees.
 - Packet-ready result copy avoids "you qualify" language.
 - Alaska, Nevada, Massachusetts, Pennsylvania, Hawaii, and Delaware remedy labels use state-specific terms.
