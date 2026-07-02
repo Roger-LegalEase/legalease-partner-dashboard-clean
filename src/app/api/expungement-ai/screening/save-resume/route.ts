@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
-import { saveScreeningResumeLink, SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
+import { resumeEmailSendFailureMessage, saveScreeningResumeLink, SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import { checkResumeRateLimit, resumeClientIp, resumeRateLimitPolicies } from "@/lib/expungement-ai/screening-resume-rate-limit";
 import { normalizeResumeEmail } from "@/lib/expungement-ai/screening-resume-security";
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     return NextResponse.json(result);
   } catch (error) {
     logSecurityError({ event: "screening_resume_save_failed", route: "/api/expungement-ai/screening/save-resume", outcome: "failed", requestId, error });
-    return NextResponse.json({ ok: false, message: "We couldn't save that progress right now." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: resumeEmailSendFailureMessage }, { status: 503 });
   }
 }
 

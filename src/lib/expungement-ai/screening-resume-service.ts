@@ -27,6 +27,9 @@ import {
 } from "@/lib/expungement-ai/screening-resume-security";
 import { screeningResumeUrl, sendScreeningResumeEmail } from "@/lib/expungement-ai/screening-resume-email";
 
+export const resumeEmailSentMessage = "Check your email for a saved-progress link.";
+export const resumeEmailSendFailureMessage = "We could not send that link right now. You can continue without saving or try again.";
+
 export type ScreeningResumePosition = {
   currentQuestionId: string | null;
   furthestStage: string | null;
@@ -162,13 +165,13 @@ export async function saveScreeningResumeLink(
   const resumeUrl = screeningResumeUrl(rawToken);
   const emailResult = await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl });
   if (!emailResult.ok) {
-    throw new Error("Resume email delivery failed.");
+    throw new Error(resumeEmailSendFailureMessage);
   }
 
   return {
     ok: true as const,
     sessionId: saved.sessionId,
-    message: "If the email is valid, a saved-progress link has been sent."
+    message: resumeEmailSentMessage
   };
 }
 
@@ -235,8 +238,11 @@ export async function requestFreshScreeningResumeLink(
     previousTokenGraceExpiresAt: row.resumeTokenHash ? previousTokenGraceExpiry(now) : null,
     rotatedAt: new Date(now).toISOString()
   });
-  await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl: screeningResumeUrl(rawToken) });
-  return { ok: true as const, message: "If that saved session can be resumed, a new link has been sent." };
+  const emailResult = await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl: screeningResumeUrl(rawToken) });
+  if (!emailResult.ok) {
+    return { ok: false as const, message: resumeEmailSendFailureMessage };
+  }
+  return { ok: true as const, message: "Check your email for a new saved-progress link." };
 }
 
 export class SupabaseScreeningResumeStorage implements ScreeningResumeStorage {

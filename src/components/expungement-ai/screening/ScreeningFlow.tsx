@@ -322,7 +322,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
           email: saveEmail
         })
       });
-      const result = await response.json() as { ok?: boolean; sessionId?: string };
+      const result = await response.json() as { ok?: boolean; sessionId?: string; message?: string };
       if (!response.ok || !result.ok) {
         setSaveStatus("error");
         return;
@@ -468,7 +468,7 @@ function SaveProgressDialog({
         </p>
         {status === "sent" ? (
           <p className="mt-4 rounded-xl bg-[#E7F7F4] p-4 text-sm font-semibold text-[#0B1320]">
-            {translate("screening.save_progress_sent", "If the email is valid, a saved-progress link has been sent.")}
+            {translate("screening.save_progress_sent", "Check your email for a saved-progress link.")}
           </p>
         ) : (
           <label className="mt-4 grid gap-2 text-sm font-bold text-[#0B1320]">
@@ -483,7 +483,7 @@ function SaveProgressDialog({
           </label>
         )}
         {status === "error" ? (
-          <p className="mt-3 text-sm font-semibold text-[#C2410C]">{translate("screening.save_progress_error", "We couldn't save that progress right now.")}</p>
+          <p className="mt-3 text-sm font-semibold text-[#C2410C]">{translate("screening.save_progress_error", "We could not send that link right now. You can continue without saving or try again.")}</p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row-reverse">
           {status === "sent" ? (

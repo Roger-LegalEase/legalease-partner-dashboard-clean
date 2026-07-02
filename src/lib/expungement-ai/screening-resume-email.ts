@@ -10,6 +10,7 @@ export type ScreeningResumeEmail = {
 export type ScreeningResumeEmailResult = {
   ok: boolean;
   provider: "resend" | "disabled";
+  deliveryAttempted: boolean;
   subject: string;
   text: string;
   html: string;
@@ -51,17 +52,23 @@ export function screeningResumeUrl(rawToken: string) {
 
 export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Promise<ScreeningResumeEmailResult> {
   const rendered = renderScreeningResumeEmail(input);
-  const enabled = process.env.ENABLE_PARTNER_EMAIL_DELIVERY === "true";
-  const provider = enabled && process.env.PARTNER_EMAIL_PROVIDER === "resend" ? "resend" : "disabled";
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const from = process.env.PARTNER_EMAIL_FROM;
-  const replyTo = process.env.PARTNER_EMAIL_REPLY_TO;
-
-  if (!enabled || provider !== "resend" || !resendApiKey || !from) {
+  const config = getScreeningResumeEmailConfig();
+  if (config.mock) {
     return {
       ok: true,
       provider: "disabled",
+      deliveryAttempted: false,
       ...rendered
+    };
+  }
+
+  if (!config.enabled || config.provider !== "resend" || !config.resendApiKey || !config.from) {
+    return {
+      ok: false,
+      provider: "disabled",
+      deliveryAttempted: false,
+      ...rendered,
+      error: "Resume email delivery is disabled or missing required configuration."
     };
   }
 
@@ -69,13 +76,13 @@ export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Pro
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${resendApiKey}`,
+        Authorization: `Bearer ${config.resendApiKey}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from,
+        from: config.from,
         to: [input.to],
-        reply_to: replyTo,
+        reply_to: config.replyTo,
         subject: rendered.subject,
         text: rendered.text,
         html: rendered.html
@@ -86,6 +93,7 @@ export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Pro
       return {
         ok: false,
         provider: "resend",
+        deliveryAttempted: true,
         ...rendered,
         error: providerError(responseBody)
       };
@@ -93,6 +101,7 @@ export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Pro
     return {
       ok: true,
       provider: "resend",
+      deliveryAttempted: true,
       ...rendered,
       providerMessageId: typeof responseBody?.id === "string" ? responseBody.id : undefined
     };
@@ -100,10 +109,34 @@ export async function sendScreeningResumeEmail(input: ScreeningResumeEmail): Pro
     return {
       ok: false,
       provider: "resend",
+      deliveryAttempted: true,
       ...rendered,
       error: error instanceof Error ? error.message : "Resume email delivery failed."
     };
   }
+}
+
+function getScreeningResumeEmailConfig() {
+  const explicitProvider = normalizeProvider(process.env.EXPUNGEMENT_EMAIL_PROVIDER);
+  const legacyProvider = normalizeProvider(process.env.PARTNER_EMAIL_PROVIDER);
+  const provider = explicitProvider ?? (process.env.ENABLE_PARTNER_EMAIL_DELIVERY === "true" ? legacyProvider : null);
+  const from = process.env.EXPUNGEMENT_EMAIL_FROM || process.env.PARTNER_EMAIL_FROM;
+  const replyTo = process.env.EXPUNGEMENT_EMAIL_REPLY_TO || process.env.PARTNER_EMAIL_REPLY_TO;
+  const resendApiKey = process.env.RESEND_API_KEY;
+
+  return {
+    enabled: provider === "resend" && Boolean(resendApiKey && from),
+    provider: provider === "resend" ? "resend" as const : "disabled" as const,
+    resendApiKey,
+    from,
+    replyTo,
+    mock: provider === "mock" && process.env.NODE_ENV !== "production"
+  };
+}
+
+function normalizeProvider(value: string | undefined) {
+  if (value === "resend" || value === "mock") return value;
+  return null;
 }
 
 function escapeHtml(value: string) {

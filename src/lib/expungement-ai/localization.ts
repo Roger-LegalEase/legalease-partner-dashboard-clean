@@ -34,6 +34,22 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   },
   "screening.state_screening": { en: "{state} screening", es: "Revisión de {state}" },
   "screening.save_progress": { en: "Save progress", es: "Guardar progreso" },
+  "screening.save_progress_email": {
+    en: "We'll only use this email to send you a link back to your saved progress.",
+    es: "Solo usaremos este correo electrónico para enviarle un enlace a su progreso guardado."
+  },
+  "screening.save_progress_sent": {
+    en: "Check your email for a saved-progress link.",
+    es: "Revise su correo electrónico para encontrar el enlace de progreso guardado."
+  },
+  "screening.save_progress_error": {
+    en: "We could not send that link right now. You can continue without saving or try again.",
+    es: "No pudimos enviar ese enlace ahora. Puede continuar sin guardar o intentarlo de nuevo."
+  },
+  "screening.email": { en: "Email", es: "Correo electrónico" },
+  "screening.sending": { en: "Sending...", es: "Enviando..." },
+  "screening.send_link": { en: "Send link", es: "Enviar enlace" },
+  "screening.continue_without_saving": { en: "Continue without saving", es: "Continuar sin guardar" },
   "screening.answer_required": { en: "Please answer this question to continue.", es: "Responda esta pregunta para continuar." },
   "screening.legal_info": {
     en: "This is legal information, not legal advice. Expungement.ai prepares self-help materials based on your answers; the court or agency makes the final decision.",
