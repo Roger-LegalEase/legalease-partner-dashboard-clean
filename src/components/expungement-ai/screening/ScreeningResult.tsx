@@ -104,6 +104,7 @@ export function ScreeningResult({
   questionPromptById,
   onEditAnswers,
   onPacketAction,
+  actionError,
   hasScreeningSession = false
 }: {
   evaluation: ScreeningEvaluation;
@@ -111,6 +112,7 @@ export function ScreeningResult({
   questionPromptById: Record<string, string>;
   onEditAnswers: (focusQuestionId?: string) => void;
   onPacketAction: () => void;
+  actionError?: string | null;
   // Partner/session mode: the screening was started through a partner program (a screening
   // session already exists). In that mode the consumer pay-and-generate flow does not apply —
   // the packet action saves to Briefcase and no $50 charge is shown here.
@@ -208,6 +210,12 @@ export function ScreeningResult({
       ) : null}
 
       {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} /> : null}
+
+      {actionError ? (
+        <p className="mt-6 rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert">
+          {actionError}
+        </p>
+      ) : null}
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
         {showPacketAction ? (

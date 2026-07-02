@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     paymentAllowed: data.payment_allowed,
     summary: data.summary,
     nextSteps: Array.isArray(data.next_steps) ? data.next_steps : [],
-    sourceSessionId: data.pending_id
+    sourceSessionId: data.product === "rcap_partner" ? data.pending_id : undefined
   }, { isPartnerSession: data.product === "rcap_partner" }));
 
   await supabase

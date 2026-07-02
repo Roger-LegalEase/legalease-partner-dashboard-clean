@@ -23,7 +23,7 @@ export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: s
     const payload = await response.json().catch(() => null) as { checkoutUrl?: string; error?: string } | null;
 
     if (!response.ok || !payload?.checkoutUrl) {
-      setError(payload?.error ?? translate("payment.error", "Checkout is not available right now."));
+      setError(payload?.error ?? translate("payment.error", "We could not start checkout right now. Please try again."));
       setIsLoading(false);
       return;
     }

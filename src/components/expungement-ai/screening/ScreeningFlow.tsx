@@ -48,6 +48,7 @@ const PROFILE_LOAD_GUARD_MS = 12_000;
 // Where the packet action sends a partner/session-mode user. The direct-to-consumer
 // pay-and-generate flow (PACKET_PATH) does not apply when screening began through a partner.
 const BRIEFCASE_PATH = "/briefcase";
+const CHECKOUT_START_ERROR = "We could not start checkout right now. Please try again.";
 
 type LoadState =
   | { status: "loading" }
@@ -104,6 +105,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
+  const [packetActionError, setPacketActionError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | undefined>(effectiveInitialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
@@ -237,6 +239,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   // DTC (no partner session) keeps the existing pay-and-generate route, unchanged.
   async function handlePacketAction() {
     if (!evaluation) return;
+    setPacketActionError(null);
 
     const payload = {
       jurisdiction: stateName,
@@ -262,7 +265,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
           return;
         }
         if (response.status !== 401) {
-          router.push("/briefcase");
+          setPacketActionError(CHECKOUT_START_ERROR);
           return;
         }
       } catch {
@@ -283,11 +286,15 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
         })
       }).catch(() => null);
       const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
+      if (!pendingResponse?.ok || !pending?.pendingId) {
+        setPacketActionError(CHECKOUT_START_ERROR);
+        return;
+      }
       const params = new URLSearchParams({
         mode: "create",
         next: "/expungement-ai/pay"
       });
-      if (pending?.pendingId) params.set("pending", pending.pendingId);
+      params.set("pending", pending.pendingId);
       router.push(`/expungement-ai/sign-in?${params.toString()}`);
       return;
     }
@@ -337,6 +344,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   function goToQuestions(focusQuestionId?: string) {
     setEvalError(null);
+    setPacketActionError(null);
     setEvaluation(null);
     if (focusQuestionId) {
       const targetIndex = screens.findIndex((screen) => screen.id === focusQuestionId);
@@ -412,6 +420,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             questionPromptById={questionPromptById}
             onEditAnswers={goToQuestions}
             onPacketAction={() => void handlePacketAction()}
+            actionError={packetActionError}
             hasScreeningSession={isPartnerSession}
           />
         </div>

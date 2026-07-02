@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
-      return NextResponse.json({ error: "Checkout is temporarily unavailable. Please try again later." }, { status: 503 });
+      return NextResponse.json({ error: "We could not start checkout right now. Please try again." }, { status: 503 });
     }
 
     throw error;
