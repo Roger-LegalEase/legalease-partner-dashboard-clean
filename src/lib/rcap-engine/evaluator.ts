@@ -1153,12 +1153,12 @@ function labelForResult(resultCode: ScreeningResultCode) {
   const labels: Record<ScreeningResultCode, string> = {
     packet_ready: "A source-defined packet pathway may be available.",
     packet_ready_with_caution: "A source-defined packet pathway may be available with cautions.",
-    needs_more_info: "More case details are required.",
+    needs_more_info: "We need one more detail before we can prepare the right packet.",
     not_yet: "A timing or completion condition is not satisfied yet.",
     guidance_only: "This route is guidance-only or automatic relief verification.",
     not_covered_yet: "This record type is not covered yet.",
     likely_not_eligible: "The answers appear to hit a source-defined exclusion.",
-    needs_review: "The answers require source review before a packet decision.",
+    needs_review: "We need one more detail before we can prepare the right packet.",
     hard_stop: "This matter is outside the self-help state screening scope."
   };
   return labels[resultCode];
@@ -1168,12 +1168,15 @@ function nextStepsForResult(resultCode: ScreeningResultCode) {
   const nextSteps: Record<ScreeningResultCode, string[]> = {
     packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete packet fields in Briefcase after payment.", "External documents affect filing readiness, not checkout eligibility."],
     packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete packet fields in Briefcase after payment.", "Do not file until external documents, fees, fingerprints, and instructions are complete."],
-    needs_more_info: ["Answer the missing source-defined questions.", "Use court records when possible.", "Run the evaluation again."],
+    needs_more_info: [
+      "We need the case date, disposition date, or completion date used to check the waiting period.",
+      "Save your progress and update your answers when you have that detail."
+    ],
     not_yet: ["Save the timing result.", "Confirm the anchor date from records.", "Return when the source-defined wait may be satisfied."],
     guidance_only: ["Review the state-specific guidance.", "Verify the record status with the listed source.", "Do not pay for a filing packet for this route."],
     not_covered_yet: ["Save this result.", "Request follow-up.", "Consider legal aid or attorney help."],
     likely_not_eligible: ["Review the source-backed reason.", "Do not use automated packet generation.", "Consider legal aid or attorney help."],
-    needs_review: ["Gather court records.", "Save the result.", "Get source review before any filing packet is generated."],
+    needs_review: ["Gather court records.", "Save the result.", "Save your progress and update your answers when you have that detail."],
     hard_stop: ["Do not use this state self-help packet flow.", "Gather the relevant record.", "Contact legal aid or an attorney."]
   };
   return nextSteps[resultCode];
@@ -1384,14 +1387,14 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
     return {
       status: "needs_review",
-      reason: reason(jurisdiction, "waiting_anchor_not_determined", "The source-specific waiting period has no safely executable date anchor.", rule.sourceRef ?? pathway.sourceRef)
+      reason: reason(jurisdiction, "waiting_anchor_not_determined", "We need the case date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef)
     };
   }
   const anchor = parseDateAnswer(answers[anchorId]);
   if (!anchor) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", `The ${anchorId} date is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(jurisdiction, "waiting_anchor_missing", "We need the case date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: [anchorId]
     };
   }

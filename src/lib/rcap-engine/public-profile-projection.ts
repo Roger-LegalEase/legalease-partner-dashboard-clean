@@ -46,6 +46,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
+  MS: new Set(["disposition_date"]),
   NY: new Set([
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
@@ -60,6 +61,9 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "wi_expungement_ordered_at_sentencing",
     "wi_no_probation_jail_prison"
   ])
+};
+const STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS: Record<string, Set<string>> = {
+  MS: new Set(["disposition_date"])
 };
 
 /**
@@ -136,11 +140,13 @@ function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: str
   const lifecyclePhase = source === "wilma"
     ? phaseForWilmaFact(question, jurisdictionCode)
     : lifecyclePhaseForQuestion(question);
+  const requiredPrepayFact = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode]?.has(question.id) === true;
   const normalized = {
     ...question,
     lifecyclePhase,
     stage: PREPAY_PHASES.has(lifecyclePhase) ? question.stage : postpayStageForPhase(lifecyclePhase),
     options: normalizeQuestionOptions(question.options),
+    required: requiredPrepayFact ? true : question.required,
     contextOnly: question.contextOnly === true,
     doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
   };
@@ -192,6 +198,17 @@ function postPaymentPacketCompletion(questions: PublicQuestion[]): NonNullable<P
 }
 
 const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "disposition_date",
+    stage: "timing_and_completion",
+    prompt: "What date should we use to check the waiting period for this case?",
+    helperText: "Use the case date, disposition date, or completion date from your court record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
   {
     id: "waiting_rule_id",
     stage: "timing_and_completion",

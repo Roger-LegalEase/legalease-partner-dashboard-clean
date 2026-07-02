@@ -75,6 +75,18 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.not_supported": { en: "Not supported yet", es: "Aún no compatible" },
   "result.may_not_qualify": { en: "This record may not qualify", es: "Es posible que este antecedente no califique" },
   "result.needs_review": { en: "This needs review", es: "Esto necesita revisión" },
+  "result.ms_missing_detail_title": {
+    en: "We need one more detail before we can prepare the right packet.",
+    es: "Necesitamos un detalle más antes de preparar el paquete correcto."
+  },
+  "result.ms_missing_date_anchor": {
+    en: "We need the case date, disposition date, or completion date used to check the waiting period.",
+    es: "Necesitamos la fecha del caso, la fecha de disposición o la fecha de finalización usada para revisar el período de espera."
+  },
+  "result.ms_missing_date_next_step": {
+    en: "Save your progress and update your answers when you have that detail.",
+    es: "Guarde su progreso y actualice sus respuestas cuando tenga ese dato."
+  },
   "result.cannot_help": { en: "We can't help with this record", es: "No podemos ayudar con este antecedente" },
   "result.cautions": { en: "Please read these cautions", es: "Lea estas advertencias" },
   "result.still_need": { en: "What we still need", es: "Lo que todavía necesitamos" },
@@ -106,6 +118,14 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; la aprobación del tribunal no está garantizada. Revise todo antes de presentar."
   },
   "missing.tell_more": { en: "Tell us more about {field}.", es: "Cuéntenos más sobre {field}." },
+  "profile.MS.disposition_date.prompt": {
+    en: "What date should we use to check the waiting period for this case?",
+    es: "¿Qué fecha debemos usar para revisar el período de espera de este caso?"
+  },
+  "profile.MS.disposition_date.helper": {
+    en: "Use the case date, disposition date, or completion date from your court record.",
+    es: "Use la fecha del caso, la fecha de disposición o la fecha de finalización que aparece en su registro judicial."
+  },
 
   "filing.ready_to_file": { en: "ready_to_file", es: "listo para presentar" },
   "filing.guidance_only": { en: "guidance_only", es: "solo guía" },

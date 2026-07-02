@@ -8,6 +8,10 @@ type MissingFieldFallback = {
 };
 
 const FRIENDLY_MISSING_FIELD_FALLBACKS: Record<string, MissingFieldFallback> = {
+  disposition_date: {
+    prompt: "What date should we use to check the waiting period for this case?",
+    type: "date_or_unknown"
+  },
   age_at_offense: {
     prompt: "How old were you when the case happened?",
     type: "number_or_range"
@@ -58,10 +62,28 @@ export function questionForMissingField(fieldId: string, profileQuestion?: Profi
 
 export function safeUserFacingEngineText(text: string, options?: { locale?: Locale }) {
   const locale = options?.locale ?? "en";
+  const plain = consumerSafeEngineText(text, locale);
   const sanitized = text
     .replace(/source_question_[a-z0-9_-]+/gi, "A source detail")
-    .replace(/\b(age_at_offense|trafficking_status|pardon_status)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
+    .replace(/\b(age_at_offense|trafficking_status|pardon_status|disposition_date)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
+  if (plain) return plain;
   return resolveRuntimeText(locale, sanitized);
+}
+
+function consumerSafeEngineText(text: string, locale: Locale) {
+  if (text === "The answers require source review before a packet decision.") {
+    return t(locale, "result.ms_missing_detail_title", "We need one more detail before we can prepare the right packet.");
+  }
+  if (
+    text === "The source-specific waiting period has no safely executable date anchor."
+    || /^The .+ date is needed before the source-specific waiting period can be evaluated\.$/.test(text)
+  ) {
+    return t(locale, "result.ms_missing_date_anchor", "We need the case date, disposition date, or completion date used to check the waiting period.");
+  }
+  if (text === "Get source review before any filing packet is generated.") {
+    return t(locale, "result.ms_missing_date_next_step", "Save your progress and update your answers when you have that detail.");
+  }
+  return "";
 }
 
 function looksLikeRawFieldKey(value: string) {
