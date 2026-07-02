@@ -15,7 +15,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ sta
 
   return NextResponse.json(projectPublicProfile(profile), {
     headers: {
-      "Cache-Control": "private, max-age=300"
+      "Cache-Control": "no-store, max-age=0"
     }
   });
 }

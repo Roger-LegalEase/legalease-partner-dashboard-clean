@@ -13,6 +13,7 @@
  */
 import { type JurisdictionProfile } from "./contracts";
 import { parseJurisdictionProfile, type ParseResult } from "./schemas";
+import { fetchJsonWithTimeout, type ProfileFetchOptions, type RawProfileResult } from "./profile-timeout";
 import all51 from "./profiles/all51.json";
 
 /**
@@ -26,6 +27,7 @@ const USE_LIVE_PROFILE_ENDPOINT = true;
 const PROFILES_BY_STATE = all51 as Record<string, unknown>;
 
 export type LoadProfileResult = ParseResult<JurisdictionProfile>;
+type ProfileLoadOptions = ProfileFetchOptions;
 
 /** Normalize a state/abbreviation input to the uppercase key used by the profile source. */
 export function normalizeStateKey(state: string): string {
@@ -61,7 +63,7 @@ export function listAvailableJurisdictions(): JurisdictionListItem[] {
  * Load and validate the jurisdiction profile for a state. Returns a discriminated result so
  * callers render a calm error state instead of catching exceptions.
  */
-export async function loadJurisdictionProfile(state: string): Promise<LoadProfileResult> {
+export async function loadJurisdictionProfile(state: string, options: ProfileLoadOptions = {}): Promise<LoadProfileResult> {
   const key = normalizeStateKey(state);
 
   if (!key) {
@@ -69,7 +71,7 @@ export async function loadJurisdictionProfile(state: string): Promise<LoadProfil
   }
 
   const raw = USE_LIVE_PROFILE_ENDPOINT
-    ? await fetchLiveProfile(key)
+    ? await fetchLiveProfile(key, options)
     : loadMockProfile(key);
 
   if (!raw.ok) {
@@ -79,7 +81,7 @@ export async function loadJurisdictionProfile(state: string): Promise<LoadProfil
   return parseJurisdictionProfile(raw.value);
 }
 
-function loadMockProfile(key: string): { ok: true; value: unknown } | { ok: false; error: string } {
+function loadMockProfile(key: string): RawProfileResult {
   const value = PROFILES_BY_STATE[key];
   if (value === undefined) {
     return { ok: false, error: `No jurisdiction profile is available for "${key}".` };
@@ -100,18 +102,11 @@ function loadMockProfile(key: string): { ok: true; value: unknown } | { ok: fals
 const PROFILE_FETCH_TIMEOUT_MS = 10_000;
 
 async function fetchLiveProfile(
-  key: string
-): Promise<{ ok: true; value: unknown } | { ok: false; error: string }> {
-  try {
-    const response = await fetch(`/api/expungement-ai/profiles/${encodeURIComponent(key)}`, {
-      headers: { accept: "application/json" },
-      signal: AbortSignal.timeout(PROFILE_FETCH_TIMEOUT_MS)
-    });
-    if (!response.ok) {
-      return { ok: false, error: `Profile request failed (${response.status}).` };
-    }
-    return { ok: true, value: (await response.json()) as unknown };
-  } catch {
-    return { ok: false, error: "We could not load this state's questions. Please try again." };
-  }
+  key: string,
+  options: ProfileLoadOptions
+): Promise<RawProfileResult> {
+  return fetchJsonWithTimeout(`/api/expungement-ai/profiles/${encodeURIComponent(key)}`, {
+    timeoutMs: options.timeoutMs ?? PROFILE_FETCH_TIMEOUT_MS,
+    fetcher: options.fetcher
+  });
 }

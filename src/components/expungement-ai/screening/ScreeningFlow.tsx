@@ -45,6 +45,7 @@ import {
 
 const PICKER_PATH = "/expungement-ai/screening";
 const PACKET_PATH = "/expungement-ai/packet-ready";
+const PROFILE_LOAD_GUARD_MS = 12_000;
 // Where the packet action sends a partner/session-mode user. The direct-to-consumer
 // pay-and-generate flow (PACKET_PATH) does not apply when screening began through a partner.
 const BRIEFCASE_PATH = "/briefcase";
@@ -97,6 +98,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const effectiveInitialSessionId = resolvePartnerSessionId(initialSessionId, searchParams.get("session"));
   const isPartnerSession = Boolean(effectiveInitialSessionId);
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
+  const [loadNonce, setLoadNonce] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
   const [error, setError] = useState<string | null>(null);
@@ -111,22 +113,42 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const matterIdRef = useRef<string>(createMatterId());
 
   useEffect(() => {
-    // The component is remounted per state (keyed by the route), so initial state is already
-    // "loading"; the effect only performs the async load and sets the result in its callback.
     let active = true;
-    loadJurisdictionProfile(state).then((result) => {
+    let timedOut = false;
+    Promise.resolve().then(() => {
+      if (active) setLoad({ status: "loading" });
+    });
+    const guardId = window.setTimeout(() => {
       if (!active) return;
+      timedOut = true;
+      const known = listAvailableStateKeys().includes(normalizeStateKey(state));
+      setLoad(known
+        ? { status: "malformed", detail: "Profile request timed out before the screening questions loaded." }
+        : { status: "missing" });
+    }, PROFILE_LOAD_GUARD_MS);
+
+    loadJurisdictionProfile(state).then((result) => {
+      window.clearTimeout(guardId);
+      if (!active || timedOut) return;
       if (result.ok) {
         setLoad({ status: "ready", profile: result.data });
         return;
       }
       const known = listAvailableStateKeys().includes(normalizeStateKey(state));
       setLoad(known ? { status: "malformed", detail: result.error } : { status: "missing" });
+    }).catch(() => {
+      window.clearTimeout(guardId);
+      if (!active || timedOut) return;
+      const known = listAvailableStateKeys().includes(normalizeStateKey(state));
+      setLoad(known
+        ? { status: "malformed", detail: "Profile request failed before the screening questions loaded." }
+        : { status: "missing" });
     });
     return () => {
       active = false;
+      window.clearTimeout(guardId);
     };
-  }, [state]);
+  }, [state, loadNonce]);
 
   const screens = useMemo(
     () => (load.status === "ready" ? deriveScreens(load.profile) : []),
@@ -174,8 +196,14 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   if (load.status === "loading") return <LoadingState />;
   if (load.status === "missing") return <MissingProfileState state={state} onPick={() => router.push(PICKER_PATH)} />;
-  if (load.status === "malformed") return <MalformedProfileState onPick={() => router.push(PICKER_PATH)} />;
-  if (screens.length === 0) return <MalformedProfileState onPick={() => router.push(PICKER_PATH)} />;
+  if (load.status === "malformed") return <MalformedProfileState onRetry={() => {
+    setLoad({ status: "loading" });
+    setLoadNonce((value) => value + 1);
+  }} onPick={() => router.push(PICKER_PATH)} />;
+  if (screens.length === 0) return <MalformedProfileState onRetry={() => {
+    setLoad({ status: "loading" });
+    setLoadNonce((value) => value + 1);
+  }} onPick={() => router.push(PICKER_PATH)} />;
 
   const profile = load.profile;
   const stateName = profile.jurisdiction.name;
@@ -538,7 +566,7 @@ function MissingProfileState({ state, onPick }: { state: string; onPick: () => v
   );
 }
 
-function MalformedProfileState({ onPick }: { onPick: () => void }) {
+function MalformedProfileState({ onRetry, onPick }: { onRetry: () => void; onPick: () => void }) {
   const { t: translate } = useLocalization();
   return (
     <FlowFrame>
@@ -547,13 +575,22 @@ function MalformedProfileState({ onPick }: { onPick: () => void }) {
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
           {translate("screening.malformed_body", "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.")}
         </p>
-        <button
-          type="button"
-          onClick={onPick}
-          className="mt-6 min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320]"
-        >
-          {translate("screening.back_to_states", "Back to states")}
-        </button>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={onRetry}
+            className="min-h-[48px] rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white"
+          >
+            {translate("common.try_again", "Try again")}
+          </button>
+          <button
+            type="button"
+            onClick={onPick}
+            className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320]"
+          >
+            {translate("screening.back_to_states", "Back to states")}
+          </button>
+        </div>
       </div>
     </FlowFrame>
   );

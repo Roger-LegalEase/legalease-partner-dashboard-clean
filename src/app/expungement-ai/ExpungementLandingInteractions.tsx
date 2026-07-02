@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { persistExpungementLocale } from "@/components/expungement-ai/LocalizationProvider";
 
 export function ExpungementLandingInteractions({
   dictionaries
@@ -87,12 +88,7 @@ export function ExpungementLandingInteractions({
         item.classList.toggle("on", on);
         item.setAttribute("aria-pressed", String(on));
       });
-      try {
-        window.localStorage.setItem("exp_lang", lang);
-      } catch {
-        // Ignore storage failures; runtime pages still receive the event below.
-      }
-      window.dispatchEvent(new Event("expungement-ai:language-change"));
+      persistExpungementLocale(lang);
     };
 
     const initialLanguage = (() => {
