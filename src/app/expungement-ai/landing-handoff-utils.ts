@@ -85,7 +85,7 @@ function extractEnglishDictionary(renderedHtml: string) {
 function applyEnglishWorkflowOverrides(en: Record<string, string>) {
   Object.assign(en, {
     hero_eyebrow: "PRIVATE RECORD-CLEARING CHECK",
-    hero_h1: "Find out if your record can be cleared — then get the paperwork to file it yourself for <span class=\"price\">$50</span>.",
+    hero_h1: "Find out if your record can be cleared. Then get the paperwork to file it yourself for <span class=\"price\">$50</span>.",
     hero_sub: "Answer a few plain-English questions. Expungement.ai checks whether your case may qualify, prepares your state-specific self-help court documents, and gives you step-by-step filing instructions. Free to start. No payment unless your packet is ready.",
     nav_pricing: "Price",
     nav_faq: "Questions",
