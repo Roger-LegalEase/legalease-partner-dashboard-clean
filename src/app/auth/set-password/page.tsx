@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { KeyRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -45,10 +45,10 @@ export default function SetPasswordPage() {
   const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-  const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   useEffect(() => {
     let isMounted = true;
+    const supabase = createBrowserSupabaseClient();
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
@@ -133,7 +133,7 @@ export default function SetPasswordPage() {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, []);
 
   async function setPassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -152,6 +152,7 @@ export default function SetPasswordPage() {
     }
 
     setState("saving");
+    const supabase = createBrowserSupabaseClient();
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !sessionData.session) {
       setDiagnostic({ status: "no_session_found", error: safeAuthDiagnostic(sessionError) });
