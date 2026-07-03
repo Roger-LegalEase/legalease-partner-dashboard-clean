@@ -103,7 +103,7 @@ def header():
 <!-- HEADER -->
 <header class="header" id="header">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="LegalEase home"><img id="headerLogo" src="assets/wm_primary.png" alt="LegalEase"></a>
+    <a class="logo" href="#top" aria-label="LegalEase home"><img id="headerLogo" src="/legalease/logos/legalease-wordmark.png" alt="LegalEase" width="900" height="221" decoding="async"></a>
     <nav class="nav" aria-label="Primary">{nav_links}</nav>
     <div class="header-cta">
       <a class="btn btn-primary" href="#contact">Partner with us {arrow()}</a>
@@ -122,7 +122,7 @@ def mobile_menu():
 <!-- MOBILE MENU -->
 <div class="m-menu" id="mMenu" aria-hidden="true">
   <div class="m-menu-top">
-    <img src="assets/wm_primary.png" alt="LegalEase">
+    <img src="/legalease/logos/legalease-wordmark.png" alt="LegalEase" width="900" height="221" decoding="async">
     <button class="m-close" id="menuClose" aria-label="Close menu">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
