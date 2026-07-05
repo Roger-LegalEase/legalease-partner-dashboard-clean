@@ -228,7 +228,8 @@ function loadTsModule(filename) {
   }).outputText;
 
   const mod = new Module(resolved);
-  mod.filename = resolved;
+  const compiledFilename = resolved + ".cjs";
+  mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
   moduleCache.set(resolved, mod);
   mod._compile(output, resolved);

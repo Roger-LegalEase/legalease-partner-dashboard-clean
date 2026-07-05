@@ -183,23 +183,25 @@ function loadTsModule(filename) {
   }
 
   const source = fs.readFileSync(resolved, "utf8");
-  const transpiled = ts.transpileModule(source, {
+  let transpiled = ts.transpileModule(source, {
     compilerOptions: {
       esModuleInterop: true,
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2020
     }
   }).outputText;
+  transpiled = transpiled.replaceAll("import.meta.url", "require(\"node:url\").pathToFileURL(__filename).href");
 
   const mod = new Module(resolved);
-  mod.filename = resolved;
+  const compiledFilename = resolved + ".cjs";
+  mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
   moduleCache.set(resolved, mod);
   mod.require = (request) => {
     const nextFile = resolveTsRequest(request, path.dirname(resolved));
     return nextFile ? loadTsModule(nextFile) : require(request);
   };
-  mod._compile(transpiled, resolved);
+  mod._compile(transpiled, compiledFilename);
   return mod.exports;
 }
 

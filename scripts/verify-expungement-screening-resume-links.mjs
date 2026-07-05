@@ -496,11 +496,13 @@ function loadTsModule(filename) {
   const cached = moduleCache.get(resolved);
   if (cached) return cached.exports;
   const source = fs.readFileSync(resolved, "utf8");
-  const transpiled = ts.transpileModule(source, {
+  let transpiled = ts.transpileModule(source, {
     compilerOptions: { esModuleInterop: true, module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 }
   }).outputText;
+  transpiled = transpiled.replaceAll("import.meta.url", "require(\"node:url\").pathToFileURL(__filename).href");
   const mod = new Module(resolved);
-  mod.filename = resolved;
+  const compiledFilename = resolved + ".cjs";
+  mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
   moduleCache.set(resolved, mod);
   mod.require = (request) => {
@@ -509,7 +511,7 @@ function loadTsModule(filename) {
     if (nextFile?.endsWith(".json")) return require(nextFile);
     return nextFile ? loadTsModule(nextFile) : require(request);
   };
-  mod._compile(transpiled, resolved);
+  mod._compile(transpiled, compiledFilename);
   return mod.exports;
 }
 
@@ -520,6 +522,7 @@ function resolveTsRequest(request, basedir) {
 }
 
 function resolveExistingModuleFile(candidate) {
+  if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
   for (const extension of [".ts", ".tsx", ".js", ".json"]) {
     if (fs.existsSync(`${candidate}${extension}`)) return `${candidate}${extension}`;
   }

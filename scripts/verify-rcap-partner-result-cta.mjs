@@ -1,10 +1,10 @@
 // Regression: the screening result CTA must match the flow the user arrived through, and partner
 // mode must be detected from the ?session= UUID even when the server render did not carry the prop.
 //
-// - Direct-to-consumer (no ?session=): the result keeps the "$50" pay-and-generate CTA.
+// - Direct-to-consumer (no ?session=): the result keeps the "$50" pay CTA.
 // - Partner/session mode (a valid ?session= UUID, from the prop OR read from the URL on the client):
 //   the result must NOT show "$50", must offer a Briefcase action, and must route to /briefcase —
-//   never the DTC /expungement-ai/packet-ready page (which would dead-end at "Packet is not ready").
+//   never the DTC /expungement-ai/pay payment gate.
 //
 // Renders the real ScreeningResult; drives `hasScreeningSession` through the same
 // resolvePartnerSessionId() the client flow uses; and checks the route/flow wiring in source.
@@ -81,12 +81,12 @@ assert(
 
 // 2) No session must still show the DTC "$50" CTA.
 const noSession = renderForUrlSession(null);
-assert(noSession.includes("Generate my packet ($50)"), "No session must render the DTC 'Generate my packet ($50)' CTA.");
+assert(noSession.includes("Generate my packet - $50"), "No session must render the DTC 'Generate my packet - $50' CTA.");
 assert(!noSession.includes("Save this result to Briefcase"), "No session must not render the Briefcase CTA.");
 
 // 3) Invalid / non-v1-5 session query must NOT trigger partner mode (stays DTC "$50").
 for (const bad of [GARBAGE_SESSION, V7_SESSION, ""]) {
-  assert(renderForUrlSession(bad).includes("Generate my packet ($50)"), `Invalid session ${JSON.stringify(bad)} must stay DTC ($50).`);
+  assert(renderForUrlSession(bad).includes("Generate my packet - $50"), `Invalid session ${JSON.stringify(bad)} must stay DTC ($50).`);
   assert(resolvePartnerSessionId(undefined, bad) === undefined, `resolvePartnerSessionId must reject invalid session ${JSON.stringify(bad)}.`);
 }
 
@@ -116,10 +116,13 @@ assert(!/isPartnerSession = Boolean\(sessionId\)/.test(flowSrc), "Partner mode m
 assert(flowSrc.includes('const BRIEFCASE_PATH = "/briefcase"'), "ScreeningFlow must define BRIEFCASE_PATH = '/briefcase'.");
 assert(flowSrc.includes("hasScreeningSession={isPartnerSession}"), "ScreeningFlow must pass hasScreeningSession to ScreeningResult.");
 // The packet action now runs through handlePacketAction: partner mode saves the result then opens
-// Briefcase; DTC keeps the PACKET_PATH pay-and-generate route. (Persistence asserted in
+// Briefcase; DTC saves the result and routes to the payment gate. (Persistence asserted in
 // verify-rcap-briefcase-result-persistence.)
 assert(flowSrc.includes("onPacketAction={() => void handlePacketAction()}"), "ScreeningFlow must route the packet action through handlePacketAction.");
-assert(/if \(!isPartnerSession \|\| !evaluation\) \{\s*router\.push\(PACKET_PATH\)/.test(flowSrc), "DTC (no partner session) must keep the PACKET_PATH route, not save.");
+assert(flowSrc.includes('/api/expungement-ai/screening/save-result'), "DTC packet action must save the completed result before payment.");
+assert(flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC packet action must route to the payment gate with the saved Briefcase item.");
+assert(flowSrc.includes('next: "/expungement-ai/pay"'), "Anonymous DTC pending handoff must preserve the payment gate as next.");
+assert(!flowSrc.includes('/expungement-ai/packet-ready"'), "DTC packet action must not bypass payment to packet-ready.");
 assert(flowSrc.includes("router.push(BRIEFCASE_PATH)"), "Partner mode must open Briefcase after saving.");
 
 // Source wiring: the route is dynamic and keyed by session mode so partner/DTC never share an instance.
@@ -133,4 +136,4 @@ if (failures.length) {
   for (const failure of failures) console.error(`  - ${failure}`);
   process.exit(1);
 }
-console.log("verify-rcap-partner-result-cta: OK (URL ?session= -> Briefcase CTA; no/invalid session -> DTC $50; save-progress sessionId stays DTC; route force-dynamic + session-keyed)");
+console.log("verify-rcap-partner-result-cta: OK (URL ?session= -> Briefcase CTA; no/invalid session -> DTC $50 payment gate; save-progress sessionId stays DTC; route force-dynamic + session-keyed)");

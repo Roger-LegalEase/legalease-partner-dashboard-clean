@@ -68,7 +68,11 @@ export async function createConsumerPacketCheckout({
         channel: "expungement_ai_consumer",
         user_id: userId,
         briefcase_item_id: item.id,
-        result_code: item.resultCode ?? ""
+        result_code: item.resultCode ?? "",
+        source_session_id: item.sourceSessionId ?? "",
+        jurisdiction: item.state,
+        packet_type: item.packetType ?? "",
+        pathway_label: item.pathwayLabel ?? ""
       },
       line_items: [
         {

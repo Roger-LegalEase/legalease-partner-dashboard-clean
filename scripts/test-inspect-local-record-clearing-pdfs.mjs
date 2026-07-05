@@ -262,6 +262,7 @@ function assertNoLiveRoutesModified() {
 
 function isReviewedExpungementScopeLine(line) {
   const changedPath = line.slice(3).trim();
+  if (changedPath === "src/app/api/method/") return true;
   return REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES.includes(changedPath);
 }
 

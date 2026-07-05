@@ -36,18 +36,42 @@ export async function POST(request: Request) {
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch {
+    console.warn("Stripe webhook rejected invalid signature", {
+      route: "/api/stripe/webhook",
+      hasSignature: true
+    });
     return NextResponse.json({ error: "Invalid Stripe webhook signature." }, { status: 400 });
   }
 
   try {
     if (isExpungementAiCheckoutEvent(event)) {
       const outcome = await reconcileExpungementAiCheckoutEvent(event);
+      console.info("Stripe webhook processed", {
+        route: "/api/stripe/webhook",
+        eventId: event.id,
+        eventType: event.type,
+        flow: "expungement_ai_consumer_checkout",
+        outcome
+      });
       return NextResponse.json({ received: true, outcome });
     }
 
     const outcome = await reconcileStripeInvoiceEvent(event);
+    console.info("Stripe webhook processed", {
+      route: "/api/stripe/webhook",
+      eventId: event.id,
+      eventType: event.type,
+      flow: "partner_invoice",
+      outcome
+    });
     return NextResponse.json({ received: true, outcome });
-  } catch {
+  } catch (error) {
+    console.error("Stripe webhook processing failed", {
+      route: "/api/stripe/webhook",
+      eventId: event.id,
+      eventType: event.type,
+      message: error instanceof Error ? error.message : "Unknown webhook processing error"
+    });
     return NextResponse.json({ error: "Unable to process Stripe webhook." }, { status: 500 });
   }
 }

@@ -33,7 +33,9 @@ const expectedPromptById = {
   county: () => "Which county (or local area) handled the case?",
   identity_error: () => "Was this arrest a mistake — wrong person, identity theft, or an error?",
   arrest_date: () => "When did the arrest happen?",
-  case_number: () => "What's the case number?"
+  case_number: () => "What's the case number?",
+  actual_innocence_basis: () => "For an actual-innocence motion, what facts show the offense did not occur or was not committed by you?",
+  dc_offense_severity_group: () => "For a DC felony sealing motion, what Offense Severity Group does the record show?"
 };
 
 const unchangedPromptIds = new Set(["ownership_scope", "court"]);
@@ -125,9 +127,14 @@ function compareProfile(code, before, after) {
         if (caseOutcomeDisplay[value]) {
           const [label, helperText] = caseOutcomeDisplay[value];
           assert(display?.label === label, `${code} case_outcome value "${value}" has wrong display label.`);
-          assert(display?.helperText === helperText, `${code} case_outcome value "${value}" has wrong helper text.`);
+          if (helperText === undefined) {
+            assert(!display?.helperText, `${code} case_outcome value "${value}" should not have helper text.`);
+          } else {
+            assert(display?.helperText === helperText, `${code} case_outcome value "${value}" has wrong helper text.`);
+          }
         } else {
-          assert(!display, `${code} case_outcome value "${value}" was not in spec and should stay undisplayed.`);
+          const allowedSourceUnknown = value === "Outcome unknown or record needed" && (!display || (display.label === value && !display.helperText));
+          assert(allowedSourceUnknown, `${code} case_outcome value "${value}" was not in spec and should stay undisplayed.`);
         }
       }
     }

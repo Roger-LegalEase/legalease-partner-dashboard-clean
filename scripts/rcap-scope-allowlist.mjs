@@ -6,6 +6,7 @@ export const SHARED_PAYMENT_FILES = [
   "src/app/api/expungement-ai/checkout/route.ts",
   "src/app/api/expungement-ai/checkout/status/route.ts",
   "src/app/api/expungement-ai/payment/confirm/route.ts",
+  "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts",
   "src/app/api/stripe/webhook/route.ts",
   "src/lib/stripe/server.ts",
   "src/lib/expungement-ai/briefcase.ts",

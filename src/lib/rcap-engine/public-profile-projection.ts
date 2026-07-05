@@ -1,7 +1,7 @@
 import "server-only";
 
-import { createRequire } from "node:module";
 import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
+import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 
 type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
@@ -25,8 +25,7 @@ type TranslatedProfileQuestion = {
   }>;
 };
 type TranslatedProfile = { questions?: TranslatedProfileQuestion[] };
-const require = createRequire(import.meta.url);
-const TRANSLATED_PROFILES = require("../expungement-ai/frontend/profiles/all51.json") as Record<string, TranslatedProfile>;
+const TRANSLATED_PROFILES = translatedProfiles as unknown as Record<string, TranslatedProfile>;
 
 const POSTPAY_STAGES = new Set(["record_readiness", "case_details", "packet_information"]);
 const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([

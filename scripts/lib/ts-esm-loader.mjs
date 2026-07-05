@@ -13,9 +13,10 @@ import path from "node:path";
 import ts from "typescript";
 
 const root = process.cwd();
-const CANDIDATE_EXTENSIONS = [".ts", ".tsx"];
+const CANDIDATE_EXTENSIONS = [".ts", ".tsx", ".json"];
 
 function resolveAliasPath(base) {
+  if (existsSync(base)) return base;
   for (const ext of CANDIDATE_EXTENSIONS) {
     if (existsSync(base + ext)) return base + ext;
   }
@@ -38,6 +39,12 @@ export async function resolve(specifier, context, next) {
 }
 
 export async function load(url, context, next) {
+  if (url.endsWith(".json")) {
+    const fileName = fileURLToPath(url);
+    const source = readFileSync(fileName, "utf8");
+    return { format: "module", source: `export default ${source};`, shortCircuit: true };
+  }
+
   if (url.endsWith(".ts") || url.endsWith(".tsx")) {
     const fileName = fileURLToPath(url);
     const source = readFileSync(fileName, "utf8");

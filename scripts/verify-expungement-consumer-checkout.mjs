@@ -35,6 +35,8 @@ const paymentConfirmRoute = "src/app/api/expungement-ai/payment/confirm/route.ts
 const paymentAdapter = read("src/lib/expungement-ai/payment-adapter.ts");
 const stripeServer = read("src/lib/stripe/server.ts");
 const stripeWebhookRoute = read("src/app/api/stripe/webhook/route.ts");
+const legacyStripeWebhookRoute = "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts";
+const legacyStripeWebhookSource = exists(legacyStripeWebhookRoute) ? read(legacyStripeWebhookRoute) : "";
 const checkoutReconciliation = read("src/lib/expungement-ai/checkout-reconciliation.ts");
 const briefcaseSource = read("src/lib/expungement-ai/briefcase.ts");
 const packageSource = read("package.json");
@@ -81,6 +83,7 @@ assert(stripeServer.includes('value.startsWith("sk_test_")'), "Production must r
 assert(stripeServer.includes('value.startsWith("sk_live_")'), "Production must require sk_live_ Stripe keys.");
 assert(stripeServer.includes("stripeServerClientKey"), "Stripe server helper must not reuse a cached client after env changes in tests.");
 assert(envExampleSource.includes("EXPUNGEMENT_AI_CHECKOUT_DRY_RUN="), ".env.example must document the dry-run opt-in flag without a value.");
+assert(envExampleSource.includes("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="), ".env.example must document the Stripe publishable key placeholder.");
 
 assert(checkoutRouteSource.includes("ConsumerCheckoutNotAllowedError"), "Checkout route must reject paymentAllowed false/non-packet results.");
 assert(checkoutRouteSource.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Checkout route must return a safe unavailable error when Stripe is not configured.");
@@ -91,6 +94,12 @@ assert(packetReadySource.includes("dry-run"), "Packet-ready page must explicitly
 
 assert(stripeWebhookRoute.includes("reconcileExpungementAiCheckoutEvent"), "Stripe webhook route must dispatch consumer Checkout events.");
 assert(stripeWebhookRoute.includes("reconcileStripeInvoiceEvent"), "Stripe webhook route must preserve partner invoice reconciliation.");
+assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook compatibility route must exist while live Stripe points at it.");
+assert(legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must delegate to the canonical verified webhook route.");
+assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
+for (const metadataKey of ["source_session_id", "jurisdiction", "packet_type", "pathway_label"]) {
+  assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
+}
 for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
   assert(checkoutReconciliation.includes(eventType), `Consumer Checkout webhook must handle ${eventType}.`);
 }
@@ -132,6 +141,7 @@ for (const file of changedFiles()) {
     "src/lib/expungement-ai/checkout-reconciliation.ts",
     "src/lib/expungement-ai/packet-generation.ts",
     "src/lib/expungement-ai/payment-adapter.ts",
+    "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts",
     "scripts/verify-expungement-consumer-checkout.mjs",
     "scripts/verify-expungement-consumer-adapter.mjs"
   ].includes(file)) continue;

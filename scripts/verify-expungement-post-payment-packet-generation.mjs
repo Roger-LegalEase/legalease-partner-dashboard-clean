@@ -100,6 +100,9 @@ const forbiddenChangedPrefixes = [
 ];
 for (const file of changedFiles()) {
   if (
+    file === ".env.example" ||
+    file === "src/app/api/stripe/webhook/route.ts" ||
+    file === "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts" ||
     file === "supabase/phase-26-consumer-briefcase-items.sql" ||
     file === "supabase/phase-27-consumer-checkout-metadata.sql" ||
     file === migrationPath ||

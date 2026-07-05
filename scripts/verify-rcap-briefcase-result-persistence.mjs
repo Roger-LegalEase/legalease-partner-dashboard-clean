@@ -118,8 +118,9 @@ assert(msFormSrc.includes("consumerBriefcaseItemId") && msFormSrc.includes("gene
 
 const flowSrc = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
 assert(flowSrc.includes('"/api/expungement-ai/screening/save-result"'), "Partner CTA must POST the result to the save route.");
-assert(/if \(!isPartnerSession \|\| !evaluation\) \{\s*router\.push\(PACKET_PATH\)/.test(flowSrc), "DTC (no partner session) must keep the PACKET_PATH route, not save.");
-assert(flowSrc.includes('"expungement-ai:pending-briefcase-save"') && flowSrc.includes("/expungement-ai/sign-in?next=/briefcase"), "Signed-out save must stash intent and route to sign-in.");
+assert(flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC (no partner session) must route saved results to the payment gate.");
+assert(flowSrc.includes('"/api/expungement-ai/screening/pending"') && flowSrc.includes('next: "/expungement-ai/pay"'), "Signed-out DTC payment handoff must create a pending result and route to sign-in with pay as next.");
+assert(flowSrc.includes('"expungement-ai:pending-briefcase-save"') && flowSrc.includes("/expungement-ai/sign-in?mode=create&next=/briefcase"), "Signed-out partner save must stash intent and route to sign-in.");
 assert(!/payload = \{[^}]*answers/s.test(flowSrc), "Partner save payload must not include raw answers.");
 
 const pageSrc = read("src/app/briefcase/page.tsx");
