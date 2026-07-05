@@ -155,12 +155,12 @@ function verifyInvoiceBillingModel() {
     invoiceFailures.push("Billing helper appears to use Checkout price identifiers.");
   }
 
-  const webhookSource = readSource("src/app/api/stripe/webhook/route.ts");
-  if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, webhookSecret)")) {
+  const webhookSource = readSource("src/lib/stripe/webhook-handler.ts");
+  if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, endpointSecret)")) {
     invoiceFailures.push("Webhook route does not verify Stripe signatures against the raw body.");
   }
 
-  if (!webhookSource.includes("Missing Stripe signature") || !webhookSource.includes("Invalid Stripe webhook signature")) {
+  if (!webhookSource.includes("Missing Stripe signature") || !webhookSource.includes("Invalid Stripe webhook payload or signature")) {
     invoiceFailures.push("Webhook route does not reject missing or invalid Stripe signatures safely.");
   }
 

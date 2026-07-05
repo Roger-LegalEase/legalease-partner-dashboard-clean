@@ -28,8 +28,10 @@ export function getStripeServerClient(): Stripe {
   return stripeServerClient;
 }
 
-export function getStripeWebhookSecret(): string {
-  return getRequiredStripeEnv("STRIPE_WEBHOOK_SECRET", "whsec_");
+export function getStripeWebhookSecret(
+  envVar: "STRIPE_WEBHOOK_SECRET" | "STRIPE_LEGACY_WEBHOOK_SECRET" = "STRIPE_WEBHOOK_SECRET"
+): string {
+  return getRequiredStripeEnv(envVar, "whsec_");
 }
 
 export function isStripeConfigurationError(error: unknown): error is StripeConfigurationError {

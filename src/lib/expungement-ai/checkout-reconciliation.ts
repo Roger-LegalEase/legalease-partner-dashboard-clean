@@ -20,11 +20,9 @@ export async function reconcileExpungementAiCheckoutEvent(
 ): Promise<ConsumerCheckoutReconciliationOutcome> {
   if (!CHECKOUT_EVENTS.has(event.type)) return "ignored";
 
-  if (await hasProcessedStripeEvent(event.id)) return "duplicate";
-
   const session = event.data.object as Stripe.Checkout.Session;
   if (session.metadata?.channel !== CONSUMER_CHANNEL) {
-    await recordProcessedStripeEvent(event.id, event.type, session.id);
+    await claimProcessedStripeEvent(event.id, event.type, session.id);
     return "ignored";
   }
 
@@ -51,6 +49,9 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new Error("Consumer checkout session does not match Briefcase item.");
   }
 
+  const claimedEvent = await claimProcessedStripeEvent(event.id, event.type, session.id);
+  if (!claimedEvent) return "duplicate";
+
   const updated = await updateBriefcasePaymentMetadataForWebhook(userId, item.id, {
     paymentStatus: "paid",
     paymentProvider: "stripe",
@@ -71,7 +72,6 @@ export async function reconcileExpungementAiCheckoutEvent(
     webhookMode: true
   });
 
-  await recordProcessedStripeEvent(event.id, event.type, session.id);
   return "processed";
 }
 
@@ -80,21 +80,7 @@ function paymentIntentIdFor(session: Stripe.Checkout.Session): string | undefine
   return session.payment_intent?.id;
 }
 
-async function hasProcessedStripeEvent(stripeEventId: string) {
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) throw new Error("Stripe webhook idempotency store is not configured.");
-
-  const { data, error } = await supabase
-    .from("processed_stripe_events")
-    .select("stripe_event_id")
-    .eq("stripe_event_id", stripeEventId)
-    .maybeSingle();
-
-  if (error) throw new Error("Unable to check Stripe webhook idempotency.");
-  return Boolean(data);
-}
-
-async function recordProcessedStripeEvent(stripeEventId: string, eventType: string, relatedObjectId?: string) {
+async function claimProcessedStripeEvent(stripeEventId: string, eventType: string, relatedObjectId?: string) {
   const supabase = getSupabaseAdminClient();
   if (!supabase) throw new Error("Stripe webhook idempotency store is not configured.");
 
@@ -109,6 +95,8 @@ async function recordProcessedStripeEvent(stripeEventId: string, eventType: stri
   if (error && error.code !== "23505") {
     throw new Error("Unable to record processed Stripe webhook event.");
   }
+
+  return !error;
 }
 
 export function isExpungementAiCheckoutEvent(event: Stripe.Event): boolean {

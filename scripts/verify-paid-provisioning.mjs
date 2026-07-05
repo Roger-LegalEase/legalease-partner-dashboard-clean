@@ -50,7 +50,7 @@ const failures = [];
 const typesSource = readSource("src/lib/partners/types.ts");
 const packagesSource = readSource("src/lib/partners/packages.ts");
 const checkoutSource = readSource("src/app/api/partners/checkout/route.ts");
-const webhookSource = readSource("src/app/api/stripe/webhook/route.ts");
+const webhookSource = readSource("src/lib/stripe/webhook-handler.ts");
 const billingSource = readSource("src/lib/partners/billing.ts");
 const billingReconciliationSource = readSource("src/lib/partners/billing-reconciliation.ts");
 const billingReconciliationTestSource = readSource("scripts/test-billing-reconciliation.mjs");
@@ -129,7 +129,7 @@ for (const requiredCoverage of [
   }
 }
 
-if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, webhookSecret)")) {
+if (!webhookSource.includes("request.text()") || !webhookSource.includes("constructEvent(rawBody, signature, endpointSecret)")) {
   failures.push("Webhook handler does not verify Stripe signatures against the raw request body.");
 }
 

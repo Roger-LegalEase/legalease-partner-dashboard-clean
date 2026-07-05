@@ -35,6 +35,7 @@ const paymentConfirmRoute = "src/app/api/expungement-ai/payment/confirm/route.ts
 const paymentAdapter = read("src/lib/expungement-ai/payment-adapter.ts");
 const stripeServer = read("src/lib/stripe/server.ts");
 const stripeWebhookRoute = read("src/app/api/stripe/webhook/route.ts");
+const stripeWebhookHandler = read("src/lib/stripe/webhook-handler.ts");
 const legacyStripeWebhookRoute = "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts";
 const legacyStripeWebhookSource = exists(legacyStripeWebhookRoute) ? read(legacyStripeWebhookRoute) : "";
 const checkoutReconciliation = read("src/lib/expungement-ai/checkout-reconciliation.ts");
@@ -92,10 +93,12 @@ assert(packetReadySource.includes("getConsumerCheckoutStatus"), "Packet-ready pa
 assert(packetReadySource.includes("recordConsumerPaymentConfirmation"), "Packet-ready page must record payment confirmation.");
 assert(packetReadySource.includes("dry-run"), "Packet-ready page must explicitly label dry-run mode.");
 
-assert(stripeWebhookRoute.includes("reconcileExpungementAiCheckoutEvent"), "Stripe webhook route must dispatch consumer Checkout events.");
-assert(stripeWebhookRoute.includes("reconcileStripeInvoiceEvent"), "Stripe webhook route must preserve partner invoice reconciliation.");
+assert(stripeWebhookRoute.includes("STRIPE_WEBHOOK_SECRET"), "Canonical Stripe webhook route must use STRIPE_WEBHOOK_SECRET.");
+assert(stripeWebhookHandler.includes("reconcileExpungementAiCheckoutEvent"), "Stripe webhook handler must dispatch consumer Checkout events.");
+assert(stripeWebhookHandler.includes("reconcileStripeInvoiceEvent"), "Stripe webhook handler must preserve partner invoice reconciliation.");
 assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook compatibility route must exist while live Stripe points at it.");
-assert(legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must delegate to the canonical verified webhook route.");
+assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
+assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
 for (const metadataKey of ["source_session_id", "jurisdiction", "packet_type", "pathway_label"]) {
   assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
@@ -110,7 +113,7 @@ assert(checkoutReconciliation.includes("session.client_reference_id !== briefcas
 assert(checkoutReconciliation.includes("getBriefcaseItemForWebhook(userId, briefcaseItemId)"), "Consumer Checkout webhook must load the owned Briefcase item.");
 assert(checkoutReconciliation.includes("updateBriefcasePaymentMetadataForWebhook"), "Consumer Checkout webhook must record Stripe payment confirmation.");
 assert(checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must generate the paid packet.");
-assert(checkoutReconciliation.includes("hasProcessedStripeEvent(event.id)") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
+assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
 
 for (const column of ["payment_provider", "checkout_session_id", "payment_intent_id", "amount_cents", "receipt_url"]) {

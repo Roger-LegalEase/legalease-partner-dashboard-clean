@@ -96,6 +96,7 @@ for (const file of changedFiles) {
     "src/app/api/expungement-ai/checkout/route.ts",
     "src/app/api/stripe/webhook/route.ts",
     "src/lib/stripe/server.ts",
+    "src/lib/stripe/webhook-handler.ts",
     "src/lib/expungement-ai/briefcase.ts",
     "src/lib/expungement-ai/checkout-reconciliation.ts",
     "src/lib/expungement-ai/packet-generation.ts",
