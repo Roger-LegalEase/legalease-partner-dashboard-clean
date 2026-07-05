@@ -17,10 +17,12 @@ export async function handleStripeWebhookPost(
   request: Request,
   {
     route,
-    secretEnvVar
+    secretEnvVar,
+    logLegacyDiagnostics = false
   }: {
     route: StripeWebhookRoute;
     secretEnvVar: StripeWebhookSecretEnvVar;
+    logLegacyDiagnostics?: boolean;
   }
 ) {
   let endpointSecret: string;
@@ -46,6 +48,18 @@ export async function handleStripeWebhookPost(
 
   let event: Stripe.Event;
   try {
+    if (logLegacyDiagnostics) {
+      const legacySecret = process.env.STRIPE_LEGACY_WEBHOOK_SECRET;
+      console.info("Stripe legacy webhook diagnostics", {
+        route: "legacy",
+        hasSignatureHeader: Boolean(signature),
+        hasLegacySecret: Boolean(legacySecret),
+        legacySecretPrefix: legacySecret?.slice(0, 6),
+        legacySecretLength: legacySecret?.length,
+        rawBodyLength: rawBody.length
+      });
+    }
+
     event = stripe.webhooks.constructEvent(rawBody, signature, endpointSecret);
   } catch {
     console.warn("Stripe webhook rejected invalid payload or signature", {
