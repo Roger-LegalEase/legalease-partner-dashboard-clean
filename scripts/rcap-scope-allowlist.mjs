@@ -3,12 +3,20 @@ export const SHARED_SCOPE_GUARD_ENV_FILES = [
 ];
 
 export const SHARED_PAYMENT_FILES = [
+  // Consumer payment entry page. Reviewed for the launch payment-guard PR: it renders the
+  // already-paid "continue to your packet" state (P0 double-charge guard) and is not a source-
+  // engine, auth, billing, or Stripe-secret surface.
+  "src/app/expungement-ai/pay/page.tsx",
   "src/app/api/expungement-ai/checkout/route.ts",
   "src/app/api/expungement-ai/checkout/status/route.ts",
   "src/app/api/expungement-ai/payment/confirm/route.ts",
   "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts",
   "src/app/api/stripe/webhook/route.ts",
   "src/lib/stripe/server.ts",
+  // Shared handler both Stripe webhook routes delegate to (route-specific secret verification,
+  // verified-event dispatch, and — as of the launch payment-guard PR — removal of the temporary
+  // legacy secret-prefix/length diagnostics). Reviewed as in-scope payment infrastructure.
+  "src/lib/stripe/webhook-handler.ts",
   "src/lib/expungement-ai/briefcase.ts",
   "src/lib/expungement-ai/checkout-reconciliation.ts",
   "src/lib/expungement-ai/packet-generation.ts",

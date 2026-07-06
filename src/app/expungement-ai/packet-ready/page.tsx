@@ -19,9 +19,14 @@ export default async function PacketReadyPage({
   const item = briefcaseItemId ? await getBriefcaseItem(auth.userId, briefcaseItemId) : null;
   const partnerSponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
   const checkoutStatus = !partnerSponsored && item && checkoutSessionId ? await getConsumerCheckoutStatus({ item, checkoutSessionId }) : null;
-  const paid = checkoutStatus?.paid === true;
+  // P1 fix: when the Stripe session_id is absent (bookmark, back button, retry link),
+  // fall back to the persisted Briefcase payment state instead of forcing "payment required".
+  // Persisted "paid" is only ever set after a verified Stripe/dry-run confirmation, so this
+  // never claims paid without prior proof.
+  const persistedPaid = !partnerSponsored && item?.paymentStatus === "paid";
+  const paid = checkoutStatus?.paid === true || persistedPaid;
   const confirmed = !partnerSponsored && item && checkoutStatus ? await recordConsumerPaymentConfirmation({ userId: auth.userId, item, status: checkoutStatus }) : null;
-  const packetItem = partnerSponsored ? item : confirmed;
+  const packetItem = partnerSponsored ? item : (confirmed ?? (persistedPaid ? item : null));
   let packet = packetItem ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: packetItem.id }) : null;
   const needsPacketInformation = packet?.artifactRefs?.source === "mississippi_petition_information_required";
   let generationFailed = false;
