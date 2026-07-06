@@ -20,7 +20,12 @@ export type ConsumerCheckoutResult = {
   checkoutUrl: string;
   amountCents: 5000;
   briefcaseItemId: string;
+  alreadyPaid?: boolean;
 };
+
+export function consumerPacketReadyUrl(briefcaseItemId: string): string {
+  return absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(briefcaseItemId)}`);
+}
 
 export type ConsumerCheckoutStatus = {
   paid: boolean;
@@ -53,6 +58,19 @@ export async function createConsumerPacketCheckout({
   cancelUrl?: string;
 }): Promise<ConsumerCheckoutResult> {
   assertCheckoutAllowed(item);
+
+  // P0 double-charge guard: an already-paid Briefcase item must never mint a new
+  // Stripe Checkout Session or reset payment state. Send the user to their packet.
+  if (item.paymentStatus === "paid") {
+    return {
+      mode: item.paymentProvider === "dry_run" ? "dry_run" : "stripe",
+      checkoutSessionId: item.checkoutSessionId ?? "",
+      checkoutUrl: consumerPacketReadyUrl(item.id),
+      amountCents: consumerPacketPriceCents,
+      briefcaseItemId: item.id,
+      alreadyPaid: true
+    };
+  }
 
   const defaultSuccessUrl = absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id={CHECKOUT_SESSION_ID}`);
   const defaultCancelUrl = absoluteExpungementAiUrl(`/pay?briefcaseItemId=${encodeURIComponent(item.id)}`);

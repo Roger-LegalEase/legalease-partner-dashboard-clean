@@ -8,12 +8,13 @@ import {
 } from "@/lib/expungement-ai/briefcase";
 import { generatePaidConsumerPacket } from "@/lib/expungement-ai/packet-generation";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
+import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 const CONSUMER_CHANNEL = "expungement_ai_consumer";
 const CHECKOUT_EVENTS = new Set(["checkout.session.completed", "checkout.session.async_payment_succeeded"]);
 
-export type ConsumerCheckoutReconciliationOutcome = "processed" | "duplicate" | "ignored";
+export type ConsumerCheckoutReconciliationOutcome = "processed" | "recovered" | "duplicate" | "ignored";
 
 export async function reconcileExpungementAiCheckoutEvent(
   event: Stripe.Event
@@ -50,8 +51,27 @@ export async function reconcileExpungementAiCheckoutEvent(
   }
 
   const claimedEvent = await claimProcessedStripeEvent(event.id, event.type, session.id);
-  if (!claimedEvent) return "duplicate";
+  if (!claimedEvent) {
+    // Duplicate delivery of this exact event id (Stripe retry, or the same event fanned
+    // out to the canonical + legacy endpoints). Never regenerate a packet that is already
+    // ready, but recover a paid-but-unfinished packet — e.g. the first delivery claimed the
+    // event then failed mid-generation. finalizePaidCheckoutSession is fully idempotent:
+    // the metadata update is keyed by (userId, itemId) and generation is re-entrant, so no
+    // duplicate charge or duplicate artifact can result.
+    if (item.packetStatus === "ready") return "duplicate";
+    await finalizePaidCheckoutSession(userId, item, session);
+    return "recovered";
+  }
 
+  await finalizePaidCheckoutSession(userId, item, session);
+  return "processed";
+}
+
+async function finalizePaidCheckoutSession(
+  userId: string,
+  item: ConsumerBriefcaseItem,
+  session: Stripe.Checkout.Session
+): Promise<void> {
   const updated = await updateBriefcasePaymentMetadataForWebhook(userId, item.id, {
     paymentStatus: "paid",
     paymentProvider: "stripe",
@@ -71,8 +91,6 @@ export async function reconcileExpungementAiCheckoutEvent(
     briefcaseItemId: item.id,
     webhookMode: true
   });
-
-  return "processed";
 }
 
 function paymentIntentIdFor(session: Stripe.Checkout.Session): string | undefined {

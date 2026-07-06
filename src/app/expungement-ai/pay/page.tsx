@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CheckCircle2, Lock } from "lucide-react";
 import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell";
 import { ConsumerCheckoutButton } from "@/app/expungement-ai/pay/ConsumerCheckoutButton";
@@ -16,6 +17,28 @@ export default async function PayPage({
   const briefcaseItemId = value(params.briefcaseItemId);
   const item = briefcaseItemId ? await getBriefcaseItem(auth.userId, briefcaseItemId) : null;
   const checkoutAllowed = Boolean(item);
+
+  if (item && item.paymentStatus === "paid") {
+    // P0 double-charge guard (UI): a paid matter never shows the payment button again.
+    return (
+      <ConsumerPageShell wilmaContext="pay" headerVariant="app">
+        <section className="mx-auto flex min-h-screen max-w-3xl items-center px-4 pb-16 pt-28 font-sans md:px-8">
+          <div className="w-full rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
+            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D]"><LocalizedText k="payment.already_paid" fallback="Payment complete" /></p>
+            <h1 className="mt-3 text-[32px] font-extrabold leading-tight text-[#0B1320]"><LocalizedText k="payment.already_paid_title" fallback="You already paid for this packet." /></h1>
+            <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="payment.already_paid_body" fallback="No new charge is needed. Continue to your packet to view or download it." /></p>
+            <Link
+              className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white"
+              href={`/expungement-ai/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}`}
+            >
+              <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+              <LocalizedText k="payment.continue_to_packet" fallback="Continue to your packet" />
+            </Link>
+          </div>
+        </section>
+      </ConsumerPageShell>
+    );
+  }
 
   if (item) {
     try {
