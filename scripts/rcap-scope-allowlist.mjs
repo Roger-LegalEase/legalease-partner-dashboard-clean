@@ -9,6 +9,10 @@ export const SHARED_PAYMENT_FILES = [
   "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts",
   "src/app/api/stripe/webhook/route.ts",
   "src/lib/stripe/server.ts",
+  // Shared handler both Stripe webhook routes delegate to (route-specific secret verification,
+  // verified-event dispatch, and — as of the launch payment-guard PR — removal of the temporary
+  // legacy secret-prefix/length diagnostics). Reviewed as in-scope payment infrastructure.
+  "src/lib/stripe/webhook-handler.ts",
   "src/lib/expungement-ai/briefcase.ts",
   "src/lib/expungement-ai/checkout-reconciliation.ts",
   "src/lib/expungement-ai/packet-generation.ts",
