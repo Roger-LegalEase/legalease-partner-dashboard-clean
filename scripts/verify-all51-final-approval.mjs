@@ -95,6 +95,10 @@ function assertNoRestrictedChanges() {
   const allowedConsumerPersistenceFiles = new Set([
     ".env.example",
     "src/lib/stripe/server.ts",
+    // Shared handler both Stripe webhook routes delegate to. Reviewed for the launch payment-guard
+    // PR (removal of the temporary legacy secret-prefix/length diagnostics). No auth/billing/secret
+    // behavior change; verified-event dispatch and route-specific secret verification are unchanged.
+    "src/lib/stripe/webhook-handler.ts",
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",

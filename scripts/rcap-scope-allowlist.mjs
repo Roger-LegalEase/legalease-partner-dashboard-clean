@@ -3,6 +3,10 @@ export const SHARED_SCOPE_GUARD_ENV_FILES = [
 ];
 
 export const SHARED_PAYMENT_FILES = [
+  // Consumer payment entry page. Reviewed for the launch payment-guard PR: it renders the
+  // already-paid "continue to your packet" state (P0 double-charge guard) and is not a source-
+  // engine, auth, billing, or Stripe-secret surface.
+  "src/app/expungement-ai/pay/page.tsx",
   "src/app/api/expungement-ai/checkout/route.ts",
   "src/app/api/expungement-ai/checkout/status/route.ts",
   "src/app/api/expungement-ai/payment/confirm/route.ts",
