@@ -70,10 +70,43 @@ function renderForUrlSession(urlSessionId) {
   return renderResult(isPartnerSession);
 }
 
+function renderResultWithCode(resultCode, hasScreeningSession, paymentAllowed) {
+  return renderToStaticMarkup(
+    React.createElement(ScreeningResult, {
+      evaluation: {
+        ...baseEvaluation,
+        resultCode,
+        paymentAllowed,
+        packetPlan: paymentAllowed ? baseEvaluation.packetPlan : undefined
+      },
+      stateName: "Mississippi",
+      questionPromptById: {},
+      onEditAnswers: () => {},
+      onPacketAction: () => {},
+      hasScreeningSession
+    })
+  );
+}
+
+// Partner result lanes: each result code maps to exactly one forward CTA and never a price.
+const PARTNER_LANES = [
+  { code: "packet_ready", label: "Continue to packet builder", pay: true },
+  { code: "needs_more_info", label: "Continue to my Briefcase", pay: false },
+  { code: "guidance_only", label: "View my next steps", pay: false },
+  { code: "not_yet", label: "View my Briefcase", pay: false }
+];
+for (const lane of PARTNER_LANES) {
+  const partnerHtml = renderResultWithCode(lane.code, true, lane.pay);
+  assert(partnerHtml.includes(lane.label), `Partner lane ${lane.code} must render "${lane.label}".`);
+  assert(!partnerHtml.includes("$50"), `Partner lane ${lane.code} must never render a price.`);
+  const dtcHtml = renderResultWithCode(lane.code, false, lane.pay);
+  assert(!dtcHtml.includes(lane.label), `DTC must never render the partner lane label "${lane.label}".`);
+}
+
 // 1) A valid ?session= read from the URL (no server prop) must NOT show "$50" — it is partner mode.
 const fromUrl = renderForUrlSession(VALID_SESSION);
 assert(!fromUrl.includes("$50"), "URL ?session=<valid uuid> must NOT render '$50' (partner mode).");
-assert(fromUrl.includes("Save this result to Briefcase"), "URL ?session=<valid uuid> must render the Briefcase CTA.");
+assert(fromUrl.includes("Continue to packet builder"), "URL ?session=<valid uuid> must render the partner packet-builder lane CTA.");
 assert(
   fromUrl.includes("This screening started through a partner program. You will not be asked to pay here."),
   "URL ?session=<valid uuid> must render the no-charge partner helper text."
@@ -82,7 +115,7 @@ assert(
 // 2) No session must still show the DTC "$50" CTA.
 const noSession = renderForUrlSession(null);
 assert(noSession.includes("Generate my packet - $50"), "No session must render the DTC 'Generate my packet - $50' CTA.");
-assert(!noSession.includes("Save this result to Briefcase"), "No session must not render the Briefcase CTA.");
+assert(!noSession.includes("Continue to packet builder"), "No session must not render a partner lane CTA.");
 
 // 3) Invalid / non-v1-5 session query must NOT trigger partner mode (stays DTC "$50").
 for (const bad of [GARBAGE_SESSION, V7_SESSION, ""]) {

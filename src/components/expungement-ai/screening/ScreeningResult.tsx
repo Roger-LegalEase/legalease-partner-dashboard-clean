@@ -51,6 +51,21 @@ const RESULT_EYEBROW_KEYS: Record<ResultCode, string> = {
   hard_stop: "result.cannot_help"
 };
 
+// Partner-mode result lanes. Every lane routes forward into the Briefcase (the
+// packet builder, next steps, and saved status all live there) and NEVER shows
+// consumer pricing. DTC mode does not use these — it keeps the $50 gate.
+const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }> = {
+  packet_ready: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
+  packet_ready_with_caution: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
+  needs_more_info: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
+  needs_review: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
+  guidance_only: { key: "result.lane_next_steps", fallback: "View my next steps" },
+  not_covered_yet: { key: "result.lane_next_steps", fallback: "View my next steps" },
+  not_yet: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
+  likely_not_eligible: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
+  hard_stop: { key: "result.lane_briefcase", fallback: "View my Briefcase" }
+};
+
 const TONE_ACCENT: Record<Tone, { eyebrow: string; chip: string }> = {
   positive: { eyebrow: "text-[#00A99D]", chip: "bg-[#E7F7F4] text-[#0B5C54]" },
   caution: { eyebrow: "text-[#B45309]", chip: "bg-[#FDF1E8] text-[#9A3412]" },
@@ -218,14 +233,25 @@ export function ScreeningResult({
       ) : null}
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
-        {showPacketAction ? (
+        {hasScreeningSession ? (
+          // Partner mode: one forward lane CTA per result code, always no-charge.
           <button
             type="button"
             onClick={onPacketAction}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            {hasScreeningSession ? translate("result.save_briefcase", "Continue to my Briefcase") : translate("payment.generate_packet", "Generate my packet - $50")}
+            {translate(PARTNER_RESULT_LANES[evaluation.resultCode].key, PARTNER_RESULT_LANES[evaluation.resultCode].fallback)}
+          </button>
+        ) : showPacketAction ? (
+          // DTC mode: unchanged $50 packet gate, only when payment is allowed.
+          <button
+            type="button"
+            onClick={onPacketAction}
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+          >
+            <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
+            {translate("payment.generate_packet", "Generate my packet - $50")}
           </button>
         ) : null}
         {missing.length > 0 ? (

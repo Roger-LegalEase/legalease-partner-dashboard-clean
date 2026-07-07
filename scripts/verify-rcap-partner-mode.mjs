@@ -128,9 +128,17 @@ function verifySourceWiring() {
 
   assert(resultPanel.includes('href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`'), "DTC result panel must still route packet-ready results to pay.");
   assert(screeningResult.includes("showPacketAction = isPaymentAllowed(evaluation);"), "ScreeningFlow result UI must still clamp payment display to paymentAllowed.");
-  assert(screeningResult.includes('hasScreeningSession ? translate("result.save_briefcase", "Continue to my Briefcase") : translate("payment.generate_packet", "Generate my packet - $50")'), "Partner-covered result CTA must say Continue to my Briefcase while DTC says Generate my packet - $50.");
+  // Partner mode renders one of four lane CTAs (never a price); DTC keeps the $50 gate behind showPacketAction.
+  assert(screeningResult.includes("PARTNER_RESULT_LANES[evaluation.resultCode].key"), "Partner-covered result CTA must use the four result-lane labels.");
+  assert(screeningResult.includes('"result.lane_packet_builder"') && screeningResult.includes('"Continue to packet builder"'), "Partner packet-ready lane must say Continue to packet builder.");
+  const partnerCtaBranch = screeningResult.slice(
+    screeningResult.indexOf("{hasScreeningSession ? ("),
+    screeningResult.indexOf(") : showPacketAction ? (")
+  );
+  assert(partnerCtaBranch.length > 0 && !partnerCtaBranch.includes("$50"), "Partner result CTA branch must never render the $50 label.");
   assert(screeningResult.includes("result.partner_no_pay"), "Partner-covered result must show no-payment supporting copy.");
-  assert(!screeningResult.includes("Generate my packet - $50") || screeningResult.includes("hasScreeningSession ?"), "DTC $50 copy must remain behind the non-partner branch.");
+  assert(screeningResult.includes(") : showPacketAction ? ("), "DTC $50 gate must sit in the non-partner (showPacketAction) branch.");
+  assert(screeningResult.includes('translate("payment.generate_packet", "Generate my packet - $50")'), "DTC result CTA must still say Generate my packet - $50.");
   assert(payPage.includes("assertCheckoutAllowed(item);"), "Pay page must still gate checkout through payment adapter.");
   assert(payPage.includes("Open this page from a packet-ready Briefcase result to start checkout."), "Pay page routing copy missing.");
   assert(packetReadyPage.includes("payment confirmation or explicit dry-run confirmation"), "Packet-ready page must still confirm payment before showing ready state.");
