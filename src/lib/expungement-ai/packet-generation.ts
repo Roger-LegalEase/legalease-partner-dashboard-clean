@@ -4,6 +4,7 @@ import {
   getBriefcaseItem,
   getBriefcaseItemForWebhook,
   isPartnerSponsoredPacketItem,
+  partnerSlugForPacketItem,
   updateBriefcasePacketMetadata,
   updateBriefcasePacketMetadataForWebhook
 } from "@/lib/expungement-ai/briefcase";
@@ -12,6 +13,7 @@ import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
+import { partnerPacketInformationActionPath } from "@/lib/expungement-ai/partner-packet-links";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
@@ -179,7 +181,15 @@ export async function attachMississippiPacketInformationRequest({
     return { packetStatus: item.packetStatus ?? "pending", artifactRefs: existing, canDownload: false };
   }
 
-  const artifactRefs = buildMississippiPacketInformationArtifact(item);
+  // Route the packet-information form to the item's actual sponsoring partner,
+  // not a hardcoded slug. assertMississippiPartnerPacketReady already confirmed
+  // this item is partner-sponsored, so a slug must resolve; fail closed rather
+  // than send the user to the wrong partner's form.
+  const partnerSlug = await partnerSlugForPacketItem(item);
+  if (!partnerSlug) {
+    throw new ConsumerPacketGenerationError("A sponsoring partner slug is required to build the Mississippi packet information form.");
+  }
+  const artifactRefs = buildMississippiPacketInformationArtifact(item, partnerSlug);
   await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
     packetStatus: "pending",
     artifactRefs
@@ -272,8 +282,8 @@ function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacke
   };
 }
 
-function buildMississippiPacketInformationArtifact(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs {
-  const actionPath = `/documents/we-must-vote/form?briefcaseItemId=${encodeURIComponent(item.id)}`;
+export function buildMississippiPacketInformationArtifact(item: ConsumerBriefcaseItem, partnerSlug: string): ConsumerPacketArtifactRefs {
+  const actionPath = partnerPacketInformationActionPath(partnerSlug, item.id);
   return {
     provider: "rcap_legacy_mississippi",
     packetId: item.id,

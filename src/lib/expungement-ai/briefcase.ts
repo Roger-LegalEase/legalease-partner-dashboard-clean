@@ -181,6 +181,27 @@ export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem):
   return !error && Boolean(data?.session_id);
 }
 
+// Resolves the partner slug that sponsors a Briefcase item, from the RCAP
+// screening session that produced it. Returns null for DTC items (no partner
+// session). Used to build partner packet-builder links from the item's actual
+// partner instead of a hardcoded slug.
+export async function partnerSlugForPacketItem(item: ConsumerBriefcaseItem): Promise<string | null> {
+  if (!item.sourceSessionId) return null;
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("screening_sessions")
+    .select("partner_slug")
+    .eq("session_id", item.sourceSessionId)
+    .eq("flow_mode", "rcap")
+    .not("partner_slug", "is", null)
+    .maybeSingle<{ partner_slug: string | null }>();
+
+  if (error || !data?.partner_slug) return null;
+  return data.partner_slug;
+}
+
 export async function updateBriefcaseItemStatus(
   userId: string,
   itemId: string,
