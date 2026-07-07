@@ -123,13 +123,6 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.lane_more_info": { en: "Continue to my Briefcase", es: "Continuar a mi Maletín" },
   "result.lane_next_steps": { en: "View my next steps", es: "Ver mis próximos pasos" },
   "result.lane_briefcase": { en: "View my Briefcase", es: "Ver mi Maletín" },
-  "review.title": { en: "Let's make sure we have this right.", es: "Asegurémonos de que esto esté correcto." },
-  "review.subtitle": { en: "Review your answers before we check for a record-clearing path.", es: "Revise sus respuestas antes de que busquemos una vía para limpiar su registro." },
-  "review.confirm": { en: "Yes, this looks right.", es: "Sí, esto está correcto." },
-  "review.edit": { en: "Edit my answers", es: "Editar mis respuestas" },
-  "review.not_sure": { en: "I'm not sure", es: "No estoy seguro" },
-  "review.not_answered": { en: "Not answered yet", es: "Sin responder" },
-  "common.edit": { en: "Edit", es: "Editar" },
   "result.reviewing": { en: "Reviewing your answers...", es: "Revisando sus respuestas..." },
   "result.reviewing_body": {
     en: "This only takes a moment. We are checking what you told us. We do not guess, and nothing here is a decision yet.",

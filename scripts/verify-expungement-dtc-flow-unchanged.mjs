@@ -44,7 +44,7 @@ assert(!dtcBranch(screeningFlow).includes("router.push(BRIEFCASE_PATH)"), "DTC b
 assert(!dtcBranch(screeningFlow).includes("/expungement-ai/packet-ready"), "DTC branch must not route directly to packet-ready.");
 
 assert(screeningResult.includes("showPacketAction = isPaymentAllowed(evaluation);"), "DTC result CTA must stay clamped to paymentAllowed and packet-ready result codes.");
-assert(screeningResult.includes('hasScreeningSession ? translate("result.save_briefcase", "Continue to my Briefcase") : translate("payment.generate_packet", "Generate my packet - $50")'), "DTC result CTA must remain Generate my packet - $50 when no partner session exists.");
+assert(screeningResult.includes(") : showPacketAction ? (") && screeningResult.includes('translate("payment.generate_packet", "Generate my packet - $50")'), "DTC result CTA must remain Generate my packet - $50 (behind the non-partner showPacketAction branch).");
 assert(!screeningResult.includes("Your Briefcase will still save your screening and next steps."), "Partner-only saved-screening lane copy must not be in shared DTC result UI.");
 
 assert(!signInForm.includes("partner_slug"), "Consumer sign-in form must not include partner attribution fields.");

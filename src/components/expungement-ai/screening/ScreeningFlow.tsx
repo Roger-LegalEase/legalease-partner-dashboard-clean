@@ -31,7 +31,7 @@ import {
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
-import { blocksContinue, readOrUnknown, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
+import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
@@ -56,7 +56,7 @@ type LoadState =
   | { status: "malformed"; detail: string }
   | { status: "ready"; profile: JurisdictionProfile };
 
-type Phase = "questions" | "review" | "evaluating" | "result" | "error";
+type Phase = "questions" | "evaluating" | "result" | "error";
 type EvalError = { kind: "api_error" | "malformed_response"; message: string };
 
 function createMatterId(): string {
@@ -64,18 +64,6 @@ function createMatterId(): string {
     return `matter-${crypto.randomUUID()}`;
   }
   return `matter-${Date.now().toString(36)}`;
-}
-
-// Human-readable answer for the partner accuracy-review summary. Answers are held
-// in memory only; this reads the same value the questions captured.
-function formatReviewAnswer(
-  value: AnswerValue | undefined,
-  translate: (key: string, fallback: string) => string
-): string {
-  const parsed = readOrUnknown(value);
-  if (parsed.unknown) return translate("review.not_sure", "I'm not sure");
-  const raw = (parsed.value ?? (typeof value === "string" ? value : "")).trim();
-  return raw || translate("review.not_answered", "Not answered yet");
 }
 
 function packetTypeForPlan(mode: string | undefined): "official_pdf_overlay" | "custom_pleading" | "guidance_packet" | undefined {
@@ -340,9 +328,6 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setError(null);
     if (currentIndex < screens.length - 1) {
       setCurrentIndex((index) => index + 1);
-    } else if (isPartnerSession) {
-      // Partner mode gets an accuracy-review step before the result. DTC is unchanged.
-      setPhase("review");
     } else {
       void runEvaluation();
     }
@@ -419,57 +404,6 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             onRetry={() => void runEvaluation()}
             onEditAnswers={() => goToQuestions()}
           />
-        </div>
-      </FlowFrame>
-    );
-  }
-
-  if (phase === "review") {
-    const answered = screens.filter((screen) => answers[screen.id] !== undefined);
-    const reviewRows = (answered.length > 0 ? answered : screens);
-    return (
-      <FlowFrame state={state}>
-        <ProgressRail current={screens.length} total={screens.length} />
-        <div ref={focusRef} tabIndex={-1} className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm outline-none md:p-8">
-          <h1 className="text-[24px] font-extrabold leading-tight text-[#0B1320] md:text-[28px]">
-            {translate("review.title", "Let's make sure we have this right.")}
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-            {translate("review.subtitle", "Review your answers before we check for a record-clearing path.")}
-          </p>
-          <dl className="mt-6 grid gap-2">
-            {reviewRows.map((screen) => (
-              <div key={screen.id} className="flex items-start justify-between gap-4 rounded-[14px] bg-[#F8FAFC] px-4 py-3">
-                <dt className="text-sm font-semibold text-[#475A6E]">{screen.prompt}</dt>
-                <dd className="flex items-center gap-3 text-right text-sm font-bold text-[#0B1320]">
-                  <span>{formatReviewAnswer(answers[screen.id], translate)}</span>
-                  <button
-                    type="button"
-                    onClick={() => goToQuestions(screen.id)}
-                    className="shrink-0 text-[13px] font-bold text-[#00A99D] underline decoration-[#CDEDE8] underline-offset-2 hover:text-[#0B1320]"
-                  >
-                    {translate("common.edit", "Edit")}
-                  </button>
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
-            <button
-              type="button"
-              onClick={() => void runEvaluation()}
-              className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
-            >
-              {translate("review.confirm", "Yes, this looks right.")}
-            </button>
-            <button
-              type="button"
-              onClick={() => goToQuestions()}
-              className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
-            >
-              {translate("review.edit", "Edit my answers")}
-            </button>
-          </div>
         </div>
       </FlowFrame>
     );

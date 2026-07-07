@@ -21,7 +21,7 @@ const packageSource = read("package.json");
 assert(packageSource.includes('"expungement:verify-dtc-stripe-gate"'), "package.json must expose expungement:verify-dtc-stripe-gate.");
 
 assert(screeningResult.includes('translate("payment.generate_packet", "Generate my packet - $50")'), "DTC packet CTA must say Generate my packet - $50.");
-assert(screeningResult.includes('translate("result.save_briefcase", "Continue to my Briefcase")'), "Partner-covered packet CTA must say Continue to my Briefcase.");
+assert(screeningResult.includes('"result.lane_packet_builder"') && screeningResult.includes('"Continue to packet builder"'), "Partner-covered packet-ready CTA must say Continue to packet builder.");
 assert(screeningResult.includes("hasScreeningSession ?"), "Result CTA must branch partner vs DTC explicitly.");
 assert(screeningResult.includes('"A path may be available."'), "packet_ready_with_caution headline must remain A path may be available.");
 assert(!screeningResult.includes("A path may be available, with cautions"), "Result headline must not be warning-led.");
