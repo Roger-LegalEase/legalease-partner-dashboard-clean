@@ -51,6 +51,27 @@ export function absoluteUrl(baseUrl: string, path: string) {
   return `${trimTrailingSlash(baseUrl)}${normalizedPath}`;
 }
 
+const expungementAiHostnames = new Set(["expungement.ai", "www.expungement.ai"]);
+
+export function isExpungementAiHostname(hostname: string | null | undefined) {
+  if (!hostname) return false;
+  return expungementAiHostnames.has(hostname.toLowerCase());
+}
+
+// Context-aware password-reset target. The /auth/forgot-password route is shared
+// by both products, so the reset email must return the user to the domain they
+// came from: Expungement.ai consumers back to expungement.ai/briefcase, partner
+// staff back to legaleasepartner.com/partner/dashboard. Prefer an explicit
+// `product` hint (passed by the consumer sign-in link), then fall back to the
+// current hostname, then default to the partner app (the historical behavior).
+export function passwordResetRedirectUrl(context: { product?: string | null; hostname?: string | null }) {
+  const isExpungement = context.product === "expungement" || isExpungementAiHostname(context.hostname);
+  if (isExpungement) {
+    return absoluteExpungementAiUrl("/auth/set-password?next=/briefcase");
+  }
+  return absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard");
+}
+
 export function partnerLandingPageUrl(partnerSlug: string) {
   return absolutePartnerAppUrl(`/p/${partnerSlug}`);
 }

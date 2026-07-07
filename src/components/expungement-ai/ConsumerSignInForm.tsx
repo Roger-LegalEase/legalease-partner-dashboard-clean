@@ -185,7 +185,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href="/auth/forgot-password" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href="/auth/forgot-password?product=expungement" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>

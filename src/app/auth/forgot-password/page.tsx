@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
+import { passwordResetRedirectUrl } from "@/lib/app-url";
 
 const successMessage = "If an account exists for that email, we sent password reset instructions.";
 const invalidEmailMessage = "Enter a valid email address.";
@@ -112,11 +113,11 @@ export default function ForgotPasswordPage() {
 }
 
 function passwordResetRedirectTo() {
-  const configuredAppUrl = process.env.NEXT_PUBLIC_PARTNER_APP_URL?.trim() || process.env.NEXT_PUBLIC_APP_URL?.trim();
-  const baseUrl = configuredAppUrl || window.location.origin;
-  const url = new URL("/auth/set-password", baseUrl);
-  url.search = "?next=/partner/dashboard";
-  return url.toString();
+  const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  return passwordResetRedirectUrl({
+    product: params.get("product"),
+    hostname: typeof window !== "undefined" ? window.location.hostname : null
+  });
 }
 
 function isValidEmail(email: string) {
