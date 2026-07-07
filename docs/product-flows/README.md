@@ -13,7 +13,8 @@ Any change to screening, account creation, auth callback, payment, Briefcase, pa
 - DTC and partner use the same underlying RCAP / Expungement.ai engine but differ in payment and account handoff.
 - DTC requires Stripe before packet generation.
 - partner-covered users bypass Stripe.
-- no account wall before the free check.
+- no account wall before the free check on DTC (Expungement.ai). The partner portal is account-first: partner users create an account or sign in before the screening, which runs inside their Briefcase.
+- partner account creation and screenings do not count against the partner cap; only a generated packet counts (once per packet).
 - no duplicate screening after signup.
 - Screening answers must carry into the created account or session.
 - No blocking packet generation only because outside paperwork is still needed.

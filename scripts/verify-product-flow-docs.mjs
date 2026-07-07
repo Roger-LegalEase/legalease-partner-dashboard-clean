@@ -45,16 +45,27 @@ requirePhrases("docs/product-flows/expungement-ai-dtc-user-flow.md", [
 ]);
 
 requirePhrases("docs/product-flows/rcap-partner-portal-user-flow.md", [
-  "Check for free",
-  "No payment language",
-  "Continue to my Briefcase",
+  // Account-first partner model.
+  "Start your record-clearing screening",
   "Create account",
+  "account-first",
+  "No payment language",
   "Verify email",
+  // Accuracy review + the four result lanes.
+  "Let's make sure we have this right",
+  "Continue to packet builder",
+  "Continue to my Briefcase",
+  "View my next steps",
+  "View my Briefcase",
+  // Commercial bypass + packet flow.
   "Skip Stripe Payment Gate",
   "bypass payment",
   "State-Specific Packet Builder",
   "Generate my packet",
-  "Download my packet"
+  "Download my packet",
+  // Cap accounting rule.
+  "Packet generated counts against the partner cap",
+  "does not count against the partner cap"
 ]);
 
 requirePhrases("docs/product-flows/README.md", [

@@ -4,6 +4,8 @@ Source PDF: `docs/product-flows/source-pdfs/Co-Branded Partner Portal User Flow.
 
 This document is the source-of-truth Markdown version of the co-branded RCAP partner portal user flow. It protects the intended sequence for partner-covered users at `legaleasepartner.com`.
 
+This flow reflects the **account-first** partner model: partner users create a free Briefcase (or sign in) **before** the screening, and the screening runs inside their account. This differs from the Expungement.ai direct-to-consumer flow, where there is no account wall before the free check.
+
 ## Product Boundary
 
 - `legalease.com` is the umbrella company landing page.
@@ -13,139 +15,139 @@ This document is the source-of-truth Markdown version of the co-branded RCAP par
 
 ## Flow
 
-1. Partner landing page entry
+1. Partner co-branded landing page
 
-   The partner user enters through a co-branded landing page, such as **We Must Vote x LegalEase**.
+   The partner user enters through a co-branded landing page, such as **We Must Vote × LegalEase**.
 
-   CTA: **Check for free**
+   Primary CTA: **Start your record-clearing screening**.
 
-   The page should make clear that free screening is provided through the partnership with the partner. There should be **No payment language** on the partner landing page.
+   The page explains that the user creates a free Briefcase to save their answers and receive partner-supported access. There is **No payment language** on the partner landing page — no price, no purchase, no "$50".
 
-2. Start free qualification questionnaire
+2. Create account or sign in (before screening)
 
-   The partner user starts the same free screening flow used on Expungement.ai.
+   Partner users create their free Briefcase **before** starting the questionnaire. **Create account** collects first name, last name, email, and password, with phone number optional and consent to receive program updates and support communications.
 
-   Questions should determine state where the case happened, county or court where relevant, arrest / charge / conviction status, case outcome, waiting-period issues, sentence / probation / fines completion, and route-specific eligibility factors.
+   Existing users can sign in to continue.
 
-   No account is required during screening.
+   Account creation preserves **partner attribution** in the background, including partner name, partner slug, campaign or source (UTM parameters) where available, state or jurisdiction, county where supplied, and any event or source identifiers.
 
-3. Qualification result
+   Creating an account through a partner portal **does not count against the partner cap**.
 
-   If the system identifies a possible path, result copy should say: **A path may be available.**
+3. Verify email
 
-   Partner version copy:
+   The user verifies their email. After verification, the system recognizes the covered partner source and returns the user to the partner screening inside their Briefcase — not to Stripe.
 
-   > Based on what you told us, there may be a record-clearing path available. Through our partnership with [Partner Name], you can continue to your Briefcase and prepare your packet at no cost to you.
+   If live-event friction is being reduced, the user may begin the questionnaire immediately after signup, but verification is still required before packet generation or support follow-up where the code requires it.
 
-   Primary CTA: **Continue to my Briefcase**
+4. Partner screening inside the Briefcase
 
-   No CTA should say pay, purchase, or generate for $50.
+   The partner screening runs inside the user's account and is more support-oriented and accuracy-oriented than the DTC check. It gathers state, county, court if known, arrest / charge / conviction status, case outcome, sentence / probation completion, fines / fees / restitution status, waiting-period facts, open cases or pending charges, and whether the user needs help finding case information.
 
-4. Create account
+   **Screenings do not count against the partner cap.**
 
-   After clicking **Continue to my Briefcase**, the user creates an account. Account creation should collect first name, last name, email, and password.
+5. Accuracy review before the result
 
-   Screening answers should be saved and attached to the user account so the user does not restart.
+   Before showing the result, the partner flow shows an accuracy-review step:
 
-   Account creation must preserve partner attribution, including partner name, partner slug, campaign or source where available, state or jurisdiction, screening result, and packet route.
+   > Let's make sure we have this right.
 
-5. Verify email
+   It shows a concise summary of the user's answers.
 
-   The user verifies their email.
+   Primary CTA: **Yes, this looks right.**
+   Secondary CTA: **Edit my answers.**
 
-   After verification, the system should recognize the covered partner source and send the user to Briefcase, not Stripe.
+6. Qualification result and result lanes
 
-   Copy may say:
+   Result copy says **A path may be available** where relevant, and never uses "qualify", "eligible", "approved", or outcome promises. The court or agency makes the final decision.
 
-   > Email verified. Your Briefcase is ready.
+   The result routes into one of four lanes:
 
-   CTA: **Go to my Briefcase**
+   - **Lane A — a packet path may be available.** CTA: **Continue to packet builder**.
+   - **Lane B — more information needed.** CTA: **Continue to my Briefcase**.
+   - **Lane C — guidance-only / no packet path right now.** CTA: **View my next steps**.
+   - **Lane D — not eligible right now / waiting period not met.** CTA: **View my Briefcase**.
 
-6. Skip Stripe Payment Gate
+   No result CTA says pay, purchase, or generate for a fee.
 
-   This is the key commercial difference from DTC.
+7. Skip Stripe Payment Gate
 
-   For partner-covered users: no Stripe payment page, no $50 fee, and no payment prompt.
+   This is the key commercial difference from DTC. For partner-covered users there is no Stripe payment page, no fee, and no payment prompt. System rule: if the user source is a covered partner portal, **Skip Stripe Payment Gate**, bypass payment, and unlock Briefcase access.
 
-   System rule: if user source is a covered partner portal, **Skip Stripe Payment Gate**, bypass payment, and unlock Briefcase access after email verification.
+   The user does not see consumer pricing unless they later start a separate non-partner case outside partner coverage.
 
-   The user should not see consumer pricing unless they later start a separate non-partner case outside partner coverage.
+8. Briefcase saved no matter what
 
-7. Briefcase
+   The user keeps their Briefcase regardless of the result, and their screening is saved. For non-eligible or no-path users, the Briefcase shows a clear status such as: no packet path found right now, more information needed, waiting period not met, court records needed, case type not supported, or guidance-only next steps available.
 
-   The partner user lands in Briefcase with partner-aware language:
+   Briefcase CTA options for these users include **View my next steps**, **Check another case**, request partner support where enabled, and update my information. These users **do not count against the partner cap**.
 
-   > Your record-clearing packet is covered through [Partner Name].
+9. Briefcase for packet-path users
 
-   Briefcase should show the possible path and the next step:
+   For a possible packet path, the Briefcase uses partner-aware language:
 
-   > We found a possible path in [State]. We need a few more state-specific details before your packet can be generated.
+   > Your record-clearing packet is covered through [Partner Name]. Complete the state-specific packet builder so we can prepare your documents.
 
-   Primary CTA: **Finish my packet information**
+   Primary CTA: **Finish my packet information**.
 
-8. State-Specific Packet Builder
+10. State-Specific Packet Builder
 
-   Briefcase loads the correct **State-Specific Packet Builder** based on case state, route, and packet type.
+    The Briefcase loads the correct **State-Specific Packet Builder** based on case state, route, and packet type. It asks only for information needed for that state packet, such as county, court, case number, charge or offense, disposition, arresting agency, sentence-completion facts, waiting-period facts, and route-specific details.
 
-   The builder should ask only for information needed for that state packet, such as county, court, case number, charge or offense, disposition, arresting agency, sentence completion facts, waiting-period facts, and route-specific details.
+    The user can answer **I know this**, **I do not know**, or **I need help finding this**.
 
-   The user should be able to answer:
+    Packet generation is not blocked solely because the user still needs outside paperwork. Any required third-party forms, court records, certificates, fees, or supporting documents are listed in the next-step packet.
 
-   - I know this
-   - I do not know
-   - I need help finding this
+11. Generate packet
 
-   Do not block packet generation just because the user still needs outside paperwork. Any required third-party forms, court records, certificates, fees, or supporting documents should be listed in the next-step packet.
+    Once the required packet-builder fields are complete, the user can click **Generate my packet**. The system generates prepared documents where available, a state-specific filing checklist, next-step instructions, required outside-document guidance, expected fees where known, filing-location guidance, and plain-English disclaimers.
 
-9. Generate packet
+    **Packet generated counts against the partner cap** — exactly once per generated packet. Retries, refreshes, and re-downloads must not double-count. An additional packet generated for another eligible case counts once per generated packet.
 
-   Once required packet-builder fields are complete, the user can click: **Generate my packet**.
+12. Briefcase packet ready
 
-   The system generates prepared documents where available, a state-specific filing checklist, instructions for what to do next, required outside document guidance, expected fees where known, filing location guidance, and plain-English disclaimers.
+    After generation, Briefcase status changes to **Packet ready**.
 
-10. Briefcase packet ready
+    Primary CTA: **Download my packet**.
+    Secondary CTA: **View filing checklist**.
 
-   After generation, Briefcase status changes to **Packet ready**.
+    Partner-aware copy: this packet was prepared through LegalEase's partnership with [Partner Name].
 
-   Primary CTA: **Download my packet**
+13. Filing support and case outcome follow-up
 
-   Secondary CTA: **View filing checklist**
+    The menu includes **Check another case** so the user can screen another arrest, charge, conviction, or case. If the new case is within partner coverage, no payment is required. After packet generation, the Briefcase invites the user to return and update case status:
 
-   Partner-aware copy:
+    > Tell us what happened with your case.
 
-   > This packet was prepared through LegalEase's partnership with [Partner Name].
+    CTA: **Update my case status**.
 
-11. Check another case
+## Partner cap rules
 
-   The menu should include **Check another case** so the user can screen another arrest, charge, conviction, or case.
+- Partner portal account creation does not count against the partner cap.
+- Screenings do not count against the partner cap.
+- Ineligible users do not count against the partner cap.
+- Guidance-only users do not count against the partner cap.
+- More-information-needed users do not count against the partner cap.
+- Possible-path users do not count against the partner cap.
+- Packet builder started does not count against the partner cap.
+- **Packet generated counts against the partner cap** (once per generated packet).
+- An additional packet for another eligible case counts once per generated packet.
 
-   If the new case is still within the partner-covered program, no payment should be required. If the new case falls outside partner coverage, the user can still screen for free, but the system may route them to the normal $50 consumer packet flow.
-
-12. Case outcome follow-up
-
-   After packet generation, Briefcase should motivate the user to return and update case status:
-
-   > Tell us what happened with your case.
-
-   CTA: **Update my case status**
-
-   Possible statuses include not filed yet, filed packet, court accepted filing, court asked for more information, record cleared, request denied, and needs help understanding what happened.
+> Note: The packet-cap count is recorded by the `record_rcap_partner_packet_generation` Supabase function, which is defined in `supabase/phase-39-rcap-partner-packet-cap.sql`. The application records usage best-effort on packet generation; strict cap enforcement and reporting require that migration to be applied in the production database.
 
 ## Guardrails
 
-- Partner user enters through a co-branded landing page.
-- CTA is **Check for free**.
+- Partner user enters through a co-branded landing page with account-first entry.
 - No payment language on partner landing.
-- No account required during screening.
-- Possible-path result copy must say partner covers access.
-- Partner CTA is **Continue to my Briefcase**.
-- No CTA should say pay, purchase, or generate for $50.
-- Account creation preserves partner attribution.
-- After verification, partner user goes to Briefcase, not Stripe.
-- Partner-covered users bypass Stripe because partner has already paid.
-- Partner Briefcase uses partner-aware language.
-- Partner users get state-specific packet builder, packet generation, filing checklist, and outcome follow-up.
+- Partner users create an account or sign in before screening.
+- Account creation preserves partner attribution (partner slug, jurisdiction, county, UTM/source).
+- Screening runs inside the Briefcase; an accuracy-review step precedes the result.
+- Possible-path result copy must say partner covers access; result CTAs use the four lane labels above.
+- No CTA says pay, purchase, or generate for a fee.
+- After verification, the partner user goes to Briefcase, not Stripe.
+- Partner-covered users bypass Stripe because the partner has already paid.
+- Partner users get the state-specific packet builder, packet generation, filing checklist, and outcome follow-up.
+- Account creation, screenings, and non-packet outcomes do not count against the cap; only a generated packet counts.
 
 ## Clean Partner Flow
 
-Partner landing page -> **Check for free** -> qualification questionnaire -> **A path may be available** -> **Continue to my Briefcase** -> **Create account** -> **Verify email** -> **Skip Stripe Payment Gate** / bypass payment -> Briefcase -> **State-Specific Packet Builder** -> **Generate my packet** -> **Download my packet** + filing checklist -> outcome follow-up.
+Partner landing page → **Start your record-clearing screening** → **Create account** or sign in → **Verify email** → screening inside Briefcase → accuracy review (**Let's make sure we have this right**) → result lanes (**Continue to packet builder** / **Continue to my Briefcase** / **View my next steps** / **View my Briefcase**) → Briefcase saved no matter what → if no path, guidance/support only and no cap usage → if packet path, **State-Specific Packet Builder** → **Generate my packet** → **Skip Stripe Payment Gate** / bypass payment → **Download my packet** + filing checklist → packet generated counts against the partner cap → outcome follow-up.
