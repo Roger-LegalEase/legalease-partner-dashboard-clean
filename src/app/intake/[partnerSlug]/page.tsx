@@ -4,6 +4,11 @@ import {
   resolveRcapPartnerIntakeContext
 } from "@/lib/expungement-ai/rcap-partner-intake";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import {
+  appendAttributionQuery,
+  extractPartnerAttribution,
+  readAttributionFromFormData
+} from "@/lib/expungement-ai/partner-attribution";
 
 const UPL_DISCLAIMER =
   "Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.";
@@ -29,10 +34,13 @@ export default async function RcapPartnerIntakePage({
   searchParams
 }: {
   params: Promise<{ partnerSlug: string }>;
-  searchParams: Promise<{ status?: string | string[] }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const [{ partnerSlug }, search] = await Promise.all([params, searchParams]);
   const status = typeof search.status === "string" ? search.status : "";
+  // County / UTM / source attribution is optional; carry it through the account
+  // round-trip and into the screening start so it is not dropped.
+  const attribution = extractPartnerAttribution(search);
   const [context, auth] = await Promise.all([
     resolveRcapPartnerIntakeContext(partnerSlug),
     getRcapBriefcaseAuthState()
@@ -104,6 +112,9 @@ export default async function RcapPartnerIntakePage({
               <form action={startRcapPartnerScreening} className="mt-8">
                 <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
                 <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+                {Object.entries(attribution).map(([key, value]) => (
+                  <input key={key} type="hidden" name={`attr_${key}`} value={value} />
+                ))}
                 <button
                   type="submit"
                   className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
@@ -117,7 +128,7 @@ export default async function RcapPartnerIntakePage({
                 </p>
               </form>
             ) : (
-              <AccountFirstActions partnerSlug={context.partnerSlug} />
+              <AccountFirstActions partnerSlug={context.partnerSlug} attribution={attribution} />
             )}
           </div>
 
@@ -130,8 +141,10 @@ export default async function RcapPartnerIntakePage({
   );
 }
 
-function AccountFirstActions({ partnerSlug }: { partnerSlug: string }) {
-  const next = `/intake/${encodeURIComponent(partnerSlug)}`;
+function AccountFirstActions({ partnerSlug, attribution }: { partnerSlug: string; attribution: Record<string, string> }) {
+  // Preserve county/UTM/source attribution on the return path so it survives
+  // account creation and email verification.
+  const next = appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}`, attribution);
   const createHref = `/expungement-ai/sign-in?mode=create&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
   const signInHref = `/expungement-ai/sign-in?mode=signin&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
   return (
@@ -164,10 +177,16 @@ async function startRcapPartnerScreening(formData: FormData) {
 
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
+  const attribution = readAttributionFromFormData(formData);
   const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction });
 
   if (result.ok) {
-    redirect(`/expungement-ai/screening/${jurisdiction.toLowerCase()}?session=${result.sessionId}`);
+    redirect(
+      appendAttributionQuery(
+        `/expungement-ai/screening/${jurisdiction.toLowerCase()}?session=${result.sessionId}`,
+        attribution
+      )
+    );
   }
 
   if (result.reason === "capacity_full") {
