@@ -48,6 +48,7 @@ const serviceSource = read(servicePath);
 const signInSource = read(signInPath);
 const setPasswordSource = read(setPasswordPath);
 const forgotPasswordSource = read(forgotPasswordPath);
+const appUrlSource = read("src/lib/app-url.ts");
 const captchaHelperSource = read(captchaHelperPath);
 const turnstileWidgetSource = read(turnstileWidgetPath);
 const redirectSource = read(redirectPath);
@@ -102,8 +103,10 @@ for (const forbidden of ["getSupabaseAdminClient", "SUPABASE_SERVICE_ROLE_KEY", 
 failIf(!forgotPasswordSource.includes('"use client"'), "Forgot-password page must be a client component.");
 failIf(!forgotPasswordSource.includes("resetPasswordForEmail(email, {"), "Forgot-password page must call resetPasswordForEmail with the submitted email.");
 failIf(!forgotPasswordSource.includes("redirectTo: passwordResetRedirectTo()"), "Forgot-password reset must pass an explicit redirectTo.");
-failIf(!forgotPasswordSource.includes('new URL("/auth/set-password", baseUrl)') || !forgotPasswordSource.includes('url.search = "?next=/partner/dashboard"'), "Forgot-password reset redirect must target /auth/set-password with partner dashboard next path.");
-failIf(!forgotPasswordSource.includes("process.env.NEXT_PUBLIC_PARTNER_APP_URL"), "Forgot-password reset redirect must use NEXT_PUBLIC_PARTNER_APP_URL when configured.");
+// The reset target is computed by the shared context-aware helper. Partner staff (default /
+// partner host) still resolve to /auth/set-password?next=/partner/dashboard via the partner app URL.
+failIf(!forgotPasswordSource.includes("passwordResetRedirectUrl("), "Forgot-password must delegate to the shared context-aware passwordResetRedirectUrl helper.");
+failIf(!appUrlSource.includes('absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard")'), "Partner password reset must target /auth/set-password?next=/partner/dashboard via the partner app URL (NEXT_PUBLIC_PARTNER_APP_URL).");
 failIf(!forgotPasswordSource.includes("If an account exists for that email, we sent password reset instructions."), "Forgot-password success copy must not reveal whether the account exists.");
 for (const leakingCopy of ["email not found", "user not found", "account does not exist", "no account"]) {
   failIf(forgotPasswordSource.toLowerCase().includes(leakingCopy), `Forgot-password page must not include account enumeration copy: ${leakingCopy}`);
