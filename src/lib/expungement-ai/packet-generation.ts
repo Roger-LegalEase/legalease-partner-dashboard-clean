@@ -14,6 +14,7 @@ import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legale
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { partnerPacketInformationActionPath } from "@/lib/expungement-ai/partner-packet-links";
+import { recordPartnerPacketUsage, shouldConsumePartnerPacketCap } from "@/lib/expungement-ai/rcap-slot-lifecycle";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
@@ -78,10 +79,12 @@ export async function generatePaidConsumerPacket({
   const item = webhookMode
     ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
     : await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
+  const isPartnerSponsored = await isPartnerSponsoredPacketItem(item);
+  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !isPartnerSponsored });
 
   const existing = artifactRefsFor(item);
   if (item.packetStatus === "ready" && existing) {
+    // Already-ready re-entry (refresh/re-download): never re-count the cap.
     return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
   }
 
@@ -91,6 +94,7 @@ export async function generatePaidConsumerPacket({
   try {
     const artifactRefs = buildConsumerPacketArtifact(item);
     await attachPacketToBriefcaseItem({ userId, item, artifactRefs, webhookMode });
+    await recordPartnerPacketCapUsage(item, isPartnerSponsored);
     await emitPacketGeneratedEvent(item, artifactRefs, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
@@ -105,6 +109,28 @@ export async function generatePaidConsumerPacket({
       now
     });
     throw new ConsumerPacketGenerationError(error instanceof Error ? error.message : "Packet generation failed.");
+  }
+}
+
+// Count a generated partner packet against the partner cap — exactly once per
+// packet. Business rule: only a generated packet consumes cap; account creation,
+// screenings, and non-packet outcomes do not. Re-generation of an already-ready
+// packet returns before this runs, and record_rcap_partner_packet_generation is
+// itself server-side idempotent (it flips the session claimed->consumed), so
+// retries do not double-count. This is BEST-EFFORT and FAIL-OPEN: DTC packets
+// are skipped, and a missing/unapplied phase-39 RPC returns { ok:false } and
+// must never break packet generation. Strict cap enforcement/reporting requires
+// the phase-39 migration to be applied in the production database.
+async function recordPartnerPacketCapUsage(item: ConsumerBriefcaseItem, isPartnerSponsored: boolean): Promise<void> {
+  if (!shouldConsumePartnerPacketCap({ isPartnerCovered: isPartnerSponsored, packetWasAlreadyReady: false })) return;
+  if (!item.sourceSessionId) return;
+  try {
+    const usage = await recordPartnerPacketUsage(item.sourceSessionId);
+    if (!usage.ok) {
+      console.warn(`[rcap] partner packet cap not recorded for session ${item.sourceSessionId}: ${usage.error ?? "unknown"}`);
+    }
+  } catch (error) {
+    console.warn(`[rcap] partner packet cap record threw for session ${item.sourceSessionId}: ${error instanceof Error ? error.message : "unknown"}`);
   }
 }
 
