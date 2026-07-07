@@ -177,8 +177,19 @@ export async function getConsumerCheckoutStatus({
   });
   const paymentIntent = typeof session.payment_intent === "string" ? undefined : session.payment_intent;
 
+  // Bind the retrieved Stripe session to THIS Briefcase item before honoring "paid".
+  // Without this, a user who legitimately paid for one item could pass that item's
+  // paid session id to the confirm/status path for a different, unpaid item they own
+  // and unlock a second packet for free. Mirror the bindings the signed webhook
+  // enforces in checkout-reconciliation.ts. Fail closed (paid: false) on any mismatch.
+  const sessionBoundToItem =
+    session.client_reference_id === item.id &&
+    session.metadata?.briefcase_item_id === item.id &&
+    session.metadata?.channel === "expungement_ai_consumer" &&
+    (!item.checkoutSessionId || item.checkoutSessionId === session.id);
+
   return {
-    paid: session.payment_status === "paid",
+    paid: sessionBoundToItem && session.payment_status === "paid",
     mode: "stripe",
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntent?.id,
