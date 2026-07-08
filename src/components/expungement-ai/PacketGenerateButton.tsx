@@ -4,6 +4,7 @@ import { FileText } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { trackFunnelEvent } from "@/lib/analytics/client";
 
 export function PacketGenerateButton({ briefcaseItemId }: { briefcaseItemId: string }) {
   const router = useRouter();
@@ -12,6 +13,7 @@ export function PacketGenerateButton({ briefcaseItemId }: { briefcaseItemId: str
 
   async function generate() {
     setStatus("generating");
+    trackFunnelEvent("packet_builder_started", { product_surface: "expungement_ai" });
     const response = await fetch("/api/expungement-ai/packet/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -21,6 +23,7 @@ export function PacketGenerateButton({ briefcaseItemId }: { briefcaseItemId: str
       setStatus("error");
       return;
     }
+    trackFunnelEvent("packet_generated", { product_surface: "expungement_ai" });
     router.refresh();
   }
 

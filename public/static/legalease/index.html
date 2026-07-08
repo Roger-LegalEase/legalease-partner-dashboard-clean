@@ -1748,5 +1748,60 @@ section{position:relative;}
   setTimeout(()=>{ if(!started){ fab.classList.add('nudge'); setTimeout(()=>fab.classList.remove('nudge'),3200);} },4500);
 })();
 </script>
+<!-- First-party web analytics (legalease.com static homepage). This page is served as a static
+     file via host routing in src/proxy.ts, so the React <WebAnalyticsTracker/> never mounts here.
+     This tiny self-contained snippet mirrors it: anonymous visitor/session ids, DNT-honoring, and a
+     single privacy-safe pageview beacon to /api/analytics/web (product_surface=legalease). It stores
+     no PII and never blocks the page. -->
+<script>
+(function(){
+  try {
+    var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+    if (dnt === "1" || dnt === "yes") return;
+    function uuid(){
+      if (window.crypto && crypto.randomUUID) { try { return crypto.randomUUID(); } catch(e){} }
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){
+        var r = Math.random()*16|0, v = c==="x" ? r : (r&0x3|0x8); return v.toString(16);
+      });
+    }
+    var ls; try { ls = window.localStorage; } catch(e){ ls = null; }
+    function vid(){
+      if(!ls) return uuid();
+      var id = ls.getItem("le_vid");
+      if(!id){ id = uuid(); ls.setItem("le_vid", id); }
+      return id;
+    }
+    function sid(){
+      if(!ls) return uuid();
+      var now = Date.now(), id = ls.getItem("le_sid"), ts = Number(ls.getItem("le_sid_ts")||0);
+      if(!id || !ts || (now - ts) > 1800000){ id = uuid(); ls.setItem("le_sid", id); }
+      ls.setItem("le_sid_ts", String(now));
+      return id;
+    }
+    var p = new URLSearchParams(location.search), utm = {};
+    ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(k){
+      var v = p.get(k); if(v) utm[k] = v.slice(0,120);
+    });
+    var payload = Object.assign({
+      event_id: uuid(),
+      occurred_at: new Date().toISOString(),
+      event_name: "pageview",
+      product_surface: "legalease",
+      path: location.pathname,
+      query: location.search,
+      page_title: (document.title||"").slice(0,190),
+      referrer: document.referrer || undefined,
+      visitor_id: vid(),
+      session_id: sid()
+    }, utm);
+    var body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/analytics/web", new Blob([body], {type:"application/json"}));
+    } else {
+      fetch("/api/analytics/web", {method:"POST", headers:{"content-type":"application/json"}, body:body, keepalive:true}).catch(function(){});
+    }
+  } catch(e) { /* analytics must never break the page */ }
+})();
+</script>
 </body>
 </html>

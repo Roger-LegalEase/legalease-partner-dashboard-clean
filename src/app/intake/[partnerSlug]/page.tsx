@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import {
   claimRcapPartnerScreeningSession,
   resolveRcapPartnerIntakeContext
@@ -76,6 +77,10 @@ export default async function RcapPartnerIntakePage({
 
   return (
     <PageShell>
+      <FunnelBeacon
+        event="partner_intake_started"
+        meta={{ partner_slug: context.partnerSlug, state: context.jurisdiction, product_surface: "legalease_partner" }}
+      />
       <section className="mx-auto w-full max-w-2xl">
         <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl} />
 

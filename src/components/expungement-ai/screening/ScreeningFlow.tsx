@@ -37,6 +37,7 @@ import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { resolvePartnerSessionId } from "@/components/expungement-ai/screening/partner-session";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { trackFunnelEvent } from "@/lib/analytics/client";
 import {
   EvaluatingState,
   EvaluationErrorState,
@@ -112,6 +113,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "sent" | "error">("idle");
   const focusRef = useRef<HTMLDivElement>(null);
   const matterIdRef = useRef<string>(createMatterId());
+  const screeningStartTrackedRef = useRef(false);
+  const resultViewTrackedRef = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -194,6 +197,29 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       focusRef.current?.focus();
     }
   }, [currentIndex, phase, load.status]);
+
+  // Funnel: screening started (fires once when the state's questions are ready). Partner-session
+  // screenings emit the partner event so RCAP traffic is never counted as DTC.
+  useEffect(() => {
+    if (load.status !== "ready" || screeningStartTrackedRef.current) return;
+    screeningStartTrackedRef.current = true;
+    trackFunnelEvent(isPartnerSession ? "partner_screening_started" : "screening_started", {
+      state: load.profile.jurisdiction.code,
+      product_surface: isPartnerSession ? "legalease_partner" : "expungement_ai"
+    });
+  }, [load, isPartnerSession]);
+
+  // Funnel: screening result viewed (fires once when the result phase renders). No answers or record
+  // details are ever sent — only the state code and the engine's public result code.
+  useEffect(() => {
+    if (phase !== "result" || resultViewTrackedRef.current) return;
+    resultViewTrackedRef.current = true;
+    trackFunnelEvent(isPartnerSession ? "partner_result_viewed" : "screening_result_viewed", {
+      state: load.status === "ready" ? load.profile.jurisdiction.code : undefined,
+      result_code: evaluation?.resultCode,
+      product_surface: isPartnerSession ? "legalease_partner" : "expungement_ai"
+    });
+  }, [phase, isPartnerSession, evaluation, load]);
 
   if (load.status === "loading") return <LoadingState />;
   if (load.status === "missing") return <MissingProfileState state={state} onPick={() => router.push(PICKER_PATH)} />;

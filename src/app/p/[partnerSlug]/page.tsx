@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
+import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import { PartnerLandingPageTemplate } from "@/components/partners/PartnerLandingPageTemplate";
 import { buildPartnerLandingPageData } from "@/lib/partners/landing-page";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
@@ -16,7 +17,15 @@ export default async function CoBrandedPartnerPage({
     return <PartnerNotFound />;
   }
 
-  return <PartnerLandingPageTemplate {...buildPartnerLandingPageData(partner)} />;
+  return (
+    <>
+      <FunnelBeacon
+        event="partner_landing_viewed"
+        meta={{ partner_slug: partnerSlug, product_surface: "legalease_partner" }}
+      />
+      <PartnerLandingPageTemplate {...buildPartnerLandingPageData(partner)} />
+    </>
+  );
 }
 
 function PartnerNotFound() {

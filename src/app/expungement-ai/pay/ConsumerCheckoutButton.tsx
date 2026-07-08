@@ -3,6 +3,7 @@
 import { CreditCard } from "lucide-react";
 import { useState } from "react";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { trackFunnelEvent } from "@/lib/analytics/client";
 
 export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: string }) {
   const { t: translate } = useLocalization();
@@ -12,6 +13,9 @@ export function ConsumerCheckoutButton({ briefcaseItemId }: { briefcaseItemId: s
   async function startCheckout() {
     setIsLoading(true);
     setError(null);
+
+    // Fire-and-forget funnel event; never blocks or delays the checkout request.
+    trackFunnelEvent("checkout_started", { product_surface: "expungement_ai" });
 
     const response = await fetch("/api/expungement-ai/checkout", {
       method: "POST",
