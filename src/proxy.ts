@@ -144,6 +144,12 @@ function expungementAiPath(pathname: string) {
     return `/expungement-ai${pathname}`;
   }
 
+  // State landing pages: expungement.ai/states/<stateSlug> → /expungement-ai/states/<stateSlug>.
+  // Mirrors the /screening/ wildcard: only sub-paths are exposed (there is no /states index page).
+  if (pathname.startsWith("/states/")) {
+    return `/expungement-ai${pathname}`;
+  }
+
   if (!cleanPaths.has(pathname)) {
     return null;
   }
