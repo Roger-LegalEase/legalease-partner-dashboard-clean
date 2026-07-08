@@ -179,6 +179,9 @@ for (const file of changedFiles) {
   if (file === "supabase/phase-33-expungement-screening-resume-links.sql") continue;
   if (file === "supabase/phase-38-expungement-pending-screening-results.sql") continue;
   if (file === "supabase/phase-39-rcap-partner-packet-cap.sql") continue;
+  // First-party web analytics migration (phase 40). Unrelated to the consumer payment adapter;
+  // creates the public.web_analytics_events store. Allowlisted like the prior consumer migrations.
+  if (file === "supabase/phase-40-web-analytics-events.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }
