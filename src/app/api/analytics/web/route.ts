@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { buildWebAnalyticsRow } from "@/lib/analytics/build-event";
 import { recordWebAnalyticsEvent } from "@/lib/analytics/web-analytics-repository";
-import { PAGEVIEW_EVENT } from "@/lib/analytics/event-names";
+import { PAGEVIEW_EVENT, isServerOnlyEventName } from "@/lib/analytics/event-names";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 
 export const runtime = "nodejs";
@@ -47,6 +47,13 @@ export async function POST(request: Request) {
   } catch {
     // Do not error the client for malformed beacons; just ignore.
     return noContent();
+  }
+
+  // Server-confirmed events (e.g. checkout_completed) may never be submitted from a client beacon;
+  // they are emitted only via the trusted server path. Reject forged submissions at the boundary.
+  if (isServerOnlyEventName((payload as Record<string, unknown> | null)?.event_name)) {
+    logSecurityWarn({ event: "web analytics rejected", route: ROUTE, outcome: "server_only_event", requestId });
+    return NextResponse.json({ ok: false, error: "server_only_event" }, { status: 400 });
   }
 
   const ip = clientIp(request);

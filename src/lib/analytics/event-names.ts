@@ -42,3 +42,15 @@ const allowedEventNameSet = new Set<string>(ALLOWED_EVENT_NAMES);
 export function isAllowedEventName(value: unknown): value is WebAnalyticsEventName {
   return typeof value === "string" && allowedEventNameSet.has(value);
 }
+
+// Events that must only ever originate from a trusted server path (server-confirmed). The public
+// ingestion route (/api/analytics/web) rejects these so a forged browser beacon cannot inflate a
+// confirmed funnel step. The server emitter (recordServerFunnelEvent) builds the row directly and
+// never passes through the HTTP route, so it is unaffected.
+export const SERVER_ONLY_EVENT_NAMES = ["checkout_completed"] as const;
+
+const serverOnlyEventNameSet = new Set<string>(SERVER_ONLY_EVENT_NAMES);
+
+export function isServerOnlyEventName(value: unknown): boolean {
+  return typeof value === "string" && serverOnlyEventNameSet.has(value);
+}

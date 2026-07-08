@@ -32,11 +32,6 @@ function assertIncludes(relativePath, markers) {
   }
 }
 
-function assertExcludes(relativePath, marker, message) {
-  const source = read(relativePath);
-  assert(!source.includes(marker), message ?? `${relativePath} must not contain: ${marker}`);
-}
-
 // 1. Raw IP is never stored — only a salted HMAC. The stored row exposes ip_hash, not ip.
 assertIncludes("src/lib/analytics/build-event.ts", [
   "createHmac",
@@ -101,6 +96,13 @@ assert(
   "checkout analytics must not gate the checkout request"
 );
 assert(!checkout.includes("await trackFunnelEvent"), "checkout analytics must be fire-and-forget (not awaited)");
+
+// 4b. Server-confirmed events cannot be forged via the public beacon endpoint.
+assertIncludes("src/lib/analytics/event-names.ts", ["SERVER_ONLY_EVENT_NAMES", '"checkout_completed"', "isServerOnlyEventName"]);
+assertIncludes("src/app/api/analytics/web/route.ts", ["isServerOnlyEventName", "server_only_event"]);
+// checkout_completed must be emitted only from the trusted server path, never the browser tracker.
+assert(!read("src/lib/analytics/client.ts").includes("checkout_completed"), "client tracker must not emit checkout_completed");
+assertIncludes("src/app/api/expungement-ai/payment/confirm/route.ts", ["recordServerFunnelEvent", '"checkout_completed"']);
 
 // 5. DNT honored + surface derived server-side.
 assertIncludes("src/lib/analytics/client.ts", ["doNotTrack", "analyticsEnabled"]);
