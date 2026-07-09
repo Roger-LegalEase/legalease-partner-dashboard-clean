@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { isRcapPartnerScreeningSession, saveScreeningResultToBriefcase } from "@/lib/expungement-ai/briefcase";
+import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { attachMississippiPacketInformationRequest } from "@/lib/expungement-ai/packet-generation";
 import { buildSaveInput, isStorableResultCode, normalizePacketType } from "@/lib/expungement-ai/save-result-policy";
 import { getSafeRequestId, logSecurityWarn } from "@/lib/observability/logger";
@@ -53,6 +54,13 @@ export async function POST(request: Request) {
   );
 
   const item = await saveScreeningResultToBriefcase(input);
+
+  // Best-effort partner analytics: record the coarse outcome category by code.
+  // No answers or record detail are stored; the RPC no-ops for DTC sessions.
+  if (isPartnerSession && sourceSessionId) {
+    await recordScreeningEligibilityResult(sourceSessionId, body.resultCode);
+  }
+
   if (isPartnerSession && isPacketReadyResult(body.resultCode) && isMississippiJurisdiction(body.jurisdiction)) {
     const packet = await attachMississippiPacketInformationRequest({
       userId: auth.userId,

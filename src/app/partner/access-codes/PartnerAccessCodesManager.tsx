@@ -170,17 +170,23 @@ export function PartnerAccessCodesManager({
           <p className="mt-3 text-sm text-[#8A8278]">You haven&rsquo;t created any codes yet.</p>
         ) : (
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-[1080px] text-left text-sm">
               <thead>
                 <tr className="border-b border-[#EEE6DB] text-xs font-black uppercase tracking-wide text-[#8A8278]">
                   <th className="py-2 pr-3">Access Code</th>
                   <th className="py-2 pr-3">Campaign</th>
                   <th className="py-2 pr-3">Type</th>
                   <th className="py-2 pr-3">Uses</th>
+                  <th className="py-2 pr-3">Screenings Started</th>
+                  <th className="py-2 pr-3">Completed</th>
+                  <th className="py-2 pr-3">Eligible</th>
+                  <th className="py-2 pr-3">Guidance Only</th>
+                  <th className="py-2 pr-3">Packets Generated</th>
                   <th className="py-2 pr-3">Packet Credits Used</th>
+                  <th className="py-2 pr-3">Overage</th>
+                  <th className="py-2 pr-3">Conversion</th>
                   <th className="py-2 pr-3">Active</th>
                   <th className="py-2 pr-3">Expires</th>
-                  <th className="py-2 pr-3">Last used</th>
                   <th className="py-2 pr-3" />
                 </tr>
               </thead>
@@ -191,10 +197,16 @@ export function PartnerAccessCodesManager({
                     <td className="py-2.5 pr-3">{code.campaignName ?? "—"}</td>
                     <td className="py-2.5 pr-3">{typeLabel(code)}</td>
                     <td className="py-2.5 pr-3">{code.maxUses ? `${code.usesCount} / ${code.maxUses}` : code.usesCount}</td>
+                    <td className="py-2.5 pr-3">{code.screeningsStarted}</td>
+                    <td className="py-2.5 pr-3">{code.screeningsCompleted}</td>
+                    <td className="py-2.5 pr-3">{code.eligiblePackets}</td>
+                    <td className="py-2.5 pr-3">{code.guidanceOnly}</td>
                     <td className="py-2.5 pr-3">{code.packetsGenerated}</td>
+                    <td className="py-2.5 pr-3">{code.packetCreditsUsed}</td>
+                    <td className="py-2.5 pr-3">{code.overagePackets}</td>
+                    <td className="py-2.5 pr-3">{formatPercent(code.conversionRate)}</td>
                     <td className="py-2.5 pr-3">{code.isActive ? "Yes" : "No"}</td>
                     <td className="py-2.5 pr-3">{formatDate(code.expiresAt)}</td>
-                    <td className="py-2.5 pr-3">{formatDate(code.lastUsedAt)}</td>
                     <td className="py-2.5 pr-3">
                       <button
                         type="button"
@@ -211,6 +223,14 @@ export function PartnerAccessCodesManager({
             </table>
           </div>
         )}
+        {analytics && hasDirectActivity(analytics.directAttribution) ? (
+          <p className="mt-4 text-xs leading-5 text-[#8A8278]">
+            Direct partner page (no code): {analytics.directAttribution.screeningsStarted} started,{" "}
+            {analytics.directAttribution.screeningsCompleted} completed,{" "}
+            {analytics.directAttribution.packetsGenerated} packets generated,{" "}
+            {analytics.directAttribution.overagePackets} overage.
+          </p>
+        ) : null}
       </section>
     </div>
   );
@@ -350,6 +370,14 @@ function typeLabel(code: PartnerAccessCodeView): string {
   if (code.codeType === "single_use") return "Single use";
   if (code.codeType === "limited_use") return "Limited";
   return "Shared";
+}
+
+function formatPercent(rate: number): string {
+  return `${Math.round(rate * 100)}%`;
+}
+
+function hasDirectActivity(row: { screeningsStarted: number; packetsGenerated: number }): boolean {
+  return row.screeningsStarted > 0 || row.packetsGenerated > 0;
 }
 
 function formatDate(value: string | null): string {

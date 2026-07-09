@@ -51,8 +51,28 @@ export type PartnerAccessCodeView = {
   expiresAt: string | null;
   lastUsedAt: string | null;
   createdAt: string;
-  packetsGenerated: number;
+  // Code/campaign analytics (privacy-safe, derived from lifecycle events).
   screeningsStarted: number;
+  screeningsCompleted: number;
+  eligiblePackets: number;
+  guidanceOnly: number;
+  ineligible: number;
+  packetsGenerated: number;
+  packetCreditsUsed: number;
+  overagePackets: number;
+  conversionRate: number;
+};
+
+export type PartnerCodeAnalyticsRow = {
+  screeningsStarted: number;
+  screeningsCompleted: number;
+  eligiblePackets: number;
+  guidanceOnly: number;
+  ineligible: number;
+  packetsGenerated: number;
+  packetCreditsUsed: number;
+  overagePackets: number;
+  conversionRate: number;
 };
 
 export type CreatePartnerAccessCodeInput = {
@@ -200,7 +220,7 @@ export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInpu
     code_type: data.code_type
   });
 
-  return viewFromRow(data, { packetsGenerated: 0, screeningsStarted: 0 });
+  return viewFromRow(data, EMPTY_ANALYTICS);
 }
 
 export async function setPartnerAccessCodeActive(input: {
@@ -236,8 +256,8 @@ export async function setPartnerAccessCodeActive(input: {
     {}
   );
 
-  const usage = await usageForCodes(supabase, slug, [codeId]);
-  return viewFromRow(data, usage[codeId] ?? { packetsGenerated: 0, screeningsStarted: 0 });
+  const { byCode } = await codeAnalyticsMap(supabase, slug);
+  return viewFromRow(data, byCode[codeId] ?? EMPTY_ANALYTICS);
 }
 
 export async function listPartnerAccessCodes(partnerSlug: string): Promise<PartnerAccessCodeView[]> {
@@ -255,8 +275,8 @@ export async function listPartnerAccessCodes(partnerSlug: string): Promise<Partn
   }
 
   const rows = (data ?? []) as AccessCodeRow[];
-  const usage = await usageForCodes(supabase, slug, rows.map((r) => r.id));
-  return rows.map((row) => viewFromRow(row, usage[row.id] ?? { packetsGenerated: 0, screeningsStarted: 0 }));
+  const { byCode } = await codeAnalyticsMap(supabase, slug);
+  return rows.map((row) => viewFromRow(row, byCode[row.id] ?? EMPTY_ANALYTICS));
 }
 
 export type PartnerAccessCodeAnalytics = {
@@ -271,13 +291,15 @@ export type PartnerAccessCodeAnalytics = {
   overageEnabled: boolean;
   pauseAtCap: boolean;
   codes: PartnerAccessCodeView[];
+  // Attribution through the partner page with no code (open / optional no-code).
+  directAttribution: PartnerCodeAnalyticsRow;
 };
 
 export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promise<PartnerAccessCodeAnalytics> {
   const slug = normalizeSlug(partnerSlug);
   const supabase = requireAdminClient();
 
-  const [{ data: partnerRow }, { data: entRow }, codes] = await Promise.all([
+  const [{ data: partnerRow }, { data: entRow }, codes, analyticsMap] = await Promise.all([
     supabase.from("partner_records").select("access_mode").eq("partner_slug", slug).maybeSingle<{ access_mode: string | null }>(),
     supabase
       .from("partner_entitlement")
@@ -292,7 +314,8 @@ export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promis
         overage_enabled: boolean;
         pause_at_cap: boolean;
       }>(),
-    listPartnerAccessCodes(slug)
+    listPartnerAccessCodes(slug),
+    codeAnalyticsMap(supabase, slug)
   ]);
 
   const packetCap = entRow?.screenings_allowed ?? 0;
@@ -309,7 +332,8 @@ export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promis
     overagePacketPriceCents: entRow?.overage_packet_price_cents ?? 5000,
     overageEnabled: Boolean(entRow?.overage_enabled),
     pauseAtCap: Boolean(entRow?.pause_at_cap),
-    codes
+    codes,
+    directAttribution: analyticsMap.direct
   };
 }
 
@@ -354,31 +378,68 @@ export async function getPartnerAccessMode(partnerSlug: string): Promise<Partner
 // Internals
 // ---------------------------------------------------------------------------
 
-async function usageForCodes(
+type AnalyticsRpcRow = {
+  partner_access_code_id: string | null;
+  screenings_started: number | string;
+  screenings_completed: number | string;
+  eligible_packet: number | string;
+  guidance_only: number | string;
+  ineligible: number | string;
+  packets_generated: number | string;
+  overage_packets: number | string;
+};
+
+const EMPTY_ANALYTICS: PartnerCodeAnalyticsRow = {
+  screeningsStarted: 0,
+  screeningsCompleted: 0,
+  eligiblePackets: 0,
+  guidanceOnly: 0,
+  ineligible: 0,
+  packetsGenerated: 0,
+  packetCreditsUsed: 0,
+  overagePackets: 0,
+  conversionRate: 0
+};
+
+function analyticsFromRpcRow(row: AnalyticsRpcRow): PartnerCodeAnalyticsRow {
+  const started = Number(row.screenings_started) || 0;
+  const completed = Number(row.screenings_completed) || 0;
+  const generated = Number(row.packets_generated) || 0;
+  const overage = Number(row.overage_packets) || 0;
+  return {
+    screeningsStarted: started,
+    screeningsCompleted: completed,
+    eligiblePackets: Number(row.eligible_packet) || 0,
+    guidanceOnly: Number(row.guidance_only) || 0,
+    ineligible: Number(row.ineligible) || 0,
+    packetsGenerated: generated,
+    packetCreditsUsed: Math.max(0, generated - overage),
+    overagePackets: overage,
+    conversionRate: completed > 0 ? Math.round((generated / completed) * 1000) / 1000 : 0
+  };
+}
+
+// Per-code lifecycle-event aggregates. The NULL-code row (direct partner-page
+// attribution) is returned under the "direct" key.
+async function codeAnalyticsMap(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
-  partnerSlug: string,
-  codeIds: string[]
-): Promise<Record<string, { packetsGenerated: number; screeningsStarted: number }>> {
-  const result: Record<string, { packetsGenerated: number; screeningsStarted: number }> = {};
-  if (codeIds.length === 0) return result;
+  partnerSlug: string
+): Promise<{ byCode: Record<string, PartnerCodeAnalyticsRow>; direct: PartnerCodeAnalyticsRow }> {
+  const byCode: Record<string, PartnerCodeAnalyticsRow> = {};
+  let direct = EMPTY_ANALYTICS;
 
-  const { data, error } = await supabase
-    .from("screening_sessions")
-    .select("partner_access_code_id, claimed_slot_state")
-    .eq("partner_slug", partnerSlug)
-    .in("partner_access_code_id", codeIds);
+  const { data, error } = await supabase.rpc("get_partner_code_analytics", { p_partner_slug: partnerSlug });
+  if (error || !data) return { byCode, direct };
 
-  if (error || !data) return result;
-
-  for (const row of data as Array<{ partner_access_code_id: string | null; claimed_slot_state: string | null }>) {
-    const id = row.partner_access_code_id;
-    if (!id) continue;
-    const bucket = result[id] ?? { packetsGenerated: 0, screeningsStarted: 0 };
-    bucket.screeningsStarted += 1;
-    if (row.claimed_slot_state === "consumed") bucket.packetsGenerated += 1;
-    result[id] = bucket;
+  for (const row of data as AnalyticsRpcRow[]) {
+    const analytics = analyticsFromRpcRow(row);
+    if (row.partner_access_code_id) {
+      byCode[row.partner_access_code_id] = analytics;
+    } else {
+      direct = analytics;
+    }
   }
-  return result;
+  return { byCode, direct };
 }
 
 async function appendAccessCodeEvent(
@@ -403,10 +464,7 @@ async function appendAccessCodeEvent(
   }
 }
 
-function viewFromRow(
-  row: AccessCodeRow,
-  usage: { packetsGenerated: number; screeningsStarted: number }
-): PartnerAccessCodeView {
+function viewFromRow(row: AccessCodeRow, analytics: PartnerCodeAnalyticsRow): PartnerAccessCodeView {
   return {
     id: row.id,
     partnerSlug: row.partner_slug,
@@ -421,8 +479,7 @@ function viewFromRow(
     expiresAt: row.expires_at,
     lastUsedAt: row.last_used_at,
     createdAt: row.created_at,
-    packetsGenerated: usage.packetsGenerated,
-    screeningsStarted: usage.screeningsStarted
+    ...analytics
   };
 }
 

@@ -116,6 +116,10 @@ export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
 // server-authorized. Kept file-level (no directories) per the scope-guard rule.
 export const PARTNER_ACCESS_CODES_FILES = [
   "supabase/phase-41-rcap-partner-access-codes.sql",
+  // Phase 41B (reviewed): append-only, privacy-conscious screening analytics
+  // events for code/campaign reporting. Stores coarse outcome categories only —
+  // no answers, no record detail. DTC/un-attributed sessions never appear.
+  "supabase/phase-41b-rcap-screening-analytics.sql",
   "src/app/partner/dashboard/page.tsx",
   "src/app/partner/access-codes/page.tsx",
   "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
