@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
+import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
+import {
+  recordPartnerPacketGeneration,
+  resolvePartnerPacketCapDecision
+} from "@/lib/expungement-ai/rcap-slot-lifecycle";
 import {
   ConsumerPacketGenerationError,
   ConsumerPacketNotAllowedError,
@@ -20,12 +25,42 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400 });
   }
 
+  // Partner cap accounting is isolated from the DTC path: it only runs for
+  // items whose source screening session is partner-sponsored.
+  const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
+  const partnerSessionId = item?.sourceSessionId ?? null;
+  const isPartnerSponsored = Boolean(item) && (await isPartnerSponsoredPacketItem(item!));
+
+  // Honor pause_at_cap: do not generate a sponsored packet once the partner is
+  // at its cap and has chosen to pause. Route the user to the consumer path.
+  if (isPartnerSponsored && partnerSessionId) {
+    const decision = await resolvePartnerPacketCapDecision(partnerSessionId);
+    if (decision.pausedAtCap) {
+      return NextResponse.json(
+        {
+          error:
+            "Sponsored packet capacity is currently unavailable for this organization. You can continue through the standard Expungement.ai experience.",
+          sponsoredPaused: true,
+          briefcaseItemId
+        },
+        { status: 409 }
+      );
+    }
+  }
+
   try {
     const packet = await generatePaidConsumerPacket({
       userId: auth.userId,
       briefcaseItemId,
       dryRunMode: body?.dryRunMode === true
     });
+
+    // Consume exactly one partner packet credit (included or overage) on a
+    // successful sponsored generation. The RPC is idempotent, so retries and
+    // duplicate webhooks never double-count.
+    if (packet.packetStatus === "ready" && isPartnerSponsored && partnerSessionId) {
+      await recordPartnerPacketGeneration(partnerSessionId);
+    }
 
     return NextResponse.json({
       packetStatus: packet.packetStatus,

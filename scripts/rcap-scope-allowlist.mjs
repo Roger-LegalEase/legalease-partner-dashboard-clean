@@ -110,6 +110,21 @@ export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
   "src/app/expungement-ai/packet-ready/page.tsx"
 ];
 
+// Reviewed for the RCAP partner access-codes feature: partner-controlled access
+// codes, code-level attribution, and packet-cap overage billing. Migration
+// (phase-41) is additive and file-only; new routes/pages are partner-scoped and
+// server-authorized. Kept file-level (no directories) per the scope-guard rule.
+export const PARTNER_ACCESS_CODES_FILES = [
+  "supabase/phase-41-rcap-partner-access-codes.sql",
+  "src/app/partner/dashboard/page.tsx",
+  "src/app/partner/access-codes/page.tsx",
+  "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+  "src/app/api/partners/access-codes/route.ts",
+  "src/app/api/partners/access-codes/toggle/route.ts",
+  "src/app/api/partners/access-mode/route.ts",
+  "src/app/api/rcap/access-code/validate/route.ts"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
@@ -118,6 +133,7 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SCREENING_RESUME_FILES,
   ...SCREENING_DROP_POINT_NUDGE_FILES,
   ...RCAP_PARTNER_MODE_FILES,
+  ...PARTNER_ACCESS_CODES_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
   ...MS_SPONSORED_PACKET_BRIDGE_FILES

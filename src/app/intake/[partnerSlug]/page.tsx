@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import {
+  claimPartnerScreeningSessionWithCode,
   claimRcapPartnerScreeningSession,
-  resolveRcapPartnerIntakeContext
+  resolveRcapPartnerIntakeContext,
+  type RcapPartnerIntakeContext
 } from "@/lib/expungement-ai/rcap-partner-intake";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import {
@@ -74,6 +76,7 @@ export default async function RcapPartnerIntakePage({
   const state = stateName(context.jurisdiction);
   const programName = context.programName ?? `${state} Expungement Workflow`;
   const serviceArea = context.serviceArea ?? state;
+  const codeError = status.startsWith("code_") ? codeErrorMessage(status.slice("code_".length), context) : null;
 
   return (
     <PageShell>
@@ -114,24 +117,28 @@ export default async function RcapPartnerIntakePage({
             />
 
             {auth.isAuthenticated ? (
-              <form action={startRcapPartnerScreening} className="mt-8">
-                <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
-                <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
-                {Object.entries(attribution).map(([key, value]) => (
-                  <input key={key} type="hidden" name={`attr_${key}`} value={value} />
-                ))}
-                <button
-                  type="submit"
-                  className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
-                >
-                  Start your record-clearing screening
-                  <span aria-hidden="true">&rarr;</span>
-                </button>
-                <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
-                  Your screening happens inside your account so your answers, result, next steps, and
-                  Briefcase stay available even if no packet path is available right now.
-                </p>
-              </form>
+              context.accessMode === "open" ? (
+                <form action={startRcapPartnerScreening} className="mt-8">
+                  <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
+                  <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+                  {Object.entries(attribution).map(([key, value]) => (
+                    <input key={key} type="hidden" name={`attr_${key}`} value={value} />
+                  ))}
+                  <button
+                    type="submit"
+                    className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
+                  >
+                    Start your record-clearing screening
+                    <span aria-hidden="true">&rarr;</span>
+                  </button>
+                  <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
+                    Your screening happens inside your account so your answers, result, next steps, and
+                    Briefcase stay available even if no packet path is available right now.
+                  </p>
+                </form>
+              ) : (
+                <AccessCodeStartForm context={context} attribution={attribution} codeError={codeError} />
+              )
             ) : (
               <AccountFirstActions partnerSlug={context.partnerSlug} attribution={attribution} />
             )}
@@ -199,6 +206,128 @@ async function startRcapPartnerScreening(formData: FormData) {
   }
 
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
+}
+
+async function startRcapPartnerScreeningWithCode(formData: FormData) {
+  "use server";
+
+  const partnerSlug = String(formData.get("partnerSlug") ?? "");
+  const jurisdiction = String(formData.get("jurisdiction") ?? "");
+  const accessCode = String(formData.get("accessCode") ?? "");
+  const attribution = readAttributionFromFormData(formData);
+
+  // The server resolves attribution from the partner's access_mode + code.
+  // The browser cannot assert partner benefit.
+  const result = await claimPartnerScreeningSessionWithCode({ partnerSlug, jurisdiction, accessCode });
+
+  if (result.ok) {
+    redirect(
+      appendAttributionQuery(
+        `/expungement-ai/screening/${jurisdiction.toLowerCase()}?session=${result.sessionId}`,
+        attribution
+      )
+    );
+  }
+
+  if (result.reason === "partner_inactive") {
+    redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
+  }
+
+  // Invalid / missing / expired / exhausted code: re-render intake with a clear
+  // message and the standard-consumer escape hatch. No partner benefit granted.
+  redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=code_${result.reason}`);
+}
+
+type CodeError = { headline: string; body: string };
+
+function codeErrorMessage(reason: string, context: RcapPartnerIntakeContext): CodeError {
+  const partner = context.organizationName;
+  if (reason === "code_required") {
+    return {
+      headline: "An access code is required",
+      body: `${partner} uses access codes to protect its sponsored packet allocation. You can enter a code to continue through their program, or continue through the standard Expungement.ai experience.`
+    };
+  }
+  const detail: Record<string, string> = {
+    invalid: "That access code is not valid for this organization.",
+    inactive: "That access code is not active right now.",
+    expired: "That access code has expired.",
+    exhausted: "That access code has already been used."
+  };
+  return {
+    headline: "That access code did not work",
+    body: `${detail[reason] ?? detail.invalid} Please check the code or continue through the standard Expungement.ai experience.`
+  };
+}
+
+function AccessCodeStartForm({
+  context,
+  attribution,
+  codeError
+}: {
+  context: RcapPartnerIntakeContext;
+  attribution: Record<string, string>;
+  codeError: CodeError | null;
+}) {
+  const required = context.accessMode === "required_code" || context.accessMode === "invite_only";
+  const consumerHref = `/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`;
+  return (
+    <div className="mt-8">
+      {codeError ? (
+        <div className="mb-5 rounded-[16px] border border-[#F3C9B8] bg-[#FDF1E8] p-4">
+          <p className="text-[14px] font-black text-[#9A3412]">{codeError.headline}</p>
+          <p className="mt-1.5 text-[13.5px] leading-6 text-[#7C3A1D]">{codeError.body}</p>
+        </div>
+      ) : null}
+
+      <form action={startRcapPartnerScreeningWithCode}>
+        <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
+        <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+        {Object.entries(attribution).map(([key, value]) => (
+          <input key={key} type="hidden" name={`attr_${key}`} value={value} />
+        ))}
+
+        <label htmlFor="accessCode" className="block text-[14px] font-extrabold text-[#0B1320]">
+          {`If you received an access code from ${context.organizationName}, enter it here.`}
+        </label>
+        <input
+          id="accessCode"
+          name="accessCode"
+          type="text"
+          autoComplete="off"
+          autoCapitalize="characters"
+          spellCheck={false}
+          required={required}
+          placeholder="Access code"
+          className="mt-2.5 w-full rounded-[14px] border border-[#D7DEE8] bg-white px-4 py-3.5 text-[15px] font-bold uppercase tracking-[0.04em] text-[#0B1320] outline-none focus-visible:border-[#00A99D] focus-visible:ring-2 focus-visible:ring-[#00A99D] sm:max-w-[360px]"
+        />
+
+        <div className="mt-5">
+          <button
+            type="submit"
+            className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
+          >
+            Start your record-clearing screening
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      </form>
+
+      {required ? (
+        <p className="mt-4 text-[13.5px] leading-6 text-[#5A6275]">
+          Don&rsquo;t have a code?{" "}
+          <a href={consumerHref} className="font-extrabold text-[#0B5C54] underline underline-offset-2">
+            Continue through the standard Expungement.ai experience
+          </a>
+          .
+        </p>
+      ) : (
+        <p className="mt-4 text-[13.5px] leading-6 text-[#5A6275]">
+          You can start without a code, or enter one from {context.organizationName} to join their program.
+        </p>
+      )}
+    </div>
+  );
 }
 
 /** Full-page warm-cream shell with subtle teal/orange ambient accents. */
