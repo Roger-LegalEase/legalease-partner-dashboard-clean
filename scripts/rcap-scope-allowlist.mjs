@@ -129,6 +129,25 @@ export const PARTNER_ACCESS_CODES_FILES = [
   "src/app/api/rcap/access-code/validate/route.ts"
 ];
 
+// Reviewed for the standardized RCAP partner onboarding workflow. Additive:
+// phase-42 adds partner_onboarding + partner_onboarding_tasks and reuses the
+// existing partner_entitlement (cap/overage), partner_records.access_mode, and
+// partner_users systems. Internal pages/routes are internal-admin gated; the
+// partner-facing route is scoped to the caller's own partner.
+export const PARTNER_ONBOARDING_FILES = [
+  "supabase/phase-42-partner-onboarding.sql",
+  "src/app/api/internal/partners/onboarding/route.ts",
+  "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
+  "src/app/api/partners/onboarding/checklist/route.ts",
+  "src/app/internal/partners/onboarding/page.tsx",
+  "src/app/internal/partners/onboarding/new/page.tsx",
+  "src/app/internal/partners/onboarding/new/NewPartnerForm.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/OnboardingWizard.tsx",
+  "src/app/partner/onboarding/page.tsx",
+  "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
@@ -138,6 +157,7 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SCREENING_DROP_POINT_NUDGE_FILES,
   ...RCAP_PARTNER_MODE_FILES,
   ...PARTNER_ACCESS_CODES_FILES,
+  ...PARTNER_ONBOARDING_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
   ...MS_SPONSORED_PACKET_BRIDGE_FILES

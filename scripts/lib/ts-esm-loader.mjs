@@ -35,6 +35,20 @@ export async function resolve(specifier, context, next) {
   if (specifier === "server-only") {
     return { url: pathToFileURL(path.join(root, "scripts/lib/server-only-shim.mjs")).href, shortCircuit: true };
   }
+  // Resolve extensionless relative TypeScript imports (e.g. "./seed-partners")
+  // that Node's default resolver cannot handle. Only rewrites when a concrete
+  // .ts/.tsx/.json sibling exists; everything else falls through to Node.
+  if ((specifier.startsWith("./") || specifier.startsWith("../")) && context.parentURL && !/\.(m?js|c?js|json|ts|tsx)$/.test(specifier)) {
+    const parentDir = path.dirname(fileURLToPath(context.parentURL));
+    const base = path.join(parentDir, specifier);
+    if (!existsSync(base)) {
+      for (const ext of CANDIDATE_EXTENSIONS) {
+        if (existsSync(base + ext)) {
+          return { url: pathToFileURL(base + ext).href, shortCircuit: true };
+        }
+      }
+    }
+  }
   return next(specifier, context);
 }
 
