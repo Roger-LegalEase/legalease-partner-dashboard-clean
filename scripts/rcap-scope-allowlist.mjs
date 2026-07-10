@@ -148,8 +148,17 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx"
 ];
 
+// Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the
+// ingestion route gains a fire-and-forget mirror of rows it already stores, gated on a genuinely new
+// insert. No source-engine, auth, billing, or Stripe-secret surface is touched, and no user-facing
+// response changes. Kept file-level (no directories) per the scope-guard rule.
+export const COMMAND_CENTER_PRODUCT_EVENT_FILES = [
+  "src/app/api/analytics/web/route.ts"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
+  ...COMMAND_CENTER_PRODUCT_EVENT_FILES,
   ...SHARED_PAYMENT_FILES,
   ...INTERNAL_RCAP_ALLOWANCE_FILES,
   ...EXPUNGEMENT_DATA_LAYER_FILES,

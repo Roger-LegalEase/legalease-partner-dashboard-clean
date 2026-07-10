@@ -15,6 +15,10 @@ export type RecordEventResult = {
 
 // Insert one analytics event. Idempotent on event_id (duplicate deliveries are ignored, not errored).
 // This function NEVER throws — analytics must never break a user flow. Callers can ignore the result.
+//
+// `stored` is true ONLY when this call inserted a new row. A re-delivery of an event_id we already
+// hold returns `stored: false`, which is what lets downstream egress (the Command Center bridge)
+// forward each real occurrence exactly once.
 export async function recordWebAnalyticsEvent(row: WebAnalyticsEventRow): Promise<RecordEventResult> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
@@ -24,13 +28,16 @@ export async function recordWebAnalyticsEvent(row: WebAnalyticsEventRow): Promis
   }
 
   try {
-    const { error } = await supabase
+    // ON CONFLICT DO NOTHING ... RETURNING yields the inserted row only, so an empty result set
+    // means this delivery was a duplicate.
+    const { data, error } = await supabase
       .from(TABLE)
-      .upsert(row, { onConflict: "event_id", ignoreDuplicates: true });
+      .upsert(row, { onConflict: "event_id", ignoreDuplicates: true })
+      .select("event_id");
     if (error) {
       return { ok: false, stored: false, reason: "insert_failed" };
     }
-    return { ok: true, stored: true };
+    return { ok: true, stored: (data?.length ?? 0) > 0 };
   } catch {
     return { ok: false, stored: false, reason: "insert_failed" };
   }

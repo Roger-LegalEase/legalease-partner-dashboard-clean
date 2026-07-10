@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { buildWebAnalyticsRow } from "@/lib/analytics/build-event";
+import { forwardEventToCommandCenter } from "@/lib/analytics/command-center-bridge";
 import { recordWebAnalyticsEvent } from "@/lib/analytics/web-analytics-repository";
 import { PAGEVIEW_EVENT, isServerOnlyEventName } from "@/lib/analytics/event-names";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
@@ -87,6 +88,12 @@ export async function POST(request: Request) {
   if (!result.ok) {
     // Never fail the user flow; log for operators and still return success to the beacon.
     logSecurityError({ event: "web analytics store failed", route: ROUTE, outcome: result.reason ?? "insert_failed", requestId });
+  }
+
+  // Mirror newly-stored events to the Command Center funnel. Gated on `stored` so a duplicate beacon
+  // can never double-count. Fire-and-forget: this must never delay the 204.
+  if (result.stored) {
+    void forwardEventToCommandCenter(built.row);
   }
 
   return noContent();

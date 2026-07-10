@@ -34,7 +34,9 @@ export async function POST(request: NextRequest) {
     void recordServerFunnelEvent(request, "checkout_completed", {
       idempotencySeed: status.checkoutSessionId ?? checkoutSessionId,
       state: item.state ?? undefined,
-      meta: { result: "paid", mode: status.mode }
+      // `amount_cents` is an amount, not an identifier — it carries the Command Center funnel's
+      // revenue figure. No payment identifiers are included.
+      meta: { result: "paid", mode: status.mode, amount_cents: status.amountCents ?? undefined }
     });
   }
 

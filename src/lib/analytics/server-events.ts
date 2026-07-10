@@ -1,6 +1,7 @@
 import "server-only";
 
 import { buildWebAnalyticsRow, deterministicEventId } from "@/lib/analytics/build-event";
+import { forwardEventToCommandCenter } from "@/lib/analytics/command-center-bridge";
 import { recordWebAnalyticsEvent } from "@/lib/analytics/web-analytics-repository";
 import type { WebAnalyticsEventName } from "@/lib/analytics/event-names";
 
@@ -39,7 +40,14 @@ export async function recordServerFunnelEvent(
       }
     );
     if (!built.ok) return;
-    await recordWebAnalyticsEvent(built.row);
+    const result = await recordWebAnalyticsEvent(built.row);
+
+    // Mirror to the Command Center funnel only when this call actually inserted the row. This route
+    // is polled and Stripe redelivers webhooks, so the `event_id` upsert (seeded with the checkout
+    // session id) is what guarantees `payment_completed` revenue is counted exactly once.
+    if (result.stored) {
+      await forwardEventToCommandCenter(built.row);
+    }
   } catch {
     // Analytics must never break a payment/packet flow.
   }
