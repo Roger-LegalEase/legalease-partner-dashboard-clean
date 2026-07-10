@@ -272,7 +272,9 @@ function verifyStoredGateWiring() {
   const routeSource = read("src/app/api/analytics/web/route.ts");
   assert(routeSource.includes("forwardEventToCommandCenter"), "Ingest route must bridge to the Command Center.");
   assert(routeSource.includes("if (result.stored)"), "Ingest route must forward only newly-stored rows.");
-  assert(routeSource.includes("void forwardEventToCommandCenter"), "Ingest route must not await the bridge.");
+  // A bare `void` is silently dropped when serverless freezes the invocation on response.
+  assert(routeSource.includes("after(() => forwardEventToCommandCenter"), "Ingest route must schedule the bridge with after(), not a floating promise.");
+  assert(!routeSource.includes("void forwardEventToCommandCenter"), "Ingest route must not use a floating promise for egress.");
 
   const serverEvents = read("src/lib/analytics/server-events.ts");
   assert(serverEvents.includes("if (result.stored)"), "Server funnel emitter must forward only newly-stored rows.");
@@ -295,7 +297,7 @@ function verifyStoredGateWiring() {
     "src/app/api/expungement-ai/payment/confirm/route.ts",
     "src/lib/expungement-ai/checkout-reconciliation.ts"
   ]) {
-    assert(read(callSite).includes("recordConsumerCheckoutCompleted"), `${callSite} must emit the paid event via the shared helper.`);
+    assert(read(callSite).includes("ConsumerCheckoutCompleted"), `${callSite} must emit the paid event via the shared helper.`);
   }
 }
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { getConsumerCheckoutStatus, recordConsumerPaymentConfirmation } from "@/lib/expungement-ai/payment-adapter";
-import { recordConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
+import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   // the Stripe webhook emits the same event), fire-and-forget so it never affects the payment
   // response. No PII or payment identifiers stored.
   if (status.paid) {
-    void recordConsumerCheckoutCompleted({
+    scheduleConsumerCheckoutCompleted({
       request,
       checkoutSessionId: status.checkoutSessionId ?? checkoutSessionId,
       state: item.state ?? undefined,

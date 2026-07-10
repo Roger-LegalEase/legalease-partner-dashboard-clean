@@ -186,17 +186,22 @@ function verifySeedIsDefinedInExactlyOnePlace() {
 
 function verifyBothCallSitesUseTheSharedHelper() {
   const reconciliation = read("src/lib/expungement-ai/checkout-reconciliation.ts");
-  assert(reconciliation.includes("recordConsumerCheckoutCompleted"), "The Stripe webhook path must emit the paid event.");
-  assert(reconciliation.includes("void recordConsumerCheckoutCompleted"), "The webhook must not await analytics.");
+  assert(reconciliation.includes("scheduleConsumerCheckoutCompleted"), "The Stripe webhook path must emit the paid event.");
+  // Serverless freezes the invocation once the response is sent; a floating promise never runs.
+  assert(!reconciliation.includes("void recordConsumerCheckoutCompleted"), "The webhook must schedule the paid event with after(), not a floating promise.");
   // Payment state must be durable before we tell the scoreboard it was paid.
   const finalizeBody = reconciliation.slice(reconciliation.indexOf("async function finalizePaidCheckoutSession"));
   assert(
-    finalizeBody.indexOf("updateBriefcasePaymentMetadataForWebhook") < finalizeBody.indexOf("recordConsumerCheckoutCompleted"),
+    finalizeBody.indexOf("updateBriefcasePaymentMetadataForWebhook") < finalizeBody.indexOf("scheduleConsumerCheckoutCompleted"),
     "The paid event must be emitted only after the payment state is recorded."
   );
 
   const confirm = read("src/app/api/expungement-ai/payment/confirm/route.ts");
-  assert(confirm.includes("void recordConsumerCheckoutCompleted"), "The confirm route must emit the paid event, fire-and-forget.");
+  assert(confirm.includes("scheduleConsumerCheckoutCompleted"), "The confirm route must emit the paid event off the response path.");
+  assert(!confirm.includes("void recordConsumerCheckoutCompleted"), "The confirm route must not use a floating promise for egress.");
+
+  const helper = read("src/lib/expungement-ai/checkout-analytics.ts");
+  assert(helper.includes("after(() => recordConsumerCheckoutCompleted"), "The scheduler must use after() so the egress survives the response.");
 }
 
 function reset() {

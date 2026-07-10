@@ -6,7 +6,7 @@ import {
   getBriefcaseItemForWebhook,
   updateBriefcasePaymentMetadataForWebhook
 } from "@/lib/expungement-ai/briefcase";
-import { recordConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
+import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 import { generatePaidConsumerPacket } from "@/lib/expungement-ai/packet-generation";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
@@ -89,9 +89,9 @@ async function finalizePaidCheckoutSession(
 
   // Authoritative paid signal: unlike the polled confirmation route, this fires even if the user
   // never returns to the site. Both producers are deduped to one funnel event by the shared
-  // checkout-session seed. Fire-and-forget — analytics must never fail a paid reconciliation, and it
-  // must not run before the payment state is durably recorded above.
-  void recordConsumerCheckoutCompleted({
+  // checkout-session seed. Scheduled after the response so analytics can never fail — or delay — a
+  // paid reconciliation, and never before the payment state is durably recorded above.
+  scheduleConsumerCheckoutCompleted({
     request: null,
     checkoutSessionId: session.id,
     state: item.state ?? undefined,

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { buildWebAnalyticsRow } from "@/lib/analytics/build-event";
 import { forwardEventToCommandCenter } from "@/lib/analytics/command-center-bridge";
@@ -91,9 +91,14 @@ export async function POST(request: Request) {
   }
 
   // Mirror newly-stored events to the Command Center funnel. Gated on `stored` so a duplicate beacon
-  // can never double-count. Fire-and-forget: this must never delay the 204.
+  // can never double-count.
+  //
+  // This MUST use `after()`, not a bare `void`. On serverless the invocation is frozen the moment the
+  // response is sent, so a floating promise is silently dropped and the event never leaves the box.
+  // `after()` runs the egress once the response is flushed — off the beacon's critical path, but
+  // still within a live invocation.
   if (result.stored) {
-    void forwardEventToCommandCenter(built.row);
+    after(() => forwardEventToCommandCenter(built.row));
   }
 
   return noContent();
