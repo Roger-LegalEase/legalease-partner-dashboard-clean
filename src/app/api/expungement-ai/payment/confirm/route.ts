@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { getConsumerCheckoutStatus, recordConsumerPaymentConfirmation } from "@/lib/expungement-ai/payment-adapter";
-import { recordServerFunnelEvent } from "@/lib/analytics/server-events";
+import { recordConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,15 +28,16 @@ export async function POST(request: NextRequest) {
   const status = await getConsumerCheckoutStatus({ item, checkoutSessionId });
   const updatedItem = await recordConsumerPaymentConfirmation({ userId: auth.userId, item, status });
 
-  // Server-confirmed checkout completion. Idempotent per checkout session (this route is polled),
-  // fire-and-forget so it never affects the payment response. No PII or payment identifiers stored.
+  // Server-confirmed checkout completion. Idempotent per checkout session (this route is polled, and
+  // the Stripe webhook emits the same event), fire-and-forget so it never affects the payment
+  // response. No PII or payment identifiers stored.
   if (status.paid) {
-    void recordServerFunnelEvent(request, "checkout_completed", {
-      idempotencySeed: status.checkoutSessionId ?? checkoutSessionId,
+    void recordConsumerCheckoutCompleted({
+      request,
+      checkoutSessionId: status.checkoutSessionId ?? checkoutSessionId,
       state: item.state ?? undefined,
-      // `amount_cents` is an amount, not an identifier — it carries the Command Center funnel's
-      // revenue figure. No payment identifiers are included.
-      meta: { result: "paid", mode: status.mode, amount_cents: status.amountCents ?? undefined }
+      amountCents: status.amountCents,
+      mode: status.mode
     });
   }
 

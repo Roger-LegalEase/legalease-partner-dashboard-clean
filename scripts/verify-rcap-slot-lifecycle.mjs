@@ -197,7 +197,7 @@ async function verifyPartnerUsageEventPayload() {
   let fetchCount = 0;
   const result = await events.emitPartnerUsageWindowEvent(metrics, {
     configEnv: {
-      LEGALEASE_OS_EVENTS_ENDPOINT: "https://os.example.test/api/events/product",
+      LEGALEASE_OS_LOOPS_ENDPOINT: "https://os.example.test/api/os-loops/events",
       LEGALEASE_OS_EVENTS_SECRET: "test-secret"
     },
     fetcher: async () => {

@@ -42,19 +42,42 @@ surface and would pollute the product funnel.
 | Landing page rendered | `pageview` on path `/` or `/expungement-ai` | `landing_page_viewed` | Web visits |
 | Screening begins | `screening_started` | `expungement_intake_started` | Screenings started |
 | Pay gate reached | `checkout_started` | `payment_started` | Reached checkout |
-| Payment succeeds | `checkout_completed` | `payment_completed` + `metadata.amount` | Paid + revenue |
+| Payment succeeds | `checkout_completed` (see below) | `payment_completed` + `metadata.amount` | Paid + revenue |
 | Packet generated | `packet_generated` | `packet_generated` | — |
 
 `metadata.amount` carries `amount_cents` (5000 = $50). The receiver treats amounts over 1000 as
 cents, so cents is the correct unit to send.
+
+### The paid event has two producers
+
+`payment_completed` is the most important number on the scoreboard, so it is emitted from **both**:
+
+1. **The Stripe webhook** (`checkout-reconciliation.ts`) — authoritative. Fires even if the user
+   never returns to the site, which the polled route alone would miss.
+2. **The polled `/api/expungement-ai/payment/confirm` route** — fires when the user lands back on
+   packet-ready.
+
+Both fire for a typical payment, in either order, and Stripe redelivers webhooks. They collapse to
+one event because `recordConsumerCheckoutCompleted` is the **single definition of the idempotency
+seed** (the Stripe checkout session id). That seed derives a deterministic `event_id`; the analytics
+upsert ignores the duplicate; only the insert that actually stored a row is mirrored onward. Both
+call sites must go through that helper — a divergent seed silently doubles revenue.
+
+The webhook has no user-facing request, and Stripe posts to whatever host the endpoint is configured
+on, which may map to no product surface or the wrong one. So the paid event asserts its
+`productSurface` explicitly and that assertion overrides the Host-derived surface. Without it the
+paid event is dropped or misattributed.
+
+`npm run expungement:verify-paid-event-once` covers all of this.
 
 ## Configuration
 
 | Variable | Purpose |
 |---|---|
 | `LEGALEASE_OS_EVENTS_ENABLED` | `"true"` to emit. Anything else disables egress with no deploy. |
-| `LEGALEASE_OS_EVENTS_ENDPOINT` | Receiver URL. |
-| `LEGALEASE_OS_EVENTS_SECRET` | Shared HMAC secret. The receiver validates against its own copy — never mint a new one. |
+| `LEGALEASE_OS_EVENTS_ENDPOINT` | Product event URL (`/api/events/product`). |
+| `LEGALEASE_OS_LOOPS_ENDPOINT` | OS-loops event URL (`/api/os-loops/events`). Different dialect — see below. |
+| `LEGALEASE_OS_EVENTS_SECRET` | Shared HMAC secret, used by both. The receiver validates against its own copy — never mint a new one. |
 
 The emitter is `server-only`, so the secret never ships to a browser.
 
@@ -97,14 +120,12 @@ snake_case `event_type` (`engine.health_changed`, `packet.generated`), hashed su
 `/api/os-loops/events`. The product endpoint rejects that shape with
 `400 {"error":"Unsupported product event type."}`.
 
-The two must not be merged, and they must not share an endpoint. See
-`docs/legalese-os-cross-repo-smoke.md`.
+The two must not be merged, and they must not share an endpoint. Each dialect reads its own variable:
+product events use `LEGALEASE_OS_EVENTS_ENDPOINT`, OS-loops events use `LEGALEASE_OS_LOOPS_ENDPOINT`.
+They share only the HMAC secret and the enable flag. See `docs/legalese-os-cross-repo-smoke.md`.
 
-> **Open item for Roger:** `LEGALEASE_OS_EVENTS_ENDPOINT` is currently a *single* variable consumed by
-> both dialects, and it points at `/api/events/product`. That means the OS-loops emitters
-> (`/api/health`, packet generation, nudge windows, partner usage) are being 400'd on every send. They
-> need their own endpoint variable pointed back at `/api/os-loops/events`. Changing a production env
-> var requires approval, so this was not done here.
+Pointing either dialect at the other's route returns a 400 and silently drops the event, which is
+exactly what happened while both shared one variable.
 
 ## Verifying
 

@@ -1,7 +1,7 @@
 import { createHash, createHmac } from "node:crypto";
 
 const requiredFlag = process.env.RUN_LEGALEASE_OS_CROSS_REPO_SMOKE === "true";
-const endpoint = process.env.LEGALEASE_OS_EVENTS_ENDPOINT;
+const endpoint = process.env.LEGALEASE_OS_LOOPS_ENDPOINT;
 const secret = process.env.LEGALEASE_OS_EVENTS_SECRET;
 
 if (!requiredFlag) {
@@ -10,7 +10,7 @@ if (!requiredFlag) {
 }
 
 if (!endpoint || !secret) {
-  console.error("LegalEase OS cross-repo smoke requires LEGALEASE_OS_EVENTS_ENDPOINT and LEGALEASE_OS_EVENTS_SECRET.");
+  console.error("LegalEase OS cross-repo smoke requires LEGALEASE_OS_LOOPS_ENDPOINT and LEGALEASE_OS_EVENTS_SECRET.");
   process.exit(1);
 }
 

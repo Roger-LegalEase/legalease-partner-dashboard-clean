@@ -13,11 +13,14 @@ It is skipped by default and should only be run with local synthetic data.
    LEGALEASE_OS_EVENTS_SECRET=local-os-smoke-secret
    ```
 
-3. In this app repo, run the opt-in smoke with the local Command Center endpoint:
+3. In this app repo, run the opt-in smoke with the local Command Center endpoint. Note the
+   variable is `LEGALEASE_OS_LOOPS_ENDPOINT`, not `LEGALEASE_OS_EVENTS_ENDPOINT` — the latter is the
+   product-event route, which rejects this dialect with a 400. See
+   `docs/legalease-command-center-product-events.md`.
 
    ```bash
    RUN_LEGALEASE_OS_CROSS_REPO_SMOKE=true \
-   LEGALEASE_OS_EVENTS_ENDPOINT=http://localhost:3000/api/os-loops/events \
+   LEGALEASE_OS_LOOPS_ENDPOINT=http://localhost:3000/api/os-loops/events \
    LEGALEASE_OS_EVENTS_SECRET=local-os-smoke-secret \
    node scripts/test-legalese-os-cross-repo-smoke.mjs
    ```

@@ -71,7 +71,7 @@ export async function emitNudgeWindowEvent(
     return { enabled: false, sent: false, skipped_reason: "disabled", idempotency_key: idempotencyKey };
   }
 
-  if (!configEnv.LEGALEASE_OS_EVENTS_ENDPOINT) {
+  if (!configEnv.LEGALEASE_OS_LOOPS_ENDPOINT) {
     return { enabled: true, sent: false, skipped_reason: "missing_endpoint", idempotency_key: idempotencyKey };
   }
 
@@ -90,7 +90,7 @@ export async function emitNudgeWindowEvent(
       .update(`${timestamp}.${body}`)
       .digest("hex");
 
-    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_EVENTS_ENDPOINT, {
+    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_LOOPS_ENDPOINT, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -125,7 +125,7 @@ export async function emitPartnerUsageWindowEvent(
     return { enabled: false, sent: false, skipped_reason: "disabled", idempotency_key: idempotencyKey };
   }
 
-  if (!configEnv.LEGALEASE_OS_EVENTS_ENDPOINT) {
+  if (!configEnv.LEGALEASE_OS_LOOPS_ENDPOINT) {
     return { enabled: true, sent: false, skipped_reason: "missing_endpoint", idempotency_key: idempotencyKey };
   }
 
@@ -144,7 +144,7 @@ export async function emitPartnerUsageWindowEvent(
       .update(`${timestamp}.${body}`)
       .digest("hex");
 
-    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_EVENTS_ENDPOINT, {
+    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_LOOPS_ENDPOINT, {
       method: "POST",
       headers: {
         "content-type": "application/json",

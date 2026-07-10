@@ -284,9 +284,19 @@ function verifyStoredGateWiring() {
   );
   assert(repository.includes("stored: (data?.length ?? 0) > 0"), "Repository `stored` must reflect an actual insert.");
 
-  const confirmRoute = read("src/app/api/expungement-ai/payment/confirm/route.ts");
-  assert(confirmRoute.includes("amount_cents"), "Checkout confirmation must record the amount for funnel revenue.");
-  assert(confirmRoute.includes("idempotencySeed"), "Checkout confirmation must stay idempotent per checkout session.");
+  // Both paid-event producers funnel through one helper, which owns the amount + idempotency seed.
+  // `verify-expungement-paid-event-once.mjs` proves they cannot double-count.
+  const checkoutAnalytics = read("src/lib/expungement-ai/checkout-analytics.ts");
+  assert(checkoutAnalytics.includes("amount_cents"), "Checkout completion must record the amount for funnel revenue.");
+  assert(checkoutAnalytics.includes("idempotencySeed"), "Checkout completion must stay idempotent per checkout session.");
+  assert(checkoutAnalytics.includes('productSurface: "expungement_ai"'), "Paid event must assert its product surface.");
+
+  for (const callSite of [
+    "src/app/api/expungement-ai/payment/confirm/route.ts",
+    "src/lib/expungement-ai/checkout-reconciliation.ts"
+  ]) {
+    assert(read(callSite).includes("recordConsumerCheckoutCompleted"), `${callSite} must emit the paid event via the shared helper.`);
+  }
 }
 
 function verifyEmitterIsServerOnly() {

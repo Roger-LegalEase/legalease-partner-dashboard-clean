@@ -6,6 +6,7 @@ import {
   getBriefcaseItemForWebhook,
   updateBriefcasePaymentMetadataForWebhook
 } from "@/lib/expungement-ai/briefcase";
+import { recordConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 import { generatePaidConsumerPacket } from "@/lib/expungement-ai/packet-generation";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
@@ -85,6 +86,18 @@ async function finalizePaidCheckoutSession(
   if (!updated) {
     throw new Error("Unable to update consumer checkout payment state.");
   }
+
+  // Authoritative paid signal: unlike the polled confirmation route, this fires even if the user
+  // never returns to the site. Both producers are deduped to one funnel event by the shared
+  // checkout-session seed. Fire-and-forget — analytics must never fail a paid reconciliation, and it
+  // must not run before the payment state is durably recorded above.
+  void recordConsumerCheckoutCompleted({
+    request: null,
+    checkoutSessionId: session.id,
+    state: item.state ?? undefined,
+    amountCents: consumerPacketPriceCents,
+    mode: "stripe"
+  });
 
   await generatePaidConsumerPacket({
     userId,

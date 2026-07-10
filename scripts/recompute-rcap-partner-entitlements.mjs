@@ -42,7 +42,7 @@ async function emitPartnerUsageRows(rows) {
 
 async function emitPartnerUsageWindowEvent(row) {
   if (process.env.LEGALEASE_OS_EVENTS_ENABLED !== "true") return;
-  if (!process.env.LEGALEASE_OS_EVENTS_ENDPOINT || !process.env.LEGALEASE_OS_EVENTS_SECRET) return;
+  if (!process.env.LEGALEASE_OS_LOOPS_ENDPOINT || !process.env.LEGALEASE_OS_EVENTS_SECRET) return;
 
   const payload = partnerUsagePayload(row);
   const body = JSON.stringify(payload);
@@ -52,7 +52,7 @@ async function emitPartnerUsageWindowEvent(row) {
     .digest("hex");
 
   try {
-    await fetch(process.env.LEGALEASE_OS_EVENTS_ENDPOINT, {
+    await fetch(process.env.LEGALEASE_OS_LOOPS_ENDPOINT, {
       method: "POST",
       headers: {
         "content-type": "application/json",

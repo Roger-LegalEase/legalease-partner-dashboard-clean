@@ -94,7 +94,7 @@ async function emitEngineHealthChanged(db: HealthResponse["checks"]["db"]) {
 function isLegalEaseOsExporterConfigured() {
   return (
     process.env.LEGALEASE_OS_EVENTS_ENABLED === "true" &&
-    Boolean(process.env.LEGALEASE_OS_EVENTS_ENDPOINT?.trim()) &&
+    Boolean(process.env.LEGALEASE_OS_LOOPS_ENDPOINT?.trim()) &&
     Boolean(process.env.LEGALEASE_OS_EVENTS_SECRET?.trim())
   );
 }
