@@ -92,8 +92,12 @@ re-serialized after signing.
 
 ## Delivery guarantees
 
-- **Fire-and-forget.** Callers invoke as `void forwardEventToCommandCenter(row)`. Nothing in a
-  user-facing request path awaits or fails on emitter errors.
+- **Scheduled with `after()`, never a floating promise.** Egress runs after the response is flushed,
+  off the critical path, but still inside a live invocation. A bare `void somePromise()` is silently
+  dropped on serverless — the invocation freezes the moment the response is sent, so the fetch never
+  leaves the box and nothing is even logged. This cost a production debugging cycle; both verifiers
+  now fail if a call site regresses to `void`.
+- Nothing in a user-facing request path awaits or fails on emitter errors.
 - **3s timeout per attempt, at most 3 attempts.** Retries only on network error, 408, 429, or 5xx.
   A 4xx (bad signature, unsupported type) is permanent and is not retried.
 - **Retries replay the identical body and timestamp.** Replay protection on the receiver is
@@ -137,6 +141,12 @@ npm run analytics:verify-command-center-product-events
 
 Live: a successful funnel-metric send returns `2xx` with `"autoApplied": true`. A byte-identical
 replay returns `"autoApplied": false` with `"message": "Product event already imported."`
+
+To prove the *deployed app* emitted an event (rather than emitting one yourself), drive a real
+pageview through `POST https://expungement.ai/api/analytics/web`, then reconstruct that event's
+identity and replay it to the receiver. `"already imported"` means the app's own event landed;
+`importedCount: 1` means it did not. Emitter failures surface in `vercel logs` as
+`product event emit failed` with a status code.
 
 The scoreboard shows **real events only** — a test event does count toward the live funnel. Prefer
 `landing_page_viewed` for smoke tests, and tell whoever operates the Command Center exactly how many
