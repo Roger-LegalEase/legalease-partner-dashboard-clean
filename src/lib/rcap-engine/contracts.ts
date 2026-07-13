@@ -131,8 +131,17 @@ export type PublicJurisdictionProfile = {
     narrativeFields: PublicQuestion[];
     optionalFields: PublicQuestion[];
   };
-  caseOutcomeOptions?: unknown[];
-  copyGuardrails: string[];
+  caseOutcomeOptions?: PublicCaseOutcomeOption[];
+};
+
+/**
+ * The public shape of a case-outcome option. The compiled engine option also carries
+ * `candidatePathways` (internal pathway-routing data with no public consumer); it is deliberately
+ * not part of this type, so a projection that tried to pass it through would not typecheck.
+ */
+export type PublicCaseOutcomeOption = {
+  value: string;
+  label: string;
 };
 
 export type EngineProfile = {

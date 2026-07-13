@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 
@@ -742,7 +742,154 @@ function withWilmaFactQuestions(profile: PublicJurisdictionProfile): PublicJuris
   };
 }
 
+/**
+ * PUBLIC BOUNDARY — allowlist by construction.
+ *
+ * Everything served anonymously by GET /api/expungement-ai/profiles/[state] passes through here.
+ * The rule is: a field reaches the public web only if it is NAMED in this file. Nothing is spread,
+ * nothing is cloned-then-deleted, and no key is filtered by inspecting its value.
+ *
+ * Why this exists: the builders below (and their helpers `normalizePublicQuestion` and
+ * `withWilmaFactQuestions`) legitimately use object spreads for internal composition. A spread is
+ * an implicit allowlist — it exports whatever happens to be on the object today. That is how
+ * `copyGuardrails` reached the public endpoint: it was passed through verbatim, and in several
+ * compiled profiles that field holds raw internal source-corpus material. The mappers here are the
+ * single choke point that rebuilds the payload field by field, so a new internal field added to an
+ * engine profile, a designer fixture, or a question is NOT public until someone names it here.
+ *
+ * If you add a field: name it below, extend PublicJurisdictionProfile, and add it to the approved
+ * key set in scripts/verify-public-profile-projection.mjs. All three, deliberately.
+ */
+function toPublicQuestion(question: PublicQuestion): PublicQuestion {
+  const publicQuestion: PublicQuestion = {
+    id: question.id,
+    stage: question.stage,
+    prompt: question.prompt,
+    type: question.type,
+    required: question.required
+  };
+
+  // Optional fields are attached only when present, so the payload does not grow a forest of
+  // explicit `undefined`s (which JSON.stringify drops anyway, but which muddy equality checks).
+  if (question.helperText !== undefined) publicQuestion.helperText = question.helperText;
+  if (question.contextOnly !== undefined) publicQuestion.contextOnly = question.contextOnly;
+  if (question.doesNotSelectPathway !== undefined) publicQuestion.doesNotSelectPathway = question.doesNotSelectPathway;
+  if (question.lifecyclePhase !== undefined) publicQuestion.lifecyclePhase = question.lifecyclePhase;
+  if (question.options !== undefined) publicQuestion.options = question.options;
+  if (question.optionDisplay !== undefined) publicQuestion.optionDisplay = toPublicOptionDisplay(question.optionDisplay);
+  if (question.translations !== undefined) publicQuestion.translations = toPublicQuestionTranslations(question.translations);
+
+  return publicQuestion;
+}
+
+function toPublicOptionDisplay(
+  optionDisplay: NonNullable<PublicQuestion["optionDisplay"]>
+): NonNullable<PublicQuestion["optionDisplay"]> {
+  const result: NonNullable<PublicQuestion["optionDisplay"]> = {};
+  for (const [key, display] of Object.entries(optionDisplay)) {
+    const entry: NonNullable<PublicQuestion["optionDisplay"]>[string] = { label: display.label };
+    if (display.helperText !== undefined) entry.helperText = display.helperText;
+    if (display.translations?.es !== undefined) {
+      entry.translations = {
+        es: {
+          ...(display.translations.es.label !== undefined ? { label: display.translations.es.label } : {}),
+          ...(display.translations.es.helperText !== undefined ? { helperText: display.translations.es.helperText } : {})
+        }
+      };
+    }
+    result[key] = entry;
+  }
+  return result;
+}
+
+function toPublicQuestionTranslations(
+  translations: NonNullable<PublicQuestion["translations"]>
+): NonNullable<PublicQuestion["translations"]> {
+  if (translations.es === undefined) return {};
+  return {
+    es: {
+      ...(translations.es.prompt !== undefined ? { prompt: translations.es.prompt } : {}),
+      ...(translations.es.helperText !== undefined ? { helperText: translations.es.helperText } : {})
+    }
+  };
+}
+
+/**
+ * Case-outcome options: the compiled engine option is `{ value, label, candidatePathways }`.
+ * `candidatePathways` is internal pathway-routing data with no consumer anywhere in the app, so
+ * only value and label cross the boundary.
+ */
+function toPublicCaseOutcomeOptions(options: unknown): PublicCaseOutcomeOption[] | undefined {
+  if (!Array.isArray(options)) return undefined;
+
+  const publicOptions: PublicCaseOutcomeOption[] = [];
+  for (const option of options) {
+    if (!option || typeof option !== "object") continue;
+    const candidate = option as { value?: unknown; label?: unknown };
+    if (typeof candidate.value !== "string" || typeof candidate.label !== "string") continue;
+    publicOptions.push({ value: candidate.value, label: candidate.label });
+  }
+  return publicOptions;
+}
+
+/** The final allowlist. Every top-level and nested property served publicly is named here. */
+function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJurisdictionProfile {
+  const publicProfile: PublicJurisdictionProfile = {
+    schemaVersion: draft.schemaVersion,
+    profileVersion: draft.profileVersion,
+    jurisdiction: {
+      code: draft.jurisdiction.code,
+      name: draft.jurisdiction.name,
+      slug: draft.jurisdiction.slug
+    },
+    terminology: {
+      primaryConsumerTerm: draft.terminology.primaryConsumerTerm,
+      allowedStateTerms: [...draft.terminology.allowedStateTerms],
+      ...(draft.terminology.avoidUniversalExpungementLabel !== undefined
+        ? { avoidUniversalExpungementLabel: draft.terminology.avoidUniversalExpungementLabel }
+        : {})
+    },
+    flowStages: draft.flowStages.map((stage) => ({
+      order: stage.order,
+      id: stage.id,
+      questionIds: [...stage.questionIds],
+      screenType: stage.screenType
+    })),
+    questions: draft.questions.map(toPublicQuestion)
+  };
+
+  if (draft.postPaymentPacketCompletion) {
+    const groups = draft.postPaymentPacketCompletion;
+    publicProfile.postPaymentPacketCompletion = {
+      requiredPacketCompletionFields: groups.requiredPacketCompletionFields.map(toPublicQuestion),
+      officialFormFields: groups.officialFormFields.map(toPublicQuestion),
+      customPleadingFields: groups.customPleadingFields.map(toPublicQuestion),
+      externalDocumentChecklist: groups.externalDocumentChecklist.map(toPublicQuestion),
+      filingReadinessFields: groups.filingReadinessFields.map(toPublicQuestion),
+      serviceOrMailingFields: groups.serviceOrMailingFields.map(toPublicQuestion),
+      narrativeFields: groups.narrativeFields.map(toPublicQuestion),
+      optionalFields: groups.optionalFields.map(toPublicQuestion)
+    };
+  }
+
+  const caseOutcomeOptions = toPublicCaseOutcomeOptions(draft.caseOutcomeOptions);
+  if (caseOutcomeOptions !== undefined) {
+    publicProfile.caseOutcomeOptions = caseOutcomeOptions;
+  }
+
+  return publicProfile satisfies PublicJurisdictionProfile;
+}
+
+/**
+ * The only supported way to produce a publicly-servable profile. The internal builder composes the
+ * profile (designer fixture or compiled engine profile, plus Wilma fact questions); the allowlist
+ * mapper above then decides what is actually allowed out.
+ */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
+  return toPublicJurisdictionProfile(buildProfileDraft(profile));
+}
+
+function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
   const designerProfile = getDesignerPublicProfiles()[profile.jurisdiction.code];
   if (designerProfile) {
     return withWilmaFactQuestions({
@@ -761,8 +908,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
         screenType: stage.screenType
       })),
       questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
-      caseOutcomeOptions: designerProfile.caseOutcomeOptions,
-      copyGuardrails: profile.copyGuardrails
+      caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
     });
   }
 
@@ -794,7 +940,6 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       options: question.options,
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
-    caseOutcomeOptions: profile.caseOutcomeOptions,
-    copyGuardrails: profile.copyGuardrails
+    caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
   });
 }
