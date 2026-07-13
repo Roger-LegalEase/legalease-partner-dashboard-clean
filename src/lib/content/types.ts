@@ -184,6 +184,11 @@ export const ROLE_CAPABILITIES: Readonly<Record<ContentRole, readonly ContentCap
     "media.upload"
   ],
   partner_contributor: ["content.read", "content.create", "content.edit_own", "content.submit_for_review"],
+  // READ-ONLY REPORTING ROLE — PUBLISHED CONTENT ONLY.
+  // "content.read" here means what the public can see, not the CMS's unpublished work. RLS enforces
+  // it: content_posts_select_content_team admits a viewer only to published/updated rows. A viewer
+  // is the account most likely to be handed out freely, so it must never be the widest embargo
+  // blast radius in the system.
   viewer: ["content.read"]
 };
 

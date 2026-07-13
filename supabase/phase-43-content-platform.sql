@@ -22,6 +22,22 @@
 -- Role model: content roles live in content_admin_users. Existing trusted internal admins
 -- (public.is_internal_admin(), phase 21) are granted primary_admin content privileges implicitly,
 -- so no second login system and no hardcoded administrator email exists anywhere.
+--
+-- PUBLIC EXPOSURE MODEL (this is the part that is easy to get wrong):
+--   RLS is ROW-scoped, never COLUMN-scoped. A "public read" policy on a base table therefore hands
+--   the anonymous web EVERY COLUMN of every row it admits — including staff user ids, review
+--   timestamps, scheduling, and search-maintenance columns. So anon does NOT get SELECT on any
+--   content base table at all. Anonymous access is granted only on the content_public_* VIEWS at the
+--   bottom of this file, which name each public column explicitly. Adding a column to a table can no
+--   longer leak it; a human has to add it to a view.
+--
+-- PRIVILEGE MODEL:
+--   Publishing is gated by public.content_can_publish() through the content_enforce_publish_authority
+--   trigger, not merely by a policy, so no role can reach a publishing state by any path.
+--   A legal_reviewer has NO update privilege on content_posts. Legal review happens exclusively
+--   through public.content_apply_legal_review(), which can touch only the legal-review columns.
+
+begin;
 
 -- =================================================================================================
 -- Roles and capability helpers
@@ -200,13 +216,26 @@ for select
 to authenticated
 using (auth_user_id = auth.uid() or public.is_internal_admin());
 
+-- ROLE MANAGEMENT. Two ways in, and neither permits self-escalation:
+--   - an existing phase-21 internal admin (the root of trust), or
+--   - a content primary_admin, who can only have been assigned by an internal admin or another
+--     primary_admin.
+-- In BOTH cases a caller may never write their OWN row (auth_user_id <> auth.uid()). That is what
+-- makes self-escalation impossible: a lower-privileged user has no policy at all, and a
+-- primary_admin cannot grant themselves anything they do not already have.
 drop policy if exists content_admin_users_manage_primary_admin on public.content_admin_users;
 create policy content_admin_users_manage_primary_admin
 on public.content_admin_users
 for all
 to authenticated
-using (public.is_internal_admin())
-with check (public.is_internal_admin());
+using (
+  (public.is_internal_admin() and auth_user_id <> auth.uid())
+  or (public.content_current_role() = 'primary_admin' and auth_user_id <> auth.uid())
+)
+with check (
+  (public.is_internal_admin() and auth_user_id <> auth.uid())
+  or (public.content_current_role() = 'primary_admin' and auth_user_id <> auth.uid())
+);
 
 -- =================================================================================================
 -- Authors and taxonomy
@@ -383,6 +412,14 @@ create index if not exists content_posts_partner_slug_idx
 create index if not exists content_posts_jurisdiction_idx
   on public.content_posts (jurisdiction_code)
   where jurisdiction_code is not null;
+-- FK-backing indexes: the author page lists a byline's posts, the category filter is a CMS default,
+-- and both columns are ON DELETE SET NULL targets (an unindexed FK makes the parent delete a scan).
+create index if not exists content_posts_author_id_idx
+  on public.content_posts (author_id)
+  where author_id is not null;
+create index if not exists content_posts_category_id_idx
+  on public.content_posts (category_id)
+  where category_id is not null;
 
 create or replace function public.set_content_posts_updated_at()
 returns trigger
@@ -404,32 +441,44 @@ execute function public.set_content_posts_updated_at();
 
 alter table public.content_posts enable row level security;
 
--- PUBLIC READ: the only door the anonymous web gets. Drafts, scheduled posts, in-review posts, and
--- archived posts are all invisible here — not merely filtered by the app.
+-- NO ANONYMOUS READ ON THIS TABLE.
+--
+-- An earlier revision had a `content_posts_select_public` policy admitting anon to published rows.
+-- The row filter was right, but RLS is row-scoped: it handed the anonymous web every COLUMN of
+-- those rows — created_by, editorial_approved_by, legal_approved_by and their timestamps,
+-- scheduled_for, search_text, version, legal_sensitive. Staff user ids and review metadata,
+-- published to anyone holding the anon key.
+--
+-- Anonymous access now goes exclusively through the public.content_public_posts VIEW at the bottom
+-- of this file, which names each public column. The policy is dropped (not merely omitted) so a
+-- re-run over an environment that saw the old revision removes it.
 drop policy if exists content_posts_select_public on public.content_posts;
-create policy content_posts_select_public
-on public.content_posts
-for select
-to anon, authenticated
-using (
-  status in ('published', 'updated')
-  and published_at is not null
-  and published_at <= now()
-);
 
--- CMS READ: anyone with a content role sees everything, except partner_contributor, who sees only
--- their own organization's rows.
+-- CMS READ. Three tiers, least privilege:
+--   - The working content team (primary_admin, editor, legal_reviewer, social_manager, contributor)
+--     sees every row, including drafts and in-review work.
+--   - partner_contributor sees only rows carrying their own organization's slug.
+--   - viewer sees only what the public sees. "Viewer" is a read-only *reporting* role, not an
+--     embargo-holder; giving it unpublished drafts would make it the widest-blast-radius account in
+--     the system for no product reason. Documented in docs/CONTENT_PLATFORM.md and the CMS settings
+--     page.
 drop policy if exists content_posts_select_content_team on public.content_posts;
 create policy content_posts_select_content_team
 on public.content_posts
 for select
 to authenticated
 using (
-  (public.content_has_any_role() and public.content_current_role() <> 'partner_contributor')
+  public.content_current_role() in ('primary_admin', 'editor', 'legal_reviewer', 'social_manager', 'contributor')
   or (
     public.content_current_role() = 'partner_contributor'
     and partner_slug is not null
     and partner_slug = public.content_current_partner_slug()
+  )
+  or (
+    public.content_current_role() = 'viewer'
+    and status in ('published', 'updated')
+    and published_at is not null
+    and published_at <= now()
   )
 );
 
@@ -491,13 +540,18 @@ with check (
   )
 );
 
+-- NOTE: there is deliberately NO legal-reviewer UPDATE policy on content_posts.
+--
+-- An earlier revision of this file had one (`content_posts_legal_review_update`, USING/WITH CHECK
+-- content_can_legal_approve()). Because RLS is row-scoped and permissive policies are OR-ed, it
+-- silently granted a legal_reviewer unrestricted UPDATE on EVERY COLUMN of EVERY post: they could
+-- take a draft straight to published, set their own approval fields, and rewrite any live post's
+-- title and body — all by calling PostgREST directly and bypassing the CMS workflow entirely.
+--
+-- It is dropped here (not just omitted) so that re-running this migration over an environment that
+-- ever received the old revision removes it. Legal review now goes through
+-- public.content_apply_legal_review() below, which is the ONLY way legal_approved_* can be set.
 drop policy if exists content_posts_legal_review_update on public.content_posts;
-create policy content_posts_legal_review_update
-on public.content_posts
-for update
-to authenticated
-using (public.content_can_legal_approve())
-with check (public.content_can_legal_approve());
 
 drop policy if exists content_posts_service_role_all on public.content_posts;
 create policy content_posts_service_role_all
@@ -505,6 +559,159 @@ on public.content_posts
 for all
 using (auth.role() = 'service_role')
 with check (auth.role() = 'service_role');
+
+-- -------------------------------------------------------------------------------------------------
+-- Publishing authority (makes content_can_publish() load-bearing rather than decorative)
+-- -------------------------------------------------------------------------------------------------
+--
+-- A policy alone cannot express "you may edit this row but not move it into a published state",
+-- because a policy's WITH CHECK sees only the new row, not which columns changed. This trigger does.
+-- Every transition INTO or OUT OF a publishing state (published / updated / scheduled), and every
+-- change to published_at or scheduled_for, requires content_can_publish().
+--
+-- Scope: it enforces against browser sessions (auth.role() = 'authenticated'). The trusted server
+-- worker acts as service_role and is exempt — it has already run the application workflow
+-- (evaluateTransition) and is the only path the CMS uses. This trigger is the backstop for anyone
+-- who bypasses the app and calls PostgREST with a user's JWT.
+create or replace function public.content_enforce_publish_authority()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  publishing_states constant text[] := array['published', 'updated', 'scheduled'];
+  touches_publication boolean;
+begin
+  if auth.role() is distinct from 'authenticated' then
+    return new;
+  end if;
+
+  if tg_op = 'INSERT' then
+    if new.status = any (publishing_states) or new.published_at is not null then
+      if not public.content_can_publish() then
+        raise exception 'content_posts: creating a post in a published/scheduled state requires a publishing role (current content role: %)',
+          coalesce(public.content_current_role(), 'none');
+      end if;
+    end if;
+    return new;
+  end if;
+
+  touches_publication :=
+    (new.status = any (publishing_states)) is distinct from (old.status = any (publishing_states))
+    or (old.status = any (publishing_states) and new.status is distinct from old.status)
+    or new.published_at is distinct from old.published_at
+    or new.scheduled_for is distinct from old.scheduled_for
+    or (new.status = 'archived' and old.status is distinct from 'archived');
+
+  if touches_publication and not public.content_can_publish() then
+    raise exception 'content_posts: publishing, scheduling, unpublishing, and archiving require a publishing role (current content role: %)',
+      coalesce(public.content_current_role(), 'none');
+  end if;
+
+  return new;
+end;
+$$;
+
+comment on function public.content_enforce_publish_authority() is
+  'Backstop for publication authority. Only content_can_publish() roles may move a post into or out of published/updated/scheduled, change published_at/scheduled_for, or archive it.';
+
+drop trigger if exists content_enforce_publish_authority on public.content_posts;
+
+create trigger content_enforce_publish_authority
+before insert or update on public.content_posts
+for each row
+execute function public.content_enforce_publish_authority();
+
+-- -------------------------------------------------------------------------------------------------
+-- Legal review — the ONLY way legal_approved_at / legal_approved_by can be written
+-- -------------------------------------------------------------------------------------------------
+--
+-- Accepts a post id, a decision, and notes. Nothing else. It cannot touch title, slug, doc,
+-- excerpt, SEO/social fields, author, category, destination, published_at, scheduled_for, or any
+-- other editorial column, because it names the columns it updates. It cannot publish: the only
+-- status transitions it can make are the two legitimate outcomes of a legal review
+-- (in_legal_review -> approved | changes_requested), and 'approved' is a review state, not a
+-- published one — the post still has to be published by a publishing role afterwards.
+create or replace function public.content_apply_legal_review(
+  p_post_id uuid,
+  p_decision text,
+  p_notes text default null
+)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_actor uuid := auth.uid();
+  v_role text := public.content_current_role();
+  v_status text;
+  v_next_status text;
+begin
+  if v_actor is null then
+    raise exception 'content_apply_legal_review: authentication required';
+  end if;
+
+  if v_role is null or v_role not in ('primary_admin', 'legal_reviewer') then
+    raise exception 'content_apply_legal_review: a legal reviewer or primary admin is required (current content role: %)',
+      coalesce(v_role, 'none');
+  end if;
+
+  if p_decision not in ('approved', 'changes_requested') then
+    raise exception 'content_apply_legal_review: decision must be approved or changes_requested, got %', p_decision;
+  end if;
+
+  select status into v_status from public.content_posts where post_id = p_post_id;
+
+  if v_status is null then
+    raise exception 'content_apply_legal_review: post % does not exist', p_post_id;
+  end if;
+
+  -- Fail closed on an ineligible workflow state: a legal reviewer cannot "approve" a draft into
+  -- existence, and cannot re-approve something already live.
+  if v_status <> 'in_legal_review' then
+    raise exception 'content_apply_legal_review: post % is in status %, but legal review can only act on in_legal_review',
+      p_post_id, v_status;
+  end if;
+
+  v_next_status := case when p_decision = 'approved' then 'approved' else 'changes_requested' end;
+
+  -- Column-scoped by construction. Note published_at/scheduled_for/status-to-published are absent.
+  update public.content_posts
+  set status = v_next_status,
+      legal_approved_at = case when p_decision = 'approved' then now() else null end,
+      legal_approved_by = case when p_decision = 'approved' then v_actor else null end
+  where post_id = p_post_id;
+
+  insert into public.content_reviews (post_id, review_kind, decision, notes, reviewer_id)
+  values (p_post_id, 'legal', p_decision, p_notes, v_actor);
+
+  insert into public.content_audit_events (actor_id, actor_role, action, entity_type, entity_id, detail)
+  values (
+    v_actor,
+    v_role,
+    case when p_decision = 'approved' then 'legal_approved' else 'changes_requested' end,
+    'content_post',
+    p_post_id::text,
+    jsonb_build_object('decision', p_decision, 'from_status', v_status, 'to_status', v_next_status)
+  );
+
+  return v_next_status;
+end;
+$$;
+
+comment on function public.content_apply_legal_review(uuid, text, text) is
+  'The only path that may write content_posts.legal_approved_*. Column-scoped: cannot publish, schedule, archive, or rewrite a post.';
+
+revoke all on function public.content_apply_legal_review(uuid, text, text) from public;
+revoke all on function public.content_apply_legal_review(uuid, text, text) from anon;
+grant execute on function public.content_apply_legal_review(uuid, text, text) to authenticated;
+grant execute on function public.content_apply_legal_review(uuid, text, text) to service_role;
+
+revoke all on function public.content_enforce_publish_authority() from public;
+revoke all on function public.content_enforce_publish_authority() from anon;
+revoke all on function public.content_enforce_publish_authority() from authenticated;
 
 -- =================================================================================================
 -- Version history
@@ -558,23 +765,29 @@ create table if not exists public.content_post_tags (
   primary key (post_id, tag_id)
 );
 
+-- The primary key leads with post_id, so "which posts carry this tag" (the tag archive page) would
+-- be a sequential scan without this.
+create index if not exists content_post_tags_tag_id_idx on public.content_post_tags (tag_id);
+
 alter table public.content_tags enable row level security;
 alter table public.content_categories enable row level security;
 alter table public.content_authors enable row level security;
 alter table public.content_post_tags enable row level security;
 
--- Taxonomy and bylines are public-by-design (they appear on published pages).
+-- Tags and categories carry no staff or workflow columns, so anon may read them directly.
 drop policy if exists content_tags_select_public on public.content_tags;
 create policy content_tags_select_public on public.content_tags for select to anon, authenticated using (true);
 
 drop policy if exists content_categories_select_public on public.content_categories;
 create policy content_categories_select_public on public.content_categories for select to anon, authenticated using (true);
 
+-- content_authors carries auth_user_id (the link from a byline to a real Supabase account), so anon
+-- reads the content_public_authors view instead of the table.
 drop policy if exists content_authors_select_public on public.content_authors;
-create policy content_authors_select_public on public.content_authors for select to anon, authenticated using (is_active);
 
+-- content_post_tags maps tags onto DRAFT posts too, so anon reading it would enumerate unpublished
+-- post ids. No anonymous read.
 drop policy if exists content_post_tags_select_public on public.content_post_tags;
-create policy content_post_tags_select_public on public.content_post_tags for select to anon, authenticated using (true);
 
 drop policy if exists content_tags_manage on public.content_tags;
 create policy content_tags_manage on public.content_tags for all to authenticated
@@ -679,14 +892,18 @@ comment on table public.content_media_usages is 'Where each asset is used. Power
 alter table public.content_media enable row level security;
 alter table public.content_media_usages enable row level security;
 
--- Media rows are readable by the public because published pages reference their URLs; there is no
--- sensitive data in the row. Writes are restricted to content roles with media capability.
+-- NO ANONYMOUS READ ON THIS TABLE.
+--
+-- An earlier revision let anon select every non-archived media row. That is an embargo leak: an
+-- asset attached only to an UNPUBLISHED draft (an unannounced launch graphic, say) was enumerable
+-- by anyone with the anon key — alt_text, storage_path, uploaded_by and all. Combined with a public
+-- storage bucket, the file itself was then fetchable.
+--
+-- Anonymous access is now the content_public_media view, which admits an asset only once it is
+-- actually referenced by published content, and never exposes storage_path or uploaded_by. The
+-- bucket is private; bytes are served through /api/content/media/[mediaId], which re-checks
+-- publication before minting a short-lived signed URL.
 drop policy if exists content_media_select_public on public.content_media;
-create policy content_media_select_public
-on public.content_media
-for select
-to anon, authenticated
-using (not archived);
 
 drop policy if exists content_media_insert_team on public.content_media;
 create policy content_media_insert_team
@@ -827,12 +1044,11 @@ execute function public.set_content_state_editorial_updated_at();
 alter table public.content_testimonials enable row level security;
 alter table public.content_state_editorial enable row level security;
 
+-- NO ANONYMOUS READ ON THIS TABLE. consent_reference is a free-text field whose natural contents
+-- are contract ids and email addresses — an earlier revision published it to anon along with
+-- consent_status. Anonymous access is the content_public_testimonials view (quote, attribution,
+-- role, partner, image only).
 drop policy if exists content_testimonials_select_public on public.content_testimonials;
-create policy content_testimonials_select_public
-on public.content_testimonials
-for select
-to anon, authenticated
-using (approved);
 
 drop policy if exists content_testimonials_manage on public.content_testimonials;
 create policy content_testimonials_manage on public.content_testimonials for all to authenticated
@@ -842,12 +1058,9 @@ drop policy if exists content_testimonials_service_role_all on public.content_te
 create policy content_testimonials_service_role_all on public.content_testimonials for all
 using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
 
+-- NO ANONYMOUS READ ON THIS TABLE: it carries legal_approved_by / updated_by (staff ids) and the
+-- draft/in-review editorial layer. Anonymous access is the content_public_state_editorial view.
 drop policy if exists content_state_editorial_select_public on public.content_state_editorial;
-create policy content_state_editorial_select_public
-on public.content_state_editorial
-for select
-to anon, authenticated
-using (status = 'published');
 
 drop policy if exists content_state_editorial_select_team on public.content_state_editorial;
 create policy content_state_editorial_select_team
@@ -1232,9 +1445,230 @@ for select
 using (auth.role() = 'service_role');
 
 -- =================================================================================================
--- Media storage bucket (optional block — skipped where the storage schema is absent, e.g. PGlite)
+-- THE PUBLIC INTERFACE — explicit column projections
 -- =================================================================================================
+--
+-- Anonymous callers get NO privilege on any content base table. Everything the public web can read
+-- is named, column by column, in the views below.
+--
+-- These views are intentionally owner-executed (the default; `security_invoker` is NOT set), so they
+-- run with the definer's rights and read the base tables past RLS. That is the point: the base
+-- tables have no anon policy at all, and the view's own WHERE clause is the row filter. It means a
+-- new column added to content_posts tomorrow is NOT public until a human adds it here.
 
+create or replace view public.content_public_posts as
+select
+  p.post_id,
+  p.destination,
+  p.locale,
+  p.content_type,
+  p.slug,
+  p.title,
+  p.subtitle,
+  p.excerpt,
+  -- The server-rendered, allowlist-sanitized body (src/lib/content/renderer.ts). The structured
+  -- source document (p.doc) is deliberately NOT public.
+  p.rendered_html,
+  p.reading_minutes,
+  p.author_id,
+  p.category_id,
+  p.featured_media_id,
+  p.og_media_id,
+  p.jurisdiction_code,
+  p.partner_slug,
+  p.seo_title,
+  p.seo_description,
+  p.canonical_url,
+  p.og_title,
+  p.og_description,
+  p.published_at,
+  -- Surfaced as "last updated" only when the post is actually in the 'updated' state; the raw
+  -- updated_at ticks on every internal save and would leak editorial activity.
+  case when p.status = 'updated' then p.updated_at else null end as content_updated_at
+from public.content_posts p
+where p.status in ('published', 'updated')
+  and p.published_at is not null
+  and p.published_at <= now();
+
+comment on view public.content_public_posts is
+  'THE public post interface. Excludes doc, status, search_text, version, scheduled_for, first_published_at, legal_sensitive, created_by, created_at, and every *_approved_by/_at column.';
+
+create or replace view public.content_public_authors as
+select
+  a.author_id,
+  a.slug,
+  a.name,
+  a.title,
+  a.organization,
+  a.bio,
+  a.avatar_media_id
+from public.content_authors a
+where a.is_active;
+
+comment on view public.content_public_authors is
+  'Public bylines. Excludes auth_user_id (the link from a byline to a real Supabase account).';
+
+-- An asset becomes public ONLY by being referenced from something already published. Draft-only
+-- media is invisible here, and storage_path / uploaded_by / source_info / permission_status never
+-- cross the boundary.
+create or replace view public.content_public_media as
+select distinct
+  m.media_id,
+  m.mime_type,
+  m.width,
+  m.height,
+  m.alt_text,
+  m.caption,
+  m.credit
+from public.content_media m
+where not m.archived
+  and (
+    exists (
+      select 1
+      from public.content_media_usages u
+      join public.content_posts p on p.post_id = u.post_id
+      where u.media_id = m.media_id
+        and p.status in ('published', 'updated')
+        and p.published_at is not null
+        and p.published_at <= now()
+    )
+    or exists (
+      select 1
+      from public.content_posts p
+      where (p.featured_media_id = m.media_id or p.og_media_id = m.media_id)
+        and p.status in ('published', 'updated')
+        and p.published_at is not null
+        and p.published_at <= now()
+    )
+    or exists (
+      select 1
+      from public.content_state_editorial e
+      where (e.featured_media_id = m.media_id or e.og_media_id = m.media_id)
+        and e.status = 'published'
+    )
+    or exists (
+      select 1 from public.content_testimonials t where t.media_id = m.media_id and t.approved
+    )
+  );
+
+comment on view public.content_public_media is
+  'An asset is public only once published content references it. Excludes storage_path, uploaded_by, source_info, permission_status. Bytes are served via /api/content/media/[mediaId], never a direct bucket URL.';
+
+-- Used by the media route to decide whether to mint a signed URL. Same publication rule as the view
+-- above, expressed as a function so the route can ask about one asset without selecting the world.
+create or replace function public.content_media_is_public(p_media_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.content_public_media where media_id = p_media_id)
+$$;
+
+comment on function public.content_media_is_public(uuid) is
+  'True when the asset is referenced by published content. The media route requires this before minting a signed URL.';
+
+revoke all on function public.content_media_is_public(uuid) from public;
+grant execute on function public.content_media_is_public(uuid) to anon;
+grant execute on function public.content_media_is_public(uuid) to authenticated;
+grant execute on function public.content_media_is_public(uuid) to service_role;
+
+create or replace view public.content_public_testimonials as
+select
+  t.testimonial_id,
+  t.quote,
+  t.attribution,
+  t.role_title,
+  t.partner_slug,
+  t.media_id
+from public.content_testimonials t
+where t.approved;
+
+comment on view public.content_public_testimonials is
+  'Public testimonial display fields only. Excludes consent_status and consent_reference (contract ids / email addresses).';
+
+create or replace view public.content_public_state_editorial as
+select
+  e.jurisdiction_code,
+  e.intro,
+  e.overview,
+  e.featured_media_id,
+  e.faqs,
+  e.related_slugs,
+  e.partner_quote,
+  e.partner_slug,
+  e.announcement,
+  e.seo_title,
+  e.seo_description,
+  e.og_media_id,
+  e.cta_label,
+  e.cta_href
+from public.content_state_editorial e
+where e.status = 'published';
+
+comment on view public.content_public_state_editorial is
+  'Published state-resource editorial layer. Excludes status, legal_approved_by/_at, updated_by.';
+
+-- -------------------------------------------------------------------------------------------------
+-- Privileges: anon gets the views and nothing else
+-- -------------------------------------------------------------------------------------------------
+--
+-- Supabase's default privileges grant anon on every new table in `public`, so withholding a policy
+-- is NOT enough — the grant itself has to go. RLS would still block reads, but revoking is the
+-- difference between "no rows" and "no such privilege", and it survives a future policy mistake.
+
+revoke all on public.content_posts from anon;
+revoke all on public.content_post_versions from anon;
+revoke all on public.content_post_tags from anon;
+revoke all on public.content_authors from anon;
+revoke all on public.content_media from anon;
+revoke all on public.content_media_usages from anon;
+revoke all on public.content_testimonials from anon;
+revoke all on public.content_state_editorial from anon;
+revoke all on public.content_admin_users from anon;
+revoke all on public.content_reviews from anon;
+revoke all on public.content_publications from anon;
+revoke all on public.content_social_drafts from anon;
+revoke all on public.content_social_assets from anon;
+revoke all on public.content_campaigns from anon;
+revoke all on public.content_campaign_channels from anon;
+revoke all on public.content_promotion_outbox from anon;
+revoke all on public.content_audit_events from anon;
+
+-- Taxonomy stays directly readable (no staff, workflow, or draft-linking columns).
+grant select on public.content_tags to anon;
+grant select on public.content_categories to anon;
+
+grant select on public.content_public_posts to anon, authenticated;
+grant select on public.content_public_authors to anon, authenticated;
+grant select on public.content_public_media to anon, authenticated;
+grant select on public.content_public_testimonials to anon, authenticated;
+grant select on public.content_public_state_editorial to anon, authenticated;
+
+-- The views are read-only surfaces; make that structural rather than conventional.
+revoke insert, update, delete on public.content_public_posts from anon, authenticated;
+revoke insert, update, delete on public.content_public_authors from anon, authenticated;
+revoke insert, update, delete on public.content_public_media from anon, authenticated;
+revoke insert, update, delete on public.content_public_testimonials from anon, authenticated;
+revoke insert, update, delete on public.content_public_state_editorial from anon, authenticated;
+
+-- =================================================================================================
+-- Media storage bucket — PRIVATE
+-- =================================================================================================
+--
+-- The bucket is private and carries NO storage.objects policies, which means anon and authenticated
+-- have no access to the bytes at all: this is an intentional service-role-only storage model.
+--
+--   - Uploads happen server-side through the service-role client (/api/internal/content/media).
+--   - Reads happen through /api/content/media/[mediaId], which calls content_media_is_public() and
+--     only then mints a short-lived signed URL.
+--
+-- A public bucket would mean "unguessable path" is the only thing protecting an unannounced asset.
+-- It isn't a control, so we don't rely on it.
+--
+-- The block is skipped where the storage schema is absent (e.g. PGlite in the hermetic tests). The
+-- application surfaces a clear setup error if the bucket is missing rather than failing obscurely.
 do $$
 begin
   if to_regclass('storage.buckets') is not null then
@@ -1242,11 +1676,16 @@ begin
     values (
       'content-media',
       'content-media',
-      true,
+      false,
       12582912,
       array['image/jpeg', 'image/png', 'image/webp', 'image/gif']
     )
-    on conflict (id) do nothing;
+    on conflict (id) do update
+      set public = false,
+          file_size_limit = excluded.file_size_limit,
+          allowed_mime_types = excluded.allowed_mime_types;
   end if;
 end;
 $$;
+
+commit;

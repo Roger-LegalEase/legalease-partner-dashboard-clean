@@ -88,6 +88,25 @@ This is enforced **twice**, deliberately:
 
 Not even a `primary_admin` can publish an unreviewed state resource. Scheduling does not bypass it either.
 
+**A legal reviewer has no UPDATE privilege on `content_posts` at all.** Legal review happens only
+through the `content_apply_legal_review(post_id, decision, notes)` database function, which:
+
+- re-derives the caller's role from their JWT (so it is safe under a direct PostgREST/RPC call);
+- accepts only a post id, a decision, and notes;
+- writes **only** `legal_approved_at` / `legal_approved_by` and the review-state transition
+  (`in_legal_review` → `approved` | `changes_requested`);
+- **cannot** publish, unpublish, schedule, archive, or rewrite a title, body, slug, SEO field, or author;
+- refuses a post that is not `in_legal_review`, and records the reviewer, a `content_reviews` row, and
+  an audit event itself, so none of those can be skipped.
+
+The earlier design gave the reviewer a broad `FOR UPDATE` policy. Because RLS is row-scoped, that
+silently let a legal reviewer take a draft straight to published and rewrite any live post.
+
+**Publishing authority** is separately enforced by the `content_enforce_publish_authority` trigger,
+which calls `content_can_publish()`. Any transition into or out of `published` / `updated` /
+`scheduled`, any change to `published_at` / `scheduled_for`, and any archive requires a publishing
+role — no matter which policy admitted the row.
+
 ### 4. Drafts are invisible to the public in the database, not just in the app
 
 The RLS policy `content_posts_select_public` admits only:
@@ -124,7 +143,7 @@ content `primary_admin` implicitly.
 | `social_manager` | Read, media upload, social draft/approve/**send** |
 | `contributor` | Create + edit **own** drafts, submit for review, upload media |
 | `partner_contributor` | Create + edit **own partner's** drafts only. Cannot publish. |
-| `viewer` | Read |
+| `viewer` | Read **published content only** — a viewer does *not* see drafts or in-review work (least privilege; enforced by RLS, not the UI) |
 
 `partner_contributor` is row-scoped by RLS: a partner contributor **cannot see or write another
 partner's drafts**. Proven in the schema test.
@@ -144,10 +163,43 @@ written to `content_audit_events`.
 
 ---
 
-## Media
+## Media — the bucket is PRIVATE
 
-Supabase Storage bucket `content-media` (created by the migration). Uploads are **server-side only**;
-there are no unauthenticated public writes.
+Supabase Storage bucket `content-media`, created **private** by the migration, with **no
+`storage.objects` policies at all**. That is deliberate: storage is service-role-only.
+
+- **Uploads** go through `/api/internal/content/media` using the service-role client. There are no
+  unauthenticated public writes, and the route fails with a clear `bucket_missing` error if the
+  bucket has not been created.
+- **Reads** go through `/api/content/media/[mediaId]`. That route asks the database
+  (`content_media_is_public()`) whether the asset is actually referenced by published content, and
+  only then mints a **short-lived signed URL** and redirects. An embargoed asset 404s — and 404s
+  identically to a nonexistent one, so the endpoint cannot be probed.
+
+There is **no public bucket URL anywhere in the payload**. An earlier revision made the bucket public
+and let anon enumerate `content_media`, which meant an image attached to an unannounced draft was
+both discoverable and fetchable. "The filename is hard to guess" is not an access control.
+
+## The public interface: `content_public_*` views
+
+RLS is **row**-scoped, never **column**-scoped. A "published rows only" policy on a base table still
+hands the anonymous web *every column* of those rows — which is exactly how `created_by`,
+`legal_approved_by`, `scheduled_for`, and `search_text` were once public.
+
+So anon has **no privilege on any content base table**. Everything the public web can read is named,
+column by column, in five owner-executed views:
+
+| View | Exposes |
+| --- | --- |
+| `content_public_posts` | 23 named columns: ids, destination/locale/type, slug, title, subtitle, excerpt, sanitized `rendered_html`, reading time, author/category/media references, SEO + social metadata, `published_at`, and a `content_updated_at` that is non-null only for genuinely updated posts. **No** `doc`, `status`, `search_text`, `version`, `scheduled_for`, `created_by`, or any `*_approved_by/_at`. |
+| `content_public_authors` | Byline fields. **No** `auth_user_id`. |
+| `content_public_media` | Only assets referenced by published content. **No** `storage_path`, `uploaded_by`, `source_info`, `permission_status`. |
+| `content_public_testimonials` | Quote, attribution, role, partner, image. **No** `consent_status`, **no** `consent_reference`. |
+| `content_public_state_editorial` | The published editorial layer. **No** `status`, `legal_approved_by`, `updated_by`. |
+
+Adding a column to a table can no longer leak it — a human has to add it to a view.
+`src/lib/content/repository.ts` reads **only** these views. Do not "optimize" it back onto a base
+table with a column list: a column list in JavaScript is a convention, a view is a privilege.
 
 | Blocks publication | Warns |
 | --- | --- |
