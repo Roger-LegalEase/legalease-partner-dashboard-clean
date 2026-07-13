@@ -110,6 +110,72 @@ export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
   "src/app/expungement-ai/packet-ready/page.tsx"
 ];
 
+// Phase 43: the shared content publishing platform (Expungement.ai blog/resources + LegalEase
+// Partner insights/stories, the internal CMS, and the Command Center promotion boundary).
+//
+// Scope discipline, stated explicitly because this group is large:
+//   - It adds NEW routes. It does not modify any live screening, eligibility, packet, Stripe,
+//     Briefcase, partner-intake, or partner-dashboard surface.
+//   - The three MODIFIED files are additive: globals.css appends article styles, sitemap.ts adds
+//     the new content URLs while keeping every existing state entry, and robots.ts is new.
+//   - supabase/phase-43-content-platform.sql is a MIGRATION FILE ONLY and has not been applied to
+//     any database. It creates only content_* tables and touches no existing table, RLS policy,
+//     or auth logic.
+// Files are enumerated individually (no directories), matching the convention of the other groups.
+export const CONTENT_PLATFORM_FILES = [
+  // Public surfaces (LegalEase Partner). The Expungement.ai public content routes live under
+  // src/app/expungement-ai/, which the guard already exempts.
+  "src/app/partners/layout.tsx",
+  "src/app/partners/insights/page.tsx",
+  "src/app/partners/insights/[slug]/page.tsx",
+  "src/app/partners/insights/feed.xml/route.ts",
+  "src/app/partners/partner-stories/page.tsx",
+  "src/app/partners/partner-stories/[slug]/page.tsx",
+  "src/app/partners/authors/[slug]/page.tsx",
+  "src/app/partners/resources/page.tsx",
+  // SEO surfaces.
+  "src/app/robots.ts",
+  "src/app/sitemap.ts",
+  "src/app/globals.css",
+  // Internal CMS.
+  "src/app/internal/content/layout.tsx",
+  "src/app/internal/content/page.tsx",
+  "src/app/internal/content/articles/page.tsx",
+  "src/app/internal/content/articles/new/page.tsx",
+  "src/app/internal/content/articles/[id]/page.tsx",
+  "src/app/internal/content/state-resources/page.tsx",
+  "src/app/internal/content/state-resources/[jurisdiction]/page.tsx",
+  "src/app/internal/content/partner-stories/page.tsx",
+  "src/app/internal/content/testimonials/page.tsx",
+  "src/app/internal/content/authors/page.tsx",
+  "src/app/internal/content/media/page.tsx",
+  "src/app/internal/content/social/page.tsx",
+  "src/app/internal/content/reviews/page.tsx",
+  "src/app/internal/content/scheduled/page.tsx",
+  "src/app/internal/content/settings/page.tsx",
+  // Authenticated content APIs.
+  "src/app/api/internal/content/posts/route.ts",
+  "src/app/api/internal/content/posts/[id]/route.ts",
+  "src/app/api/internal/content/posts/[id]/transition/route.ts",
+  "src/app/api/internal/content/posts/[id]/versions/route.ts",
+  "src/app/api/internal/content/posts/[id]/versions/restore/route.ts",
+  "src/app/api/internal/content/media/route.ts",
+  "src/app/api/internal/content/media/[id]/route.ts",
+  "src/app/api/internal/content/social/[postId]/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/export/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/send/route.ts",
+  "src/app/api/internal/content/state-editorial/[code]/route.ts",
+  "src/app/api/internal/content/authors/route.ts",
+  // System routes: scheduler (secret-gated), Command Center status callback (HMAC-gated),
+  // social-card preview (content-session-gated), public OG image (published posts only).
+  "src/app/api/content/scheduler/run/route.ts",
+  "src/app/api/content/command-center/status/route.ts",
+  "src/app/api/content/social-card/route.ts",
+  "src/app/api/content/og/[postId]/route.ts",
+  // Migration file only — not applied to any database.
+  "supabase/phase-43-content-platform.sql"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...SHARED_PAYMENT_FILES,
@@ -120,5 +186,6 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...RCAP_PARTNER_MODE_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
-  ...MS_SPONSORED_PACKET_BRIDGE_FILES
+  ...MS_SPONSORED_PACKET_BRIDGE_FILES,
+  ...CONTENT_PLATFORM_FILES
 ];

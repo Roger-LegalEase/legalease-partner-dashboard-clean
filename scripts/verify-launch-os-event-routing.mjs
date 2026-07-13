@@ -23,7 +23,11 @@ function assertIncludes(relativePath, markers) {
 assertIncludes("src/proxy.ts", [
   "routePublicProductHost",
   '"legaleasepartner.com"',
-  'return pathname === "/" ? "/partners" : null',
+  // Phase 43 replaced the inline single-path ternary for the partner host with legalEasePartnerPath()
+  // (an allowlist mirroring expungementAiPath). The invariant is unchanged: the partner host root
+  // still maps to /partners, and only allowlisted paths are exposed on that host.
+  'return legalEasePartnerPath(pathname)',
+  'return pathname === "/" ? "/partners" : `/partners${pathname}`',
   '"expungement.ai"',
   '"/packet-ready"',
   'return pathname === "/" ? "/expungement-ai" : `/expungement-ai${pathname}`',
