@@ -1,0 +1,150 @@
+/* ==================================================================================================
+ * Editor surface styles.
+ *
+ * These style the EDITING view only. They are deliberately NOT the public article styles: the public
+ * HTML is produced server-side by the allowlisting renderer and styled by .content-body in
+ * globals.css. Keeping the two apart means an editor's WYSIWYG never becomes an accidental source of
+ * public CSS — and a change here can never alter a published page.
+ *
+ * Scoped to .prose-cms (the ProseMirror root), so nothing here can leak into the CMS chrome.
+ * ================================================================================================== */
+
+.prose-cms {
+  color: #0f1f5c;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.prose-cms > * + * {
+  margin-top: 1.1em;
+}
+
+.prose-cms p {
+  margin: 0;
+}
+
+.prose-cms h2,
+.prose-cms h3,
+.prose-cms h4 {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #0f1f5c;
+}
+
+.prose-cms h2 {
+  margin-top: 1.6em;
+  font-size: 1.5em;
+}
+
+.prose-cms h3 {
+  margin-top: 1.4em;
+  font-size: 1.22em;
+}
+
+.prose-cms h4 {
+  margin-top: 1.2em;
+  font-size: 1.05em;
+}
+
+.prose-cms a {
+  color: #0f1f5c;
+  text-decoration: underline;
+  text-decoration-color: #e83a0a;
+  text-underline-offset: 3px;
+}
+
+.prose-cms code {
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9em;
+}
+
+.prose-cms ul,
+.prose-cms ol {
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+.prose-cms ul {
+  list-style: disc;
+}
+
+.prose-cms ol {
+  list-style: decimal;
+}
+
+.prose-cms li::marker {
+  color: #00a99d;
+}
+
+.prose-cms blockquote {
+  margin: 0;
+  padding-left: 1em;
+  border-left: 3px solid #00a99d;
+  color: #475569;
+  font-style: italic;
+}
+
+.prose-cms hr {
+  margin-block: 1.8em;
+  border: 0;
+  border-top: 2px dashed #cbd5e1;
+}
+
+.prose-cms table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+.prose-cms th,
+.prose-cms td {
+  position: relative;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose-cms th {
+  background: #f1f5f9;
+  font-weight: 800;
+}
+
+/* The column-resize handle from @tiptap/extension-table. */
+.prose-cms .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #0f1f5c;
+  pointer-events: none;
+}
+
+.prose-cms .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 31, 92, 0.08);
+  pointer-events: none;
+}
+
+/* Tiptap's placeholder extension marks the first empty node. */
+.prose-cms p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+/* A selected atom node (CTA, gallery, disclaimer…) gets an unmistakable ring. */
+.prose-cms .ProseMirror-selectednode {
+  outline: 2px solid #0f1f5c;
+  outline-offset: 2px;
+}
