@@ -161,14 +161,29 @@ export async function POST(request: Request) {
   });
 
   if (upload.error) {
+    // The single most likely cause is a missing bucket, so say so instead of surfacing a generic
+    // storage error. The bucket is created (PRIVATE) by supabase/phase-43-content-platform.sql.
+    const missingBucket = /bucket.*not found|not found.*bucket/i.test(upload.error.message ?? "");
+    if (missingBucket) {
+      return jsonError(
+        503,
+        "The private 'content-media' storage bucket does not exist. Apply supabase/phase-43-content-platform.sql (or create the bucket as PRIVATE) before uploading.",
+        { code: "bucket_missing" }
+      );
+    }
     return storageFailure(context, "content media storage upload failed", upload.error);
   }
 
-  const publicUrl = client.storage.from(BUCKET).getPublicUrl(storagePath).data.publicUrl ?? null;
+  // NO getPublicUrl(). The bucket is private and must stay private: a public bucket would make an
+  // unguessable path the only thing protecting an unannounced asset. The stored URL is the
+  // application route, which re-checks publication and mints a short-lived signed URL per request.
+  const mediaId = randomUUID();
+  const publicUrl = `/api/content/media/${mediaId}`;
 
   const { data, error } = await client
     .from("content_media")
     .insert({
+      media_id: mediaId,
       storage_path: storagePath,
       public_url: publicUrl,
       mime_type: sniffed,

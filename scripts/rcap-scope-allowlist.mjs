@@ -185,7 +185,11 @@ export const CONTENT_PLATFORM_FILES = [
   "src/app/api/internal/content/state-editorial/[code]/route.ts",
   "src/app/api/internal/content/authors/route.ts",
   // System routes: scheduler (secret-gated), Command Center status callback (HMAC-gated),
-  // social-card preview (content-session-gated), public OG image (published posts only).
+  // social-card preview (content-session-gated), public OG image (published posts only), and the
+  // media route — the only way bytes leave the PRIVATE content-media bucket. It checks
+  // content_media_is_public() before minting a short-lived signed URL, so an asset attached only to
+  // an unpublished draft 404s.
+  "src/app/api/content/media/[mediaId]/route.ts",
   "src/app/api/content/scheduler/run/route.ts",
   "src/app/api/content/command-center/status/route.ts",
   "src/app/api/content/social-card/route.ts",

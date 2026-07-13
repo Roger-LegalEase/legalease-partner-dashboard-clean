@@ -16,42 +16,52 @@ import { absoluteExpungementAiUrl, absolutePartnerAppUrl } from "@/lib/app-url";
 /**
  * Content data access.
  *
- * PUBLIC READS ARE DOUBLY GUARDED. Every public query filters status to ('published','updated') and
- * published_at <= now(), AND the RLS policy on content_posts admits nothing else to anon. Belt and
- * braces: if a future refactor forgets the app-side filter, the database still refuses.
+ * PUBLIC READS NEVER TOUCH A BASE TABLE.
  *
- * Reads return typed view models, never raw rows — a raw row carries workflow columns (review notes,
- * scheduled times, legal-approval identities) that must not reach a public page.
+ * Every public query below goes through the content_public_* VIEWS created in phase 43. Those views
+ * name each public column explicitly; the base tables carry workflow columns (staff ids, review
+ * timestamps, scheduling, search text, the structured document) that must not reach a public page,
+ * and anon has had its privileges on them REVOKED outright.
+ *
+ * This is not belt-and-braces duplication of an app-side filter — it is the actual boundary. RLS is
+ * row-scoped, so a "published rows only" policy on content_posts would still hand out every COLUMN
+ * of those rows. The audit that produced this design found exactly that: created_by,
+ * legal_approved_by, scheduled_for and search_text were all public. The narrow interface is the fix,
+ * and selecting * from a view is now safe by construction.
+ *
+ * Do NOT "optimize" these back onto the base tables with a column list. A column list in JavaScript
+ * is a convention; a view is a privilege.
  */
 
-type PostRow = {
+/** Rows as they come off public.content_public_posts. There is no status/doc/created_by here. */
+type PublicPostRow = {
   post_id: string;
   slug: string;
   destination: string;
+  locale: string;
   content_type: string;
-  status: string;
   title: string;
   subtitle: string | null;
   excerpt: string | null;
-  doc: unknown;
   rendered_html: string | null;
   reading_minutes: number | null;
-  published_at: string | null;
-  updated_at: string | null;
-  first_published_at: string | null;
+  author_id: string | null;
+  category_id: string | null;
+  featured_media_id: string | null;
+  og_media_id: string | null;
+  jurisdiction_code: string | null;
+  partner_slug: string | null;
   seo_title: string | null;
   seo_description: string | null;
   canonical_url: string | null;
   og_title: string | null;
   og_description: string | null;
-  jurisdiction_code: string | null;
-  partner_slug: string | null;
-  content_authors: AuthorRow | AuthorRow[] | null;
-  featured_media: MediaRow | MediaRow[] | null;
-  og_media: MediaRow | MediaRow[] | null;
+  published_at: string;
+  content_updated_at: string | null;
 };
 
-type AuthorRow = {
+type PublicAuthorRow = {
+  author_id: string;
   slug: string;
   name: string;
   title: string | null;
@@ -60,25 +70,74 @@ type AuthorRow = {
   avatar_media_id: string | null;
 };
 
-type MediaRow = {
-  public_url: string | null;
+type PublicMediaRow = {
+  media_id: string;
   alt_text: string | null;
   caption: string | null;
   credit: string | null;
 };
 
-const PUBLIC_SELECT = `
-  post_id, slug, destination, content_type, status, title, subtitle, excerpt, doc, rendered_html,
-  reading_minutes, published_at, updated_at, first_published_at, seo_title, seo_description,
-  canonical_url, og_title, og_description, jurisdiction_code, partner_slug,
-  content_authors:author_id ( slug, name, title, organization, bio, avatar_media_id ),
-  featured_media:featured_media_id ( public_url, alt_text, caption, credit ),
-  og_media:og_media_id ( public_url, alt_text, caption, credit )
-`;
+/** Views carry no PostgREST foreign-key relationships, so related rows are hydrated explicitly. */
+const PUBLIC_POST_SELECT = "*";
+
+/**
+ * The bucket is PRIVATE. Bytes are served by /api/content/media/[mediaId], which re-checks that the
+ * asset is referenced by published content before minting a short-lived signed URL. There is
+ * deliberately no direct storage URL anywhere in the public payload.
+ */
+export function publicMediaUrl(mediaId: string): string {
+  return `/api/content/media/${mediaId}`;
+}
 
 function first<T>(value: T | T[] | null): T | null {
   if (!value) return null;
   return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+/** Fetch the public projection of a set of media ids. Draft-only assets simply do not come back. */
+async function loadPublicMedia(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
+  mediaIds: (string | null)[]
+): Promise<Map<string, PublicMediaRow>> {
+  const ids = [...new Set(mediaIds.filter((id): id is string => Boolean(id)))];
+  if (!ids.length) return new Map();
+
+  const { data } = await supabase
+    .from("content_public_media")
+    .select("media_id, alt_text, caption, credit")
+    .in("media_id", ids);
+
+  return new Map((data ?? []).map((row) => [(row as PublicMediaRow).media_id, row as PublicMediaRow]));
+}
+
+async function loadPublicAuthors(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
+  authorIds: (string | null)[]
+): Promise<Map<string, PublicAuthorRow>> {
+  const ids = [...new Set(authorIds.filter((id): id is string => Boolean(id)))];
+  if (!ids.length) return new Map();
+
+  const { data } = await supabase
+    .from("content_public_authors")
+    .select("author_id, slug, name, title, organization, bio, avatar_media_id")
+    .in("author_id", ids);
+
+  return new Map((data ?? []).map((row) => [(row as PublicAuthorRow).author_id, row as PublicAuthorRow]));
+}
+
+/** Assemble the public view models for a page of posts, hydrating authors and media in one round each. */
+async function hydrateArticles(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
+  rows: PublicPostRow[]
+): Promise<PublicArticle[]> {
+  if (!rows.length) return [];
+
+  const [authors, media] = await Promise.all([
+    loadPublicAuthors(supabase, rows.map((row) => row.author_id)),
+    loadPublicMedia(supabase, rows.flatMap((row) => [row.featured_media_id, row.og_media_id]))
+  ]);
+
+  return rows.map((row) => toPublicArticle(row, authors, media));
 }
 
 function canonicalFor(destination: ContentDestination, contentType: ContentType, slug: string): string {
@@ -89,7 +148,7 @@ function canonicalFor(destination: ContentDestination, contentType: ContentType,
   return absolutePartnerAppUrl(`/${segment}/${slug}`);
 }
 
-function toPublicAuthor(row: AuthorRow | null): PublicAuthor | null {
+function toPublicAuthor(row: PublicAuthorRow | null | undefined): PublicAuthor | null {
   if (!row) return null;
   return {
     slug: row.slug,
@@ -97,23 +156,32 @@ function toPublicAuthor(row: AuthorRow | null): PublicAuthor | null {
     title: row.title,
     organization: row.organization,
     bio: row.bio,
-    avatarUrl: null
+    avatarUrl: row.avatar_media_id ? publicMediaUrl(row.avatar_media_id) : null
   };
 }
 
-function toPublicArticle(row: PostRow): PublicArticle {
-  const doc = row.doc as ContentDoc;
-  // Prefer the stored render (produced by the same allowlisting renderer at save time), but never
-  // trust it blindly: if it is absent we re-render from the structured doc rather than falling back
-  // to any raw HTML field. There is no raw HTML field.
-  const html = row.rendered_html ?? renderContentDoc(doc);
-  const featured = first(row.featured_media);
-  const og = first(row.og_media);
+function toPublicArticle(
+  row: PublicPostRow,
+  authors: Map<string, PublicAuthorRow>,
+  media: Map<string, PublicMediaRow>
+): PublicArticle {
+  // The public view carries the server-rendered, allowlist-sanitized body. The structured document
+  // is NOT public, so there is nothing to re-render from here — and nothing to re-render from is the
+  // correct state: rendered_html is written by savePostBody() through the same renderer.
+  const html = row.rendered_html ?? "";
+
+  // A media id resolves only if the asset is actually public (the view enforces that). A featured
+  // image on an unpublished asset therefore renders as no image rather than leaking an embargoed one.
+  const featured = row.featured_media_id ? media.get(row.featured_media_id) : undefined;
+  const og = row.og_media_id ? media.get(row.og_media_id) : undefined;
+
   const canonical = row.canonical_url ?? canonicalFor(
     row.destination as ContentDestination,
     row.content_type as ContentType,
     row.slug
   );
+
+  const fallbackText = row.excerpt ?? "";
 
   return {
     slug: row.slug,
@@ -122,13 +190,13 @@ function toPublicArticle(row: PostRow): PublicArticle {
     title: row.title,
     subtitle: row.subtitle,
     html,
-    readingMinutes: row.reading_minutes ?? estimateReadingMinutes(doc),
-    publishedAt: row.published_at ?? row.first_published_at ?? new Date(0).toISOString(),
-    updatedAt: row.status === "updated" ? row.updated_at : null,
-    author: toPublicAuthor(first(row.content_authors)),
-    featuredImage: featured?.public_url
+    readingMinutes: row.reading_minutes ?? 1,
+    publishedAt: row.published_at,
+    updatedAt: row.content_updated_at,
+    author: toPublicAuthor(row.author_id ? authors.get(row.author_id) : null),
+    featuredImage: featured
       ? {
-          src: featured.public_url,
+          src: publicMediaUrl(featured.media_id),
           alt: featured.alt_text ?? "",
           caption: featured.caption,
           credit: featured.credit
@@ -137,11 +205,15 @@ function toPublicArticle(row: PostRow): PublicArticle {
     tags: [],
     seo: {
       title: row.seo_title?.trim() || row.title,
-      description: row.seo_description?.trim() || row.excerpt || truncate(contentDocToPlainText(doc), 160),
+      description: row.seo_description?.trim() || truncate(fallbackText, 160),
       canonical,
       ogTitle: row.og_title?.trim() || row.title,
-      ogDescription: row.og_description?.trim() || row.excerpt || truncate(contentDocToPlainText(doc), 200),
-      ogImage: og?.public_url ?? featured?.public_url ?? null
+      ogDescription: row.og_description?.trim() || truncate(fallbackText, 200),
+      ogImage: og
+        ? publicMediaUrl(og.media_id)
+        : featured
+          ? publicMediaUrl(featured.media_id)
+          : null
     }
   };
 }
@@ -161,12 +233,12 @@ export async function listPublishedArticles(options: {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return [];
 
+  // content_public_posts already restricts to published/updated and published_at <= now(). The view
+  // IS the filter; there is no status column here to get wrong.
   let query = supabase
-    .from("content_posts")
-    .select(PUBLIC_SELECT)
+    .from("content_public_posts")
+    .select(PUBLIC_POST_SELECT)
     .eq("destination", options.destination)
-    .in("status", ["published", "updated"])
-    .lte("published_at", new Date().toISOString())
     .order("published_at", { ascending: false })
     .limit(options.limit ?? 50);
 
@@ -177,7 +249,7 @@ export async function listPublishedArticles(options: {
   const { data, error } = await query;
   if (error || !data) return [];
 
-  return (data as unknown as PostRow[]).map(toPublicArticle);
+  return hydrateArticles(supabase, data as unknown as PublicPostRow[]);
 }
 
 export async function getPublishedArticle(options: {
@@ -188,16 +260,16 @@ export async function getPublishedArticle(options: {
   if (!supabase) return null;
 
   const { data, error } = await supabase
-    .from("content_posts")
-    .select(PUBLIC_SELECT)
+    .from("content_public_posts")
+    .select(PUBLIC_POST_SELECT)
     .eq("destination", options.destination)
     .eq("slug", options.slug)
-    .in("status", ["published", "updated"])
-    .lte("published_at", new Date().toISOString())
     .limit(1);
 
   if (error || !data || !data.length) return null;
-  return toPublicArticle(data[0] as unknown as PostRow);
+
+  const [article] = await hydrateArticles(supabase, data as unknown as PublicPostRow[]);
+  return article ?? null;
 }
 
 export async function getPublicAuthor(slug: string): Promise<PublicAuthor | null> {
@@ -205,14 +277,13 @@ export async function getPublicAuthor(slug: string): Promise<PublicAuthor | null
   if (!supabase) return null;
 
   const { data, error } = await supabase
-    .from("content_authors")
-    .select("slug, name, title, organization, bio, avatar_media_id")
+    .from("content_public_authors")
+    .select("author_id, slug, name, title, organization, bio, avatar_media_id")
     .eq("slug", slug)
-    .eq("is_active", true)
     .limit(1);
 
   if (error || !data || !data.length) return null;
-  return toPublicAuthor(data[0] as AuthorRow);
+  return toPublicAuthor(data[0] as PublicAuthorRow);
 }
 
 export async function listArticlesByAuthor(slug: string): Promise<PublicArticle[]> {
@@ -220,7 +291,7 @@ export async function listArticlesByAuthor(slug: string): Promise<PublicArticle[
   if (!supabase) return [];
 
   const { data: authorRows } = await supabase
-    .from("content_authors")
+    .from("content_public_authors")
     .select("author_id")
     .eq("slug", slug)
     .limit(1);
@@ -229,16 +300,14 @@ export async function listArticlesByAuthor(slug: string): Promise<PublicArticle[
   if (!authorId) return [];
 
   const { data, error } = await supabase
-    .from("content_posts")
-    .select(PUBLIC_SELECT)
+    .from("content_public_posts")
+    .select(PUBLIC_POST_SELECT)
     .eq("author_id", authorId)
-    .in("status", ["published", "updated"])
-    .lte("published_at", new Date().toISOString())
     .order("published_at", { ascending: false })
     .limit(50);
 
   if (error || !data) return [];
-  return (data as unknown as PostRow[]).map(toPublicArticle);
+  return hydrateArticles(supabase, data as unknown as PublicPostRow[]);
 }
 
 /** The published editorial layer for one jurisdiction. Never returns a draft. */
@@ -246,27 +315,29 @@ export async function getPublishedStateEditorial(jurisdictionCode: string): Prom
   const supabase = getSupabaseAdminClient();
   if (!supabase) return EMPTY_EDITORIAL;
 
+  // The view already restricts to status = 'published' and drops legal_approved_by / updated_by.
   const { data, error } = await supabase
-    .from("content_state_editorial")
+    .from("content_public_state_editorial")
     .select(
       `intro, overview, faqs, related_slugs, partner_quote, partner_slug, announcement,
-       seo_title, seo_description, cta_label, cta_href, status,
-       featured_media:featured_media_id ( public_url, alt_text )`
+       seo_title, seo_description, cta_label, cta_href, featured_media_id`
     )
     .eq("jurisdiction_code", jurisdictionCode.toUpperCase())
-    .eq("status", "published")
     .limit(1);
 
   if (error || !data || !data.length) return EMPTY_EDITORIAL;
 
   const row = data[0] as Record<string, unknown>;
-  const media = first(row.featured_media as MediaRow | MediaRow[] | null);
+  const featuredMediaId = typeof row.featured_media_id === "string" ? row.featured_media_id : null;
+  const media = featuredMediaId
+    ? (await loadPublicMedia(supabase, [featuredMediaId])).get(featuredMediaId)
+    : undefined;
   const faqs = Array.isArray(row.faqs) ? row.faqs : [];
 
   return {
     intro: (row.intro as string) ?? null,
     overview: (row.overview as string) ?? null,
-    featuredImage: media?.public_url ? { src: media.public_url, alt: media.alt_text ?? "" } : null,
+    featuredImage: media ? { src: publicMediaUrl(media.media_id), alt: media.alt_text ?? "" } : null,
     faqs: faqs
       .filter(
         (item): item is { question: string; answer: string } =>
@@ -296,23 +367,21 @@ export async function listPublishedSlugs(destination: ContentDestination): Promi
   if (!supabase) return [];
 
   const { data, error } = await supabase
-    .from("content_posts")
-    .select("slug, content_type, published_at, updated_at")
+    .from("content_public_posts")
+    .select("slug, content_type, published_at, content_updated_at")
     .eq("destination", destination)
-    .in("status", ["published", "updated"])
-    .lte("published_at", new Date().toISOString())
     .order("published_at", { ascending: false });
 
   if (error || !data) return [];
 
-  return (data as { slug: string; content_type: string; published_at: string; updated_at: string | null }[]).map(
-    (row) => ({
-      slug: row.slug,
-      contentType: row.content_type as ContentType,
-      publishedAt: row.published_at,
-      updatedAt: row.updated_at
-    })
-  );
+  return (
+    data as { slug: string; content_type: string; published_at: string; content_updated_at: string | null }[]
+  ).map((row) => ({
+    slug: row.slug,
+    contentType: row.content_type as ContentType,
+    publishedAt: row.published_at,
+    updatedAt: row.content_updated_at
+  }));
 }
 
 // --- CMS writes -------------------------------------------------------------------------------------

@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
@@ -170,14 +172,47 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     }
   }
 
+  // LEGAL REVIEW GOES THROUGH THE DATABASE FUNCTION, NOT A POST UPDATE.
+  //
+  // The service-role client can write any column of any row, so performing a legal approval with it
+  // would mean the *application* is the only thing deciding that a reviewer stayed inside their
+  // lane. Instead we call content_apply_legal_review() with the USER'S OWN session client: the
+  // function re-derives the caller's content role from their JWT, refuses anyone who is not a legal
+  // reviewer or primary admin, refuses a post that is not in_legal_review, and can only write the
+  // legal-review columns. It also writes the review row and the audit event itself, so those cannot
+  // be skipped. There is no path by which this publishes, schedules, archives, or rewrites a post.
+  if (from === "in_legal_review" && (to === "approved" || to === "changes_requested")) {
+    const userClient = await createServerSupabaseAuthClient();
+    const { data: nextStatus, error: reviewError } = await userClient.rpc("content_apply_legal_review", {
+      p_post_id: id,
+      p_decision: to === "approved" ? "approved" : "changes_requested",
+      p_notes: note ?? null
+    });
+
+    if (reviewError) {
+      logSecurityWarn({
+        event: "content legal review refused",
+        route: ROUTE,
+        outcome: "forbidden",
+        requestId,
+        error: reviewError
+      });
+      return jsonError(422, reviewError.message ?? "The legal review could not be applied.", {
+        code: "legal_review_refused"
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      post: { post_id: id, status: nextStatus ?? to }
+    });
+  }
+
   const now = new Date().toISOString();
   const patch: Record<string, unknown> = { status: to };
 
   if (to === "approved") {
-    if (from === "in_legal_review") {
-      patch.legal_approved_at = now;
-      patch.legal_approved_by = gate.session.userId;
-    } else if (from === "in_editorial_review") {
+    if (from === "in_editorial_review") {
       patch.editorial_approved_at = now;
       patch.editorial_approved_by = gate.session.userId;
     }
@@ -224,16 +259,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return jsonError(409, "The post changed status while this transition was being applied.", { code: "conflict" });
   }
 
-  // Review decisions: who approved what, and when.
-  if (from === "in_legal_review" && (to === "approved" || to === "changes_requested")) {
-    await client.from("content_reviews").insert({
-      post_id: id,
-      review_kind: "legal",
-      decision: to === "approved" ? "approved" : "changes_requested",
-      notes: note ?? null,
-      reviewer_id: gate.session.userId
-    });
-  } else if (from === "in_editorial_review" && (to === "approved" || to === "changes_requested")) {
+  // Review decisions: who approved what, and when. (Legal reviews never reach here — they return
+  // early above, and content_apply_legal_review() writes their review row and audit event itself.)
+  if (from === "in_editorial_review" && (to === "approved" || to === "changes_requested")) {
     await client.from("content_reviews").insert({
       post_id: id,
       review_kind: "editorial",
