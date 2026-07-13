@@ -217,6 +217,66 @@ if (exists(savePost)) {
     !/body\.html|input\.html|\.html\s*\?\?/.test(src),
     `${savePost} must never accept an html field from the client — HTML is rendered server-side.`
   );
+
+  const schemaStart = src.indexOf("const patchSchema = z.strictObject({");
+  const schemaEnd = src.indexOf("type PostRow", schemaStart);
+  const inputSchema = schemaStart >= 0 && schemaEnd > schemaStart ? src.slice(schemaStart, schemaEnd) : "";
+  assert(inputSchema.length > 0, `${savePost} must use an explicit strict input allowlist.`);
+  for (const forbidden of [
+    "legal_approved_at",
+    "legal_approved_by",
+    "editorial_approved_at",
+    "editorial_approved_by",
+    "created_by",
+    "status",
+    "published_at",
+    "scheduled_for"
+  ]) {
+    assert(!inputSchema.includes(forbidden), `${savePost} must not accept client-controlled ${forbidden}.`);
+  }
+  assert(
+    !/\.update\(\s*(input|raw|parsed\.data)\s*\)/.test(src),
+    `${savePost} must not spread or pass request JSON directly into content_posts.update().`
+  );
+}
+
+const createPost = "src/app/api/internal/content/posts/route.ts";
+if (exists(createPost)) {
+  const src = read(createPost);
+  const schemaStart = src.indexOf("const createSchema = z.strictObject({");
+  const schemaEnd = src.indexOf("export async function GET", schemaStart);
+  const inputSchema = schemaStart >= 0 && schemaEnd > schemaStart ? src.slice(schemaStart, schemaEnd) : "";
+  assert(inputSchema.length > 0, `${createPost} must use an explicit strict input allowlist.`);
+  for (const forbidden of [
+    "legal_approved_at",
+    "legal_approved_by",
+    "editorial_approved_at",
+    "editorial_approved_by",
+    "created_by",
+    "status",
+    "published_at",
+    "scheduled_for"
+  ]) {
+    assert(!inputSchema.includes(forbidden), `${createPost} must not accept client-controlled ${forbidden}.`);
+  }
+  assert(
+    !/\.insert\(\s*(input|raw|parsed\.data)\s*\)/.test(src),
+    `${createPost} must not spread or pass request JSON directly into content_posts.insert().`
+  );
+}
+
+const transitionPost = "src/app/api/internal/content/posts/[id]/transition/route.ts";
+if (exists(transitionPost)) {
+  const src = read(transitionPost);
+  assert(src.includes("evaluateTransition({"), `${transitionPost} must apply the workflow engine before status mutation.`);
+  assert(
+    src.includes('userClient.rpc("content_apply_legal_review"'),
+    `${transitionPost} must perform legal approval through the authenticated RPC, not the service-role update path.`
+  );
+  assert(
+    !/patch\.legal_approved_|patch\[?["']legal_approved_/.test(src),
+    `${transitionPost} must never place legal approval fields in its service-role content_posts patch.`
+  );
 }
 
 // The scheduler must be secret-protected and must not run unprotected.
