@@ -123,8 +123,26 @@ export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
 //     or auth logic.
 // Files are enumerated individually (no directories), matching the convention of the other groups.
 export const CONTENT_PLATFORM_FILES = [
-  // Public surfaces (LegalEase Partner). The Expungement.ai public content routes live under
-  // src/app/expungement-ai/, which the guard already exempts.
+  // Public surfaces (Expungement.ai). These MUST be listed here.
+  //
+  // The guards disagree about src/app/expungement-ai/, so it cannot be assumed exempt:
+  //   - test-inspect-local-record-clearing-pdfs.mjs FILTERS the prefix out (it is checking that the
+  //     PDF-inspection work did not touch live routes, and the consumer app is not its concern).
+  //   - verify-all50-internal-preview.mjs / verify-all51-launch-enabled.mjs pass it as an
+  //     extraForbiddenPrefix, because the all-50 source-engine work must never quietly edit the
+  //     live consumer surface.
+  // The second is the stricter and correct reading for this branch: these are net-new marketing/
+  // editorial routes on the consumer app, so they are declared explicitly rather than exempted.
+  // They add no screening, eligibility, payment, or packet behavior — see
+  // scripts/verify-content-state-resources.mjs, which fails the build if any of them imports the
+  // rcap-engine, a state pack, or a checkout surface.
+  "src/app/expungement-ai/blog/page.tsx",
+  "src/app/expungement-ai/blog/[slug]/page.tsx",
+  "src/app/expungement-ai/blog/feed.xml/route.ts",
+  "src/app/expungement-ai/authors/[slug]/page.tsx",
+  "src/app/expungement-ai/resources/page.tsx",
+  "src/app/expungement-ai/resources/[jurisdiction]/page.tsx",
+  // Public surfaces (LegalEase Partner).
   "src/app/partners/layout.tsx",
   "src/app/partners/insights/page.tsx",
   "src/app/partners/insights/[slug]/page.tsx",
