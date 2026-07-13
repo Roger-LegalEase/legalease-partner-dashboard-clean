@@ -569,10 +569,10 @@ with check (auth.role() = 'service_role');
 -- Every transition INTO or OUT OF a publishing state (published / updated / scheduled), and every
 -- change to published_at or scheduled_for, requires content_can_publish().
 --
--- Scope: it enforces against browser sessions (auth.role() = 'authenticated'). The trusted server
--- worker acts as service_role and is exempt — it has already run the application workflow
--- (evaluateTransition) and is the only path the CMS uses. This trigger is the backstop for anyone
--- who bypasses the app and calls PostgREST with a user's JWT.
+-- Scope: browser sessions must hold a publishing role. The trusted service worker does not have a
+-- user content role, but it is still held to the workflow-state and genuine-legal-review checks
+-- below. Migration/owner sessions without a Supabase JWT are left alone so schema maintenance and
+-- controlled data repair remain possible.
 create or replace function public.content_enforce_publish_authority()
 returns trigger
 language plpgsql
@@ -582,16 +582,24 @@ as $$
 declare
   publishing_states constant text[] := array['published', 'updated', 'scheduled'];
   touches_publication boolean;
+  enters_public_state boolean;
+  requires_legal_review boolean;
 begin
-  if auth.role() is distinct from 'authenticated' then
+  if auth.role() not in ('authenticated', 'service_role') then
     return new;
   end if;
 
   if tg_op = 'INSERT' then
     if new.status = any (publishing_states) or new.published_at is not null then
-      if not public.content_can_publish() then
+      if auth.role() = 'authenticated' and not public.content_can_publish() then
         raise exception 'content_posts: creating a post in a published/scheduled state requires a publishing role (current content role: %)',
           coalesce(public.content_current_role(), 'none');
+      end if;
+
+      -- Browser inserts are also constrained by RLS to draft/review states. A service worker must
+      -- never synthesize a live row and thereby skip the review-state history.
+      if new.status in ('published', 'updated', 'scheduled') then
+        raise exception 'content_posts: a post must enter publication through an eligible existing workflow state';
       end if;
     end if;
     return new;
@@ -604,9 +612,52 @@ begin
     or new.scheduled_for is distinct from old.scheduled_for
     or (new.status = 'archived' and old.status is distinct from 'archived');
 
-  if touches_publication and not public.content_can_publish() then
+  if touches_publication and auth.role() = 'authenticated' and not public.content_can_publish() then
     raise exception 'content_posts: publishing, scheduling, unpublishing, and archiving require a publishing role (current content role: %)',
       coalesce(public.content_current_role(), 'none');
+  end if;
+
+  enters_public_state := new.status in ('published', 'updated') and new.status is distinct from old.status;
+
+  -- Publication is a separate operation after approval. This blocks draft -> published,
+  -- in_legal_review -> published, and approved -> updated even for a publishing role or a
+  -- service-role application path.
+  if enters_public_state then
+    if new.status = 'published' and old.status not in ('approved', 'scheduled', 'updated') then
+      raise exception 'content_posts: published may be entered only from approved, scheduled, or updated (current status: %)', old.status;
+    end if;
+
+    if new.status = 'updated' and old.status <> 'published' then
+      raise exception 'content_posts: updated may be entered only from published (current status: %)', old.status;
+    end if;
+  end if;
+
+  requires_legal_review :=
+    new.content_type in ('state_resource', 'resource_guide') or new.legal_sensitive;
+
+  -- The approval must PRE-DATE the publishing statement and must be backed by the immutable
+  -- decision record emitted by content_apply_legal_review(). Merely supplying plausible UUID and
+  -- timestamp values in the publication UPDATE is never sufficient.
+  if requires_legal_review and new.status in ('published', 'updated', 'scheduled') then
+    if old.legal_approved_at is null
+      or old.legal_approved_by is null
+      or new.legal_approved_at is distinct from old.legal_approved_at
+      or new.legal_approved_by is distinct from old.legal_approved_by
+    then
+      raise exception 'content_posts: legal approval must already exist and remain unchanged before publication or scheduling';
+    end if;
+
+    if not exists (
+      select 1
+      from public.content_reviews r
+      where r.post_id = old.post_id
+        and r.review_kind = 'legal'
+        and r.decision = 'approved'
+        and r.reviewer_id = old.legal_approved_by
+        and r.created_at <= now()
+    ) then
+      raise exception 'content_posts: publication requires a matching approved legal-review record';
+    end if;
   end if;
 
   return new;
@@ -614,7 +665,7 @@ end;
 $$;
 
 comment on function public.content_enforce_publish_authority() is
-  'Backstop for publication authority. Only content_can_publish() roles may move a post into or out of published/updated/scheduled, change published_at/scheduled_for, or archive it.';
+  'Backstop for publication authority and approval provenance. Browser publication requires content_can_publish(); legal publication also requires unchanged prior approval fields plus a matching approved legal-review record.';
 
 drop trigger if exists content_enforce_publish_authority on public.content_posts;
 
@@ -708,6 +759,75 @@ revoke all on function public.content_apply_legal_review(uuid, text, text) from 
 revoke all on function public.content_apply_legal_review(uuid, text, text) from anon;
 grant execute on function public.content_apply_legal_review(uuid, text, text) to authenticated;
 grant execute on function public.content_apply_legal_review(uuid, text, text) to service_role;
+
+-- COLUMN AUTHORIZATION — RLS decides WHICH rows a browser role may update; these grants decide
+-- WHICH columns. Supabase grants authenticated broad table privileges by default, so leaving the
+-- table-level UPDATE in place would let an editor policy write legal_approved_* on every admitted
+-- row. Revoke the broad privileges and grant only the authored/workflow columns explicitly.
+--
+-- legal_approved_at / legal_approved_by are intentionally absent. The SECURITY DEFINER RPC above
+-- executes as the migration owner and is therefore the only browser-reachable operation that can
+-- write them. editorial_approved_*, created_by, and internal timestamps are absent for the same
+-- reason: general table access must not forge identity or approval evidence.
+revoke insert, update on public.content_posts from authenticated;
+
+grant insert (
+  slug,
+  destination,
+  content_type,
+  locale,
+  title,
+  subtitle,
+  excerpt,
+  doc,
+  rendered_html,
+  search_text,
+  reading_minutes,
+  category_id,
+  author_id,
+  featured_media_id,
+  partner_slug,
+  jurisdiction_code,
+  legal_sensitive,
+  seo_title,
+  seo_description,
+  canonical_url,
+  og_title,
+  og_description,
+  og_media_id,
+  version
+) on public.content_posts to authenticated;
+
+grant update (
+  slug,
+  destination,
+  content_type,
+  status,
+  locale,
+  title,
+  subtitle,
+  excerpt,
+  doc,
+  rendered_html,
+  search_text,
+  reading_minutes,
+  category_id,
+  author_id,
+  featured_media_id,
+  partner_slug,
+  jurisdiction_code,
+  legal_sensitive,
+  seo_title,
+  seo_description,
+  canonical_url,
+  og_title,
+  og_description,
+  og_media_id,
+  version,
+  published_at,
+  scheduled_for,
+  first_published_at
+) on public.content_posts to authenticated;
 
 revoke all on function public.content_enforce_publish_authority() from public;
 revoke all on function public.content_enforce_publish_authority() from anon;
@@ -1115,6 +1235,12 @@ create index if not exists content_publications_post_id_idx on public.content_pu
 
 alter table public.content_reviews enable row level security;
 alter table public.content_publications enable row level security;
+
+-- Review evidence is not a browser-writable table. Editorial decisions are written by the gated
+-- service route; legal decisions are written by content_apply_legal_review(). Removing mutation
+-- privileges here is defense in depth beyond the service-role-only RLS policy below.
+revoke all on public.content_reviews from authenticated;
+grant select on public.content_reviews to authenticated;
 
 drop policy if exists content_reviews_select_team on public.content_reviews;
 create policy content_reviews_select_team on public.content_reviews for select to authenticated

@@ -102,10 +102,20 @@ through the `content_apply_legal_review(post_id, decision, notes)` database func
 The earlier design gave the reviewer a broad `FOR UPDATE` policy. Because RLS is row-scoped, that
 silently let a legal reviewer take a draft straight to published and rewrite any live post.
 
+The same boundary applies to publishing roles: `authenticated` has no direct column privilege on
+`legal_approved_at` or `legal_approved_by` (and cannot supply them on insert). RLS still determines
+which rows an editor may work on, while column grants prevent every browser-authenticated role —
+including `editor`, explicit `primary_admin`, and an implicit internal admin — from forging approval
+evidence. `content_reviews` is SELECT-only to authenticated callers; legal decisions are inserted by
+the RPC and editorial decisions by the gated server workflow.
+
 **Publishing authority** is separately enforced by the `content_enforce_publish_authority` trigger,
 which calls `content_can_publish()`. Any transition into or out of `published` / `updated` /
 `scheduled`, any change to `published_at` / `scheduled_for`, and any archive requires a publishing
-role — no matter which policy admitted the row.
+role — no matter which policy admitted the row. For legally substantive content, publication also
+requires approval fields that already existed before the publishing statement and a matching
+approved legal-review record for that reviewer. Approval and publication can never be combined in
+one direct update.
 
 ### 4. Drafts are invisible to the public in the database, not just in the app
 

@@ -44,6 +44,9 @@ const CONTENT_ADMIN = "aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa";
 const LIVE_POST = "11111111-0000-4000-8000-000000000001";
 const DRAFT_POST = "22222222-0000-4000-8000-000000000002";
 const LEGAL_POST = "33333333-0000-4000-8000-000000000003";
+const PRIMARY_LEGAL_POST = "34343434-0000-4000-8000-000000000034";
+const UNAPPROVED_LEGAL_POST = "35353535-0000-4000-8000-000000000035";
+const NONLEGAL_APPROVED_POST = "36363636-0000-4000-8000-000000000036";
 const PUBLISHED_MEDIA = "44444444-0000-4000-8000-000000000004";
 const DRAFT_MEDIA = "55555555-0000-4000-8000-000000000005";
 
@@ -156,8 +159,59 @@ async function verifyB1LegalReviewerCannotEditPosts(db) {
     `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${LEGAL}' where post_id = '${DRAFT_POST}'`,
     "B1.6 legal_reviewer must NOT be able to write legal_approved_* directly.");
 
+  // The remaining defect found by the independent audit: an editor/administrator policy admitted
+  // the row, and Supabase's table-wide UPDATE grant admitted the approval columns. Column grants
+  // must now refuse every direct variant before RLS or the publication trigger can be abused.
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_at = now() where post_id = '${DRAFT_POST}'`,
+    "B1.6a editor must NOT be able to set legal_approved_at directly.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_by = '${EDITOR}' where post_id = '${DRAFT_POST}'`,
+    "B1.6b editor must NOT be able to set legal_approved_by directly.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${EDITOR}' where post_id = '${DRAFT_POST}'`,
+    "B1.6c editor must NOT be able to set both legal approval fields directly.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts
+     set legal_approved_at = now(), legal_approved_by = '${EDITOR}', status = 'published', published_at = now()
+     where post_id = '${UNAPPROVED_LEGAL_POST}'`,
+    "B1.6d editor must NOT be able to forge legal approval and publish in one statement.");
+  await deniedAsRole(db, "authenticated", CONTENT_ADMIN,
+    `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${CONTENT_ADMIN}' where post_id = '${DRAFT_POST}'`,
+    "B1.6e explicit primary_admin must NOT be able to write legal approval fields directly.");
+  await deniedAsRole(db, "authenticated", INTERNAL_ADMIN,
+    `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${INTERNAL_ADMIN}' where post_id = '${DRAFT_POST}'`,
+    "B1.6f internal_admin acting as primary_admin must NOT write legal approval fields directly.");
+  for (const [uid, label] of [
+    [VIEWER, "viewer"],
+    [CONTRIBUTOR, "contributor"],
+    [PARTNER_A, "partner_contributor"],
+    [SOCIAL, "social_manager"],
+    [NO_ROLE, "ordinary authenticated user"]
+  ]) {
+    await deniedAsRole(db, "authenticated", uid,
+      `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${uid}' where post_id = '${DRAFT_POST}'`,
+      `B1.6f ${label} must NOT be able to write legal approval fields directly.`);
+  }
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_at = null, legal_approved_by = null where post_id = '${LIVE_POST}'`,
+    "B1.6g editor must NOT be able to clear an existing legal approval.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_at = now(), legal_approved_by = '${EDITOR}' where post_id = '${LIVE_POST}'`,
+    "B1.6h editor must NOT be able to replace an existing legal approval.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `insert into public.content_reviews (post_id, review_kind, decision, reviewer_id)
+     values ('${UNAPPROVED_LEGAL_POST}', 'legal', 'approved', '${EDITOR}')`,
+    "B1.6i editor must NOT be able to forge an approved legal-review record.");
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `insert into public.content_posts
+       (slug, destination, content_type, status, title, legal_approved_at, legal_approved_by)
+     values ('forged-on-insert', 'expungement_ai', 'state_resource', 'draft', 'Forged', now(), '${EDITOR}')`,
+    "B1.6j editor must NOT be able to supply legal approval fields on INSERT.");
+
   proven.push("B1 CLOSED: a legal_reviewer has no UPDATE privilege on content_posts at all — title, doc, status,");
   proven.push("  published_at, scheduling, unpublish, archive, and direct legal_approved_* writes are all refused.");
+  proven.push("EDITOR_DIRECT_LEGAL_APPROVAL=BLOCKED");
 }
 
 async function verifyLegalReviewRpc(db) {
@@ -184,6 +238,27 @@ async function verifyLegalReviewRpc(db) {
 
   const audit = await db.query(`select action from public.content_audit_events where entity_id = '${LEGAL_POST}' and action = 'legal_approved'`);
   assert(audit.rows.length === 1, "B1.10 the RPC must write an audit event.");
+
+  // The documented primary_admin path uses the same narrow RPC and records the authenticated
+  // primary admin — it does not gain direct table access to the approval columns.
+  const primaryResult = await asRole(db, "authenticated", CONTENT_ADMIN,
+    `select public.content_apply_legal_review('${PRIMARY_LEGAL_POST}', 'approved', 'Primary admin legal review.') as status`,
+    { commit: true });
+  assert(primaryResult[0]?.status === "approved", "B1.10a a primary_admin must be able to approve through the RPC.");
+  const primaryAfter = await one(db,
+    `select status, published_at, legal_approved_at, legal_approved_by from public.content_posts where post_id = '${PRIMARY_LEGAL_POST}'`);
+  assert(primaryAfter.status === "approved" && primaryAfter.published_at === null,
+    "B1.10b the primary_admin RPC approval must not publish.");
+  assert(primaryAfter.legal_approved_at !== null && primaryAfter.legal_approved_by === CONTENT_ADMIN,
+    "B1.10c the primary_admin RPC must derive and record auth.uid().");
+  const primaryReview = await one(db,
+    `select reviewer_id, review_kind, decision from public.content_reviews where post_id = '${PRIMARY_LEGAL_POST}'`);
+  assert(primaryReview.reviewer_id === CONTENT_ADMIN && primaryReview.review_kind === "legal" && primaryReview.decision === "approved",
+    "B1.10d the primary_admin RPC must create the genuine legal-review record.");
+  const primaryAudit = await db.query(
+    `select actor_id from public.content_audit_events where entity_id = '${PRIMARY_LEGAL_POST}' and action = 'legal_approved'`);
+  assert(primaryAudit.rows.length === 1 && primaryAudit.rows[0].actor_id === CONTENT_ADMIN,
+    "B1.10e the primary_admin RPC must create an audit record with the authenticated actor.");
 
   // The RPC refuses ineligible workflow states and unauthorized callers.
   await rejects(db, `select public.content_apply_legal_review('${LIVE_POST}', 'approved', null)`,
@@ -224,9 +299,22 @@ async function verifyB2PublishingAuthority(db) {
      where post_id = '${LEGAL_POST}' returning status`, { commit: true });
   assert(published[0]?.status === "published", "B2.3 an editor must be able to publish a legally-approved post.");
 
+  // The trigger requires genuine approval provenance, not merely non-null approval-looking values.
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set status = 'published', published_at = now()
+     where post_id = '${UNAPPROVED_LEGAL_POST}'`,
+    "B2.4 an editor must NOT publish legally substantive content without a prior RPC approval.");
+
+  // Ordinary approved editorial content remains publishable without legal review.
+  const ordinary = await asRole(db, "authenticated", EDITOR,
+    `update public.content_posts set status = 'published', published_at = now()
+     where post_id = '${NONLEGAL_APPROVED_POST}' returning status`, { commit: true });
+  assert(ordinary[0]?.status === "published",
+    "B2.5 an editor must still be able to publish an approved non-legally-sensitive post.");
+
   proven.push("B2 CLOSED: publishing authority is enforced by the content_enforce_publish_authority trigger, which");
   proven.push("  calls content_can_publish(). Contributors, social managers, viewers, and partner contributors are");
-  proven.push("  refused; an editor publishes a legally-approved post successfully.");
+  proven.push("  refused; an editor publishes only after genuine RPC approval, while ordinary approved content still publishes.");
 }
 
 // =================================================================================================
@@ -573,6 +661,32 @@ async function verifySchemaShape(db) {
   for (const fn of fns.rows) {
     assert((fn.cfg ?? "").includes("search_path="), `Function ${fn.proname} must pin a fixed search_path.`);
   }
+
+  const postUpdateGrants = await db.query(
+    `select column_name from information_schema.column_privileges
+     where table_schema = 'public' and table_name = 'content_posts'
+       and grantee = 'authenticated' and privilege_type = 'UPDATE'`);
+  const directlyUpdatable = new Set(postUpdateGrants.rows.map((row) => row.column_name));
+  for (const forbidden of [
+    "legal_approved_at", "legal_approved_by", "editorial_approved_at", "editorial_approved_by", "created_by"
+  ]) {
+    assert(!directlyUpdatable.has(forbidden),
+      `Authenticated must not hold direct UPDATE on content_posts.${forbidden}.`);
+  }
+  for (const allowed of ["title", "doc", "status", "published_at", "scheduled_for"]) {
+    assert(directlyUpdatable.has(allowed),
+      `Authenticated workflow access must retain column UPDATE on content_posts.${allowed}.`);
+  }
+
+  const reviewMutations = await db.query(
+    `select privilege_type from information_schema.table_privileges
+     where table_schema = 'public' and table_name = 'content_reviews' and grantee = 'authenticated'`);
+  const reviewPrivileges = new Set(reviewMutations.rows.map((row) => row.privilege_type));
+  assert(reviewPrivileges.has("SELECT"), "Authenticated content roles must retain SELECT on content_reviews.");
+  for (const forbidden of ["INSERT", "UPDATE", "DELETE", "TRUNCATE"]) {
+    assert(!reviewPrivileges.has(forbidden),
+      `Authenticated must not hold ${forbidden} on content_reviews.`);
+  }
 }
 
 // =================================================================================================
@@ -620,7 +734,13 @@ async function seed(db) {
        '{"type":"doc","content":[]}'::jsonb, null, null, null, null, null, null, '${EDITOR}', null, null),
       -- This one is deliberately walked all the way to published by the B1/B2 tests, so it must NOT
       -- be the row the "hidden from the public" assertions rely on.
-      ('${LEGAL_POST}', 'legal-review-post', 'expungement_ai', 'blog_article', 'in_legal_review', 'Needs legal',
+      ('${LEGAL_POST}', 'legal-review-post', 'expungement_ai', 'state_resource', 'in_legal_review', 'Needs legal',
+       '{"type":"doc","content":[]}'::jsonb, null, null, null, null, null, null, '${EDITOR}', null, null),
+      ('${PRIMARY_LEGAL_POST}', 'primary-legal-review-post', 'expungement_ai', 'state_resource', 'in_legal_review', 'Needs primary legal review',
+       '{"type":"doc","content":[]}'::jsonb, null, null, null, null, null, null, '${EDITOR}', null, null),
+      ('${UNAPPROVED_LEGAL_POST}', 'unapproved-legal-post', 'expungement_ai', 'state_resource', 'approved', 'Unapproved legal content',
+       '{"type":"doc","content":[]}'::jsonb, null, null, null, null, null, null, '${EDITOR}', null, null),
+      ('${NONLEGAL_APPROVED_POST}', 'ordinary-approved-post', 'expungement_ai', 'blog_article', 'approved', 'Ordinary approved content',
        '{"type":"doc","content":[]}'::jsonb, null, null, null, null, null, null, '${EDITOR}', null, null),
       -- An untouched in-review post, so "review content is invisible" is actually being tested.
       ('bbbbbbbb-0000-4000-8000-00000000000c', 'in-review-post', 'expungement_ai', 'blog_article', 'in_editorial_review', 'In review',
