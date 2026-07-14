@@ -54,14 +54,14 @@ let db;
 
 try {
   db = new PGlite();
-  await db.exec("create role anon; create role authenticated; create role service_role;");
+  await db.exec("create role anon; create role authenticated; create role service_role bypassrls;");
   await db.exec(authSchemaStub());
 
-  // Mirror Supabase: new tables in `public` are granted to anon/authenticated by default. The
-  // migration is expected to REVOKE anon back off the content base tables.
+  // Mirror a clean Supabase stack: anon/authenticated receive the public-schema defaults, while
+  // service_role needs explicit grants from the migration for table operations.
   await db.exec(`
     grant usage on schema public to anon, authenticated, service_role;
-    alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+    alter default privileges in schema public grant all on tables to anon, authenticated;
     alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
   `);
 
@@ -73,6 +73,7 @@ try {
 
   const steps = [
     ["schema shape", verifySchemaShape],
+    ["service role grants", verifyServiceRoleCmsAccess],
     ["B1 legal reviewer", verifyB1LegalReviewerCannotEditPosts],
     ["B1 legal-review RPC", verifyLegalReviewRpc],
     ["B2 publishing authority", verifyB2PublishingAuthority],
@@ -687,6 +688,45 @@ async function verifySchemaShape(db) {
     assert(!reviewPrivileges.has(forbidden),
       `Authenticated must not hold ${forbidden} on content_reviews.`);
   }
+}
+
+async function verifyServiceRoleCmsAccess(db) {
+  const admins = await asRole(db, "service_role", null,
+    `select auth_user_id from public.content_admin_users order by auth_user_id`);
+  assert(admins.length > 0, "SR.1 service_role must read content_admin_users for CMS role resolution.");
+
+  const inserted = await asRole(db, "service_role", null,
+    `insert into public.content_tags (slug, name) values ('service-role-test', 'Service role test') returning slug`,
+    { commit: true });
+  assert(inserted[0]?.slug === "service-role-test", "SR.2 service_role must perform legitimate CMS inserts.");
+
+  const updated = await asRole(db, "service_role", null,
+    `update public.content_posts set excerpt = 'Service role update' where post_id = '${DRAFT_POST}' returning post_id`);
+  assert(updated[0]?.post_id === DRAFT_POST, "SR.3 service_role must perform legitimate CMS updates.");
+
+  const deleted = await asRole(db, "service_role", null,
+    `delete from public.content_tags where slug = 'service-role-test' returning slug`,
+    { commit: true });
+  assert(deleted[0]?.slug === "service-role-test", "SR.4 service_role must perform legitimate CMS deletes.");
+
+  const audit = await asRole(db, "service_role", null,
+    `insert into public.content_audit_events (action, entity_type, entity_id)
+     values ('service_role_verified', 'content_post', '${DRAFT_POST}') returning action`);
+  assert(audit[0]?.action === "service_role_verified", "SR.5 service_role must append audit records.");
+
+  await deniedAsRole(db, "service_role", null,
+    `update public.content_audit_events set action = 'tampered'`,
+    "SR.6 service_role must not update append-only audit records.");
+  await deniedAsRole(db, "service_role", null,
+    `delete from public.content_audit_events`,
+    "SR.7 service_role must not delete append-only audit records.");
+
+  await deniedAsRole(db, "authenticated", EDITOR,
+    `update public.content_posts set legal_approved_by = '${EDITOR}' where post_id = '${LEGAL_POST}'`,
+    "SR.8 browser-authenticated editors must remain unable to forge legal approval.");
+
+  proven.push("SERVICE ROLE: explicit named-table grants allow legitimate CMS reads/writes and audit appends;");
+  proven.push("  audit UPDATE/DELETE and browser-role legal-approval forgery remain blocked.");
 }
 
 // =================================================================================================

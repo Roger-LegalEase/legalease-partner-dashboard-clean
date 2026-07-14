@@ -1744,6 +1744,42 @@ comment on view public.content_public_state_editorial is
 -- is NOT enough — the grant itself has to go. RLS would still block reads, but revoking is the
 -- difference between "no rows" and "no such privilege", and it survives a future policy mistake.
 
+-- PostgREST does not implicitly grant the service role table privileges on a clean Supabase
+-- database. The CMS server client needs explicit access to the named mutable content tables; keep
+-- this list closed rather than granting across the schema. The audit log is intentionally limited
+-- to INSERT + SELECT so its append-only contract is enforced by both grants and triggers.
+grant select, insert, update, delete on table
+  public.content_admin_users,
+  public.content_posts,
+  public.content_post_versions,
+  public.content_post_tags,
+  public.content_authors,
+  public.content_categories,
+  public.content_tags,
+  public.content_media,
+  public.content_media_usages,
+  public.content_testimonials,
+  public.content_state_editorial,
+  public.content_reviews,
+  public.content_publications,
+  public.content_social_drafts,
+  public.content_social_assets,
+  public.content_campaigns,
+  public.content_campaign_channels,
+  public.content_promotion_outbox
+to service_role;
+
+grant select, insert on table public.content_audit_events to service_role;
+revoke update, delete, truncate on table public.content_audit_events from service_role;
+
+grant select on table
+  public.content_public_posts,
+  public.content_public_authors,
+  public.content_public_media,
+  public.content_public_testimonials,
+  public.content_public_state_editorial
+to service_role;
+
 revoke all on public.content_posts from anon;
 revoke all on public.content_post_versions from anon;
 revoke all on public.content_post_tags from anon;
