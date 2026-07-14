@@ -31,7 +31,7 @@ create policy "consumer wilma telemetry internal safety select"
     exists (
       select 1
       from public.partner_users pu
-      where pu.user_id = auth.uid()
+      where pu.auth_user_id = auth.uid()
         and pu.role in ('internal_admin', 'safety_reviewer')
     )
   );

@@ -43,7 +43,7 @@ using (
   exists (
     select 1
     from public.partner_users pu
-    where pu.user_id = auth.uid()
+    where pu.auth_user_id = auth.uid()
       and pu.role in ('internal_admin', 'support_reviewer')
   )
 )
@@ -51,7 +51,7 @@ with check (
   exists (
     select 1
     from public.partner_users pu
-    where pu.user_id = auth.uid()
+    where pu.auth_user_id = auth.uid()
       and pu.role in ('internal_admin', 'support_reviewer')
   )
 );
