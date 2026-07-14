@@ -164,7 +164,7 @@ export default function SocialComposer(props: SocialComposerProps) {
     setMessage(null);
     setBusy("save");
     const payload = { ...payloadFor(active), ...(approvalState ? { approvalState } : {}) };
-    const result = await contentApi.saveSocial(props.postId, payload);
+    const result = await contentApi.saveSocial(props.postId, { channels: [payload] });
     setBusy(null);
 
     if (!result.ok) {

@@ -279,6 +279,25 @@ if (exists(transitionPost)) {
   );
 }
 
+const socialRoute = "src/app/api/internal/content/social/[postId]/route.ts";
+const socialComposer = "src/components/content/admin/SocialComposer.tsx";
+if (exists(socialRoute) && exists(socialComposer)) {
+  const routeSrc = read(socialRoute);
+  const composerSrc = read(socialComposer);
+  assert(
+    composerSrc.includes("{ channels: [payload] }"),
+    `${socialComposer} must send the strict multi-channel request shape accepted by ${socialRoute}.`
+  );
+  assert(
+    routeSrc.includes('denyUnlessContentCapability("social.approve"'),
+    `${socialRoute} must require social.approve before accepting an approved draft.`
+  );
+  assert(
+    routeSrc.includes("approved_by:") && routeSrc.includes("approved_at:"),
+    `${socialRoute} must record the authenticated approval identity and time.`
+  );
+}
+
 // The scheduler must be secret-protected and must not run unprotected.
 const scheduler = "src/app/api/content/scheduler/run/route.ts";
 if (exists(scheduler)) {

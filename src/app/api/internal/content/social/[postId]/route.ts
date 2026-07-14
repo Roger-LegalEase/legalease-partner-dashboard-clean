@@ -29,7 +29,9 @@ const channelSchema = z.strictObject({
   utmSource: z.string().trim().max(80).nullish(),
   utmMedium: z.string().trim().max(80).nullish(),
   utmCampaign: z.string().trim().max(120).nullish(),
-  socialAssetId: z.string().regex(UUID_PATTERN, "Must be a UUID.").nullish()
+  socialAssetId: z.string().regex(UUID_PATTERN, "Must be a UUID.").nullish(),
+  // Delivery-owned states (sent/failed) may only arrive through the signed Command Center callback.
+  approvalState: z.enum(["draft", "approved"]).optional()
 });
 
 const upsertSchema = z.strictObject({
@@ -115,6 +117,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
   if (!parsed.ok) return parsed.response;
   const input = parsed.data;
 
+  if (input.channels.some((channel) => channel.approvalState === "approved")) {
+    const approvalGate = await denyUnlessContentCapability("social.approve", ROUTE, requestId);
+    if (approvalGate.denied) return approvalGate.denied;
+  }
+
   // One channel may appear once per request.
   const seen = new Set<string>();
   for (const channel of input.channels) {
@@ -139,6 +146,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
   const canonical = canonicalUrlForPost(post);
   const campaign = input.campaign ?? defaultCampaignName(post);
 
+  const now = new Date().toISOString();
   const rows = input.channels.map((channel) => ({
     post_id: postId,
     channel: channel.channel,
@@ -151,7 +159,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
     utm_source: channel.utmSource ?? null,
     utm_medium: channel.utmMedium ?? null,
     utm_campaign: channel.utmCampaign ?? campaign,
-    social_asset_id: channel.socialAssetId ?? null
+    social_asset_id: channel.socialAssetId ?? null,
+    approval_state: channel.approvalState ?? "draft",
+    approved_by: channel.approvalState === "approved" ? gate.session.userId : null,
+    approved_at: channel.approvalState === "approved" ? now : null
   }));
 
   const { data, error } = await client
