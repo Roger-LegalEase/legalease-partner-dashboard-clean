@@ -49,7 +49,14 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"]
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)",
+    // The catch-all above excludes any path containing a dot, so the RSS feeds would never reach
+    // the proxy and would 404 on the public hosts even though the allowlist maps them. They are
+    // matched explicitly.
+    "/blog/feed.xml",
+    "/insights/feed.xml"
+  ]
 };
 
 function routePublicProductHost(request: NextRequest) {
@@ -103,7 +110,7 @@ function canonicalPublicHost(host: string) {
 
 function productPathForHost(host: string, pathname: string) {
   if (host === "legaleasepartner.com") {
-    return pathname === "/" ? "/partners" : null;
+    return legalEasePartnerPath(pathname);
   }
 
   if (host === "expungement.ai") {
@@ -137,7 +144,11 @@ function expungementAiPath(pathname: string) {
     "/contact",
     "/support",
     "/sign-in",
-    "/how-it-works"
+    "/how-it-works",
+    // Shared content platform (phase 43): the editorial hub and the state-resource directory.
+    "/blog",
+    "/resources",
+    "/blog/feed.xml"
   ]);
 
   if (pathname.startsWith("/screening/")) {
@@ -150,11 +161,51 @@ function expungementAiPath(pathname: string) {
     return `/expungement-ai${pathname}`;
   }
 
+  // Content platform article, author, and per-jurisdiction resource pages. Same wildcard shape as
+  // /states/: only sub-paths are exposed, so /authors with no slug 404s rather than rendering an index.
+  if (
+    pathname.startsWith("/blog/") ||
+    pathname.startsWith("/authors/") ||
+    pathname.startsWith("/resources/")
+  ) {
+    return `/expungement-ai${pathname}`;
+  }
+
   if (!cleanPaths.has(pathname)) {
     return null;
   }
 
   return pathname === "/" ? "/expungement-ai" : `/expungement-ai${pathname}`;
+}
+
+/**
+ * LegalEase Partner public surface. Historically this host exposed only "/" (the static partner
+ * landing page); phase 43 adds the partner-facing editorial surface. The shape deliberately mirrors
+ * expungementAiPath(): an exact-match allowlist for index pages plus explicit wildcard prefixes, so
+ * an internal /partners/* route cannot be reached from the public host unless it is listed here.
+ */
+function legalEasePartnerPath(pathname: string) {
+  const cleanPaths = new Set([
+    "/",
+    "/insights",
+    "/partner-stories",
+    "/resources",
+    "/insights/feed.xml"
+  ]);
+
+  if (
+    pathname.startsWith("/insights/") ||
+    pathname.startsWith("/partner-stories/") ||
+    pathname.startsWith("/authors/")
+  ) {
+    return `/partners${pathname}`;
+  }
+
+  if (!cleanPaths.has(pathname)) {
+    return null;
+  }
+
+  return pathname === "/" ? "/partners" : `/partners${pathname}`;
 }
 
 function legalEasePath(pathname: string) {
