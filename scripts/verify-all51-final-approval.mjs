@@ -124,7 +124,15 @@ function assertNoRestrictedChanges() {
     // Expungement.ai DTC release gate: auth confirmation claims pending screening results and
     // Phase 38 is migration-file-only until Roger approves applying it in Supabase.
     "src/app/auth/set-password/page.tsx",
-    "supabase/phase-38-expungement-pending-screening-results.sql"
+    "supabase/phase-38-expungement-pending-screening-results.sql",
+    // Phase 43 (reviewed): shared content publishing platform. MIGRATION FILE ONLY — it has not
+    // been applied to any database and must not be until Roger approves it through the DB process.
+    // It creates only new content_* tables and does not alter any existing table, RLS policy, auth
+    // path, Stripe/billing behavior, screening flow, eligibility rule, or packet generation. This
+    // gate exists to stop the source-engine work from silently touching consumer-persistence
+    // surfaces; a net-new, unapplied content migration is exactly the kind of change it is meant to
+    // let through once declared. Do not broaden this to the whole supabase/ prefix.
+    "supabase/phase-43-content-platform.sql"
   ]);
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))

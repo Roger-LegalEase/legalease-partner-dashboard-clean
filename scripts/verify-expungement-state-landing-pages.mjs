@@ -235,7 +235,9 @@ for (const d of allData) {
 if (!/alternates:\s*{\s*canonical/.test(pageSrc)) fail("state page generateMetadata should set alternates.canonical.");
 
 // Sitemap includes every state page.
-const sitemap = sitemapMod.default();
+// The sitemap became async in phase 43 (it now also lists published blog posts, which are a database
+// read). `await` works on both a promise and a plain array, so this assertion holds either way.
+const sitemap = await sitemapMod.default();
 const sitemapUrls = new Set(sitemap.map((e) => e.url));
 for (const d of allData) {
   if (!sitemapUrls.has(`https://expungement.ai/states/${d.slug}`)) {
@@ -262,8 +264,15 @@ const proxySrc = read("src/proxy.ts");
 if (!/pathname\.startsWith\("\/states\/"\)/.test(proxySrc)) {
   fail("proxy.ts is missing the /states/ → /expungement-ai mapping (state pages would 404).");
 }
-if (!/host === "legaleasepartner\.com"[\s\S]*?return pathname === "\/" \? "\/partners" : null/.test(proxySrc)) {
-  fail("proxy.ts partner host mapping (legaleasepartner.com → /partners) changed unexpectedly.");
+// The partner host must still land on the /partners route group. Phase 43 replaced the inline
+// single-path ternary with legalEasePartnerPath() (an allowlist mirroring expungementAiPath), so
+// this asserts the invariant — partner host maps "/" to /partners and never leaks another
+// route group — rather than pinning the old one-line implementation.
+if (!/host === "legaleasepartner\.com"[\s\S]*?return legalEasePartnerPath\(pathname\)/.test(proxySrc)) {
+  fail("proxy.ts partner host mapping (legaleasepartner.com → legalEasePartnerPath) changed unexpectedly.");
+}
+if (!/function legalEasePartnerPath[\s\S]*?return pathname === "\/" \? "\/partners" : `\/partners\$\{pathname\}`/.test(proxySrc)) {
+  fail("legalEasePartnerPath must map the partner host root to /partners and prefix every allowlisted path with /partners.");
 }
 // State pages must not import or trigger any payment/checkout logic.
 for (const [label, src] of [["page.tsx", pageSrc], ["StateLandingPage.tsx", componentSrc]]) {

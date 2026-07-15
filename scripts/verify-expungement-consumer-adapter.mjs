@@ -182,6 +182,7 @@ for (const file of changedFiles) {
   // First-party web analytics migration (phase 40). Unrelated to the consumer payment adapter;
   // creates the public.web_analytics_events store. Allowlisted like the prior consumer migrations.
   if (file === "supabase/phase-40-web-analytics-events.sql") continue;
+  if (file === "supabase/phase-43-content-platform.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }
