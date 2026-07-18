@@ -12,6 +12,7 @@ import {
   requiresLegalReview
 } from "@/lib/content/types";
 import { contentApi } from "./api-client";
+import { buildCreateArticlePayload, createdPostEditorPath } from "./create-article-payload";
 
 /**
  * Create an article.
@@ -59,17 +60,18 @@ export default function CreateArticleForm(props: CreateArticleFormProps) {
     }
 
     setBusy(true);
-    const result = await contentApi.createPost({
-      title: title.trim(),
-      slug: (slug.trim() || slugify(title)).toLowerCase(),
-      destination,
-      contentType,
-      legalSensitive,
-      authorId: authorId || null,
-      jurisdictionCode: jurisdiction || null,
-      partnerSlug: partnerSlug || null,
-      doc: { type: "doc", content: [] }
-    });
+    const result = await contentApi.createPost(
+      buildCreateArticlePayload({
+        title: title.trim(),
+        slug: (slug.trim() || slugify(title)).toLowerCase(),
+        destination,
+        contentType,
+        legalSensitive,
+        authorId,
+        jurisdictionCode: jurisdiction,
+        partnerSlug
+      })
+    );
     setBusy(false);
 
     if (!result.ok) {
@@ -77,16 +79,7 @@ export default function CreateArticleForm(props: CreateArticleFormProps) {
       return;
     }
 
-    const post = result.data.post ?? {};
-    const postId = post.postId ?? post.post_id ?? post.id;
-    if (typeof postId === "string" && postId) {
-      router.push(`/internal/content/articles/${postId}`);
-      return;
-    }
-
-    // The post was created but the response did not carry an id. Do not invent one — send the user
-    // to the list, where the new article will be at the top.
-    router.push("/internal/content/articles");
+    router.push(createdPostEditorPath(result.data.post ?? {}));
   };
 
   return (
