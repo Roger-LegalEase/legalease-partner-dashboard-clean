@@ -9,9 +9,16 @@ import {
   readJsonBody,
   requireSupabase,
   storageFailure,
+  UUID_PATTERN,
   type RouteContext
 } from "@/lib/content/route-support";
-import { EMPTY_DOC, CONTENT_DESTINATIONS, CONTENT_STATUSES, CONTENT_TYPES } from "@/lib/content/types";
+import {
+  EMPTY_DOC,
+  CONTENT_DESTINATIONS,
+  CONTENT_STATUSES,
+  CONTENT_TYPES,
+  type CreateContentPostPayload
+} from "@/lib/content/types";
 import { recordAudit } from "@/lib/content/workflow";
 import { getSafeRequestId, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 
@@ -34,8 +41,9 @@ const createSchema = z.strictObject({
     .trim()
     .regex(/^[A-Za-z]{2}$/, "A jurisdiction code is two letters.")
     .nullish(),
-  legalSensitive: z.boolean().optional()
-});
+  legalSensitive: z.boolean().optional(),
+  authorId: z.string().regex(UUID_PATTERN, "Must be a UUID.").nullish()
+}) satisfies z.ZodType<CreateContentPostPayload>;
 
 export async function GET(request: Request) {
   const requestId = getSafeRequestId(request);
@@ -120,6 +128,21 @@ export async function POST(request: Request) {
     partnerSlug = gate.session.partnerSlug;
   }
 
+  if (input.authorId) {
+    const { data: authors, error: authorError } = await client
+      .from("content_authors")
+      .select("author_id")
+      .eq("author_id", input.authorId)
+      .limit(1);
+
+    if (authorError) {
+      return storageFailure(context, "content author validation failed", authorError);
+    }
+    if (!authors?.length) {
+      return jsonError(400, "The selected author is not available.");
+    }
+  }
+
   const { data, error } = await client
     .from("content_posts")
     .insert({
@@ -132,6 +155,7 @@ export async function POST(request: Request) {
       partner_slug: partnerSlug,
       jurisdiction_code: input.jurisdictionCode ? input.jurisdictionCode.toUpperCase() : null,
       legal_sensitive: input.legalSensitive ?? false,
+      author_id: input.authorId ?? null,
       created_by: gate.session.userId
     })
     .select(LIST_SELECT)

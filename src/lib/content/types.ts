@@ -39,6 +39,25 @@ export const CONTENT_TYPES = [
 ] as const;
 export type ContentType = (typeof CONTENT_TYPES)[number];
 
+/**
+ * Strict client/server contract for creating a content post shell.
+ *
+ * The create route deliberately accepts only editorial metadata needed to establish the shell.
+ * The server owns the document, draft status, authenticated creator, workflow approvals, and
+ * publication fields. Keeping this type shared with the CMS client makes an accidental extra field
+ * (such as `doc`) a compile-time error before the route's strict runtime schema rejects it.
+ */
+export type CreateContentPostPayload = {
+  destination: ContentDestination;
+  contentType: ContentType;
+  title: string;
+  slug: string;
+  partnerSlug?: string | null;
+  jurisdictionCode?: string | null;
+  legalSensitive?: boolean;
+  authorId?: string | null;
+};
+
 const contentTypeSet = new Set<string>(CONTENT_TYPES);
 export function isContentType(value: unknown): value is ContentType {
   return typeof value === "string" && contentTypeSet.has(value);

@@ -10,6 +10,8 @@
  * A network failure is reported as a network failure. Nothing in this file ever fabricates success.
  */
 
+import type { CreateContentPostPayload } from "@/lib/content/types";
+
 export type ApiFailure = {
   ok: false;
   status: number;
@@ -128,7 +130,7 @@ export async function apiRequest<T = Record<string, unknown>>(
 // --- Endpoint helpers ---------------------------------------------------------------------------
 
 export const contentApi = {
-  createPost: (payload: Record<string, unknown>) =>
+  createPost: (payload: CreateContentPostPayload) =>
     apiRequest<{ post?: { postId?: string; post_id?: string; id?: string } }>("/api/internal/content/posts", {
       method: "POST",
       body: JSON.stringify(payload)

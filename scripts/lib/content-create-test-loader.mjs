@@ -1,18 +1,17 @@
-/** Route content-auth dependencies to isolated test doubles for the CMS access verifier. */
+/** Route content-create dependencies to deterministic test doubles. */
 
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const doublesUrl = pathToFileURL(
-  path.join(path.dirname(fileURLToPath(import.meta.url)), "content-auth-test-doubles.mjs")
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "content-create-test-doubles.mjs")
 ).href;
 
 const mockedSpecifiers = new Set([
-  "@supabase/ssr",
-  "@/lib/supabase/auth-server",
-  "@/lib/supabase/server",
-  "@/lib/partners/session-partner",
-  "next/navigation"
+  "@/lib/content/auth",
+  "@/lib/content/workflow",
+  "@/lib/observability/logger",
+  "@/lib/supabase/server"
 ]);
 
 export async function resolve(specifier, context, next) {
