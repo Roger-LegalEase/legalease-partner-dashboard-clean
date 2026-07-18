@@ -20,6 +20,10 @@ export async function proxy(request: NextRequest) {
     return refreshSupabaseSession(request);
   }
 
+  if (isContentCmsPath(request.nextUrl.pathname)) {
+    return refreshSupabaseSession(request);
+  }
+
   if (!request.nextUrl.pathname.startsWith("/internal")) {
     return NextResponse.next();
   }
@@ -259,6 +263,10 @@ function isAuthSessionPath(pathname: string) {
     pathname.startsWith("/briefcase/") ||
     pathname === "/partner/dashboard" ||
     pathname.startsWith("/partner/dashboard/");
+}
+
+function isContentCmsPath(pathname: string) {
+  return pathname === "/internal/content" || pathname.startsWith("/internal/content/");
 }
 
 async function refreshSupabaseSession(request: NextRequest) {

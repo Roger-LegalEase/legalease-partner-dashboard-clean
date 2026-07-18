@@ -38,6 +38,8 @@ const server = spawn("npx", ["next", "dev", "--port", PORT], {
     // content tables are unreachable. That is exactly the state we want to verify.
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321",
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "local-anon-key",
+    // Keep the legacy proxy gate active in dev so this catches the production-only CMS collision.
+    INTERNAL_ADMIN_ACCESS_TOKEN: "content-visual-verifier-token",
     NODE_ENV: "development"
   },
   stdio: ["ignore", "pipe", "pipe"]
@@ -127,9 +129,14 @@ try {
   await page.screenshot({ path: path.join(shotDir, "admin-signed-out.png"), fullPage: true });
   const adminUrl = page.url();
   const adminBody = (await page.textContent("body")) ?? "";
+  const adminLocation = new URL(adminUrl);
   assert(
-    adminUrl.includes("/sign-in") || /access denied|not authorized/i.test(adminBody),
-    `An unauthenticated visit to /internal/content must redirect to sign-in or deny (landed on ${adminUrl}).`
+    adminLocation.pathname === "/sign-in" && adminLocation.searchParams.get("next") === "/internal/content",
+    `An unauthenticated visit to /internal/content must redirect to /sign-in?next=/internal/content (landed on ${adminUrl}).`
+  );
+  assert(
+    !adminBody.includes("Internal admin access token required."),
+    "The legacy bearer-token proxy gate must not intercept /internal/content."
   );
   checks.push("PASS: /internal/content denies an unauthenticated visitor");
 
