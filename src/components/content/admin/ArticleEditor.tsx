@@ -123,6 +123,21 @@ export default function ArticleEditor(props: ArticleEditorProps) {
 
   const canEdit = props.canEdit;
 
+  const announceDirtyState = useCallback(
+    (dirty: boolean) => {
+      window.dispatchEvent(
+        new CustomEvent("content-editor-save-state", {
+          detail: { postId: props.postId, dirty }
+        })
+      );
+    },
+    [props.postId]
+  );
+
+  useEffect(() => {
+    announceDirtyState(false);
+  }, [announceDirtyState]);
+
   /** Upload files and insert them as image nodes. Used by the toolbar, drag-drop, and paste. */
   const uploadFiles = useCallback(async (files: File[]) => {
     const editor = editorRef.current;
@@ -222,6 +237,11 @@ export default function ArticleEditor(props: ArticleEditorProps) {
       onUpdate: () => {
         dirtyRef.current = true;
         setSaveState({ kind: "dirty" });
+        window.dispatchEvent(
+          new CustomEvent("content-editor-save-state", {
+            detail: { postId: props.postId, dirty: true }
+          })
+        );
       }
     },
     []
@@ -258,6 +278,7 @@ export default function ArticleEditor(props: ArticleEditorProps) {
     if (!result.ok) {
       // Stay dirty. The user's work is still in the editor and the next save will retry it.
       setSaveState({ kind: "error", message: formatFailure(result), problems: result.problems });
+      announceDirtyState(true);
       return;
     }
 
@@ -265,7 +286,8 @@ export default function ArticleEditor(props: ArticleEditorProps) {
     savedDocRef.current = doc;
     const version = typeof result.data.version === "number" ? result.data.version : null;
     setSaveState({ kind: "saved", at: Date.now(), version });
-  }, [canEdit, currentDoc, props.postId]);
+    announceDirtyState(false);
+  }, [announceDirtyState, canEdit, currentDoc, props.postId]);
 
   // Debounced autosave: reset the clock on every change, save after 2s of quiet.
   const scheduleSave = useCallback(() => {
@@ -285,7 +307,8 @@ export default function ArticleEditor(props: ArticleEditorProps) {
   const markDirty = useCallback(() => {
     dirtyRef.current = true;
     setSaveState({ kind: "dirty" });
-  }, []);
+    announceDirtyState(true);
+  }, [announceDirtyState]);
 
   useEffect(() => {
     return () => {
@@ -356,10 +379,11 @@ export default function ArticleEditor(props: ArticleEditorProps) {
       // The restore wrote a NEW version server-side. Reload so the editor shows exactly what is
       // stored rather than a client-side guess at what was restored.
       dirtyRef.current = false;
+      announceDirtyState(false);
       router.refresh();
       window.location.reload();
     },
-    [props.postId, router]
+    [announceDirtyState, props.postId, router]
   );
 
   if (!editor) {

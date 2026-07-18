@@ -14,6 +14,8 @@ import {
   listSocialDrafts
 } from "@/lib/content/cms-queries";
 import { getCommandCenterConfig } from "@/lib/content/command-center";
+import { promotionAiConfig } from "@/lib/content/promotion-generation";
+import { canonicalUrlForPost } from "@/lib/content/promotion-package";
 import { roleHasCapability } from "@/lib/content/types";
 
 export const dynamic = "force-dynamic";
@@ -37,7 +39,7 @@ export default async function ArticleEditorPage({ params }: { params: Params }) 
   const { id } = await params;
   const post = await getCmsPost(id);
 
-  if (!post) {
+  if (!post || (access.session.partnerSlug && access.session.partnerSlug !== post.partnerSlug)) {
     return (
       <div className="space-y-4">
         <Link href="/internal/content/articles" className="text-xs font-bold text-navy underline">
@@ -66,6 +68,7 @@ export default async function ArticleEditorPage({ params }: { params: Params }) 
   const canEdit =
     roleHasCapability(role, "content.edit_any") || roleHasCapability(role, "content.edit_own");
   const commandCenter = getCommandCenterConfig();
+  const promotionAi = promotionAiConfig();
 
   return (
     <div className="space-y-6">
@@ -116,8 +119,29 @@ export default async function ArticleEditorPage({ params }: { params: Params }) 
       />
 
       <SocialComposer
-        postId={post.postId}
-        postTitle={post.title}
+        post={{
+          postId: post.postId,
+          title: post.title,
+          subtitle: post.subtitle,
+          excerpt: post.excerpt,
+          slug: post.slug,
+          destination: post.destination,
+          contentType: post.contentType,
+          status: post.status,
+          legalSensitive: post.legalSensitive,
+          legalApprovedAt: post.legalApprovedAt,
+          jurisdictionCode: post.jurisdictionCode,
+          partnerSlug: post.partnerSlug,
+          authorName: post.authorName,
+          canonicalUrl: canonicalUrlForPost({
+            slug: post.slug,
+            destination: post.destination,
+            content_type: post.contentType,
+            canonical_url: post.canonicalUrl
+          }),
+          updatedAt: post.updatedAt,
+          version: post.version
+        }}
         drafts={drafts.map((draft) => ({
           channel: draft.channel,
           primaryCaption: draft.primaryCaption,
@@ -130,18 +154,30 @@ export default async function ArticleEditorPage({ params }: { params: Params }) 
           utmMedium: draft.utmMedium,
           utmCampaign: draft.utmCampaign,
           socialAssetId: draft.socialAssetId,
-          approvalState: draft.approvalState
+          approvalState: draft.approvalState,
+          approvedAt: draft.approvedAt,
+          updatedAt: draft.updatedAt
         }))}
         assets={assets.map((asset) => ({
           socialAssetId: asset.socialAssetId,
           template: asset.template,
           sizeKey: asset.sizeKey,
           width: asset.width,
-          height: asset.height
+          height: asset.height,
+          imageUrl: asset.imageUrl,
+          previewUrl: `/api/internal/content/promotion/${post.postId}/assets/render?${new URLSearchParams({
+            template: asset.template,
+            size: asset.sizeKey
+          }).toString()}`,
+          headline: asset.headline
         }))}
         commandCenter={{
           connected: commandCenter.configured,
           reason: commandCenter.configured ? null : UNCONFIGURED_REASONS[commandCenter.reason] ?? null
+        }}
+        ai={{
+          configured: promotionAi.configured,
+          reason: promotionAi.configured ? null : promotionAi.reason
         }}
         canDraft={roleHasCapability(role, "social.draft")}
         canApprove={roleHasCapability(role, "social.approve")}

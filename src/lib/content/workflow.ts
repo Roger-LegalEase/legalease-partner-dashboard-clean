@@ -118,6 +118,8 @@ export type AuditAction =
   | "media_uploaded"
   | "media_archived"
   | "promotion_prepared"
+  | "promotion_generated"
+  | "promotion_generation_failed"
   | "promotion_exported"
   | "promotion_sent"
   | "promotion_status_received"

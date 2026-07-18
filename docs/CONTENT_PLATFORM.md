@@ -229,10 +229,83 @@ mistake a publishing platform can make.
 
 ## Social promotion
 
-Per-channel drafts for LinkedIn, X, Facebook, Instagram, Threads, Email, and a Partner kit. Caption
-limits are enforced server-side (X = 280). Deterministic branded graphics in 1200×630, 1080×1080, and
-1080×1350 across six templates, rendered from **real repo brand assets** — never AI-generated imagery.
-The whole workflow works with **no AI API key**.
+Promotion Studio produces and edits per-channel drafts for LinkedIn, X, Facebook, Instagram, Threads,
+Email, and a Partner kit. Each channel keeps four variants. Email and Partner kit reuse the existing
+database columns with channel-specific labels rather than requiring a migration. Caption limits are
+enforced server-side (X = 280), and any change to approved copy, hashtags, mentions, UTMs, or selected
+asset resets that channel to `draft` on the server.
+
+The studio derives an editable campaign brief and can request a complete, reviewable campaign in one
+explicit action. Generated suggestions are held in browser review state: a human must Apply, Save,
+and Approve them. Generation never writes social drafts, records approval, or sends a promotion.
+Fill-empty mode skips populated, manually edited, locked, and approved fields. If the article editor
+has unsaved changes, generation is blocked until the saved article is current.
+
+### AI generation boundary
+
+`POST /api/internal/content/promotion/[postId]/generate` requires `social.draft`, validates a strict
+request schema, rechecks partner scope, and loads the saved article server-side. The browser may send
+only campaign controls (channels, mode, classification/objective, audience, tone, CTA, variant, and
+asset-plan preference). It cannot send article content or authoritative metadata.
+
+The exact saved source sent to the OpenAI Responses API is:
+
+- title, subtitle, excerpt, and a length-capped plain-text projection of the structured document;
+- content type and destination;
+- category and tag names;
+- public author name, title, and organization;
+- jurisdiction and partner attribution;
+- server-derived canonical URL;
+- approved featured-image alt/caption metadata (never a private path);
+- CTA labels and URLs stored in the structured document;
+- the legal-sensitivity boolean.
+
+The document is converted to clean text; HTML is never sent. The provider does **not** receive auth
+user IDs, creator/reviewer/staff IDs, approval identity or history, source version, audit history,
+private consent references, media Storage paths, internal state-engine/research fields, another
+post's content, customer records, Command Center secrets, Supabase credentials, or browser-supplied
+article/workflow/URL data.
+
+The implementation uses the official OpenAI JavaScript SDK, the Responses API, strict JSON Schema
+structured output, `store: false`, a finite timeout, and no web-search or other tools. The response is
+parsed and validated again with strict Zod before it reaches the editor. Invalid output and timeouts
+save nothing. Per-user/per-post rate limiting prevents repeated generation; application logs and
+audit rows contain only non-sensitive metadata (actor, post, saved version, channel set, mode,
+provider/model, outcome, and timestamp), never prompts or generated bodies.
+
+Deterministic guards compare output with the saved source and flag new numbers, percentages, dates,
+URLs, organization/person names, guarantee/qualification language, and channel-limit violations.
+Legally sensitive copy may summarize only the reviewed article and cannot be approved before the
+article has legal approval. The generated model response is never treated as approval evidence.
+
+Configuration is server-only and disabled by default:
+
+```dotenv
+CONTENT_PROMOTION_AI_ENABLED=false
+OPENAI_API_KEY=
+CONTENT_PROMOTION_OPENAI_MODEL=
+```
+
+No model name or API key is hardcoded or exposed to the browser. When disabled, the UI says AI is
+not configured and manual drafting, stable UTM defaults, deterministic assets, saving, approval,
+export, and the Command Center boundary remain fully usable.
+
+### Tracking, mentions, assets, and staleness
+
+UTM defaults come from one channel registry: LinkedIn/X/Facebook/Instagram/Threads use
+`social`, newsletter uses `newsletter/email`, and Partner kit uses `partner/partner`.
+`utm_campaign` is the normalized article slug; the canonical URL is always server-derived. Hashtags
+are normalized and de-duplicated within channel counts. AI may suggest plain mention candidate names,
+but it never creates an `@handle`; a handle can be applied only when verified metadata supplies it.
+
+The explicit **Generate branded assets** action reuses the existing deterministic social-card
+renderer and existing `content_social_assets` table for 1200×630 landscape, 1080×1080 square, and
+1080×1350 portrait variants. Draft previews remain behind content authentication, image URLs contain
+no private Storage path, and the existing public OG route continues to expose only published posts.
+
+Staleness uses existing `content_posts.updated_at` and `content_social_drafts.updated_at` timestamps.
+A draft older than its article is marked stale and cannot enter a Command Center package until a
+human reviews and reapproves it. No migration or additional staleness column is required.
 
 **Publishing an article and sending its promotion are separate actions.** See
 `docs/COMMAND_CENTER_CONTENT_INTEGRATION_HANDOFF.md` for the outbound contract.
@@ -270,6 +343,8 @@ npm run content:verify-resources   # 51 states, no internal leak
 npm run content:verify-workflow    # legal gate, roles, media
 npm run content:verify-command-center  # HMAC, replay, idempotency
 npm run content:verify-routes      # route + metadata coverage
+npm run content:verify-promotion-studio   # generation/grounding/approval contracts
+npm run content:verify-promotion-browser  # real desktop/mobile component via Playwright
 ```
 
 Host routing is **inert on localhost** (`normalizeHost("localhost:3000")` matches no branch). To

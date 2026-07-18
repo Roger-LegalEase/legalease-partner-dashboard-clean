@@ -32,11 +32,18 @@ export type PromotionPostRow = {
   subtitle: string | null;
   canonical_url: string | null;
   published_at: string | null;
+  partner_slug: string | null;
+  legal_sensitive: boolean;
+  legal_approved_at: string | null;
+  updated_at: string | null;
+  version: number;
+  jurisdiction_code: string | null;
+  featured_media_id: string | null;
   content_authors: { name: string } | { name: string }[] | null;
 };
 
 const POST_SELECT =
-  "post_id, slug, destination, content_type, status, title, subtitle, canonical_url, published_at, content_authors:author_id ( name )";
+  "post_id, slug, destination, content_type, status, title, subtitle, canonical_url, published_at, partner_slug, legal_sensitive, legal_approved_at, updated_at, version, jurisdiction_code, featured_media_id, content_authors:author_id ( name )";
 
 type SocialDraftRow = {
   social_draft_id: string;
@@ -52,6 +59,7 @@ type SocialDraftRow = {
   utm_campaign: string | null;
   social_asset_id: string | null;
   approval_state: string;
+  updated_at: string | null;
 };
 
 type SocialAssetRow = {
@@ -111,6 +119,14 @@ export async function loadPromotionPost(
   return data[0] as unknown as PromotionPostRow;
 }
 
+/** Service-role reads are narrowed back to the authenticated partner scope before any use. */
+export function promotionPostIsInScope(
+  session: { partnerSlug: string | null },
+  post: Pick<PromotionPostRow, "partner_slug">
+): boolean {
+  return !session.partnerSlug || session.partnerSlug === post.partner_slug;
+}
+
 /**
  * Build the promotion package for a post from its saved social drafts and rendered social assets.
  * Works with zero drafts (an empty channel list) — the export route must still produce a file.
@@ -118,13 +134,14 @@ export async function loadPromotionPost(
 export async function buildPromotionPackage(
   client: SupabaseClient,
   post: PromotionPostRow,
-  campaignName: string
+  campaignName: string,
+  options?: { approvedOnly?: boolean; notOlderThan?: string | null }
 ): Promise<PromotionPackage> {
   const [{ data: draftData }, { data: assetData }] = await Promise.all([
     client
       .from("content_social_drafts")
       .select(
-        "social_draft_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state"
+        "social_draft_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state, updated_at"
       )
       .eq("post_id", post.post_id)
       .order("channel", { ascending: true }),
@@ -134,7 +151,16 @@ export async function buildPromotionPackage(
       .eq("post_id", post.post_id)
   ]);
 
-  const drafts = ((draftData ?? []) as unknown as SocialDraftRow[]).filter((row) => isSocialChannel(row.channel));
+  const notOlderThan = options?.notOlderThan ? Date.parse(options.notOlderThan) : null;
+  const drafts = ((draftData ?? []) as unknown as SocialDraftRow[]).filter((row) => {
+    if (!isSocialChannel(row.channel)) return false;
+    if (options?.approvedOnly && row.approval_state !== "approved") return false;
+    if (notOlderThan !== null) {
+      const draftedAt = row.updated_at ? Date.parse(row.updated_at) : Number.NaN;
+      if (!Number.isFinite(draftedAt) || draftedAt < notOlderThan) return false;
+    }
+    return true;
+  });
   const assets = (assetData ?? []) as unknown as SocialAssetRow[];
   const assetById = new Map(assets.map((asset) => [asset.social_asset_id, asset]));
 
@@ -159,7 +185,12 @@ export async function buildPromotionPackage(
       }),
       asset:
         asset && asset.image_url
-          ? { url: asset.image_url, width: asset.width, height: asset.height, template: asset.template }
+          ? {
+              url: asset.image_url.startsWith("/") ? absolutePartnerAppUrl(asset.image_url) : asset.image_url,
+              width: asset.width,
+              height: asset.height,
+              template: asset.template
+            }
           : null
     };
   });

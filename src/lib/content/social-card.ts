@@ -60,6 +60,8 @@ export type SocialCardInput = {
   eyebrow?: string | null;
   attribution?: string | null;
   stateCode?: string | null;
+  /** Server-resolved public/signed URL only. Never accept a private Storage path here. */
+  featuredImageUrl?: string | null;
 };
 
 function clampText(value: string, max: number): string {
@@ -242,16 +244,43 @@ export function buildSocialCardElement(input: SocialCardInput): ReactElement {
     );
   }
 
-  const body = div(
+  const textBody = div(
     {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      flexGrow: 1
+    },
+    bodyChildren,
+    "text-body"
+  );
+
+  const featuredImage = input.featuredImageUrl
+    ? createElement("img", {
+        key: "featured-image",
+        src: input.featuredImageUrl,
+        alt: "",
+        style: {
+          width: width > height ? "34%" : "100%",
+          height: width > height ? "78%" : "32%",
+          objectFit: "cover",
+          borderRadius: Math.round(width * 0.018),
+          border: `2px solid ${palette.support}`
+        }
+      })
+    : null;
+
+  const body = div(
+    {
+      display: "flex",
+      flexDirection: width > height ? "row" : "column",
+      alignItems: "center",
+      gap: featuredImage ? Math.round(width * 0.04) : 0,
       flexGrow: 1,
       paddingTop: Math.round(height * 0.04),
       paddingBottom: Math.round(height * 0.04)
     },
-    bodyChildren,
+    [textBody, featuredImage],
     "body"
   );
 

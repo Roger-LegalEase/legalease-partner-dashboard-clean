@@ -182,13 +182,17 @@ const API_ROUTES = [
   "src/app/api/internal/content/media/route.ts",
   "src/app/api/internal/content/media/[id]/route.ts",
   "src/app/api/internal/content/social/[postId]/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/generate/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/assets/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/assets/render/route.ts",
   "src/app/api/internal/content/promotion/[postId]/export/route.ts",
   "src/app/api/internal/content/promotion/[postId]/send/route.ts",
   "src/app/api/internal/content/state-editorial/[code]/route.ts",
   "src/app/api/internal/content/authors/route.ts",
   "src/app/api/content/scheduler/run/route.ts",
   "src/app/api/content/command-center/status/route.ts",
-  "src/app/api/content/social-card/route.ts"
+  "src/app/api/content/social-card/route.ts",
+  "src/app/api/content/social-asset/[postId]/route.ts"
 ];
 
 for (const route of API_ROUTES) {
@@ -285,7 +289,7 @@ if (exists(socialRoute) && exists(socialComposer)) {
   const routeSrc = read(socialRoute);
   const composerSrc = read(socialComposer);
   assert(
-    composerSrc.includes("{ channels: [payload] }"),
+    composerSrc.includes("channels: channels.map((channel) => payloadFor(channel, approvalState))"),
     `${socialComposer} must send the strict multi-channel request shape accepted by ${socialRoute}.`
   );
   assert(

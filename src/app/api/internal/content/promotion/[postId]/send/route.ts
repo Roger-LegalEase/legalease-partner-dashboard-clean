@@ -9,7 +9,12 @@ import {
   nextAttemptDelaySeconds,
   promotionIdempotencyKey
 } from "@/lib/content/command-center";
-import { buildPromotionPackage, defaultCampaignName, loadPromotionPost } from "@/lib/content/promotion-package";
+import {
+  buildPromotionPackage,
+  defaultCampaignName,
+  loadPromotionPost,
+  promotionPostIsInScope
+} from "@/lib/content/promotion-package";
 import {
   isUniqueViolation,
   jsonError,
@@ -20,6 +25,7 @@ import {
   type RouteContext
 } from "@/lib/content/route-support";
 import { recordAudit } from "@/lib/content/workflow";
+import { isPubliclyVisibleStatus, requiresLegalReview } from "@/lib/content/types";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 
 export const runtime = "nodejs";
@@ -61,13 +67,33 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
   if (!client) return response;
 
   const post = await loadPromotionPost(client, postId);
-  if (!post) return jsonError(404, "Post not found.");
+  if (!post || !promotionPostIsInScope(gate.session, post)) return jsonError(404, "Post not found.");
+
+  if (requiresLegalReview(post.content_type, post.legal_sensitive) && !post.legal_approved_at) {
+    return jsonError(422, "Legally sensitive promotion cannot be sent before the article completes legal review.", {
+      code: "legal_review_required"
+    });
+  }
+  if (
+    !isPubliclyVisibleStatus(post.status) ||
+    !post.published_at ||
+    Date.parse(post.published_at) > Date.now()
+  ) {
+    return jsonError(422, "Publish the article before sending its promotion package.", {
+      code: "article_not_public"
+    });
+  }
 
   const campaignName = parsed.data.name ?? defaultCampaignName(post);
-  const promotionPackage = await buildPromotionPackage(client, post, campaignName);
+  const promotionPackage = await buildPromotionPackage(client, post, campaignName, {
+    approvedOnly: true,
+    notOlderThan: post.updated_at
+  });
 
   if (!promotionPackage.channels.length) {
-    return jsonError(422, "There are no social drafts to promote for this post.", { code: "no_channels" });
+    return jsonError(422, "There are no approved, current channels to send. Review stale drafts and approve them first.", {
+      code: "no_eligible_channels"
+    });
   }
 
   // --- 1. Campaign -------------------------------------------------------------------------------
