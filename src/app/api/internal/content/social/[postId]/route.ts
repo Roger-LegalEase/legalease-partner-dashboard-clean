@@ -4,6 +4,10 @@ import { z } from "zod";
 import { denyUnlessContentCapability } from "@/lib/content/auth";
 import { buildTrackedLink } from "@/lib/content/command-center";
 import {
+  guardPromotionDraftForApproval,
+  loadPromotionProviderSource
+} from "@/lib/content/promotion-generation";
+import {
   canonicalUrlForPost,
   defaultCampaignName,
   loadPromotionPost,
@@ -204,6 +208,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
 
   const legalPromotionBlocked =
     requiresLegalReview(post.content_type, post.legal_sensitive) && !post.legal_approved_at;
+  const approvalRequested = input.channels.some((channel) => channel.approvalState === "approved");
+  const approvalSource = approvalRequested ? await loadPromotionProviderSource(client, postId) : null;
+  if (approvalRequested && !approvalSource) {
+    return storageFailure(context, "content promotion approval source read failed", null);
+  }
   const resetChannels: SocialChannel[] = [];
 
   const now = new Date().toISOString();
@@ -257,6 +266,24 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
     if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/.test(row.utm_campaign)) {
       return jsonError(422, "UTM campaign must use letters, numbers, dots, underscores, or dashes.", {
         code: "invalid_utm_campaign"
+      });
+    }
+    const groundingIssues = guardPromotionDraftForApproval(approvalSource!.source, row.channel, {
+      primaryCaption: row.primary_caption,
+      alternateCaption: row.alternate_caption,
+      founderVoiceCaption: row.founder_voice_caption,
+      partnerCaption: row.partner_caption,
+      mentionTags: row.mention_tags
+    }).filter((issue) => issue.severity === "blocker");
+    if (groundingIssues.length) {
+      return jsonError(422, `${PROMOTION_CHANNEL_REGISTRY[row.channel].label} has source-grounding issues that block approval.`, {
+        code: "promotion_grounding_blocked",
+        problems: groundingIssues.map((issue) => ({
+          channel: issue.channel,
+          field: issue.field,
+          code: issue.code,
+          message: issue.message
+        }))
       });
     }
   }

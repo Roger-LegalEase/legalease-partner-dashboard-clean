@@ -27,14 +27,21 @@ const checks = [];
 try {
   await waitForServer(`${BASE}/verification/promotion-studio`, 120_000);
   const browser = await chromium.launch();
-  const desktop = await browser.newPage({ viewport: { width: 1536, height: 1000 } });
+  const desktop = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await desktop.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
-  await installMocks(desktop);
+  const desktopRequests = await installMocks(desktop);
   await desktop.goto(`${BASE}/verification/promotion-studio`, { waitUntil: "domcontentloaded" });
 
   assert(await desktop.getByText("Promotion Studio", { exact: true }).isVisible(), "Studio header must render.");
   assert(await desktop.getByText("All channels", { exact: true }).isVisible(), "Channel rail must render.");
   assert(await desktop.getByText("Live preview", { exact: true }).isVisible(), "Live preview must render.");
+  for (const label of ["LinkedIn", "X", "Facebook", "Instagram", "Threads", "Email", "Partner kit"]) {
+    assert(await desktop.getByText(label, { exact: true }).first().isVisible(), `${label} must be visible in the channel rail.`);
+  }
+  const desktopColumns = await desktop.locator("section").first().locator(":scope > div.grid").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+  assert(desktopColumns === 3, "1440px desktop must render the three-column studio.");
+  const stickyPosition = await desktop.locator("aside").last().locator("div.xl\\:sticky").evaluate((element) => getComputedStyle(element).position);
+  assert(stickyPosition === "sticky", "Desktop preview must remain sticky.");
   checks.push("commercial desktop shell renders channels, editor, and preview");
 
   await desktop.waitForTimeout(750);
@@ -67,7 +74,31 @@ try {
   const xEditor = desktop.locator("textarea").filter({ has: undefined }).nth(2);
   await xEditor.fill("x".repeat(281));
   assert(await desktop.getByText("281 / 280", { exact: true }).first().isVisible(), "X limit warning must render.");
+  assert(await desktop.getByText("281 / 280", { exact: true }).first().getAttribute("aria-live") === "polite", "Character counts must be announced politely.");
   checks.push("strict character warning is visible");
+
+  await desktop.getByText("LinkedIn", { exact: true }).first().click();
+  await desktop.getByRole("tab", { name: "A/B alternate", exact: true }).click();
+  const linkedinAlternate = desktop.locator("textarea").filter({ has: undefined }).nth(2);
+  await linkedinAlternate.fill("Keep this manually edited alternate.");
+  await desktop.getByRole("tab", { name: "Primary", exact: true }).click();
+  await desktop.getByRole("button", { name: "Regenerate", exact: true }).click();
+  await desktop.getByText("Proposed change", { exact: true }).waitFor();
+  await desktop.getByRole("button", { name: "Apply", exact: true }).first().click();
+  await desktop.getByRole("tab", { name: "A/B alternate", exact: true }).click();
+  assert((await linkedinAlternate.inputValue()) === "Keep this manually edited alternate.", "Field-only regeneration must not alter another variant.");
+  await desktop.getByText("X", { exact: true }).first().click();
+  await desktop.getByRole("tab", { name: "Primary", exact: true }).click();
+  assert((await xEditor.inputValue()).length === 281, "LinkedIn-only generation must not alter X.");
+  await desktop.getByRole("button", { name: "Shorten to limit", exact: true }).click();
+  await desktop.waitForTimeout(100);
+  const shortenRequest = desktopRequests.at(-1);
+  assert(shortenRequest.channels?.[0] === "x" && shortenRequest.field === "primaryCaption" && shortenRequest.shortenToLimit === true, "Shorten must request only the current field/channel.");
+  await desktop.locator("#promotion-tone").selectOption("Warm");
+  await desktop.waitForTimeout(100);
+  const toneRequest = desktopRequests.at(-1);
+  assert(toneRequest.channels?.[0] === "x" && toneRequest.field === "primaryCaption" && toneRequest.tone === "Warm", "Change tone must request only the selected field/channel.");
+  checks.push("channel-only, field-only, and shorten flows preserve unrelated copy");
 
   await desktop.getByRole("button", { name: "Generate branded assets", exact: true }).click();
   await desktop.getByText("Landscape · 1200×630", { exact: false }).waitFor();
@@ -86,6 +117,15 @@ try {
   const focusVisible = await desktop.evaluate(() => document.activeElement !== document.body);
   assert(focusVisible, "Keyboard navigation must move focus to a control.");
 
+  const compact = await browser.newPage({ viewport: { width: 1024, height: 768 } });
+  await compact.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
+  await installMocks(compact);
+  await compact.goto(`${BASE}/verification/promotion-studio?long=1`, { waitUntil: "domcontentloaded" });
+  const compactOverflow = await compact.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+  assert(!compactOverflow, "1024px compact layout with long title/partner must not overflow.");
+  assert(await compact.getByRole("button", { name: "Live preview", exact: false }).isVisible(), "Compact preview must remain collapsible.");
+  checks.push("1440px desktop and 1024px compact layouts handle long metadata without overflow");
+
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await mobile.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
   await installMocks(mobile);
@@ -100,7 +140,7 @@ try {
 
   const disabled = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   await disabled.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
-  await installMocks(disabled);
+  const disabledGenerationRequests = await installMocks(disabled);
   await disabled.goto(`${BASE}/verification/promotion-studio?ai=off`, { waitUntil: "domcontentloaded" });
   await disabled.waitForTimeout(500);
   await disabled.getByRole("button", { name: "Generate campaign", exact: true }).first().click();
@@ -112,9 +152,41 @@ try {
   const disabledEditor = disabled.locator("textarea").filter({ has: undefined }).nth(2);
   await disabledEditor.fill("Manual drafting remains available.");
   assert((await disabledEditor.inputValue()).startsWith("Manual drafting"), "Manual drafting must work with AI disabled.");
+  await disabled.getByRole("button", { name: "Save draft", exact: true }).first().click();
+  await disabled.getByRole("button", { name: "Approve current", exact: true }).first().click();
+  assert(await disabled.getByText("Approved", { exact: true }).first().isVisible(), "Manual save and approval must work with AI disabled.");
   assert(await disabled.getByRole("button", { name: "Export package", exact: true }).isEnabled(), "Export must remain enabled with AI off.");
   assert(await disabled.getByRole("button", { name: "Generate branded assets", exact: true }).isEnabled(), "Asset generation must remain enabled with AI off.");
+  assert(disabledGenerationRequests.length === 0, "AI-disabled Generate must make no provider API request.");
   checks.push("AI-disabled mode is honest and preserves manual drafting, assets, and export");
+
+  for (const [kind, status, message] of [
+    ["timeout", 504, "Campaign drafting timed out. Try again; your existing drafts were not changed."],
+    ["rate", 429, "Campaign drafting is temporarily rate limited. Your existing drafts were not changed."]
+  ]) {
+    const errorPage = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    await errorPage.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
+    const errorRequests = await installMocks(errorPage, { generationFailure: { status, message } });
+    await errorPage.goto(`${BASE}/verification/promotion-studio`, { waitUntil: "domcontentloaded" });
+    await errorPage.waitForTimeout(500);
+    await errorPage.getByRole("button", { name: "Generate campaign", exact: true }).first().click();
+    await errorPage.waitForTimeout(750);
+    const alertTexts = await errorPage.locator('[role="alert"]').allTextContents();
+    const errorBody = (await errorPage.textContent("body")) ?? "";
+    assert(alertTexts.some((text) => text.includes(message)), `${kind} state must show the server-safe error summary (requests: ${errorRequests.length}; alerts: ${alertTexts.join(" | ") || "none"}; body tail: ${errorBody.slice(-500)}).`);
+    assert(!(await errorPage.getByText("Proposed change", { exact: true }).isVisible()), `${kind} must not fabricate suggestions.`);
+    await errorPage.close();
+  }
+  checks.push("timeout and rate-limit failures render accessible error summaries without fake success");
+
+  const states = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await states.setExtraHTTPHeaders({ "x-legalease-local-verifier": "promotion-studio-v2" });
+  await installMocks(states);
+  await states.goto(`${BASE}/verification/promotion-studio?states=1`, { waitUntil: "domcontentloaded" });
+  for (const status of ["Approved", "Stale", "Failed"]) {
+    assert(await states.getByText(status, { exact: true }).first().isVisible(), `${status} channel state must be visually present.`);
+  }
+  checks.push("approved, stale, and failed channel states remain distinguishable");
 
   await browser.close();
 } catch (error) {
@@ -133,8 +205,19 @@ if (failures.length) {
 console.log("Promotion Studio browser verification passed.");
 checks.forEach((check) => console.log(`PASS: ${check}`));
 
-async function installMocks(page) {
+async function installMocks(page, options = {}) {
+  const generationRequests = [];
   await page.route("**/api/internal/content/promotion/*/generate", async (route) => {
+    generationRequests.push(route.request().postDataJSON());
+    if (options.generationFailure) {
+      await route.fulfill({
+        status: options.generationFailure.status,
+        headers: options.generationFailure.status === 429 ? { "retry-after": "600" } : {},
+        contentType: "application/json",
+        body: JSON.stringify({ success: false, error: options.generationFailure.message })
+      });
+      return;
+    }
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -176,6 +259,7 @@ async function installMocks(page) {
   await page.route("**/api/internal/content/promotion/*/export", (route) =>
     route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true, channels: [] }) })
   );
+  return generationRequests;
 }
 
 function generatedCampaign() {

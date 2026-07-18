@@ -195,7 +195,7 @@ export const contentApi = {
     postId: string,
     payload: { template?: string; headline?: string }
   ) =>
-    apiRequest<{ assets?: Record<string, unknown>[]; template?: string; headline?: string }>(
+    apiRequest<{ assets?: Record<string, unknown>[]; template?: string; headline?: string; mediaNotice?: string | null }>(
       `/api/internal/content/promotion/${postId}/assets`,
       { method: "POST", body: JSON.stringify(payload) }
     ),

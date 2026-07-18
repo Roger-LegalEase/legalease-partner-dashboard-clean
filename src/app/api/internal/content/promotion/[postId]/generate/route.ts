@@ -7,10 +7,11 @@ import {
 } from "@/lib/content/promotion-generation-contract";
 import {
   PromotionGenerationError,
-  checkPromotionGenerationRateLimit,
+  PromotionGenerationRateLimitError,
   generatePromotionCampaign,
   loadPromotionProviderSource,
-  promotionAiConfig
+  promotionAiConfig,
+  reservePromotionGenerationAttempt
 } from "@/lib/content/promotion-generation";
 import { promotionPostIsInScope } from "@/lib/content/promotion-package";
 import {
@@ -58,7 +59,29 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
     });
   }
 
-  const rateLimit = checkPromotionGenerationRateLimit(`${gate.session.userId}:${postId}`);
+  const { client, response } = requireSupabase(context);
+  if (!client) return response;
+
+  const loaded = await loadPromotionProviderSource(client, postId);
+  if (!loaded || !promotionPostIsInScope(gate.session, loaded.post)) {
+    return jsonError(404, "Post not found.");
+  }
+
+  let rateLimit;
+  try {
+    rateLimit = await reservePromotionGenerationAttempt(client, {
+      actorId: gate.session.userId,
+      actorRole: gate.session.role,
+      postId
+    });
+  } catch (error) {
+    if (error instanceof PromotionGenerationRateLimitError) {
+      return jsonError(503, "Campaign drafting is temporarily unavailable because usage metering could not be verified.", {
+        code: "promotion_generation_metering_unavailable"
+      });
+    }
+    throw error;
+  }
   if (!rateLimit.ok) {
     return NextResponse.json(
       {
@@ -69,14 +92,6 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
       },
       { status: 429, headers: { "retry-after": String(rateLimit.retryAfterSeconds) } }
     );
-  }
-
-  const { client, response } = requireSupabase(context);
-  if (!client) return response;
-
-  const loaded = await loadPromotionProviderSource(client, postId);
-  if (!loaded || !promotionPostIsInScope(gate.session, loaded.post)) {
-    return jsonError(404, "Post not found.");
   }
 
   const channels = parsed.data.channels ?? [];

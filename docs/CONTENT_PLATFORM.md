@@ -254,7 +254,7 @@ The exact saved source sent to the OpenAI Responses API is:
 - content type and destination;
 - category and tag names;
 - public author name, title, and organization;
-- jurisdiction and partner attribution;
+- jurisdiction and approved public partner name/organization (never the internal partner slug);
 - server-derived canonical URL;
 - approved featured-image alt/caption metadata (never a private path);
 - CTA labels and URLs stored in the structured document;
@@ -267,14 +267,24 @@ post's content, customer records, Command Center secrets, Supabase credentials, 
 article/workflow/URL data.
 
 The implementation uses the official OpenAI JavaScript SDK, the Responses API, strict JSON Schema
-structured output, `store: false`, a finite timeout, and no web-search or other tools. The response is
+structured output, `store: false`, finite timeouts, and no web-search or other tools. Output ceilings
+are 12,000 tokens for a full campaign, 6,000 for a channel, and 2,000 for a field. The response is
 parsed and validated again with strict Zod before it reaches the editor. Invalid output and timeouts
-save nothing. Per-user/per-post rate limiting prevents repeated generation; application logs and
-audit rows contain only non-sensitive metadata (actor, post, saved version, channel set, mode,
+save nothing. Channel- and field-level operations send rules only for the requested channel and
+require empty values for unrelated channels/variants; the UI applies only the requested scope.
+
+Per-user and per-post limits are enforced from durable, append-only
+`promotion_generation_started` audit reservations in `content_audit_events`, not process memory.
+The reservation happens after authentication, strict validation, saved-post loading, and partner
+scope checks but immediately before provider invocation. A metering read/write failure fails closed;
+cold starts and separate serverless instances do not reset the window. Application logs and audit
+rows contain only non-sensitive metadata (actor, post, saved version, channel set, mode,
 provider/model, outcome, and timestamp), never prompts or generated bodies.
 
 Deterministic guards compare output with the saved source and flag new numbers, percentages, dates,
-URLs, organization/person names, guarantee/qualification language, and channel-limit violations.
+URLs, fabricated quotations/testimonials, legal-rule claims, unverified handles,
+organization/person names, guarantee/qualification language, and channel-limit violations. The
+same blockers run server-side on approval, so a direct API request cannot bypass the UI.
 Legally sensitive copy may summarize only the reviewed article and cannot be approved before the
 article has legal approval. The generated model response is never treated as approval evidence.
 

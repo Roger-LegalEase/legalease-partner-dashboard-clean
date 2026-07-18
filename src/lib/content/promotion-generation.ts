@@ -18,6 +18,7 @@ import {
 import { canonicalUrlForPost, type PromotionPostRow } from "@/lib/content/promotion-package";
 import {
   SOCIAL_CHANNELS,
+  type ContentRole,
   type ContentDestination,
   type ContentDoc,
   type ContentType,
@@ -26,8 +27,12 @@ import {
 
 const BODY_TEXT_LIMIT = 16_000;
 const GENERATION_TIMEOUT_MS = 30_000;
-const RATE_LIMIT_WINDOW_MS = 10 * 60_000;
-const RATE_LIMIT_MAX = 5;
+const FULL_CAMPAIGN_MAX_OUTPUT_TOKENS = 12_000;
+const CHANNEL_MAX_OUTPUT_TOKENS = 6_000;
+const FIELD_MAX_OUTPUT_TOKENS = 2_000;
+export const PROMOTION_RATE_LIMIT_WINDOW_MS = 10 * 60_000;
+export const PROMOTION_RATE_LIMIT_PER_USER = 5;
+export const PROMOTION_RATE_LIMIT_PER_POST = 5;
 
 export type PromotionProviderSource = {
   title: string;
@@ -62,8 +67,6 @@ type RawPromotionSourceRow = PromotionPostRow & {
     | null;
 };
 
-const generationAttempts = new Map<string, number[]>();
-
 export function promotionAiConfig():
   | { configured: true; apiKey: string; model: string }
   | { configured: false; reason: "disabled" | "missing_api_key" | "missing_model" } {
@@ -77,20 +80,76 @@ export function promotionAiConfig():
   return { configured: true, apiKey, model };
 }
 
-export function checkPromotionGenerationRateLimit(key: string, now = Date.now()) {
-  const recent = (generationAttempts.get(key) ?? []).filter((time) => now - time < RATE_LIMIT_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT_MAX) {
-    const retryAfterSeconds = Math.max(1, Math.ceil((RATE_LIMIT_WINDOW_MS - (now - recent[0])) / 1000));
-    generationAttempts.set(key, recent);
-    return { ok: false as const, retryAfterSeconds };
+/**
+ * Reserve one provider attempt in the append-only audit table. The reservation is durable across
+ * Vercel instances and cold starts; result events are recorded separately after the provider
+ * returns. Storage failures fail closed so an unmetered provider call is never made.
+ */
+export async function reservePromotionGenerationAttempt(
+  client: SupabaseClient,
+  input: { actorId: string; actorRole: ContentRole; postId: string; now?: number }
+): Promise<
+  | { ok: true; remainingForUser: number; remainingForPost: number }
+  | { ok: false; retryAfterSeconds: number; limitedBy: "user" | "post" }
+> {
+  const now = input.now ?? Date.now();
+  const since = new Date(now - PROMOTION_RATE_LIMIT_WINDOW_MS).toISOString();
+  const base = () =>
+    client
+      .from("content_audit_events")
+      .select("created_at")
+      .eq("action", "promotion_generation_started")
+      .gte("created_at", since)
+      .order("created_at", { ascending: true });
+  const [userResult, postResult] = await Promise.all([
+    base().eq("actor_id", input.actorId),
+    base().eq("entity_type", "content_post").eq("entity_id", input.postId)
+  ]);
+  if (userResult.error || postResult.error) {
+    throw new PromotionGenerationRateLimitError("Promotion generation metering is temporarily unavailable.");
   }
-  recent.push(now);
-  generationAttempts.set(key, recent);
-  return { ok: true as const, remaining: RATE_LIMIT_MAX - recent.length };
+
+  const userTimes = auditTimes(userResult.data);
+  const postTimes = auditTimes(postResult.data);
+  const limitedBy =
+    userTimes.length >= PROMOTION_RATE_LIMIT_PER_USER
+      ? "user"
+      : postTimes.length >= PROMOTION_RATE_LIMIT_PER_POST
+        ? "post"
+        : null;
+  if (limitedBy) {
+    const oldest = (limitedBy === "user" ? userTimes : postTimes)[0] ?? now;
+    return {
+      ok: false,
+      limitedBy,
+      retryAfterSeconds: Math.max(1, Math.ceil((PROMOTION_RATE_LIMIT_WINDOW_MS - (now - oldest)) / 1000))
+    };
+  }
+
+  const { error } = await client.from("content_audit_events").insert({
+    actor_id: input.actorId,
+    actor_role: input.actorRole,
+    action: "promotion_generation_started",
+    entity_type: "content_post",
+    entity_id: input.postId,
+    detail: { provider: "openai", metered: true }
+  });
+  if (error) {
+    throw new PromotionGenerationRateLimitError("Promotion generation metering is temporarily unavailable.");
+  }
+  return {
+    ok: true,
+    remainingForUser: PROMOTION_RATE_LIMIT_PER_USER - userTimes.length - 1,
+    remainingForPost: PROMOTION_RATE_LIMIT_PER_POST - postTimes.length - 1
+  };
 }
 
-export function resetPromotionGenerationRateLimitForTests() {
-  generationAttempts.clear();
+function auditTimes(rows: unknown): number[] {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .map((row) => Date.parse(String((row as { created_at?: unknown }).created_at ?? "")))
+    .filter(Number.isFinite)
+    .sort((left, right) => left - right);
 }
 
 export async function loadPromotionProviderSource(
@@ -107,7 +166,7 @@ export async function loadPromotionProviderSource(
   if (error || !data?.length) return null;
 
   const post = data[0] as unknown as RawPromotionSourceRow;
-  const [categoryResult, tagsResult, mediaResult] = await Promise.all([
+  const [categoryResult, tagsResult, mediaResult, partnerResult] = await Promise.all([
     post.category_id
       ? client.from("content_categories").select("name").eq("category_id", post.category_id).limit(1)
       : Promise.resolve({ data: [], error: null }),
@@ -121,6 +180,13 @@ export async function loadPromotionProviderSource(
           .from("content_media")
           .select("alt_text, caption, public_url, permission_status")
           .eq("media_id", post.featured_media_id)
+          .limit(1)
+      : Promise.resolve({ data: [], error: null }),
+    post.partner_slug
+      ? client
+          .from("partner_records")
+          .select("partner_name, organization_name, onboarding_status, provisioning_status")
+          .eq("partner_slug", post.partner_slug)
           .limit(1)
       : Promise.resolve({ data: [], error: null })
   ]);
@@ -138,9 +204,25 @@ export async function loadPromotionProviderSource(
   const mediaRow = mediaResult.data?.[0] as
     | { alt_text?: unknown; caption?: unknown; public_url?: unknown; permission_status?: unknown }
     | undefined;
+  const partnerRow = partnerResult.data?.[0] as
+    | {
+        partner_name?: unknown;
+        organization_name?: unknown;
+        onboarding_status?: unknown;
+        provisioning_status?: unknown;
+      }
+    | undefined;
   const mediaPermissionAllowsSocial = ["owned", "licensed", "partner_approved", "editorial_use"].includes(
     String(mediaRow?.permission_status ?? "")
   );
+  const partnerAttributionApproved =
+    ["approved", "active", "completed", "launched"].includes(String(partnerRow?.onboarding_status ?? "")) ||
+    String(partnerRow?.provisioning_status ?? "") === "provisioned";
+  const partnerAttribution = partnerAttributionApproved
+    ? [partnerRow?.organization_name, partnerRow?.partner_name].find(
+        (value): value is string => typeof value === "string" && Boolean(value.trim())
+      )?.trim() ?? null
+    : null;
 
   const doc: ContentDoc =
     post.doc && typeof post.doc === "object" ? post.doc : { type: "doc", content: [] };
@@ -163,7 +245,8 @@ export async function loadPromotionProviderSource(
         ? { name: author.name, title: author.title ?? null, organization: author.organization ?? null }
         : null,
       jurisdiction: post.jurisdiction_code,
-      partner: post.partner_slug,
+      // Internal slugs are routing identifiers, not approved commercial copy.
+      partner: partnerAttribution,
       canonicalUrl: canonicalUrlForPost(post),
       featuredImage:
         mediaRow && mediaPermissionAllowsSocial
@@ -224,6 +307,11 @@ export async function generatePromotionCampaign(options: {
   client?: Pick<OpenAI, "responses">;
 }): Promise<{ output: PromotionGenerationOutput; issues: PromotionGroundingIssue[] }> {
   const requestedChannels = options.input.channels ?? [...SOCIAL_CHANNELS];
+  const maxOutputTokens = options.input.field
+    ? FIELD_MAX_OUTPUT_TOKENS
+    : requestedChannels.length < SOCIAL_CHANNELS.length
+      ? CHANNEL_MAX_OUTPUT_TOKENS
+      : FULL_CAMPAIGN_MAX_OUTPUT_TOKENS;
   const client = options.client ?? new OpenAI({ apiKey: options.apiKey });
   const channelRules = Object.fromEntries(
     requestedChannels.map((channel) => [
@@ -240,9 +328,10 @@ export async function generatePromotionCampaign(options: {
     {
       model: options.model,
       store: false,
-      instructions: buildGenerationInstructions(options.source.legalSensitive),
+      max_output_tokens: maxOutputTokens,
+      instructions: buildGenerationInstructions(options.source.legalSensitive, options.input, requestedChannels),
       input: JSON.stringify({
-        task: {
+        campaignControls: {
           ...options.input,
           channels: requestedChannels,
           recommendedTemplate: recommendedPromotionTemplate(options.source.contentType)
@@ -270,10 +359,24 @@ export async function generatePromotionCampaign(options: {
   return { output, issues: guardGeneratedCampaign(options.source, output, requestedChannels) };
 }
 
-function buildGenerationInstructions(legalSensitive: boolean): string {
+function buildGenerationInstructions(
+  legalSensitive: boolean,
+  input: PromotionGenerationInput,
+  requestedChannels: readonly SocialChannel[]
+): string {
+  const requestedField = input.field ?? null;
   return [
-    "Create a complete promotion campaign using only the supplied savedArticle object.",
-    "Return the exact structured schema. Generate all seven channel objects even when only some channels are requested; non-requested channel content may be concise.",
+    "Create promotion suggestions using only the supplied savedArticle object.",
+    "Return the exact structured schema, including every required key.",
+    `Requested channels: ${requestedChannels.join(", ")}.`,
+    requestedField
+      ? `Generate only ${requestedField} for the requested channels. Return empty strings and empty arrays for every non-requested field and channel.`
+      : requestedChannels.length < SOCIAL_CHANNELS.length
+        ? "Generate all variants only for the requested channels. Return empty strings and empty arrays for every non-requested channel."
+        : "Generate useful copy for all seven channels and all requested variants.",
+    input.generateAssetPlan === false
+      ? "Return an empty assetPlan."
+      : "Return a concise assetPlan only when it supports the requested scope.",
     "Do not use outside knowledge or browse. Do not invent statistics, dates, statutes, waiting periods, filing rules, eligibility, outcomes, testimonials, quotations, handles, product availability, metrics, legal effects, fees, or guarantees.",
     "Mention candidates are plain names from the saved article, never @handles.",
     "Make A/B alternatives materially different. Keep every caption within its channel limit.",
@@ -320,6 +423,7 @@ export function guardGeneratedCampaign(
   ].filter((value): value is string => Boolean(value));
   const knownNameText = `${sourceText} ${approvedNames.join(" ")}`.toLocaleLowerCase("en-US");
   const disallowed = /\b(guarantee(?:d|s)?|you qualify|you are eligible|will (?:be )?(?:expunged|sealed|dismissed)|we (?:are|act as) (?:a )?law firm|legal representation)\b/i;
+  const legalClaim = /\b(?:the law (?:requires|guarantees|says)|must (?:file|wait|pay)|waiting period|eligible if|qualif(?:y|ies) if|statute (?:requires|provides)|filing fee (?:is|of))\b/i;
 
   const inspect = (text: string, channel: SocialChannel | null, field: string) => {
     for (const number of extractNumbers(text)) {
@@ -353,9 +457,51 @@ export function guardGeneratedCampaign(
         message: "Generated copy contains qualification, guarantee, law-firm, or representation language that cannot be approved."
       });
     }
+    const legalMatch = text.match(legalClaim)?.[0];
+    if (legalMatch && !sourceText.toLocaleLowerCase("en-US").includes(legalMatch.toLocaleLowerCase("en-US"))) {
+      issues.push({
+        severity: "blocker",
+        code: "legal_claim",
+        channel,
+        field,
+        message: "Generated copy introduces a legal rule or eligibility condition that is not stated in the saved article."
+      });
+    }
+    if (/@[A-Za-z0-9._-]{1,79}\b/.test(text)) {
+      issues.push({
+        severity: "blocker",
+        code: "unverified_handle",
+        channel,
+        field,
+        message: "Generated copy contains an unverified social handle."
+      });
+    }
+    for (const quotation of extractQuotations(text)) {
+      if (!sourceText.toLocaleLowerCase("en-US").includes(quotation.toLocaleLowerCase("en-US"))) {
+        issues.push({
+          severity: "blocker",
+          code: "fabricated_quote",
+          channel,
+          field,
+          message: "Generated copy contains a quotation or testimonial that is not present in the saved article."
+        });
+      }
+    }
   };
 
-  inspect(JSON.stringify(output.brief), null, "brief");
+  inspect(
+    [
+      output.brief.primaryAudience,
+      output.brief.secondaryAudience,
+      output.brief.keyMessage,
+      ...output.brief.supportingPoints,
+      output.brief.cta
+    ]
+      .filter(Boolean)
+      .join(" "),
+    null,
+    "brief"
+  );
   for (const channel of channels) {
     const generated = output.channels[channel];
     for (const field of ["primaryCaption", "alternateCaption", "founderVoiceCaption", "partnerCaption"] as const) {
@@ -372,9 +518,19 @@ export function guardGeneratedCampaign(
       }
     }
     for (const candidate of generated.mentionCandidates) {
+      if (/^@[A-Za-z0-9._-]{1,79}$/.test(candidate)) {
+        issues.push({
+          severity: "blocker",
+          code: "unverified_handle",
+          channel,
+          field: "mentionCandidates",
+          message: `“${candidate}” is not a verified handle from saved author, partner, or settings data.`
+        });
+        continue;
+      }
       if (!knownNameText.includes(candidate.toLocaleLowerCase("en-US"))) {
         issues.push({
-          severity: "warning",
+          severity: "blocker",
           code: "unknown_name",
           channel,
           field: "mentionCandidates",
@@ -385,7 +541,7 @@ export function guardGeneratedCampaign(
     for (const name of extractLikelyNamedEntities(Object.values(generated).filter((value) => typeof value === "string").join(" "))) {
       if (!knownNameText.includes(name.toLocaleLowerCase("en-US"))) {
         issues.push({
-          severity: "warning",
+          severity: "blocker",
           code: "unknown_name",
           channel,
           field: "copy",
@@ -396,6 +552,51 @@ export function guardGeneratedCampaign(
   }
 
   return uniqueIssues(issues);
+}
+
+/** Re-run the same deterministic guard when an editor attempts server-side approval. */
+export function guardPromotionDraftForApproval(
+  source: PromotionProviderSource,
+  channel: SocialChannel,
+  draft: {
+    primaryCaption: string | null;
+    alternateCaption: string | null;
+    founderVoiceCaption: string | null;
+    partnerCaption: string | null;
+    mentionTags: string[];
+  }
+): PromotionGroundingIssue[] {
+  const blankChannel = {
+    primaryCaption: "",
+    alternateCaption: "",
+    founderVoiceCaption: "",
+    partnerCaption: "",
+    hashtags: [] as string[],
+    mentionCandidates: [] as string[]
+  };
+  const output = {
+    brief: {
+      classification: "General editorial" as const,
+      objective: "Awareness" as const,
+      primaryAudience: "Saved article readers",
+      secondaryAudience: null,
+      keyMessage: source.title,
+      supportingPoints: [source.title, source.title, source.title],
+      tone: "Professional" as const,
+      cta: source.ctas[0]?.label ?? "Read the saved article"
+    },
+    channels: Object.fromEntries(SOCIAL_CHANNELS.map((candidate) => [candidate, { ...blankChannel }])) as PromotionGenerationOutput["channels"],
+    assetPlan: []
+  } satisfies PromotionGenerationOutput;
+  output.channels[channel] = {
+    ...blankChannel,
+    primaryCaption: draft.primaryCaption ?? "",
+    alternateCaption: draft.alternateCaption ?? "",
+    founderVoiceCaption: draft.founderVoiceCaption ?? "",
+    partnerCaption: draft.partnerCaption ?? "",
+    mentionCandidates: draft.mentionTags
+  };
+  return guardGeneratedCampaign(source, output, [channel]).filter((issue) => issue.channel === channel);
 }
 
 function extractNumbers(value: string): string[] {
@@ -413,6 +614,13 @@ function looksLikeDateToken(token: string, context: string): boolean {
 
 function extractLikelyNamedEntities(value: string): string[] {
   return value.match(/\b(?:[A-Z][a-z]+\s+){1,4}(?:Foundation|Coalition|Association|Institute|University|Department|Center|Council|Inc\.?|LLC)\b/g) ?? [];
+}
+
+function extractQuotations(value: string): string[] {
+  const matches = value.matchAll(/[“"]([^”"]{12,240})[”"]/g);
+  return [...matches]
+    .map((match) => match[1]?.trim() ?? "")
+    .filter((quote) => quote.split(/\s+/).length >= 3);
 }
 
 function trimUrlPunctuation(value: string): string {
@@ -436,5 +644,12 @@ export class PromotionGenerationError extends Error {
   ) {
     super(message);
     this.name = "PromotionGenerationError";
+  }
+}
+
+export class PromotionGenerationRateLimitError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PromotionGenerationRateLimitError";
   }
 }

@@ -26,6 +26,7 @@ const assetSchema = z.strictObject({
   template: z.enum(SOCIAL_TEMPLATES).optional(),
   headline: z.string().trim().min(1).max(180).optional()
 });
+const SOCIAL_MEDIA_PERMISSIONS = new Set(["owned", "licensed", "partner_approved", "editorial_use"]);
 
 /** Persist three deterministic, authenticated card variants. No image model or storage path is used. */
 export async function POST(request: Request, { params }: { params: Promise<{ postId: string }> }) {
@@ -48,6 +49,19 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
 
   const template = parsed.data.template ?? recommendedPromotionTemplate(post.content_type);
   const headline = parsed.data.headline ?? post.title;
+  let mediaNotice: string | null = null;
+  if (post.featured_media_id) {
+    const { data: mediaRows, error: mediaError } = await client
+      .from("content_media")
+      .select("permission_status")
+      .eq("media_id", post.featured_media_id)
+      .limit(1);
+    if (mediaError) return storageFailure(context, "content social asset media permission read failed", mediaError);
+    const permission = (mediaRows?.[0] as { permission_status?: unknown } | undefined)?.permission_status;
+    if (!SOCIAL_MEDIA_PERMISSIONS.has(String(permission ?? ""))) {
+      mediaNotice = "Featured image was not used because its permission state does not allow social promotion.";
+    }
+  }
   const rows = SOCIAL_ASSET_SIZES.map((size) => {
     const params = new URLSearchParams({ template, size: size.key });
     return {
@@ -78,5 +92,5 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
     metadata: { row_id: postId }
   });
 
-  return NextResponse.json({ success: true, assets: data ?? [], template, headline });
+  return NextResponse.json({ success: true, assets: data ?? [], template, headline, mediaNotice });
 }

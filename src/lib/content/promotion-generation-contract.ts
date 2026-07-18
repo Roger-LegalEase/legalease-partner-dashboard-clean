@@ -81,6 +81,9 @@ export type PromotionGroundingIssue = {
     | "new_date"
     | "unknown_url"
     | "guarantee_language"
+    | "fabricated_quote"
+    | "legal_claim"
+    | "unverified_handle"
     | "unknown_name"
     | "over_limit";
   channel: SocialChannel | null;

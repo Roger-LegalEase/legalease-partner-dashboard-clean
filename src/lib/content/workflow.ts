@@ -118,6 +118,7 @@ export type AuditAction =
   | "media_uploaded"
   | "media_archived"
   | "promotion_prepared"
+  | "promotion_generation_started"
   | "promotion_generated"
   | "promotion_generation_failed"
   | "promotion_exported"

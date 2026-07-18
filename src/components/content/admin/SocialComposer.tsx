@@ -226,6 +226,10 @@ export default function SocialComposer(props: SocialComposerProps) {
   const [assets, setAssets] = useState(props.assets);
   const [brief, setBrief] = useState(() => initialBrief(props));
   const [suggestions, setSuggestions] = useState<PromotionGenerationOutput | null>(null);
+  const [suggestionScope, setSuggestionScope] = useState<{
+    channels: SocialChannel[];
+    fields: PromotionGeneratedField[];
+  }>({ channels: [...SOCIAL_CHANNELS], fields: [...PROMOTION_VARIANTS, "hashtags"] });
   const [issues, setIssues] = useState<PromotionGroundingIssue[]>([]);
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [generationMode, setGenerationMode] = useState<"fill_empty" | "regenerate_selected" | "regenerate_all">(
@@ -252,6 +256,16 @@ export default function SocialComposer(props: SocialComposerProps) {
     window.addEventListener("content-editor-save-state", handler);
     return () => window.removeEventListener("content-editor-save-state", handler);
   }, [props.post.postId]);
+
+  useEffect(() => {
+    if (dirty.size === 0) return;
+    const warnBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warnBeforeUnload);
+    return () => window.removeEventListener("beforeunload", warnBeforeUnload);
+  }, [dirty]);
 
   const form = forms[active];
   const rule = PROMOTION_CHANNEL_REGISTRY[active];
@@ -370,6 +384,7 @@ export default function SocialComposer(props: SocialComposerProps) {
     channels?: SocialChannel[];
     field?: PromotionGeneratedField;
     shorten?: boolean;
+    tone?: PromotionTone;
   }) => {
     if (!props.canDraft) return;
     if (articleDirty) {
@@ -398,11 +413,11 @@ export default function SocialComposer(props: SocialComposerProps) {
       classification: brief.classification,
       objective: brief.objective,
       audience: brief.primaryAudience,
-      tone: brief.tone,
+      tone: options?.tone ?? brief.tone,
       cta: brief.cta,
       includeFounderVoice: true,
       includePartnerCopy: true,
-      generateAssetPlan: true,
+      generateAssetPlan: !options?.field && !options?.channels,
       field: options?.field,
       shortenToLimit: options?.shorten
     });
@@ -413,20 +428,26 @@ export default function SocialComposer(props: SocialComposerProps) {
     }
 
     setSuggestions(result.data.suggestions);
+    setSuggestionScope({
+      channels: options?.channels ?? [...SOCIAL_CHANNELS],
+      fields: options?.field ? [options.field] : [...PROMOTION_VARIANTS, "hashtags"]
+    });
     setIssues(result.data.issues ?? []);
     setGeneratedAt(result.data.generatedAt);
     setGenerationMode(mode);
     setRejected(new Set());
-    setBrief({
-      classification: result.data.suggestions.brief.classification,
-      objective: result.data.suggestions.brief.objective,
-      primaryAudience: result.data.suggestions.brief.primaryAudience,
-      secondaryAudience: result.data.suggestions.brief.secondaryAudience ?? "",
-      keyMessage: result.data.suggestions.brief.keyMessage,
-      supportingPoints: result.data.suggestions.brief.supportingPoints,
-      tone: result.data.suggestions.brief.tone,
-      cta: result.data.suggestions.brief.cta
-    });
+    if (!options?.channels && !options?.field) {
+      setBrief({
+        classification: result.data.suggestions.brief.classification,
+        objective: result.data.suggestions.brief.objective,
+        primaryAudience: result.data.suggestions.brief.primaryAudience,
+        secondaryAudience: result.data.suggestions.brief.secondaryAudience ?? "",
+        keyMessage: result.data.suggestions.brief.keyMessage,
+        supportingPoints: result.data.suggestions.brief.supportingPoints,
+        tone: result.data.suggestions.brief.tone,
+        cta: result.data.suggestions.brief.cta
+      });
+    }
     setMessage({
       tone: "info",
       text: "Campaign suggestions are ready for review. Nothing has been applied or saved yet.",
@@ -436,12 +457,14 @@ export default function SocialComposer(props: SocialComposerProps) {
 
   const suggestionFor = (channel: SocialChannel, field: PromotionGeneratedField): string | null => {
     if (!suggestions) return null;
+    if (!suggestionScope.channels.includes(channel) || !suggestionScope.fields.includes(field)) return null;
     const key = suggestionKey(channel, field);
     if (rejected.has(key) || locked.has(key)) return null;
     if (forms[channel].approvalState === "approved" || forms[channel].approvalState === "sent") return null;
     if (generationMode === "fill_empty" && valueForField(forms[channel], field).trim()) return null;
     const generated = suggestions.channels[channel];
-    return field === "hashtags" ? generated.hashtags.join(" ") : generated[field];
+    const proposed = field === "hashtags" ? generated.hashtags.join(" ") : generated[field];
+    return proposed.trim() ? proposed : null;
   };
 
   const applyField = (channel: SocialChannel, field: PromotionGeneratedField) => {
@@ -528,7 +551,11 @@ export default function SocialComposer(props: SocialComposerProps) {
       return next;
     });
     setDirty((current) => new Set([...current, ...SOCIAL_CHANNELS]));
-    setMessage({ tone: "ok", text: "Branded landscape, square, and portrait assets are ready.", problems: [] });
+    setMessage({
+      tone: result.data.mediaNotice ? "info" : "ok",
+      text: result.data.mediaNotice ?? "Branded landscape, square, and portrait assets are ready.",
+      problems: []
+    });
   };
 
   const exportJson = async () => {
@@ -643,7 +670,7 @@ export default function SocialComposer(props: SocialComposerProps) {
   const action = primaryAction();
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-[#FBFAF7] shadow-[0_20px_55px_rgba(15,31,92,0.08)]">
+    <section aria-busy={busy !== null} className="overflow-hidden rounded-2xl border border-slate-200 bg-[#FBFAF7] shadow-[0_20px_55px_rgba(15,31,92,0.08)]">
       <header className="border-b border-slate-200 bg-white px-5 py-5 md:px-7">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div className="min-w-0">
@@ -715,13 +742,13 @@ export default function SocialComposer(props: SocialComposerProps) {
         </div>
       )}
 
-      <div className="grid min-w-0 lg:grid-cols-[240px_minmax(420px,1fr)_350px]">
-        <aside className="border-b border-slate-200 bg-white lg:border-b-0 lg:border-r">
-          <div className="flex max-w-full gap-2 overflow-x-auto p-3 lg:block lg:space-y-1 lg:overflow-visible lg:p-4">
+      <div className="grid min-w-0 xl:grid-cols-[240px_minmax(420px,1fr)_350px]">
+        <aside className="border-b border-slate-200 bg-white xl:border-b-0 xl:border-r">
+          <div className="flex max-w-full gap-2 overflow-x-auto p-3 xl:block xl:space-y-1 xl:overflow-visible xl:p-4">
             <button
               type="button"
               onClick={() => setMessage({ tone: "info", text: `${readyCount} channels are ready for approval.`, problems: [] })}
-              className="min-w-36 rounded-xl border border-slate-200 bg-[#F8FAFC] px-3 py-3 text-left lg:mb-3 lg:w-full"
+              className="min-w-36 rounded-xl border border-slate-200 bg-[#F8FAFC] px-3 py-3 text-left xl:mb-3 xl:w-full"
             >
               <span className="block text-sm font-black text-navy">All channels</span>
               <span className="mt-1 block text-xs text-slate-500">{readyCount} ready · {staleChannels.size} stale</span>
@@ -815,7 +842,7 @@ export default function SocialComposer(props: SocialComposerProps) {
               <label className="block">
                 <span className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-sm font-bold text-navy">{rule.variantLabels[variant]}</span>
-                  <span className={`text-xs font-bold tabular-nums ${currentValue.length > rule.limit ? "text-red-700" : "text-slate-500"}`}>
+                  <span id={`promotion-count-${active}-${variant}`} aria-live="polite" className={`text-xs font-bold tabular-nums ${currentValue.length > rule.limit ? "text-red-700" : "text-slate-500"}`}>
                     {currentValue.length.toLocaleString()} / {rule.limit.toLocaleString()}
                   </span>
                 </span>
@@ -823,6 +850,7 @@ export default function SocialComposer(props: SocialComposerProps) {
                   value={currentValue}
                   rows={active === "email" || active === "partner_kit" ? 9 : 7}
                   disabled={!props.canDraft}
+                  aria-describedby={`promotion-count-${active}-${variant}`}
                   onChange={(event) => updateForm(active, { [variant]: event.target.value }, variant)}
                   className={`mt-2 w-full resize-y rounded-xl border px-4 py-3 text-[15px] leading-7 text-slate-800 shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal ${
                     currentValue.length > rule.limit ? "border-red-400 bg-red-50" : "border-slate-300 bg-white"
@@ -838,7 +866,16 @@ export default function SocialComposer(props: SocialComposerProps) {
                   Shorten to limit
                 </button>
                 <label className="sr-only" htmlFor="promotion-tone">Change tone</label>
-                <select id="promotion-tone" value={brief.tone} onChange={(event) => setBrief((current) => ({ ...current, tone: event.target.value as PromotionTone }))} className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal">
+                <select
+                  id="promotion-tone"
+                  value={brief.tone}
+                  onChange={(event) => {
+                    const tone = event.target.value as PromotionTone;
+                    setBrief((current) => ({ ...current, tone }));
+                    void runGeneration({ mode: "regenerate_selected", channels: [active], field: variant, tone });
+                  }}
+                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                >
                   {PROMOTION_TONES.map((tone) => <option key={tone}>{tone}</option>)}
                 </select>
                 <button type="button" onClick={() => void navigator.clipboard.writeText(currentValue)} className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-navy hover:border-navy">
@@ -917,16 +954,16 @@ export default function SocialComposer(props: SocialComposerProps) {
           {message && <MessagePanel message={message} />}
         </main>
 
-        <aside className="border-t border-slate-200 bg-[#F4F7FA] p-4 lg:border-l lg:border-t-0 lg:p-5">
-          <button type="button" onClick={() => setPreviewOpen((open) => !open)} className="flex w-full items-center justify-between text-left lg:pointer-events-none" aria-expanded={previewOpen}>
+        <aside className="border-t border-slate-200 bg-[#F4F7FA] p-4 xl:border-l xl:border-t-0 xl:p-5">
+          <button type="button" onClick={() => setPreviewOpen((open) => !open)} className="flex w-full items-center justify-between text-left xl:pointer-events-none" aria-expanded={previewOpen}>
             <span>
               <span className="block text-xs font-bold text-teal">Live preview</span>
               <span className="mt-0.5 block text-base font-black text-navy">{rule.label}</span>
             </span>
-            <ChevronDown className={`h-5 w-5 text-slate-500 transition lg:hidden ${previewOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+            <ChevronDown className={`h-5 w-5 text-slate-500 transition xl:hidden ${previewOpen ? "rotate-180" : ""}`} aria-hidden="true" />
           </button>
           {previewOpen && (
-            <div className="mt-4 lg:sticky lg:top-5">
+            <div className="mt-4 xl:sticky xl:top-5">
               <PreviewCard
                 channel={active}
                 form={form}
@@ -1141,10 +1178,24 @@ function ChannelButton({ channel, active, form, stale, problems, hasAsset, onCli
   const rule = PROMOTION_CHANNEL_REGISTRY[channel];
   const status = displayStatus(form, stale, false);
   const over = PROMOTION_VARIANTS.some((field) => form[field].length > rule.limit);
+  const stateClasses = stale
+    ? "border-amber-300 bg-amber-50"
+    : form.approvalState === "failed"
+      ? "border-red-300 bg-red-50"
+      : form.approvalState === "approved"
+        ? "border-emerald-300 bg-emerald-50"
+        : "border-transparent bg-white hover:border-slate-300";
+  const statusClasses = stale || over
+    ? "text-amber-700"
+    : form.approvalState === "failed"
+      ? "text-red-700"
+      : form.approvalState === "approved"
+        ? "text-emerald-700"
+        : "text-slate-500";
   return (
-    <button type="button" onClick={onClick} className={`min-w-44 rounded-xl border px-3 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal lg:w-full ${active ? "border-navy bg-navy text-white shadow-sm" : "border-transparent bg-white text-navy hover:border-slate-300"}`}>
+    <button type="button" onClick={onClick} className={`min-w-44 rounded-xl border px-3 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal xl:w-full ${active ? "border-navy bg-navy text-white shadow-sm" : `${stateClasses} text-navy`}`}>
       <span className="flex items-center justify-between gap-2"><span className="text-sm font-black">{rule.label}</span>{form.approvalState === "approved" && !stale && <Check className="h-4 w-4 text-teal" aria-hidden="true" />}</span>
-      <span className={`mt-1 block text-[11px] font-semibold ${active ? "text-white/75" : stale || over ? "text-amber-700" : "text-slate-500"}`}>{status}{over ? " · Over limit" : ""}</span>
+      <span className={`mt-1 block text-[11px] font-semibold ${active ? "text-white/75" : statusClasses}`}>{status}{over ? " · Over limit" : ""}</span>
       <span className={`mt-2 flex items-center gap-2 text-[10px] ${active ? "text-white/70" : "text-slate-400"}`}><span>{hasAsset ? "Asset ready" : "No asset"}</span><span>·</span><span>{problems.length ? `${problems.length} check${problems.length === 1 ? "" : "s"}` : "Complete"}</span></span>
     </button>
   );
@@ -1161,7 +1212,7 @@ function ValidationPanel({ issues }: { issues: PromotionGroundingIssue[] }) {
 
 function MessagePanel({ message }: { message: StudioMessage }) {
   const styles = message.tone === "ok" ? "border-emerald-300 bg-emerald-50 text-emerald-800" : message.tone === "error" ? "border-red-300 bg-red-50 text-red-800" : "border-sky-300 bg-sky-50 text-sky-900";
-  return <div className={`rounded-xl border px-4 py-3 ${styles}`} role="status"><p className="flex items-center gap-2 text-sm font-bold">{message.tone === "ok" ? <Check className="h-4 w-4" aria-hidden="true" /> : message.tone === "error" ? <AlertTriangle className="h-4 w-4" aria-hidden="true" /> : <Sparkles className="h-4 w-4" aria-hidden="true" />}{message.text}</p>{message.problems.length > 0 && <ul className="mt-2 list-disc space-y-1 pl-5">{message.problems.map((problem, index) => <li key={index} className="text-xs leading-5">{problem}</li>)}</ul>}</div>;
+  return <div className={`rounded-xl border px-4 py-3 ${styles}`} role={message.tone === "error" ? "alert" : "status"} aria-live={message.tone === "error" ? "assertive" : "polite"}><p className="flex items-center gap-2 text-sm font-bold">{message.tone === "ok" ? <Check className="h-4 w-4" aria-hidden="true" /> : message.tone === "error" ? <AlertTriangle className="h-4 w-4" aria-hidden="true" /> : <Sparkles className="h-4 w-4" aria-hidden="true" />}{message.text}</p>{message.problems.length > 0 && <ul className="mt-2 list-disc space-y-1 pl-5">{message.problems.map((problem, index) => <li key={index} className="text-xs leading-5">{problem}</li>)}</ul>}</div>;
 }
 
 function TextField({ label, value, placeholder, disabled, multiline, onChange }: { label: string; value: string; placeholder?: string; disabled: boolean; multiline?: boolean; onChange: (value: string) => void }) {
