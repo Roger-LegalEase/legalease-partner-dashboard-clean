@@ -154,6 +154,9 @@ assert(
   buildTrackedLink("https://expungement.ai/blog/x", "email", "launch").includes("utm_medium=email"),
   "The email channel must use utm_medium=email."
 );
+const partnerLink = new URL(buildTrackedLink("https://expungement.ai/blog/x", "partner_kit", "launch"));
+assert(partnerLink.searchParams.get("utm_source") === "partner", "Partner kit must use utm_source=partner.");
+assert(partnerLink.searchParams.get("utm_medium") === "partner", "Partner kit must use utm_medium=partner.");
 // Re-tracking an already-tracked link must not duplicate params.
 const twice = buildTrackedLink(link, "linkedin", "launch");
 assert(

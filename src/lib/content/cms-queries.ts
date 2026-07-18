@@ -117,6 +117,8 @@ export type CmsSocialDraft = {
   utmCampaign: string | null;
   socialAssetId: string | null;
   approvalState: SocialApprovalState;
+  approvedAt: string | null;
+  updatedAt: string | null;
 };
 
 export type CmsSocialAsset = {
@@ -466,7 +468,7 @@ export async function listSocialDrafts(postId: string): Promise<CmsSocialDraft[]
   const { data, error } = await supabase
     .from("content_social_drafts")
     .select(
-      "social_draft_id, post_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state"
+      "social_draft_id, post_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state, approved_at, updated_at"
     )
     .eq("post_id", postId)
     .limit(20);
@@ -485,7 +487,7 @@ export async function listSocialQueue(): Promise<
   const { data, error } = await supabase
     .from("content_social_drafts")
     .select(
-      "social_draft_id, post_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state"
+      "social_draft_id, post_id, channel, primary_caption, alternate_caption, founder_voice_caption, partner_caption, hashtags, mention_tags, utm_source, utm_medium, utm_campaign, social_asset_id, approval_state, approved_at, updated_at"
     )
     .order("updated_at", { ascending: false })
     .limit(300);
@@ -530,7 +532,9 @@ function toSocialDraft(row: RawPost): CmsSocialDraft {
     utmMedium: str(row.utm_medium),
     utmCampaign: str(row.utm_campaign),
     socialAssetId: str(row.social_asset_id),
-    approvalState: (row.approval_state as SocialApprovalState) ?? "draft"
+    approvalState: (row.approval_state as SocialApprovalState) ?? "draft",
+    approvedAt: str(row.approved_at),
+    updatedAt: str(row.updated_at)
   };
 }
 

@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 
 import { denyUnlessContentCapability } from "@/lib/content/auth";
 import { getCommandCenterConfig } from "@/lib/content/command-center";
-import { buildPromotionPackage, defaultCampaignName, loadPromotionPost } from "@/lib/content/promotion-package";
-import { jsonError, requireSupabase, type RouteContext } from "@/lib/content/route-support";
+import {
+  buildPromotionPackage,
+  defaultCampaignName,
+  loadPromotionPost,
+  promotionPostIsInScope
+} from "@/lib/content/promotion-package";
+import { PROMOTION_CHANNEL_REGISTRY } from "@/lib/content/promotion-studio";
+import { jsonError, requireSupabase, UUID_PATTERN, type RouteContext } from "@/lib/content/route-support";
 import { recordAudit } from "@/lib/content/workflow";
 import { getSafeRequestId, logSecurityInfo } from "@/lib/observability/logger";
 
@@ -25,11 +31,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
   if (gate.denied) return gate.denied;
 
   const { postId } = await params;
+  if (!UUID_PATTERN.test(postId)) return jsonError(400, "Invalid post id.");
   const { client, response } = requireSupabase(context);
   if (!client) return response;
 
   const post = await loadPromotionPost(client, postId);
-  if (!post) return jsonError(404, "Post not found.");
+  if (!post || !promotionPostIsInScope(gate.session, post)) return jsonError(404, "Post not found.");
 
   const campaign = defaultCampaignName(post);
   const promotionPackage = await buildPromotionPackage(client, post, campaign);
@@ -42,6 +49,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ pos
     command_center: config.configured
       ? { connected: true }
       : { connected: false, reason: config.reason },
+    channel_field_labels: Object.fromEntries(
+      Object.entries(PROMOTION_CHANNEL_REGISTRY).map(([channel, rule]) => [channel, rule.variantLabels])
+    ),
     ...promotionPackage
   };
 

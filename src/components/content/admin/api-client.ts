@@ -10,6 +10,11 @@
  * A network failure is reported as a network failure. Nothing in this file ever fabricates success.
  */
 
+import type {
+  PromotionGenerationInput,
+  PromotionGenerationOutput,
+  PromotionGroundingIssue
+} from "@/lib/content/promotion-generation-contract";
 import type { CreateContentPostPayload } from "@/lib/content/types";
 
 export type ApiFailure = {
@@ -170,10 +175,30 @@ export const contentApi = {
     }),
 
   saveSocial: (postId: string, payload: Record<string, unknown>) =>
-    apiRequest(`/api/internal/content/social/${postId}`, {
+    apiRequest<{ drafts?: Record<string, unknown>[]; approvalReset?: string[] }>(`/api/internal/content/social/${postId}`, {
       method: "POST",
       body: JSON.stringify(payload)
     }),
+
+  generatePromotion: (postId: string, payload: PromotionGenerationInput) =>
+    apiRequest<{
+      generatedAt: string;
+      sourceVersion: number;
+      suggestions: PromotionGenerationOutput;
+      issues: PromotionGroundingIssue[];
+    }>(`/api/internal/content/promotion/${postId}/generate`, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    }),
+
+  generateSocialAssets: (
+    postId: string,
+    payload: { template?: string; headline?: string }
+  ) =>
+    apiRequest<{ assets?: Record<string, unknown>[]; template?: string; headline?: string; mediaNotice?: string | null }>(
+      `/api/internal/content/promotion/${postId}/assets`,
+      { method: "POST", body: JSON.stringify(payload) }
+    ),
 
   exportPromotion: (postId: string) =>
     apiRequest<Record<string, unknown>>(`/api/internal/content/promotion/${postId}/export`, {

@@ -207,7 +207,17 @@ const CHANNEL_UTM_SOURCE: Record<SocialChannel, string> = {
   instagram: "instagram",
   threads: "threads",
   email: "newsletter",
-  partner_kit: "partner_kit"
+  partner_kit: "partner"
+};
+
+const CHANNEL_UTM_MEDIUM: Record<SocialChannel, string> = {
+  linkedin: "social",
+  x: "social",
+  facebook: "social",
+  instagram: "social",
+  threads: "social",
+  email: "email",
+  partner_kit: "partner"
 };
 
 /**
@@ -222,7 +232,7 @@ export function buildTrackedLink(
 ): string {
   const url = new URL(canonicalUrl);
   url.searchParams.set("utm_source", overrides?.source?.trim() || CHANNEL_UTM_SOURCE[channel]);
-  url.searchParams.set("utm_medium", overrides?.medium?.trim() || (channel === "email" ? "email" : "social"));
+  url.searchParams.set("utm_medium", overrides?.medium?.trim() || CHANNEL_UTM_MEDIUM[channel]);
   url.searchParams.set("utm_campaign", overrides?.campaign?.trim() || campaign);
   return url.toString();
 }

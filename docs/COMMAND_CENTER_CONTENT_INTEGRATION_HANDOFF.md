@@ -1,6 +1,7 @@
 # Command Center — Content Promotion Integration Handoff
 
-**Status:** LegalEase sending side is built (phase 43). The Command Center receiving side is **not built**.
+**Status:** LegalEase Promotion Studio v2 and sending side are built on the existing phase-43 schema.
+The Command Center receiving side and Content UI are **not built/connected**.
 **Audience:** whoever implements the receiver in the `legalease-command-center` repo.
 **This document is the contract.** Nothing in this repo needs to change for you to build against it.
 
@@ -51,7 +52,9 @@ COMMAND_CENTER_CONTENT_SIGNING_SECRET=
 ```
 
 While any of these is unset, the CMS shows an honest **"Not connected"** state and offers a local
-JSON export instead. It never queues a fake success. You do not need to do anything to support that.
+JSON export instead. Promotion Studio drafting, human approval, deterministic assets, and export do
+not depend on Command Center availability. The browser does not call the send route while the
+feature flag is disabled, and it never queues or displays a fake success.
 
 ---
 
@@ -170,7 +173,9 @@ Notes:
 - `asset` may be `null` (a channel with no graphic). Handle it.
 - Captions are already validated against per-channel limits on our side (X ≤ 280). Validate again
   anyway — never trust an upstream.
-- A channel appearing in `channels` means a human approved that channel. Do not invent channels.
+- A channel appearing in `channels` means a human approved that channel and its draft timestamp is
+  not older than the saved article. Do not invent channels. Stale and unapproved channels are
+  removed server-side before the envelope is built.
 
 ### `content.published` / `content.unpublished`
 
@@ -258,3 +263,18 @@ By design, and you should not ask for it:
 | Contract tests (signing, replay, tamper, idempotency) | `scripts/verify-content-command-center-contract.mjs` |
 | Outbound send route | `src/app/api/internal/content/promotion/[postId]/send/route.ts` |
 | Inbound status route | `src/app/api/content/command-center/status/route.ts` |
+
+---
+
+## 12. Future Command Center Content UI integration
+
+The rebuilt Command Center Content UI should treat the LegalEase promotion package as immutable
+approved input. It may select connected accounts, schedule, deliver, retry, record external platform
+IDs, and report engagement. It must not become a second article editor, silently rewrite captions,
+approve content, derive new legal claims, or infer promotion from article publication.
+
+Until that UI and receiver are connected, the LegalEase integration card remains **Not connected**,
+**Send to Command Center** remains disabled, and JSON export is the supported handoff. Enabling the
+feature later requires the three existing Command Center environment variables and a receiver that
+passes the signature/idempotency contract above; it does not require changing Promotion Studio's AI
+settings or applying another content migration.
