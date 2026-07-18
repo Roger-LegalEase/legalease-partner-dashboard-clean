@@ -8,6 +8,7 @@ const doublesUrl = pathToFileURL(
 ).href;
 
 const mockedSpecifiers = new Set([
+  "@supabase/ssr",
   "@/lib/supabase/auth-server",
   "@/lib/supabase/server",
   "@/lib/partners/session-partner",

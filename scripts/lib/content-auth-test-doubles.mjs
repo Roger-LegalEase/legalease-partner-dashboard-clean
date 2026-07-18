@@ -16,6 +16,19 @@ export async function getServerAuthState() {
   return state.auth;
 }
 
+// The proxy verifier exercises session-refresh control flow, not Supabase's realtime transport.
+// Keeping createServerClient inside this no-network boundary also lets the CI's supported Node 20
+// runtime run the verifier without requiring native WebSocket support from Node 22+.
+export function createServerClient() {
+  return {
+    auth: {
+      async getUser() {
+        return { data: { user: null }, error: null };
+      }
+    }
+  };
+}
+
 export async function requireInternalAdminSession() {
   if (!state.internalAdmin) throw new Error("Not an internal admin.");
   return { kind: "internal_admin", authUserId: state.auth.userId, role: "internal_admin" };
