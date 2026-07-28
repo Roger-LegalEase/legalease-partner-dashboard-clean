@@ -32,6 +32,7 @@ import {
 } from "@/lib/partners/onboarding/schema";
 import type {
   OnboardingSectionKey,
+  OnboardingSectionStatus,
   OrganizationalAssetCategory
 } from "@/lib/partners/onboarding/types";
 
@@ -84,12 +85,14 @@ export type OnboardingEditorAsset = {
 
 export type OnboardingSectionEditorProps = {
   sectionKey: OnboardingSectionKey;
+  sectionStatus: OnboardingSectionStatus;
   title: string;
   purpose: string;
   initialData: Readonly<Record<string, unknown>>;
   initialRevision: number;
   initialWorkspaceVersion: number;
   canEdit: boolean;
+  isPartnerStaff: boolean;
   commercialBlocked: boolean;
   changeRequestInstructions: string | null;
   changeRequestStatus: "open" | "partner_responded" | null;
@@ -151,12 +154,14 @@ const textareaClassName = `${inputClassName} min-h-28 resize-y`;
 
 export function OnboardingSectionEditor({
   sectionKey,
+  sectionStatus,
   title,
   purpose,
   initialData,
   initialRevision,
   initialWorkspaceVersion,
   canEdit,
+  isPartnerStaff,
   commercialBlocked,
   changeRequestInstructions,
   changeRequestStatus,
@@ -172,7 +177,13 @@ export function OnboardingSectionEditor({
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
   const [indicator, setIndicator] = useState<SaveIndicator>({
     kind: "idle",
-    message: canEdit ? "Changes save automatically." : "View-only section."
+    message: isPartnerStaff
+      ? "View-only section."
+      : commercialBlocked
+        ? "Editing opens after commercial clearance."
+        : canEdit
+          ? "Changes save automatically."
+          : "Editing is currently locked."
   });
   const [dirty, setDirty] = useState(false);
   const [conflictRevision, setConflictRevision] = useState<number | null>(null);
@@ -655,21 +666,21 @@ export function OnboardingSectionEditor({
         </Link>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <Badge
-            tone={
-              changeRequestStatus === "open"
-                ? "orange"
-                : changeRequestStatus === "partner_responded"
-                  ? "teal"
-                  : "blue"
-            }
+            tone={sectionBadgeTone(sectionStatus, changeRequestStatus)}
           >
             {changeRequestStatus === "open"
               ? "Changes requested"
               : changeRequestStatus === "partner_responded"
                 ? "Updates submitted"
-                : "Guided setup"}
+                : sectionStatusLabel(sectionStatus)}
           </Badge>
-          {!canEdit ? <Badge>View only</Badge> : null}
+          {isPartnerStaff ? <Badge>View only</Badge> : null}
+          {!canEdit &&
+          !isPartnerStaff &&
+          !commercialBlocked &&
+          !["approved", "waived", "not_applicable"].includes(sectionStatus) ? (
+            <Badge>Editing locked</Badge>
+          ) : null}
         </div>
         <h1 className="mt-4 text-3xl font-black tracking-[-0.02em] md:text-4xl">
           {title}
@@ -809,13 +820,21 @@ export function OnboardingSectionEditor({
             ) : null}
           </div>
 
-          <Button
-            className="min-h-12 px-6"
-            disabled={!controlsEnabled}
-            type="submit"
-          >
-            {completing ? "Checking and saving…" : "Save and continue"}
-          </Button>
+          {controlsEnabled ? (
+            <Button
+              className="min-h-12 px-6"
+              type="submit"
+            >
+              {completing ? "Checking and saving…" : "Save and continue"}
+            </Button>
+          ) : (
+            <Link
+              className="inline-flex min-h-12 items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-wilmaBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+              href={nextHref}
+            >
+              {nextHref.endsWith("/review") ? "Review setup" : "Next section"}
+            </Link>
+          )}
         </div>
       </form>
     </div>
@@ -844,6 +863,37 @@ function SectionFields({
     case "review_authorization":
       return <AuthorizationFields {...props} />;
   }
+}
+
+function sectionBadgeTone(
+  status: OnboardingSectionStatus,
+  changeRequestStatus: "open" | "partner_responded" | null
+): "teal" | "blue" | "orange" | "neutral" {
+  if (changeRequestStatus === "open" || status === "needs_changes") {
+    return "orange";
+  }
+  if (
+    changeRequestStatus === "partner_responded" ||
+    status === "approved" ||
+    status === "waived"
+  ) {
+    return "teal";
+  }
+  if (status === "in_progress" || status === "submitted") return "blue";
+  return "neutral";
+}
+
+function sectionStatusLabel(status: OnboardingSectionStatus) {
+  const labels: Record<OnboardingSectionStatus, string> = {
+    not_started: "Not started",
+    in_progress: "In progress",
+    submitted: "Submitted",
+    needs_changes: "Needs changes",
+    approved: "Approved",
+    waived: "Waived",
+    not_applicable: "Not applicable"
+  };
+  return labels[status];
 }
 
 function OrganizationContactsFields(props: FieldRendererProps) {

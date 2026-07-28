@@ -117,9 +117,10 @@ export default async function PartnerDashboardPage() {
               statusLabel={onboardingStatusLabel(onboarding.workspace.status)}
               blockerCopy={onboarding.workspace.blockerCopy}
               nextActionCopy={onboarding.workspace.nextActionCopy}
+              nextActionOwner={onboardingOwnerLabel(onboarding.workspace.nextActionOwner)}
               targetLaunchDate={onboarding.workspace.targetLaunchDate}
               href="/partner/onboarding"
-              canEdit={onboarding.canEdit}
+              actionLabel={onboardingDashboardActionLabel(onboarding)}
             />
           ) : null}
           <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} publicPartnerPageUrl={publicPartnerPageUrl} />
@@ -269,6 +270,32 @@ function onboardingStatusLabel(status: string) {
     closed: "Closed"
   };
   return labels[status] ?? "Program setup";
+}
+
+function onboardingOwnerLabel(owner: "partner" | "legalease" | "none") {
+  if (owner === "partner") return "Your organization";
+  if (owner === "legalease") return "LegalEase";
+  return "No action needed";
+}
+
+function onboardingDashboardActionLabel(
+  onboarding: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>
+) {
+  if (
+    ["ready_to_launch", "live", "paused", "closed"].includes(
+      onboarding.workspace.status
+    )
+  ) {
+    return "View program setup";
+  }
+  if (onboarding.role === "partner_staff") return "View setup";
+  if (
+    onboarding.canEdit &&
+    onboarding.derivation.nextActionCode === "submit_for_review"
+  ) {
+    return "Review and submit";
+  }
+  return onboarding.canEdit ? "Continue setup" : "View setup";
 }
 
 function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl, publicPartnerPageUrl }: { intakeDisplayUrl: string; intakeOpenUrl: string; publicPartnerPageUrl: string }) {

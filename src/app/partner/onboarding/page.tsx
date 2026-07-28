@@ -130,15 +130,16 @@ async function Phase1PartnerOnboardingPage() {
         nextActionOwner={ownerLabel(portal.workspace.nextActionOwner)}
         dominantHref={dominantHref}
         dominantLabel={
-          portal.canEdit
-            ? reviewReady
-              ? "Review and submit"
-              : "Continue setup"
-            : reviewReady
-              ? "Review setup"
+          portal.role === "partner_staff"
+            ? "View setup"
+            : portal.canEdit
+              ? reviewReady
+                ? "Review and submit"
+                : "Continue setup"
               : "View setup"
         }
         canEdit={portal.canEdit}
+        isPartnerStaff={portal.role === "partner_staff"}
         sections={portal.sections.map((section) => ({
           key: section.key,
           title: section.title,
@@ -230,12 +231,14 @@ function commercialSummary(portal: PartnerOnboardingPortal) {
   if (portal.workspace.commercialGateStatus === "blocked") {
     return {
       label: "Commercial step required",
+      blocked: true,
       detail:
         "Setup editing will open after the authoritative billing or procurement requirement is cleared. Your organization cannot change this status here."
     };
   }
   return {
     label: "Cleared for setup",
+    blocked: false,
     detail:
       "LegalEase recorded the applicable paid invoice, approved purchase order, or authorized internal clearance."
   };

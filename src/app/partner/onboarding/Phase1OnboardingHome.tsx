@@ -17,6 +17,7 @@ export type Phase1OnboardingHomeProps = {
   dominantHref: string;
   dominantLabel: string;
   canEdit: boolean;
+  isPartnerStaff: boolean;
   sections: Array<{
     key: string;
     title: string;
@@ -26,6 +27,7 @@ export type Phase1OnboardingHomeProps = {
   }>;
   commercial: {
     label: string;
+    blocked: boolean;
     detail: string;
   };
   agreements: Array<{
@@ -53,6 +55,7 @@ export function Phase1OnboardingHome({
   dominantHref,
   dominantLabel,
   canEdit,
+  isPartnerStaff,
   sections,
   commercial,
   agreements,
@@ -75,7 +78,7 @@ export function Phase1OnboardingHome({
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-3">
           <Badge tone={toneForStatus(status)}>{statusLabel}</Badge>
-          {!canEdit ? <span className="text-xs font-semibold text-[#8A8278]">View only</span> : null}
+          {isPartnerStaff ? <span className="text-xs font-semibold text-[#8A8278]">View only</span> : null}
         </div>
         <h1 className="mt-4 text-3xl font-black tracking-[-0.02em] text-[#0F1E3D] md:text-4xl">
           Program setup
@@ -136,7 +139,7 @@ export function Phase1OnboardingHome({
             >
               {dominantLabel}
             </Link>
-            {!canEdit ? (
+            {isPartnerStaff ? (
               <p className="mt-3 text-xs leading-5 text-[#8A8278]">
                 A partner administrator can make changes. You can review current setup information.
               </p>
@@ -198,7 +201,15 @@ export function Phase1OnboardingHome({
               <h2 id="commercial-heading" className="text-base font-black text-[#0F1E3D]">
                 Commercial status
               </h2>
-              <p className="mt-3 rounded-xl bg-[#FCEFD9] px-4 py-3 text-sm font-bold text-[#8A5A12]">{commercial.label}</p>
+              <p
+                className={`mt-3 rounded-xl px-4 py-3 text-sm font-bold ${
+                  commercial.blocked
+                    ? "bg-[#FCEFD9] text-[#8A5A12]"
+                    : "bg-teal/10 text-teal"
+                }`}
+              >
+                {commercial.label}
+              </p>
               <p className="mt-3 text-sm leading-6 text-[#5C5750]">{commercial.detail}</p>
             </section>
 

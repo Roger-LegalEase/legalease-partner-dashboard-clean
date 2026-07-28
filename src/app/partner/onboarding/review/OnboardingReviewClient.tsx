@@ -44,6 +44,12 @@ export type OnboardingReviewClientProps = {
   sections: OnboardingReviewSection[];
   canSubmit: boolean;
   canEdit: boolean;
+  isPartnerStaff: boolean;
+  initialSubmission: {
+    submittedAt: string;
+    statusLabel: string;
+    historical: boolean;
+  } | null;
   workspaceVersion: number;
 };
 
@@ -55,6 +61,7 @@ type SubmissionState =
       message: string;
       submittedAt: string | null;
       statusLabel: string;
+      historical: boolean;
     }
   | { kind: "error"; message: string; conflict: boolean };
 
@@ -62,11 +69,22 @@ export function OnboardingReviewClient({
   sections,
   canSubmit,
   canEdit,
+  isPartnerStaff,
+  initialSubmission,
   workspaceVersion
 }: OnboardingReviewClientProps) {
-  const [submission, setSubmission] = useState<SubmissionState>({
-    kind: "idle"
-  });
+  const [submission, setSubmission] = useState<SubmissionState>(
+    initialSubmission
+      ? {
+          kind: "submitted",
+          message:
+            "Your onboarding package was submitted for LegalEase review.",
+          submittedAt: initialSubmission.submittedAt,
+          statusLabel: initialSubmission.statusLabel,
+          historical: initialSubmission.historical
+        }
+      : { kind: "idle" }
+  );
   const requestIdRef = useRef<string | null>(null);
   const submittingRef = useRef(false);
 
@@ -152,7 +170,8 @@ export function OnboardingReviewClient({
             ? payload.statusLabel
             : savedStatus === "ready_for_review"
               ? "Awaiting LegalEase review"
-              : "Submitted"
+              : "Submitted",
+        historical: false
       });
     } catch {
       setSubmission({
@@ -179,14 +198,15 @@ export function OnboardingReviewClient({
           <Badge tone={submitted ? "teal" : "blue"}>
             {submitted ? "Submitted" : "Final review"}
           </Badge>
-          {!canEdit ? <Badge>View only</Badge> : null}
+          {isPartnerStaff ? <Badge>View only</Badge> : null}
         </div>
         <h1 className="mt-4 text-3xl font-black tracking-[-0.02em] md:text-4xl">
           Review your onboarding package
         </h1>
         <p className="mt-2 max-w-3xl text-base leading-7 text-grayWilma-700">
-          Confirm the information below before sending it to LegalEase. Use
-          each section’s edit link to update the canonical source.
+          {canEdit
+            ? "Confirm the information below before sending it to LegalEase. Use each section’s edit link to update the canonical source."
+            : "Review the information below. Open a section to see its canonical source and current status."}
         </p>
       </header>
 
@@ -216,9 +236,9 @@ export function OnboardingReviewClient({
             <Badge tone="teal">{submission.statusLabel}</Badge>
           </div>
           <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-            Submission starts review; it does not approve launch. LegalEase
-            will either approve the package for launch preparation or request
-            section-specific changes here.
+            {submission.historical
+              ? "This saved submission remains part of the program setup history. The current program status is shown above."
+              : "Submission starts review; it does not approve launch. LegalEase will either approve the package for launch preparation or request section-specific changes here."}
           </p>
         </Card>
       ) : null}
@@ -454,33 +474,42 @@ export function OnboardingReviewClient({
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-grayWilma-700">
               {submitted
-                ? "Your saved submission is awaiting LegalEase review."
+                ? submission.historical
+                  ? "This saved submission is part of your program setup history."
+                  : "Your saved submission is awaiting LegalEase review."
                 : "Submitting records your authenticated identity and the server time. It does not create an e-signature, approve launch, send invitations, or publish a page."}
             </p>
-            {!canEdit ? (
+            {isPartnerStaff && !submitted ? (
               <p className="mt-2 text-sm font-semibold text-grayWilma-600">
                 A partner administrator must submit this package.
               </p>
             ) : null}
-            {canEdit && !canSubmit && missingCount === 0 && changeRequestCount === 0 ? (
+            {!isPartnerStaff && !submitted && !canSubmit && missingCount === 0 && changeRequestCount === 0 ? (
               <p className="mt-2 text-sm font-semibold text-orange">
                 Submission is not available in the current commercial or
                 workspace state.
               </p>
             ) : null}
           </div>
-          <Button
-            className="min-h-12 w-full px-6 lg:w-auto"
-            disabled={!submitEnabled || submission.kind === "submitting"}
-            onClick={() => void submitForReview()}
-            type="button"
-          >
-            {submission.kind === "submitting"
-              ? "Submitting…"
-              : submitted
-                ? "Submitted"
+          {submitEnabled || submission.kind === "submitting" ? (
+            <Button
+              className="min-h-12 w-full px-6 lg:w-auto"
+              disabled={submission.kind === "submitting"}
+              onClick={() => void submitForReview()}
+              type="button"
+            >
+              {submission.kind === "submitting"
+                ? "Submitting…"
                 : "Submit for LegalEase review"}
-          </Button>
+            </Button>
+          ) : (
+            <Link
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-wilmaBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 lg:w-auto"
+              href="/partner/onboarding"
+            >
+              Return to program setup
+            </Link>
+          )}
         </div>
       </Card>
     </div>

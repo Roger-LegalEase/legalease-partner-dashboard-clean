@@ -82,6 +82,25 @@ export default async function PartnerOnboardingReviewPage() {
         sections={sections}
         canSubmit={canSubmit}
         canEdit={portal.canEdit}
+        isPartnerStaff={portal.role === "partner_staff"}
+        initialSubmission={
+          portal.workspace.submittedAt &&
+          [
+            "ready_for_review",
+            "ready_to_launch",
+            "live",
+            "paused",
+            "closed"
+          ].includes(portal.workspace.status)
+            ? {
+                submittedAt: portal.workspace.submittedAt,
+                statusLabel: submittedWorkspaceStatusLabel(
+                  portal.workspace.status
+                ),
+                historical: portal.workspace.status !== "ready_for_review"
+              }
+            : null
+        }
         workspaceVersion={portal.workspace.aggregateVersion}
       />
     </main>
@@ -144,6 +163,17 @@ function statusLabel(status: string) {
     .split("_")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
+}
+
+function submittedWorkspaceStatusLabel(status: string) {
+  const labels: Record<string, string> = {
+    ready_for_review: "Awaiting LegalEase review",
+    ready_to_launch: "Ready for launch preparation",
+    live: "Live",
+    paused: "Paused",
+    closed: "Closed"
+  };
+  return labels[status] ?? "Submitted";
 }
 
 function isUnauthenticated(error: unknown) {

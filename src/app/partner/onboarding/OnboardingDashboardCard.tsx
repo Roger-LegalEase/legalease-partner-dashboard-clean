@@ -10,9 +10,10 @@ export type OnboardingDashboardCardProps = {
   statusLabel: string;
   blockerCopy: string;
   nextActionCopy: string;
+  nextActionOwner: string;
   targetLaunchDate: string | null;
   href: string;
-  canEdit: boolean;
+  actionLabel: "Continue setup" | "Review and submit" | "View setup" | "View program setup";
 };
 
 export function OnboardingDashboardCard({
@@ -21,9 +22,10 @@ export function OnboardingDashboardCard({
   statusLabel,
   blockerCopy,
   nextActionCopy,
+  nextActionOwner,
   targetLaunchDate,
   href,
-  canEdit
+  actionLabel
 }: OnboardingDashboardCardProps) {
   const completion = clampPercentage(completionPercentage);
   const compactCompleteState = [
@@ -69,7 +71,7 @@ export function OnboardingDashboardCard({
             </div>
 
             {!compactCompleteState ? (
-              <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+              <dl className="mt-5 grid gap-3 sm:grid-cols-3">
                 <div>
                   <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#8A8278]">Current blocker</dt>
                   <dd className="mt-1 text-sm font-semibold leading-5 text-[#3A332C]">{blockerCopy}</dd>
@@ -77,6 +79,10 @@ export function OnboardingDashboardCard({
                 <div>
                   <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#8A8278]">Next action</dt>
                   <dd className="mt-1 text-sm font-semibold leading-5 text-[#3A332C]">{nextActionCopy}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#8A8278]">Next-action owner</dt>
+                  <dd className="mt-1 text-sm font-semibold leading-5 text-[#3A332C]">{nextActionOwner}</dd>
                 </div>
               </dl>
             ) : (
@@ -91,9 +97,7 @@ export function OnboardingDashboardCard({
               className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#0F1E3D] px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0F6E56] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2"
               href={href}
             >
-              {compactCompleteState || !canEdit
-                ? "View program setup"
-                : "Continue setup"}
+              {actionLabel}
             </Link>
           </div>
         </div>

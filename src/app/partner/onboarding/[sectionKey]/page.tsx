@@ -62,12 +62,14 @@ export default async function PartnerOnboardingSectionPage({
     <main className="min-h-screen bg-[#FBF7F2] px-4 py-8 text-navy md:px-6 md:py-10">
       <OnboardingSectionEditor
         sectionKey={section.key}
+        sectionStatus={section.status}
         title={section.title}
         purpose={section.purpose}
         initialData={section.data as Record<string, unknown>}
         initialRevision={section.revision}
         initialWorkspaceVersion={portal.workspace.aggregateVersion}
         canEdit={sectionCanEdit}
+        isPartnerStaff={portal.role === "partner_staff"}
         commercialBlocked={portal.workspace.commercialGateStatus === "blocked"}
         changeRequestInstructions={
           section.changeRequestInstructions.length
