@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { requirePartnerSession, SessionPartnerError } from "@/lib/partners/session-partner";
 import {
   getOnboardingForPartner,
@@ -24,6 +25,9 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return authError(error, requestId);
   }
+  if (isRcapPartnerOnboardingEnabled()) {
+    return phase1Only();
+  }
   try {
     const onboarding = await getOnboardingForPartner(partnerSlug);
     return NextResponse.json({ success: true, onboarding });
@@ -42,6 +46,9 @@ export async function POST(request: NextRequest) {
     role = session.role;
   } catch (error) {
     return authError(error, requestId);
+  }
+  if (isRcapPartnerOnboardingEnabled()) {
+    return phase1Only();
   }
 
   let body: Record<string, unknown>;
@@ -65,6 +72,20 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return errorResponse(error, requestId);
   }
+}
+
+function phase1Only() {
+  return NextResponse.json(
+    {
+      success: false,
+      error: "The legacy onboarding checklist is unavailable while Phase 1 is enabled.",
+      canonicalRoute: "/partner/onboarding"
+    },
+    {
+      status: 410,
+      headers: { "Cache-Control": "private, no-store, max-age=0" }
+    }
+  );
 }
 
 function authError(error: unknown, requestId: string) {

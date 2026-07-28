@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { listOnboardingSummaries, statusLabel, type OnboardingSummary } from "@/lib/partners/partner-onboarding";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +24,7 @@ export default async function InternalOnboardingDashboard() {
   if (access.kind === "denied") {
     return <InternalAdminDenied title={access.title} body={access.body} />;
   }
+  const phase1Enabled = isRcapPartnerOnboardingEnabled();
 
   let partners: OnboardingSummary[] = [];
   let loadError: string | null = null;
@@ -39,16 +41,31 @@ export default async function InternalOnboardingDashboard() {
           <div>
             <h1 className="text-3xl font-black">Partner onboarding</h1>
             <p className="mt-2 max-w-2xl text-sm text-[#5C5750]">
-              Set up every RCAP partner from one place: profile, billing, access codes, landing page, admins, and
-              launch materials. A partner only goes live when required steps are complete.
+              {phase1Enabled
+                ? "Open an existing partner to provision and review its secure Phase 1 RCAP onboarding workspace. This table remains a read-only compatibility index; Phase 1 does not create partners, send invitations, publish pages, or activate programs."
+                : "Set up every RCAP partner from one place: profile, billing, access codes, landing page, admins, and launch materials. A partner only goes live when required steps are complete."}
             </p>
           </div>
-          <Link
-            href="/internal/partners/onboarding/new"
-            className="rounded-md bg-[#D85A30] px-5 py-2.5 text-sm font-black text-white hover:bg-[#BF4B25]"
-          >
-            Start a new partner
-          </Link>
+          {phase1Enabled ? (
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-flex min-h-10 items-center rounded-full border border-orange/30 bg-orange/10 px-4 py-2 text-xs font-black text-orange">
+                Phase 1 review mode
+              </span>
+              <Link
+                href="/internal/partners/onboarding/new"
+                className="inline-flex min-h-10 items-center rounded-md bg-navy px-4 py-2 text-sm font-black text-white hover:bg-navy-mid"
+              >
+                Open existing partner
+              </Link>
+            </div>
+          ) : (
+            <Link
+              href="/internal/partners/onboarding/new"
+              className="rounded-md bg-[#D85A30] px-5 py-2.5 text-sm font-black text-white hover:bg-[#BF4B25]"
+            >
+              Start a new partner
+            </Link>
+          )}
         </header>
 
         {loadError ? <p className="mb-4 rounded-md border border-[#F3C9B8] bg-[#FDF1E8] px-4 py-3 text-sm text-[#9A3412]">{loadError}</p> : null}
@@ -73,7 +90,9 @@ export default async function InternalOnboardingDashboard() {
               {partners.length === 0 ? (
                 <tr>
                   <td colSpan={10} className="px-4 py-8 text-center text-sm text-[#8A8278]">
-                    No partners in onboarding yet. Start a new partner to begin.
+                    {phase1Enabled
+                      ? "No existing partners are available in this compatibility index."
+                      : "No partners in onboarding yet. Start a new partner to begin."}
                   </td>
                 </tr>
               ) : (
@@ -90,7 +109,7 @@ export default async function InternalOnboardingDashboard() {
                     <td className="px-4 py-3 text-[#8A8278]">{formatDate(p.updatedAt)}</td>
                     <td className="px-4 py-3">
                       <Link href={`/internal/partners/onboarding/${p.partnerSlug}`} className="font-bold text-[#1D9E75] hover:text-[#0F1E3D]">
-                        Manage
+                        {phase1Enabled ? "Open Phase 1" : "Manage"}
                       </Link>
                     </td>
                   </tr>

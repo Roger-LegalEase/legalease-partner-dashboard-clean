@@ -21,6 +21,9 @@ import { logSecurityWarn } from "@/lib/observability/logger";
 import { computePartnerDashboardActionLayer, type PartnerDashboardActionLayer } from "@/lib/partners/dashboard-action-layer";
 import { getPartnerDashboardRlsData, type PartnerDashboardRlsData } from "@/lib/partners/partner-dashboard-rls-repository";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import { getPartnerOnboardingPortal } from "@/lib/partners/onboarding/service";
+import { OnboardingDashboardCard } from "@/app/partner/onboarding/OnboardingDashboardCard";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +84,9 @@ export default async function PartnerDashboardPage() {
       : undefined;
   const allMetricsZero = [metrics.started, metrics.completed, metrics.packets, metrics.saved].every((value) => value === 0);
   const communityMessage = `Have an old Mississippi record and want to see whether record clearing may be an option? ${partnerLabel} and LegalEase have launched a guided intake workflow to help you understand possible next steps. Start here: ${intakeDisplayUrl}`;
+  const onboarding = isRcapPartnerOnboardingEnabled()
+    ? await loadOnboardingCard(dashboard)
+    : null;
 
   return (
     <main className="min-h-screen bg-[#FBF7F2]" data-partner-dashboard-role={dashboard.role} data-partner-dashboard-slug={dashboard.partnerSlug}>
@@ -99,7 +105,23 @@ export default async function PartnerDashboardPage() {
           ) : null}
 
           <CopyBehaviorScript />
-          <Header partnerLabel={partnerLabel} serviceArea={serviceArea} />
+          <Header
+            partnerLabel={partnerLabel}
+            serviceArea={serviceArea}
+            setupStatus={onboarding?.workspace.status}
+          />
+          {onboarding ? (
+            <OnboardingDashboardCard
+              completionPercentage={onboarding.workspace.completionPercentage}
+              status={onboarding.workspace.status}
+              statusLabel={onboardingStatusLabel(onboarding.workspace.status)}
+              blockerCopy={onboarding.workspace.blockerCopy}
+              nextActionCopy={onboarding.workspace.nextActionCopy}
+              targetLaunchDate={onboarding.workspace.targetLaunchDate}
+              href="/partner/onboarding"
+              canEdit={onboarding.canEdit}
+            />
+          ) : null}
           <IntakeLinkCard intakeDisplayUrl={intakeDisplayUrl} intakeOpenUrl={intakeOpenUrl} publicPartnerPageUrl={publicPartnerPageUrl} />
           {dashboard.role === "partner_admin" ? <ManageAccessCodesCard /> : null}
           {dashboard.role === "partner_admin" ? <ManageTeamCard /> : null}
@@ -120,6 +142,29 @@ export default async function PartnerDashboardPage() {
       </div>
     </main>
   );
+}
+
+async function loadOnboardingCard(
+  dashboard: Extract<PartnerDashboardRlsData, { kind: "partner" }>
+) {
+  try {
+    return await getPartnerOnboardingPortal({
+      authUserId: dashboard.authUserId,
+      workEmail: null,
+      partnerSlug: dashboard.partnerSlug,
+      role: dashboard.role
+    });
+  } catch (error) {
+    // A missing/non-applicable workspace must not destabilize the existing
+    // dashboard. The canonical onboarding route presents the detailed state.
+    logSecurityWarn({
+      event: "partner onboarding card unavailable",
+      route: "/partner/dashboard",
+      outcome: "onboarding_unavailable",
+      error
+    });
+    return null;
+  }
 }
 
 type DashboardLoadResult =
@@ -162,20 +207,68 @@ async function loadDashboard(): Promise<DashboardLoadResult> {
   }
 }
 
-function Header({ partnerLabel, serviceArea }: { partnerLabel: string; serviceArea: string }) {
+function Header({
+  partnerLabel,
+  serviceArea,
+  setupStatus
+}: {
+  partnerLabel: string;
+  serviceArea: string;
+  setupStatus?: string;
+}) {
+  const preLaunch =
+    setupStatus &&
+    !["live", "paused", "closed"].includes(setupStatus);
+  const paused = setupStatus === "paused";
+  const closed = setupStatus === "closed";
   return (
     <div style={{ marginBottom: "1.25rem" }}>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#E1F0EC", color: "#0F6E56", fontSize: 13, fontWeight: 500, padding: "5px 13px", borderRadius: 100 }}>
         <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#1D9E75", display: "inline-block" }} />
-        Your program is live
+        {preLaunch
+          ? "Program setup in progress"
+          : paused
+            ? "Program paused"
+            : closed
+              ? "Program setup closed"
+              : "Your program is live"}
       </span>
       <p style={{ margin: "14px 0 0", fontSize: 38, fontWeight: 600, lineHeight: 1.08, letterSpacing: "-0.02em", color: "#0F1E3D" }}>Welcome back, {partnerLabel}</p>
       <p style={{ margin: "10px 0 0", fontSize: 16, color: "#5C5750", lineHeight: 1.6, maxWidth: 540 }}>
-        Every person who starts this workflow is taking a step toward record-clearing support. Here&apos;s how your community is doing.
+        {preLaunch
+          ? "Complete program setup here while your existing dashboard tools remain available."
+          : paused
+            ? "Your existing dashboard history remains available while the program is paused."
+            : closed
+              ? "Your setup history remains available for reference."
+              : "Every person who starts this workflow is taking a step toward record-clearing support. Here’s how your community is doing."}
       </p>
-      <p style={{ margin: "8px 0 0", fontSize: 13, color: "#9A9288" }}>Record-Clearing Access Program · {serviceArea} workflow active · Public intake accepting submissions</p>
+      <p style={{ margin: "8px 0 0", fontSize: 13, color: "#9A9288" }}>
+        {preLaunch
+          ? `Record-Clearing Access Program · ${serviceArea} · Launch not yet approved`
+          : paused
+            ? `Record-Clearing Access Program · ${serviceArea} · Paused`
+            : closed
+              ? `Record-Clearing Access Program · ${serviceArea} · Closed`
+              : `Record-Clearing Access Program · ${serviceArea} workflow active · Public intake accepting submissions`}
+      </p>
     </div>
   );
+}
+
+function onboardingStatusLabel(status: string) {
+  const labels: Record<string, string> = {
+    draft: "Draft",
+    commercially_blocked: "Commercial step required",
+    setup_in_progress: "Setup in progress",
+    waiting_on_partner: "Updates requested",
+    ready_for_review: "Awaiting LegalEase review",
+    ready_to_launch: "Ready for launch preparation",
+    live: "Live",
+    paused: "Paused",
+    closed: "Closed"
+  };
+  return labels[status] ?? "Program setup";
 }
 
 function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl, publicPartnerPageUrl }: { intakeDisplayUrl: string; intakeOpenUrl: string; publicPartnerPageUrl: string }) {

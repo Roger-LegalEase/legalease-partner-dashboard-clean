@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 import { Mail, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { canAccessOnboarding, getPaymentGateMessage, getPartnerBySlug } from "@/lib/partners/partner-service";
 import { partnerCheckout, partnerOnboarding } from "@/lib/partners/routes";
+import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { partnerComplianceCopy } from "@/lib/partners/types";
 
 const emails = [
@@ -53,6 +56,11 @@ export default async function EmailSequencePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { partnerSlug } = await params;
+
+  if (isRcapPartnerOnboardingEnabled()) {
+    await redirectAuthorizedLegacyPartner(partnerSlug);
+  }
+
   const partner = getPartnerBySlug(partnerSlug);
 
   if (!partner) {
@@ -113,6 +121,26 @@ export default async function EmailSequencePage({
       </div>
     </main>
   );
+}
+
+async function redirectAuthorizedLegacyPartner(partnerSlug: string): Promise<never> {
+  try {
+    const session = await resolveSessionPartner();
+    if (
+      session.kind !== "partner" ||
+      session.role !== "partner_admin" ||
+      session.partnerSlug !== partnerSlug
+    ) {
+      notFound();
+    }
+  } catch (error) {
+    if (error instanceof SessionPartnerError) {
+      notFound();
+    }
+    throw error;
+  }
+
+  redirect("/partner/onboarding");
 }
 
 function PartnerNotFound() {

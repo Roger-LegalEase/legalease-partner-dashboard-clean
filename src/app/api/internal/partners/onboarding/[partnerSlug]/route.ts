@@ -22,7 +22,11 @@ import {
 import { buildPartnerLaunchMaterials } from "@/lib/partners/partner-launch-materials";
 import { recordLaunchMaterialsGenerated } from "@/lib/partners/partner-onboarding";
 import type { PartnerAccessMode } from "@/lib/partners/partner-access-codes";
-import { denyUnlessInternalAdmin, onboardingErrorResponse } from "../route";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import {
+  denyUnlessInternalAdmin,
+  onboardingErrorResponse
+} from "@/lib/partners/onboarding/legacy-internal-http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,6 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const requestId = getSafeRequestId(request);
   const denied = await denyUnlessInternalAdmin(requestId);
   if (denied) return denied;
+  if (isRcapPartnerOnboardingEnabled()) return phase1Only();
   const { partnerSlug } = await params;
   try {
     const onboarding = await getOnboarding(partnerSlug);
@@ -46,6 +51,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const requestId = getSafeRequestId(request);
   const denied = await denyUnlessInternalAdmin(requestId);
   if (denied) return denied;
+  if (isRcapPartnerOnboardingEnabled()) return phase1Only();
   const { partnerSlug } = await params;
 
   let body: Record<string, unknown>;
@@ -141,6 +147,20 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   } catch (error) {
     return onboardingErrorResponse(error, requestId, action || "action");
   }
+}
+
+function phase1Only() {
+  return NextResponse.json(
+    {
+      success: false,
+      error: "The legacy onboarding control is unavailable while Phase 1 is enabled.",
+      canonicalRoute: "/api/internal/partners/onboarding/phase1/[partnerSlug]"
+    },
+    {
+      status: 410,
+      headers: { "Cache-Control": "private, no-store, max-age=0" }
+    }
+  );
 }
 
 function ok(onboarding: unknown) {
