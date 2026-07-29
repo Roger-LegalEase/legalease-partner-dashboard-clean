@@ -81,7 +81,7 @@ for (const profile of profiles) {
 
   const publicProjection = projectPublic(profile);
   const projectionText = JSON.stringify(publicProjection);
-  for (const forbidden of ["orderedDecisionRules", "exclusionRules", "waitingPeriodRules", "packetGenerator", "sourceSections", "sourceCorpusSha256"]) {
+  for (const forbidden of ["orderedDecisionRules", "exclusionRules", "waitingPeriodRules", "packetGenerator", "sourceSections", "sourceCorpusSha256", "copyGuardrails"]) {
     assert(!projectionText.includes(forbidden), `${code} public projection leaks ${forbidden}.`);
   }
 
@@ -293,8 +293,7 @@ function projectPublic(profile) {
         contextOnly: question.contextOnly === true,
         doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
       })),
-      caseOutcomeOptions: designer.caseOutcomeOptions,
-      copyGuardrails: profile.copyGuardrails
+      caseOutcomeOptions: designer.caseOutcomeOptions
     };
   }
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -323,8 +322,7 @@ function projectPublic(profile) {
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
       options: question.options ?? null
     })),
-    caseOutcomeOptions: profile.caseOutcomeOptions,
-    copyGuardrails: profile.copyGuardrails
+    caseOutcomeOptions: profile.caseOutcomeOptions
   };
 }
 

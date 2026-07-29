@@ -31,7 +31,27 @@ export const PARTNER_FUNNEL_EVENTS = [
   "partner_packet_generated"
 ] as const;
 
-export const FUNNEL_EVENT_NAMES = [...DTC_FUNNEL_EVENTS, ...PARTNER_FUNNEL_EVENTS] as const;
+// Shared content platform (blog, insights, partner stories, state resources) — served on both
+// public destinations. Note the key names these events carry are constrained by the meta-key
+// blocklist in sanitize.ts: use `article_slug`/`cta_id`, never `article_name` (contains "name") or
+// `description` (contains "ip").
+export const CONTENT_EVENTS = [
+  "content_article_viewed",
+  "content_cta_clicked",
+  "content_share_clicked",
+  "content_link_copied",
+  "content_related_clicked",
+  "content_resource_downloaded",
+  "content_state_selected",
+  "content_promotion_sent",
+  "content_promotion_status_changed"
+] as const;
+
+export const FUNNEL_EVENT_NAMES = [
+  ...DTC_FUNNEL_EVENTS,
+  ...PARTNER_FUNNEL_EVENTS,
+  ...CONTENT_EVENTS
+] as const;
 
 export const ALLOWED_EVENT_NAMES = [PAGEVIEW_EVENT, ...FUNNEL_EVENT_NAMES] as const;
 
@@ -47,7 +67,13 @@ export function isAllowedEventName(value: unknown): value is WebAnalyticsEventNa
 // ingestion route (/api/analytics/web) rejects these so a forged browser beacon cannot inflate a
 // confirmed funnel step. The server emitter (recordServerFunnelEvent) builds the row directly and
 // never passes through the HTTP route, so it is unaffected.
-export const SERVER_ONLY_EVENT_NAMES = ["checkout_completed"] as const;
+// content_promotion_sent and content_promotion_status_changed describe what the server actually did
+// with the Command Center; a browser must never be able to forge them.
+export const SERVER_ONLY_EVENT_NAMES = [
+  "checkout_completed",
+  "content_promotion_sent",
+  "content_promotion_status_changed"
+] as const;
 
 const serverOnlyEventNameSet = new Set<string>(SERVER_ONLY_EVENT_NAMES);
 

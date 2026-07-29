@@ -25,3 +25,489 @@ textarea {
 ::selection {
   background: rgba(15, 139, 141, 0.22);
 }
+
+/* ==============================================================================================
+ * Shared content platform — article body styles (.content-body)
+ * ==============================================================================================
+ *
+ * The renderer (src/lib/content/renderer.ts) emits a fixed, allowlisted set of class names. This is
+ * the ONLY stylesheet for that markup, and it must cover every class the renderer can produce:
+ *
+ *   content-caption, content-credit, content-pullquote, content-table-scroll,
+ *   content-image (+ -inline | -wide | -full), content-gallery,
+ *   content-callout (+ -info | -tip | -warning | -legal),
+ *   content-cta (+ -primary | -secondary), content-sources, content-related, content-disclaimer
+ *
+ * Everything is scoped under .content-body so article HTML can never restyle the app around it.
+ *
+ * Brand: the two public destinations share this structure but not their palettes. The surface is
+ * declared once with data-surface on the container, and every brand-varying value is read from a
+ * custom property — no duplicated rule bodies, no Tailwind arbitrary values (Tailwind cannot see a
+ * class name that is only assembled at runtime).
+ *
+ * Horizontal scrolling: wide/full images deliberately break out of the reading column. The page body
+ * must never scroll sideways as a result, so the breakout is contained by `overflow-x: clip` on
+ * .content-article (see ArticleReader). Tables scroll inside their own .content-table-scroll box.
+ * ============================================================================================== */
+
+.content-article {
+  /* Contains the full-bleed breakout below. `clip` (not `hidden`) does not create a scroll
+     container, so it cannot trap the page or break position: sticky elsewhere. */
+  overflow-x: clip;
+}
+
+.content-body {
+  /* Expungement.ai is the default palette; the partner surface overrides it below. */
+  --content-ink: #0b1320;
+  --content-muted: #5a6275;
+  --content-accent: #ff3b00;
+  --content-accent-soft: rgba(255, 59, 0, 0.08);
+  --content-support: #00a99d;
+  --content-support-soft: #e7f7f4;
+  --content-border: #eceff4;
+  --content-paper: #fbfaf7;
+  --content-radius: 14px;
+  --content-measure: 720px;
+  --content-body-size: 19px;
+  --content-body-leading: 1.75;
+
+  max-width: var(--content-measure);
+  margin-inline: auto;
+  color: var(--content-ink);
+  font-size: var(--content-body-size);
+  line-height: var(--content-body-leading);
+  overflow-wrap: break-word;
+}
+
+.content-body[data-surface="legalease_partner"] {
+  --content-ink: #101046;
+  --content-muted: #54546b;
+  --content-accent: #f04800;
+  --content-accent-soft: rgba(240, 72, 0, 0.08);
+  --content-support: #1f8f88;
+  --content-support-soft: #eaf4f3;
+  --content-border: #dcdce6;
+  --content-paper: #fbfaf7;
+  --content-radius: 2px;
+  --content-body-size: 17px;
+}
+
+/* --- Flow ------------------------------------------------------------------------------------ */
+
+.content-body > * + * {
+  margin-top: 1.4em;
+}
+
+.content-body p {
+  margin: 0;
+}
+
+.content-body h2,
+.content-body h3,
+.content-body h4 {
+  margin: 0;
+  color: var(--content-ink);
+  font-weight: 800;
+  line-height: 1.25;
+  scroll-margin-top: 96px;
+}
+
+.content-body > h2 {
+  margin-top: 2.1em;
+  font-size: 1.55em;
+  letter-spacing: -0.01em;
+}
+
+.content-body > h3 {
+  margin-top: 1.8em;
+  font-size: 1.25em;
+}
+
+.content-body > h4 {
+  margin-top: 1.6em;
+  font-size: 1.08em;
+}
+
+.content-body a {
+  color: var(--content-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--content-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.content-body a:hover {
+  color: var(--content-accent);
+}
+
+.content-body strong {
+  font-weight: 700;
+}
+
+.content-body code {
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+  background: var(--content-paper);
+  border: 1px solid var(--content-border);
+  font-size: 0.88em;
+}
+
+.content-body ul,
+.content-body ol {
+  margin: 0;
+  padding-left: 1.35em;
+}
+
+.content-body li + li {
+  margin-top: 0.5em;
+}
+
+.content-body ul {
+  list-style: disc;
+}
+
+.content-body ol {
+  list-style: decimal;
+}
+
+.content-body li::marker {
+  color: var(--content-support);
+}
+
+.content-body blockquote {
+  margin: 0;
+  padding-left: 1.1em;
+  border-left: 3px solid var(--content-support);
+  color: var(--content-muted);
+  font-style: italic;
+}
+
+.content-body hr {
+  margin-block: 2.4em;
+  border: 0;
+  border-top: 1px solid var(--content-border);
+}
+
+/* --- Figures, captions, credits --------------------------------------------------------------- */
+
+.content-body figure {
+  margin: 0;
+}
+
+.content-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: var(--content-radius);
+}
+
+.content-body figcaption {
+  margin-top: 0.6em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: baseline;
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+
+.content-caption {
+  color: var(--content-muted);
+}
+
+.content-credit {
+  color: var(--content-muted);
+  opacity: 0.75;
+  font-style: italic;
+}
+
+/* --- Images: inline / wide / full -------------------------------------------------------------- */
+
+.content-image {
+  margin-block: 2.2em;
+}
+
+.content-image-inline img {
+  max-width: 100%;
+}
+
+/* Wide: breaks past the reading column but stays a contained card. */
+.content-image-wide {
+  width: min(1040px, calc(100vw - 32px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Full bleed: edge to edge. Square corners because it meets the viewport edges. */
+.content-image-full {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.content-image-full img {
+  border-radius: 0;
+}
+
+.content-image-full figcaption,
+.content-image-wide figcaption {
+  max-width: var(--content-measure);
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* --- Gallery ----------------------------------------------------------------------------------- */
+
+.content-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-block: 2.2em;
+}
+
+.content-gallery figure {
+  margin: 0;
+}
+
+/* --- Pull quote --------------------------------------------------------------------------------- */
+
+.content-pullquote {
+  margin-block: 2.2em;
+  padding-left: 1.1em;
+  border-left: 4px solid var(--content-accent);
+}
+
+.content-pullquote blockquote {
+  padding: 0;
+  border: 0;
+  color: var(--content-ink);
+  font-size: 1.3em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.content-pullquote cite {
+  display: block;
+  margin-top: 0.7em;
+  color: var(--content-muted);
+  font-size: 0.8em;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* --- Tables ------------------------------------------------------------------------------------- */
+
+/* The scroll lives here, inside the article — never on the page body. */
+.content-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin-block: 2em;
+  border: 1px solid var(--content-border);
+  border-radius: var(--content-radius);
+  background: #ffffff;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+  /* Force the horizontal scroll rather than crushing columns on a phone. */
+  min-width: 520px;
+}
+
+.content-table-scroll th,
+.content-table-scroll td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--content-border);
+}
+
+.content-table-scroll th {
+  background: var(--content-paper);
+  color: var(--content-ink);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.content-table-scroll tr:last-child td {
+  border-bottom: 0;
+}
+
+/* --- Callouts ----------------------------------------------------------------------------------- */
+
+.content-callout {
+  margin-block: 2em;
+  padding: 20px 22px;
+  border: 1px solid var(--content-border);
+  border-left: 4px solid var(--content-callout-accent, var(--content-support));
+  border-radius: var(--content-radius);
+  background: var(--content-callout-bg, var(--content-paper));
+  font-size: 0.92em;
+}
+
+.content-callout > * + * {
+  margin-top: 0.8em;
+}
+
+.content-callout-title {
+  font-weight: 800;
+  color: var(--content-ink);
+}
+
+.content-callout-info {
+  --content-callout-accent: var(--content-support);
+  --content-callout-bg: var(--content-support-soft);
+}
+
+.content-callout-tip {
+  --content-callout-accent: #2f855a;
+  --content-callout-bg: #eef8f1;
+}
+
+.content-callout-warning {
+  --content-callout-accent: #b45309;
+  --content-callout-bg: #fdf5e7;
+}
+
+/* Legal callouts read as sober, not alarming — same weight as the standing disclaimer. */
+.content-callout-legal {
+  --content-callout-accent: var(--content-ink);
+  --content-callout-bg: #f4f5f8;
+}
+
+/* --- In-article CTAs ------------------------------------------------------------------------------ */
+
+.content-cta {
+  margin-block: 2.2em;
+}
+
+.content-cta a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 26px;
+  border-radius: var(--content-radius);
+  font-size: 0.9em;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.content-cta a:hover {
+  transform: translateY(-1px);
+}
+
+.content-cta-primary {
+  background: var(--content-accent);
+  color: #ffffff;
+  border: 1px solid var(--content-accent);
+}
+
+.content-cta-primary:hover {
+  color: #ffffff;
+}
+
+.content-cta-secondary {
+  background: #ffffff;
+  color: var(--content-ink);
+  border: 1px solid var(--content-border);
+}
+
+.content-cta-secondary:hover {
+  color: var(--content-ink);
+  border-color: var(--content-accent);
+}
+
+/* --- Sources ------------------------------------------------------------------------------------- */
+
+.content-sources {
+  margin-top: 2.6em;
+  padding-top: 1.6em;
+  border-top: 1px solid var(--content-border);
+  font-size: 0.85em;
+}
+
+.content-sources h2 {
+  margin-bottom: 0.9em;
+  font-size: 0.95em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-muted);
+}
+
+.content-sources ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.content-sources li {
+  padding-left: 1em;
+  text-indent: -1em;
+  color: var(--content-muted);
+}
+
+/* --- Related placeholder --------------------------------------------------------------------------- */
+
+/* The renderer emits an empty <div class="content-related" data-related-slugs="…">. The page hydrates
+   related items from real records, so an unhydrated placeholder must occupy no space. */
+.content-related:empty {
+  display: none;
+}
+
+.content-related {
+  margin-block: 2.2em;
+}
+
+/* --- Disclaimer ------------------------------------------------------------------------------------ */
+
+.content-disclaimer {
+  margin-top: 2.6em;
+  padding: 18px 20px;
+  border: 1px dashed var(--content-border);
+  border-radius: var(--content-radius);
+  background: var(--content-paper);
+  color: var(--content-muted);
+  font-size: 0.8em;
+  line-height: 1.65;
+}
+
+.content-disclaimer p {
+  margin: 0;
+}
+
+/* --- Mobile ----------------------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .content-body {
+    --content-body-size: 17px;
+  }
+
+  .content-body[data-surface="legalease_partner"] {
+    --content-body-size: 16px;
+  }
+
+  /* Wide images collapse to the reading column on a phone; only full-bleed stays edge to edge. */
+  .content-image-wide {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+}
+
+/* Respect reduced-motion: the only motion here is the CTA hover lift. */
+@media (prefers-reduced-motion: reduce) {
+  .content-cta a {
+    transition: none;
+  }
+
+  .content-cta a:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,378 @@
+# Shared Content Publishing Platform (Phase 43)
+
+One content system serving two public destinations:
+
+| Destination | Public host | Internal route group |
+| --- | --- | --- |
+| Expungement.ai (consumer) | `expungement.ai` | `/expungement-ai/*` |
+| LegalEase Partner (B2B) | `legaleasepartner.com` | `/partners/*` |
+
+Host routing is an allowlist in `src/proxy.ts`. It does **not** block un-allowlisted paths — it simply
+does not rewrite them, and they fall through to the root app router. That means a top-level
+`src/app/blog` would be served on *every* domain. Always add public content routes under the
+destination's route group, never at the app root.
+
+---
+
+## Why the architecture looks like this
+
+### 1. The structured document is the source of truth, not HTML
+
+`content_posts.doc` holds a validated block document (Tiptap/ProseMirror shape, typed as `ContentDoc`
+in `src/lib/content/types.ts`). Public HTML is **derived** from it by `src/lib/content/renderer.ts`
+and cached in `rendered_html`.
+
+The renderer is an **allowlist, not a sanitizer**:
+
+- unknown node types and marks are dropped, not passed through;
+- every text value is HTML-escaped in both text and attribute position;
+- every URL goes through `safeUrl()`, which rejects `javascript:`, `data:`, `vbscript:`, `file:`,
+  control-character-smuggled schemes (`java\tscript:`), and protocol-relative `//host` URLs;
+- there is **no raw-HTML block and no `dangerouslySetInnerHTML` of editor output**, by construction.
+
+The editor never sends HTML to the server. If you are tempted to add a "trusted HTML" field: that is
+the exact thing this design prevents. Attacks are asserted in
+`scripts/verify-content-renderer-sanitization.mjs`.
+
+The article page *does* use `dangerouslySetInnerHTML`, and that is correct — it renders the output of
+the allowlisting renderer, not user input.
+
+### 2. There is exactly one legal-rules database, and it is not this one
+
+State resource pages (`/resources/[jurisdiction]`, all 50 states + DC) read the record-clearing engine
+through **one** fail-closed adapter: `src/lib/content/state-resources.ts`.
+
+Each page has two layers:
+
+- **LOCKED** — derived from the already-live public state projection
+  (`src/lib/expungement-ai/state-landing/state-landing-data.ts`). Exactly seven fields cross the
+  boundary: `code`, `name`, `slug`, `primaryConsumerTerm`, `avoidUniversalExpungementLabel`,
+  `allowedStateTerms`, `pathwayHighlights` (pathway **labels** only). Not editable in the CMS.
+- **EDITORIAL** — authored in the CMS (`content_state_editorial`): intro, overview, featured image,
+  approved FAQs, related articles, approved partner quote, announcement, SEO/social meta, CTA.
+  Contains **no legal rules**.
+
+The CMS renders the locked panel read-only and clearly marked, so an editor cannot contradict the engine.
+
+> **Deliberate non-reuse.** The adapter does *not* use the engine's own `projectPublicProfile()` /
+> `PublicJurisdictionProfile`, even though that projection is now itself allowlist-by-construction
+> (it used to pass `copyGuardrails` — raw internal source-corpus text in several profiles — straight
+> through to an anonymous endpoint; fixed in `fix(expungement): restrict public state profile
+> projection`, commit `290fe0c`).
+>
+> The reason to keep them separate is not the old bug: it is that `projectPublicProfile()` is a
+> **screening** contract, shaped by what the eligibility flow needs (questions, flow stages,
+> lifecycle phases). A **publishing** contract needs a different, much narrower set of fields, and
+> tying an editorial page to the screening payload would mean every future screening field silently
+> becomes public web copy. The two projections answer different questions and are allowed to diverge.
+
+`assertNoInternalLeak()` re-checks every assembled payload against 31 internal markers (source hashes,
+QA notes, decision rules, generator config, counsel ratification) and **throws** rather than rendering.
+A jurisdiction only renders at all if the state-promotion manifest marks it approved and live for the
+Expungement.ai channel. Verified by `scripts/verify-content-state-resources.mjs`.
+
+**Never invent** eligibility criteria, waiting periods, exclusions, forms, fees, filing instructions,
+legal effects, or immigration consequences. If the engine does not say it, the page does not say it.
+
+### 3. Legal review cannot be skipped
+
+Content that is legally substantive — `state_resource`, `resource_guide`, or **anything flagged
+`legal_sensitive`** — cannot reach `published`, `updated`, or `scheduled` without a recorded legal
+approval.
+
+This is enforced **twice**, deliberately:
+
+- app layer: `evaluateTransition()` in `src/lib/content/workflow.ts` (gives a human a clear reason);
+- database layer: the `content_posts_legal_review_required_check` CHECK constraint (cannot be bypassed
+  by a direct DB write, a script, or a service-role client).
+
+Not even a `primary_admin` can publish an unreviewed state resource. Scheduling does not bypass it either.
+
+**A legal reviewer has no UPDATE privilege on `content_posts` at all.** Legal review happens only
+through the `content_apply_legal_review(post_id, decision, notes)` database function, which:
+
+- re-derives the caller's role from their JWT (so it is safe under a direct PostgREST/RPC call);
+- accepts only a post id, a decision, and notes;
+- writes **only** `legal_approved_at` / `legal_approved_by` and the review-state transition
+  (`in_legal_review` → `approved` | `changes_requested`);
+- **cannot** publish, unpublish, schedule, archive, or rewrite a title, body, slug, SEO field, or author;
+- refuses a post that is not `in_legal_review`, and records the reviewer, a `content_reviews` row, and
+  an audit event itself, so none of those can be skipped.
+
+The earlier design gave the reviewer a broad `FOR UPDATE` policy. Because RLS is row-scoped, that
+silently let a legal reviewer take a draft straight to published and rewrite any live post.
+
+The same boundary applies to publishing roles: `authenticated` has no direct column privilege on
+`legal_approved_at` or `legal_approved_by` (and cannot supply them on insert). RLS still determines
+which rows an editor may work on, while column grants prevent every browser-authenticated role —
+including `editor`, explicit `primary_admin`, and an implicit internal admin — from forging approval
+evidence. `content_reviews` is SELECT-only to authenticated callers; legal decisions are inserted by
+the RPC and editorial decisions by the gated server workflow.
+
+**Publishing authority** is separately enforced by the `content_enforce_publish_authority` trigger,
+which calls `content_can_publish()`. Any transition into or out of `published` / `updated` /
+`scheduled`, any change to `published_at` / `scheduled_for`, and any archive requires a publishing
+role — no matter which policy admitted the row. For legally substantive content, publication also
+requires approval fields that already existed before the publishing statement and a matching
+approved legal-review record for that reviewer. Approval and publication can never be combined in
+one direct update.
+
+### 4. Drafts are invisible to the public in the database, not just in the app
+
+The RLS policy `content_posts_select_public` admits only:
+
+```sql
+status in ('published','updated') and published_at is not null and published_at <= now()
+```
+
+A draft, a scheduled post with a future date, anything in review, and anything archived are unreadable
+by `anon` **even through a direct PostgREST call with a leaked anon key**. The repository layer filters
+identically — belt and braces.
+
+Proven under a real unprivileged Postgres role in `scripts/test-content-platform-schema.mjs`.
+
+### 5. The audit log is genuinely append-only
+
+`content_audit_events` has no UPDATE/DELETE policy *and* a trigger that raises on UPDATE/DELETE. The
+trigger matters: `service_role` bypasses RLS, so without it an operator script could quietly rewrite
+history. Verified as a superuser in the schema test.
+
+---
+
+## Roles
+
+Content roles live in `content_admin_users`. There is **no second login system and no hardcoded
+administrator email**. An existing trusted internal admin (`public.is_internal_admin()`, phase 21) is a
+content `primary_admin` implicitly.
+
+| Role | Can |
+| --- | --- |
+| `primary_admin` | Everything |
+| `editor` | Create/edit any, editorial approve, publish, schedule, archive, restore, media, social draft/approve, taxonomy |
+| `legal_reviewer` | Read + **legal approve** (only this role and `primary_admin` can) |
+| `social_manager` | Read, media upload, social draft/approve/**send** |
+| `contributor` | Create + edit **own** drafts, submit for review, upload media |
+| `partner_contributor` | Create + edit **own partner's** drafts only. Cannot publish. |
+| `viewer` | Read **published content only** — a viewer does *not* see drafts or in-review work (least privilege; enforced by RLS, not the UI) |
+
+`partner_contributor` is row-scoped by RLS: a partner contributor **cannot see or write another
+partner's drafts**. Proven in the schema test.
+
+---
+
+## Workflow
+
+```
+draft → in_editorial_review → in_legal_review → approved → scheduled → published → updated
+  ↘ changes_requested ↩                            ↘ published
+  → archived (from any state) → draft (restore)
+```
+
+Every approval, rejection, override, publication, schedule, archive, restore, and promotion send is
+written to `content_audit_events`.
+
+---
+
+## Media — the bucket is PRIVATE
+
+Supabase Storage bucket `content-media`, created **private** by the migration, with **no
+`storage.objects` policies at all**. That is deliberate: storage is service-role-only.
+
+- **Uploads** go through `/api/internal/content/media` using the service-role client. There are no
+  unauthenticated public writes, and the route fails with a clear `bucket_missing` error if the
+  bucket has not been created.
+- **Reads** go through `/api/content/media/[mediaId]`. That route asks the database
+  (`content_media_is_public()`) whether the asset is actually referenced by published content, and
+  only then mints a **short-lived signed URL** and redirects. An embargoed asset 404s — and 404s
+  identically to a nonexistent one, so the endpoint cannot be probed.
+
+There is **no public bucket URL anywhere in the payload**. An earlier revision made the bucket public
+and let anon enumerate `content_media`, which meant an image attached to an unannounced draft was
+both discoverable and fetchable. "The filename is hard to guess" is not an access control.
+
+## The public interface: `content_public_*` views
+
+RLS is **row**-scoped, never **column**-scoped. A "published rows only" policy on a base table still
+hands the anonymous web *every column* of those rows — which is exactly how `created_by`,
+`legal_approved_by`, `scheduled_for`, and `search_text` were once public.
+
+So anon has **no privilege on any content base table**. Everything the public web can read is named,
+column by column, in five owner-executed views:
+
+| View | Exposes |
+| --- | --- |
+| `content_public_posts` | 23 named columns: ids, destination/locale/type, slug, title, subtitle, excerpt, sanitized `rendered_html`, reading time, author/category/media references, SEO + social metadata, `published_at`, and a `content_updated_at` that is non-null only for genuinely updated posts. **No** `doc`, `status`, `search_text`, `version`, `scheduled_for`, `created_by`, or any `*_approved_by/_at`. |
+| `content_public_authors` | Byline fields. **No** `auth_user_id`. |
+| `content_public_media` | Only assets referenced by published content. **No** `storage_path`, `uploaded_by`, `source_info`, `permission_status`. |
+| `content_public_testimonials` | Quote, attribution, role, partner, image. **No** `consent_status`, **no** `consent_reference`. |
+| `content_public_state_editorial` | The published editorial layer. **No** `status`, `legal_approved_by`, `updated_by`. |
+
+Adding a column to a table can no longer leak it — a human has to add it to a view.
+`src/lib/content/repository.ts` reads **only** these views. Do not "optimize" it back onto a base
+table with a column list: a column list in JavaScript is a convention, a view is a privilege.
+
+| Blocks publication | Warns |
+| --- | --- |
+| Missing alt text | Low resolution for a featured image |
+| **Unknown permission status** | Missing credit on a licensed asset |
+| Unsupported MIME / SVG | GIF used as a social asset |
+| Oversized file (>12 MB; GIF >3 MB) | Missing social variants |
+
+The declared `Content-Type` is attacker-controlled, so the upload route sniffs **magic bytes**
+(`sniffImageMimeType()`) and rejects an HTML or SVG payload renamed to `.png`.
+
+Permission states: `owned`, `licensed`, `partner_approved`, `user_consented`, `editorial_use`, `unknown`.
+`unknown` **blocks** — publishing an image whose rights we cannot account for is the most expensive
+mistake a publishing platform can make.
+
+---
+
+## Social promotion
+
+Promotion Studio produces and edits per-channel drafts for LinkedIn, X, Facebook, Instagram, Threads,
+Email, and a Partner kit. Each channel keeps four variants. Email and Partner kit reuse the existing
+database columns with channel-specific labels rather than requiring a migration. Caption limits are
+enforced server-side (X = 280), and any change to approved copy, hashtags, mentions, UTMs, or selected
+asset resets that channel to `draft` on the server.
+
+The studio derives an editable campaign brief and can request a complete, reviewable campaign in one
+explicit action. Generated suggestions are held in browser review state: a human must Apply, Save,
+and Approve them. Generation never writes social drafts, records approval, or sends a promotion.
+Fill-empty mode skips populated, manually edited, locked, and approved fields. If the article editor
+has unsaved changes, generation is blocked until the saved article is current.
+
+### AI generation boundary
+
+`POST /api/internal/content/promotion/[postId]/generate` requires `social.draft`, validates a strict
+request schema, rechecks partner scope, and loads the saved article server-side. The browser may send
+only campaign controls (channels, mode, classification/objective, audience, tone, CTA, variant, and
+asset-plan preference). It cannot send article content or authoritative metadata.
+
+The exact saved source sent to the OpenAI Responses API is:
+
+- title, subtitle, excerpt, and a length-capped plain-text projection of the structured document;
+- content type and destination;
+- category and tag names;
+- public author name, title, and organization;
+- jurisdiction and approved public partner name/organization (never the internal partner slug);
+- server-derived canonical URL;
+- approved featured-image alt/caption metadata (never a private path);
+- CTA labels and URLs stored in the structured document;
+- the legal-sensitivity boolean.
+
+The document is converted to clean text; HTML is never sent. The provider does **not** receive auth
+user IDs, creator/reviewer/staff IDs, approval identity or history, source version, audit history,
+private consent references, media Storage paths, internal state-engine/research fields, another
+post's content, customer records, Command Center secrets, Supabase credentials, or browser-supplied
+article/workflow/URL data.
+
+The implementation uses the official OpenAI JavaScript SDK, the Responses API, strict JSON Schema
+structured output, `store: false`, finite timeouts, and no web-search or other tools. Output ceilings
+are 12,000 tokens for a full campaign, 6,000 for a channel, and 2,000 for a field. The response is
+parsed and validated again with strict Zod before it reaches the editor. Invalid output and timeouts
+save nothing. Channel- and field-level operations send rules only for the requested channel and
+require empty values for unrelated channels/variants; the UI applies only the requested scope.
+
+Per-user and per-post limits are enforced from durable, append-only
+`promotion_generation_started` audit reservations in `content_audit_events`, not process memory.
+The reservation happens after authentication, strict validation, saved-post loading, and partner
+scope checks but immediately before provider invocation. A metering read/write failure fails closed;
+cold starts and separate serverless instances do not reset the window. Application logs and audit
+rows contain only non-sensitive metadata (actor, post, saved version, channel set, mode,
+provider/model, outcome, and timestamp), never prompts or generated bodies.
+
+Deterministic guards compare output with the saved source and flag new numbers, percentages, dates,
+URLs, fabricated quotations/testimonials, legal-rule claims, unverified handles,
+organization/person names, guarantee/qualification language, and channel-limit violations. The
+same blockers run server-side on approval, so a direct API request cannot bypass the UI.
+Legally sensitive copy may summarize only the reviewed article and cannot be approved before the
+article has legal approval. The generated model response is never treated as approval evidence.
+
+Configuration is server-only and disabled by default:
+
+```dotenv
+CONTENT_PROMOTION_AI_ENABLED=false
+OPENAI_API_KEY=
+CONTENT_PROMOTION_OPENAI_MODEL=
+```
+
+No model name or API key is hardcoded or exposed to the browser. When disabled, the UI says AI is
+not configured and manual drafting, stable UTM defaults, deterministic assets, saving, approval,
+export, and the Command Center boundary remain fully usable.
+
+### Tracking, mentions, assets, and staleness
+
+UTM defaults come from one channel registry: LinkedIn/X/Facebook/Instagram/Threads use
+`social`, newsletter uses `newsletter/email`, and Partner kit uses `partner/partner`.
+`utm_campaign` is the normalized article slug; the canonical URL is always server-derived. Hashtags
+are normalized and de-duplicated within channel counts. AI may suggest plain mention candidate names,
+but it never creates an `@handle`; a handle can be applied only when verified metadata supplies it.
+
+The explicit **Generate branded assets** action reuses the existing deterministic social-card
+renderer and existing `content_social_assets` table for 1200×630 landscape, 1080×1080 square, and
+1080×1350 portrait variants. Draft previews remain behind content authentication, image URLs contain
+no private Storage path, and the existing public OG route continues to expose only published posts.
+
+Staleness uses existing `content_posts.updated_at` and `content_social_drafts.updated_at` timestamps.
+A draft older than its article is marked stale and cannot enter a Command Center package until a
+human reviews and reapproves it. No migration or additional staleness column is required.
+
+**Publishing an article and sending its promotion are separate actions.** See
+`docs/COMMAND_CENTER_CONTENT_INTEGRATION_HANDOFF.md` for the outbound contract.
+
+---
+
+## Analytics
+
+Content events are in the allowlist in `src/lib/analytics/event-names.ts`
+(`content_article_viewed`, `content_cta_clicked`, `content_share_clicked`, `content_link_copied`,
+`content_related_clicked`, `content_resource_downloaded`, `content_state_selected`,
+`content_promotion_sent`, `content_promotion_status_changed`). Anything not on the allowlist is dropped
+with a 400 at the ingestion boundary.
+
+⚠️ The meta-key blocklist in `src/lib/analytics/sanitize.ts` matches **normalized substrings**. These
+keys are silently dropped and will look like broken analytics:
+
+- `article_name`, `page_name` → contains `name`
+- `description` → contains **`ip`** (descr-**ip**-tion)
+- `record_type`, `use_case`, `charge_type` → contain `record` / `case` / `charge`
+
+Use `article_slug`, `cta_id`, `jurisdiction`, `state` (2-letter, uppercase), `product_surface`.
+
+`content_promotion_sent` and `content_promotion_status_changed` are **server-only** — a browser cannot
+forge them.
+
+---
+
+## Running it
+
+```bash
+npm run content:test-schema        # migration + RLS in hermetic PGlite
+npm run content:verify-renderer    # XSS / sanitization
+npm run content:verify-resources   # 51 states, no internal leak
+npm run content:verify-workflow    # legal gate, roles, media
+npm run content:verify-command-center  # HMAC, replay, idempotency
+npm run content:verify-routes      # route + metadata coverage
+npm run content:verify-promotion-studio   # generation/grounding/approval contracts
+npm run content:verify-promotion-browser  # real desktop/mobile component via Playwright
+```
+
+Host routing is **inert on localhost** (`normalizeHost("localhost:3000")` matches no branch). To
+exercise the public paths locally, hit the internal route or spoof the Host header:
+
+```bash
+curl -H "Host: expungement.ai" http://localhost:3000/blog
+curl -H "Host: legaleasepartner.com" http://localhost:3000/insights
+```
+
+---
+
+## Deployment prerequisites (none are done)
+
+1. **Review and apply `supabase/phase-43-content-platform.sql`.** It has *not* been applied to any
+   database. It requires phase 21 (`public.is_internal_admin()`).
+2. Create the `content-media` storage bucket (the migration does it when the `storage` schema exists).
+3. Assign content roles in `content_admin_users` (internal admins already have `primary_admin`).
+4. Set `CONTENT_SCHEDULER_SECRET` and point a cron at `POST /api/content/scheduler/run`. Without the
+   secret the route returns 503 rather than running unprotected.
+5. Configure the Command Center env vars **only** once the receiving endpoint exists.

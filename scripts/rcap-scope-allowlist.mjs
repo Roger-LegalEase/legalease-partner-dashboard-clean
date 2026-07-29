@@ -136,6 +136,10 @@ export const PARTNER_ACCESS_CODES_FILES = [
 // partner-facing route is scoped to the caller's own partner.
 export const PARTNER_ONBOARDING_FILES = [
   "supabase/phase-42-partner-onboarding.sql",
+  // Phase 43 (reviewed): additive RCAP Partner Onboarding Phase 1 workspace,
+  // section, asset, review, and tenant-isolation schema. Migration file only;
+  // it remains unapplied until the separately approved database process.
+  "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
   "src/app/api/internal/partners/onboarding/route.ts",
   "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
   "src/app/api/partners/onboarding/checklist/route.ts",
@@ -153,7 +157,97 @@ export const PARTNER_ONBOARDING_FILES = [
 // insert. No source-engine, auth, billing, or Stripe-secret surface is touched, and no user-facing
 // response changes. Kept file-level (no directories) per the scope-guard rule.
 export const COMMAND_CENTER_PRODUCT_EVENT_FILES = [
+  // Phase 40 (reviewed): privacy-limited web analytics event storage.
+  "supabase/phase-40-web-analytics-events.sql",
   "src/app/api/analytics/web/route.ts"
+];
+
+// Phase 43: the shared content publishing platform (Expungement.ai blog/resources + LegalEase
+// Partner insights/stories, the internal CMS, and the Command Center promotion boundary).
+//
+// Scope discipline, stated explicitly because this group is large:
+//   - It adds NEW routes. It does not modify any live screening, eligibility, packet, Stripe,
+//     Briefcase, partner-intake, or partner-dashboard surface.
+//   - The three MODIFIED files are additive: globals.css appends article styles, sitemap.ts adds
+//     the new content URLs while keeping every existing state entry, and robots.ts is new.
+//   - supabase/phase-43-content-platform.sql is a MIGRATION FILE ONLY and has not been applied to
+//     any database. It creates only content_* tables and touches no existing table, RLS policy,
+//     or auth logic.
+// Files are enumerated individually (no directories), matching the convention of the other groups.
+export const CONTENT_PLATFORM_FILES = [
+  // Public surfaces (Expungement.ai). These MUST be listed here.
+  //
+  // The guards disagree about src/app/expungement-ai/, so it cannot be assumed exempt:
+  //   - test-inspect-local-record-clearing-pdfs.mjs FILTERS the prefix out (it is checking that the
+  //     PDF-inspection work did not touch live routes, and the consumer app is not its concern).
+  //   - verify-all50-internal-preview.mjs / verify-all51-launch-enabled.mjs pass it as an
+  //     extraForbiddenPrefix, because the all-50 source-engine work must never quietly edit the
+  //     live consumer surface.
+  // The second is the stricter and correct reading for this branch: these are net-new marketing/
+  // editorial routes on the consumer app, so they are declared explicitly rather than exempted.
+  // They add no screening, eligibility, payment, or packet behavior — see
+  // scripts/verify-content-state-resources.mjs, which fails the build if any of them imports the
+  // rcap-engine, a state pack, or a checkout surface.
+  "src/app/expungement-ai/blog/page.tsx",
+  "src/app/expungement-ai/blog/[slug]/page.tsx",
+  "src/app/expungement-ai/blog/feed.xml/route.ts",
+  "src/app/expungement-ai/authors/[slug]/page.tsx",
+  "src/app/expungement-ai/resources/page.tsx",
+  "src/app/expungement-ai/resources/[jurisdiction]/page.tsx",
+  // Public surfaces (LegalEase Partner).
+  "src/app/partners/layout.tsx",
+  "src/app/partners/insights/page.tsx",
+  "src/app/partners/insights/[slug]/page.tsx",
+  "src/app/partners/insights/feed.xml/route.ts",
+  "src/app/partners/partner-stories/page.tsx",
+  "src/app/partners/partner-stories/[slug]/page.tsx",
+  "src/app/partners/authors/[slug]/page.tsx",
+  "src/app/partners/resources/page.tsx",
+  // SEO surfaces.
+  "src/app/robots.ts",
+  "src/app/sitemap.ts",
+  "src/app/globals.css",
+  // Internal CMS.
+  "src/app/internal/content/layout.tsx",
+  "src/app/internal/content/page.tsx",
+  "src/app/internal/content/articles/page.tsx",
+  "src/app/internal/content/articles/new/page.tsx",
+  "src/app/internal/content/articles/[id]/page.tsx",
+  "src/app/internal/content/state-resources/page.tsx",
+  "src/app/internal/content/state-resources/[jurisdiction]/page.tsx",
+  "src/app/internal/content/partner-stories/page.tsx",
+  "src/app/internal/content/testimonials/page.tsx",
+  "src/app/internal/content/authors/page.tsx",
+  "src/app/internal/content/media/page.tsx",
+  "src/app/internal/content/social/page.tsx",
+  "src/app/internal/content/reviews/page.tsx",
+  "src/app/internal/content/scheduled/page.tsx",
+  "src/app/internal/content/settings/page.tsx",
+  // Authenticated content APIs.
+  "src/app/api/internal/content/posts/route.ts",
+  "src/app/api/internal/content/posts/[id]/route.ts",
+  "src/app/api/internal/content/posts/[id]/transition/route.ts",
+  "src/app/api/internal/content/posts/[id]/versions/route.ts",
+  "src/app/api/internal/content/posts/[id]/versions/restore/route.ts",
+  "src/app/api/internal/content/media/route.ts",
+  "src/app/api/internal/content/media/[id]/route.ts",
+  "src/app/api/internal/content/social/[postId]/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/export/route.ts",
+  "src/app/api/internal/content/promotion/[postId]/send/route.ts",
+  "src/app/api/internal/content/state-editorial/[code]/route.ts",
+  "src/app/api/internal/content/authors/route.ts",
+  // System routes: scheduler (secret-gated), Command Center status callback (HMAC-gated),
+  // social-card preview (content-session-gated), public OG image (published posts only), and the
+  // media route — the only way bytes leave the PRIVATE content-media bucket. It checks
+  // content_media_is_public() before minting a short-lived signed URL, so an asset attached only to
+  // an unpublished draft 404s.
+  "src/app/api/content/media/[mediaId]/route.ts",
+  "src/app/api/content/scheduler/run/route.ts",
+  "src/app/api/content/command-center/status/route.ts",
+  "src/app/api/content/social-card/route.ts",
+  "src/app/api/content/og/[postId]/route.ts",
+  // Migration file only — not applied to any database.
+  "supabase/phase-43-content-platform.sql"
 ];
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
@@ -169,5 +263,6 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...PARTNER_ONBOARDING_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
-  ...MS_SPONSORED_PACKET_BRIDGE_FILES
+  ...MS_SPONSORED_PACKET_BRIDGE_FILES,
+  ...CONTENT_PLATFORM_FILES
 ];
