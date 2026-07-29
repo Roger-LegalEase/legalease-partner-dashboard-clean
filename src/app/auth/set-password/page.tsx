@@ -354,7 +354,7 @@ export default function SetPasswordPage() {
   );
 }
 
-export function validatePassword(password: string, confirmPassword: string) {
+function validatePassword(password: string, confirmPassword: string) {
   if (password.length < minimumPasswordLength) {
     return passwordRequirementsMessage;
   }

@@ -448,8 +448,11 @@ export async function claimFirstAdminSetupToken(
     .eq("event_type", invitationEventType)
     .contains("event_payload", { token_hash: tokenHash })
     .limit(2);
+  if (error) {
+    throw persistenceReadFailure();
+  }
   const rows = (data ?? []) as InvitationRecordRow[];
-  if (error || rows.length !== 1) {
+  if (rows.length !== 1) {
     throw inactiveInvitation();
   }
   const row = rows[0];
@@ -493,6 +496,7 @@ export async function claimFirstAdminSetupToken(
 
   let authUser: User | null = null;
   let createdAuthUser = false;
+  let claimedInvitation: FirstAdminInvitationPayload | null = null;
   try {
     const existing = await findAuthUserByEmail(supabase, invitation.email);
     if (existing) {
@@ -565,6 +569,7 @@ export async function claimFirstAdminSetupToken(
     ) {
       throw new Error("Invitation state changed during setup.");
     }
+    claimedInvitation = claimed;
     await appendAudit(
       supabase,
       row.partner_slug,
@@ -576,20 +581,45 @@ export async function claimFirstAdminSetupToken(
       }
     );
     return { actionLink };
-  } catch {
+  } catch (error) {
     if (createdAuthUser && authUser?.id) {
-      await supabase.auth.admin.deleteUser(authUser.id);
-    }
-    await compareAndSetInvitation(
-      supabase,
-      row.partner_slug,
-      claiming.revision,
-      {
-        ...invitation,
-        revision: claiming.revision + 1,
-        status: "pending"
+      const deletion = await supabase.auth.admin.deleteUser(authUser.id);
+      if (deletion.error) {
+        throw new FirstAdminProvisioningError(
+          "auth_failed",
+          "Account setup failed and its unclaimed Auth user could not be removed."
+        );
       }
-    );
+    }
+    const expectedRevision =
+      claimedInvitation?.revision ?? claiming.revision;
+    const recovered: FirstAdminInvitationPayload = claimedInvitation
+      ? {
+          ...claimedInvitation,
+          revision: expectedRevision + 1,
+          status: "attention"
+        }
+      : {
+          ...invitation,
+          revision: expectedRevision + 1,
+          status: "pending"
+        };
+    if (
+      !(await compareAndSetInvitation(
+        supabase,
+        row.partner_slug,
+        expectedRevision,
+        recovered
+      ))
+    ) {
+      throw new FirstAdminProvisioningError(
+        "invitation_conflict",
+        "Account setup failed while invitation recovery also changed."
+      );
+    }
+    if (error instanceof FirstAdminProvisioningError) {
+      throw error;
+    }
     throw inactiveInvitation();
   }
 }
@@ -668,17 +698,24 @@ export async function acceptFirstAdminInvitation(
     existingMembership.status === "active"
   ) {
     const acceptedAt = now.toISOString();
-    await compareAndSetInvitation(
-      supabase,
-      partnerSlug,
-      invitation.revision,
-      {
-        ...invitation,
-        revision: invitation.revision + 1,
-        status: "accepted",
-        accepted_at: acceptedAt
-      }
-    );
+    if (
+      !(await compareAndSetInvitation(
+        supabase,
+        partnerSlug,
+        invitation.revision,
+        {
+          ...invitation,
+          revision: invitation.revision + 1,
+          status: "accepted",
+          accepted_at: acceptedAt
+        }
+      ))
+    ) {
+      throw new FirstAdminProvisioningError(
+        "invitation_conflict",
+        "Partner access changed while the account was being confirmed."
+      );
+    }
     await appendAudit(
       supabase,
       partnerSlug,
@@ -764,16 +801,23 @@ export async function acceptFirstAdminInvitation(
         membership.role !== FIRST_ADMIN_ROLE ||
         membership.status !== "active"
       ) {
-        await compareAndSetInvitation(
-          supabase,
-          partnerSlug,
-          accepting.revision,
-          {
-            ...accepting,
-            revision: accepting.revision + 1,
-            status: "attention"
-          }
-        );
+        if (
+          !(await compareAndSetInvitation(
+            supabase,
+            partnerSlug,
+            accepting.revision,
+            {
+              ...accepting,
+              revision: accepting.revision + 1,
+              status: "attention"
+            }
+          ))
+        ) {
+          throw new FirstAdminProvisioningError(
+            "invitation_conflict",
+            "Partner access changed while activation was recovering."
+          );
+        }
         throw new FirstAdminProvisioningError(
           "membership_failed",
           "Partner access could not be activated."
@@ -826,7 +870,7 @@ export async function acceptFirstAdminInvitation(
       occurred_at: acceptedAt
     }
   );
-  await supabase.auth.admin.updateUserById(authUser.id, {
+  const metadataUpdate = await supabase.auth.admin.updateUserById(authUser.id, {
     app_metadata: {
       ...(authUser.app_metadata ?? {}),
       [setupMetadataKey]: {
@@ -835,6 +879,12 @@ export async function acceptFirstAdminInvitation(
       }
     }
   });
+  if (metadataUpdate.error) {
+    throw new FirstAdminProvisioningError(
+      "auth_failed",
+      "Partner access was activated, but account confirmation could not be recorded."
+    );
+  }
   return {
     membershipCreated,
     replayPrevented: false,
@@ -931,7 +981,7 @@ export async function sendFirstAdminInvitationEmail(input: {
     delivery.status === "sent" ? delivery.providerMessageId : undefined;
   const errorMessage =
     delivery.status === "sent" ? undefined : delivery.error;
-  await supabase.from("partner_email_deliveries").insert({
+  const deliveryRecord = await supabase.from("partner_email_deliveries").insert({
     partner_slug: partnerSlug,
     email_type: "first_admin_invitation",
     recipient_email: invitation.email,
@@ -945,17 +995,30 @@ export async function sendFirstAdminInvitationEmail(input: {
       status === "failed" ? (input.now ?? new Date()).toISOString() : null,
     error_message: errorMessage
   });
+  if (deliveryRecord.error) {
+    throw new FirstAdminProvisioningError(
+      "write_failed",
+      "Invitation delivery completed, but its delivery record could not be saved."
+    );
+  }
   const next: FirstAdminInvitationPayload = {
     ...invitation,
     revision: invitation.revision + 1,
     delivery_status: status
   };
-  await compareAndSetInvitation(
-    supabase,
-    partnerSlug,
-    invitation.revision,
-    next
-  );
+  if (
+    !(await compareAndSetInvitation(
+      supabase,
+      partnerSlug,
+      invitation.revision,
+      next
+    ))
+  ) {
+    throw new FirstAdminProvisioningError(
+      "invitation_conflict",
+      "Invitation delivery completed while administrator access changed."
+    );
+  }
   await appendAudit(
     supabase,
     partnerSlug,
@@ -1013,7 +1076,10 @@ async function requirePartner(supabase: SupabaseAdmin, partnerSlug: string) {
     )
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
-  if (error || !data) {
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  if (!data) {
     throw new FirstAdminProvisioningError(
       "partner_not_found",
       "Choose an existing partner."
@@ -1031,7 +1097,10 @@ async function hasOnboardingWorkspace(
     .select("partner_slug")
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
-  return !error && Boolean(data);
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  return Boolean(data);
 }
 
 async function readInvitation(
@@ -1045,7 +1114,10 @@ async function readInvitation(
     .eq("partner_slug", partnerSlug)
     .eq("event_type", invitationEventType)
     .maybeSingle();
-  if (error || !data) return null;
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  if (!data) return null;
   return parseFirstAdminInvitationPayload(
     (data as InvitationRecordRow).event_payload
   );
@@ -1063,7 +1135,9 @@ async function insertInvitation(
     event_label: invitationEventLabel,
     event_payload: payload
   });
-  return !error;
+  if (!error) return true;
+  if (error.code === "23505") return false;
+  throw persistenceWriteFailure();
 }
 
 async function compareAndSetInvitation(
@@ -1084,7 +1158,10 @@ async function compareAndSetInvitation(
     .eq("event_payload->>revision", String(expectedRevision))
     .select("id")
     .maybeSingle();
-  return !error && Boolean(data);
+  if (error) {
+    throw persistenceWriteFailure();
+  }
+  return Boolean(data);
 }
 
 async function listActivePartnerAdmins(
@@ -1100,7 +1177,10 @@ async function listActivePartnerAdmins(
     .eq("role", FIRST_ADMIN_ROLE)
     .eq("status", "active")
     .limit(3);
-  return error ? [] : ((data ?? []) as PartnerUserRow[]);
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  return (data ?? []) as PartnerUserRow[];
 }
 
 async function findMembershipByAuthUser(
@@ -1114,7 +1194,10 @@ async function findMembershipByAuthUser(
     )
     .eq("auth_user_id", authUserId)
     .maybeSingle();
-  return error ? null : (data as PartnerUserRow | null);
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  return data as PartnerUserRow | null;
 }
 
 async function appendAudit(
@@ -1123,12 +1206,15 @@ async function appendAudit(
   eventType: string,
   payload: Record<string, string>
 ) {
-  await supabase.from("partner_events").insert({
+  const { error } = await supabase.from("partner_events").insert({
     partner_slug: partnerSlug,
     event_type: eventType,
     event_label: auditLabel(eventType),
     event_payload: payload
   });
+  if (error) {
+    throw persistenceWriteFailure();
+  }
 }
 
 async function listInvitationHistory(
@@ -1155,7 +1241,9 @@ async function listInvitationHistory(
     .in("event_type", eventTypes)
     .order("created_at", { ascending: false })
     .limit(50);
-  if (error) return [];
+  if (error) {
+    throw persistenceReadFailure();
+  }
   return (data ?? []).map((row) => {
     const payload =
       row.event_payload && typeof row.event_payload === "object"
@@ -1231,6 +1319,12 @@ async function safelyInvalidateInvitationAuthUser(
   const lookup = await supabase.auth.admin.getUserById(
     invitation.auth_user_id
   );
+  if (lookup.error) {
+    throw new FirstAdminProvisioningError(
+      "auth_failed",
+      "The invitation changed, but its unclaimed account could not be invalidated."
+    );
+  }
   const user = lookup.data.user;
   const metadata = parseSetupMetadata(
     user?.app_metadata?.[setupMetadataKey]
@@ -1240,7 +1334,13 @@ async function safelyInvalidateInvitationAuthUser(
     metadata?.invitationId === invitation.invitation_id &&
     normalizeEmail(user.email) === invitation.email
   ) {
-    await supabase.auth.admin.deleteUser(user.id);
+    const deletion = await supabase.auth.admin.deleteUser(user.id);
+    if (deletion.error) {
+      throw new FirstAdminProvisioningError(
+        "auth_failed",
+        "The invitation changed, but its unclaimed account could not be invalidated."
+      );
+    }
   }
 }
 
@@ -1300,11 +1400,14 @@ async function postAcceptanceDestination(
   supabase: SupabaseAdmin,
   partnerSlug: string
 ) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("partner_onboarding")
     .select("status")
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
+  if (error) {
+    throw persistenceReadFailure();
+  }
   return decidePostAcceptanceDestination({
     onboardingEnabled: isRcapPartnerOnboardingEnabled(),
     workspaceStatus:
@@ -1369,6 +1472,20 @@ function inactiveInvitation() {
   return new FirstAdminProvisioningError(
     "invitation_inactive",
     "This account setup invitation is invalid or no longer active."
+  );
+}
+
+function persistenceReadFailure() {
+  return new FirstAdminProvisioningError(
+    "write_failed",
+    "Administrator access data could not be read right now."
+  );
+}
+
+function persistenceWriteFailure() {
+  return new FirstAdminProvisioningError(
+    "write_failed",
+    "Administrator access could not be recorded."
   );
 }
 

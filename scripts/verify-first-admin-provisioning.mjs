@@ -204,7 +204,10 @@ assert.doesNotMatch(
   /inviteUserByEmail|fetch\("https:\/\/api\.resend/
 );
 assert.match(internalRoute, /requireInternalAdminSession/);
-assert.match(internalRoute, /if \(!isSameOriginRequest\(request\)\)/);
+assert.match(
+  internalRoute,
+  /if \(!isFirstAdminSameOriginRequest\(request\)\)/
+);
 assert.doesNotMatch(internalRoute, /values\.role|values\.partnerSlug/);
 assert.match(acceptRoute, /createServerSupabaseAuthClient/);
 assert.doesNotMatch(acceptRoute, /request\.json/);
@@ -219,7 +222,8 @@ assert.match(password, /\/api\/partners\/first-admin\/accept/);
 assert.match(password, /safeAppRedirectPath\(\s*result\.redirectTo/);
 
 console.log("First administrator provisioning verification passed.");
-console.log("- Normalization, token hashing/comparison, expiration, and redirect behavior are exercised.");
-console.log("- Replacement/revocation invalidate prior links and membership retry remains singular.");
-console.log("- Internal and acceptance routes enforce server-derived role, partner, and authorization boundaries.");
-console.log("- List/UI outputs exclude token hashes and raw account identifiers.");
+console.log("- Pure normalization, token, expiration, and redirect helpers passed.");
+console.log("- Static security guards and sensitive-field exclusions are present.");
+console.log(
+  "- Run npm run partners:test-first-admin-lifecycle against loopback Supabase for repository, Auth, concurrency, tenant-isolation, and replay behavior."
+);
