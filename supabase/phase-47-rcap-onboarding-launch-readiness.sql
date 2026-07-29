@@ -30,6 +30,12 @@ alter table public.partner_onboarding
     check (launch_readiness_state is null
       or launch_readiness_state in ('ready', 'not_ready'));
 
+-- partner_onboarding_workspace_safe is a security_invoker view, so a partner
+-- reading it needs its own column privilege on every column the view selects.
+-- Phase 43 granted them column by column; the new one has to join that list or
+-- the whole partner portal read fails with permission denied.
+grant select (launch_readiness_state) on public.partner_onboarding to authenticated;
+
 comment on column public.partner_onboarding.launch_readiness_state is
   'Last readiness state observed by an internal read. Records the transition only; readiness itself is always recomputed and is never served from this column.';
 
