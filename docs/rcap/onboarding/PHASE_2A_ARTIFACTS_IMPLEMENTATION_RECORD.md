@@ -473,3 +473,209 @@ URL is minted, and the filename carries the artifact, version, and date.
 - The six Operations-and-Escalation-Plan fields recorded above as having **no
   home in the current schema**. B2 must extend `ONBOARDING_SCHEMA_REGISTRY`
   before it can generate a complete plan.
+
+---
+
+# Phase 2A part 2: the remaining documents and the co-branded page
+
+Lane B2a, branch `feat/rcap-onboarding-page-and-documents`, worktree
+`/workspaces/legalease-partner-dashboard-clean-rcap-page-documents`, starting SHA
+`a90e0be` (the merge of PR #83). This section extends the record above; nothing
+in it is superseded except where a correction is stated explicitly.
+
+## The six fields with no schema home, closed
+
+B1 recorded six values the Operations and Escalation Plan names that the
+registry could not hold. All six now have one. Every new field is
+`partner_editable`, `optional`, and carries `completionWeight: 0`, so no
+existing partner's completion percentage moves, and each declares only the
+artifact consumers that render it, so no existing projection or hash changes.
+`scripts/verify-rcap-onboarding-registry-extension.mjs` pins that last property
+by blanking every new field and asserting the Implementation Brief's hash is
+byte-identical.
+
+### Placement
+
+Twelve fields sit in `support_referrals_reporting`, beside the support and
+escalation plan they belong to. **Two sit in `access_sponsorship_capacity`**:
+`capacity_escalation_procedure` and
+`capacity_escalation_response_expectation` describe what happens as the program
+approaches the cap, and the cap and its approver already live in that section.
+Splitting them from the values they describe would have been the wrong home.
+
+None of them is LegalEase-controlled public-page language, so none is added to
+`LEGALEASE_CONTROLLED_PUBLIC_PAGE_CONTENT`; that list stays at seven categories.
+
+### New source-and-invalidation rows
+
+| Field (label shown in the portal) | Where the value actually lives | Invalidates | Material? | Detected by |
+| --- | --- | --- | --- | --- |
+| Participant support response expectation | `sections.response_data → support_referrals_reporting → participant_support_response_expectation` | OEP, SQSG | Material | `sections.revision` for `support_referrals_reporting`, then value compare of this key |
+| Legal-services referral response expectation | `… → referral_response_expectation` | OEP, SQSG | Material | same |
+| Contested-matter response expectation | `… → contested_matter_response_expectation` | OEP, SQSG | Material | same |
+| Privacy request route | `… → privacy_request_route` | OEP | Material | same |
+| Privacy request owner | `… → privacy_request_owner_contact_id` | OEP | Material — the rendered owner changes | same, plus the referenced contact row's own revision |
+| Privacy request response expectation | `… → privacy_request_response_expectation` | OEP | Material | same |
+| Security concern route | `… → security_concern_route` | OEP | Material | same |
+| Security concern response expectation | `… → security_concern_response_expectation` | OEP | Material | same |
+| Media inquiry response expectation | `… → media_inquiry_response_expectation` | OEP | Material | same |
+| Program pause route | `… → program_pause_route` | OEP | Material | same |
+| Program pause authority | `… → program_pause_authority_contact_id` | OEP | Material | same, plus the referenced contact row's own revision |
+| Program pause response expectation | `… → program_pause_response_expectation` | OEP | Material | same |
+| Capacity escalation procedure | `sections.response_data → access_sponsorship_capacity → capacity_escalation_procedure` | OEP | Material | `sections.revision` for `access_sponsorship_capacity`, then value compare |
+| Capacity escalation response expectation | `… → capacity_escalation_response_expectation` | OEP | Material | same |
+| Media contact (per row) | `partner_onboarding_contacts.role = 'media_contact'` | OEP | Material | row `revision` and `deleted_at`, then value compare of the projected collection |
+
+`CONTACT_ROLES` gains `media_contact`. The communications lead runs participant
+outreach; a press contact answers questions about the program. Overloading one
+with the other would have made the media route unnameable, which is why the
+brief asked for a distinct role.
+
+## One migration, and why it exists
+
+**This lane adds a migration file. It adds no table and no column.**
+
+`partner_onboarding_contacts.role` is pinned by a `CHECK` constraint written in
+phase 43, so a role added to the application registry alone validates in the
+portal and is then rejected by Postgres with `23502`-style failure — the entry
+appears to save and does not. The acceptance run caught exactly that.
+
+`supabase/phase-46-rcap-onboarding-media-contact-role.sql` widens that one
+constraint by one value and does nothing else: no table, no column, no grant, no
+policy, no function, no capability. Every existing role is preserved, and every
+existing row satisfies the wider constraint, so the rewrite cannot fail on live
+data. It has been applied to a local loopback stack only.
+
+This is a departure from the "no migration" instruction, and it is recorded here
+rather than buried: the instruction to add a media contact role and the
+instruction to add no migration cannot both be satisfied, because the role
+vocabulary is enforced in two places. The smallest honest resolution is to widen
+the constraint.
+
+## Generators
+
+Four, each with its own hand-maintained constant, so a change to one document
+does not invalidate the other four:
+
+| Artifact type | Constant | Value |
+| --- | --- | --- |
+| `operations_escalation_plan` | `OPERATIONS_ESCALATION_PLAN_GENERATOR_VERSION` | `operations_escalation_plan_v1` |
+| `dashboard_user_reporting_matrix` | `DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION` | `dashboard_user_reporting_matrix_v1` |
+| `staff_quick_start_guide` | `STAFF_QUICK_START_GUIDE_GENERATOR_VERSION` | `staff_quick_start_guide_v1` |
+| `co_branded_page_configuration` | `CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION` | `co_branded_page_configuration_v1` |
+
+`GENERATABLE_ARTIFACT_TYPES` is now five of six. `partner_launch_kit` stays
+unavailable; it is Lane B2b's.
+
+All five renderers dispatch from one table in `artifact-service.ts` and take the
+same `loadArtifactSourceInput()` result, so an Artifacts page load still costs a
+constant number of queries.
+
+### Rendering rules held
+
+- No raw enum or column name reaches a partner document. Three lifecycle enums
+  share the literals `planned`, `complete` and `active`, so `training_status`,
+  `invitation_status` and `membership_status` each get their own label table
+  rather than one shared map that would mislabel them.
+- A missing canonical value renders a named gap with where it is set. The
+  Operations and Escalation Plan renders nine routes, each with an owner and a
+  response expectation or an explicit gap for each.
+- The Dashboard User and Reporting Matrix reads `invitation_status` and
+  `membership_status` and writes nothing. No invitation, no membership, no
+  `partner_users` row.
+- The Staff Quick-Start Guide prints no participant page address, because the
+  page is not published in this lane.
+
+## Co-branded page configuration
+
+The generator returns a `pagePreview` model alongside the usual rendered
+sections. Every other artifact leaves it absent, so `ArtifactDocumentView`, the
+PDF renderer, and the download path are unchanged.
+
+Ownership is per slot. A slot LegalEase has configured renders LegalEase's value
+and is marked `legalease_controlled`; otherwise it renders the partner's
+approved copy and is marked `partner_editable`. The preview marks both in the
+DOM (`data-ownership`), so "visibly distinguishes" is testable rather than
+asserted.
+
+The seven `LEGALEASE_CONTROLLED_PUBLIC_PAGE_CONTENT` categories are the
+authority for the LegalEase-controlled band; the page verifier asserts the
+rendered categories equal that list rather than a second hand-written one.
+
+### The invalidation asymmetry, made visible
+
+`detectArtifactDrift` already computed which approval a change kills. Nothing
+showed it, so a reviewer saw only that a version had gone stale. The board now
+carries `invalidatedApprovals` and both internal areas say it in words:
+
+- a partner-owned change — *Both the LegalEase approval and the partner approval
+  are invalidated.*
+- a LegalEase-only change — *The LegalEase approval is invalidated. The partner
+  approval still stands.*
+
+LegalEase-controlled page language is projected as values under
+`legalease_public_page.*`, all registered in `LEGALEASE_ONLY_PROJECTION_KEYS`,
+following B1's rule for `legalease_technical_support_route`.
+
+### A LegalEase write, and why it was necessary
+
+`updateLegalEasePublicPageConfiguration()` records the six phase-42
+LegalEase-controlled columns. Without it the LegalEase half of the ownership
+split is inert while the launch-prep flag is on — the legacy wizard that used to
+write those columns only renders when the Phase 1 flag is *off* — and acceptance
+step 9 is unprovable on a real screen.
+
+It is not a generic patch endpoint: a fixed six-column shape, every value
+length-bounded and normalized, the row chosen by the partner slug the internal
+context was authorized against, internal-admin only, with no partner path to it.
+It publishes and activates nothing. It lives in its own internal area, not in
+the Co-Branded Page area, because that area prepares and approves only.
+
+## Correction to B1: `partner_entitlement` was read by a column that does not exist
+
+`loadArtifactSourceInput()` filtered `partner_entitlement` by
+`partner_record_id`. That table has been keyed by `partner_slug` since phase 35
+and has no such column, so PostgREST returned an error that the destructured
+read discarded, and `screening_allocation`, `packet_credits` and
+`overage_behavior` silently resolved to `null` for every partner. The
+Implementation Brief has therefore never rendered sponsored scope. Fixed to
+filter by `partner_slug`.
+
+This changes the Implementation Brief's projection for any workspace with an
+entitlement row. Nothing is in production — the flag is absent and the
+migrations are unapplied — so no approved brief is invalidated in practice.
+
+## Events
+
+No new activity event type and no migration for one. Page configuration
+prepared, approved and stale are already recorded by B1's
+`artifact_generated`, `artifact_approved` and `artifact_approval_invalidated`
+rows, whose `summary_code` is the artifact type — `co_branded_page_configuration`
+for this artifact. Payloads stay PII-free: no document contents, no contact
+details, no signed URLs, no internal comments. Nothing is delivered and the
+Command Center is not called.
+
+## Acceptance
+
+`scripts/capture-onboarding-page-documents-acceptance.mjs` drives all eleven
+steps through real screens, reached through the real sign-in form, against a
+loopback-only Supabase stack. Supabase seeding and the dev-server lifecycle are
+the only harness. Screenshots are written to `/tmp/rcap-b2a-visual-review/`
+and are not committed.
+
+Two findings from the run, both real and both left as they are:
+
+1. `partner_onboarding_activity` is append-only by trigger, so a workspace can
+   never be deleted to reset a fixture. The capture uses per-run synthetic
+   slugs instead of tearing down the previous run.
+2. The portal autosaves a draft as fields change, and
+   `partner_onboarding_contacts` requires `role`, `name`, `title` and
+   `work_email`, so a half-filled contact row fails to save until it is
+   complete. The capture completes the row before the last edit and uses the
+   screen's own retry affordance. This is Phase 1 behavior and was not changed
+   here.
+
+## Deferred to Lane B2b
+
+- The partner launch kit generator and the QR code.
+- The launch-readiness engine and the launch checks migration.

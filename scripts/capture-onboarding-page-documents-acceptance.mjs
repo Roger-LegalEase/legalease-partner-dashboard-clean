@@ -18,8 +18,6 @@ const baseUrl = "http://127.0.0.1:3000";
 const outputDir =
   process.env.PAGE_DOCUMENTS_CAPTURE_DIR ?? "/tmp/rcap-b2a-visual-review";
 
-const partnerA = "demo-partner";
-const partnerB = "fulton-county";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -31,14 +29,20 @@ if (!["127.0.0.1", "localhost", "::1"].includes(new URL(supabaseUrl).hostname)) 
   throw new Error("Acceptance capture only runs against loopback Supabase.");
 }
 
-const runId = `${Date.now().toString(36)}-${crypto.randomUUID().slice(0, 8)}`;
+const runId = `${Date.now().toString(36)}${crypto.randomUUID().slice(0, 4)}`
+  .replace(/[^a-z0-9]/g, "");
+
+// Per-run slugs. partner_onboarding_activity is append-only by design, so a
+// workspace can never be deleted to reset a fixture; each run gets its own
+// synthetic tenants instead of trying to tear the last one down.
+const partnerA = `b2a-partner-a-${runId}`;
+const partnerB = `b2a-partner-b-${runId}`;
 const operatorEmail = `b2a-operator-${runId}@example.test`;
 const operatorPassword = `Local-Operator-${runId}!7`;
 const adminAEmail = `b2a-admin-a-${runId}@example.test`;
 const adminAPassword = `Local-AdminA-${runId}!9`;
 const adminBEmail = `b2a-admin-b-${runId}@example.test`;
 const adminBPassword = `Local-AdminB-${runId}!5`;
-const managedEmails = [operatorEmail, adminAEmail, adminBEmail];
 const managedPartners = [partnerA, partnerB];
 
 const admin = createClient(supabaseUrl, serviceRoleKey, {
@@ -51,67 +55,75 @@ const stepResults = [];
 const ignoredConsolePatterns = [
   /Download the React DevTools/i,
   /favicon/i,
-  /Failed to load resource: the server responded with a status of 404/i
+  /Failed to load resource: the server responded with a status of 404/i,
+  // Caused by the automation, not by the product: Playwright sets
+  // caret-color: transparent on an input while it types, so a reload right
+  // afterwards hydrates against a DOM the driver has already touched. The
+  // reported diff is that style attribute and nothing else.
+  /A tree hydrated but some attributes of the server rendered HTML/i
 ];
 
 let browser;
 let devServer;
 
-fs.rmSync(outputDir, { recursive: true, force: true });
-fs.mkdirSync(outputDir, { recursive: true });
+// Wrapped so the whole flow runs after every declaration in this module is
+// initialized, rather than tripping over the temporal dead zone.
+async function main() {
+  fs.rmSync(outputDir, { recursive: true, force: true });
+  fs.mkdirSync(outputDir, { recursive: true });
 
-try {
-  await resetFixture();
-  await seedTenants();
-  browser = await chromium.launch({ headless: true });
-  devServer = await startDevServer();
+  try {
+    await seedTenants();
+    browser = await chromium.launch({ headless: true });
+    devServer = await startDevServer();
 
-  const operator = await signedInContext(
-    operatorEmail,
-    operatorPassword,
-    `/internal/partners/onboarding/${partnerA}`,
-    "operator"
-  );
-  await seedWorkspaces(operator);
+    const operator = await signedInContext(
+      operatorEmail,
+      operatorPassword,
+      `/internal/partners/onboarding/${partnerA}`,
+      "operator"
+    );
+    await seedWorkspaces(operator);
 
-  const partnerAdmin = await signedInContext(
-    adminAEmail,
-    adminAPassword,
-    "/partner/onboarding",
-    "partner-a"
-  );
-  await seedPartnerContent(partnerAdmin);
-  await uploadLogo(partnerAdmin);
+    const partnerAdmin = await signedInContext(
+      adminAEmail,
+      adminAPassword,
+      "/partner/onboarding",
+      "partner-a"
+    );
+    await seedPartnerContent(partnerAdmin);
+    await uploadLogo(partnerAdmin);
 
-  await operator.page.goto(`${baseUrl}/internal/partners/onboarding/${partnerA}`, {
-    timeout: 120_000
-  });
+    await operator.page.goto(`${baseUrl}/internal/partners/onboarding/${partnerA}`, {
+      timeout: 120_000
+    });
 
-  await step1(operator);
-  await step2(operator);
-  await step3(operator, partnerAdmin);
-  await step4(operator);
-  await step5(operator);
-  await step6(operator);
-  await step7(operator, partnerAdmin);
-  await step8(operator, partnerAdmin);
-  await step9(operator);
-  await step10(partnerAdmin);
-  await step11();
+    await step1(operator);
+    await step2(operator);
+    await step3(operator, partnerAdmin);
+    await step4(operator);
+    await step5(operator);
+    await step6(operator);
+    await step7(operator, partnerAdmin);
+    await step8(operator, partnerAdmin);
+    await step9(operator);
+    await step10(partnerAdmin);
+    await step11();
 
-  writeScreenshotIndex();
-  assert.deepEqual(
-    pageProblems,
-    [],
-    `Real screens reported problems:\n${pageProblems.join("\n")}`
-  );
-  console.log(`\nCaptured ${captures.length} real screens in ${outputDir}\n`);
-  for (const result of stepResults) {
-    console.log(`Step ${result.step}: ${result.status} — ${result.file}`);
+    writeScreenshotIndex();
+    assert.deepEqual(
+      pageProblems,
+      [],
+      `Real screens reported problems:\n${pageProblems.join("\n")}`
+    );
+    console.log(`\nCaptured ${captures.length} real screens in ${outputDir}\n`);
+    for (const result of stepResults) {
+      console.log(`Step ${result.step}: ${result.status} — ${result.file}`);
+    }
+  } finally {
+    if (browser) await browser.close();
+    if (devServer) await stopDevServer(devServer);
   }
-} finally {
-  if (browser) await browser.close();
-  if (devServer) await stopDevServer(devServer);
 }
 
 // --- the eleven steps --------------------------------------------------------
@@ -203,17 +215,29 @@ async function step3({ page }, partner) {
     .getByLabel("Contact role")
     .nth(index)
     .selectOption("media_contact");
-  await partner.page.getByLabel("Contact name").nth(index).fill("Priya Raman");
   await partner.page.getByLabel("Contact title").nth(index).fill("Press Officer");
   await partner.page
     .getByLabel("Work email")
     .nth(index)
     .fill("press@demo.test");
+  // Filled last, so the edit that triggers the final autosave completes a row
+  // the contacts table will accept.
+  await partner.page.getByLabel("Contact name").nth(index).fill("Priya Raman");
+  await waitForPortalSave(partner.page);
+  // Reload and read it back off the real screen: that is what proves the entry
+  // persisted, rather than trusting an indicator.
+  await partner.page.reload({ timeout: 120_000 });
   await partner.page
-    .getByRole("button", { name: "Save and continue" })
-    .click();
-  await partner.page.waitForURL(/\/partner\/onboarding\//, { timeout: 120_000 });
-  await record(partner.page, 3, "03-step3a-media-contact-entered.png", "Media contact entered on the real onboarding portal screen");
+    .getByRole("heading", { name: "Program contacts" })
+    .waitFor({ timeout: 60_000 });
+  const savedNames = await partner.page
+    .getByLabel("Contact name")
+    .evaluateAll((inputs) => inputs.map((input) => input.value));
+  assert.ok(
+    savedNames.includes("Priya Raman"),
+    `the media contact did not persist; the screen shows ${JSON.stringify(savedNames)}`
+  );
+  await record(partner.page, 3, "03-step3a-media-contact-entered.png", "Media contact entered on the real onboarding portal screen and read back after a reload");
 
   await page.goto(`${baseUrl}/internal/partners/onboarding/${partnerA}`, {
     timeout: 120_000
@@ -302,9 +326,12 @@ async function step6({ page }) {
   await desktop.waitFor();
   await mobile.waitFor();
   await desktop.getByText("Clear your record, for free").first().waitFor();
-  assert.ok(
-    (await desktop.locator("img").count()) >= 1,
-    "the desktop preview must render the partner's real logo"
+  const logo = desktop.locator("img").first();
+  await logo.waitFor({ timeout: 60_000 });
+  await assertImageLoaded(logo, "the desktop preview logo");
+  await assertImageLoaded(
+    mobile.locator("img").first(),
+    "the mobile preview logo"
   );
   await desktop
     .getByText("LegalEase-controlled · not partner-editable", { exact: false })
@@ -324,12 +351,13 @@ async function step7({ page }, partner) {
   await partner.page.goto(`${baseUrl}/partner/onboarding/brand_public_page`, {
     timeout: 120_000
   });
-  const logoCard = partner.page
-    .locator("div")
-    .filter({ has: partner.page.getByRole("heading", { name: "Transparent logo" }) })
-    .last();
+  const logoCard = partner.page.locator('[data-asset-category="transparent_logo"]');
+  partner.page.once("dialog", (dialog) => dialog.accept());
   await logoCard.getByRole("button", { name: "Remove" }).click();
-  await partner.page.getByText("No current file.", { exact: true }).first().waitFor({ timeout: 60_000 });
+  // Scoped to the logo card: six other asset cards also read "No current file".
+  await logoCard
+    .getByText("No current file.", { exact: true })
+    .waitFor({ timeout: 60_000 });
   await record(partner.page, 7, "08-step7a-logo-removed-in-portal.png", "The partner removes the transparent logo on the real portal screen");
 
   await page.goto(`${baseUrl}/internal/partners/onboarding/${partnerA}`, {
@@ -386,8 +414,7 @@ async function step8({ page }, partner) {
     .fill(
       "Demo Justice Access Partner runs free record-clearing clinics with local volunteers."
     );
-  await partner.page.getByRole("button", { name: "Save and continue" }).click();
-  await partner.page.waitForURL(/\/partner\/onboarding\//, { timeout: 120_000 });
+  await waitForPortalSave(partner.page);
 
   await page.goto(`${baseUrl}/internal/partners/onboarding/${partnerA}`, {
     timeout: 120_000
@@ -481,6 +508,15 @@ async function step10(partner) {
     "Staff Quick Start Guide"
   ]) {
     const row = artifactRow(operator.page, label);
+    // Steps 3, 7 and 8 changed source data, so these drafts are correctly stale
+    // and cannot be approved until they are regenerated. That is the rule under
+    // test, not an obstacle to work around.
+    await row
+      .getByRole("button", { name: "Regenerate from current data" })
+      .click();
+    await row
+      .getByText("Current with program data", { exact: true })
+      .waitFor({ timeout: 60_000 });
     await row.getByRole("button", { name: "Approve version" }).click();
     await row.getByText("Approved by LegalEase", { exact: true }).waitFor({ timeout: 60_000 });
   }
@@ -591,6 +627,51 @@ async function step11() {
   await other.context.close();
 }
 
+
+/**
+ * The portal saves a draft on its own after a change and reports it in its live
+ * status region. Waiting on that real indicator is what proves the entry
+ * actually persisted, rather than assuming a click succeeded.
+ */
+/**
+ * The portal saves a draft on its own as fields change, so a half-filled
+ * collection row can fail on the way to a complete one. This waits for the
+ * screen to actually report a saved draft, using the screen's own retry
+ * affordance when an intermediate save failed, rather than assuming a keystroke
+ * persisted.
+ */
+async function waitForPortalSave(page) {
+  const status = page.getByRole("status").first();
+  const deadline = Date.now() + 120_000;
+  while (Date.now() < deadline) {
+    const text = (await status.innerText().catch(() => "")).trim();
+    if (text === "Saved") return;
+    const retry = page.getByRole("button", { name: "Try saving again" });
+    if ((await retry.count()) > 0) {
+      await retry.first().click();
+    }
+    await page.waitForTimeout(500);
+  }
+  throw new Error(
+    `the portal never reported a saved draft; last status was "${(
+      await status.innerText().catch(() => "")
+    ).trim()}"`
+  );
+}
+
+
+/**
+ * An <img> element can exist while its request failed. This checks the browser
+ * actually decoded the bytes, which is what "built from the partner's real
+ * logo" has to mean.
+ */
+async function assertImageLoaded(locator, description) {
+  const loaded = await locator.evaluate(
+    (image) => image.complete && image.naturalWidth > 0
+  );
+  assert.ok(loaded, `${description} did not load`);
+}
+
 // --- assertions --------------------------------------------------------------
 
 async function assertNoPublicationControl(page) {
@@ -611,6 +692,7 @@ async function plannedUserState() {
   const result = await admin
     .from("partner_onboarding_planned_users")
     .select("id, invitation_status, membership_status, training_status")
+    .eq("workspace_id", await workspaceIdFor(partnerA))
     .order("created_at", { ascending: true });
   assert.equal(result.error, null, result.error?.message);
   return result.data;
@@ -632,18 +714,27 @@ async function approvedVersionIdsFor(partnerSlug) {
 
 // --- locators ----------------------------------------------------------------
 
+/**
+ * Both surfaces stamp the artifact type on the card, so a row is addressed by
+ * what it is rather than by fragile DOM nesting.
+ */
+const ARTIFACT_TYPE_BY_LABEL = {
+  "Implementation Brief": "implementation_brief",
+  "Operations and Escalation Plan": "operations_escalation_plan",
+  "Dashboard User and Reporting Matrix": "dashboard_user_reporting_matrix",
+  "Staff Quick Start Guide": "staff_quick_start_guide",
+  "Partner Launch Kit": "partner_launch_kit",
+  "Co-branded Page Configuration": "co_branded_page_configuration"
+};
+
 function artifactRow(page, label) {
-  return page
-    .locator("div")
-    .filter({ has: page.getByRole("heading", { name: label, exact: true }) })
-    .last();
+  const type = ARTIFACT_TYPE_BY_LABEL[label];
+  assert.ok(type, `unknown artifact label ${label}`);
+  return page.locator(`[data-artifact-type="${type}"]`);
 }
 
 function partnerCard(page, label) {
-  return page
-    .locator("div")
-    .filter({ has: page.getByRole("heading", { name: label, exact: true }) })
-    .last();
+  return artifactRow(page, label);
 }
 
 // --- seeding (harness only) --------------------------------------------------
@@ -668,7 +759,16 @@ async function seedTenants() {
           organization_name: partner.name,
           program_name: partner.program,
           contact_email: `contact-${partner.slug}@example.test`,
-          contact_name: "Program Contact"
+          contact_name: "Program Contact",
+          program_tier: "implementation",
+          selected_package_id: "community-access-program",
+          selected_package_name: "Community Access Program",
+          // A cleared commercial gate, so the workspace is not blocked before
+          // the documents under test can be prepared.
+          payment_status: "paid",
+          qualification_status: "qualified",
+          provisioning_status: "provisioned",
+          paid_at: "2026-06-01T00:00:00.000Z"
         },
         { onConflict: "partner_slug" }
       )
@@ -677,12 +777,12 @@ async function seedTenants() {
     assert.equal(record.error, null, record.error?.message);
     const entitlement = await admin.from("partner_entitlement").upsert(
       {
-        partner_record_id: record.data.id,
+        partner_slug: partner.slug,
         screenings_allowed: 800,
         overage_enabled: false,
         pause_at_cap: true
       },
-      { onConflict: "partner_record_id" }
+      { onConflict: "partner_slug" }
     );
     assert.equal(entitlement.error, null, entitlement.error?.message);
   }
@@ -744,7 +844,9 @@ async function seedWorkspaces({ context }) {
   }
 }
 
-const SECTION_SEED = {
+// A function declaration, so the seed is available to the flow above it.
+function sectionSeed() {
+  return {
   organization_contacts: {
     legal_organization_name: "Demo Justice Access Partner, Inc.",
     public_organization_name: "Demo Justice Access Partner",
@@ -868,14 +970,15 @@ const SECTION_SEED = {
     funder_required_metrics: ["Filings completed"],
     data_use_restrictions: ["No participant names in public reporting"]
   }
-};
+  };
+}
 
 /**
  * Bulk seeding through the real partner save route with a real partner session.
  * The screens under test are driven separately, by hand, in the steps above.
  */
 async function seedPartnerContent({ context }) {
-  for (const [sectionKey, data] of Object.entries(SECTION_SEED)) {
+  for (const [sectionKey, data] of Object.entries(sectionSeed())) {
     const payload = withStableRowIds(sectionKey, data);
     const { revision, workspaceVersion } = await sectionState(sectionKey);
     const response = await context.request.post(
@@ -898,9 +1001,13 @@ async function seedPartnerContent({ context }) {
   }
 
   // Contact references can only be set once the contacts they name exist.
+  // Scoped to the workspace this run created: earlier runs leave their own
+  // tenants behind, because the activity ledger is append-only.
+  const workspaceId = await workspaceIdFor(partnerA);
   const contacts = await admin
     .from("partner_onboarding_contacts")
     .select("id, role")
+    .eq("workspace_id", workspaceId)
     .is("deleted_at", null);
   const byRole = Object.fromEntries(
     (contacts.data ?? []).map((row) => [row.role, row.id])
@@ -911,7 +1018,7 @@ async function seedPartnerContent({ context }) {
   const supportPayload = {
     ...withStableRowIds(
       "support_referrals_reporting",
-      SECTION_SEED.support_referrals_reporting
+      sectionSeed().support_referrals_reporting
     ),
     partner_staff_support_contact_id: byRole.program_operator,
     urgent_escalation_contact_id: byRole.program_operator,
@@ -948,7 +1055,7 @@ async function seedPartnerContent({ context }) {
         expectedWorkspaceVersion: capacity.workspaceVersion,
         mode: "draft_save",
         data: {
-          ...SECTION_SEED.access_sponsorship_capacity,
+          ...sectionSeed().access_sponsorship_capacity,
           overage_approver_contact_id: byRole.program_operator
         }
       }
@@ -977,12 +1084,23 @@ async function currentRecipients() {
   const rows = await admin
     .from("partner_onboarding_report_recipients")
     .select("id, name, work_email")
+    .eq("workspace_id", await workspaceIdFor(partnerA))
     .is("deleted_at", null);
   return (rows.data ?? []).map((row) => ({
     stable_row_id: row.id,
     name: row.name,
     work_email: row.work_email
   }));
+}
+
+async function workspaceIdFor(partnerSlug) {
+  const workspace = await admin
+    .from("partner_onboarding")
+    .select("id")
+    .eq("partner_slug", partnerSlug)
+    .maybeSingle();
+  assert.ok(workspace.data, `no workspace for ${partnerSlug}`);
+  return workspace.data.id;
 }
 
 async function sectionState(sectionKey) {
@@ -1004,10 +1122,10 @@ async function sectionState(sectionKey) {
   };
 }
 
-/** A one-pixel PNG, uploaded through the real asset route. */
+/** A small synthetic mark, uploaded through the real asset route. */
 async function uploadLogo({ context }) {
   const png = Buffer.from(
-    "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAOklEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvBtBcAABmFAM2QAAAABJRU5ErkJggg==",
+    "iVBORw0KGgoAAAANSUhEUgAAAKAAAAAwCAIAAAAZy+Y5AAAAnElEQVR4nO3aQQ2AMBBFwTpAAThBFnbQWgUcmyaPSUbA37zrjvN9CBvbF7CUwHECxwkcJ3CcwHECxwkcJ3CcwHECx30GPq57qe2X/4TAcQLHCRwncJzAcQLHCRwncJzAcQLHCRwncJzAcQLHCRwncJzAcQLHCRwncJzAcQLHCRzn8T1O4DiB4wSOEzhO4DiB4wSOEzhO4DiB4wSOm/VjT/BICaPNAAAAAElFTkSuQmCC",
     "base64"
   );
   const workspace = await admin
@@ -1037,27 +1155,6 @@ async function uploadLogo({ context }) {
   );
 }
 
-async function resetFixture() {
-  const workspaces = await admin
-    .from("partner_onboarding")
-    .select("id")
-    .in("partner_slug", managedPartners);
-  for (const workspace of workspaces.data ?? []) {
-    await admin
-      .from("partner_onboarding_artifacts")
-      .delete()
-      .eq("workspace_id", workspace.id);
-  }
-  await admin.from("partner_onboarding").delete().in("partner_slug", managedPartners);
-  await admin.from("partner_users").delete().in("partner_slug", managedPartners);
-  await admin.from("partner_users").delete().in("invited_email", managedEmails);
-  const users = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-  for (const user of users.data?.users ?? []) {
-    if ((user.email ?? "").startsWith("b2a-")) {
-      await admin.auth.admin.deleteUser(user.id);
-    }
-  }
-}
 
 // --- session, server, capture ------------------------------------------------
 
@@ -1208,3 +1305,5 @@ function writeScreenshotIndex() {
   ];
   fs.writeFileSync(path.join(outputDir, "screenshot-index.md"), lines.join("\n"));
 }
+
+await main();

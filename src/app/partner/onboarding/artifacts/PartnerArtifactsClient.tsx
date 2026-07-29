@@ -203,7 +203,7 @@ function PartnerArtifactCard({
   const partnerApproved = version.partnerReviewStatus === "approved";
 
   return (
-    <Card className="p-5">
+    <Card className="p-5" data-artifact-type={entry.artifactType}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-black text-navy">{entry.label}</h3>

@@ -1873,6 +1873,7 @@ function AssetFields(props: FieldRendererProps) {
           return (
             <Card
               className="grid gap-4 border-grayWilma-200 p-4 shadow-none md:grid-cols-[minmax(0,1fr)_auto] md:items-center"
+              data-asset-category={definition.category}
               key={definition.category}
             >
               <div className="min-w-0">
