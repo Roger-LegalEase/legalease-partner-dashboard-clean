@@ -75,6 +75,8 @@ select
   po.submitted_schema_version,
   po.launched_at,
   po.paused_at,
+  po.closed_at,
+  po.last_meaningful_activity_at,
   po.created_at,
   po.updated_at,
   po.launch_readiness_state
