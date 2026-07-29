@@ -1596,7 +1596,7 @@ function sanitizeUrl(url) {
 
 function writeScreenshotIndex() {
   const lines = [
-    "# Onboarding documents and co-branded page acceptance screenshots",
+    "# Launch readiness, launch kit, and resources acceptance screenshots",
     "",
     "Captured from real application screens against a loopback-only Supabase",
     "stack, driven through the real sign-in form. No harness route was used and",
