@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 export async function proxy(request: NextRequest) {
@@ -257,6 +258,13 @@ function unauthorized() {
 }
 
 function isAuthSessionPath(pathname: string) {
+  if (
+    isRcapPartnerOnboardingEnabled() &&
+    (pathname === "/partner" || pathname.startsWith("/partner/"))
+  ) {
+    return true;
+  }
+
   return pathname === "/sign-in" ||
     pathname === "/sign-out" ||
     pathname === "/briefcase" ||

@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 import { ExternalLink, LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import {
   getPaymentGateMessage,
   getOnboardingStatusLabel,
@@ -11,6 +13,7 @@ import {
 } from "@/lib/partners/partner-service";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerCheckout } from "@/lib/partners/routes";
+import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { PartnerOnboardingForm } from "./PartnerOnboardingForm";
 import { ReportDownloadButton } from "./ReportDownloadButton";
 
@@ -22,6 +25,11 @@ export default async function PartnerOnboardingPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { partnerSlug } = await params;
+
+  if (isRcapPartnerOnboardingEnabled()) {
+    await redirectAuthorizedLegacyPartner(partnerSlug);
+  }
+
   const resolvedSearchParams = await searchParams;
   const partner = await getPartnerRecordBySlug(partnerSlug);
 
@@ -140,6 +148,26 @@ export default async function PartnerOnboardingPage({
       </div>
     </main>
   );
+}
+
+async function redirectAuthorizedLegacyPartner(partnerSlug: string): Promise<never> {
+  try {
+    const session = await resolveSessionPartner();
+    if (
+      session.kind !== "partner" ||
+      session.role !== "partner_admin" ||
+      session.partnerSlug !== partnerSlug
+    ) {
+      notFound();
+    }
+  } catch (error) {
+    if (error instanceof SessionPartnerError) {
+      notFound();
+    }
+    throw error;
+  }
+
+  redirect("/partner/onboarding");
 }
 
 function PartnerNotFound() {

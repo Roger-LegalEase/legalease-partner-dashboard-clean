@@ -37,7 +37,7 @@ const runbookSource = read(runbookPath);
 
 for (const envName of [
   "LEGALEASE_OS_EVENTS_ENABLED",
-  "LEGALEASE_OS_EVENTS_ENDPOINT",
+  "LEGALEASE_OS_LOOPS_ENDPOINT",
   "LEGALEASE_OS_EVENTS_SECRET"
 ]) {
   assert(exporterSource.includes(envName), `Exporter must support ${envName}.`);
@@ -110,7 +110,9 @@ for (const forbidden of [
 
 assert(smokeSource.includes("RUN_LEGALEASE_OS_CROSS_REPO_SMOKE"), "Cross-repo smoke must be opt-in only.");
 assert(smokeSource.includes("process.exit(0)") && smokeSource.includes("skipped"), "Cross-repo smoke must skip safely by default.");
-assert(smokeSource.includes("LEGALEASE_OS_EVENTS_ENDPOINT") && smokeSource.includes("LEGALEASE_OS_EVENTS_SECRET"), "Cross-repo smoke must require endpoint and local secret.");
+assert(smokeSource.includes("LEGALEASE_OS_LOOPS_ENDPOINT") && smokeSource.includes("LEGALEASE_OS_EVENTS_SECRET"), "Cross-repo smoke must require endpoint and local secret.");
+// The OS-loops dialect must never be pointed at the product endpoint, which 400s it.
+assert(!exporterSource.includes("LEGALEASE_OS_EVENTS_ENDPOINT"), "OS-loops exporter must not read the product endpoint variable.");
 assert(smokeSource.includes("Local LegalEase OS exporter smoke event."), "Cross-repo smoke must send only synthetic local data.");
 assert(runbookSource.includes("local-os-smoke-secret"), "Runbook must document use of a local-only smoke secret.");
 assert(!runbookSource.includes("production secret"), "Runbook must not ask for production secrets.");

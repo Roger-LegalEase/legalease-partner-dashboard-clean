@@ -113,6 +113,18 @@ function assertNoRestrictedChanges() {
     // Phase 39 (reviewed): partner-only packet-cap semantics. Does not alter
     // consumer payment, Stripe, Briefcase, packet-generation, or screening behavior.
     "supabase/phase-39-rcap-partner-packet-cap.sql",
+    // Phase 41 / 41B / 42 (reviewed): partner-only access codes, code-level
+    // screening analytics, and the partner onboarding workflow. All additive and
+    // file-only. They add partner tables/RPCs/RLS and reuse partner_entitlement;
+    // they do NOT alter consumer payment, Stripe, Briefcase, packet-generation,
+    // or DTC screening behavior. Packet credits still burn only on successful
+    // partner packet generation; DTC sessions never touch partner logic.
+    "supabase/phase-41-rcap-partner-access-codes.sql",
+    "supabase/phase-41b-rcap-screening-analytics.sql",
+    "supabase/phase-42-partner-onboarding.sql",
+    // Phase 43 RCAP onboarding (reviewed): additive partner workspace, section,
+    // asset, review, and tenant-isolation schema. Migration file only and unapplied.
+    "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
     // Phase 37 (reviewed): additive constraint/index expansion on rcap_document_packets for the
     // all-51 source-driven packet set; does not alter RLS, auth, Stripe, or generated packet behavior.
     "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql",

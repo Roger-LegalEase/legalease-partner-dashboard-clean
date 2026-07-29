@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { consumeRcapScreeningSession } from "@/lib/expungement-ai/rcap-slot-lifecycle";
+import { recordScreeningCompleted } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 
 export const runtime = "nodejs";
@@ -27,6 +28,9 @@ export async function POST(request: Request) {
   if (!result.ok) {
     logSecurityError({ event: "screening_complete_slot_consume_failed", route: "/api/expungement-ai/screening/complete", outcome: "failed", requestId, error: result.error });
   }
+
+  // Best-effort partner analytics; RPC is a no-op for DTC/un-attributed sessions.
+  await recordScreeningCompleted(sessionId);
 
   return NextResponse.json({ ok: true });
 }

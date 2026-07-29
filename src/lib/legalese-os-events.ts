@@ -59,9 +59,13 @@ export type LegalEaseOsEventPayload = {
   idempotency_key: string;
 };
 
+// NOTE: OS-loops events go to their OWN endpoint (`/api/os-loops/events`), separate from product
+// events (`/api/events/product`, see `src/lib/analytics/product-events.ts`). The two speak different
+// dialects — the product endpoint rejects this snake_case `event_type` shape with a 400 — so they
+// must never share an endpoint variable. The HMAC secret is shared.
 export type LegalEaseOsEventConfig = Partial<{
   LEGALEASE_OS_EVENTS_ENABLED: string;
-  LEGALEASE_OS_EVENTS_ENDPOINT: string;
+  LEGALEASE_OS_LOOPS_ENDPOINT: string;
   LEGALEASE_OS_EVENTS_SECRET: string;
 }>;
 
@@ -138,7 +142,7 @@ export async function emitLegalEaseOsEvent(
     return { enabled: false, sent: false, skipped_reason: "disabled" };
   }
 
-  if (!configEnv.LEGALEASE_OS_EVENTS_ENDPOINT) {
+  if (!configEnv.LEGALEASE_OS_LOOPS_ENDPOINT) {
     return { enabled: true, sent: false, skipped_reason: "missing_endpoint" };
   }
 
@@ -153,7 +157,7 @@ export async function emitLegalEaseOsEvent(
     const signature = createHmac("sha256", configEnv.LEGALEASE_OS_EVENTS_SECRET)
       .update(`${timestamp}.${body}`)
       .digest("hex");
-    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_EVENTS_ENDPOINT, {
+    const response = await (options.fetcher ?? fetch)(configEnv.LEGALEASE_OS_LOOPS_ENDPOINT, {
       method: "POST",
       headers: {
         "content-type": "application/json",

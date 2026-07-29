@@ -60,7 +60,7 @@ async function verifySignatureAndIdempotencyHeader() {
     now: () => fixedNow,
     configEnv: {
       LEGALEASE_OS_EVENTS_ENABLED: "true",
-      LEGALEASE_OS_EVENTS_ENDPOINT: "https://os.example.test/api/events/product",
+      LEGALEASE_OS_LOOPS_ENDPOINT: "https://os.example.test/api/os-loops/events",
       LEGALEASE_OS_EVENTS_SECRET: "test-secret"
     },
     fetcher: async (url, init) => {
@@ -72,7 +72,7 @@ async function verifySignatureAndIdempotencyHeader() {
 
   assert(result.enabled === true && result.sent === true && result.status === 202, "Enabled emit did not return a successful result.");
   assert(callCount === 1, "Enabled emit should call fetch exactly once.");
-  assert(capturedRequest?.url === "https://os.example.test/api/events/product", "Emitter posted to the wrong endpoint.");
+  assert(capturedRequest?.url === "https://os.example.test/api/os-loops/events", "Emitter posted to the wrong endpoint.");
   const headers = capturedRequest.init.headers;
   const body = String(capturedRequest.init.body);
   const payload = JSON.parse(body);
@@ -95,7 +95,7 @@ async function verifyDisabledNoSend() {
   let callCount = 0;
   const result = await nudgeEvents.emitNudgeWindowEvent(metrics, {
     configEnv: {
-      LEGALEASE_OS_EVENTS_ENDPOINT: "https://os.example.test/api/events/product",
+      LEGALEASE_OS_LOOPS_ENDPOINT: "https://os.example.test/api/os-loops/events",
       LEGALEASE_OS_EVENTS_SECRET: "test-secret"
     },
     fetcher: async () => {

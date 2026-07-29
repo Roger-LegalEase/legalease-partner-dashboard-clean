@@ -39,6 +39,7 @@ Expungement.ai product events use the server-only LegalEase OS event producer. D
 
 - `LEGALEASE_OS_EVENTS_ENABLED=true`
 - `LEGALEASE_OS_EVENTS_ENDPOINT` with the LegalEase OS product event intake URL, such as `/api/events/product`
+- `LEGALEASE_OS_LOOPS_ENDPOINT` with the OS-loops event intake URL, such as `/api/os-loops/events` (a different dialect; the two endpoints are not interchangeable)
 - `LEGALEASE_OS_EVENTS_SECRET` with the shared HMAC secret for that intake
 
 Do not expose these through `NEXT_PUBLIC_` variables, and do not commit real secret values. The drop-point nudge `screening_nudge_window` event uses the same endpoint, secret, and signing contract as the existing Expungement.ai product events. The OS side must accept the `screening_nudge_window` event type before those aggregate nudge events will be accepted.

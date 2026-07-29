@@ -22,6 +22,7 @@ const checkoutRoute = read("src/app/api/expungement-ai/checkout/route.ts");
 const packetReadyPage = read("src/app/expungement-ai/packet-ready/page.tsx");
 const packetGenerateRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
 const packetGeneration = read("src/lib/expungement-ai/packet-generation.ts");
+const briefcase = read("src/lib/expungement-ai/briefcase.ts");
 const briefcaseDetail = read("src/app/briefcase/[packetId]/page.tsx");
 const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
 const savePolicy = read("src/lib/expungement-ai/save-result-policy.ts");
@@ -60,6 +61,7 @@ assert(packetReadyPage.includes("getConsumerCheckoutStatus"), "DTC packet-ready 
 
 assert(packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation API must use the payment-aware packet generator.");
 assert(packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Unknown/DTC packet generation must default to payment required.");
+assert(briefcase.includes('.eq("partner_benefit_active", true)'), "Partner-sponsored packet detection must require partner_benefit_active so invalid-code fallback/DTC sessions keep normal payment.");
 assert(packetGeneration.includes("ConsumerPacketPaymentRequiredError"), "DTC unpaid packet generation must still fail closed.");
 assert(!packetGeneration.includes("recordPartnerPacketUsage"), "Partner cap accounting must not be wired into DTC packet generation until isolated from the consumer path.");
 

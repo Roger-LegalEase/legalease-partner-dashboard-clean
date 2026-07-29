@@ -110,6 +110,79 @@ export const MS_SPONSORED_PACKET_BRIDGE_FILES = [
   "src/app/expungement-ai/packet-ready/page.tsx"
 ];
 
+// Reviewed for the RCAP partner access-codes feature: partner-controlled access
+// codes, code-level attribution, and packet-cap overage billing. Migration
+// (phase-41) is additive and file-only; new routes/pages are partner-scoped and
+// server-authorized. Kept file-level (no directories) per the scope-guard rule.
+export const PARTNER_ACCESS_CODES_FILES = [
+  "supabase/phase-41-rcap-partner-access-codes.sql",
+  // Phase 41B (reviewed): append-only, privacy-conscious screening analytics
+  // events for code/campaign reporting. Stores coarse outcome categories only —
+  // no answers, no record detail. DTC/un-attributed sessions never appear.
+  "supabase/phase-41b-rcap-screening-analytics.sql",
+  "src/app/partner/dashboard/page.tsx",
+  "src/app/partner/access-codes/page.tsx",
+  "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+  "src/app/api/partners/access-codes/route.ts",
+  "src/app/api/partners/access-codes/toggle/route.ts",
+  "src/app/api/partners/access-mode/route.ts",
+  "src/app/api/rcap/access-code/validate/route.ts"
+];
+
+// Reviewed for the standardized RCAP partner onboarding workflow. Additive:
+// phase-42 adds partner_onboarding + partner_onboarding_tasks and reuses the
+// existing partner_entitlement (cap/overage), partner_records.access_mode, and
+// partner_users systems. Internal pages/routes are internal-admin gated; the
+// partner-facing route is scoped to the caller's own partner.
+export const PARTNER_ONBOARDING_FILES = [
+  "supabase/phase-42-partner-onboarding.sql",
+  // Phase 43 (reviewed): additive RCAP Partner Onboarding Phase 1 workspace,
+  // section, asset, review, and tenant-isolation schema. Migration file only;
+  // it remains unapplied until the separately approved database process.
+  "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
+  "src/app/api/internal/partners/onboarding/route.ts",
+  "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",
+  "src/app/api/partners/onboarding/route.ts",
+  "src/app/api/partners/onboarding/assets/route.ts",
+  "src/app/api/partners/onboarding/assets/[assetId]/route.ts",
+  "src/app/api/partners/onboarding/checklist/route.ts",
+  "src/app/api/partners/onboarding/sections/[sectionKey]/route.ts",
+  "src/app/api/partners/onboarding/submit/route.ts",
+  "src/app/api/partners/onboarding/workspace/route.ts",
+  "src/app/internal/partners/onboarding/page.tsx",
+  "src/app/internal/partners/onboarding/new/page.tsx",
+  "src/app/internal/partners/onboarding/new/NewPartnerForm.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/OnboardingWizard.tsx",
+  "src/app/partner/onboarding/page.tsx",
+  "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx",
+  "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+  "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+  "src/app/partner/onboarding/[sectionKey]/page.tsx",
+  "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+  "src/app/partner/onboarding/review/page.tsx",
+  "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+  // Legacy slug routes remain available but redirect an authenticated member to
+  // the canonical Phase 1 portal when the default-off feature flag is enabled.
+  "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx"
+];
+
+// Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the
+// ingestion route gains a fire-and-forget mirror of rows it already stores, gated on a genuinely new
+// insert. No source-engine, auth, billing, or Stripe-secret surface is touched, and no user-facing
+// response changes. Kept file-level (no directories) per the scope-guard rule.
+export const COMMAND_CENTER_PRODUCT_EVENT_FILES = [
+  // Phase 40 (reviewed): privacy-limited web analytics event storage.
+  "supabase/phase-40-web-analytics-events.sql",
+  "src/app/api/analytics/web/route.ts",
+  // Health reports whether the existing OS exporter is configured. This reviewed
+  // change only follows the split LegalEase OS endpoint variable; it sends no event.
+  "src/app/api/health/route.ts"
+];
+
 // Phase 43: the shared content publishing platform (Expungement.ai blog/resources + LegalEase
 // Partner insights/stories, the internal CMS, and the Command Center promotion boundary).
 //
@@ -200,12 +273,15 @@ export const CONTENT_PLATFORM_FILES = [
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...SHARED_SCOPE_GUARD_ENV_FILES,
+  ...COMMAND_CENTER_PRODUCT_EVENT_FILES,
   ...SHARED_PAYMENT_FILES,
   ...INTERNAL_RCAP_ALLOWANCE_FILES,
   ...EXPUNGEMENT_DATA_LAYER_FILES,
   ...SCREENING_RESUME_FILES,
   ...SCREENING_DROP_POINT_NUDGE_FILES,
   ...RCAP_PARTNER_MODE_FILES,
+  ...PARTNER_ACCESS_CODES_FILES,
+  ...PARTNER_ONBOARDING_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
   ...MS_SPONSORED_PACKET_BRIDGE_FILES,

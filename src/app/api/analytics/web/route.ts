@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityWarn } from "@/lib/observability/logger";
 import { buildWebAnalyticsRow } from "@/lib/analytics/build-event";
+import { forwardEventToCommandCenter } from "@/lib/analytics/command-center-bridge";
 import { recordWebAnalyticsEvent } from "@/lib/analytics/web-analytics-repository";
 import { PAGEVIEW_EVENT, isServerOnlyEventName } from "@/lib/analytics/event-names";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
@@ -87,6 +88,17 @@ export async function POST(request: Request) {
   if (!result.ok) {
     // Never fail the user flow; log for operators and still return success to the beacon.
     logSecurityError({ event: "web analytics store failed", route: ROUTE, outcome: result.reason ?? "insert_failed", requestId });
+  }
+
+  // Mirror newly-stored events to the Command Center funnel. Gated on `stored` so a duplicate beacon
+  // can never double-count.
+  //
+  // This MUST use `after()`, not a bare `void`. On serverless the invocation is frozen the moment the
+  // response is sent, so a floating promise is silently dropped and the event never leaves the box.
+  // `after()` runs the egress once the response is flushed — off the beacon's critical path, but
+  // still within a live invocation.
+  if (result.stored) {
+    after(() => forwardEventToCommandCenter(built.row));
   }
 
   return noContent();
