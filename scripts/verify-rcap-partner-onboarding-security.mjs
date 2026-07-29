@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { File } from "node:buffer";
+import { readFileSync } from "node:fs";
 import { register } from "node:module";
 import { NextRequest } from "next/server.js";
+import { PARTNER_ONBOARDING_FILES } from "./rcap-scope-allowlist.mjs";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -46,6 +48,25 @@ const DOCX_MIME =
 const PARTNER_ID = "11111111-1111-4111-8111-111111111111";
 const WORKSPACE_ID = "22222222-2222-4222-8222-222222222222";
 const OBJECT_ID = "33333333-3333-4333-8333-333333333333";
+const PHASE1_MIGRATION = "supabase/phase-43-rcap-partner-onboarding-phase1.sql";
+const PHASE1_RESTRICTED_SURFACE_FILES = [
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",
+  "src/app/api/partners/onboarding/route.ts",
+  "src/app/api/partners/onboarding/assets/route.ts",
+  "src/app/api/partners/onboarding/assets/[assetId]/route.ts",
+  "src/app/api/partners/onboarding/sections/[sectionKey]/route.ts",
+  "src/app/api/partners/onboarding/submit/route.ts",
+  "src/app/api/partners/onboarding/workspace/route.ts",
+  "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+  "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+  "src/app/partner/onboarding/[sectionKey]/page.tsx",
+  "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+  "src/app/partner/onboarding/review/page.tsx",
+  "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx"
+];
 
 const encoder = new TextEncoder();
 const checks = [];
@@ -260,6 +281,32 @@ check("truthy-looking non-true values cannot enable the feature", () => {
       `${JSON.stringify(value)} must not enable onboarding.`
     );
   }
+});
+
+check("Phase 1 CI scope stays exact and file-level", () => {
+  for (const file of [PHASE1_MIGRATION, ...PHASE1_RESTRICTED_SURFACE_FILES]) {
+    assert.equal(
+      PARTNER_ONBOARDING_FILES.filter((entry) => entry === file).length,
+      1,
+      `${file} must appear exactly once in the reviewed onboarding scope.`
+    );
+  }
+  assert.equal(
+    PARTNER_ONBOARDING_FILES.some((entry) => entry.includes("*") || entry.endsWith("/")),
+    false,
+    "The reviewed onboarding scope must not contain wildcards or directories."
+  );
+
+  const finalApprovalSource = readFileSync(
+    new URL("./verify-all51-final-approval.mjs", import.meta.url),
+    "utf8"
+  );
+  const migrationLiteral = JSON.stringify(PHASE1_MIGRATION);
+  assert.equal(
+    finalApprovalSource.split(migrationLiteral).length - 1,
+    1,
+    "The all-51 final-approval verifier must allow the reviewed Phase 1 migration exactly once."
+  );
 });
 
 check("asset category allowlist is exact", () => {

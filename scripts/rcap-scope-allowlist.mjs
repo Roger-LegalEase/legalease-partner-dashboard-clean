@@ -142,14 +142,32 @@ export const PARTNER_ONBOARDING_FILES = [
   "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
   "src/app/api/internal/partners/onboarding/route.ts",
   "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",
+  "src/app/api/partners/onboarding/route.ts",
+  "src/app/api/partners/onboarding/assets/route.ts",
+  "src/app/api/partners/onboarding/assets/[assetId]/route.ts",
   "src/app/api/partners/onboarding/checklist/route.ts",
+  "src/app/api/partners/onboarding/sections/[sectionKey]/route.ts",
+  "src/app/api/partners/onboarding/submit/route.ts",
+  "src/app/api/partners/onboarding/workspace/route.ts",
   "src/app/internal/partners/onboarding/page.tsx",
   "src/app/internal/partners/onboarding/new/page.tsx",
   "src/app/internal/partners/onboarding/new/NewPartnerForm.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/OnboardingWizard.tsx",
   "src/app/partner/onboarding/page.tsx",
-  "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx"
+  "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx",
+  "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+  "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+  "src/app/partner/onboarding/[sectionKey]/page.tsx",
+  "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+  "src/app/partner/onboarding/review/page.tsx",
+  "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+  // Legacy slug routes remain available but redirect an authenticated member to
+  // the canonical Phase 1 portal when the default-off feature flag is enabled.
+  "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+  "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx"
 ];
 
 // Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the
@@ -159,7 +177,10 @@ export const PARTNER_ONBOARDING_FILES = [
 export const COMMAND_CENTER_PRODUCT_EVENT_FILES = [
   // Phase 40 (reviewed): privacy-limited web analytics event storage.
   "supabase/phase-40-web-analytics-events.sql",
-  "src/app/api/analytics/web/route.ts"
+  "src/app/api/analytics/web/route.ts",
+  // Health reports whether the existing OS exporter is configured. This reviewed
+  // change only follows the split LegalEase OS endpoint variable; it sends no event.
+  "src/app/api/health/route.ts"
 ];
 
 // Phase 43: the shared content publishing platform (Expungement.ai blog/resources + LegalEase

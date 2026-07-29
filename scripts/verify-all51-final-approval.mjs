@@ -122,6 +122,9 @@ function assertNoRestrictedChanges() {
     "supabase/phase-41-rcap-partner-access-codes.sql",
     "supabase/phase-41b-rcap-screening-analytics.sql",
     "supabase/phase-42-partner-onboarding.sql",
+    // Phase 43 RCAP onboarding (reviewed): additive partner workspace, section,
+    // asset, review, and tenant-isolation schema. Migration file only and unapplied.
+    "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
     // Phase 37 (reviewed): additive constraint/index expansion on rcap_document_packets for the
     // all-51 source-driven packet set; does not alter RLS, auth, Stripe, or generated packet behavior.
     "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql",
