@@ -122,6 +122,21 @@ process.env.INTERNAL_ADMIN_ACCESS_TOKEN = "correct-horse-battery-staple";
 // Production behaviour: the development passthrough must not mask anything.
 process.env.NODE_ENV = "production";
 
+// @supabase/ssr constructs a Realtime client as a side effect of
+// createServerClient, and that constructor demands a WebSocket implementation.
+// Node 22 and later provide one globally; CI runs Node 20, which does not. The
+// gate never opens a socket, so a constructor that would throw if anything
+// actually tried is enough, and it keeps this verifier honest on both versions.
+// This is not a proxy concern: refreshSupabaseSession already called
+// createServerClient before this change, so nothing new depends on it.
+if (typeof globalThis.WebSocket === "undefined") {
+  globalThis.WebSocket = class UnusedWebSocket {
+    constructor() {
+      throw new Error("the /internal gate must never open a realtime socket");
+    }
+  };
+}
+
 const { NextRequest } = await import("next/server");
 const { proxy } = await import("../src/proxy.ts");
 
@@ -425,5 +440,11 @@ function listPages(directory) {
   }
   return found;
 }
+
+await check("the gate opens no realtime socket", () => {
+  const source = read("src/proxy.ts");
+  assert.ok(!source.includes(".channel("), "the proxy must not subscribe to anything");
+  assert.ok(!source.includes("realtime"), "the proxy must not configure realtime");
+});
 
 console.log(`\nInternal admin browser access: ${passed}/${passed} checks passed.`);
