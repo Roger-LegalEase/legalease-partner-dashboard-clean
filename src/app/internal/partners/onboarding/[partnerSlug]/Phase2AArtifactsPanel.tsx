@@ -170,6 +170,11 @@ function ArtifactRow({
   onMutate: (action: string, payload: Record<string, unknown>) => void;
 }) {
   const version = entry.currentVersion;
+  // Reviews of the version on screen, so a change request is visible without
+  // having to open version history.
+  const currentReviews = version
+    ? entry.reviews.filter((review) => review.versionNumber === version.versionNumber)
+    : [];
   const canApprove =
     entry.available &&
     version !== null &&
@@ -238,6 +243,20 @@ function ArtifactRow({
         <p className="mt-2 text-xs text-orange">
           Changed since this version: {entry.staleFields.join(", ")}
         </p>
+      ) : null}
+
+      {currentReviews.length > 0 ? (
+        <ul className="mt-3 space-y-1.5">
+          {currentReviews.map((review) => (
+            <li key={review.id} className="text-xs text-grayWilma-700">
+              <span className="font-bold text-navy">
+                {review.reviewerType === "partner" ? "Partner" : "LegalEase"} ·{" "}
+                {review.decision.replace(/_/g, " ")} on version {review.versionNumber}
+              </span>
+              {review.comments ? ` — ${review.comments}` : ""}
+            </li>
+          ))}
+        </ul>
       ) : null}
 
       {entry.available ? (

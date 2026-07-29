@@ -734,32 +734,34 @@ begin
     -- LegalEase controls the document's own approval state and retains control
     -- of legal and platform language. The partner review state is untouched
     -- except that requesting changes routes the version back to the partner.
-    update public.partner_onboarding_artifact_versions
+    -- The alias is required: this function's OUT parameters share names with
+    -- these columns, so unqualified references would be ambiguous.
+    update public.partner_onboarding_artifact_versions v
     set approval_status = case p_decision
           when 'approve' then 'approved'
           when 'request_changes' then 'changes_requested'
           else 'changes_requested'
         end,
         partner_visible_instructions = coalesce(
-          p_partner_visible_instructions, partner_visible_instructions
+          p_partner_visible_instructions, v.partner_visible_instructions
         ),
         partner_review_status = case
-          when p_decision = 'approve' and partner_review_status = 'not_requested'
+          when p_decision = 'approve' and v.partner_review_status = 'not_requested'
             then 'awaiting_partner'
-          else partner_review_status
+          else v.partner_review_status
         end
-    where id = p_artifact_version_id
-    returning * into v_version;
+    where v.id = p_artifact_version_id
+    returning v.* into v_version;
   else
     -- The partner approves only partner-owned factual and branding content. It
     -- cannot move approval_status, publish, or activate anything.
-    update public.partner_onboarding_artifact_versions
+    update public.partner_onboarding_artifact_versions v
     set partner_review_status = case p_decision
           when 'approve' then 'approved'
           else 'changes_requested'
         end
-    where id = p_artifact_version_id
-    returning * into v_version;
+    where v.id = p_artifact_version_id
+    returning v.* into v_version;
   end if;
 
   update public.partner_onboarding_artifacts
