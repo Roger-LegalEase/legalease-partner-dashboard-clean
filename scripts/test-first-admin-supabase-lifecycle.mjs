@@ -16,6 +16,12 @@ if (!["127.0.0.1", "localhost", "::1"].includes(parsedUrl.hostname)) {
   throw new Error("This destructive lifecycle test only runs against loopback.");
 }
 
+// The acceptance assertions below expect the onboarding destination, so this
+// test must establish that flag rather than inherit it. Without this, a shell
+// that has not exported the flag fails on a redirect mismatch that looks like a
+// routing regression and is only an unset variable.
+process.env.RCAP_PARTNER_ONBOARDING_ENABLED = "true";
+
 const {
   acceptFirstAdminInvitation,
   claimFirstAdminSetupToken,
