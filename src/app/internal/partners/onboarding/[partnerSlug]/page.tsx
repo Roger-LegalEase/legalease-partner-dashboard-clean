@@ -3,13 +3,16 @@ import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partn
 import { getOnboarding, startOnboardingForExistingPartner, statusLabel, type PartnerOnboardingView } from "@/lib/partners/partner-onboarding";
 import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
 import {
+  isRcapOnboardingLaunchPrepEnabled,
   isRcapOnboardingPrefillEnabled,
   isRcapPartnerOnboardingEnabled
 } from "@/lib/partners/onboarding/feature";
 import { getInternalPrefillSnapshot } from "@/lib/partners/onboarding/prefill-service";
+import { getInternalArtifactBoard } from "@/lib/partners/onboarding/artifact-service";
 import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service";
 import { Phase1InternalReviewPanel } from "./Phase1InternalReviewPanel";
 import { Phase1PrefillPanel } from "./Phase1PrefillPanel";
+import { Phase2AArtifactsPanel } from "./Phase2AArtifactsPanel";
 import { OnboardingWizard } from "./OnboardingWizard";
 
 export const dynamic = "force-dynamic";
@@ -24,12 +27,16 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
   if (isRcapPartnerOnboardingEnabled()) {
     let phase1Snapshot: Awaited<ReturnType<typeof getInternalOnboardingSnapshot>> | null = null;
     let prefillSnapshot: Awaited<ReturnType<typeof getInternalPrefillSnapshot>> | null = null;
+    let artifactBoard: Awaited<ReturnType<typeof getInternalArtifactBoard>> | null = null;
     let phase1LoadError: string | null = null;
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
       phase1Snapshot = await getInternalOnboardingSnapshot(context);
       if (isRcapOnboardingPrefillEnabled()) {
         prefillSnapshot = await getInternalPrefillSnapshot(context);
+      }
+      if (isRcapOnboardingLaunchPrepEnabled()) {
+        artifactBoard = await getInternalArtifactBoard(context);
       }
     } catch {
       phase1LoadError = "The Phase 1 onboarding workspace could not be loaded.";
@@ -68,6 +75,12 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
                 <Phase1PrefillPanel
                   partnerSlug={partnerSlug}
                   snapshot={prefillSnapshot}
+                />
+              ) : null}
+              {artifactBoard ? (
+                <Phase2AArtifactsPanel
+                  partnerSlug={partnerSlug}
+                  board={artifactBoard}
                 />
               ) : null}
             </>

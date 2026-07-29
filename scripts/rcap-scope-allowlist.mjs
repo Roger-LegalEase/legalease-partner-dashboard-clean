@@ -143,6 +143,12 @@ export const PARTNER_ONBOARDING_FILES = [
   // Phase 44 (reviewed): additive prefill batches/values, tenant RLS, bounded
   // service-only RPCs, partner-safe review metadata, and no remote application.
   "supabase/phase-44-rcap-onboarding-prefill.sql",
+  // Phase 45 (reviewed): additive Phase 2A artifact, version, and review tables
+  // with tenant RLS, column-bounded partner grants, and service-role-only
+  // mutation RPCs. Migration file only; it adds no launch-check or
+  // launch-approval table and grants no publication, invitation, access-code,
+  // payment, or activation capability. Applied to a local loopback stack only.
+  "supabase/phase-45-rcap-onboarding-artifacts.sql",
   "src/app/api/internal/partners/onboarding/route.ts",
   "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
   "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",
@@ -174,7 +180,22 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
   "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx",
   "src/lib/partners/onboarding/prefill-domain.ts",
-  "src/lib/partners/onboarding/prefill-service.ts"
+  "src/lib/partners/onboarding/prefill-service.ts",
+  // Phase 2A artifacts (reviewed). New modules, routes, and panels only; the
+  // partner and internal surfaces reuse the existing Phase 1 shells. Downloads
+  // are bounded private server responses with no public URL.
+  "src/lib/partners/onboarding/artifact-domain.ts",
+  "src/lib/partners/onboarding/artifact-generator.ts",
+  "src/lib/partners/onboarding/artifact-service.ts",
+  "src/lib/partners/onboarding/artifact-pdf.ts",
+  "src/components/partners/onboarding/ArtifactDocumentView.tsx",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/artifacts/route.ts",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/artifacts/download/route.ts",
+  "src/app/api/partners/onboarding/artifacts/route.ts",
+  "src/app/api/partners/onboarding/artifacts/download/route.ts",
+  "src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx",
+  "src/app/partner/onboarding/artifacts/page.tsx",
+  "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx"
 ];
 
 // Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the
