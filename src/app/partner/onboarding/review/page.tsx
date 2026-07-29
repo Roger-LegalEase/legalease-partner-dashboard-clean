@@ -61,11 +61,14 @@ export default async function PartnerOnboardingReviewPage() {
       ? section.changeRequestInstructions.join("\n\n")
       : null,
     changeRequestStatus: section.changeRequestStatus
+    ,
+    hasPendingPrefill: section.hasPendingPrefill
   }));
   const canSubmit =
     portal.canEdit &&
     portal.workspace.commercialGateStatus !== "blocked" &&
     portal.workspace.status === "setup_in_progress" &&
+    portal.prefill.pendingCount === 0 &&
     portal.sections.every(
       (section) =>
         ["submitted", "approved", "waived", "not_applicable"].includes(
@@ -83,6 +86,9 @@ export default async function PartnerOnboardingReviewPage() {
         canSubmit={canSubmit}
         canEdit={portal.canEdit}
         isPartnerStaff={portal.role === "partner_staff"}
+        pendingPrefillSections={portal.prefill.pendingSections.map(
+          (key) => portal.sections.find((section) => section.key === key)?.title ?? key
+        )}
         initialSubmission={
           portal.workspace.submittedAt &&
           [

@@ -2,9 +2,14 @@ import Link from "next/link";
 import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getOnboarding, startOnboardingForExistingPartner, statusLabel, type PartnerOnboardingView } from "@/lib/partners/partner-onboarding";
 import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
-import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import {
+  isRcapOnboardingPrefillEnabled,
+  isRcapPartnerOnboardingEnabled
+} from "@/lib/partners/onboarding/feature";
+import { getInternalPrefillSnapshot } from "@/lib/partners/onboarding/prefill-service";
 import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service";
 import { Phase1InternalReviewPanel } from "./Phase1InternalReviewPanel";
+import { Phase1PrefillPanel } from "./Phase1PrefillPanel";
 import { OnboardingWizard } from "./OnboardingWizard";
 
 export const dynamic = "force-dynamic";
@@ -18,10 +23,14 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
 
   if (isRcapPartnerOnboardingEnabled()) {
     let phase1Snapshot: Awaited<ReturnType<typeof getInternalOnboardingSnapshot>> | null = null;
+    let prefillSnapshot: Awaited<ReturnType<typeof getInternalPrefillSnapshot>> | null = null;
     let phase1LoadError: string | null = null;
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
       phase1Snapshot = await getInternalOnboardingSnapshot(context);
+      if (isRcapOnboardingPrefillEnabled()) {
+        prefillSnapshot = await getInternalPrefillSnapshot(context);
+      }
     } catch {
       phase1LoadError = "The Phase 1 onboarding workspace could not be loaded.";
     }
@@ -50,10 +59,18 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
               {phase1LoadError ?? "The Phase 1 workspace was not found."}
             </p>
           ) : (
-            <Phase1InternalReviewPanel
-              partnerSlug={partnerSlug}
-              snapshot={phase1Snapshot}
-            />
+            <>
+              <Phase1InternalReviewPanel
+                partnerSlug={partnerSlug}
+                snapshot={phase1Snapshot}
+              />
+              {prefillSnapshot ? (
+                <Phase1PrefillPanel
+                  partnerSlug={partnerSlug}
+                  snapshot={prefillSnapshot}
+                />
+              ) : null}
+            </>
           )}
         </div>
       </main>

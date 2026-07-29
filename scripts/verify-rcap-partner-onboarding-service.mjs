@@ -542,8 +542,8 @@ test("internal commercial review derives its summary server-side before the CAS 
   assert.equal(call.name, "rcap_service_review_onboarding");
   assert.deepEqual(call.params.p_operation.systemDerived, {
     completionPercentage: 0,
-    blockerCode: "required_asset_missing",
-    nextActionCode: "upload_required_asset",
+    blockerCode: "required_section_incomplete",
+    nextActionCode: "complete_section",
     nextActionOwner: "partner"
   });
   assert.equal(call.params.p_expected_workspace_version, 7);

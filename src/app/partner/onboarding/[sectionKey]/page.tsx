@@ -106,6 +106,7 @@ export default async function PartnerOnboardingSectionPage({
             ? `/partner/onboarding/${nextKey}`
             : "/partner/onboarding/review"
         }
+        pendingPrefillFieldKeys={section.pendingPrefillFieldKeys}
       />
     </main>
   );

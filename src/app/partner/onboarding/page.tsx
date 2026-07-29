@@ -140,11 +140,15 @@ async function Phase1PartnerOnboardingPage() {
         }
         canEdit={portal.canEdit}
         isPartnerStaff={portal.role === "partner_staff"}
+        hasAppliedPrefill={portal.prefill.hasAppliedPrefill}
         sections={portal.sections.map((section) => ({
           key: section.key,
           title: section.title,
           status: section.status,
-          statusLabel: sectionStatusLabel(section.status),
+          statusLabel: section.hasPendingPrefill
+            ? "Pre-filled — review needed"
+            : sectionStatusLabel(section.status),
+          hasPendingPrefill: section.hasPendingPrefill,
           missingSummary: sectionSummary(section, portal)
         }))}
         commercial={commercialSummary(portal)}

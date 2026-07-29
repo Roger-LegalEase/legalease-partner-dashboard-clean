@@ -1,6 +1,7 @@
 import {
   ONBOARDING_ASSET_DEFINITIONS,
   ONBOARDING_SCHEMA_REGISTRY,
+  ONBOARDING_SECTION_DEFINITIONS,
   ONBOARDING_SECTION_ORDER
 } from "./schema";
 import type {
@@ -28,8 +29,12 @@ export const ONBOARDING_BLOCKER_COPY: Readonly<
     "Setup is waiting for the commercial requirements shown in your agreement summary.",
   partner_changes_requested:
     "LegalEase requested updates to part of your onboarding package.",
+  pending_prefill_review:
+    "LegalEase pre-filled information that your organization still needs to review.",
   required_asset_missing:
     "A required organizational asset still needs to be uploaded.",
+  required_procurement_item_missing:
+    "A required procurement item still needs attention.",
   required_section_incomplete:
     "A required onboarding section still needs information."
 };
@@ -40,7 +45,9 @@ export const ONBOARDING_NEXT_ACTION_COPY: Readonly<
   complete_commercial_requirements:
     "Complete the requested commercial or procurement step.",
   address_change_request: "Review and respond to the requested changes.",
+  review_prefilled_information: "Review the pre-filled information.",
   upload_required_asset: "Upload the required organizational asset.",
+  complete_procurement_item: "Complete the required procurement item.",
   complete_section: "Continue the next incomplete setup section.",
   submit_for_review: "Review and submit the onboarding package.",
   await_legalease_review: "LegalEase is reviewing the submitted package.",
@@ -319,17 +326,23 @@ export function deriveOnboardingSummary(
     };
   }
 
-  const missingAsset = getMissingRequiredAssets(data, context)[0];
-  if (missingAsset) {
+  const pendingPrefillSection = firstSectionByCanonicalOrder(
+    context.pendingPrefillSections ?? []
+  );
+  if (pendingPrefillSection) {
     return {
       ...buildSummary(
         completion,
-        "required_asset_missing",
-        "upload_required_asset",
+        "pending_prefill_review",
+        "review_prefilled_information",
         "partner"
       ),
-      nextSectionKey: "brand_public_page",
-      missingAssetCategory: missingAsset
+      nextActionCopy: `Review pre-filled information in ${
+        ONBOARDING_SECTION_DEFINITIONS.find(
+          (section) => section.key === pendingPrefillSection
+        )?.label ?? "program setup"
+      }.`,
+      nextSectionKey: pendingPrefillSection
     };
   }
 
@@ -347,6 +360,41 @@ export function deriveOnboardingSummary(
         "partner"
       ),
       nextSectionKey: firstIncompleteSection
+    };
+  }
+
+  const missingAssets = getMissingRequiredAssets(data, context);
+  const missingAsset = missingAssets.find(
+    (category) => category !== "procurement_document"
+  );
+  if (missingAsset) {
+    return {
+      ...buildSummary(
+        completion,
+        "required_asset_missing",
+        "upload_required_asset",
+        "partner"
+      ),
+      nextSectionKey: "brand_public_page",
+      missingAssetCategory: missingAsset
+    };
+  }
+
+  if (
+    context.procurementItemsMissing === true ||
+    missingAssets.includes("procurement_document")
+  ) {
+    return {
+      ...buildSummary(
+        completion,
+        "required_procurement_item_missing",
+        "complete_procurement_item",
+        "partner"
+      ),
+      nextSectionKey: "brand_public_page",
+      missingAssetCategory: missingAssets.includes("procurement_document")
+        ? "procurement_document"
+        : undefined
     };
   }
 

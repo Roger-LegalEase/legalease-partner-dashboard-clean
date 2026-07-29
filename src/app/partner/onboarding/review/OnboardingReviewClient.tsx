@@ -38,6 +38,7 @@ export type OnboardingReviewSection = {
   }>;
   changeRequestInstructions?: string | null;
   changeRequestStatus?: "open" | "partner_responded" | null;
+  hasPendingPrefill: boolean;
 };
 
 export type OnboardingReviewClientProps = {
@@ -51,6 +52,7 @@ export type OnboardingReviewClientProps = {
     historical: boolean;
   } | null;
   workspaceVersion: number;
+  pendingPrefillSections: string[];
 };
 
 type SubmissionState =
@@ -72,6 +74,8 @@ export function OnboardingReviewClient({
   isPartnerStaff,
   initialSubmission,
   workspaceVersion
+  ,
+  pendingPrefillSections
 }: OnboardingReviewClientProps) {
   const [submission, setSubmission] = useState<SubmissionState>(
     initialSubmission
@@ -106,6 +110,7 @@ export function OnboardingReviewClient({
     canEdit &&
     missingCount === 0 &&
     changeRequestCount === 0 &&
+    pendingPrefillSections.length === 0 &&
     !submitted;
 
   async function submitForReview() {
@@ -239,6 +244,17 @@ export function OnboardingReviewClient({
             {submission.historical
               ? "This saved submission remains part of the program setup history. The current program status is shown above."
               : "Submission starts review; it does not approve launch. LegalEase will either approve the package for launch preparation or request section-specific changes here."}
+          </p>
+        </Card>
+      ) : null}
+
+      {pendingPrefillSections.length > 0 ? (
+        <Card className="mb-6 border-orange/30 bg-orange/10 p-5">
+          <h2 className="font-black">Pre-filled information needs review</h2>
+          <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+            Confirm the pre-filled information in{" "}
+            {pendingPrefillSections.join(", ")} before final submission.
+            Internal source details are not included here.
           </p>
         </Card>
       ) : null}
