@@ -2,6 +2,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  InternalAdminDenied,
+  resolveInternalAdminPageAccess
+} from "@/lib/partners/internal-admin-gate";
+import {
   getAllPartnerRecords,
   getPartnerRepositoryMode
 } from "@/lib/partners/partner-repository";
@@ -23,6 +27,14 @@ type LiveReadResult = {
 export const dynamic = "force-dynamic";
 
 export default async function InternalPartnerSupabaseCheckPage() {
+  // Reads partner records through the service-role client and performs a live
+  // service-role read besides, so it carries the same exposure as the partner
+  // data page and gets the same gate.
+  const access = await resolveInternalAdminPageAccess("/internal/partners/supabase-check");
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const repositoryMode = await getPartnerRepositoryMode();
   const repositoryPartners = await getAllPartnerRecords();
   const supabaseEnabled = process.env.ENABLE_SUPABASE_PARTNER_DATA === "true";
@@ -36,7 +48,7 @@ export default async function InternalPartnerSupabaseCheckPage() {
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Badge tone="orange">Internal LegalEase operations view. Auth will be added before production.</Badge>
+        <Badge tone="orange">Internal LegalEase operations view. Internal administrator access required.</Badge>
 
         <section className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.85fr]">
           <div>
