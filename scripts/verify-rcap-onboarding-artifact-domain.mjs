@@ -382,6 +382,12 @@ check("the brief renders canonical data, not a form dump", () => {
 
   const text = JSON.stringify(document);
   assert.ok(text.includes("Demo Org, Inc."), "renders the partner's real data");
+  // A partner document must never show a machine enum value.
+  assert.ok(text.includes("Year-round program"), "enums render in plain language");
+  assert.ok(text.includes("Optional access code"), "enums render in plain language");
+  assert.ok(!text.includes("year_round"), "no raw enum value may reach the document");
+  assert.ok(!text.includes("optional_code"), "no raw enum value may reach the document");
+  assert.ok(!text.includes("nonprofit"), "no raw enum value may reach the document");
   assert.ok(
     text.includes("leave the self-help path"),
     "preserves the existing product boundary for contested matters"

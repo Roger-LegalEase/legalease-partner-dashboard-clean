@@ -321,3 +321,155 @@ and Escalation Plan, whose generator is deferred to B2; B2 must add these to
    Lane A before generating the matrix.
 6. **Section approval and waiver by LegalEase** change `sections.status` but no rendered
    value, and so are non-material by rule 2 of the detection rule above.
+
+## Correction to the table above
+
+Two rows in the table were wrong when first written and are corrected here rather
+than silently edited, because the invalidation code is built against them.
+
+1. **`legalease_technical_support_route` is material, not non-material.** It was
+   originally justified as "versioned by template", but `normalized_snapshot` did
+   not record a template or generator version, so nothing implemented that
+   reasoning and a boilerplate edit would have left every approved brief carrying
+   stale text with nothing marking it. Version rows now carry
+   `generator_version`, the LegalEase boilerplate is projected like any other
+   value, and a `generator_version` mismatch is material on its own.
+
+2. **Stage 1 is provenance, not a gate.** The table originally described a
+   two-stage detection in which a revision or asset-tuple difference triggered a
+   value comparison. That would have missed every value outside the workspace
+   aggregate — `partner_entitlement`, `partner_records.selected_package_id`, and
+   `partner_records.access_mode` bump no revision counter here. The recorded
+   revisions and asset tuples are kept as the provenance the spec requires and
+   are shown in version history, but the projection comparison now runs
+   unconditionally on read.
+
+## Detection, computed on read
+
+Staleness is a pure function evaluated whenever an Artifacts surface loads. It is
+not driven by write hooks: the set of writers is unbounded and crosses this
+lane's boundary — it would have to include `api/internal/partners/admin-action`,
+`api/internal/partners/rcap-allowance`, `api/partners/access-mode`,
+`lib/expungement-ai/packet-generation`, `lib/expungement-ai/rcap-slot-lifecycle`,
+two scheduled scripts, and Lane A's provisioning writes to
+`partner_onboarding_planned_users`, which this lane must not edit.
+
+Cost is constant in the number of artifacts. One shared
+`loadArtifactSourceInput()` performs the canonical read — the workspace row plus
+a parallel fetch of sections, contacts, planned users, report recipients, assets,
+`partner_records`, and `partner_entitlement` — and all six artifact types project
+from that single in-memory result. Three further queries load artifacts,
+versions, and reviews, each filtered by `workspace_id` rather than by type. Six
+artifact types and one cost the same.
+
+`deriveRecordShieldScope()` and the allocation and credit values need no extra
+query: `partner_records` and `partner_entitlement` are already in that read.
+
+### The read-path write
+
+When an internal read observes drift against a version that is currently
+`approved` and not yet invalidated, it persists the invalidation once and records
+one activity event.
+
+- **An unchanged read issues no statement at all.** The application compares the
+  recomputed projection hash to the stored one and only calls the RPC when they
+  differ. There is no unconditional `UPDATE`, and no `updated_at` restamping.
+- **The partner path cannot write.** It holds only a session client under RLS,
+  and every mutation RPC is revoked from `public`, `anon`, and `authenticated`
+  and granted solely to `service_role`. The partner surface therefore renders
+  *computed* staleness, so a drifted version is never presented to a partner as
+  approved even before the persisting write has run.
+- **Concurrent observers converge on one write.** The RPC is a conditional
+  `UPDATE ... WHERE source_drift_invalidated_at IS NULL AND snapshot_hash <>
+  $current`, and the activity insert happens only in the branch where that update
+  returned a row. A unique partial index on
+  `partner_onboarding_activity(artifact_version_id, event_type)` makes a second
+  event impossible independently of application code.
+
+PGlite is single-connection, so the focused tests cannot run two genuinely
+parallel transactions. They test the invariant the concurrent case depends on
+instead: a second sequential call is a no-op, exactly one activity event exists,
+and a hand-written duplicate insert is rejected by the unique index. This is
+stated plainly rather than described as a concurrency test.
+
+## `generator_version`
+
+`IMPLEMENTATION_BRIEF_GENERATOR_VERSION` is a **hand-maintained constant** in
+`src/lib/partners/onboarding/artifact-generator.ts`. It is not derived from a
+file hash, a build id, or a commit sha, so a refactor that leaves rendered output
+identical does not bump it.
+
+**Bumping it is a fleet-wide invalidation event: every approved artifact of that
+type, for every partner, goes stale at once.** The literal is pinned by
+`scripts/verify-rcap-onboarding-artifact-domain.mjs`, so a bump must be made
+deliberately in the same commit as the test rather than riding along in a
+refactor.
+
+## Entities added
+
+`supabase/phase-45-rcap-onboarding-artifacts.sql`, selected after inspecting the
+existing ledger (phase-44 was the tip). Additive and forward-only.
+
+- `partner_onboarding_artifacts` — one row per workspace and artifact type,
+  `unique (workspace_id, artifact_type)`, with `current_version_id` and
+  `lifecycle_status`.
+- `partner_onboarding_artifact_versions` — provenance
+  (`source_workspace_version`, `source_section_revisions`,
+  `source_asset_versions`), the `normalized_snapshot` and its `snapshot_hash`,
+  `generator_version`, `rendered_content`, `generation_status`,
+  `approval_status`, `partner_review_status`, drift bookkeeping, and
+  `unique (artifact_id, version_number)` plus `unique (artifact_id, request_id)`
+  for idempotent generation.
+- `partner_onboarding_artifact_reviews` — `reviewer_type`, reviewer identity,
+  `decision` of approve / request_changes / reject, comments, `reviewed_at`.
+
+No launch-check or launch-approval table is created. Lane B2 owns those.
+
+A database constraint ties `generation_status = 'failed'` to
+`approval_status = 'generation_failed'`, so a failed generation cannot be stored
+in a state that would display as approvable.
+
+## Approval model
+
+`approval_status` is the LegalEase-controlled document state.
+`partner_review_status` is tracked separately, so the internal surface can show
+both. A partner decision moves only the partner state and can never change
+`approval_status`; LegalEase retains control of legal and platform language.
+
+Invalidation is scoped by owner:
+
+- A change to a value the partner owns invalidates **both** approvals — the
+  partner's factual attestation is now false, and LegalEase approved a document
+  that no longer matches source.
+- A change confined to LegalEase-controlled values invalidates the **LegalEase**
+  approval only; the partner's attestation about partner-owned content still
+  stands. `LEGALEASE_ONLY_PROJECTION_KEYS` enumerates those values.
+
+A stale version cannot be approved by either reviewer. It stays readable and
+downloadable if it was already approved, and regeneration is an explicit action.
+
+## Routes
+
+- `GET|POST /api/internal/partners/onboarding/phase1/[partnerSlug]/artifacts`
+- `GET /api/internal/partners/onboarding/phase1/[partnerSlug]/artifacts/download`
+- `GET|POST /api/partners/onboarding/artifacts`
+- `GET /api/partners/onboarding/artifacts/download`
+- `/partner/onboarding/artifacts`
+- The internal Artifacts area is a panel on the existing
+  `/internal/partners/onboarding/[partnerSlug]` page. No second admin app.
+
+Downloads render the approved snapshot to PDF with `pdf-lib`, already a
+repository dependency. No headless browser was introduced, no public or signed
+URL is minted, and the filename carries the artifact, version, and date.
+
+## Deferred to Lane B2
+
+- The Operations and Escalation Plan generator. Roger narrowed this lane to the
+  Implementation Brief mid-task; the type is registered and renders as not yet
+  available, exactly like the other four.
+- Generators for the dashboard user and reporting matrix, staff quick-start
+  guide, partner launch kit, and co-branded page configuration.
+- The launch-readiness engine and its tables.
+- The six Operations-and-Escalation-Plan fields recorded above as having **no
+  home in the current schema**. B2 must extend `ONBOARDING_SCHEMA_REGISTRY`
+  before it can generate a complete plan.

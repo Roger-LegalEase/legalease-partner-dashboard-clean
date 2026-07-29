@@ -104,16 +104,65 @@ function raw(
   return section?.[dataKey] ?? null;
 }
 
+/**
+ * Enumerated values are stored as machine keys. A partner document must never
+ * show one, so every enum the brief renders is mapped to plain language here.
+ */
+const ENUM_LABELS: Readonly<Record<string, string>> = {
+  // organization_type
+  nonprofit: "Nonprofit",
+  government: "Government",
+  legal_services: "Legal services",
+  workforce: "Workforce development",
+  faith_based: "Faith-based",
+  other: "Other",
+  // program_model
+  year_round: "Year-round program",
+  clinic: "Clinic",
+  event: "Event",
+  campaign: "Campaign",
+  referral_only: "Referral only",
+  cohort: "Cohort",
+  // participant_access_model
+  open: "Open to anyone",
+  optional_code: "Optional access code",
+  required_code: "Access code required",
+  invite_only: "Invitation only",
+  // code_structure
+  shared: "One shared code",
+  limited_use: "Limited-use codes",
+  single_use: "Single-use codes",
+  mixed: "Mixed code types"
+};
+
+function enumLabel(value: string): string {
+  return ENUM_LABELS[value] ?? value.replace(/_/g, " ");
+}
+
 function text(
   ctx: Ctx,
   sectionKey: OnboardingSectionKey,
   dataKey: string
 ): string | null {
   const value = raw(ctx, sectionKey, dataKey);
-  if (typeof value === "string" && value.trim().length > 0) return value.trim();
+  if (typeof value === "string" && value.trim().length > 0) {
+    const trimmed = value.trim();
+    return isEnumField(sectionKey, dataKey) ? enumLabel(trimmed) : trimmed;
+  }
   if (typeof value === "number") return String(value);
   if (typeof value === "boolean") return value ? "Yes" : "No";
   return null;
+}
+
+function isEnumField(sectionKey: OnboardingSectionKey, dataKey: string): boolean {
+  return (
+    ONBOARDING_SCHEMA_REGISTRY.find(
+      (field) =>
+        field.sectionKey === sectionKey &&
+        field.dataKey === dataKey &&
+        !field.parentCollection
+    )?.dataType === "enum"
+  );
 }
 
 function list(
