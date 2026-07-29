@@ -7,6 +7,8 @@ import {
   type FormEvent,
   type MouseEvent,
   type ReactNode,
+  createContext,
+  useContext,
   useCallback,
   useEffect,
   useMemo,
@@ -101,6 +103,7 @@ export type OnboardingSectionEditorProps = {
   assets: OnboardingEditorAsset[];
   previousHref: string | null;
   nextHref: string;
+  pendingPrefillFieldKeys: string[];
 };
 
 type ValidationIssue = {
@@ -151,6 +154,7 @@ type FieldRendererProps = {
 const inputClassName =
   "min-h-11 w-full rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-sm outline-none transition placeholder:text-grayWilma-500 focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
 const textareaClassName = `${inputClassName} min-h-28 resize-y`;
+const PrefillFieldContext = createContext<ReadonlySet<string>>(new Set());
 
 export function OnboardingSectionEditor({
   sectionKey,
@@ -170,6 +174,8 @@ export function OnboardingSectionEditor({
   assets: initialAssets,
   previousHref,
   nextHref
+  ,
+  pendingPrefillFieldKeys
 }: OnboardingSectionEditorProps) {
   const router = useRouter();
   const firstData = useMemo(() => cloneRecord(initialData), [initialData]);
@@ -733,6 +739,24 @@ export function OnboardingSectionEditor({
         </Card>
       ) : null}
 
+      {pendingPrefillFieldKeys.length > 0 ? (
+        <Card className="mb-5 border-teal/30 bg-teal/10 p-5">
+          <h2 className="font-black text-navy">
+            Review pre-filled information
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-grayWilma-700">
+            LegalEase filled in information already on file. Check it,
+            correct or clear anything that has changed, then confirm this
+            section.
+          </p>
+          {isPartnerStaff ? (
+            <p className="mt-2 text-sm font-semibold text-grayWilma-700">
+              This is view only. A partner administrator must confirm it.
+            </p>
+          ) : null}
+        </Card>
+      ) : null}
+
       {conflictRevision !== null ? (
         <Card
           className="mb-5 border-orange/40 bg-orange/10 p-5"
@@ -762,21 +786,25 @@ export function OnboardingSectionEditor({
 
       <form noValidate onSubmit={handleComplete}>
         <Card className="rounded-[20px] border-grayWilma-200 p-5 shadow-sm md:p-7">
-          <SectionFields
-            assetBusyCategory={assetBusyCategory}
-            assetErrors={assetErrors}
-            assets={currentAssets}
-            canonicalReferences={canonicalReferences}
-            data={data}
-            deleteAsset={deleteAsset}
-            editable={controlsEnabled}
-            guardUnsavedNavigation={guardUnsavedNavigation}
-            issues={issues}
-            readOnlyValues={readOnlyValues}
-            sectionKey={sectionKey}
-            updateField={updateField}
-            uploadAsset={uploadAsset}
-          />
+          <PrefillFieldContext.Provider
+            value={new Set(pendingPrefillFieldKeys)}
+          >
+            <SectionFields
+              assetBusyCategory={assetBusyCategory}
+              assetErrors={assetErrors}
+              assets={currentAssets}
+              canonicalReferences={canonicalReferences}
+              data={data}
+              deleteAsset={deleteAsset}
+              editable={controlsEnabled}
+              guardUnsavedNavigation={guardUnsavedNavigation}
+              issues={issues}
+              readOnlyValues={readOnlyValues}
+              sectionKey={sectionKey}
+              updateField={updateField}
+              uploadAsset={uploadAsset}
+            />
+          </PrefillFieldContext.Provider>
         </Card>
 
         <div className="mt-5 flex flex-col-reverse gap-3 border-t border-grayWilma-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -825,7 +853,11 @@ export function OnboardingSectionEditor({
               className="min-h-12 px-6"
               type="submit"
             >
-              {completing ? "Checking and saving…" : "Save and continue"}
+              {completing
+                ? "Checking and saving…"
+                : pendingPrefillFieldKeys.length > 0
+                  ? "Confirm and continue"
+                  : "Save and continue"}
             </Button>
           ) : (
             <Link
@@ -2443,6 +2475,7 @@ function OptionReferenceField({
 
 function FieldFrame({
   id,
+  fieldKey,
   label,
   helperCopy,
   required,
@@ -2459,8 +2492,15 @@ function FieldFrame({
   children: ReactNode;
   className?: string;
 }) {
+  const prefilled = useContext(PrefillFieldContext).has(fieldKey);
   return (
-    <div className={className}>
+    <div
+      className={`${className ?? ""} ${
+        prefilled
+          ? "rounded-xl border border-teal/25 bg-teal/5 p-3"
+          : ""
+      }`}
+    >
       <label className="text-sm font-black" htmlFor={id}>
         {label}
         {required ? (
@@ -2472,6 +2512,11 @@ function FieldFrame({
           </>
         ) : null}
       </label>
+      {prefilled ? (
+        <p className="mt-1 text-xs font-semibold text-teal">
+          Pre-filled by LegalEase — please review
+        </p>
+      ) : null}
       {helperCopy ? (
         <p className="mt-1 text-xs leading-5 text-grayWilma-600" id={`${id}-help`}>
           {helperCopy}

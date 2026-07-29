@@ -140,9 +140,13 @@ export const PARTNER_ONBOARDING_FILES = [
   // section, asset, review, and tenant-isolation schema. Migration file only;
   // it remains unapplied until the separately approved database process.
   "supabase/phase-43-rcap-partner-onboarding-phase1.sql",
+  // Phase 44 (reviewed): additive prefill batches/values, tenant RLS, bounded
+  // service-only RPCs, partner-safe review metadata, and no remote application.
+  "supabase/phase-44-rcap-onboarding-prefill.sql",
   "src/app/api/internal/partners/onboarding/route.ts",
   "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
   "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/prefill/route.ts",
   "src/app/api/partners/onboarding/route.ts",
   "src/app/api/partners/onboarding/assets/route.ts",
   "src/app/api/partners/onboarding/assets/[assetId]/route.ts",
@@ -155,6 +159,7 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/internal/partners/onboarding/new/NewPartnerForm.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/OnboardingWizard.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/Phase1PrefillPanel.tsx",
   "src/app/partner/onboarding/page.tsx",
   "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx",
   "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
@@ -167,7 +172,9 @@ export const PARTNER_ONBOARDING_FILES = [
   // the canonical Phase 1 portal when the default-off feature flag is enabled.
   "src/app/partners/onboarding/[partnerSlug]/page.tsx",
   "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
-  "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx"
+  "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx",
+  "src/lib/partners/onboarding/prefill-domain.ts",
+  "src/lib/partners/onboarding/prefill-service.ts"
 ];
 
 // Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the

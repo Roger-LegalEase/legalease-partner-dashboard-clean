@@ -768,8 +768,19 @@ const summaryChanges = deriveOnboardingSummary(
 assert.equal(summaryChanges.blockerCode, "partner_changes_requested");
 assert.equal(summaryChanges.nextSectionKey, "program_goals");
 
-const summaryAsset = deriveOnboardingSummary(
+const summaryPrefill = deriveOnboardingSummary(
   {},
+  validContext({
+    pendingPrefillSections: ["program_goals"],
+    presentAssetCategories: []
+  })
+);
+assert.equal(summaryPrefill.blockerCode, "pending_prefill_review");
+assert.equal(summaryPrefill.nextSectionKey, "program_goals");
+assert.match(summaryPrefill.nextActionCopy, /Program goals/);
+
+const summaryAsset = deriveOnboardingSummary(
+  finalResult.data,
   validContext({ presentAssetCategories: [] })
 );
 assert.equal(summaryAsset.blockerCode, "required_asset_missing");

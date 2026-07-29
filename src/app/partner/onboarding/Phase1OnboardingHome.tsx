@@ -18,12 +18,14 @@ export type Phase1OnboardingHomeProps = {
   dominantLabel: string;
   canEdit: boolean;
   isPartnerStaff: boolean;
+  hasAppliedPrefill: boolean;
   sections: Array<{
     key: string;
     title: string;
     status: string;
     statusLabel: string;
     missingSummary: string | null;
+    hasPendingPrefill: boolean;
   }>;
   commercial: {
     label: string;
@@ -56,6 +58,7 @@ export function Phase1OnboardingHome({
   dominantLabel,
   canEdit,
   isPartnerStaff,
+  hasAppliedPrefill,
   sections,
   commercial,
   agreements,
@@ -86,6 +89,15 @@ export function Phase1OnboardingHome({
         <p className="mt-2 text-lg font-semibold text-[#0F1E3D]">{programName || organizationName}</p>
         {programName ? <p className="mt-1 text-sm text-[#8A8278]">{organizationName}</p> : null}
       </header>
+
+      {hasAppliedPrefill ? (
+        <div className="mb-6 rounded-2xl border border-teal/25 bg-teal/10 px-4 py-4 text-sm leading-6 text-[#0F1E3D] md:px-5">
+          <p className="font-bold">
+            We filled in what we already know. Review each section and correct
+            anything that is incomplete or has changed.
+          </p>
+        </div>
+      ) : null}
 
       <Card className="mb-6 overflow-hidden rounded-[20px] border-[#EEE6DB] shadow-sm">
         <div className="grid gap-0 lg:grid-cols-[minmax(0,1.2fr)_minmax(280px,0.8fr)]">
@@ -176,7 +188,9 @@ export function Phase1OnboardingHome({
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm font-bold text-[#0F1E3D]">{section.title}</h3>
-                      <Badge tone={toneForStatus(section.status)}>{section.statusLabel}</Badge>
+                      <Badge tone={section.hasPendingPrefill ? "orange" : toneForStatus(section.status)}>
+                        {section.statusLabel}
+                      </Badge>
                     </div>
                     <p className="mt-1 text-sm leading-5 text-[#8A8278]">
                       {section.missingSummary || fallbackSectionSummary(section.status)}

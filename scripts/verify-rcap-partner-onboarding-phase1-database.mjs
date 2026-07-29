@@ -29,6 +29,13 @@ const ids = {
   assetA: "50000000-0000-4000-8000-000000000001",
   assetA2: "50000000-0000-4000-8000-000000000002",
   objectA: "90000000-0000-4000-8000-000000000001"
+  ,
+  batchA: "a0000000-0000-4000-8000-000000000001",
+  batchB: "a0000000-0000-4000-8000-000000000002",
+  prefillA: "b0000000-0000-4000-8000-000000000001",
+  prefillB: "b0000000-0000-4000-8000-000000000002",
+  prefillRequestA: "c0000000-0000-4000-8000-000000000001",
+  prefillRequestB: "c0000000-0000-4000-8000-000000000002"
 };
 
 const db = new PGlite();
@@ -249,6 +256,7 @@ async function applyMigrations() {
   await db.exec(
     read("supabase/phase-43-rcap-partner-onboarding-phase1.sql")
   );
+  await db.exec(read("supabase/phase-44-rcap-onboarding-prefill.sql"));
 }
 
 async function seedSyntheticTenants() {
@@ -330,6 +338,52 @@ async function seedSyntheticTenants() {
       ('partner-a', 'commercial_review', 'Commercial review', 'legalease', 'internal A note'),
       ('partner-b', 'commercial_review', 'Commercial review', 'legalease', 'internal B note')`
   );
+  await db.query(
+    `insert into public.partner_onboarding_prefill_batches
+      (id, workspace_id, partner_record_id, status, source_summary,
+       created_by, approved_by, approved_at, applied_at, request_id)
+     values
+      ($1, $2, $3, 'applied', 'Synthetic Partner A prefill', $4, $4, now(), now(), $5),
+      ($6, $7, $8, 'applied', 'Synthetic Partner B prefill', $4, $4, now(), now(), $9)`,
+    [
+      ids.batchA,
+      ids.workspaceA,
+      ids.partnerA,
+      ids.userInternal,
+      ids.prefillRequestA,
+      ids.batchB,
+      ids.workspaceB,
+      ids.partnerB,
+      ids.prefillRequestB
+    ]
+  );
+  await db.query(
+    `insert into public.partner_onboarding_prefill_values
+      (id, batch_id, workspace_id, section_key, field_key, proposed_value,
+       source_type, source_reference_id, source_label, review_status,
+       base_value_hash, proposed_value_hash, base_section_revision,
+       applied_value_hash, applied_section_revision,
+       applied_workspace_version, partner_review_status, created_by,
+       reviewed_by, reviewed_at, applied_at)
+     values
+      ($1, $2, $3, 'organization_contacts', 'public_organization_name',
+       '"Partner A"', 'partner_record', 'partner-a-internal', 'Partner A record',
+       'applied', repeat('0', 64), repeat('1', 64), 1, repeat('1', 64), 1, 1,
+       'pending', $4, $4, now(), now()),
+      ($5, $6, $7, 'organization_contacts', 'public_organization_name',
+       '"Partner B"', 'partner_record', 'partner-b-internal', 'Partner B record',
+       'applied', repeat('0', 64), repeat('2', 64), 1, repeat('2', 64), 1, 1,
+       'pending', $4, $4, now(), now())`,
+    [
+      ids.prefillA,
+      ids.batchA,
+      ids.workspaceA,
+      ids.userInternal,
+      ids.prefillB,
+      ids.batchB,
+      ids.workspaceB
+    ]
+  );
 }
 
 async function verifySchemaAndGrants() {
@@ -346,6 +400,9 @@ async function verifySchemaAndGrants() {
     "partner_onboarding_activity",
     "partner_onboarding_integration_events",
     "partner_onboarding_idempotency"
+    ,
+    "partner_onboarding_prefill_batches",
+    "partner_onboarding_prefill_values"
   ];
   const found = await db.query(
     `select tablename
@@ -404,6 +461,9 @@ async function verifySchemaAndGrants() {
     "partner_onboarding_activity",
     "partner_onboarding_integration_events",
     "partner_onboarding_idempotency"
+    ,
+    "partner_onboarding_prefill_batches",
+    "partner_onboarding_prefill_values"
   ]) {
     const privileges = await db.query(
       `select
@@ -512,6 +572,22 @@ async function verifyTenantRlsAndRoles() {
     const ownSections = await db.query(
       "select id from public.partner_onboarding_sections"
     );
+    const ownPrefill = await db.query(
+      "select id, field_key, partner_review_status from public.partner_onboarding_prefill_values_safe"
+    );
+    assert(
+      ownPrefill.rows.length === 1 &&
+        ownPrefill.rows[0].id === ids.prefillA &&
+        ownPrefill.rows[0].partner_review_status === "pending",
+      "Partner A must read only Partner A applied prefill review metadata."
+    );
+    await expectRejected(
+      () =>
+        db.query(
+          "select source_label from public.partner_onboarding_prefill_values"
+        ),
+      "Partners must not read internal prefill provenance."
+    );
     assert(
       ownSections.rows.length === 1 && ownSections.rows[0].id === ids.sectionA,
       "Partner A must only read Partner A's section."
@@ -569,6 +645,23 @@ async function verifyTenantRlsAndRoles() {
     const workspaces = await db.query(
       "select partner_slug from public.partner_onboarding_workspace_safe"
     );
+    const ownPrefill = await db.query(
+      "select id from public.partner_onboarding_prefill_values_safe"
+    );
+    assert(
+      ownPrefill.rows.length === 1 && ownPrefill.rows[0].id === ids.prefillB,
+      "Partner staff must see only applied review metadata for its own tenant."
+    );
+    await expectRejected(
+      () =>
+        db.query(
+          `update public.partner_onboarding_prefill_values
+           set partner_review_status = 'confirmed'
+           where id = $1`,
+          [ids.prefillB]
+        ),
+      "Partner staff must not directly confirm prefill."
+    );
     assert(
       workspaces.rows.length === 1 && workspaces.rows[0].partner_slug === "partner-b",
       "Partner staff must receive status-only access to their own workspace."
@@ -609,6 +702,13 @@ async function verifyTenantRlsAndRoles() {
     await expectRejected(
       () => db.query("select * from public.partner_onboarding_workspace_safe"),
       "Anonymous actors must not read onboarding."
+    );
+    await expectRejected(
+      () =>
+        db.query(
+          "select * from public.partner_onboarding_prefill_values_safe"
+        ),
+      "Anonymous actors must not read prefill metadata."
     );
   });
 }

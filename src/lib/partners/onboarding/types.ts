@@ -171,13 +171,17 @@ export type OnboardingNextActionOwner = "partner" | "legalease" | "none";
 export type OnboardingBlockerCode =
   | "commercial_gate_blocked"
   | "partner_changes_requested"
+  | "pending_prefill_review"
   | "required_asset_missing"
+  | "required_procurement_item_missing"
   | "required_section_incomplete";
 
 export type OnboardingNextActionCode =
   | "complete_commercial_requirements"
   | "address_change_request"
+  | "review_prefilled_information"
   | "upload_required_asset"
+  | "complete_procurement_item"
   | "complete_section"
   | "submit_for_review"
   | "await_legalease_review"
@@ -458,7 +462,9 @@ export type OnboardingDerivationContext = {
   sectionStatuses?: Partial<Record<OnboardingSectionKey, OnboardingSectionStatus>>;
   presentAssetCategories?: readonly OrganizationalAssetCategory[];
   unresolvedChangeRequests?: readonly OnboardingChangeRequestSummary[];
+  pendingPrefillSections?: readonly OnboardingSectionKey[];
   procurementRequired?: boolean;
+  procurementItemsMissing?: boolean;
   recordShieldInScope?: boolean;
   overageApprovalRequired?: boolean;
 };

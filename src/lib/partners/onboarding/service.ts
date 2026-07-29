@@ -13,6 +13,7 @@ import {
   ONBOARDING_NEXT_ACTION_COPY
 } from "./derivations";
 import { Phase1OnboardingError } from "./errors";
+import { isRcapOnboardingPrefillEnabled } from "./feature";
 import {
   ONBOARDING_SCHEMA_VERSION,
   ONBOARDING_SECTION_DEFINITIONS,
@@ -54,6 +55,8 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   missingRequiredKeys: string[];
   changeRequestInstructions: string[];
   changeRequestStatus: "open" | "partner_responded" | null;
+  pendingPrefillFieldKeys: string[];
+  hasPendingPrefill: boolean;
 };
 
 export type OnboardingAssetView = {
@@ -122,6 +125,12 @@ export type PartnerOnboardingPortal = {
   recordShieldInScope: boolean;
   recordShieldScopeSource: "selected_partner_package" | "unavailable";
   overageApprovalRequired: boolean;
+  prefill: {
+    enabled: boolean;
+    hasAppliedPrefill: boolean;
+    pendingCount: number;
+    pendingSections: OnboardingSectionKey[];
+  };
 };
 
 export type SaveSectionInput<K extends OnboardingSectionKey = OnboardingSectionKey> = {
@@ -249,6 +258,12 @@ type PartnerRecordRow = {
   selected_package_id: string | null;
 };
 
+type PartnerPrefillSafeRow = {
+  section_key: string;
+  field_key: string;
+  partner_review_status: string;
+};
+
 type EntitlementRow = {
   screenings_allowed: number | null;
   screenings_used: number | null;
@@ -270,6 +285,10 @@ const ACTIVITY_COPY: Readonly<Record<string, string>> = {
   section_approved: "LegalEase approved a setup section.",
   section_waived: "LegalEase waived a setup section requirement.",
   ready_for_launch_decided: "LegalEase marked setup ready for launch preparation."
+  ,
+  prefill_applied: "LegalEase pre-filled information for partner review.",
+  prefill_section_confirmed: "Pre-filled information was reviewed.",
+  prefill_section_modified: "Pre-filled information was reviewed and updated."
 };
 
 export async function getPartnerOnboardingPortal(
@@ -382,6 +401,29 @@ export async function getPartnerOnboardingPortal(
   }
 
   const sectionRows = (sectionsResult.data ?? []) as SectionRow[];
+  let prefillRows: PartnerPrefillSafeRow[] = [];
+  const prefillEnabled = isRcapOnboardingPrefillEnabled();
+  if (prefillEnabled) {
+    const { data: safePrefillData, error: safePrefillError } = await supabase
+      .from("partner_onboarding_prefill_values_safe")
+      .select("section_key, field_key, partner_review_status")
+      .eq("workspace_id", workspaceId);
+    if (safePrefillError) {
+      throw new Phase1OnboardingError(
+        "persistence_failed",
+        "Pre-filled setup information could not be loaded."
+      );
+    }
+    prefillRows = (safePrefillData ?? []) as PartnerPrefillSafeRow[];
+  }
+  const pendingPrefillRows = prefillRows.filter(
+    (row) => row.partner_review_status === "pending"
+  );
+  const pendingPrefillSections = [
+    ...new Set(
+      pendingPrefillRows.map((row) => asSectionKey(row.section_key))
+    )
+  ];
   const contacts = ((contactsResult.data ?? []) as ContactRow[]).map(mapContact);
   const plannedUsers = ((plannedUsersResult.data ?? []) as PlannedUserRow[]).map(mapPlannedUser);
   const recipients = ((recipientsResult.data ?? []) as RecipientRow[]).map(mapRecipient);
@@ -430,6 +472,7 @@ export async function getPartnerOnboardingPortal(
         status: asChangeRequestStatus(change.status)
       };
     }),
+    pendingPrefillSections,
     procurementRequired,
     recordShieldInScope,
     overageApprovalRequired
@@ -459,7 +502,13 @@ export async function getPartnerOnboardingPortal(
         : [],
       changeRequestStatus: row
         ? latestChangeRequestStatus(changes, row.id)
-        : null
+        : null,
+      pendingPrefillFieldKeys: pendingPrefillRows
+        .filter((prefill) => prefill.section_key === definition.key)
+        .map((prefill) => prefill.field_key),
+      hasPendingPrefill: pendingPrefillRows.some(
+        (prefill) => prefill.section_key === definition.key
+      )
     };
   }) as OnboardingSectionView[];
 
@@ -520,6 +569,13 @@ export async function getPartnerOnboardingPortal(
     recordShieldInScope,
     recordShieldScopeSource: recordShieldScope.source,
     overageApprovalRequired
+    ,
+    prefill: {
+      enabled: prefillEnabled,
+      hasAppliedPrefill: prefillRows.length > 0,
+      pendingCount: pendingPrefillRows.length,
+      pendingSections: pendingPrefillSections
+    }
   };
 }
 
@@ -607,6 +663,12 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
         }
       ];
     }),
+    pendingPrefillSections:
+      input.mode === "section_complete"
+        ? portal.prefill.pendingSections.filter(
+            (sectionKey) => sectionKey !== input.sectionKey
+          )
+        : portal.prefill.pendingSections,
     procurementRequired: portal.procurementRequired,
     recordShieldInScope: portal.recordShieldInScope,
     overageApprovalRequired: portal.overageApprovalRequired
@@ -627,7 +689,9 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
   });
   const admin = requireAdmin();
   const { data: mutationData, error } = await admin.rpc(
-    "rcap_service_save_onboarding_section",
+    portal.prefill.enabled && section.hasPendingPrefill
+      ? "rcap_service_save_onboarding_section_with_prefill"
+      : "rcap_service_save_onboarding_section",
     {
       p_partner_slug: context.partnerSlug,
       p_actor_user_id: context.authUserId,
@@ -672,7 +736,15 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
       changeRequestInstructions: section.changeRequestInstructions,
       changeRequestStatus: resubmittingRequestedSection
         ? "partner_responded"
-        : section.changeRequestStatus
+        : section.changeRequestStatus,
+      pendingPrefillFieldKeys:
+        input.mode === "section_complete"
+          ? []
+          : section.pendingPrefillFieldKeys,
+      hasPendingPrefill:
+        input.mode === "section_complete"
+          ? false
+          : section.hasPendingPrefill
     } as OnboardingSectionView<K>,
     workspaceVersion: Number(mutation.workspace_aggregate_version),
     completionPercentage: nextDerivation.completion.percentage,
@@ -691,6 +763,12 @@ export async function submitPartnerOnboarding(
     throw new Phase1OnboardingError("forbidden", "Partner administrator authorization is required.");
   }
   const portal = await getPartnerOnboardingPortal(context);
+  if (portal.prefill.pendingCount > 0) {
+    throw new Phase1OnboardingError(
+      "invalid_transition",
+      "Review all pre-filled information before final submission."
+    );
+  }
   const validation = validateFinalOnboardingSubmission(portal.data, {
     commercialGateOutcome: portal.workspace.commercialGateStatus,
     allSections: portal.data,
@@ -1049,6 +1127,28 @@ async function deriveInternalReviewSummary(
       "The onboarding review summary could not be derived."
     );
   }
+  let pendingPrefillSections: OnboardingSectionKey[] = [];
+  if (isRcapOnboardingPrefillEnabled()) {
+    const { data: pendingData, error: pendingError } = await admin
+      .from("partner_onboarding_prefill_values")
+      .select("section_key")
+      .eq("workspace_id", workspaceId)
+      .eq("review_status", "applied")
+      .eq("partner_review_status", "pending");
+    if (pendingError) {
+      throw new Phase1OnboardingError(
+        "persistence_failed",
+        "Onboarding prefill status could not be loaded."
+      );
+    }
+    pendingPrefillSections = [
+      ...new Set(
+        ((pendingData ?? []) as Array<{ section_key: string }>).map((row) =>
+          asSectionKey(row.section_key)
+        )
+      )
+    ];
+  }
 
   const sectionRows = (sectionsResult.data ?? []) as SectionRow[];
   const data = buildPartnerData(
@@ -1126,6 +1226,7 @@ async function deriveInternalReviewSummary(
         status: change.status
       };
     }),
+    pendingPrefillSections,
     procurementRequired: agreements.some(
       (agreement) =>
         agreement.agreement_type === "procurement_requirements" &&
