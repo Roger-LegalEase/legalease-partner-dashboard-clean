@@ -391,7 +391,14 @@ const sectionSchemas = {
       code_level_capacity: z
         .union([nonNegativeIntegerSchema, z.null()])
         .optional(),
-      overage_approver_contact_id: optionalNullable(stableRowIdSchema())
+      overage_approver_contact_id: optionalNullable(stableRowIdSchema()),
+      capacity_escalation_procedure: safeString(
+        ONBOARDING_FIELD_LIMITS.longText,
+        "multiline"
+      ).optional(),
+      capacity_escalation_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional()
     })
     .strict(),
   brand_public_page: z
@@ -459,6 +466,41 @@ const sectionSchemas = {
         "multiline"
       ).optional(),
       urgent_escalation_contact_id: stableRowIdSchema().optional(),
+      participant_support_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      referral_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      contested_matter_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      privacy_request_route: safeString(
+        ONBOARDING_FIELD_LIMITS.longText,
+        "multiline"
+      ).optional(),
+      privacy_request_owner_contact_id: stableRowIdSchema().optional(),
+      privacy_request_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      security_concern_route: safeString(
+        ONBOARDING_FIELD_LIMITS.longText,
+        "multiline"
+      ).optional(),
+      security_concern_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      media_inquiry_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
+      program_pause_route: safeString(
+        ONBOARDING_FIELD_LIMITS.longText,
+        "multiline"
+      ).optional(),
+      program_pause_authority_contact_id: stableRowIdSchema().optional(),
+      program_pause_response_expectation: safeString(
+        ONBOARDING_FIELD_LIMITS.shortText
+      ).optional(),
       report_recipients: z
         .array(reportRecipientDraftSchema)
         .max(ONBOARDING_FIELD_LIMITS.arrayRows)
@@ -849,6 +891,14 @@ function sectionCrossFieldIssues(
           {
             fieldKey: "urgent_escalation_contact_id",
             rowId: support.urgent_escalation_contact_id
+          },
+          {
+            fieldKey: "privacy_request_owner_contact_id",
+            rowId: support.privacy_request_owner_contact_id
+          },
+          {
+            fieldKey: "program_pause_authority_contact_id",
+            rowId: support.program_pause_authority_contact_id
           }
         ],
         allSections

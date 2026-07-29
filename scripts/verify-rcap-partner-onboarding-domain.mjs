@@ -134,6 +134,10 @@ const expectedTopLevelFields = {
     "code_expiration",
     "code_level_capacity",
     "overage_approver_contact_id",
+    // Phase 2A registry extension: the cap and its approver already existed,
+    // but the escalation procedure and response expectation did not.
+    "capacity_escalation_procedure",
+    "capacity_escalation_response_expectation",
     "sponsored_screening_scope",
     "sponsored_packet_scope",
     "screening_allocation",
@@ -173,6 +177,21 @@ const expectedTopLevelFields = {
     "referral_intake_details",
     "contested_matter_procedure",
     "urgent_escalation_contact_id",
+    // Phase 2A registry extension: the routes and per-route response
+    // expectations the Operations and Escalation Plan names, which previously
+    // had no schema home and could only render as permanent gaps.
+    "participant_support_response_expectation",
+    "referral_response_expectation",
+    "contested_matter_response_expectation",
+    "privacy_request_route",
+    "privacy_request_owner_contact_id",
+    "privacy_request_response_expectation",
+    "security_concern_route",
+    "security_concern_response_expectation",
+    "media_inquiry_response_expectation",
+    "program_pause_route",
+    "program_pause_authority_contact_id",
+    "program_pause_response_expectation",
     "report_recipients",
     "reporting_cadence",
     "funder_required_metrics",

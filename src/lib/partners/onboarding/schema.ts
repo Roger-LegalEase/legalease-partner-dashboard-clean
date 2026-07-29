@@ -104,7 +104,11 @@ export const CONTACT_ROLES = [
   "reporting_evaluation_lead",
   "legal_services_referral_contact",
   "finance_procurement_contact",
-  "technical_security_contact"
+  "technical_security_contact",
+  // Added for the Operations and Escalation Plan. The communications lead runs
+  // participant outreach, so overloading it would have made the media route
+  // unnameable; a press contact is its own role.
+  "media_contact"
 ] as const satisfies readonly OnboardingContactRole[];
 
 export const PROGRAM_MODELS = [
@@ -941,6 +945,42 @@ export const ONBOARDING_SCHEMA_REGISTRY = [
     completionWeight: 1,
     consumers: ["order_form", "operations_plan", "launch_readiness"]
   }),
+  // Phase 2A registry extension. The cap and its approver already lived here;
+  // the escalation procedure and the response expectation did not, so the
+  // Operations and Escalation Plan could only render a permanent gap. Both are
+  // partner-editable operational facts and belong beside the capacity plan they
+  // describe rather than in the support section.
+  defineField({
+    key: "capacity_escalation_procedure",
+    dataKey: "capacity_escalation_procedure",
+    sectionKey: "access_sponsorship_capacity",
+    dataType: "long_text",
+    label: "Capacity escalation procedure",
+    helperCopy:
+      "Describe what happens as the program approaches its cap: who is told, who decides, and what participants are told while a decision is pending.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.longText,
+    normalization: "multiline",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "capacity_escalation_response_expectation",
+    dataKey: "capacity_escalation_response_expectation",
+    sectionKey: "access_sponsorship_capacity",
+    dataType: "string",
+    label: "Capacity escalation response expectation",
+    helperCopy: "For example, a decision within two business days.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
   defineField({
     key: "sponsored_screening_scope",
     dataKey: "sponsored_screening_scope",
@@ -1467,6 +1507,196 @@ export const ONBOARDING_SCHEMA_REGISTRY = [
     sensitivity: "personal_contact",
     completionWeight: 1,
     consumers: ["operations_plan", "staff_quick_start", "launch_readiness"]
+  }),
+  // Phase 2A registry extension. The Operations and Escalation Plan names a
+  // privacy route, a security route, a media contact, a program pause route,
+  // and an owner and response expectation for every route. None of these had a
+  // schema home, so the plan could previously only render permanent gaps. They
+  // are partner-editable operational facts; none of them is LegalEase-controlled
+  // public-page language, so none belongs in
+  // LEGALEASE_CONTROLLED_PUBLIC_PAGE_CONTENT.
+  defineField({
+    key: "participant_support_response_expectation",
+    dataKey: "participant_support_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Participant support response expectation",
+    helperCopy: "For example, a reply within one business day.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "public",
+    completionWeight: 0,
+    consumers: ["operations_plan", "staff_quick_start"]
+  }),
+  defineField({
+    key: "referral_response_expectation",
+    dataKey: "referral_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Legal-services referral response expectation",
+    helperCopy:
+      "How quickly the referral organization acknowledges a referred participant.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan", "staff_quick_start"]
+  }),
+  defineField({
+    key: "contested_matter_response_expectation",
+    dataKey: "contested_matter_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Contested-matter response expectation",
+    helperCopy:
+      "How quickly the urgent escalation contact responds when a prosecutor objects or a contested hearing is scheduled.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan", "staff_quick_start"]
+  }),
+  defineField({
+    key: "privacy_request_route",
+    dataKey: "privacy_request_route",
+    sectionKey: "support_referrals_reporting",
+    dataType: "long_text",
+    label: "Privacy request route",
+    helperCopy:
+      "Describe how a participant or staff member raises a privacy request, and what happens to it.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.longText,
+    normalization: "multiline",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "privacy_request_owner_contact_id",
+    dataKey: "privacy_request_owner_contact_id",
+    sectionKey: "support_referrals_reporting",
+    dataType: "contact_reference",
+    label: "Privacy request owner",
+    helperCopy: "Choose a saved contact from Organization and contacts.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: 36,
+    normalization: "trim",
+    sensitivity: "personal_contact",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "privacy_request_response_expectation",
+    dataKey: "privacy_request_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Privacy request response expectation",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "security_concern_route",
+    dataKey: "security_concern_route",
+    sectionKey: "support_referrals_reporting",
+    dataType: "long_text",
+    label: "Security concern route",
+    helperCopy:
+      "Describe how a suspected security problem is reported and who is told first. The technical and security contact owns this route.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.longText,
+    normalization: "multiline",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "security_concern_response_expectation",
+    dataKey: "security_concern_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Security concern response expectation",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "media_inquiry_response_expectation",
+    dataKey: "media_inquiry_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Media inquiry response expectation",
+    helperCopy:
+      "The media contact saved in Organization and contacts owns this route.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "public",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "program_pause_route",
+    dataKey: "program_pause_route",
+    sectionKey: "support_referrals_reporting",
+    dataType: "long_text",
+    label: "Program pause route",
+    helperCopy:
+      "Describe who may ask for the program to be paused, how they ask, and what participants are told while it is paused.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.longText,
+    normalization: "multiline",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "program_pause_authority_contact_id",
+    dataKey: "program_pause_authority_contact_id",
+    sectionKey: "support_referrals_reporting",
+    dataType: "contact_reference",
+    label: "Program pause authority",
+    helperCopy: "Choose a saved contact from Organization and contacts.",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: 36,
+    normalization: "trim",
+    sensitivity: "personal_contact",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
+  }),
+  defineField({
+    key: "program_pause_response_expectation",
+    dataKey: "program_pause_response_expectation",
+    sectionKey: "support_referrals_reporting",
+    dataType: "string",
+    label: "Program pause response expectation",
+    ownership: "partner_editable",
+    requirement: "optional",
+    maxLength: ONBOARDING_FIELD_LIMITS.shortText,
+    normalization: "single_line",
+    sensitivity: "partner_confidential",
+    completionWeight: 0,
+    consumers: ["operations_plan"]
   }),
   defineField({
     key: "report_recipients",

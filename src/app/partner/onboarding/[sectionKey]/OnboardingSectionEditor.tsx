@@ -1309,6 +1309,19 @@ function AccessPlanFields(props: FieldRendererProps) {
         ) : null}
       </FieldGroup>
 
+      <FieldGroup
+        title="Capacity escalation"
+        description="What happens as the program approaches its cap. This is your operating procedure; it does not change the contracted capacity."
+      >
+        <div className="grid gap-5">
+          <TextAreaField fieldKey="capacity_escalation_procedure" {...props} />
+          <TextField
+            fieldKey="capacity_escalation_response_expectation"
+            {...props}
+          />
+        </div>
+      </FieldGroup>
+
       <ReadOnlyValues
         description="Contract, billing, and provisioning records control these values. Partner edits cannot change them."
         title="Sponsored scope and capacity"
@@ -1624,6 +1637,58 @@ function SupportReportingFields(props: FieldRendererProps) {
           <TextField fieldKey="referral_intake_method" {...props} />
           <TextAreaField fieldKey="referral_intake_details" {...props} />
           <TextAreaField fieldKey="contested_matter_procedure" {...props} />
+        </div>
+      </FieldGroup>
+
+      <FieldGroup
+        title="Escalation routes, owners, and response expectations"
+        description="The Operations and Escalation Plan names each of these routes with the person who owns it and how quickly they respond. Anything left blank is shown in the plan as a named gap rather than filled in for you."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextField
+            fieldKey="participant_support_response_expectation"
+            {...props}
+          />
+          <TextField fieldKey="referral_response_expectation" {...props} />
+          <TextField
+            fieldKey="contested_matter_response_expectation"
+            {...props}
+          />
+          <TextField
+            fieldKey="media_inquiry_response_expectation"
+            {...props}
+          />
+        </div>
+        <div className="mt-5 grid gap-5">
+          <TextAreaField fieldKey="privacy_request_route" {...props} />
+          <div className="grid gap-5 md:grid-cols-2">
+            <ReferenceSelectField
+              fieldKey="privacy_request_owner_contact_id"
+              references={props.canonicalReferences}
+              {...props}
+            />
+            <TextField
+              fieldKey="privacy_request_response_expectation"
+              {...props}
+            />
+          </div>
+          <TextAreaField fieldKey="security_concern_route" {...props} />
+          <TextField
+            fieldKey="security_concern_response_expectation"
+            {...props}
+          />
+          <TextAreaField fieldKey="program_pause_route" {...props} />
+          <div className="grid gap-5 md:grid-cols-2">
+            <ReferenceSelectField
+              fieldKey="program_pause_authority_contact_id"
+              references={props.canonicalReferences}
+              {...props}
+            />
+            <TextField
+              fieldKey="program_pause_response_expectation"
+              {...props}
+            />
+          </div>
         </div>
       </FieldGroup>
 
