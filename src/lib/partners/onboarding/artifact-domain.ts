@@ -28,16 +28,16 @@ export const ARTIFACT_TYPES = [
 export type ArtifactType = (typeof ARTIFACT_TYPES)[number];
 
 /**
- * Only these types have a generator in this release. Everything else is shown
- * as not yet available rather than as a broken or empty row. The partner launch
- * kit is Lane B2b's and stays unavailable here.
+ * All six types now generate. Nothing in the Artifacts area reads "not yet
+ * available" any more.
  */
 export const GENERATABLE_ARTIFACT_TYPES = [
   "implementation_brief",
   "operations_escalation_plan",
   "dashboard_user_reporting_matrix",
   "staff_quick_start_guide",
-  "co_branded_page_configuration"
+  "co_branded_page_configuration",
+  "partner_launch_kit"
 ] as const;
 
 export type GeneratableArtifactType =
@@ -103,6 +103,7 @@ export const STAFF_QUICK_START_GUIDE_GENERATOR_VERSION =
   "staff_quick_start_guide_v1";
 export const CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION =
   "co_branded_page_configuration_v1";
+export const PARTNER_LAUNCH_KIT_GENERATOR_VERSION = "partner_launch_kit_v1";
 
 export const ARTIFACT_GENERATOR_VERSIONS: Readonly<
   Record<GeneratableArtifactType, string>
@@ -113,7 +114,8 @@ export const ARTIFACT_GENERATOR_VERSIONS: Readonly<
     DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION,
   staff_quick_start_guide: STAFF_QUICK_START_GUIDE_GENERATOR_VERSION,
   co_branded_page_configuration:
-    CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION
+    CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION,
+  partner_launch_kit: PARTNER_LAUNCH_KIT_GENERATOR_VERSION
 };
 
 /**

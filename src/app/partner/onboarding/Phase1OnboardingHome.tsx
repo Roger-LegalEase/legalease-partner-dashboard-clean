@@ -69,12 +69,18 @@ export function Phase1OnboardingHome({
 
   return (
     <div className="text-[#0F1E3D]">
-      <div className="mb-6">
+      <div className="mb-6 flex flex-wrap items-center gap-4">
         <Link
           className="inline-flex min-h-11 items-center text-sm font-semibold text-[#0F6E56] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2"
           href="/partner/dashboard"
         >
           Back to dashboard
+        </Link>
+        <Link
+          className="inline-flex min-h-11 items-center text-sm font-semibold text-[#0F6E56] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2"
+          href="/partner/onboarding/resources"
+        >
+          Resources and launch readiness
         </Link>
       </div>
 

@@ -42,18 +42,20 @@ check("all six artifact types are registered", () => {
   ]);
 });
 
-check("five of the six types have a generator in this release", () => {
+check("all six types now have a generator", () => {
   assert.deepEqual(GENERATABLE_ARTIFACT_TYPES, [
     "implementation_brief",
     "operations_escalation_plan",
     "dashboard_user_reporting_matrix",
     "staff_quick_start_guide",
-    "co_branded_page_configuration"
+    "co_branded_page_configuration",
+    "partner_launch_kit"
   ]);
   assert.equal(isGeneratableArtifactType("implementation_brief"), true);
   assert.equal(isGeneratableArtifactType("operations_escalation_plan"), true);
-  // Deferred to Lane B2b by an explicit scope decision, not an oversight.
-  assert.equal(isGeneratableArtifactType("partner_launch_kit"), false);
+  // The last one, added by Lane B2b. Nothing reads "not yet available" now.
+  assert.equal(isGeneratableArtifactType("partner_launch_kit"), true);
+  assert.equal(GENERATABLE_ARTIFACT_TYPES.length, ARTIFACT_TYPES.length);
   for (const type of ARTIFACT_TYPES) {
     assert.ok(ARTIFACT_TYPE_LABELS[type], `${type} must have a human label`);
     assert.ok(
@@ -78,7 +80,8 @@ check("every generator version is a pinned hand-maintained constant", () => {
     operations_escalation_plan: "operations_escalation_plan_v1",
     dashboard_user_reporting_matrix: "dashboard_user_reporting_matrix_v1",
     staff_quick_start_guide: "staff_quick_start_guide_v1",
-    co_branded_page_configuration: "co_branded_page_configuration_v1"
+    co_branded_page_configuration: "co_branded_page_configuration_v1",
+    partner_launch_kit: "partner_launch_kit_v1"
   });
   for (const version of Object.values(domain.ARTIFACT_GENERATOR_VERSIONS)) {
     assert.match(version, /^[a-z0-9_]+$/);

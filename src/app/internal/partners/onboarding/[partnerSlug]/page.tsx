@@ -8,7 +8,7 @@ import {
   isRcapPartnerOnboardingEnabled
 } from "@/lib/partners/onboarding/feature";
 import { getInternalPrefillSnapshot } from "@/lib/partners/onboarding/prefill-service";
-import { getInternalArtifactBoard } from "@/lib/partners/onboarding/artifact-service";
+import { getInternalLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
 import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service";
 import { Phase1InternalReviewPanel } from "./Phase1InternalReviewPanel";
 import { Phase1PrefillPanel } from "./Phase1PrefillPanel";
@@ -28,7 +28,7 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
   if (isRcapPartnerOnboardingEnabled()) {
     let phase1Snapshot: Awaited<ReturnType<typeof getInternalOnboardingSnapshot>> | null = null;
     let prefillSnapshot: Awaited<ReturnType<typeof getInternalPrefillSnapshot>> | null = null;
-    let artifactBoard: Awaited<ReturnType<typeof getInternalArtifactBoard>> | null = null;
+    let launchPrep: Awaited<ReturnType<typeof getInternalLaunchReadiness>> | null = null;
     let phase1LoadError: string | null = null;
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
@@ -37,7 +37,9 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
         prefillSnapshot = await getInternalPrefillSnapshot(context);
       }
       if (isRcapOnboardingLaunchPrepEnabled()) {
-        artifactBoard = await getInternalArtifactBoard(context);
+        // One call: readiness carries the artifact board it was derived from,
+        // so the page does not read the same source twice.
+        launchPrep = await getInternalLaunchReadiness(context);
       }
     } catch {
       phase1LoadError = "The Phase 1 onboarding workspace could not be loaded.";
@@ -78,16 +80,17 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
                   snapshot={prefillSnapshot}
                 />
               ) : null}
-              {artifactBoard?.legalEasePageConfiguration ? (
+              {launchPrep?.board.legalEasePageConfiguration ? (
                 <LegalEasePublicPageLanguagePanel
                   partnerSlug={partnerSlug}
-                  configuration={artifactBoard.legalEasePageConfiguration}
+                  configuration={launchPrep.board.legalEasePageConfiguration}
                 />
               ) : null}
-              {artifactBoard ? (
+              {launchPrep ? (
                 <Phase2AArtifactsPanel
                   partnerSlug={partnerSlug}
-                  board={artifactBoard}
+                  board={launchPrep.board}
+                  readiness={launchPrep.readiness}
                 />
               ) : null}
             </>

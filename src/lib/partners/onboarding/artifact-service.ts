@@ -2,6 +2,11 @@ import "server-only";
 
 import crypto from "node:crypto";
 
+import QRCode from "qrcode";
+
+import { absoluteAppUrl } from "@/lib/app-url";
+import { partnerPublicPage } from "@/lib/partners/routes";
+
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -24,7 +29,9 @@ import {
   renderDashboardUserReportingMatrix,
   renderImplementationBrief,
   renderOperationsEscalationPlan,
+  renderPartnerLaunchKit,
   renderStaffQuickStartGuide,
+  type LaunchKitQr,
   type RenderedDocument
 } from "./artifact-generator";
 import { Phase1OnboardingError } from "./errors";
@@ -670,15 +677,50 @@ export async function loadPartnerArtifactBoardWithSource(
  * One renderer per generatable type. Every one of them takes the same shared
  * canonical read, so adding a document costs no extra query.
  */
+type RenderExtras = { launchKitQr: LaunchKitQr | null };
+
 const ARTIFACT_RENDERERS: Readonly<
-  Record<GeneratableArtifactType, (input: ArtifactSourceInput) => RenderedDocument>
+  Record<
+    GeneratableArtifactType,
+    (input: ArtifactSourceInput, extras: RenderExtras) => RenderedDocument
+  >
 > = {
   implementation_brief: renderImplementationBrief,
   operations_escalation_plan: renderOperationsEscalationPlan,
   dashboard_user_reporting_matrix: renderDashboardUserReportingMatrix,
   staff_quick_start_guide: renderStaffQuickStartGuide,
-  co_branded_page_configuration: renderCoBrandedPageConfiguration
+  co_branded_page_configuration: renderCoBrandedPageConfiguration,
+  // The launch kit is the only renderer needing anything beyond the canonical
+  // read, and what it needs — the QR code — is produced on the server from the
+  // authorized partner slug.
+  partner_launch_kit: (input, extras) => {
+    if (!extras.launchKitQr) {
+      throw new Error("launch kit rendering requires a server-derived QR code");
+    }
+    return renderPartnerLaunchKit(input, extras.launchKitQr);
+  }
 };
+
+/**
+ * The QR target, derived here and nowhere else. It is built from the partner
+ * slug the authorized context named plus the reviewed route helper, so no
+ * browser-supplied address can reach a launch kit.
+ */
+export async function buildLaunchKitQr(partnerSlug: string): Promise<LaunchKitQr> {
+  const targetUrl = absoluteAppUrl(partnerPublicPage(partnerSlug));
+  const [qrSvg, qrDataUrl] = await Promise.all([
+    QRCode.toString(targetUrl, { type: "svg", margin: 1 }),
+    QRCode.toDataURL(targetUrl, { margin: 1, width: 320 })
+  ]);
+  return {
+    targetUrl,
+    qrSvg,
+    qrDataUrl,
+    // Nothing in Phase 2A publishes a page, so this is a preview address until
+    // a later, separately approved release makes it reachable.
+    published: false
+  };
+}
 
 export async function generateArtifactVersion(
   context: InternalOnboardingContext,
@@ -697,11 +739,16 @@ export async function generateArtifactVersion(
   const projection = projectArtifactSource(artifactType, source);
   const provenance = buildArtifactProvenance(source);
 
+  const launchKitQr =
+    artifactType === "partner_launch_kit"
+      ? await buildLaunchKitQr(context.partnerSlug)
+      : null;
+
   let rendered: RenderedDocument | null = null;
   let generationStatus: "succeeded" | "failed" = "succeeded";
   let generationErrorCode: string | null = null;
   try {
-    rendered = ARTIFACT_RENDERERS[artifactType](source);
+    rendered = ARTIFACT_RENDERERS[artifactType](source, { launchKitQr });
   } catch {
     generationStatus = "failed";
     generationErrorCode = "render_failed";

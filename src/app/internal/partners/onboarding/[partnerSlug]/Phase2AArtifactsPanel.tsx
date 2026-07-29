@@ -9,9 +9,12 @@ import type {
   ArtifactBoardEntry,
   ArtifactVersionView
 } from "@/lib/partners/onboarding/artifact-service";
+import type { LaunchReadiness } from "@/lib/partners/onboarding/launch-readiness";
 
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
 import { CoBrandedPagePanel } from "./CoBrandedPagePanel";
+import { LaunchReadinessPanel } from "./LaunchReadinessPanel";
+import { ResourcesPanel } from "./ResourcesPanel";
 
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-4 py-2 text-sm font-bold text-white hover:bg-teal disabled:cursor-not-allowed disabled:opacity-50";
@@ -45,15 +48,19 @@ const PARTNER_COPY: Record<string, string> = {
 
 export function Phase2AArtifactsPanel({
   partnerSlug,
-  board
+  board,
+  readiness
 }: {
   partnerSlug: string;
   board: ArtifactBoard;
+  readiness: LaunchReadiness | null;
 }) {
   const [current, setCurrent] = useState(board);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [area, setArea] = useState<"artifacts" | "co_branded_page">("artifacts");
+  const [area, setArea] = useState<
+    "artifacts" | "co_branded_page" | "launch_readiness" | "resources"
+  >("artifacts");
   const [openPreview, setOpenPreview] = useState<string | null>(null);
   const [openHistory, setOpenHistory] = useState<string | null>(null);
   const [commentFor, setCommentFor] = useState<string | null>(null);
@@ -115,7 +122,9 @@ export function Phase2AArtifactsPanel({
         {(
           [
             ["artifacts", "Artifacts"],
-            ["co_branded_page", "Co-Branded Page"]
+            ["co_branded_page", "Co-Branded Page"],
+            ["launch_readiness", "Launch Readiness"],
+            ["resources", "Resources"]
           ] as const
         ).map(([key, label]) => (
           <button
@@ -162,37 +171,66 @@ export function Phase2AArtifactsPanel({
             />
           ) : null}
         </div>
+      ) : area === "launch_readiness" ? (
+        <div
+          className="mt-4"
+          id="launch-prep-area-launch_readiness"
+          role="tabpanel"
+          aria-labelledby="launch-prep-tab-launch_readiness"
+        >
+          {readiness ? (
+            <LaunchReadinessPanel
+              partnerSlug={partnerSlug}
+              readiness={readiness}
+            />
+          ) : null}
+        </div>
+      ) : area === "resources" ? (
+        <div
+          className="mt-4"
+          id="launch-prep-area-resources"
+          role="tabpanel"
+          aria-labelledby="launch-prep-tab-resources"
+        >
+          <ResourcesPanel partnerSlug={partnerSlug} entries={current.entries} />
+        </div>
       ) : (
-      <div
-        className="mt-4 space-y-4"
-        id="launch-prep-area-artifacts"
-        role="tabpanel"
-        aria-labelledby="launch-prep-tab-artifacts"
-      >
-        {current.entries.map((entry) => (
-          <ArtifactRow
-            key={entry.artifactType}
-            entry={entry}
-            partnerSlug={partnerSlug}
-            pending={pending}
-            previewOpen={openPreview === entry.artifactType}
-            historyOpen={openHistory === entry.artifactType}
-            commentOpen={commentFor === entry.artifactType}
-            comment={comment}
-            onComment={setComment}
-            onTogglePreview={() =>
-              setOpenPreview(openPreview === entry.artifactType ? null : entry.artifactType)
-            }
-            onToggleHistory={() =>
-              setOpenHistory(openHistory === entry.artifactType ? null : entry.artifactType)
-            }
-            onOpenComment={() =>
-              setCommentFor(commentFor === entry.artifactType ? null : entry.artifactType)
-            }
-            onMutate={mutate}
-          />
-        ))}
-      </div>
+        <div
+          className="mt-4 space-y-4"
+          id="launch-prep-area-artifacts"
+          role="tabpanel"
+          aria-labelledby="launch-prep-tab-artifacts"
+        >
+          {current.entries.map((entry) => (
+            <ArtifactRow
+              key={entry.artifactType}
+              entry={entry}
+              partnerSlug={partnerSlug}
+              pending={pending}
+              previewOpen={openPreview === entry.artifactType}
+              historyOpen={openHistory === entry.artifactType}
+              commentOpen={commentFor === entry.artifactType}
+              comment={comment}
+              onComment={setComment}
+              onTogglePreview={() =>
+                setOpenPreview(
+                  openPreview === entry.artifactType ? null : entry.artifactType
+                )
+              }
+              onToggleHistory={() =>
+                setOpenHistory(
+                  openHistory === entry.artifactType ? null : entry.artifactType
+                )
+              }
+              onOpenComment={() =>
+                setCommentFor(
+                  commentFor === entry.artifactType ? null : entry.artifactType
+                )
+              }
+              onMutate={mutate}
+            />
+          ))}
+        </div>
       )}
     </section>
   );
