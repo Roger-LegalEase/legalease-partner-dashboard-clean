@@ -211,7 +211,24 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/components/partners/onboarding/CoBrandedPageView.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx",
   "src/app/internal/partners/onboarding/[partnerSlug]/LegalEasePublicPageLanguagePanel.tsx",
-  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/assets/[assetId]/route.ts"
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/assets/[assetId]/route.ts",
+  // Phase 2A part 3 (reviewed): launch readiness, the partner launch kit, and
+  // the partner resources area. Phase 47 is additive — two new tables, one
+  // nullable column, and one appended view column — with tenant RLS,
+  // column-bounded partner grants, and service-role-only mutation RPCs. It adds
+  // no publication, activation, pause, invitation, or access-code capability,
+  // and is applied to a local loopback stack only.
+  "supabase/phase-47-rcap-onboarding-launch-readiness.sql",
+  "src/lib/partners/onboarding/launch-readiness.ts",
+  "src/lib/partners/onboarding/launch-readiness-service.ts",
+  "src/components/partners/onboarding/LaunchReadinessView.tsx",
+  "src/components/partners/onboarding/LaunchKitView.tsx",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/launch-readiness/route.ts",
+  "src/app/api/partners/onboarding/launch-readiness/route.ts",
+  "src/app/internal/partners/onboarding/[partnerSlug]/LaunchReadinessPanel.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/ResourcesPanel.tsx",
+  "src/app/partner/onboarding/resources/page.tsx",
+  "src/app/partner/onboarding/resources/PartnerResourcesClient.tsx"
 ];
 
 // First-administrator provisioning (reviewed). Gives an internal operator a

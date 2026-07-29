@@ -5,6 +5,7 @@ import {
   LEGALEASE_PUBLIC_PAGE_LANGUAGE,
   LEGALEASE_TECHNICAL_SUPPORT_ROUTE,
   OPERATIONS_ESCALATION_PLAN_GENERATOR_VERSION,
+  PARTNER_LAUNCH_KIT_GENERATOR_VERSION,
   STAFF_QUICK_START_GUIDE_GENERATOR_VERSION,
   type ArtifactSourceInput
 } from "./artifact-domain";
@@ -86,6 +87,12 @@ export type RenderedDocument = {
    * unaffected.
    */
   pagePreview?: CoBrandedPagePreview;
+  /**
+   * Only the partner launch kit carries this. Every other artifact leaves it
+   * absent, so the document view, the PDF renderer, and the download path are
+   * unaffected.
+   */
+  launchKit?: LaunchKitPayload;
 };
 
 const SECTION_TITLES = new Map<string, string>(
@@ -2239,5 +2246,284 @@ function pagePublicationBoundarySection(): RenderedSection {
           "This is a draft configuration and a preview of it. Nothing here publishes the page, activates the program, releases an access code, or makes any address reachable by a participant. Publication is a separate, later decision."
       }
     ]
+  };
+}
+
+// --- Partner Launch Kit ------------------------------------------------------
+
+/**
+ * The QR code and the address it encodes. Both are produced on the server from
+ * the partner slug the authorized context named; nothing here is ever taken
+ * from a browser payload.
+ */
+export type LaunchKitQr = {
+  targetUrl: string;
+  qrSvg: string;
+  qrDataUrl: string;
+  /** True once the page is actually published. It is not, in this release. */
+  published: boolean;
+};
+
+export type LaunchKitCopyBlock = {
+  key: string;
+  label: string;
+  body: string;
+};
+
+export type LaunchKitPayload = {
+  qr: LaunchKitQr;
+  copy: LaunchKitCopyBlock[];
+  guardrails: string[];
+  faq: Array<{ question: string; answer: string }>;
+};
+
+/**
+ * Claims and terminology guardrails. LegalEase-controlled: outreach copy may
+ * never promise eligibility or an outcome, and every block below is written to
+ * that rule.
+ */
+export const LAUNCH_KIT_GUARDRAILS: readonly string[] = [
+  "Never say a record will be cleared, sealed, or expunged. Say a person may be able to find out whether clearing is possible.",
+  "Never promise eligibility. Eligibility is decided by the court and by state law.",
+  "Never promise a timeline. Courts set their own schedules.",
+  "Never describe this program as legal advice or legal representation.",
+  "Never imply a fee will be waived, and never quote a court filing fee as final.",
+  "Say self-help paperwork, not case handling, and say participant, not client.",
+  "Always keep the LegalEase disclaimer with any public claim about the program."
+];
+
+const LAUNCH_KIT_FAQ: ReadonlyArray<{ question: string; answer: string }> = [
+  {
+    question: "What is this program?",
+    answer:
+      "It is a free way to find out whether clearing your record may be possible, and to prepare the paperwork to ask the court yourself."
+  },
+  {
+    question: "Does it cost anything?",
+    answer:
+      "The program is sponsored, so there is nothing to pay for the sponsored scope. Courts charge their own filing fees, which the program does not control."
+  },
+  {
+    question: "Is this a lawyer?",
+    answer:
+      "No. LegalEase is not a law firm and does not give legal advice or represent anyone. If a matter becomes contested, staff refer participants to the legal-services partner recorded in the operations plan."
+  },
+  {
+    question: "Will my record definitely be cleared?",
+    answer:
+      "No one can promise that. The court decides, using state law and the facts of each case."
+  },
+  {
+    question: "How long does it take?",
+    answer:
+      "Preparing the paperwork takes most people well under an hour. How long the court takes afterwards is up to the court."
+  },
+  {
+    question: "What happens to my information?",
+    answer:
+      "It is handled under the LegalEase privacy practices and is not sold. Participants can see what they submitted in their own private Briefcase."
+  }
+];
+
+/**
+ * Renders the outreach kit a partner launches with. The QR code and its target
+ * are computed by the service and passed in; this renderer never derives a URL
+ * of its own and never accepts one.
+ */
+export function renderPartnerLaunchKit(
+  input: ArtifactSourceInput,
+  qr: LaunchKitQr
+): RenderedDocument {
+  const ctx: Ctx = { input, gaps: 0 };
+
+  const organization =
+    text(ctx, "organization_contacts", "public_organization_name") ??
+    input.partnerRecord.organizationName;
+  const program =
+    text(ctx, "organization_contacts", "public_program_name") ??
+    input.partnerRecord.programName;
+  const description = text(
+    ctx,
+    "brand_public_page",
+    "approved_organization_description"
+  );
+  const headline = text(ctx, "brand_public_page", "program_headline");
+  const serviceArea = text(
+    ctx,
+    "geography_audience_language_accessibility",
+    "service_area_description"
+  );
+  const supportEmail = supportText(ctx, "participant_support_email");
+  const supportPhone = supportText(ctx, "participant_support_phone");
+  const referral = supportText(ctx, "legal_services_referral_organization");
+  const accessModel = text(
+    ctx,
+    "access_sponsorship_capacity",
+    "participant_access_model"
+  );
+  const codeSentence =
+    accessModel && accessModel !== "Open to anyone"
+      ? ` If ${organization} gave you an access code, enter it when the page asks.`
+      : "";
+  const where = qr.published
+    ? qr.targetUrl
+    : `${qr.targetUrl} (not published yet — do not share this address until LegalEase publishes the page)`;
+
+  const shortDescription = headline
+    ? `${headline} — a free service from ${organization}.`
+    : `A free way to find out whether clearing your record may be possible, from ${organization}.`;
+
+  const longDescription = [
+    description,
+    `${organization} is working with LegalEase so community members can check whether record clearing may be possible and prepare their own paperwork.`,
+    serviceArea ? `Who it serves: ${serviceArea}` : null,
+    "LegalEase is not a law firm and does not give legal advice. Whether a record can be cleared is decided by the court."
+  ]
+    .filter((part): part is string => Boolean(part))
+    .join("\n\n");
+
+  const copy: LaunchKitCopyBlock[] = [
+    { key: "short_description", label: "Short description", body: shortDescription },
+    { key: "long_description", label: "Long description", body: longDescription },
+    {
+      key: "email",
+      label: "Email copy",
+      body: [
+        `Subject: A free way to check whether your record can be cleared`,
+        ``,
+        `${organization} is offering a free way to find out whether clearing your record may be possible, and to prepare the paperwork to ask the court yourself.`,
+        ``,
+        `Start here: ${where}${codeSentence}`,
+        ``,
+        `There is nothing to pay for the sponsored part of this program. LegalEase is not a law firm and does not give legal advice, and no one can promise that a record will be cleared — the court decides.`,
+        ``,
+        supportEmail ? `Questions? Email ${supportEmail}.` : ""
+      ]
+        .filter((line, index, all) => !(line === "" && all[index - 1] === ""))
+        .join("\n")
+        .trim()
+    },
+    {
+      key: "sms",
+      label: "SMS copy",
+      body: `${organization}: free help checking whether your record can be cleared, and preparing your own paperwork. Start: ${qr.targetUrl}${codeSentence} Not legal advice; the court decides.`
+    },
+    {
+      key: "social",
+      label: "Social copy",
+      body: [
+        `${organization} + LegalEase`,
+        ``,
+        `Wondering whether an old record can be cleared? You can find out for free and prepare your own paperwork to ask the court.`,
+        ``,
+        `${where}`,
+        ``,
+        `Not legal advice. Eligibility and outcomes are decided by the court.`
+      ].join("\n")
+    },
+    {
+      key: "flyer",
+      label: "Flyer copy",
+      body: [
+        `${organization}${program ? ` · ${program}` : ""}`,
+        headline ?? "Find out whether your record can be cleared",
+        ``,
+        `Free. Scan the code or visit ${qr.targetUrl}.${codeSentence}`,
+        supportPhone ? `Questions? Call ${supportPhone}.` : "",
+        ``,
+        `LegalEase is not a law firm and does not give legal advice. No outcome is guaranteed.`
+      ]
+        .filter(Boolean)
+        .join("\n")
+    },
+    {
+      key: "staff_referral_script",
+      label: "Staff referral script",
+      body: [
+        `"We work with a free service that can tell you whether clearing your record might be possible, and help you prepare the paperwork to ask the court yourself."`,
+        ``,
+        `"I can't tell you whether you qualify — the court decides that — but the screening will walk you through it."`,
+        ``,
+        referral
+          ? `"If it turns out your case is contested or you need a lawyer, we refer people to ${referral}."`
+          : `"If it turns out your case is contested or you need a lawyer, we'll refer you to our legal-services partner."`,
+        ``,
+        `"It's free, and it takes most people under an hour."`
+      ].join("\n")
+    }
+  ];
+
+  const blocks: RenderedSection[] = [
+    {
+      key: "launch_where",
+      heading: "Where to send people",
+      blocks: [
+        {
+          kind: "definitions",
+          items: [
+            { term: "Participant address", value: where },
+            {
+              term: "QR code",
+              value: qr.published
+                ? "Encodes the address above."
+                : "Encodes the address above, which is not reachable until LegalEase publishes the page."
+            }
+          ]
+        }
+      ]
+    },
+    ...copy.map((block) => ({
+      key: `launch_${block.key}`,
+      heading: block.label,
+      blocks: [{ kind: "paragraph" as const, text: block.body }]
+    })),
+    {
+      key: "launch_faq",
+      heading: "Participant questions",
+      blocks: [
+        {
+          kind: "definitions",
+          items: LAUNCH_KIT_FAQ.map((entry) => ({
+            term: entry.question,
+            value: entry.answer
+          }))
+        }
+      ]
+    },
+    {
+      key: "launch_guardrails",
+      heading: "Claims and terminology guardrails",
+      blocks: [
+        { kind: "bullets", items: [...LAUNCH_KIT_GUARDRAILS] },
+        {
+          kind: "paragraph",
+          text:
+            "This wording is set by LegalEase and is not partner-editable. Outreach that promises eligibility, an outcome, or a timeline must not be published."
+        }
+      ]
+    }
+  ];
+
+  if (!description) {
+    blocks.push({
+      key: "launch_gaps",
+      heading: "Still needed",
+      blocks: [gap(ctx, "brand_public_page", "approved_organization_description")]
+    });
+  }
+
+  return {
+    documentTitle: "Partner Launch Kit",
+    organizationName: organization,
+    programName: program,
+    generatorVersion: PARTNER_LAUNCH_KIT_GENERATOR_VERSION,
+    sections: blocks,
+    gapCount: ctx.gaps,
+    launchKit: {
+      qr,
+      copy,
+      guardrails: [...LAUNCH_KIT_GUARDRAILS],
+      faq: LAUNCH_KIT_FAQ.map((entry) => ({ ...entry }))
+    }
   };
 }

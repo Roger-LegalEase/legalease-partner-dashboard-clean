@@ -135,6 +135,10 @@ function assertNoRestrictedChanges() {
     // behavior, and adds no publication or activation capability.
     "supabase/phase-45-rcap-onboarding-artifacts.sql",
     "supabase/phase-46-rcap-onboarding-media-contact-role.sql",
+    // Phase 47 (reviewed): additive launch-check and launch-approval tables with
+    // tenant RLS and service-role-only RPCs. Migration file only and unapplied
+    // to any remote database. It grants no publication or activation capability.
+    "supabase/phase-47-rcap-onboarding-launch-readiness.sql",
     // Phase 37 (reviewed): additive constraint/index expansion on rcap_document_packets for the
     // all-51 source-driven packet set; does not alter RLS, auth, Stripe, or generated packet behavior.
     "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql",

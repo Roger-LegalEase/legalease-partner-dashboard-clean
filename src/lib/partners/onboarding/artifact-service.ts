@@ -2,6 +2,11 @@ import "server-only";
 
 import crypto from "node:crypto";
 
+import QRCode from "qrcode";
+
+import { absoluteAppUrl } from "@/lib/app-url";
+import { partnerPublicPage } from "@/lib/partners/routes";
+
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -24,7 +29,9 @@ import {
   renderDashboardUserReportingMatrix,
   renderImplementationBrief,
   renderOperationsEscalationPlan,
+  renderPartnerLaunchKit,
   renderStaffQuickStartGuide,
+  type LaunchKitQr,
   type RenderedDocument
 } from "./artifact-generator";
 import { Phase1OnboardingError } from "./errors";
@@ -74,7 +81,9 @@ export async function loadArtifactSourceInput(
   const { data: workspaceRow, error: workspaceError } = await client
     .from("partner_onboarding_workspace_safe")
     .select(
-      "id, partner_slug, partner_record_id, status, aggregate_version, target_launch_date, commercial_gate_status, public_display_name, public_headline, public_subheadline, support_instructions, show_partner_logo, show_powered_by"
+      // agreement_status and launch_readiness_state are read for launch
+      // readiness. Neither enters an artifact projection.
+      "id, partner_slug, partner_record_id, status, aggregate_version, target_launch_date, commercial_gate_status, public_display_name, public_headline, public_subheadline, support_instructions, show_partner_logo, show_powered_by, agreement_status, launch_readiness_state"
     )
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
@@ -105,7 +114,7 @@ export async function loadArtifactSourceInput(
   ] = await Promise.all([
     client
       .from("partner_onboarding_sections")
-      .select("section_key, response_data, revision")
+      .select("section_key, response_data, revision, status")
       .eq("workspace_id", workspaceId),
     client
       .from("partner_onboarding_contacts")
@@ -155,13 +164,16 @@ export async function loadArtifactSourceInput(
     section_key: string;
     response_data: Record<string, unknown> | null;
     revision: number;
+    status: string | null;
   }>;
 
   const data: Record<string, unknown> = {};
   const sectionRevisions: Record<string, number> = {};
+  const sectionStatuses: Record<string, string> = {};
   for (const row of sectionRows) {
     data[row.section_key] = row.response_data ?? {};
     sectionRevisions[row.section_key] = Number(row.revision);
+    if (row.status) sectionStatuses[row.section_key] = row.status;
   }
 
   const contactRows = (contacts.data ?? []) as Array<Record<string, unknown>>;
@@ -250,7 +262,10 @@ export async function loadArtifactSourceInput(
       publicSubheadline: (workspace.public_subheadline as string | null) ?? null,
       supportInstructions: (workspace.support_instructions as string | null) ?? null,
       showPartnerLogo: (workspace.show_partner_logo as boolean | null) ?? null,
-      showPoweredBy: (workspace.show_powered_by as boolean | null) ?? null
+      showPoweredBy: (workspace.show_powered_by as boolean | null) ?? null,
+      agreementStatus: (workspace.agreement_status as string | null) ?? null,
+      launchReadinessState:
+        (workspace.launch_readiness_state as "ready" | "not_ready" | null) ?? null
     },
     partnerRecord: {
       organizationName:
@@ -272,6 +287,7 @@ export async function loadArtifactSourceInput(
       reviewStatus: String(row.review_status)
     })),
     sectionRevisions: sectionRevisions as Partial<Record<OnboardingSectionKey, number>>,
+    sectionStatuses: sectionStatuses as Partial<Record<OnboardingSectionKey, string>>,
     collectionRevisions: {
       contacts: Object.fromEntries(
         contactRows.map((row) => [String(row.id), Number(row.revision ?? 1)])
@@ -444,9 +460,12 @@ async function buildBoard(options: {
   partnerSlug: string;
   audience: "internal" | "partner";
   persistInvalidation: boolean;
+  /** Reuses an already-loaded canonical read instead of repeating it. */
+  source?: ArtifactSourceInput;
 }): Promise<ArtifactBoard> {
   const { client, partnerSlug, audience } = options;
-  const source = await loadArtifactSourceInput(client, partnerSlug);
+  const source =
+    options.source ?? (await loadArtifactSourceInput(client, partnerSlug));
 
   const [artifactsResult, versionsResult, reviewsResult] = await Promise.all([
     client
@@ -601,32 +620,55 @@ async function buildBoard(options: {
 export async function getInternalArtifactBoard(
   context: InternalOnboardingContext
 ): Promise<ArtifactBoard> {
+  return (await loadInternalArtifactBoardWithSource(context)).board;
+}
+
+/**
+ * The board plus the canonical read it was built from, so a caller that also
+ * needs the source — launch readiness does — pays for one read rather than two.
+ */
+export async function loadInternalArtifactBoardWithSource(
+  context: InternalOnboardingContext
+): Promise<{ board: ArtifactBoard; source: ArtifactSourceInput }> {
   assertLaunchPrepEnabled();
   const admin = requireAdmin();
+  const source = await loadArtifactSourceInput(admin, context.partnerSlug);
   await admin.rpc("rcap_service_ensure_onboarding_artifacts", {
     p_partner_slug: context.partnerSlug,
-    p_workspace_id: (await loadArtifactSourceInput(admin, context.partnerSlug)).workspace.id,
+    p_workspace_id: source.workspace.id,
     p_generatable_types: [...GENERATABLE_ARTIFACT_TYPES]
   });
-  return buildBoard({
+  const board = await buildBoard({
     client: admin,
     partnerSlug: context.partnerSlug,
     audience: "internal",
-    persistInvalidation: true
+    persistInvalidation: true,
+    source
   });
+  return { board, source };
 }
 
 export async function getPartnerArtifactBoard(
   context: PartnerOnboardingContext
 ): Promise<ArtifactBoard> {
+  return (await loadPartnerArtifactBoardWithSource(context)).board;
+}
+
+/** The partner equivalent, so readiness costs one canonical read, not two. */
+export async function loadPartnerArtifactBoardWithSource(
+  context: PartnerOnboardingContext
+): Promise<{ board: ArtifactBoard; source: ArtifactSourceInput }> {
   assertLaunchPrepEnabled();
   const supabase = await createServerSupabaseAuthClient();
-  return buildBoard({
+  const source = await loadArtifactSourceInput(supabase, context.partnerSlug);
+  const board = await buildBoard({
     client: supabase,
     partnerSlug: context.partnerSlug,
     audience: "partner",
-    persistInvalidation: false
+    persistInvalidation: false,
+    source
   });
+  return { board, source };
 }
 
 // --- mutations ---------------------------------------------------------------
@@ -635,15 +677,50 @@ export async function getPartnerArtifactBoard(
  * One renderer per generatable type. Every one of them takes the same shared
  * canonical read, so adding a document costs no extra query.
  */
+type RenderExtras = { launchKitQr: LaunchKitQr | null };
+
 const ARTIFACT_RENDERERS: Readonly<
-  Record<GeneratableArtifactType, (input: ArtifactSourceInput) => RenderedDocument>
+  Record<
+    GeneratableArtifactType,
+    (input: ArtifactSourceInput, extras: RenderExtras) => RenderedDocument
+  >
 > = {
   implementation_brief: renderImplementationBrief,
   operations_escalation_plan: renderOperationsEscalationPlan,
   dashboard_user_reporting_matrix: renderDashboardUserReportingMatrix,
   staff_quick_start_guide: renderStaffQuickStartGuide,
-  co_branded_page_configuration: renderCoBrandedPageConfiguration
+  co_branded_page_configuration: renderCoBrandedPageConfiguration,
+  // The launch kit is the only renderer needing anything beyond the canonical
+  // read, and what it needs — the QR code — is produced on the server from the
+  // authorized partner slug.
+  partner_launch_kit: (input, extras) => {
+    if (!extras.launchKitQr) {
+      throw new Error("launch kit rendering requires a server-derived QR code");
+    }
+    return renderPartnerLaunchKit(input, extras.launchKitQr);
+  }
 };
+
+/**
+ * The QR target, derived here and nowhere else. It is built from the partner
+ * slug the authorized context named plus the reviewed route helper, so no
+ * browser-supplied address can reach a launch kit.
+ */
+export async function buildLaunchKitQr(partnerSlug: string): Promise<LaunchKitQr> {
+  const targetUrl = absoluteAppUrl(partnerPublicPage(partnerSlug));
+  const [qrSvg, qrDataUrl] = await Promise.all([
+    QRCode.toString(targetUrl, { type: "svg", margin: 1 }),
+    QRCode.toDataURL(targetUrl, { margin: 1, width: 320 })
+  ]);
+  return {
+    targetUrl,
+    qrSvg,
+    qrDataUrl,
+    // Nothing in Phase 2A publishes a page, so this is a preview address until
+    // a later, separately approved release makes it reachable.
+    published: false
+  };
+}
 
 export async function generateArtifactVersion(
   context: InternalOnboardingContext,
@@ -662,11 +739,16 @@ export async function generateArtifactVersion(
   const projection = projectArtifactSource(artifactType, source);
   const provenance = buildArtifactProvenance(source);
 
+  const launchKitQr =
+    artifactType === "partner_launch_kit"
+      ? await buildLaunchKitQr(context.partnerSlug)
+      : null;
+
   let rendered: RenderedDocument | null = null;
   let generationStatus: "succeeded" | "failed" = "succeeded";
   let generationErrorCode: string | null = null;
   try {
-    rendered = ARTIFACT_RENDERERS[artifactType](source);
+    rendered = ARTIFACT_RENDERERS[artifactType](source, { launchKitQr });
   } catch {
     generationStatus = "failed";
     generationErrorCode = "render_failed";
