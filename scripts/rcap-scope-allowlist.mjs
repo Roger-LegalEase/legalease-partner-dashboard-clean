@@ -94,6 +94,7 @@ export const INTERNAL_ADMIN_BROWSER_ACCESS_FILES = [
   "src/app/internal/partners/data/page.tsx",
   "src/app/internal/partners/supabase-check/page.tsx",
   "scripts/verify-internal-admin-browser-access.mjs",
+  "scripts/capture-internal-admin-access-acceptance.mjs",
   // Shared verifier loader: one more Next subpath added to the list it already
   // maps, so a verifier can import the real proxy module.
   "scripts/lib/ts-esm-loader.mjs"
