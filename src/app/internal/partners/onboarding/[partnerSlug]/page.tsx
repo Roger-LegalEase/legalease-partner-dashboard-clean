@@ -13,6 +13,7 @@ import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service
 import { Phase1InternalReviewPanel } from "./Phase1InternalReviewPanel";
 import { Phase1PrefillPanel } from "./Phase1PrefillPanel";
 import { Phase2AArtifactsPanel } from "./Phase2AArtifactsPanel";
+import { LegalEasePublicPageLanguagePanel } from "./LegalEasePublicPageLanguagePanel";
 import { OnboardingWizard } from "./OnboardingWizard";
 
 export const dynamic = "force-dynamic";
@@ -75,6 +76,12 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
                 <Phase1PrefillPanel
                   partnerSlug={partnerSlug}
                   snapshot={prefillSnapshot}
+                />
+              ) : null}
+              {artifactBoard?.legalEasePageConfiguration ? (
+                <LegalEasePublicPageLanguagePanel
+                  partnerSlug={partnerSlug}
+                  configuration={artifactBoard.legalEasePageConfiguration}
                 />
               ) : null}
               {artifactBoard ? (

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
+import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import type {
   ArtifactBoard,
   ArtifactBoardEntry
@@ -16,6 +17,21 @@ const quietButtonClass =
   "inline-flex min-h-10 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-xs font-bold text-navy hover:border-teal hover:text-teal disabled:cursor-not-allowed disabled:opacity-50";
 const inputClass =
   "min-h-11 w-full rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy outline-none focus:border-teal focus:ring-2 focus:ring-teal/25";
+
+/**
+ * The partner sees its own asset through the existing tenant-scoped asset
+ * route. No public or signed URL is placed in the page.
+ */
+function partnerLogoSrc(
+  preview: NonNullable<
+    NonNullable<ArtifactBoardEntry["currentVersion"]>["document"]
+  >["pagePreview"]
+): string | null {
+  if (!preview?.logo.assetId || !preview.showPartnerLogo) return null;
+  return `/api/partners/onboarding/assets/${encodeURIComponent(
+    preview.logo.assetId
+  )}`;
+}
 
 export function PartnerArtifactsClient({
   board,
@@ -278,7 +294,26 @@ function PartnerArtifactCard({
       ) : null}
 
       {previewOpen && version.document ? (
-        <div className="mt-4">
+        <div className="mt-4 space-y-5">
+          {version.document.pagePreview ? (
+            <>
+              <p className="text-xs text-grayWilma-700">
+                This is how your co-branded page would look. It is a preview
+                only; the page is not published, and the content marked
+                LegalEase is set by LegalEase and cannot be edited here.
+              </p>
+              <CoBrandedPageView
+                preview={version.document.pagePreview}
+                variant="desktop"
+                logoSrc={partnerLogoSrc(version.document.pagePreview)}
+              />
+              <CoBrandedPageView
+                preview={version.document.pagePreview}
+                variant="mobile"
+                logoSrc={partnerLogoSrc(version.document.pagePreview)}
+              />
+            </>
+          ) : null}
           <ArtifactDocumentView
             document={version.document}
             versionNumber={version.versionNumber}
