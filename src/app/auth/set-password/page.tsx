@@ -289,20 +289,24 @@ export default function SetPasswordPage() {
               >
                 {passwordRequirementsMessage}
               </p>
-              <label className="grid gap-1.5">
-                <span className="text-sm font-bold text-navy">New password</span>
+              <div className="grid gap-1.5">
+                <label className="text-sm font-bold text-navy" htmlFor="new-password">
+                  New password
+                </label>
                 <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
                   <input
                     aria-describedby="password-requirements"
                     autoComplete="new-password"
                     className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
                     disabled={isBusy}
+                    id="new-password"
                     minLength={minimumPasswordLength}
                     name="password"
                     required
                     type={isNewPasswordVisible ? "text" : "password"}
                   />
                   <button
+                    aria-controls="new-password"
                     aria-label={isNewPasswordVisible ? "Hide new password" : "Show new password"}
                     className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={isBusy}
@@ -312,21 +316,25 @@ export default function SetPasswordPage() {
                     {isNewPasswordVisible ? "Hide" : "Show"}
                   </button>
                 </div>
-              </label>
-              <label className="grid gap-1.5">
-                <span className="text-sm font-bold text-navy">Confirm password</span>
+              </div>
+              <div className="grid gap-1.5">
+                <label className="text-sm font-bold text-navy" htmlFor="confirm-password">
+                  Confirm password
+                </label>
                 <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
                   <input
                     aria-describedby="password-requirements"
                     autoComplete="new-password"
                     className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
                     disabled={isBusy}
+                    id="confirm-password"
                     minLength={minimumPasswordLength}
                     name="confirmPassword"
                     required
                     type={isConfirmPasswordVisible ? "text" : "password"}
                   />
                   <button
+                    aria-controls="confirm-password"
                     aria-label={isConfirmPasswordVisible ? "Hide confirmed password" : "Show confirmed password"}
                     className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={isBusy}
@@ -336,7 +344,7 @@ export default function SetPasswordPage() {
                     {isConfirmPasswordVisible ? "Hide" : "Show"}
                   </button>
                 </div>
-              </label>
+              </div>
               <Button className="min-h-11" disabled={isBusy} type="submit">
                 {state === "saving" || state === "saved" ? "Setting password..." : "Set password"}
               </Button>

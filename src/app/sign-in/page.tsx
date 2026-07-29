@@ -100,27 +100,34 @@ export default function SignInPage() {
           ) : null}
 
           <form className="mt-6 grid gap-4" onSubmit={signInWithPassword}>
-            <label className="grid gap-1.5">
-              <span className="text-sm font-bold text-navy">Email</span>
+            <div className="grid gap-1.5">
+              <label className="text-sm font-bold text-navy" htmlFor="sign-in-email">
+                Email
+              </label>
               <input
                 autoComplete="email"
                 className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
+                id="sign-in-email"
                 name="email"
                 required
                 type="email"
               />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-sm font-bold text-navy">Password</span>
+            </div>
+            <div className="grid gap-1.5">
+              <label className="text-sm font-bold text-navy" htmlFor="sign-in-password">
+                Password
+              </label>
               <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
                 <input
                   autoComplete="current-password"
                   className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
+                  id="sign-in-password"
                   name="password"
                   required
                   type={isPasswordVisible ? "text" : "password"}
                 />
                 <button
+                  aria-controls="sign-in-password"
                   aria-label={isPasswordVisible ? "Hide password" : "Show password"}
                   className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={isSubmitting}
@@ -130,7 +137,7 @@ export default function SignInPage() {
                   {isPasswordVisible ? "Hide" : "Show"}
                 </button>
               </div>
-            </label>
+            </div>
             <TurnstileWidget onTokenChange={setCaptchaToken} />
             <Button className="min-h-11" disabled={isSubmitting} type="submit">
               {isSubmitting ? "Signing in..." : "Sign in"}

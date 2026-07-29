@@ -209,14 +209,22 @@ async function runOnboardingEnabledPhase() {
   await recipientPage
     .getByRole("heading", { name: "Set your LegalEase password" })
     .waitFor({ timeout: 90_000 });
-  await recipientPage.getByLabel("New password").waitFor();
+  await recipientPage.getByLabel("New password", { exact: true }).waitFor();
+  await assertAccessibleFieldNames(recipientPage, {
+    'input[name="password"]': "New password",
+    'input[name="confirmPassword"]': "Confirm password"
+  });
   await capture(
     recipientPage,
     "05-step3-set-password-clean-profile.png",
     "Step 3 - copied link opened in a clean profile shows the real password screen"
   );
-  await recipientPage.getByLabel("New password").fill(primaryAdminPassword);
-  await recipientPage.getByLabel("Confirm password").fill(primaryAdminPassword);
+  await recipientPage
+    .getByLabel("New password", { exact: true })
+    .fill(primaryAdminPassword);
+  await recipientPage
+    .getByLabel("Confirm password", { exact: true })
+    .fill(primaryAdminPassword);
   await recipientPage.getByRole("button", { name: "Set password" }).click();
   await recipientPage.waitForURL(`${baseUrl}/partner/onboarding`, {
     timeout: 120_000
@@ -290,7 +298,7 @@ async function runOnboardingEnabledPhase() {
     .getByText("This invite link is no longer active.")
     .waitFor({ timeout: 90_000 });
   assert.equal(
-    await revokedPage.getByLabel("New password").count(),
+    await revokedPage.getByLabel("New password", { exact: true }).count(),
     0,
     "A revoked setup link must not offer account setup."
   );
@@ -430,8 +438,12 @@ async function runOnboardingDisabledPhase(flagOn) {
   await recipientPage
     .getByRole("heading", { name: "Set your LegalEase password" })
     .waitFor({ timeout: 90_000 });
-  await recipientPage.getByLabel("New password").fill(thirdAdminPassword);
-  await recipientPage.getByLabel("Confirm password").fill(thirdAdminPassword);
+  await recipientPage
+    .getByLabel("New password", { exact: true })
+    .fill(thirdAdminPassword);
+  await recipientPage
+    .getByLabel("Confirm password", { exact: true })
+    .fill(thirdAdminPassword);
   await recipientPage.getByRole("button", { name: "Set password" }).click();
   await recipientPage.waitForURL(`${baseUrl}/partner/dashboard`, {
     timeout: 120_000
@@ -488,10 +500,57 @@ async function signIn(page, email, password, nextPath) {
   await page.goto(`${baseUrl}/sign-in?next=${encodeURIComponent(nextPath)}`, {
     timeout: 120_000
   });
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(password);
+  await assertAccessibleFieldNames(page, {
+    'input[name="email"]': "Email",
+    'input[name="password"]': "Password"
+  });
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await page.waitForURL(`${baseUrl}${nextPath}`, { timeout: 120_000 });
+}
+
+// Section 15 requires real labels. Chromium's own accessibility tree is the
+// authority here: a wrapping label that also encloses the show/hide toggle
+// computes a polluted, toggle-dependent name such as
+// "New password Show new password", which is why these fields must be
+// associated through htmlFor/id instead.
+async function assertAccessibleFieldNames(page, expectedBySelector) {
+  const session = await page.context().newCDPSession(page);
+  try {
+    await session.send("Accessibility.enable");
+    for (const [selector, expectedName] of Object.entries(expectedBySelector)) {
+      await page.locator(selector).waitFor();
+      const actualName = await accessibleName(session, selector);
+      assert.equal(
+        actualName,
+        expectedName,
+        `${selector} on ${sanitizeUrl(
+          page.url()
+        )} must expose the accessible name "${expectedName}", not "${actualName}".`
+      );
+    }
+  } finally {
+    await session.detach().catch(() => {});
+  }
+}
+
+async function accessibleName(session, selector) {
+  const evaluated = await session.send("Runtime.evaluate", {
+    expression: `document.querySelector(${JSON.stringify(selector)})`
+  });
+  const objectId = evaluated.result?.objectId;
+  assert.ok(objectId, `Expected ${selector} to resolve to one element.`);
+  try {
+    const { nodes } = await session.send("Accessibility.getPartialAXTree", {
+      objectId,
+      fetchRelatives: false
+    });
+    const node = nodes.find((candidate) => candidate.name !== undefined);
+    return node?.name?.value ?? null;
+  } finally {
+    await session.send("Runtime.releaseObject", { objectId }).catch(() => {});
+  }
 }
 
 async function expectStatus(page, statusLabel) {
