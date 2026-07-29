@@ -29,9 +29,16 @@ export type ArtifactType = (typeof ARTIFACT_TYPES)[number];
 
 /**
  * Only these types have a generator in this release. Everything else is shown
- * as not yet available rather than as a broken or empty row.
+ * as not yet available rather than as a broken or empty row. The partner launch
+ * kit is Lane B2b's and stays unavailable here.
  */
-export const GENERATABLE_ARTIFACT_TYPES = ["implementation_brief"] as const;
+export const GENERATABLE_ARTIFACT_TYPES = [
+  "implementation_brief",
+  "operations_escalation_plan",
+  "dashboard_user_reporting_matrix",
+  "staff_quick_start_guide",
+  "co_branded_page_configuration"
+] as const;
 
 export type GeneratableArtifactType =
   (typeof GENERATABLE_ARTIFACT_TYPES)[number];
@@ -82,11 +89,92 @@ export const ARTIFACT_TYPE_CONSUMERS: Readonly<
  */
 export const IMPLEMENTATION_BRIEF_GENERATOR_VERSION = "implementation_brief_v1";
 
+/**
+ * Each generator carries its own hand-maintained constant, so a change to one
+ * document does not invalidate the other four. The same rule applies to every
+ * one of them: bump only when rendered output actually changes, and only in the
+ * same commit as the assertion that pins it.
+ */
+export const OPERATIONS_ESCALATION_PLAN_GENERATOR_VERSION =
+  "operations_escalation_plan_v1";
+export const DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION =
+  "dashboard_user_reporting_matrix_v1";
+export const STAFF_QUICK_START_GUIDE_GENERATOR_VERSION =
+  "staff_quick_start_guide_v1";
+export const CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION =
+  "co_branded_page_configuration_v1";
+
 export const ARTIFACT_GENERATOR_VERSIONS: Readonly<
   Record<GeneratableArtifactType, string>
 > = {
-  implementation_brief: IMPLEMENTATION_BRIEF_GENERATOR_VERSION
+  implementation_brief: IMPLEMENTATION_BRIEF_GENERATOR_VERSION,
+  operations_escalation_plan: OPERATIONS_ESCALATION_PLAN_GENERATOR_VERSION,
+  dashboard_user_reporting_matrix:
+    DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION,
+  staff_quick_start_guide: STAFF_QUICK_START_GUIDE_GENERATOR_VERSION,
+  co_branded_page_configuration:
+    CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION
 };
+
+/**
+ * LegalEase platform support routing. It is not partner data, but it renders in
+ * partner-visible documents, so it is projected as a value rather than inlined
+ * at render time: that is what makes an edit to it detectable at all, and it is
+ * a LegalEase-only key, so an edit spares the partner's attestation.
+ */
+export const LEGALEASE_TECHNICAL_SUPPORT_ROUTE =
+  "Partner staff contact LegalEase platform support through the partner dashboard support link. LegalEase does not provide legal advice or representation to participants.";
+
+/**
+ * The LegalEase-controlled public-page language, keyed by the categories
+ * LEGALEASE_CONTROLLED_PUBLIC_PAGE_CONTENT already enumerates in schema.ts. The
+ * partner may never edit or approve any of it. Each entry is projected as a
+ * value under a LegalEase-only key, following the same rule as the technical
+ * support route above.
+ */
+export const LEGALEASE_PUBLIC_PAGE_LANGUAGE: Readonly<
+  Record<string, { heading: string; body: string }>
+> = {
+  legal_disclaimers: {
+    heading: "Legal disclaimer",
+    body:
+      "LegalEase provides self-help record-clearing tools and prepared documents. LegalEase is not a law firm, does not provide legal advice, and does not represent participants. Using this program does not create an attorney-client relationship."
+  },
+  self_help_and_service_boundary_language: {
+    heading: "What this program does and does not do",
+    body:
+      "This program helps a participant prepare and file their own record-clearing paperwork. It stops short of legal representation. A contested matter, a prosecutor objection, or a scheduled contested hearing leaves the self-help path and follows the approved referral route."
+  },
+  eligibility_and_outcome_claims: {
+    heading: "Eligibility and outcomes",
+    body:
+      "Eligibility is decided by the court and by state law, not by this program. Nothing here guarantees that a record will be cleared or that any particular outcome will follow."
+  },
+  platform_privacy_and_security_representations: {
+    heading: "Privacy and security",
+    body:
+      "Participant information is handled under the LegalEase privacy practices. LegalEase does not sell participant information."
+  },
+  payment_logic: {
+    heading: "Cost to the participant",
+    body:
+      "Sponsored participants pay nothing to LegalEase for the sponsored scope of this program. Court filing fees and other government charges are set by the court, not by LegalEase."
+  },
+  participant_routing: {
+    heading: "Where participants are sent",
+    body:
+      "Participant routing between screening, document preparation, and the partner's own support is controlled by LegalEase so that a participant is never left without a next step."
+  },
+  platform_legal_links: {
+    heading: "Platform terms",
+    body:
+      "The LegalEase terms of service, privacy policy, and accessibility statement apply to this page and are linked from it."
+  }
+};
+
+export const LEGALEASE_PUBLIC_PAGE_PROJECTION_KEYS = Object.keys(
+  LEGALEASE_PUBLIC_PAGE_LANGUAGE
+).map((category) => `legalease_public_page.${category}`);
 
 /**
  * Workspace-level values that no registry field covers. `target_launch_date` is
@@ -157,7 +245,11 @@ export const LEGALEASE_ONLY_PROJECTION_KEYS: ReadonlySet<string> = new Set([
   "access_sponsorship_capacity.packet_credits",
   "access_sponsorship_capacity.overage_behavior",
   "access_sponsorship_capacity.overage_approver_authorization",
-  "support_referrals_reporting.legalease_technical_support_route"
+  "support_referrals_reporting.legalease_technical_support_route",
+  // The public-page language the partner may never edit or approve. A change to
+  // any of it is a LegalEase change, so it invalidates the LegalEase approval
+  // and leaves the partner's attestation about partner-owned content standing.
+  ...LEGALEASE_PUBLIC_PAGE_PROJECTION_KEYS
 ]);
 
 export type ArtifactAssetInput = {
@@ -315,6 +407,16 @@ export function projectArtifactSource(
 
   for (const key of WORKSPACE_KEYS_BY_TYPE[artifactType]) {
     values[key] = workspaceValue(key, input);
+  }
+
+  // The co-branded page is the only artifact that renders the LegalEase-
+  // controlled public-page language, so only it projects those values.
+  if (artifactType === "co_branded_page_configuration") {
+    for (const [category, block] of Object.entries(
+      LEGALEASE_PUBLIC_PAGE_LANGUAGE
+    )) {
+      values[`legalease_public_page.${category}`] = `${block.heading}: ${block.body}`;
+    }
   }
 
   for (const definition of ONBOARDING_ASSET_DEFINITIONS) {

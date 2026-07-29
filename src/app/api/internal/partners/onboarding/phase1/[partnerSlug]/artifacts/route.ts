@@ -7,7 +7,8 @@ import {
   generateArtifactVersion,
   getInternalArtifactBoard,
   reviewArtifactVersion,
-  supersedeArtifactVersion
+  supersedeArtifactVersion,
+  updateLegalEasePublicPageConfiguration
 } from "@/lib/partners/onboarding/artifact-service";
 import {
   assertSameOrigin,
@@ -77,6 +78,17 @@ export async function POST(
     } else if (action === "supersede") {
       result = await supersedeArtifactVersion(context, {
         artifactVersionId: requiredString(payload.artifactVersionId, 40)
+      });
+    } else if (action === "configure_public_page_language") {
+      // LegalEase records its own controlled page language here. There is no
+      // partner path to this action, and it publishes and activates nothing.
+      result = await updateLegalEasePublicPageConfiguration(context, {
+        publicDisplayName: optionalString(payload.publicDisplayName, 200),
+        publicHeadline: optionalString(payload.publicHeadline, 500),
+        publicSubheadline: optionalString(payload.publicSubheadline, 500),
+        supportInstructions: optionalString(payload.supportInstructions, 5000),
+        showPartnerLogo: payload.showPartnerLogo === true,
+        showPoweredBy: payload.showPoweredBy === true
       });
     } else {
       throw new Phase1OnboardingError("invalid_input", "Unsupported action.");
