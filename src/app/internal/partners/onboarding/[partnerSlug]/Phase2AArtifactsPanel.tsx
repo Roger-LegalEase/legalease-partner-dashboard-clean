@@ -11,6 +11,7 @@ import type {
 } from "@/lib/partners/onboarding/artifact-service";
 
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
+import { CoBrandedPagePanel } from "./CoBrandedPagePanel";
 
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-4 py-2 text-sm font-bold text-white hover:bg-teal disabled:cursor-not-allowed disabled:opacity-50";
@@ -52,6 +53,7 @@ export function Phase2AArtifactsPanel({
   const [current, setCurrent] = useState(board);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [area, setArea] = useState<"artifacts" | "co_branded_page">("artifacts");
   const [openPreview, setOpenPreview] = useState<string | null>(null);
   const [openHistory, setOpenHistory] = useState<string | null>(null);
   const [commentFor, setCommentFor] = useState<string | null>(null);
@@ -93,15 +95,46 @@ export function Phase2AArtifactsPanel({
     }
   }
 
+  const pageEntry =
+    current.entries.find(
+      (entry) => entry.artifactType === "co_branded_page_configuration"
+    ) ?? null;
+
   return (
-    <section className="mt-8" aria-labelledby="artifacts-heading">
+    <section className="mt-8" aria-labelledby="launch-prep-heading">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id="artifacts-heading" className="text-xl font-black text-navy">
-          Artifacts
+        <h2 id="launch-prep-heading" className="text-xl font-black text-navy">
+          Launch preparation
         </h2>
         <p className="text-xs text-grayWilma-700">
           Generated from this partner&rsquo;s current program setup data.
         </p>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="Launch preparation areas">
+        {(
+          [
+            ["artifacts", "Artifacts"],
+            ["co_branded_page", "Co-Branded Page"]
+          ] as const
+        ).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            id={`launch-prep-tab-${key}`}
+            aria-selected={area === key}
+            aria-controls={`launch-prep-area-${key}`}
+            className={`inline-flex min-h-11 items-center rounded-md border px-4 py-2 text-sm font-bold ${
+              area === key
+                ? "border-navy bg-navy text-white"
+                : "border-grayWilma-200 bg-white text-navy hover:border-teal hover:text-teal"
+            }`}
+            onClick={() => setArea(key)}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {message ? (
@@ -113,7 +146,29 @@ export function Phase2AArtifactsPanel({
         </p>
       ) : null}
 
-      <div className="mt-4 space-y-4">
+      {area === "co_branded_page" ? (
+        <div
+          className="mt-4"
+          id="launch-prep-area-co_branded_page"
+          role="tabpanel"
+          aria-labelledby="launch-prep-tab-co_branded_page"
+        >
+          {pageEntry ? (
+            <CoBrandedPagePanel
+              entry={pageEntry}
+              partnerSlug={partnerSlug}
+              pending={pending}
+              onMutate={mutate}
+            />
+          ) : null}
+        </div>
+      ) : (
+      <div
+        className="mt-4 space-y-4"
+        id="launch-prep-area-artifacts"
+        role="tabpanel"
+        aria-labelledby="launch-prep-tab-artifacts"
+      >
         {current.entries.map((entry) => (
           <ArtifactRow
             key={entry.artifactType}
@@ -138,6 +193,7 @@ export function Phase2AArtifactsPanel({
           />
         ))}
       </div>
+      )}
     </section>
   );
 }
@@ -183,7 +239,7 @@ function ArtifactRow({
     version.approvalStatus !== "approved";
 
   return (
-    <Card className="p-5">
+    <Card className="p-5" data-artifact-type={entry.artifactType}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-black text-navy">{entry.label}</h3>
@@ -240,9 +296,14 @@ function ArtifactRow({
       ) : null}
 
       {entry.sourceFreshness === "stale" && entry.staleFields.length > 0 ? (
-        <p className="mt-2 text-xs text-orange">
-          Changed since this version: {entry.staleFields.join(", ")}
-        </p>
+        <>
+          <p className="mt-2 text-xs text-orange">
+            Changed since this version: {entry.staleFields.join(", ")}
+          </p>
+          <p className="mt-1 text-xs font-bold text-orange">
+            {invalidationSummary(entry.invalidatedApprovals)}
+          </p>
+        </>
       ) : null}
 
       {currentReviews.length > 0 ? (
@@ -433,6 +494,26 @@ function VersionHistoryRow({
       ) : null}
     </div>
   );
+}
+
+/**
+ * The asymmetry, said in words. A partner-owned value changing makes the
+ * partner's own attestation false; a LegalEase-only change leaves it standing.
+ */
+export function invalidationSummary(invalidated: {
+  legalease: boolean;
+  partner: boolean;
+}): string {
+  if (invalidated.legalease && invalidated.partner) {
+    return "Both the LegalEase approval and the partner approval are invalidated.";
+  }
+  if (invalidated.legalease) {
+    return "The LegalEase approval is invalidated. The partner approval still stands.";
+  }
+  if (invalidated.partner) {
+    return "The partner approval is invalidated.";
+  }
+  return "No approval is affected.";
 }
 
 function Detail({ term, children }: { term: string; children: React.ReactNode }) {

@@ -10,17 +10,27 @@ import {
   ARTIFACT_TYPE_LABELS,
   ARTIFACT_GENERATOR_VERSIONS,
   GENERATABLE_ARTIFACT_TYPES,
+  LEGALEASE_TECHNICAL_SUPPORT_ROUTE,
   buildArtifactProvenance,
   detectArtifactDrift,
   isGeneratableArtifactType,
   projectArtifactSource,
   type ArtifactSourceInput,
-  type ArtifactType
+  type ArtifactType,
+  type GeneratableArtifactType
 } from "./artifact-domain";
-import { renderImplementationBrief, type RenderedDocument } from "./artifact-generator";
+import {
+  renderCoBrandedPageConfiguration,
+  renderDashboardUserReportingMatrix,
+  renderImplementationBrief,
+  renderOperationsEscalationPlan,
+  renderStaffQuickStartGuide,
+  type RenderedDocument
+} from "./artifact-generator";
 import { Phase1OnboardingError } from "./errors";
 import { isRcapOnboardingLaunchPrepEnabled } from "./feature";
 import { deriveRecordShieldScope } from "./scope";
+import { createPrivateOnboardingAssetUrl } from "./storage";
 import type {
   InternalOnboardingContext,
   PartnerOnboardingContext
@@ -106,7 +116,10 @@ export async function loadArtifactSourceInput(
     client
       .from("partner_onboarding_planned_users")
       .select(
-        "id, name, work_email, requested_role, special_permissions, training_attendee, revision"
+        // training_status, invitation_status and membership_status are written
+        // by Lane A. The Dashboard User and Reporting Matrix reads them;
+        // nothing in this module writes to this table.
+        "id, name, work_email, requested_role, special_permissions, training_attendee, training_status, training_completed_at, invitation_status, membership_status, revision"
       )
       .eq("workspace_id", workspaceId)
       .is("deleted_at", null)
@@ -130,8 +143,11 @@ export async function loadArtifactSourceInput(
       .maybeSingle(),
     client
       .from("partner_entitlement")
+      // Keyed by partner_slug since phase 35. Filtering by partner_record_id
+      // matched no column, so the allocation and overage values silently
+      // resolved to null and never reached a document.
       .select("screenings_allowed, screenings_used, overage_enabled, pause_at_cap")
-      .eq("partner_record_id", String(workspace.partner_record_id))
+      .eq("partner_slug", partnerSlug)
       .maybeSingle()
   ]);
 
@@ -173,7 +189,11 @@ export async function loadArtifactSourceInput(
     work_email: row.work_email,
     requested_role: row.requested_role,
     special_permissions: row.special_permissions ?? [],
-    training_attendee: row.training_attendee
+    training_attendee: row.training_attendee,
+    training_status: row.training_status,
+    training_completed_at: row.training_completed_at ?? null,
+    invitation_status: row.invitation_status,
+    membership_status: row.membership_status
   }));
   data.staff_dashboard_plan = staffPlan;
 
@@ -210,7 +230,11 @@ export async function loadArtifactSourceInput(
     screening_allocation:
       entitlementRow?.screenings_allowed != null
         ? Number(entitlementRow.screenings_allowed)
-        : null
+        : null,
+    // LegalEase boilerplate, projected as a value so that an edit to it is
+    // detectable at all. It is a LegalEase-only key, so an edit spares the
+    // partner's attestation.
+    legalease_technical_support_route: LEGALEASE_TECHNICAL_SUPPORT_ROUTE
   };
 
   return {
@@ -299,7 +323,29 @@ export type ArtifactBoardEntry = {
   reviews: ArtifactReviewView[];
   sourceFreshness: "no_version" | "current" | "stale" | "unavailable";
   staleFields: string[];
+  /**
+   * Which approvals the observed drift actually kills. A partner-owned value
+   * changing makes the partner's own attestation false, so both die; a change
+   * confined to LegalEase-controlled values leaves the partner's attestation
+   * standing. Computed on read like the staleness it accompanies.
+   */
+  invalidatedApprovals: { legalease: boolean; partner: boolean };
   blocker: string | null;
+};
+
+/**
+ * The phase-42 LegalEase-controlled public-page configuration. The partner can
+ * neither edit nor approve any of it, which is what makes a change to it
+ * invalidate the LegalEase approval alone. It is included for the internal
+ * audience only.
+ */
+export type LegalEasePublicPageConfiguration = {
+  publicDisplayName: string | null;
+  publicHeadline: string | null;
+  publicSubheadline: string | null;
+  supportInstructions: string | null;
+  showPartnerLogo: boolean;
+  showPoweredBy: boolean;
 };
 
 export type ArtifactBoard = {
@@ -307,6 +353,7 @@ export type ArtifactBoard = {
   partnerSlug: string;
   organizationName: string;
   entries: ArtifactBoardEntry[];
+  legalEasePageConfiguration: LegalEasePublicPageConfiguration | null;
 };
 
 type ArtifactRow = {
@@ -448,6 +495,7 @@ async function buildBoard(options: {
 
     let stale = Boolean(current?.source_drift_invalidated_at);
     let staleFields: string[] = [];
+    let invalidatedApprovals = { legalease: false, partner: false };
 
     if (available && current && current.generation_status === "succeeded") {
       const projection = projectArtifactSource(artifactType, source);
@@ -467,6 +515,10 @@ async function buildBoard(options: {
         });
         stale = stale || drift.stale;
         staleFields = drift.changedKeys;
+        invalidatedApprovals = {
+          legalease: drift.invalidatesLegalEaseApproval,
+          partner: drift.invalidatesPartnerApproval
+        };
 
         // Persist once, and only when this read actually observed new drift on
         // an approved version. An unchanged read issues no statement at all.
@@ -522,6 +574,7 @@ async function buildBoard(options: {
             ? "stale"
             : "current",
       staleFields,
+      invalidatedApprovals,
       blocker: blockerFor({ available, current: currentView, stale })
     });
   }
@@ -530,7 +583,18 @@ async function buildBoard(options: {
     workspaceId: source.workspace.id,
     partnerSlug,
     organizationName: source.partnerRecord.organizationName,
-    entries
+    entries,
+    legalEasePageConfiguration:
+      audience === "internal"
+        ? {
+            publicDisplayName: source.workspace.publicDisplayName,
+            publicHeadline: source.workspace.publicHeadline,
+            publicSubheadline: source.workspace.publicSubheadline,
+            supportInstructions: source.workspace.supportInstructions,
+            showPartnerLogo: source.workspace.showPartnerLogo !== false,
+            showPoweredBy: source.workspace.showPoweredBy !== false
+          }
+        : null
   };
 }
 
@@ -567,6 +631,20 @@ export async function getPartnerArtifactBoard(
 
 // --- mutations ---------------------------------------------------------------
 
+/**
+ * One renderer per generatable type. Every one of them takes the same shared
+ * canonical read, so adding a document costs no extra query.
+ */
+const ARTIFACT_RENDERERS: Readonly<
+  Record<GeneratableArtifactType, (input: ArtifactSourceInput) => RenderedDocument>
+> = {
+  implementation_brief: renderImplementationBrief,
+  operations_escalation_plan: renderOperationsEscalationPlan,
+  dashboard_user_reporting_matrix: renderDashboardUserReportingMatrix,
+  staff_quick_start_guide: renderStaffQuickStartGuide,
+  co_branded_page_configuration: renderCoBrandedPageConfiguration
+};
+
 export async function generateArtifactVersion(
   context: InternalOnboardingContext,
   input: { artifactType: string; requestId: string }
@@ -580,7 +658,7 @@ export async function generateArtifactVersion(
   }
   const admin = requireAdmin();
   const source = await loadArtifactSourceInput(admin, context.partnerSlug);
-  const artifactType = input.artifactType as ArtifactType;
+  const artifactType: GeneratableArtifactType = input.artifactType;
   const projection = projectArtifactSource(artifactType, source);
   const provenance = buildArtifactProvenance(source);
 
@@ -588,7 +666,7 @@ export async function generateArtifactVersion(
   let generationStatus: "succeeded" | "failed" = "succeeded";
   let generationErrorCode: string | null = null;
   try {
-    rendered = renderImplementationBrief(source);
+    rendered = ARTIFACT_RENDERERS[artifactType](source);
   } catch {
     generationStatus = "failed";
     generationErrorCode = "render_failed";
@@ -607,7 +685,7 @@ export async function generateArtifactVersion(
       p_source_asset_versions: provenance.sourceAssetVersions,
       p_normalized_snapshot: projection.values,
       p_snapshot_hash: projection.hash,
-      p_generator_version: ARTIFACT_GENERATOR_VERSIONS.implementation_brief,
+      p_generator_version: ARTIFACT_GENERATOR_VERSIONS[artifactType],
       p_rendered_content: generationStatus === "succeeded" ? rendered : {},
       p_generation_status: generationStatus,
       p_generation_error_code: generationErrorCode
@@ -692,6 +770,103 @@ export async function reviewArtifactVersion(
   };
 }
 
+const PAGE_CONFIGURATION_LIMITS = {
+  publicDisplayName: 200,
+  publicHeadline: 500,
+  publicSubheadline: 500,
+  supportInstructions: 5_000
+} as const;
+
+/**
+ * Records the LegalEase-controlled public-page language for one workspace.
+ *
+ * This is not a generic patch endpoint: the shape is fixed at six named
+ * columns, every value is length-bounded and normalized here, the row is
+ * selected by the partner slug the internal context was authorized against, and
+ * nothing about publication, activation, access codes, invitations, or payment
+ * is reachable from it. Without it the LegalEase half of the co-branded page
+ * ownership split would be inert while the launch-prep flag is on.
+ */
+export async function updateLegalEasePublicPageConfiguration(
+  context: InternalOnboardingContext,
+  input: {
+    publicDisplayName?: unknown;
+    publicHeadline?: unknown;
+    publicSubheadline?: unknown;
+    supportInstructions?: unknown;
+    showPartnerLogo?: unknown;
+    showPoweredBy?: unknown;
+  }
+): Promise<LegalEasePublicPageConfiguration> {
+  assertLaunchPrepEnabled();
+  const admin = requireAdmin();
+
+  const patch = {
+    public_display_name: boundedText(
+      input.publicDisplayName,
+      PAGE_CONFIGURATION_LIMITS.publicDisplayName
+    ),
+    public_headline: boundedText(
+      input.publicHeadline,
+      PAGE_CONFIGURATION_LIMITS.publicHeadline
+    ),
+    public_subheadline: boundedText(
+      input.publicSubheadline,
+      PAGE_CONFIGURATION_LIMITS.publicSubheadline
+    ),
+    support_instructions: boundedText(
+      input.supportInstructions,
+      PAGE_CONFIGURATION_LIMITS.supportInstructions
+    ),
+    show_partner_logo: input.showPartnerLogo === true,
+    show_powered_by: input.showPoweredBy === true
+  };
+
+  const { data, error } = await admin
+    .from("partner_onboarding")
+    .update(patch)
+    .eq("partner_slug", context.partnerSlug)
+    .select(
+      "public_display_name, public_headline, public_subheadline, support_instructions, show_partner_logo, show_powered_by"
+    )
+    .maybeSingle();
+
+  if (error || !data) {
+    throw new Phase1OnboardingError(
+      "persistence_failed",
+      "The public page language could not be saved. Try again."
+    );
+  }
+  const row = data as Record<string, unknown>;
+  return {
+    publicDisplayName: (row.public_display_name as string | null) ?? null,
+    publicHeadline: (row.public_headline as string | null) ?? null,
+    publicSubheadline: (row.public_subheadline as string | null) ?? null,
+    supportInstructions: (row.support_instructions as string | null) ?? null,
+    showPartnerLogo: row.show_partner_logo !== false,
+    showPoweredBy: row.show_powered_by !== false
+  };
+}
+
+function boundedText(value: unknown, maxLength: number): string | null {
+  if (typeof value !== "string") return null;
+  const normalized = value
+    .normalize("NFC")
+    .replace(/\r\n?/gu, "\n")
+    // Control characters other than the newline are stripped rather than
+    // stored, matching the Phase 1 normalization rules.
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/gu, "")
+    .trim();
+  if (normalized.length === 0) return null;
+  if (normalized.length > maxLength) {
+    throw new Phase1OnboardingError(
+      "invalid_input",
+      `That value must be ${maxLength} characters or fewer.`
+    );
+  }
+  return normalized;
+}
+
 export async function supersedeArtifactVersion(
   context: InternalOnboardingContext,
   input: { artifactVersionId: string }
@@ -714,6 +889,72 @@ export async function supersedeArtifactVersion(
   }
   const row = firstRow(data);
   return { superseded: row?.superseded === true };
+}
+
+// --- co-branded page preview assets ------------------------------------------
+
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/**
+ * Resolves one organizational asset to a short-lived private URL so the
+ * internal co-branded page preview can show the partner's real logo instead of
+ * a placeholder. Read-only, internal-admin only, and scoped to the workspace
+ * the partner slug names, so it cannot reach another tenant's asset. No public
+ * URL is minted and nothing is published.
+ */
+export async function loadInternalOnboardingAssetUrl(
+  context: InternalOnboardingContext,
+  assetId: string
+): Promise<{ url: string; mediaType: string }> {
+  assertLaunchPrepEnabled();
+  if (!UUID_PATTERN.test(assetId)) {
+    throw new Phase1OnboardingError(
+      "workspace_not_found",
+      "Organizational asset not found."
+    );
+  }
+  const admin = requireAdmin();
+
+  const { data: workspaceRow } = await admin
+    .from("partner_onboarding")
+    .select("id")
+    .eq("partner_slug", context.partnerSlug)
+    .maybeSingle();
+  const workspaceId = (workspaceRow as { id?: string } | null)?.id;
+  if (!workspaceId) {
+    throw new Phase1OnboardingError(
+      "workspace_not_found",
+      "Organizational asset not found."
+    );
+  }
+
+  const { data, error } = await admin
+    .from("partner_onboarding_assets")
+    .select("object_path, media_type")
+    .eq("id", assetId)
+    .eq("workspace_id", workspaceId)
+    .is("deleted_at", null)
+    .in("lifecycle_status", ["pending_review", "active"])
+    .maybeSingle();
+
+  if (error || !data) {
+    throw new Phase1OnboardingError(
+      "workspace_not_found",
+      "Organizational asset not found."
+    );
+  }
+  const row = data as { object_path: string; media_type: string };
+  if (!row.media_type.startsWith("image/")) {
+    throw new Phase1OnboardingError(
+      "workspace_not_found",
+      "Organizational asset not found."
+    );
+  }
+  return {
+    url: await createPrivateOnboardingAssetUrl({ objectPath: row.object_path }),
+    mediaType: row.media_type
+  };
 }
 
 // --- downloads ---------------------------------------------------------------

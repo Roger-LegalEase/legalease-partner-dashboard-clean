@@ -152,11 +152,12 @@ function canonicalReferences(
       options: jurisdictionOptions
     });
   }
-  for (const fieldKey of [
-    "overage_approver_contact_id",
-    "partner_staff_support_contact_id",
-    "urgent_escalation_contact_id"
-  ]) {
+  // Derived from the registry so that a contact reference added later gets its
+  // chooser without a second list to keep in step.
+  for (const definition of ONBOARDING_SCHEMA_REGISTRY.filter(
+    (field) => field.dataType === "contact_reference" && !field.parentCollection
+  )) {
+    const fieldKey = String(definition.key);
     canonical.push({
       fieldKey,
       label:

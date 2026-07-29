@@ -114,7 +114,11 @@ export type OnboardingContactRole =
   | "reporting_evaluation_lead"
   | "legal_services_referral_contact"
   | "finance_procurement_contact"
-  | "technical_security_contact";
+  | "technical_security_contact"
+  // A press contact is not a program-communications contact: the communications
+  // lead runs participant outreach, while this role answers media inquiries
+  // about the program. The Operations and Escalation Plan names them separately.
+  | "media_contact";
 
 export type ProgramModel =
   | "year_round"
@@ -267,6 +271,11 @@ export type AccessSponsorshipCapacitySectionData = {
   code_expiration?: string | null;
   code_level_capacity?: number | null;
   overage_approver_contact_id?: string | null;
+  // The cap and its approver already existed; the escalation procedure and the
+  // response expectation did not, so the Operations and Escalation Plan could
+  // only render a permanent gap for them.
+  capacity_escalation_procedure?: string;
+  capacity_escalation_response_expectation?: string;
 };
 
 export type BrandPublicPageSectionData = {
@@ -298,6 +307,21 @@ export type SupportReferralsReportingSectionData = {
   referral_intake_details?: string;
   contested_matter_procedure?: string;
   urgent_escalation_contact_id?: string;
+  // Routes the Operations and Escalation Plan names that had no schema home
+  // before this release, plus the per-route response expectations. Each is a
+  // partner-editable operational fact, not LegalEase-controlled language.
+  privacy_request_route?: string;
+  privacy_request_owner_contact_id?: string;
+  privacy_request_response_expectation?: string;
+  security_concern_route?: string;
+  security_concern_response_expectation?: string;
+  media_inquiry_response_expectation?: string;
+  program_pause_route?: string;
+  program_pause_authority_contact_id?: string;
+  program_pause_response_expectation?: string;
+  participant_support_response_expectation?: string;
+  referral_response_expectation?: string;
+  contested_matter_response_expectation?: string;
   report_recipients?: OnboardingReportRecipient[];
   reporting_cadence?: string;
   funder_required_metrics?: string[];
