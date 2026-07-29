@@ -42,11 +42,18 @@ check("all six artifact types are registered", () => {
   ]);
 });
 
-check("only the implementation brief has a generator in this release", () => {
-  assert.deepEqual(GENERATABLE_ARTIFACT_TYPES, ["implementation_brief"]);
+check("five of the six types have a generator in this release", () => {
+  assert.deepEqual(GENERATABLE_ARTIFACT_TYPES, [
+    "implementation_brief",
+    "operations_escalation_plan",
+    "dashboard_user_reporting_matrix",
+    "staff_quick_start_guide",
+    "co_branded_page_configuration"
+  ]);
   assert.equal(isGeneratableArtifactType("implementation_brief"), true);
-  // Deferred to Lane B2 by an explicit scope decision, not an oversight.
-  assert.equal(isGeneratableArtifactType("operations_escalation_plan"), false);
+  assert.equal(isGeneratableArtifactType("operations_escalation_plan"), true);
+  // Deferred to Lane B2b by an explicit scope decision, not an oversight.
+  assert.equal(isGeneratableArtifactType("partner_launch_kit"), false);
   for (const type of ARTIFACT_TYPES) {
     assert.ok(ARTIFACT_TYPE_LABELS[type], `${type} must have a human label`);
     assert.ok(
@@ -62,9 +69,25 @@ check("only the implementation brief has a generator in this release", () => {
  * bump must be made consciously in the same commit as this assertion rather
  * than riding along in a refactor.
  */
-check("the generator version is a pinned hand-maintained constant", () => {
+check("every generator version is a pinned hand-maintained constant", () => {
   assert.equal(IMPLEMENTATION_BRIEF_GENERATOR_VERSION, "implementation_brief_v1");
-  assert.match(IMPLEMENTATION_BRIEF_GENERATOR_VERSION, /^[a-z0-9_]+$/);
+  // Each generator carries its own, so a change to one document cannot
+  // invalidate the others.
+  assert.deepEqual(domain.ARTIFACT_GENERATOR_VERSIONS, {
+    implementation_brief: "implementation_brief_v1",
+    operations_escalation_plan: "operations_escalation_plan_v1",
+    dashboard_user_reporting_matrix: "dashboard_user_reporting_matrix_v1",
+    staff_quick_start_guide: "staff_quick_start_guide_v1",
+    co_branded_page_configuration: "co_branded_page_configuration_v1"
+  });
+  for (const version of Object.values(domain.ARTIFACT_GENERATOR_VERSIONS)) {
+    assert.match(version, /^[a-z0-9_]+$/);
+  }
+  assert.equal(
+    new Set(Object.values(domain.ARTIFACT_GENERATOR_VERSIONS)).size,
+    Object.keys(domain.ARTIFACT_GENERATOR_VERSIONS).length,
+    "two documents must never share a generator version"
+  );
 });
 
 check("the launch-prep flag is default-off and depends on the Phase 1 flag", () => {

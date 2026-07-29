@@ -194,7 +194,7 @@ const ENUM_LABELS: Readonly<Record<string, string>> = {
 };
 
 /**
- * Collection-row and provisioning enums. These never pass through `text()`,
+ * Collection-row and access-lifecycle enums. These never pass through `text()`,
  * because they are not top-level registry fields, so they are mapped here and
  * every generator that renders one goes through `plainLabel`.
  */
@@ -211,7 +211,7 @@ const ROW_ENUM_LABELS: Readonly<Record<string, string>> = {
 };
 
 /**
- * Three provisioning enums share literals (`planned`, `complete`, `active`), so
+ * Three access-lifecycle enums share literals (`planned`, `complete`, `active`), so
  * each gets its own map rather than one shared table that would mislabel them.
  * Lane A owns the values; this lane only reads and renders them.
  */
@@ -1256,7 +1256,7 @@ function reportRecipients(ctx: Ctx): RecipientRow[] {
  * Renders the planned dashboard roster and the reporting plan. This is a plan
  * only: rendering it sends no invitation, creates no membership, and writes
  * nothing to partner_onboarding_planned_users. `invitation_status` and
- * `membership_status` are owned by provisioning and are read here purely to
+ * `membership_status` are owned by Lane A and are read here purely to
  * report what the roster looks like today.
  */
 export function renderDashboardUserReportingMatrix(

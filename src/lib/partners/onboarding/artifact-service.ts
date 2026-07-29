@@ -117,7 +117,7 @@ export async function loadArtifactSourceInput(
       .from("partner_onboarding_planned_users")
       .select(
         // training_status, invitation_status and membership_status are written
-        // by provisioning. The Dashboard User and Reporting Matrix reads them;
+        // by Lane A. The Dashboard User and Reporting Matrix reads them;
         // nothing in this module writes to this table.
         "id, name, work_email, requested_role, special_permissions, training_attendee, training_status, training_completed_at, invitation_status, membership_status, revision"
       )

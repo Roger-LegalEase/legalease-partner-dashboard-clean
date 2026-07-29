@@ -195,7 +195,18 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/api/partners/onboarding/artifacts/download/route.ts",
   "src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx",
   "src/app/partner/onboarding/artifacts/page.tsx",
-  "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx"
+  "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx",
+  // Phase 2A part 2 (reviewed). The remaining document generators and the
+  // co-branded page configuration, on top of the same artifact tables: no new
+  // table, no migration, and no publication, activation, invitation, or
+  // access-code capability. The co-branded page area prepares and approves
+  // only; the LegalEase page-language panel writes six named, length-bounded
+  // phase-42 columns and nothing else. The internal asset route is read-only
+  // and exists so the preview can show the partner's real logo.
+  "src/components/partners/onboarding/CoBrandedPageView.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/LegalEasePublicPageLanguagePanel.tsx",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/assets/[assetId]/route.ts"
 ];
 
 // First-administrator provisioning (reviewed). Gives an internal operator a

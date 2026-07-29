@@ -41,7 +41,12 @@ const NEW_FILES = [
   "src/app/api/partners/onboarding/artifacts/download/route.ts",
   "src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx",
   "src/app/partner/onboarding/artifacts/page.tsx",
-  "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx"
+  "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx",
+  // Phase 2A part 2.
+  "src/components/partners/onboarding/CoBrandedPageView.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx",
+  "src/app/internal/partners/onboarding/[partnerSlug]/LegalEasePublicPageLanguagePanel.tsx",
+  "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/assets/[assetId]/route.ts"
 ];
 
 let passed = 0;
