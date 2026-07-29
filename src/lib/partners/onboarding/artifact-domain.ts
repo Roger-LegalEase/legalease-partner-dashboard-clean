@@ -274,6 +274,10 @@ export type ArtifactSourceInput = {
     supportInstructions: string | null;
     showPartnerLogo: boolean | null;
     showPoweredBy: boolean | null;
+    // Read for launch readiness only. Neither value enters any artifact
+    // projection, so no snapshot or hash changes by their presence here.
+    agreementStatus: string | null;
+    launchReadinessState: "ready" | "not_ready" | null;
   };
   partnerRecord: {
     organizationName: string;
@@ -284,6 +288,8 @@ export type ArtifactSourceInput = {
   readOnlyValues: OnboardingReadOnlyValues;
   assets: readonly ArtifactAssetInput[];
   sectionRevisions: Partial<Record<OnboardingSectionKey, number>>;
+  /** Section workflow status, read for launch readiness. Not projected. */
+  sectionStatuses?: Partial<Record<OnboardingSectionKey, string>>;
   collectionRevisions: {
     contacts: Readonly<Record<string, number>>;
     plannedUsers: Readonly<Record<string, number>>;
