@@ -2,7 +2,10 @@ import "server-only";
 
 import type { User } from "@supabase/supabase-js";
 import { absolutePartnerAppUrl } from "@/lib/app-url";
-import { getPartnerEmailDeliveryConfig } from "@/lib/email/email-service";
+import {
+  getPartnerEmailDeliveryConfig,
+  sendPartnerEmailMessage
+} from "@/lib/email/email-service";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import {
@@ -315,10 +318,6 @@ export async function createFirstAdminInvitation(input: {
       "An administrator invitation is already pending. Revoke or replace it before creating another."
     );
   }
-  if (current) {
-    await safelyInvalidateInvitationAuthUser(supabase, current);
-  }
-
   const createdAt = now.toISOString();
   const expiresAt = new Date(
     now.getTime() + validated.value.expirationHours * 60 * 60 * 1000
@@ -356,6 +355,7 @@ export async function createFirstAdminInvitation(input: {
   }
 
   if (current) {
+    await safelyInvalidateInvitationAuthUser(supabase, current);
     await appendAudit(supabase, partnerSlug, "first_admin_invitation_replaced", {
       invitation_id: current.invitation_id,
       status: "superseded",
@@ -791,12 +791,19 @@ export async function acceptFirstAdminInvitation(
     status: "accepted",
     accepted_at: acceptedAt
   };
-  await compareAndSetInvitation(
-    supabase,
-    partnerSlug,
-    accepting.revision,
-    accepted
-  );
+  if (
+    !(await compareAndSetInvitation(
+      supabase,
+      partnerSlug,
+      accepting.revision,
+      accepted
+    ))
+  ) {
+    throw new FirstAdminProvisioningError(
+      "invitation_conflict",
+      "Partner access was created, but activation still needs confirmation. Retry account setup."
+    );
+  }
   if (membershipCreated) {
     await appendAudit(
       supabase,
@@ -914,37 +921,16 @@ export async function sendFirstAdminInvitationEmail(input: {
     "",
     "If you were not expecting this invitation, do not use the link."
   ].join("\n");
-  let status: "sent" | "failed" = "failed";
-  let providerMessageId: string | undefined;
-  let errorMessage: string | undefined;
-  try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: config.from,
-        to: [invitation.email],
-        reply_to: config.replyTo,
-        subject,
-        text
-      })
-    });
-    const body = (await response.json().catch(() => null)) as {
-      id?: string;
-      message?: string;
-    } | null;
-    if (!response.ok) {
-      errorMessage = body?.message ?? "Invitation delivery failed.";
-    } else {
-      status = "sent";
-      providerMessageId = body?.id;
-    }
-  } catch {
-    errorMessage = "Invitation delivery failed.";
-  }
+  const delivery = await sendPartnerEmailMessage({
+    recipientEmail: invitation.email,
+    subject,
+    text
+  });
+  const status = delivery.status === "sent" ? "sent" : "failed";
+  const providerMessageId =
+    delivery.status === "sent" ? delivery.providerMessageId : undefined;
+  const errorMessage =
+    delivery.status === "sent" ? undefined : delivery.error;
   await supabase.from("partner_email_deliveries").insert({
     partner_slug: partnerSlug,
     email_type: "first_admin_invitation",

@@ -11,6 +11,7 @@ import {
   revokeFirstAdminInvitation,
   sendFirstAdminInvitationEmail
 } from "@/lib/partners/first-admin-service";
+import { isFirstAdminSameOriginRequest } from "@/lib/partners/first-admin-request-security";
 import {
   requireInternalAdminSession,
   SessionPartnerError
@@ -41,7 +42,7 @@ export async function POST(
   context: { params: Promise<{ partnerSlug: string }> }
 ) {
   const requestId = getSafeRequestId(request);
-  if (!isSameOriginRequest(request)) {
+  if (!isFirstAdminSameOriginRequest(request)) {
     logSecurityWarn({
       event: "first_admin provisioning denied",
       route: routeName,
@@ -192,17 +193,4 @@ function errorResponse(error: unknown, requestId: string, action: string) {
     },
     { status }
   );
-}
-
-function isSameOriginRequest(request: Request) {
-  const requestOrigin = new URL(request.url).origin;
-  const origin = request.headers.get("origin");
-  if (origin) return origin === requestOrigin;
-  const referer = request.headers.get("referer");
-  if (!referer) return false;
-  try {
-    return new URL(referer).origin === requestOrigin;
-  } catch {
-    return false;
-  }
 }

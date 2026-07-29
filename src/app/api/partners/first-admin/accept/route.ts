@@ -9,6 +9,7 @@ import {
   logSecurityInfo,
   logSecurityWarn
 } from "@/lib/observability/logger";
+import { isFirstAdminSameOriginRequest } from "@/lib/partners/first-admin-request-security";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ const routeName = "/api/partners/first-admin/accept";
 
 export async function POST(request: Request) {
   const requestId = getSafeRequestId(request);
-  if (!isSameOriginRequest(request)) {
+  if (!isFirstAdminSameOriginRequest(request)) {
     return NextResponse.json(
       { ok: false, message: "Invalid request origin." },
       { status: 403 }
@@ -77,17 +78,4 @@ export function GET() {
     { ok: false, message: "Method not allowed." },
     { status: 405 }
   );
-}
-
-function isSameOriginRequest(request: Request) {
-  const requestOrigin = new URL(request.url).origin;
-  const origin = request.headers.get("origin");
-  if (origin) return origin === requestOrigin;
-  const referer = request.headers.get("referer");
-  if (!referer) return false;
-  try {
-    return new URL(referer).origin === requestOrigin;
-  } catch {
-    return false;
-  }
 }
