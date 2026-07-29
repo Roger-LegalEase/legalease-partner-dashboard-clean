@@ -45,6 +45,7 @@ export default function SetPasswordPage() {
   const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isFirstAdminSetup, setIsFirstAdminSetup] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -59,10 +60,13 @@ export default function SetPasswordPage() {
     });
 
     async function detectInviteSession() {
-      const detectedNextPath = safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
+      const searchParams = new URLSearchParams(window.location.search);
+      const detectedNextPath = safeAppRedirectPath(searchParams.get("next"));
+      const firstAdminSetup = searchParams.get("first_admin") === "1";
+      setIsFirstAdminSetup(firstAdminSetup);
       setNextPath(detectedNextPath);
 
-      const code = new URLSearchParams(window.location.search).get("code");
+      const code = searchParams.get("code");
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const accessToken = hashParams.get("access_token");
       const refreshToken = hashParams.get("refresh_token");
@@ -89,6 +93,16 @@ export default function SetPasswordPage() {
           }
           return;
         }
+      }
+
+      if (searchParams.get("first_admin_error") === "inactive") {
+        scrubAuthUrl(detectedNextPath);
+        if (isMounted) {
+          setDiagnostic({ status: "no_session_found" });
+          setErrorMessage(inactiveInviteMessage);
+          setState("invalid");
+        }
+        return;
       }
 
       scrubAuthUrl(detectedNextPath);
@@ -170,10 +184,54 @@ export default function SetPasswordPage() {
       return;
     }
 
+    let redirectPath = safeAppRedirectPath(nextPath);
+    if (isFirstAdminSetup) {
+      try {
+        const response = await fetch("/api/partners/first-admin/accept", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: "{}"
+        });
+        const result = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          redirectTo?: string;
+          message?: string;
+        } | null;
+        if (!response.ok || result?.ok !== true) {
+          setDiagnostic({ status: "update_user_failed" });
+          setErrorMessage(
+            result?.message ??
+              "Your password was saved, but partner access could not be activated. Please retry or contact your LegalEase program lead."
+          );
+          setState("ready");
+          return;
+        }
+        redirectPath = safeAppRedirectPath(
+          result.redirectTo,
+          "/partner/dashboard"
+        );
+      } catch {
+        setDiagnostic({ status: "update_user_failed" });
+        setErrorMessage(
+          "Your password was saved, but partner access could not be activated. Please retry or contact your LegalEase program lead."
+        );
+        setState("ready");
+        return;
+      }
+    }
+
     setDiagnostic({ status: "success" });
-    setSuccessMessage("Password set. Opening your partner dashboard...");
+    setSuccessMessage(
+      isFirstAdminSetup
+        ? "Password set. Opening your partner workspace..."
+        : "Password set. Opening your partner dashboard..."
+    );
     setState("saved");
-    window.location.assign(safeAppRedirectPath(nextPath));
+    if (isFirstAdminSetup) {
+      window.location.assign(safeAppRedirectPath(redirectPath));
+    } else {
+      window.location.assign(safeAppRedirectPath(nextPath));
+    }
   }
 
   const isBusy = state === "checking" || state === "saving" || state === "saved";
