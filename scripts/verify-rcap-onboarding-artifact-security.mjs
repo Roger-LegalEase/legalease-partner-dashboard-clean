@@ -15,6 +15,13 @@ const read = (relativePath) =>
 const MIGRATION = "supabase/phase-45-rcap-onboarding-artifacts.sql";
 const migration = read(MIGRATION);
 
+// Phase 2A part 2 adds no table. Its one migration widens a single CHECK
+// constraint so the contacts table accepts the media contact role the
+// Operations and Escalation Plan has to name.
+const ROLE_MIGRATION =
+  "supabase/phase-46-rcap-onboarding-media-contact-role.sql";
+const roleMigration = read(ROLE_MIGRATION);
+
 const ARTIFACT_TABLES = [
   "partner_onboarding_artifacts",
   "partner_onboarding_artifact_versions",
@@ -369,7 +376,51 @@ check("Lane A's first-admin surface is untouched", () => {
 
 // --- allowlists -------------------------------------------------------------
 
+check("the role migration creates nothing and grants nothing", () => {
+  for (const forbidden of [
+    /create\s+table/i,
+    /add\s+column/i,
+    /\bgrant\b/i,
+    /create\s+policy/i,
+    /create\s+or\s+replace\s+function/i,
+    /drop\s+table/i,
+    /delete\s+from/i,
+    /truncate/i
+  ]) {
+    assert.ok(
+      !forbidden.test(roleMigration),
+      `the role migration must not contain ${forbidden}`
+    );
+  }
+  // It widens exactly one constraint, and preserves every existing role.
+  for (const role of [
+    "executive_sponsor",
+    "program_operator",
+    "communications_lead",
+    "reporting_evaluation_lead",
+    "legal_services_referral_contact",
+    "finance_procurement_contact",
+    "technical_security_contact",
+    "media_contact"
+  ]) {
+    assert.ok(roleMigration.includes(`'${role}'`), `${role} must survive`);
+  }
+  assert.equal(
+    (roleMigration.match(/add constraint/gi) ?? []).length,
+    1,
+    "exactly one constraint may be added"
+  );
+});
+
 check("the migration and every new file are allowlisted by explicit path", () => {
+  assert.ok(
+    PARTNER_ONBOARDING_FILES.includes(ROLE_MIGRATION),
+    "phase-46 must be declared in the RCAP scope allowlist"
+  );
+  assert.ok(
+    read("scripts/verify-all51-final-approval.mjs").includes(`"${ROLE_MIGRATION}"`),
+    "phase-46 must be declared in the final-approval allowlist"
+  );
   assert.ok(
     PARTNER_ONBOARDING_FILES.includes(MIGRATION),
     "phase-45 must be declared in the RCAP scope allowlist"

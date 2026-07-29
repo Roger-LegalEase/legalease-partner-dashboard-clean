@@ -149,6 +149,11 @@ export const PARTNER_ONBOARDING_FILES = [
   // launch-approval table and grants no publication, invitation, access-code,
   // payment, or activation capability. Applied to a local loopback stack only.
   "supabase/phase-45-rcap-onboarding-artifacts.sql",
+  // Phase 46 (reviewed): widens one CHECK constraint so the contacts table
+  // accepts the media contact role the Operations and Escalation Plan has to
+  // name. No table, no column, no grant, no capability; applied to a local
+  // loopback stack only.
+  "supabase/phase-46-rcap-onboarding-media-contact-role.sql",
   "src/app/api/internal/partners/onboarding/route.ts",
   "src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts",
   "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts",

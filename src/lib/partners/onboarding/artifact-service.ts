@@ -143,8 +143,11 @@ export async function loadArtifactSourceInput(
       .maybeSingle(),
     client
       .from("partner_entitlement")
+      // Keyed by partner_slug since phase 35. Filtering by partner_record_id
+      // matched no column, so the allocation and overage values silently
+      // resolved to null and never reached a document.
       .select("screenings_allowed, screenings_used, overage_enabled, pause_at_cap")
-      .eq("partner_record_id", String(workspace.partner_record_id))
+      .eq("partner_slug", partnerSlug)
       .maybeSingle()
   ]);
 
