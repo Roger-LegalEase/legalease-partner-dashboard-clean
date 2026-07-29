@@ -296,9 +296,14 @@ function ArtifactRow({
       ) : null}
 
       {entry.sourceFreshness === "stale" && entry.staleFields.length > 0 ? (
-        <p className="mt-2 text-xs text-orange">
-          Changed since this version: {entry.staleFields.join(", ")}
-        </p>
+        <>
+          <p className="mt-2 text-xs text-orange">
+            Changed since this version: {entry.staleFields.join(", ")}
+          </p>
+          <p className="mt-1 text-xs font-bold text-orange">
+            {invalidationSummary(entry.invalidatedApprovals)}
+          </p>
+        </>
       ) : null}
 
       {currentReviews.length > 0 ? (
@@ -489,6 +494,26 @@ function VersionHistoryRow({
       ) : null}
     </div>
   );
+}
+
+/**
+ * The asymmetry, said in words. A partner-owned value changing makes the
+ * partner's own attestation false; a LegalEase-only change leaves it standing.
+ */
+export function invalidationSummary(invalidated: {
+  legalease: boolean;
+  partner: boolean;
+}): string {
+  if (invalidated.legalease && invalidated.partner) {
+    return "Both the LegalEase approval and the partner approval are invalidated.";
+  }
+  if (invalidated.legalease) {
+    return "The LegalEase approval is invalidated. The partner approval still stands.";
+  }
+  if (invalidated.partner) {
+    return "The partner approval is invalidated.";
+  }
+  return "No approval is affected.";
 }
 
 function Detail({ term, children }: { term: string; children: React.ReactNode }) {

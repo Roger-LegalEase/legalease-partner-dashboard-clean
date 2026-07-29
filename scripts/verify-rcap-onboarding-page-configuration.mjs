@@ -460,6 +460,43 @@ check("the preview renders at desktop and at 390x844, in both surfaces", () => {
   }
 });
 
+/**
+ * The asymmetry has to be legible to the person deciding, not only correct in
+ * the drift result, so both internal areas say which approval died.
+ */
+check("both internal areas say which approval the drift invalidated", () => {
+  const panel = read(
+    "src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx"
+  );
+  assert.ok(
+    panel.includes(
+      "The LegalEase approval is invalidated. The partner approval still stands."
+    ),
+    "a LegalEase-only change must be reported as sparing the partner"
+  );
+  assert.ok(
+    panel.includes(
+      "Both the LegalEase approval and the partner approval are invalidated."
+    ),
+    "a partner-owned change must be reported as killing both"
+  );
+  for (const file of [
+    "src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx",
+    "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx"
+  ]) {
+    assert.ok(
+      read(file).includes("invalidationSummary(entry.invalidatedApprovals)"),
+      `${file} must render the invalidation summary`
+    );
+  }
+  const service = read("src/lib/partners/onboarding/artifact-service.ts");
+  assert.ok(
+    service.includes("legalease: drift.invalidatesLegalEaseApproval") &&
+      service.includes("partner: drift.invalidatesPartnerApproval"),
+    "the board must carry the computed asymmetry, not re-derive it in the browser"
+  );
+});
+
 check("the preview shows the real logo through a tenant-scoped route", () => {
   const internal = read(
     "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx"

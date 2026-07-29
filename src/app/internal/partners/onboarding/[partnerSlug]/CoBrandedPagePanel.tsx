@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/Card";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import type { ArtifactBoardEntry } from "@/lib/partners/onboarding/artifact-service";
 
+import { invalidationSummary } from "./Phase2AArtifactsPanel";
+
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-4 py-2 text-sm font-bold text-white hover:bg-teal disabled:cursor-not-allowed disabled:opacity-50";
 const quietButtonClass =
@@ -95,9 +97,14 @@ export function CoBrandedPagePanel({
         </dl>
 
         {entry.sourceFreshness === "stale" && entry.staleFields.length > 0 ? (
-          <p className="mt-3 text-xs text-orange">
-            Changed since this version: {entry.staleFields.join(", ")}
-          </p>
+          <>
+            <p className="mt-3 text-xs text-orange">
+              Changed since this version: {entry.staleFields.join(", ")}
+            </p>
+            <p className="mt-1 text-xs font-bold text-orange">
+              {invalidationSummary(entry.invalidatedApprovals)}
+            </p>
+          </>
         ) : null}
 
         <div className="mt-4 flex flex-wrap gap-2">

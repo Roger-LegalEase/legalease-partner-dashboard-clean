@@ -320,6 +320,13 @@ export type ArtifactBoardEntry = {
   reviews: ArtifactReviewView[];
   sourceFreshness: "no_version" | "current" | "stale" | "unavailable";
   staleFields: string[];
+  /**
+   * Which approvals the observed drift actually kills. A partner-owned value
+   * changing makes the partner's own attestation false, so both die; a change
+   * confined to LegalEase-controlled values leaves the partner's attestation
+   * standing. Computed on read like the staleness it accompanies.
+   */
+  invalidatedApprovals: { legalease: boolean; partner: boolean };
   blocker: string | null;
 };
 
@@ -485,6 +492,7 @@ async function buildBoard(options: {
 
     let stale = Boolean(current?.source_drift_invalidated_at);
     let staleFields: string[] = [];
+    let invalidatedApprovals = { legalease: false, partner: false };
 
     if (available && current && current.generation_status === "succeeded") {
       const projection = projectArtifactSource(artifactType, source);
@@ -504,6 +512,10 @@ async function buildBoard(options: {
         });
         stale = stale || drift.stale;
         staleFields = drift.changedKeys;
+        invalidatedApprovals = {
+          legalease: drift.invalidatesLegalEaseApproval,
+          partner: drift.invalidatesPartnerApproval
+        };
 
         // Persist once, and only when this read actually observed new drift on
         // an approved version. An unchanged read issues no statement at all.
@@ -559,6 +571,7 @@ async function buildBoard(options: {
             ? "stale"
             : "current",
       staleFields,
+      invalidatedApprovals,
       blocker: blockerFor({ available, current: currentView, stale })
     });
   }
