@@ -229,7 +229,7 @@ async function runOnboardingEnabledPhase() {
   await recipientPage.waitForURL(`${baseUrl}/partner/onboarding`, {
     timeout: 120_000
   });
-  await recipientPage.locator("h1").first().waitFor();
+  await assertOnboardingLanding(recipientPage, "Demo Justice Access Partner");
   await capture(
     recipientPage,
     "06-step3-landed-partner-onboarding.png",
@@ -377,7 +377,7 @@ async function runOnboardingDisabledPhase(flagOn) {
     flagOn.primaryAdminPassword,
     "/partner/dashboard"
   );
-  await partnerPage.locator("h1").first().waitFor();
+  await assertDashboardLanding(partnerPage, "Demo Justice Access Partner");
   await capture(
     partnerPage,
     "12-step6-flag-off-partner-dashboard.png",
@@ -448,7 +448,7 @@ async function runOnboardingDisabledPhase(flagOn) {
   await recipientPage.waitForURL(`${baseUrl}/partner/dashboard`, {
     timeout: 120_000
   });
-  await recipientPage.locator("h1").first().waitFor();
+  await assertDashboardLanding(recipientPage, "We Must Vote");
   await capture(
     recipientPage,
     "13-flag-off-post-acceptance-landing.png",
@@ -550,6 +550,39 @@ async function accessibleName(session, selector) {
     return node?.name?.value ?? null;
   } finally {
     await session.send("Runtime.releaseObject", { objectId }).catch(() => {});
+  }
+}
+
+// Both landing screens reuse their heading for authorization-failure states, so
+// a heading alone would let a denied page pass as a successful landing. Assert
+// the tenant-specific success content and the absence of the failure copy.
+async function assertOnboardingLanding(page, organizationLabel) {
+  await page
+    .getByRole("heading", { name: "Program setup", exact: true })
+    .waitFor({ timeout: 90_000 });
+  await page.getByText(organizationLabel, { exact: false }).first().waitFor();
+  await assertAbsent(page, [
+    "Program setup is not available for this account.",
+    "Your account does not have an active partner identity."
+  ]);
+}
+
+async function assertDashboardLanding(page, organizationLabel) {
+  await page
+    .getByText(`Welcome back, ${organizationLabel}`, { exact: true })
+    .waitFor({ timeout: 90_000 });
+  await assertAbsent(page, ["Sign in with another account"]);
+}
+
+async function assertAbsent(page, phrases) {
+  for (const phrase of phrases) {
+    assert.equal(
+      await page.getByText(phrase, { exact: false }).count(),
+      0,
+      `The landing screen at ${sanitizeUrl(
+        page.url()
+      )} must not show "${phrase}".`
+    );
   }
 }
 
@@ -689,11 +722,18 @@ async function resetFixture() {
 }
 
 async function startDevServer({ onboardingEnabled }) {
+  // A stale server left over from the previous phase would answer the
+  // readiness probe with the wrong feature flag, so refuse to start until the
+  // port is genuinely free.
+  await waitForPortState(false, 30_000);
   const child = spawn(
     "npm",
     ["run", "dev", "--", "--hostname", "127.0.0.1", "--port", "3000"],
     {
       cwd: root,
+      // Next runs as a grandchild of npm. Its own process group lets the whole
+      // tree be signalled, which is what actually releases port 3000.
+      detached: true,
       env: {
         ...process.env,
         NEXT_PUBLIC_APP_URL: baseUrl,
@@ -708,6 +748,9 @@ async function startDevServer({ onboardingEnabled }) {
   child.stderr.on("data", (chunk) => process.stderr.write(chunk));
   const deadline = Date.now() + 120_000;
   while (Date.now() < deadline) {
+    if (child.exitCode !== null) {
+      throw new Error("Next dev server exited before becoming ready.");
+    }
     try {
       const response = await fetch(`${baseUrl}/sign-in`);
       if (response.ok) return child;
@@ -720,14 +763,46 @@ async function startDevServer({ onboardingEnabled }) {
 }
 
 async function stopDevServer(child) {
-  if (!child || child.exitCode !== null) return;
-  child.kill("SIGTERM");
-  await Promise.race([
-    new Promise((resolve) => child.once("exit", resolve)),
-    new Promise((resolve) => setTimeout(resolve, 8_000))
-  ]);
-  if (child.exitCode === null) child.kill("SIGKILL");
-  await new Promise((resolve) => setTimeout(resolve, 1_000));
+  if (!child) return;
+  for (const signal of ["SIGTERM", "SIGKILL"]) {
+    if (child.exitCode !== null) break;
+    try {
+      process.kill(-child.pid, signal);
+    } catch {
+      try {
+        child.kill(signal);
+      } catch {
+        // The tree is already gone.
+      }
+    }
+    await Promise.race([
+      new Promise((resolve) => child.once("exit", resolve)),
+      new Promise((resolve) => setTimeout(resolve, 8_000))
+    ]);
+  }
+  await waitForPortState(false, 30_000);
+}
+
+async function waitForPortState(shouldBeBound, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    let bound = false;
+    try {
+      await fetch(`${baseUrl}/sign-in`, {
+        signal: AbortSignal.timeout(2_000)
+      });
+      bound = true;
+    } catch {
+      bound = false;
+    }
+    if (bound === shouldBeBound) return;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error(
+    `Port 3000 was still ${shouldBeBound ? "free" : "in use"} after ${
+      timeoutMs / 1000
+    }s.`
+  );
 }
 
 function observe(page, label) {
