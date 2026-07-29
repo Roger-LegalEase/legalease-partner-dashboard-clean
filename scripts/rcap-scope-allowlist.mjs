@@ -198,6 +198,41 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx"
 ];
 
+// First-administrator provisioning (reviewed). Gives an internal operator a
+// reviewed, revocable way to hand a partner organization its first authenticated
+// administrator. New modules and routes only; the sole edits to existing screens
+// are the provisioning detail that hosts the panel and the shared password screen
+// that finalizes a server-verified invitation.
+//
+// Scope discipline: no migration (invitation state is a partner-scoped
+// partner_events record holding only a SHA-256 token hash), no RLS/auth/session
+// change, no Stripe or billing surface, no source-engine or packet surface, and
+// no public self-signup. Membership remains one partner_users row written only
+// after acceptance. Verified by scripts/verify-first-admin-provisioning.mjs and,
+// against a loopback Supabase stack, by
+// scripts/test-first-admin-supabase-lifecycle.mjs.
+export const FIRST_ADMIN_PROVISIONING_FILES = [
+  "src/lib/partners/first-admin-domain.ts",
+  "src/lib/partners/first-admin-service.ts",
+  "src/lib/partners/first-admin-request-security.ts",
+  "src/app/api/internal/partners/first-admin/[partnerSlug]/route.ts",
+  "src/app/api/partners/first-admin/accept/route.ts",
+  // Anonymous token-claim route. It exchanges a setup token for a one-time
+  // Supabase session and redirects to the shared password screen; it stores no
+  // credential of its own.
+  "src/app/partner/setup/route.ts",
+  "src/app/internal/partners/provisioning/[partnerSlug]/FirstAdminAccessPanel.tsx",
+  "src/app/internal/partners/provisioning/[partnerSlug]/page.tsx",
+  "src/app/internal/partners/provisioning/page.tsx",
+  // Password and sign-in screens: first-admin acceptance finalization on the
+  // former, and real label association on the password fields of both.
+  "src/app/auth/set-password/page.tsx",
+  "src/app/sign-in/page.tsx",
+  // Focused first-admin adapter over the existing default-off provider
+  // configuration. Delivery stays off unless every provider value is present.
+  "src/lib/email/email-service.ts"
+];
+
 // Reviewed for the Command Center product-event wire-up. Additive analytics egress only: the
 // ingestion route gains a fire-and-forget mirror of rows it already stores, gated on a genuinely new
 // insert. No source-engine, auth, billing, or Stripe-secret surface is touched, and no user-facing
@@ -310,6 +345,7 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...RCAP_PARTNER_MODE_FILES,
   ...PARTNER_ACCESS_CODES_FILES,
   ...PARTNER_ONBOARDING_FILES,
+  ...FIRST_ADMIN_PROVISIONING_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
   ...MS_SPONSORED_PACKET_BRIDGE_FILES,

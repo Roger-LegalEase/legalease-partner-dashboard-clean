@@ -45,6 +45,7 @@ export default function SetPasswordPage() {
   const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isFirstAdminSetup, setIsFirstAdminSetup] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -59,10 +60,13 @@ export default function SetPasswordPage() {
     });
 
     async function detectInviteSession() {
-      const detectedNextPath = safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
+      const searchParams = new URLSearchParams(window.location.search);
+      const detectedNextPath = safeAppRedirectPath(searchParams.get("next"));
+      const firstAdminSetup = searchParams.get("first_admin") === "1";
+      setIsFirstAdminSetup(firstAdminSetup);
       setNextPath(detectedNextPath);
 
-      const code = new URLSearchParams(window.location.search).get("code");
+      const code = searchParams.get("code");
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const accessToken = hashParams.get("access_token");
       const refreshToken = hashParams.get("refresh_token");
@@ -89,6 +93,16 @@ export default function SetPasswordPage() {
           }
           return;
         }
+      }
+
+      if (searchParams.get("first_admin_error") === "inactive") {
+        scrubAuthUrl(detectedNextPath);
+        if (isMounted) {
+          setDiagnostic({ status: "no_session_found" });
+          setErrorMessage(inactiveInviteMessage);
+          setState("invalid");
+        }
+        return;
       }
 
       scrubAuthUrl(detectedNextPath);
@@ -170,10 +184,54 @@ export default function SetPasswordPage() {
       return;
     }
 
+    let redirectPath = safeAppRedirectPath(nextPath);
+    if (isFirstAdminSetup) {
+      try {
+        const response = await fetch("/api/partners/first-admin/accept", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: "{}"
+        });
+        const result = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          redirectTo?: string;
+          message?: string;
+        } | null;
+        if (!response.ok || result?.ok !== true) {
+          setDiagnostic({ status: "update_user_failed" });
+          setErrorMessage(
+            result?.message ??
+              "Your password was saved, but partner access could not be activated. Please retry or contact your LegalEase program lead."
+          );
+          setState("ready");
+          return;
+        }
+        redirectPath = safeAppRedirectPath(
+          result.redirectTo,
+          "/partner/dashboard"
+        );
+      } catch {
+        setDiagnostic({ status: "update_user_failed" });
+        setErrorMessage(
+          "Your password was saved, but partner access could not be activated. Please retry or contact your LegalEase program lead."
+        );
+        setState("ready");
+        return;
+      }
+    }
+
     setDiagnostic({ status: "success" });
-    setSuccessMessage("Password set. Opening your partner dashboard...");
+    setSuccessMessage(
+      isFirstAdminSetup
+        ? "Password set. Opening your partner workspace..."
+        : "Password set. Opening your partner dashboard..."
+    );
     setState("saved");
-    window.location.assign(safeAppRedirectPath(nextPath));
+    if (isFirstAdminSetup) {
+      window.location.assign(safeAppRedirectPath(redirectPath));
+    } else {
+      window.location.assign(safeAppRedirectPath(nextPath));
+    }
   }
 
   const isBusy = state === "checking" || state === "saving" || state === "saved";
@@ -231,20 +289,24 @@ export default function SetPasswordPage() {
               >
                 {passwordRequirementsMessage}
               </p>
-              <label className="grid gap-1.5">
-                <span className="text-sm font-bold text-navy">New password</span>
+              <div className="grid gap-1.5">
+                <label className="text-sm font-bold text-navy" htmlFor="new-password">
+                  New password
+                </label>
                 <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
                   <input
                     aria-describedby="password-requirements"
                     autoComplete="new-password"
                     className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
                     disabled={isBusy}
+                    id="new-password"
                     minLength={minimumPasswordLength}
                     name="password"
                     required
                     type={isNewPasswordVisible ? "text" : "password"}
                   />
                   <button
+                    aria-controls="new-password"
                     aria-label={isNewPasswordVisible ? "Hide new password" : "Show new password"}
                     className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={isBusy}
@@ -254,21 +316,25 @@ export default function SetPasswordPage() {
                     {isNewPasswordVisible ? "Hide" : "Show"}
                   </button>
                 </div>
-              </label>
-              <label className="grid gap-1.5">
-                <span className="text-sm font-bold text-navy">Confirm password</span>
+              </div>
+              <div className="grid gap-1.5">
+                <label className="text-sm font-bold text-navy" htmlFor="confirm-password">
+                  Confirm password
+                </label>
                 <div className="flex min-h-11 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm transition focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
                   <input
                     aria-describedby="password-requirements"
                     autoComplete="new-password"
                     className="min-w-0 flex-1 bg-transparent px-3 text-sm text-navy outline-none"
                     disabled={isBusy}
+                    id="confirm-password"
                     minLength={minimumPasswordLength}
                     name="confirmPassword"
                     required
                     type={isConfirmPasswordVisible ? "text" : "password"}
                   />
                   <button
+                    aria-controls="confirm-password"
                     aria-label={isConfirmPasswordVisible ? "Hide confirmed password" : "Show confirmed password"}
                     className="border-l border-grayWilma-200 px-3 text-sm font-bold text-teal transition hover:bg-grayWilma-100 hover:text-navy disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={isBusy}
@@ -278,7 +344,7 @@ export default function SetPasswordPage() {
                     {isConfirmPasswordVisible ? "Hide" : "Show"}
                   </button>
                 </div>
-              </label>
+              </div>
               <Button className="min-h-11" disabled={isBusy} type="submit">
                 {state === "saving" || state === "saved" ? "Setting password..." : "Set password"}
               </Button>
@@ -296,7 +362,7 @@ export default function SetPasswordPage() {
   );
 }
 
-export function validatePassword(password: string, confirmPassword: string) {
+function validatePassword(password: string, confirmPassword: string) {
   if (password.length < minimumPasswordLength) {
     return passwordRequirementsMessage;
   }

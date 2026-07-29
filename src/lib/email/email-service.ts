@@ -26,6 +26,23 @@ export type PartnerEmailDeliveryResult = {
   error?: string;
 };
 
+export type PartnerEmailMessageResult =
+  | {
+      status: "sent";
+      provider: "resend";
+      providerMessageId?: string;
+    }
+  | {
+      status: "unavailable";
+      provider: "disabled";
+      error: string;
+    }
+  | {
+      status: "failed";
+      provider: "resend";
+      error: string;
+    };
+
 export type DeliverPartnerEmailInput = {
   partner: PartnerRecord;
   emailType: PartnerEmailType;
@@ -48,6 +65,77 @@ export function getPartnerEmailDeliveryConfig(): PartnerEmailDeliveryConfig {
     appUrl: getPartnerAppBaseUrl(),
     statusLabel: liveEnabled ? "live_enabled" : enabled ? "dry_run" : "disabled"
   };
+}
+
+export async function sendPartnerEmailMessage(input: {
+  recipientEmail: string;
+  subject: string;
+  text: string;
+  html?: string;
+}): Promise<PartnerEmailMessageResult> {
+  const config = getPartnerEmailDeliveryConfig();
+  if (!config.enabled || config.provider !== "resend" || !config.from) {
+    return {
+      status: "unavailable",
+      provider: "disabled",
+      error: "Live email delivery is disabled or not configured."
+    };
+  }
+  if (!isValidEmail(input.recipientEmail)) {
+    return {
+      status: "failed",
+      provider: "resend",
+      error: "A valid recipient email is required."
+    };
+  }
+
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) {
+    return {
+      status: "unavailable",
+      provider: "disabled",
+      error: "Resend is missing required configuration."
+    };
+  }
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: config.from,
+        to: [input.recipientEmail],
+        reply_to: config.replyTo,
+        subject: input.subject,
+        text: input.text,
+        ...(input.html ? { html: input.html } : {})
+      })
+    });
+    const responseBody = await safeJson(response);
+    if (!response.ok) {
+      return {
+        status: "failed",
+        provider: "resend",
+        error: getProviderError(responseBody)
+      };
+    }
+    return {
+      status: "sent",
+      provider: "resend",
+      providerMessageId:
+        typeof responseBody?.id === "string" ? responseBody.id : undefined
+    };
+  } catch (error) {
+    return {
+      status: "failed",
+      provider: "resend",
+      error:
+        error instanceof Error ? error.message : "Resend delivery failed."
+    };
+  }
 }
 
 export async function deliverPartnerEmail(input: DeliverPartnerEmailInput): Promise<PartnerEmailDeliveryResult> {
@@ -93,77 +181,41 @@ export async function deliverPartnerEmail(input: DeliverPartnerEmailInput): Prom
     });
   }
 
-  if (!config.enabled || config.provider !== "resend") {
+  const delivery = await sendPartnerEmailMessage({
+    recipientEmail: rendered.recipientEmail,
+    subject: rendered.subject,
+    text: rendered.text,
+    html: rendered.html
+  });
+  if (delivery.status === "unavailable") {
     return recordDelivery({
       partner: input.partner,
       rendered,
       mode: "send",
       status: "skipped",
       provider: "disabled",
-      message: "Live email delivery is disabled or not configured. No email was sent."
+      message: `${delivery.error} No email was sent.`
     });
   }
-
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (!resendApiKey || !config.from) {
-    return recordDelivery({
-      partner: input.partner,
-      rendered,
-      mode: "send",
-      status: "skipped",
-      provider: "disabled",
-      message: "Resend is missing required configuration. No email was sent."
-    });
-  }
-
-  try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: config.from,
-        to: [rendered.recipientEmail],
-        reply_to: config.replyTo,
-        subject: rendered.subject,
-        text: rendered.text,
-        html: rendered.html
-      })
-    });
-
-    const responseBody = await safeJson(response);
-    if (!response.ok) {
-      return recordDelivery({
-        partner: input.partner,
-        rendered,
-        mode: "send",
-        status: "failed",
-        provider: "resend",
-        errorMessage: getProviderError(responseBody)
-      });
-    }
-
-    return recordDelivery({
-      partner: input.partner,
-      rendered,
-      mode: "send",
-      status: "sent",
-      provider: "resend",
-      providerMessageId: typeof responseBody?.id === "string" ? responseBody.id : undefined,
-      message: "Email sent through Resend."
-    });
-  } catch (error) {
+  if (delivery.status === "failed") {
     return recordDelivery({
       partner: input.partner,
       rendered,
       mode: "send",
       status: "failed",
       provider: "resend",
-      errorMessage: error instanceof Error ? error.message : "Resend delivery failed."
+      errorMessage: delivery.error
     });
   }
+  return recordDelivery({
+    partner: input.partner,
+    rendered,
+    mode: "send",
+    status: "sent",
+    provider: "resend",
+    providerMessageId: delivery.providerMessageId,
+    message: "Email sent through Resend."
+  });
 }
 
 async function recordDelivery({

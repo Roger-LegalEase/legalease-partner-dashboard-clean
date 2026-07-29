@@ -4,6 +4,10 @@ import { ArrowRight, Building2, CheckCircle2, CreditCard, Settings2 } from "luci
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  InternalAdminDenied,
+  resolveInternalAdminPageAccess
+} from "@/lib/partners/internal-admin-gate";
+import {
   getAllPartners,
   getProgramTier,
   getPaymentStatusLabel,
@@ -12,7 +16,13 @@ import {
 import { internalProvisioningDetail } from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
 
-export default function InternalPartnerProvisioningPage() {
+export default async function InternalPartnerProvisioningPage() {
+  const access = await resolveInternalAdminPageAccess(
+    "/internal/partners/provisioning"
+  );
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
   const partners = getAllPartners();
   const totalPartners = partners.length;
   const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;
@@ -22,7 +32,7 @@ export default function InternalPartnerProvisioningPage() {
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <Badge tone="orange">Internal LegalEase operations view. Auth will be added before production.</Badge>
+        <Badge tone="orange">Internal LegalEase operations</Badge>
         <section className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr]">
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Partner Provisioning</h1>
