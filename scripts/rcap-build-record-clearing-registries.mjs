@@ -154,6 +154,10 @@ for (const state of inventory.states) {
 
 const sourceRegistry = {
   schemaVersion: 1,
+  planOfRecord: {
+    document: "docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md",
+    version: "1.0.0"
+  },
   generatedFrom: path.relative(root, INVENTORY),
   archivePresent,
   // Every expected artifact appears exactly once. These four counts partition
@@ -228,6 +232,14 @@ const jurisdictions = inventory.states.map((state) => {
 
 const trackRegistry = {
   schemaVersion: 1,
+  planOfRecord: {
+    document: "docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md",
+    version: "1.0.0",
+    adopted: "2026-07-30",
+    outputStrategies: ["custom_pleading", "official_pdf_fill", "process_guidance"],
+    requiredApprovals: ["source", "technical", "visual", "legal"],
+    readinessUnit: "relief_track"
+  },
   sourceHierarchy: [
     "A. Current official court, legislature, prosecutor, agency or administrative sources",
     "B. Current approved legal research and counsel review",
