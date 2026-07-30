@@ -2,6 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 import { userFacingWorkflowGaps } from "@/lib/rcap/documents/filing-next-steps";
+import {
+  canonicalCountyKey,
+  canonicalJurisdictionCode
+} from "@/lib/rcap/jurisdictions/packet-capability";
+import { JurisdictionNotPacketReadyError } from "@/lib/rcap/jurisdictions/resolve-packet-assets";
 import type { RcapDocumentPacket } from "@/lib/rcap/documents/types";
 
 export type RcapPacketPdfType = "full" | "court";
@@ -68,12 +73,64 @@ function renderCourtTemplatePacketHtml(packet: RcapDocumentPacket) {
   return injectBeforeBodyClose(populated, `<div class="rcap-attachment-checklist"><h2>Required Attachments Checklist</h2>${list(packet.filingNextStepsPacket.requiredDocuments)}</div>`);
 }
 
+/**
+ * Court-facing source template for a packet's jurisdiction.
+ *
+ * Every supported jurisdiction is named explicitly and anything else fails
+ * closed. This previously ended in an unconditional `return` of the Mississippi
+ * petition, so a packet from any of the other 46 jurisdictions would have been
+ * rendered onto Mississippi's court form. Never reintroduce a default branch.
+ *
+ * Texas is deliberately keyed by county: support is Harris County only, and a
+ * packet from anywhere else in Texas must not reach the Harris forms.
+ */
+export function courtTemplatePathFor(packet: RcapDocumentPacket): string {
+  const jurisdiction = canonicalJurisdictionCode(packet.state);
+  const county = canonicalCountyKey(packet.county ?? packet.courtCounty ?? null);
+
+  if (!jurisdiction) {
+    throw new JurisdictionNotPacketReadyError(
+      "unknown_jurisdiction",
+      { jurisdiction: null, county, remedyId: null, status: null },
+      "The packet does not name a recognized jurisdiction."
+    );
+  }
+
+  const template = COURT_TEMPLATE_BY_JURISDICTION[jurisdiction];
+  if (!template) {
+    throw new JurisdictionNotPacketReadyError(
+      "jurisdiction_not_packet_ready",
+      { jurisdiction, county, remedyId: null, status: null },
+      `No court-facing source template is registered for ${jurisdiction}.`
+    );
+  }
+
+  if (template.requiredCounty && template.requiredCounty !== county) {
+    throw new JurisdictionNotPacketReadyError(
+      "county_not_supported",
+      { jurisdiction, county, remedyId: null, status: null },
+      `${jurisdiction} source templates are registered only for a specific county.`
+    );
+  }
+
+  return template.path;
+}
+
+const COURT_TEMPLATE_BY_JURISDICTION: Readonly<
+  Record<string, { path: string; requiredCounty?: string } | undefined>
+> = {
+  TX: {
+    path: "reference/texas-harris/tx-harris-expunction-nondisclosure-forms.html",
+    requiredCounty: "harris"
+  },
+  PA: { path: "reference/pennsylvania/pa-petition-expungement-790.html" },
+  DC: { path: "reference/dc/dc-motion-to-seal-expunge.html" },
+  IL: { path: "reference/illinois/il-expungement-companion-forms.html" },
+  MS: { path: "reference/mississippi/ms-expungement-petitions.html" }
+};
+
 function templatePathFor(packet: RcapDocumentPacket) {
-  if (packet.state === "TX") return "reference/texas-harris/tx-harris-expunction-nondisclosure-forms.html";
-  if (packet.state === "PA") return "reference/pennsylvania/pa-petition-expungement-790.html";
-  if (packet.state === "DC") return "reference/dc/dc-motion-to-seal-expunge.html";
-  if (packet.state === "IL") return "reference/illinois/il-expungement-companion-forms.html";
-  return "reference/mississippi/ms-expungement-petitions.html";
+  return courtTemplatePathFor(packet);
 }
 
 function setTemplateMode(html: string, packet: RcapDocumentPacket) {

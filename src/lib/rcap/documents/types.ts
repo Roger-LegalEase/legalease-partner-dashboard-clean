@@ -4,7 +4,15 @@ export type RcapDocumentPacketStatus =
   | "saved_for_later"
   | "missing_information"
   | "ready_for_review"
+  // Retained so existing rows and read-side filters keep working. It records
+  // that a status flip happened, not that a document exists; the three states
+  // below are the ones tied to durably stored bytes.
   | "preview_generated"
+  | "document_generating"
+  /** A stored, loadable PDF exists for this packet. */
+  | "document_ready"
+  /** Generation failed recoverably; see rcap_document_packets.document_failure_code. */
+  | "document_failed"
   | "exported"
   | "blocked_review_required";
 

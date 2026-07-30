@@ -385,7 +385,32 @@ export const CONTENT_PLATFORM_FILES = [
   "supabase/phase-43-content-platform.sql"
 ];
 
+// Platform document-delivery core.
+//
+// The packet download path had no durable artifact storage: every request
+// re-rendered a PDF, and a packet was marked ready by a status flip that never
+// checked whether a document could be produced. These files add the capability
+// registry, exact jurisdiction resolution, artifact storage and the truthful
+// ready-only-after-stored-bytes lifecycle, plus the runtime gates that prove it.
+//
+// The migration is additive and unapplied. It creates one table, three packet
+// statuses, two packet columns and one private storage bucket. It changes no
+// auth, session, billing or entitlement behaviour.
+export const PLATFORM_DOCUMENT_DELIVERY_FILES = [
+  "supabase/phase-48-rcap-document-artifact-storage.sql",
+  "src/lib/rcap/jurisdictions/packet-capability.ts",
+  "src/lib/rcap/jurisdictions/resolve-packet-assets.ts",
+  "src/lib/rcap/documents/artifact-storage.ts",
+  "src/lib/rcap/documents/artifact-service.ts",
+  "src/lib/rcap/documents/packet-pdf.ts",
+  "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+  "scripts/verify-rcap-packet-capability-registry.mjs",
+  "scripts/rcap-audit-packet-delivery-all51.mjs",
+  "scripts/verify-rcap-packet-delivery-ready-jurisdictions.mjs"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
+  ...PLATFORM_DOCUMENT_DELIVERY_FILES,
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...COMMAND_CENTER_PRODUCT_EVENT_FILES,
   ...SHARED_PAYMENT_FILES,

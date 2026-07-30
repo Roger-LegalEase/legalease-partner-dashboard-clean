@@ -76,3 +76,24 @@ jobs:
       - name: Verify all50 handoff
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm run rcap:verify-all50-handoff
+
+      - name: Verify packet capability registry
+        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
+        run: npm run rcap:verify-packet-capability-registry
+
+      # Runs unconditionally. Packet delivery capability is a property of the
+      # whole product, not of whichever files a pull request happened to touch,
+      # so this must not self-skip on changed-file scope.
+      - name: Audit packet delivery across all 51 jurisdictions
+        run: npm run rcap:audit-packet-delivery-all51
+
+      - name: Verify packet delivery for every packet_ready jurisdiction
+        run: npm run rcap:verify-packet-delivery-ready-jurisdictions
+
+      - name: Upload packet delivery capability matrix
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: packet-delivery-capability-matrix
+          path: artifacts/packet-delivery/all51-capability-matrix.json
+          if-no-files-found: warn
