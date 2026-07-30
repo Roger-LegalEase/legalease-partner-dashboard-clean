@@ -2,6 +2,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  InternalAdminDenied,
+  resolveInternalAdminPageAccess
+} from "@/lib/partners/internal-admin-gate";
+import {
   getAllPartnerRecords,
   getPartnerRepositoryMode
 } from "@/lib/partners/partner-repository";
@@ -15,6 +19,16 @@ import {
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 
 export default async function InternalPartnerDataPage() {
+  // This page reads every partner record through the service-role client, so
+  // RLS does not narrow it. Until now its only protection was the proxy bearer
+  // token, which meant it would have become readable by any signed-in user the
+  // moment the proxy learned to accept a session. The gate is the same one the
+  // rest of the internal surface uses.
+  const access = await resolveInternalAdminPageAccess("/internal/partners/data");
+  if (access.kind === "denied") {
+    return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
   const partners = await getAllPartnerRecords();
   const repositoryMode = await getPartnerRepositoryMode();
   const paidPartners = partners.filter((partner) => partner.paymentStatus === "paid");
@@ -27,7 +41,7 @@ export default async function InternalPartnerDataPage() {
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Badge tone="orange">Internal LegalEase operations view. Auth will be added before production.</Badge>
+        <Badge tone="orange">Internal LegalEase operations view. Internal administrator access required.</Badge>
         <section className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr]">
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Partner Data Layer</h1>

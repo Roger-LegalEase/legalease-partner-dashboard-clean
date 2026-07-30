@@ -82,6 +82,24 @@ export const RCAP_PARTNER_MODE_FILES = [
 // NEXT_PUBLIC_PARTNER_APP_URL and fall back to NEXT_PUBLIC_APP_URL so partner password-reset links
 // use https://legaleasepartner.com. The approval is scoped to that one-line redirect-base change
 // only — no token, session, or Supabase auth logic — and to this one file. Do not broaden it.
+// Reviewed for the internal-admin browser access fix. The /internal gate required
+// an Authorization: Bearer header, which a browser cannot send on a page
+// navigation, so no human could open an internal screen in production. The gate
+// now also accepts a Supabase session belonging to an internal administrator,
+// the token comparison became constant time, and two internal pages that had no
+// application-level check of their own gained the shared one. No application
+// authorization check was relaxed and neither proxy carve-out was widened.
+export const INTERNAL_ADMIN_BROWSER_ACCESS_FILES = [
+  "src/proxy.ts",
+  "src/app/internal/partners/data/page.tsx",
+  "src/app/internal/partners/supabase-check/page.tsx",
+  "scripts/verify-internal-admin-browser-access.mjs",
+  "scripts/capture-internal-admin-access-acceptance.mjs",
+  // Shared verifier loader: one more Next subpath added to the list it already
+  // maps, so a verifier can import the real proxy module.
+  "scripts/lib/ts-esm-loader.mjs"
+];
+
 export const ROGER_APPROVED_PARTNER_RESET_URL_FILES = [
   "src/app/auth/forgot-password/page.tsx"
 ];
@@ -378,6 +396,7 @@ export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...RCAP_PARTNER_MODE_FILES,
   ...PARTNER_ACCESS_CODES_FILES,
   ...PARTNER_ONBOARDING_FILES,
+  ...INTERNAL_ADMIN_BROWSER_ACCESS_FILES,
   ...FIRST_ADMIN_PROVISIONING_FILES,
   ...ROGER_APPROVED_PARTNER_RESET_URL_FILES,
   ...DTC_PENDING_RESULT_RELEASE_GATE_FILES,
