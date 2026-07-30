@@ -90,6 +90,11 @@ jobs:
       - name: Verify packet delivery for every packet_ready jurisdiction
         run: npm run rcap:verify-packet-delivery-ready-jurisdictions
 
+      # Runs unconditionally. Packet delivery is a property of the product, not
+      # of whichever files a pull request touched, so this must not self-skip.
+      - name: Verify packet delivery over real HTTP
+        run: npm run rcap:verify-packet-http-acceptance
+
       - name: Upload packet delivery capability matrix
         if: ${{ always() }}
         uses: actions/upload-artifact@v4

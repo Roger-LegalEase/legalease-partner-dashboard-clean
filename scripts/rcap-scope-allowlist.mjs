@@ -406,7 +406,26 @@ export const PLATFORM_DOCUMENT_DELIVERY_FILES = [
   "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
   "scripts/verify-rcap-packet-capability-registry.mjs",
   "scripts/rcap-audit-packet-delivery-all51.mjs",
-  "scripts/verify-rcap-packet-delivery-ready-jurisdictions.mjs"
+  "scripts/verify-rcap-packet-delivery-ready-jurisdictions.mjs",
+  "scripts/rcap-build-packet-form-corpus.mjs",
+  "scripts/rcap-build-record-clearing-registries.mjs",
+  // Relief-track packet layer: model, resolver, engines, lifecycle, routes.
+  "src/lib/rcap/packets/types.ts",
+  "src/lib/rcap/packets/registry.ts",
+  "src/lib/rcap/packets/resolve.ts",
+  "src/lib/rcap/packets/store.ts",
+  "src/lib/rcap/packets/lifecycle.ts",
+  "src/lib/rcap/packets/actor.ts",
+  "src/lib/rcap/packets/engines/types.ts",
+  "src/lib/rcap/packets/engines/index.ts",
+  "src/lib/rcap/packets/engines/pdf-layout.ts",
+  "src/lib/rcap/packets/engines/pleading-templates.ts",
+  "src/lib/rcap/packets/engines/custom-pleading.ts",
+  "src/lib/rcap/packets/engines/official-pdf.ts",
+  "src/lib/rcap/packets/engines/process-guidance.ts",
+  "src/app/api/rcap/packets/generate/route.ts",
+  "src/app/api/rcap/packets/[fulfillmentId]/components/[componentId]/route.ts",
+  "scripts/verify-rcap-packet-http-acceptance.mjs"
 ];
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
