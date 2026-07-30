@@ -58,3 +58,9 @@ runtime enablement. Importing a memo enables nothing.
 | `output_review_pending` | Produced document is with counsel. |
 | `legal_approved` | Counsel approved the completed output. |
 | `legal_rejected` | Do not offer this track. |
+
+## Where the human memo lives
+
+Only completed, validated JSON belongs in this directory. The attorney's own
+memo — and any partial draft, markup or clarification — is preserved separately
+under `docs/record-clearing/legal-design-memos-received/`.

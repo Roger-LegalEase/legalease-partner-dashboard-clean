@@ -431,7 +431,9 @@ export const PLATFORM_DOCUMENT_DELIVERY_FILES = [
   "src/lib/rcap/legal-design/validate.ts",
   "src/lib/rcap/legal-design/normalize.ts",
   "scripts/rcap-legal-design-intake.mjs",
-  "scripts/verify-rcap-legal-design-intake.mjs"
+  "scripts/verify-rcap-legal-design-intake.mjs",
+  "scripts/rcap-build-attorney-review-packets.mjs",
+  "scripts/verify-rcap-attorney-review-packets.mjs"
 ];
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [

@@ -97,6 +97,9 @@ jobs:
 
       # Legal-design intake. Runs unconditionally: an incomplete memo must fail
       # the build rather than import partially.
+      - name: Verify attorney review packets
+        run: npm run rcap:verify-attorney-review-packets
+
       - name: Verify legal-design intake pipeline
         run: npm run rcap:verify-legal-design-intake
 
