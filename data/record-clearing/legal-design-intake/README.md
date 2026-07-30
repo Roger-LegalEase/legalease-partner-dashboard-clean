@@ -61,6 +61,10 @@ runtime enablement. Importing a memo enables nothing.
 
 ## Where the human memo lives
 
-Only completed, validated JSON belongs in this directory. The attorney's own
-memo — and any partial draft, markup or clarification — is preserved separately
-under `docs/record-clearing/legal-design-memos-received/`.
+**Not in this repository.** The attorney's original memo, and any partial draft,
+markup or clarification, stays in the secure legal workspace.
+
+Only completed, validated `<CODE>.memo.json` enters the repository. An operator
+reads the original in the legal workspace, converts its conclusions here, and
+runs the validator. Nothing else about the memo — not the prose, not a scan,
+not a draft — is committed.
