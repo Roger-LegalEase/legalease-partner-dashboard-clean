@@ -95,6 +95,22 @@ jobs:
       - name: Verify packet delivery over real HTTP
         run: npm run rcap:verify-packet-http-acceptance
 
+      # Legal-design intake. Runs unconditionally: an incomplete memo must fail
+      # the build rather than import partially.
+      - name: Verify legal-design intake pipeline
+        run: npm run rcap:verify-legal-design-intake
+
+      - name: Validate and import legal-design memos
+        run: npm run rcap:legal-design-intake
+
+      - name: Upload legal-design implementation queue
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-design-implementation-queue
+          path: data/record-clearing/legal-design-implementation-queue.json
+          if-no-files-found: warn
+
       - name: Upload packet delivery capability matrix
         if: ${{ always() }}
         uses: actions/upload-artifact@v4

@@ -1,0 +1,110 @@
+{
+  "_comment": "FILLED EXAMPLE ONLY. Not a real memo, not a real jurisdiction, never imported. Copy this to <CODE>.memo.json and replace every value. The placeholder jurisdiction below is intentionally invalid so an unedited copy fails validation loudly instead of importing fiction.",
+  "schemaVersion": 1,
+  "jurisdiction": "REPLACE_WITH_TWO_LETTER_CODE",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "example-nonconviction-expungement",
+      "legalName": "Petition for Expungement of Non-Conviction Records",
+      "publicName": "Clear a case that did not end in conviction",
+      "controllingAuthority": {
+        "citations": ["Example Code § 00-00-000", "Example R. Crim. P. 00"],
+        "summary": "Example: on petition the court shall expunge records of an arrest that ended in dismissal, acquittal or no disposition."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "charge"],
+      "eligibleDispositions": ["dismissed", "acquitted", "no_disposition", "charges_dropped"],
+      "exclusions": [
+        "Example: offenses requiring sex-offender registration.",
+        "Example: cases with an outstanding warrant."
+      ],
+      "waitingPeriods": [
+        { "condition": "Case dismissed without prejudice", "duration": "1 year from dismissal" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The trial court where the case was filed."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the trial court",
+        "detail": "File in the county where the charge originated. Serve the prosecutor."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-100",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-100.pdf",
+          "notes": "Statewide form. Fillable."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-101",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-101.pdf"
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form; generated from an approved template."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the petitioner requests a fee waiver.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-102",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-102.pdf"
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Example Form 100 — Petition for Expungement",
+          "url": "https://courts.example.gov/forms/EXAMPLE-FORM-100.pdf",
+          "retrievedOn": "2026-07-28",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "title": "Example Form 101 — Order of Expungement",
+          "url": "https://courts.example.gov/forms/EXAMPLE-FORM-101.pdf",
+          "retrievedOn": "2026-07-28",
+          "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      ],
+      "rules": {
+        "filing": "File the petition and proposed order with the clerk of the trial court.",
+        "fees": "Example: $0 for non-conviction petitions.",
+        "feeWaiver": "none",
+        "notice": "Example: the prosecutor receives notice and has 30 days to object.",
+        "service": "Example: serve the prosecutor by mail; file proof of service."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an objection.",
+        "The court sets a contested hearing.",
+        "The petitioner has an open case or outstanding warrant."
+      ],
+      "unresolvedQuestions": [
+        "Example: whether a deferred-adjudication dismissal starts the waiting period at dismissal or at discharge."
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Example: the non-conviction pathway is mandatory and well settled; the deferred-adjudication edge case is not.",
+        "limitations": [
+          "Do not offer this track for deferred-adjudication dismissals until the waiting-period question is resolved."
+        ]
+      }
+    }
+  ]
+}

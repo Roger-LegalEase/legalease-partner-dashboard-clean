@@ -42,6 +42,10 @@ const check = (condition, message) => {
   else failures.push(message);
 };
 
+// Enumerated in the summary below. Kept as a constant so the count and the
+// enumeration cannot drift apart.
+const NEGATIVE_PATH_COUNT = 20;
+
 const ACTOR = "technical-fixture-actor-1";
 const OTHER_ACTOR = "technical-fixture-actor-2";
 
@@ -603,9 +607,15 @@ console.log("2. TECHNICAL FIXTURE PASSED: custom pleading, AcroForm fill, coordi
 console.log("3. Every artifact was generated, stored, downloaded, parsed and confirmed to carry fixture data.");
 console.log("4. Retries reused the existing fulfillment and duplicated nothing.");
 console.log("5. Process guidance was produced and was NOT counted as a filing packet.");
-console.log("6. Negative paths fail closed: unknown jurisdiction, missing track, wrong county, absent geography,");
-console.log("   cross-jurisdiction source, missing input, stale source, absent source, hash mismatch,");
-console.log("   placeholder coordinates, XFA, encrypted, missing approval, storage failure, and authorization.");
+console.log(`6. ${NEGATIVE_PATH_COUNT} negative paths fail closed, enumerated:`);
+console.log("   resolution (6): unknown jurisdiction, missing track, unknown track, wrong county,");
+console.log("                   absent geography, cross-jurisdiction source request.");
+console.log("   input (1):      missing required input.");
+console.log("   source (5):     stale source, absent source, hash mismatch, XFA, encrypted.");
+console.log("   mapping (1):    placeholder coordinates.");
+console.log("   readiness (2):  missing approval, storage failure leaves the packet non-ready.");
+console.log("   access (5):     unauthenticated download, another user's download, missing component,");
+console.log("                   unknown fulfillment, no download after a failed generation.");
 console.log("");
 console.log("PRODUCTION TRACK APPROVED: none.");
 console.log("PRODUCTION TRACK ENABLED:  none.");

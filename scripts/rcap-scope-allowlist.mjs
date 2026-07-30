@@ -425,7 +425,13 @@ export const PLATFORM_DOCUMENT_DELIVERY_FILES = [
   "src/lib/rcap/packets/engines/process-guidance.ts",
   "src/app/api/rcap/packets/generate/route.ts",
   "src/app/api/rcap/packets/[fulfillmentId]/components/[componentId]/route.ts",
-  "scripts/verify-rcap-packet-http-acceptance.mjs"
+  "scripts/verify-rcap-packet-http-acceptance.mjs",
+  // Legal-design intake pipeline: schema, validator, normalizer and scripts.
+  "src/lib/rcap/legal-design/types.ts",
+  "src/lib/rcap/legal-design/validate.ts",
+  "src/lib/rcap/legal-design/normalize.ts",
+  "scripts/rcap-legal-design-intake.mjs",
+  "scripts/verify-rcap-legal-design-intake.mjs"
 ];
 
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
