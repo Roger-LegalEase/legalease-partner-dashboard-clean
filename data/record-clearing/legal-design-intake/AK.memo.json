@@ -1,0 +1,1470 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "AK",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "ak-courtview",
+      "legalName": "Request to Exclude Case from Online Public Index (CourtView), AS 22.35.030; Alaska Administrative Rule 40(a)",
+      "publicName": "Getting a closed case off the public court index",
+      "controllingAuthority": {
+        "citations": [
+          "AS 22.35.030",
+          "Alaska Administrative Rule 40(a)"
+        ],
+        "summary": "The Alaska Court System may not publish a court record of a criminal case on a publicly available website if 60 days have elapsed from acquittal or dismissal and a statutory condition is met. Removal is automatic; TF-810 exists only for when the court system made an error, which the form says in terms."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-05-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "the defendant was acquitted of all charges filed in the case",
+        "all charges were dismissed and were not dismissed as part of a plea agreement in another criminal case under Criminal Rule 11",
+        "the defendant was acquitted of some charges and the remaining charges were dismissed",
+        "all charges were dismissed after a suspended entry of judgment under AS 12.55.078",
+        "the additional Administrative Rule 40(a) grounds, including the underage alcohol offenses and a conviction for possessing less than one ounce of marijuana where the person was at least 21 and was not convicted of any other charge in the case"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "AS 22.35.030 grounds, from acquittal or dismissal",
+          "duration": "60 days"
+        },
+        {
+          "condition": "Administrative Rule 40 grounds",
+          "duration": "Not stated in the source review"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "district",
+        "keys": [
+          "ak-district-1",
+          "ak-district-2",
+          "ak-district-3",
+          "ak-district-4"
+        ],
+        "venue": "Statewide Alaska Court System process, handled through the local trial court and judicial district where the case is maintained. The form carries a judicial district and location caption."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The local trial court",
+        "detail": "The clerk emails the request and the final disposition order to the court system HelpDesk. The form carries a response block for \"Case removed\" or \"Case not removed\" with a date sent to the requestor."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: have the participant look the case up on CourtView first. If it is already gone, there is nothing to file."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the case is still showing on CourtView.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-810",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+          "notes": "Request to Exclude Case from Online Public Index (CourtView), revision 5/25."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "stillOnCourtView",
+          "question": "Have you looked your case up on CourtView, and is it still showing?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which trial court and judicial district handled it?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end — acquitted on everything, all charges dismissed, a mix, or dismissed after a suspended entry of judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalPartOfPlea",
+          "question": "Were the charges dismissed as part of a plea agreement in another criminal case?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date were you acquitted or the charges dismissed? Sixty days must have passed.",
+          "requirement": "required"
+        },
+        {
+          "key": "rule40Ground",
+          "question": "Does one of the Administrative Rule 40(a) grounds apply — an underage alcohol offence, or marijuana under one ounce where you were 21 or older and had no other conviction in the case?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the statutory grounds do not apply."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Final disposition order",
+          "obtainedFrom": "The trial court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the final disposition order; the clerk emails it with the request to the court system HelpDesk.",
+          "confirms": "disposition"
+        },
+        {
+          "name": "Proof of the suspended imposition of sentence and any set-aside order",
+          "obtainedFrom": "The sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "On the SIS ground only.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the sentencing court for proof of the SIS and any set-aside order, and attach them."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "TF-810, signature block",
+          "why": "The requestor signs their own request."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "TF-810 (5/25), Request to Exclude Case from Online Public Index (CourtView)",
+          "url": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "AS 22.35.030",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the request with the local trial court. The clerk emails the request and the final disposition order to the court system HelpDesk.",
+        "fees": "none identified.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The form carries a response block for \"Case removed\" or \"Case not removed\" with a date sent to the requestor.",
+        "service": "The source review does not state a service requirement for this request.",
+        "participantSignature": "The requestor signs their own request.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration consequences are in play.",
+        "The participant wants the underlying record destroyed rather than removed from the online index."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Confirm TF-810 (5/25) is the current revision. The official TF-810 PDF and Administrative Rule 40(a) in full have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-1 / limitations",
+            "sourceStatement": "Confirm TF-810 (5/25) is the current revision.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment changes the operational treatment of the record identifiers and third-party documents; the staging and grounds are unchanged.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Lead with the CourtView lookup, not the form. Do not charge for a filing that is unnecessary. Removal is automatic; TF-810 exists only for when the court system made an error.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "TRACK AK-1 / limitations",
+              "sourceStatement": "lead with the CourtView lookup, not the form. Do not charge for a filing that is unnecessary. Build all ten grounds, not three. Confirm TF-810 (5/25) is the current revision.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Case number, arrest tracking number, agency identifiers, report numbers, dates, disposition facts, and narrative facts are participant_question or manual_completion_item fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Case number, arrest tracking number, agency identifiers, report numbers, dates, disposition facts, and narrative facts are `participant_question` or `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Officer and prosecutor signatures, dismissal/acquittal orders, appellate orders, and pardons are required_before_filing or required_before_submission. LegalEase does not obtain or validate them.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Officer and prosecutor signatures, dismissal/acquittal orders, appellate orders, and pardons are `required_before_filing` or `required_before_submission`. LegalEase does not obtain or validate them."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build all ten grounds, not three.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "TRACK AK-1 / limitations",
+              "sourceStatement": "Build all ten grounds, not three.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The case comes off the public online index. The underlying record is not destroyed. Agencies retain it, and Alaska releases criminal justice information to any person under AS 12.62.160.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "TRACK AK-1 / Legal effect",
+              "sourceStatement": "the case comes off the public online index. **The underlying record is not destroyed.** Agencies retain it, and Alaska releases criminal justice information to any person under AS 12.62.160.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-tf805",
+      "legalName": "Request for Name-Only Removal from the Public Index, TF-805",
+      "publicName": "Name-Only Removal From The Public Index",
+      "controllingAuthority": {
+        "citations": [
+          "Alaska Court System form TF-805 (5/25)"
+        ],
+        "summary": "A participant-filed request with grounds, sworn verification, service certificate, and proposed order."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-05-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "as stated in the grounds section of TF-805"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "district",
+        "keys": [
+          "ak-district-1",
+          "ak-district-2",
+          "ak-district-3",
+          "ak-district-4"
+        ],
+        "venue": "Statewide Alaska Court System process, handled through the local trial court and judicial district where the case is maintained."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The local trial court",
+        "detail": "A participant-filed request with a service certificate and proposed order."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+          "notes": "Current TF-805 (5/25), with grounds and sworn verification."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "notes": "Service certificate carried on the form."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "notes": "Proposed order carried on the form."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which trial court and judicial district handled it?",
+          "requirement": "required"
+        },
+        {
+          "key": "groundsFacts",
+          "question": "In your own words, on what grounds are you asking for your name to be removed from the public index?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Sworn verification",
+          "whereInPacket": "TF-805, verification block",
+          "why": "The requestor swears to their own request."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "TF-805 (5/25), Alaska Court System",
+          "url": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the request with the local trial court.",
+        "fees": "The source review does not state a filing fee for this request.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The source review does not state a notice requirement beyond the service certificate.",
+        "service": "A service certificate is carried on the form.",
+        "participantSignature": "The requestor signs and swears to their own request.",
+        "notarization": "The source review does not state a notarization requirement beyond the sworn verification."
+      },
+      "selfHelpStopConditions": [
+        "A denial or contested proceeding, which is a post-generation handoff.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The official TF-805 form and governing grounds/standard have not been acquired in full.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-2 / missing source requirements",
+            "sourceStatement": "Official TF-805 form and governing grounds/standard.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly resolves the former research block: \"AK-2, name removal from CourtView | official_pdf_fill; no longer additional-research blocked on form identity | Current TF-805 (5/25) is a participant-filed request with grounds, sworn verification, service certificate, and proposed order.\" It also states that TF-805 form identity and strategy are now resolved and should be removed from the blocker list.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Case number, arrest tracking number, agency identifiers, report numbers, dates, disposition facts, and narrative facts are participant_question or manual_completion_item fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Case number, arrest tracking number, agency identifiers, report numbers, dates, disposition facts, and narrative facts are `participant_question` or `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A denial or contested proceeding is a post_generation_handoff, not a reason to suppress the initial form.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A discretionary standard is handled through structured participant prompts. A denial or contested proceeding is a `post_generation_handoff`, not a reason to suppress the initial form."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-tf800",
+      "legalName": "Request to Seal a Case or Specified Records, TF-800",
+      "publicName": "Asking A Judge To Seal A Still-Public Case",
+      "controllingAuthority": {
+        "citations": [
+          "Alaska Court System form TF-800 (5/25)",
+          "Alaska Administrative Rule 37.6"
+        ],
+        "summary": "Current TF-800 (5/25) expressly lets an affected person ask the judge to seal the case or specified records. The public-access balancing standard does not erase the participant-facing packet."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-05-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "as stated on TF-800; an affected person may ask the judge to seal the case or specified records"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "district",
+        "keys": [
+          "ak-district-1",
+          "ak-district-2",
+          "ak-district-3",
+          "ak-district-4"
+        ],
+        "venue": "Statewide Alaska Court System process, handled through the local trial court and judicial district where the case is maintained."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The local trial court",
+        "detail": "The judge decides against the public-access balancing standard."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-800",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+          "notes": "Current TF-800 (5/25). Participant narrative goes into the approved structure."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which trial court and judicial district handled it?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsToSeal",
+          "question": "Do you want the whole case sealed, or particular records? Which ones?",
+          "requirement": "required"
+        },
+        {
+          "key": "sealingNarrative",
+          "question": "In your own words, why should the judge seal this — what harm does public access cause you?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "TF-800, signature block",
+          "why": "The requestor signs their own request."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "TF-800 (5/25), Alaska Court System",
+          "url": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the request with the local trial court.",
+        "fees": "The source review does not state a filing fee for this request.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The source review does not state a notice requirement for this request.",
+        "service": "The source review does not state a service requirement for this request.",
+        "participantSignature": "The requestor signs their own request.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Opposition to the request.",
+        "A contested hearing.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The official TF-800 form and current Administrative Rule 37.6 guidance have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-3 / missing source requirements",
+            "sourceStatement": "Official TF-800 form and current Administrative Rule 37.6 guidance.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy and supersedes the guidance-only conclusion: \"AK-3, confidential or sealed court records | official_pdf_fill, with participant narrative and handoff only after opposition or a contested hearing\" and \"The original conclusions that AK-3 and AK-6 are guidance-only because the participant must make a discretionary showing or obtain third-party signatures are superseded. Those facts change instructions and handoff rules, not packet identity.\"",
+        "limitations": [
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Handoff only after opposition or a contested hearing. A discretionary standard is handled through structured participant prompts.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Process-guidance and unresolved routes reclassified",
+              "sourceStatement": "AK-3, confidential or sealed court records | `official_pdf_fill`, with participant narrative and handoff only after opposition or a contested hearing | Current TF-800 (5/25) expressly lets an affected person ask the judge to seal the case or specified records. The public-access balancing standard does not erase the participant-facing packet."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the narrative. LegalEase does not judge the showing against the public-access balancing standard.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A discretionary standard is handled through structured participant prompts."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-set-aside",
+      "legalName": "Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085",
+      "publicName": "Setting aside a conviction after an SIS",
+      "controllingAuthority": {
+        "citations": [
+          "AS 12.55.085, with the set-aside at (e) and the exclusions at (f)"
+        ],
+        "summary": "AS 12.55.085(e) ties the set-aside to the moment of discharge. Whether a person discharged years ago without a set-aside can go back and ask for one, and by what vehicle, is unresolved."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a conviction on which a suspended imposition of sentence was imposed and the person was discharged"
+      ],
+      "exclusions": [
+        "The exclusions at AS 12.55.085(f)."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska sentencing-court process in the existing criminal case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, in the existing criminal case",
+        "detail": "No Alaska Court System form for a post-discharge request was located."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Provisional. If a later motion is available, a short motion in the existing criminal case. The vehicle is unresolved and this track is deferred."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "sisImposed",
+          "question": "Was a suspended imposition of sentence imposed in your case?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeDate",
+          "question": "On what date were you discharged?",
+          "requirement": "required"
+        },
+        {
+          "key": "setAsideAtDischarge",
+          "question": "Did the court set the conviction aside at the time of discharge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 12.55.085",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved. Whether a post-discharge request may be made, and by what vehicle, is not settled.",
+        "fees": "The source review does not state a filing fee.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved.",
+        "service": "Unresolved.",
+        "participantSignature": "The defendant would sign their own motion. The signature block is part of the unresolved specification.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Any contested proceeding.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "Alaska operational amendments / True blockers retained",
+            "sourceStatement": "**AK-4:** whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists."
+          }
+        },
+        {
+          "question": "The exact current text of AS 12.55.085(e) and (f), and whether any TF or CR form exists for the motion.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-4 / required follow up",
+            "sourceStatement": "Read the current AS 12.55.085(e) and (f). Identify any Alaska Court System form before classifying the renderer.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains AK-4 as a true blocker and states that the unresolved question \"determines whether any packet exists\" — route existence, not merely form identity. Counsel's decision is preserved unchanged; the track is deferred rather than imported.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / True blockers retained",
+              "sourceStatement": "**AK-4:** whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-sej",
+      "legalName": "Suspended Entry of Judgment, AS 12.55.078",
+      "publicName": "Suspended Entry Of Judgment",
+      "controllingAuthority": {
+        "citations": [
+          "AS 12.55.078, enacted 2016"
+        ],
+        "summary": "Selected and administered inside the active criminal case. The review did not identify a later participant filing that LegalEase can initiate."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "a charge resolved by suspended entry of judgment inside the active criminal case"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska sentencing-court process in the existing criminal case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, inside the active criminal case",
+        "detail": "Selected and administered inside the active criminal case; no later participant filing was identified."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Guidance on raising the option inside the active case."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseActive",
+          "question": "Is your criminal case still active?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 12.55.078",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none by the participant through LegalEase. The option is selected inside the active criminal case.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The participant has an active criminal case and needs defence representation."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current official text of AS 12.55.078 has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-5 / missing source requirements",
+            "sourceStatement": "Current official text of AS 12.55.078.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains it as guidance-only.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Suspended entry of judgment is selected and administered inside the active criminal case; the review did not identify a later participant filing that LegalEase can initiate.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**AK-5:** suspended entry of judgment is selected and administered inside the active criminal case; the review did not identify a later participant filing that LegalEase can initiate."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-mistaken-identity",
+      "legalName": "Request to Seal Criminal Information for Mistaken Identity or False Accusation, AS 12.62.180; 13 AAC 68.205",
+      "publicName": "Sealing For Mistaken Identity Or False Accusation",
+      "controllingAuthority": {
+        "citations": [
+          "AS 12.62.180",
+          "13 AAC 68.205"
+        ],
+        "summary": "The Department of Public Safety application is a six-page participant-facing packet. Officer/prosecutor verification and court documentation are later submission requirements."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-04-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "records arising from mistaken identity or false accusation, within AS 12.62.180"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska Department of Public Safety / Criminal Records and Identification Bureau process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Alaska Department of Public Safety, Criminal Records and Identification Bureau",
+        "detail": "Officer/prosecutor verification and court documentation are obtained separately by the participant."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+          "officialSourceUrl": "https://dps.alaska.gov/wp-content/uploads/2026/04/RequestToSealCrimInfo.pdf",
+          "notes": "Six-page participant-facing packet. LegalEase completes the participant portions."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "mistakenIdentityFacts",
+          "question": "In your own words, why was this a case of mistaken identity or false accusation?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestTrackingNumber",
+          "question": "What is the arrest tracking number or agency report number, if you have it?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Officer or prosecutor verification",
+          "obtainedFrom": "The arresting officer's agency, or the prosecutor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the arresting agency or prosecutor to complete the verification section. LegalEase does not obtain or validate it."
+        },
+        {
+          "name": "Court documentation",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the court documentation the application requires.",
+          "confirms": "arrestDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Officer or prosecutor verification fields",
+          "whereInPacket": "DPS application, verification section",
+          "why": "Completed by the officer or prosecutor, not by the participant or by LegalEase."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "DPS application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Alaska DPS, Request to Seal Criminal Information",
+          "url": "https://dps.alaska.gov/wp-content/uploads/2026/04/RequestToSealCrimInfo.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the DPS application with the verification and court documentation.",
+        "fees": "The source review does not state a fee for this application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "DPS decides on the application.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The officer or prosecutor declines to verify.",
+        "A denial or contested proceeding.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Confirmation that the DPS seal-request form remains current. The earlier reviewed copy was dated 2-04.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-6 / missing source requirements",
+            "sourceStatement": "Confirmation that DPS Form Seal Req 2-04 remains current.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy and supersedes the guidance-only conclusion: \"AK-6, mistaken identity or false accusation | official_pdf_fill for the participant portions | The DPS application is a six-page participant-facing packet. Officer/prosecutor verification and court documentation are later submission requirements.\"",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Officer/prosecutor verification and court documentation are later submission requirements. LegalEase does not obtain or validate them.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Process-guidance and unresolved routes reclassified",
+              "sourceStatement": "AK-6, mistaken identity or false accusation | `official_pdf_fill` for the participant portions | The DPS application is a six-page participant-facing packet. Officer/prosecutor verification and court documentation are later submission requirements."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Officer and prosecutor signature fields are left blank for the third party to complete.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Officer and prosecutor signatures, dismissal/acquittal orders, appellate orders, and pardons are `required_before_filing` or `required_before_submission`. LegalEase does not obtain or validate them."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A denial or contested proceeding is a post_generation_handoff, not a reason to suppress the initial form.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A denial or contested proceeding is a `post_generation_handoff`, not a reason to suppress the initial form."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-cannabis-seal",
+      "legalName": "Cannabis Conviction Release Restriction, HB 239 (34th Legislature, 2026)",
+      "publicName": "Sealing a low-level marijuana conviction",
+      "controllingAuthority": {
+        "citations": [
+          "HB 239 (34th Legislature, 2026), incorporating the text of HB 81",
+          "building on HB 28 (2024), codified at AS 12.62.160(b)(8) and (f)"
+        ],
+        "summary": "A new provision restricting agency release of low-level marijuana convictions. The enacted mechanism, destination, form or request vehicle, and effective procedure are unresolved."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "low-level marijuana convictions within the HB 239 scope"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska agency-record process; exact receiving agency and request channel for the 2026 cannabis track remain unresolved."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Unresolved",
+        "detail": "The exact receiving agency and request channel remain unresolved."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Provisional and inert: the track is deferred. Counsel's stated strategy is \"unresolved, likely custom_pleading or a written agency request if no form is created, or official_pdf_fill if DPS publishes one.\""
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "marijuanaConvictionDetails",
+          "question": "What was the marijuana conviction — which court, what date, and what quantity?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherConvictionsInCase",
+          "question": "Were you convicted of anything else in the same case?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 12.62.160",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved. The receiving agency and request format are not established.",
+        "fees": "The source review does not state a fee.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved.",
+        "service": "Unresolved.",
+        "participantSignature": "Unresolved, pending the request vehicle.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current enacted cannabis release-restriction mechanism, destination, form/request vehicle, and effective procedure must be confirmed from enacted and codified sources.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "Alaska operational amendments / True blockers retained",
+            "sourceStatement": "**AK-7:** the current enacted cannabis release-restriction mechanism, destination, form/request vehicle, and effective procedure must be confirmed from enacted and codified sources."
+          }
+        },
+        {
+          "question": "TF-810 ground 6 already covers a marijuana conviction under one ounce where the person was 21 or older and had no other conviction in the case, which removes it from the public court index. The new provision restricts agency release. A participant may need both. Whether one request now covers both is unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-7 / unresolved questions",
+            "sourceStatement": "Relationship to the existing CourtView ground: TF-810 ground 6 already covers a marijuana conviction under one ounce where the person was 21 or older and had no other conviction in the case, which removes it from the public court index. The new provision restricts agency release. A participant may need both. Whether one request now covers both is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required, and this is the highest-priority research item in the state.\" The amendment retains AK-7 as a true blocker. Counsel's stated output strategy is \"unresolved\"; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The current enacted cannabis release-restriction mechanism, destination, form/request vehicle, and effective procedure must be confirmed from enacted and codified sources.",
+            "undeterminedElement": "output_strategy",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / True blockers retained",
+              "sourceStatement": "**AK-7:** the current enacted cannabis release-restriction mechanism, destination, form/request vehicle, and effective procedure must be confirmed from enacted and codified sources."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-nonconviction-confidential",
+      "legalName": "Agency Confidentiality of Non-Conviction Records, AS 12.62.160(b)(8); 13 AAC 68.310",
+      "publicName": "Agency Confidentiality Of Non-Conviction Records",
+      "controllingAuthority": {
+        "citations": [
+          "AS 12.62.160(b)(8)",
+          "13 AAC 68.310"
+        ],
+        "summary": "Agency confidentiality follows the statutory disposition and does not require a participant filing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "non-conviction records within AS 12.62.160(b)(8)"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska agency-record process."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Alaska Department of Public Safety and other criminal justice agencies",
+        "detail": "Confidentiality follows the statutory disposition; no participant filing is required."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explanation and verification guidance."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 12.62.160",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none. No participant filing is required.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current official text of AS 12.62.160 and 13 AAC 68.310 has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-8 / missing source requirements",
+            "sourceStatement": "Current official text of AS 12.62.160 and 13 AAC 68.310.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains it as guidance-only.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Agency confidentiality follows the statutory disposition and does not require a participant filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**AK-8:** agency confidentiality follows the statutory disposition and does not require a participant filing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-correct-record",
+      "legalName": "Correcting Criminal Justice Information",
+      "publicName": "Correcting Criminal Justice Information",
+      "controllingAuthority": {
+        "citations": [
+          "Unresolved. The Department of Public Safety publishes a \"Correct Criminal Justice Information\" form alongside the seal request on its background-checks forms page."
+        ],
+        "summary": "The governing correction mechanism and current participant-facing form or procedure remain unresolved."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "records containing an error the participant wishes corrected"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska Department of Public Safety / Criminal Records and Identification Bureau process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Alaska Department of Public Safety, Criminal Records and Identification Bureau",
+        "detail": "The governing mechanism and procedure are unresolved."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "notes": "The DPS \"Correct Criminal Justice Information\" form, which counsel records as published alongside the seal request on the background-checks forms page. Provisional and inert: the track is deferred. The form was not pulled and the governing statute and regulation are unidentified, which is the retained blocker.",
+          "officialFormId": "DPS-CORRECT-CRIMINAL-JUSTICE-INFORMATION"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "recordError",
+          "question": "What is wrong with the record, and what should it say instead?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Alaska DPS background-checks forms page",
+          "url": "https://dps.alaska.gov/statewide/background-checks",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved.",
+        "fees": "The source review does not state a fee.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved.",
+        "service": "Unresolved.",
+        "participantSignature": "Unresolved, pending the form.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The governing correction mechanism and current participant-facing form/procedure remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "Alaska operational amendments / True blockers retained",
+            "sourceStatement": "**AK-9:** the governing correction mechanism and current participant-facing form/procedure remain unresolved."
+          }
+        },
+        {
+          "question": "The DPS Correct Criminal Justice Information form and governing statute/regulation have not been pulled.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-9 / missing source requirements",
+            "sourceStatement": "DPS Correct Criminal Justice Information form and governing statute/regulation.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required. Pull the form and the governing statute and regulation.\" The amendment retains AK-9 as a true blocker. Counsel recorded no output strategy at all; the track is deferred rather than imported, and none is asserted on their behalf.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The governing correction mechanism and current participant-facing form/procedure remain unresolved.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / True blockers retained",
+              "sourceStatement": "**AK-9:** the governing correction mechanism and current participant-facing form/procedure remain unresolved."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-pardon",
+      "legalName": "Governor's Pardon, Alaska Const. art. III, § 21; AS 33.20.070; AS 33.20.080",
+      "publicName": "Governor's Pardon",
+      "controllingAuthority": {
+        "citations": [
+          "Alaska Const. art. III, § 21",
+          "AS 33.20.070",
+          "AS 33.20.080"
+        ],
+        "summary": "Executive clemency through the Alaska Board of Parole and the Governor."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convictions eligible for executive clemency"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide executive-clemency process through the Alaska Board of Parole and Governor."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Alaska Board of Parole, then the Governor",
+        "detail": "Remains guidance-only unless LegalEase separately approves and confirms the current Governor's pardon application as a packet product."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explanation of the clemency route, with the grant numbers carried in the copy."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "What conviction do you want pardoned?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 33.20.070 and AS 33.20.080",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Through the Alaska Board of Parole clemency process.",
+        "fees": "The source review does not state a fee.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The Board of Parole and the Governor decide.",
+        "service": "none",
+        "participantSignature": "The applicant would sign their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The participant needs individualized advocacy before the Board or the Governor.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The Board of Parole clemency Eligibility Determination form and current process materials have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+            "sourceHeading": "TRACK AK-10 / missing source requirements",
+            "sourceStatement": "Board of Parole clemency Eligibility Determination form and current process materials.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment retains it as guidance-only unless LegalEase separately approves the pardon application as a packet product.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Remain guidance-only unless LegalEase separately approves and confirms the current Governor's pardon application as a packet product.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**AK-10:** remain guidance-only unless LegalEase separately approves and confirms the current Governor's pardon application as a packet product."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The participant-facing copy must carry the grant numbers. Presenting this as \"your remaining option\" without them would be misleading.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "TRACK AK-10 / limitations",
+              "sourceStatement": "the participant-facing copy must carry the grant numbers. Presenting this as \"your remaining option\" without them would be misleading.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ak-juvenile",
+      "legalName": "Juvenile Records, AS 47.12.300; AS 47.12.030",
+      "publicName": "Juvenile Records",
+      "controllingAuthority": {
+        "citations": [
+          "AS 47.12.300",
+          "AS 47.12.030"
+        ],
+        "summary": "Juvenile relief remains outside the approved adult scope."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "juvenile"
+      ],
+      "eligibleDispositions": [
+        "juvenile adjudications within AS 47.12.300"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alaska juvenile-court process; outside the current adult core scope."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Alaska juvenile court",
+        "detail": "Outside the approved adult scope."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explanation and referral only."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "juvenileRecord",
+          "question": "Is the record you want cleared a juvenile record?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "AS 47.12.300",
+          "url": "https://www.akleg.gov/basis/statutes.asp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none through LegalEase. Outside the approved adult scope.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The record is a juvenile record, which is outside the approved adult scope."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains it as outside the approved adult scope.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Juvenile relief remains outside the approved adult scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alaska-Legal-Review.md",
+              "sourceHeading": "Alaska operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**AK-11:** juvenile relief remains outside the approved adult scope."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

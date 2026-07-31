@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 6,
-  "jurisdictionsOutstanding": 45,
+  "jurisdictionsReceived": 7,
+  "jurisdictionsOutstanding": 44,
   "outstandingJurisdictions": [
-    "AK",
     "AL",
     "AR",
     "CA",
@@ -51,7 +50,20 @@
     "WY"
   ],
   "rejectedMemos": [],
-  "deferredTracks": [],
+  "deferredTracks": [
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-set-aside"
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-cannabis-seal"
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-correct-record"
+    }
+  ],
   "batches": [
     {
       "batch": "A_official_pdf_acroform",
@@ -524,8 +536,156 @@
     {
       "batch": "D_staged_or_process_guidance",
       "label": "Staged and process-guidance tracks",
-      "trackCount": 5,
+      "trackCount": 9,
       "tracks": [
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-sej",
+          "publicName": "Suspended Entry Of Judgment",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Suspended entry of judgment is selected and administered inside the active criminal case; the review did not identify a later participant filing that LegalEase can initiate."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of AS 12.55.078 has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-nonconviction-confidential",
+          "publicName": "Agency Confidentiality Of Non-Conviction Records",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Agency confidentiality follows the statutory disposition and does not require a participant filing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of AS 12.62.160 and 13 AAC 68.310 has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-pardon",
+          "publicName": "Governor's Pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remain guidance-only unless LegalEase separately approves and confirms the current Governor's pardon application as a packet product."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The Board of Parole clemency Eligibility Determination form and current process materials have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-juvenile",
+          "publicName": "Juvenile Records",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Juvenile relief remains outside the approved adult scope."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
         {
           "jurisdiction": "DC",
           "trackId": "dc_auto_expungement",
@@ -763,8 +923,154 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 30,
+      "trackCount": 34,
       "tracks": [
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-courtview",
+          "publicName": "Getting a closed case off the public court index",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "district",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Lead with the CourtView lookup, not the form. Do not charge for a filing that is unnecessary. Removal is automatic; TF-810 exists only for when the court system made an error."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Confirm TF-810 (5/25) is the current revision. The official TF-810 PDF and Administrative Rule 40(a) in full have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-tf805",
+          "publicName": "Name-Only Removal From The Public Index",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "district",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official TF-805 form and governing grounds/standard have not been acquired in full."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-tf800",
+          "publicName": "Asking A Judge To Seal A Still-Public Case",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "district",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official TF-800 form and current Administrative Rule 37.6 guidance have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AK",
+          "trackId": "ak-mistaken-identity",
+          "publicName": "Sealing For Mistaken Identity Or False Accusation",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Confirmation that the DPS seal-request form remains current. The earlier reviewed copy was dated 2-04."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
         {
           "jurisdiction": "AZ",
           "trackId": "az_marijuana_expungement_limited_jurisdiction",

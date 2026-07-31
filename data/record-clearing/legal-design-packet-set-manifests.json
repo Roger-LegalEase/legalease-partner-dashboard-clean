@@ -2,6 +2,508 @@
   "schemaVersion": 1,
   "packetSets": [
     {
+      "jurisdiction": "AK",
+      "trackId": "ak-courtview",
+      "packetSetId": "ak-courtview-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-courtview-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ak-courtview-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the case is still showing on CourtView.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-810",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Final disposition order. Ask the clerk for the final disposition order; the clerk emails it with the request to the court system HelpDesk.",
+          "obtainedFrom": "The trial court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end — acquitted on everything, all charges dismissed, a mix, or dismissed after a suspended entry of judgment?\" against Final disposition order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of the suspended imposition of sentence and any set-aside order. Ask the sentencing court for proof of the SIS and any set-aside order, and attach them.",
+          "obtainedFrom": "The sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "On the SIS ground only.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — TF-810, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The requestor signs their own request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for this request.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the request with the local trial court. The clerk emails the request and the final disposition order to the court system HelpDesk.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Final disposition order. Ask the clerk for the final disposition order; the clerk emails it with the request to the court system HelpDesk.",
+        "Check your answer to \"How did the case end — acquitted on everything, all charges dismissed, a mix, or dismissed after a suspended entry of judgment?\" against Final disposition order, and correct the packet if they disagree.",
+        "Obtain Proof of the suspended imposition of sentence and any set-aside order. Ask the sentencing court for proof of the SIS and any set-aside order, and attach them.",
+        "Signature and date — TF-810, signature block.",
+        "The requestor signs their own request.",
+        "The source review does not state a notarization requirement.",
+        "none identified.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-tf805",
+      "packetSetId": "ak-tf805-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-tf805-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "ak-tf805-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ak-tf805-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Sworn verification — TF-805, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The requestor signs and swears to their own request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement beyond the sworn verification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A service certificate is carried on the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the request with the local trial court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Sworn verification — TF-805, verification block.",
+        "The requestor signs and swears to their own request.",
+        "The source review does not state a notarization requirement beyond the sworn verification.",
+        "The source review does not state a filing fee for this request.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-tf800",
+      "packetSetId": "ak-tf800-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-tf800-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-800",
+          "officialSourceUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — TF-800, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The requestor signs their own request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for this request.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the request with the local trial court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature and date — TF-800, signature block.",
+        "The requestor signs their own request.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this request.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-sej",
+      "packetSetId": "ak-sej-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-sej-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none by the participant through LegalEase. The option is selected inside the active criminal case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": []
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-mistaken-identity",
+      "packetSetId": "ak-mistaken-identity-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-mistaken-identity-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+          "officialSourceUrl": "https://dps.alaska.gov/wp-content/uploads/2026/04/RequestToSealCrimInfo.pdf",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Officer or prosecutor verification. Ask the arresting agency or prosecutor to complete the verification section. LegalEase does not obtain or validate it.",
+          "obtainedFrom": "The arresting officer's agency, or the prosecutor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court documentation. Ask the clerk for the court documentation the application requires.",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Court documentation, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Officer or prosecutor verification fields — DPS application, verification section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — DPS application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the DPS application with the verification and court documentation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Officer or prosecutor verification. Ask the arresting agency or prosecutor to complete the verification section. LegalEase does not obtain or validate it.",
+        "Obtain Court documentation. Ask the clerk for the court documentation the application requires.",
+        "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Court documentation, and correct the packet if they disagree.",
+        "Officer or prosecutor verification fields — DPS application, verification section.",
+        "Signature and date — DPS application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for this application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-nonconviction-confidential",
+      "packetSetId": "ak-nonconviction-confidential-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-nonconviction-confidential-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none. No participant filing is required.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": []
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-pardon",
+      "packetSetId": "ak-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-pardon-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "The applicant would sign their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Through the Alaska Board of Parole clemency process.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The applicant would sign their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-juvenile",
+      "packetSetId": "ak-juvenile-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ak-juvenile-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none through LegalEase. Outside the approved adult scope.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": []
+    },
+    {
       "jurisdiction": "AZ",
       "trackId": "az_marijuana_expungement_limited_jurisdiction",
       "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",
