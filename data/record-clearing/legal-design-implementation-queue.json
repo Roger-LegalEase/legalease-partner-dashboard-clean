@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 5,
-  "jurisdictionsOutstanding": 46,
+  "jurisdictionsReceived": 6,
+  "jurisdictionsOutstanding": 45,
   "outstandingJurisdictions": [
     "AK",
     "AL",
@@ -11,7 +11,6 @@
     "CO",
     "CT",
     "GA",
-    "HI",
     "IA",
     "IL",
     "IN",
@@ -719,7 +718,7 @@
     {
       "batch": "E_local_variant",
       "label": "Local, county, circuit, district and court-specific variants",
-      "trackCount": 1,
+      "trackCount": 2,
       "tracks": [
         {
           "jurisdiction": "FL",
@@ -762,13 +761,51 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_state_initiated_marijuana_pilot",
+          "publicName": "State-initiated marijuana expungement pilot",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "county",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remains process_guidance; the state initiates the pilot and no participant filing was identified."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. The 2025 continuation/amendment to Act 62 and the Attorney General's report to the 2026 Legislature have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 21,
+      "trackCount": 29,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1564,6 +1601,373 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_nonconviction_expungement",
+          "publicName": "Non-conviction arrest expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Act 3, Session Laws of Hawaii 2025, and any chapter 91 rules adopted under § 831-3.2(h) have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_dag_danc_expungement",
+          "publicName": "Deferred plea discharge, then expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b) after the participant confirms the qualifying disposition and wait."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current source currency for the HCJDC application and submission instructions remains a release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_712_1200_deferred_expungement",
+          "publicName": "Deferred plea on a § 712-1200 charge, three-year wait",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)",
+            "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+            "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
+          ],
+          "scopeRestrictions": [
+            "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b)."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_first_time_drug_offender_expungement",
+          "publicName": "Conviction expungement, first-time drug offender",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
+            "Open question blocks the build (correct_form): Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Any court filing fee at stage one is unresolved."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_marijuana_three_grams_expungement",
+          "publicName": "Conviction expungement, marijuana three grams or less",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Any court filing fee at stage one is unresolved."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_pre_2004_drug_offender_expungement",
+          "publicName": "Conviction expungement, first-time drug offender sentenced before July 1, 2004",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+            "Open question blocks the build (governing_mechanism): Full official text of § 706-622.8 has not been read."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (governing_mechanism): Full official text of § 706-622.8 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_first_time_property_offender_expungement",
+          "publicName": "Conviction expungement, first-time property offender",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+            "Open question blocks the build (eligibility_branch): Full official text of § 706-622.9 has not been read."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Full official text of § 706-622.9 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "HI",
+          "trackId": "hi_under_21_dui_expungement",
+          "publicName": "Conviction expungement, DUI under 21",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+            "Open question blocks the build (eligibility_branch): Full official text of § 291E-64(e) has not been read."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Full official text of § 291E-64(e) has not been read."
             },
             {
               "kind": "source_gate",

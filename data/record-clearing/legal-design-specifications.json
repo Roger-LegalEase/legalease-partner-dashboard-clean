@@ -1980,6 +1980,643 @@
       "templateStatus": "not_drafted"
     },
     {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.5(4)"
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not write a custom-pleading specification until the form question is resolved.",
+        "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — HCJDC application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "Signature and date — HCJDC application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter.",
+        "The participant wants to attack the underlying conviction."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.5(5)"
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantity",
+          "question": "Was the amount three grams or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.8"
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "componentId": "hi_first_time_property_offender_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.9"
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimePropertyOffender",
+          "question": "Was this your first property offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_under_21_dui_expungement",
+      "componentId": "hi_under_21_dui_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 291E-64(e)"
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time of the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
       "jurisdiction": "ID",
       "trackId": "id_set_aside_dismissal",
       "componentId": "id_set_aside_dismissal-primary-filing-1",
@@ -7396,6 +8033,843 @@
       "mappingStatus": "not_mapped"
     },
     {
+      "jurisdiction": "HI",
+      "trackId": "hi_nonconviction_expungement",
+      "componentId": "hi_nonconviction_expungement-primary-filing-1",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCaseNumber",
+          "question": "If a court case was opened, what is the case number?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked so the order can reach the Judiciary for sealing."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Photo identification. Include a copy of your photo identification with the application.",
+          "obtainedFrom": "The participant's own documents",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Money order for the application fee. Obtain a money order for the HCJDC fee and enclose it with the application.",
+          "obtainedFrom": "A post office, bank or store that issues money orders",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Stamped self-addressed envelope. Enclose a stamped, self-addressed envelope so HCJDC can return the result.",
+          "obtainedFrom": "A post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — HCJDC application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "An application fee applies, paid by money order. The source review does not state the amount.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Submit the HCJDC application with photo identification, the money order and a stamped self-addressed envelope.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Photo identification. Include a copy of your photo identification with the application.",
+        "Obtain Money order for the application fee. Obtain a money order for the HCJDC fee and enclose it with the application.",
+        "Obtain Stamped self-addressed envelope. Enclose a stamped, self-addressed envelope so HCJDC can return the result.",
+        "Signature and date — HCJDC application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "An application fee applies, paid by money order. The source review does not state the amount.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_dag_danc_expungement",
+      "componentId": "hi_dag_danc_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159B",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "deferredPleaType",
+          "question": "Did you enter a deferred acceptance of a guilty plea or a no contest plea?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC 159(b) application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+          "obtainedFrom": "The clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope.",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — HCJDC 159(b) application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "An HCJDC application fee applies at stage 2, paid by money order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 happens in the underlying court. Stage 2: submit HCJDC 159(b) with identification, money order and a stamped envelope.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+        "Check your answer to \"On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+        "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope.",
+        "Signature and date — HCJDC 159(b) application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "An HCJDC application fee applies at stage 2, paid by money order.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_712_1200_deferred_expungement",
+      "componentId": "hi_712_1200_deferred_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159B",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "chargeSection",
+          "question": "Was the charge under HRS § 712-1200?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+          "obtainedFrom": "The clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the case discharged and dismissed?\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — HCJDC application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "An HCJDC application fee applies at stage 2, paid by money order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 happens in the underlying court. Stage 2: submit the HCJDC application with identification, money order and a stamped envelope.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+        "Check your answer to \"On what date was the case discharged and dismissed?\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+        "Signature and date — HCJDC application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "An HCJDC application fee applies at stage 2, paid by money order.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — HCJDC application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "Signature and date — HCJDC application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantity",
+          "question": "Was the amount three grams or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimePropertyOffender",
+          "question": "Was this your first property offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_under_21_dui_expungement",
+      "componentId": "hi_under_21_dui_expungement-primary-filing-2",
+      "officialFormId": "HCJDC-159",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time of the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Court-order number and date — HCJDC application, order reference fields.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
       "jurisdiction": "ID",
       "trackId": "id_isp_expungement",
       "componentId": "id_isp_expungement-primary-filing-1",
@@ -7942,6 +9416,53 @@
         "The participant wants to argue rather than verify."
       ],
       "guidanceStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_state_initiated_marijuana_pilot",
+      "destination": {
+        "kind": "automatic",
+        "name": "State of Hawaii, under the Act 62 pilot",
+        "detail": "The state initiates the pilot; no participant filing was identified."
+      },
+      "rules": {
+        "filing": "none. The state initiates the pilot.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which county was the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear on a background check?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not tell any user their record will be cleared automatically."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none. The state initiates the pilot.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [],
+      "stopConditions": [
+        "Any immigration matter.",
+        "The participant needs relief the pilot does not reach and should be routed to a filing track."
+      ],
+      "guidanceStatus": "not_drafted"
     }
   ],
   "participantFilingRequirements": [
@@ -8390,6 +9911,157 @@
       "requirement": "required",
       "requiredBeforeFiling": true,
       "howToObtain": "Have fingerprints taken and submit them with the application.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_nonconviction_expungement",
+      "name": "Photo identification",
+      "obtainedFrom": "The participant's own documents",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Include a copy of your photo identification with the application.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_nonconviction_expungement",
+      "name": "Money order for the application fee",
+      "obtainedFrom": "A post office, bank or store that issues money orders",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain a money order for the HCJDC fee and enclose it with the application.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_nonconviction_expungement",
+      "name": "Stamped self-addressed envelope",
+      "obtainedFrom": "A post office",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Enclose a stamped, self-addressed envelope so HCJDC can return the result.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_dag_danc_expungement",
+      "name": "Certified disposition showing discharge and dismissal",
+      "obtainedFrom": "The clerk of the court that handled the case",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a certified copy of the discharge and dismissal.",
+      "confirms": "dischargeAndDismissalDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_dag_danc_expungement",
+      "name": "Photo identification, money order, and stamped self-addressed envelope",
+      "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_712_1200_deferred_expungement",
+      "name": "Certified disposition showing discharge and dismissal",
+      "obtainedFrom": "The clerk of the court that handled the case",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a certified copy of the discharge and dismissal.",
+      "confirms": "dischargeAndDismissalDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "name": "Court order granting expungement",
+      "obtainedFrom": "The sentencing court, at stage 1",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+      "confirms": "convictionDetails",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "name": "Photo identification, money order, and stamped self-addressed envelope",
+      "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Enclose these with the HCJDC application.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "name": "Court order granting expungement",
+      "obtainedFrom": "The sentencing court, at stage 1",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+      "confirms": "convictionDetails",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "name": "Court order granting expungement",
+      "obtainedFrom": "The sentencing court, at stage 1",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+      "confirms": "convictionDetails",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "name": "Court order granting expungement",
+      "obtainedFrom": "The sentencing court, at stage 1",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+      "confirms": "convictionDetails",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_under_21_dui_expungement",
+      "name": "Court order granting expungement",
+      "obtainedFrom": "The sentencing court, at stage 1",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+      "confirms": "convictionDetails",
       "collectedByLegalEase": false,
       "inspectedByLegalEase": false,
       "blocksGeneration": false

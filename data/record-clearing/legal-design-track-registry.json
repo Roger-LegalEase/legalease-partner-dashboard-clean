@@ -3,9 +3,9 @@
   "planOfRecord": "docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md",
   "note": "Imported from legal-design memos. Every track is runtime_disabled: design approval is not output approval, and packet_ready additionally requires source approval, technical proof, visual review, a current source and runtime enablement.",
   "participantNote": "participantActionRequired and requiredBeforeFiling describe what the participant does after LegalEase hands them the packet. LegalEase does not collect, inspect or authenticate any of it, and none of it gates generation or packet_ready.",
-  "jurisdictionsReceived": 5,
-  "jurisdictionsOutstanding": 46,
-  "trackCount": 36,
+  "jurisdictionsReceived": 6,
+  "jurisdictionsOutstanding": 45,
+  "trackCount": 45,
   "packetReadyCount": 0,
   "tracks": [
     {
@@ -11437,6 +11437,2814 @@
         {
           "kind": "release_blocker",
           "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_nonconviction_expungement",
+      "legalName": "Application for Expungement of a Non-Conviction Arrest Record, HRS § 831-3.2",
+      "publicName": "Non-conviction arrest expungement",
+      "mechanism": "Agency expungement through the Hawaii Criminal Justice Data Center at a single statewide office. Since July 1, 2025, HCJDC transmits every expungement order carrying a court case number to the Judiciary, which then seals or removes the court files from public electronic databases and issues an Order to Seal.",
+      "authority": [
+        "HRS § 831-3.2",
+        "Act 3, Session Laws of Hawaii 2025"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "arrest"
+      ],
+      "dispositions": [
+        "arrest that did not result in a conviction, within the § 831-3.2 criteria"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide Hawaii agency process through HCJDC at a single statewide office.",
+      "destination": {
+        "kind": "agency",
+        "name": "Hawaii Criminal Justice Data Center",
+        "detail": "Single statewide office. Orders issued before July 1, 2025 still require the person to contact the Judiciary directly."
+      },
+      "packetSet": {
+        "packetSetId": "hi_nonconviction_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_nonconviction_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Photo identification. Include a copy of your photo identification with the application.",
+            "obtainedFrom": "The participant's own documents",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Money order for the application fee. Obtain a money order for the HCJDC fee and enclose it with the application.",
+            "obtainedFrom": "A post office, bank or store that issues money orders",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Stamped self-addressed envelope. Enclose a stamped, self-addressed envelope so HCJDC can return the result.",
+            "obtainedFrom": "A post office",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature and date — HCJDC application, signature block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "An application fee applies, paid by money order. The source review does not state the amount.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "file",
+            "description": "Submit the HCJDC application with photo identification, the money order and a stamped self-addressed envelope.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Photo identification. Include a copy of your photo identification with the application.",
+          "Obtain Money order for the application fee. Obtain a money order for the HCJDC fee and enclose it with the application.",
+          "Obtain Stamped self-addressed envelope. Enclose a stamped, self-addressed envelope so HCJDC can return the result.",
+          "Signature and date — HCJDC application, signature block.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "An application fee applies, paid by money order. The source review does not state the amount.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 831-3.2",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, expungement application",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Submit the HCJDC application with photo identification, the money order and a stamped self-addressed envelope.",
+        "fees": "An application fee applies, paid by money order. The source review does not state the amount.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "HCJDC decides on the application and, since July 1, 2025, transmits an order carrying a court case number to the Judiciary.",
+        "service": "none",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCaseNumber",
+          "question": "If a court case was opened, what is the case number?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked so the order can reach the Judiciary for sealing."
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Photo identification",
+          "obtainedFrom": "The participant's own documents",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Include a copy of your photo identification with the application."
+        },
+        {
+          "name": "Money order for the application fee",
+          "obtainedFrom": "A post office, bank or store that issues money orders",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a money order for the HCJDC fee and enclose it with the application."
+        },
+        {
+          "name": "Stamped self-addressed envelope",
+          "obtainedFrom": "A post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Enclose a stamped, self-addressed envelope so HCJDC can return the result."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The record is federal, military, or from another jurisdiction.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Since July 1, 2025, HCJDC transmits every expungement order carrying a court case number to the Judiciary, which then seals or removes the court files from public electronic databases and issues an Order to Seal. Orders issued before July 1, 2025 still require the person to contact the Judiciary directly.",
+        "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Act 3, Session Laws of Hawaii 2025, and any chapter 91 rules adopted under § 831-3.2(h) have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "Current source currency for the HCJDC application and submission instructions remains a release gate."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The record is federal, military, or from another jurisdiction.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Act 3, Session Laws of Hawaii 2025, and any chapter 91 rules adopted under § 831-3.2(h) have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "Current source currency for the HCJDC application and submission instructions remains a release gate."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved",
+      "legalDesignLimitations": [
+        {
+          "classification": "required_before_filing",
+          "statement": "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Since July 1, 2025, HCJDC transmits every expungement order carrying a court case number to the Judiciary, which then seals or removes the court files from public electronic databases and issues an Order to Seal. Orders issued before July 1, 2025 still require the person to contact the Judiciary directly.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / required follow up",
+            "sourceStatement": "Since July 1, 2025, HCJDC transmits every expungement order carrying a court case number to the Judiciary, which then seals or removes the court files from public electronic databases and issues an Order to Seal. Orders issued before July 1, 2025 still require the person to contact the Judiciary directly.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (governing_mechanism): Act 3, Session Laws of Hawaii 2025, and any chapter 91 rules adopted under § 831-3.2(h) have not been acquired."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_dag_danc_expungement",
+      "legalName": "Expungement after Deferred Plea Discharge, Ch. 853 and HRS § 831-3.2(a)(5)",
+      "publicName": "Deferred plea discharge, then expungement",
+      "mechanism": "Staged. Stage 1 is the deferred plea, discharge and dismissal inside the criminal case. Stage 2 is the HCJDC application after a one-year wait running from discharge and dismissal, not from the plea.",
+      "authority": [
+        "HRS ch. 853",
+        "HRS § 831-3.2(a)(5)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "charge"
+      ],
+      "dispositions": [
+        "deferred acceptance of guilty plea or deferred acceptance of no contest plea, discharged and dismissed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "From discharge and dismissal, not from the plea",
+          "duration": "One year"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: disposition and discharge in the underlying court, then HCJDC application.",
+      "destination": {
+        "kind": "agency",
+        "name": "Hawaii Criminal Justice Data Center, after discharge in the underlying court",
+        "detail": "Stage 1 happens inside the criminal case. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_dag_danc_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_dag_danc_expungement-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_dag_danc_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159B",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+            "obtainedFrom": "The clerk of the court that handled the case",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope.",
+            "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature and date — HCJDC 159(b) application, signature block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "An HCJDC application fee applies at stage 2, paid by money order.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1 happens in the underlying court. Stage 2: submit HCJDC 159(b) with identification, money order and a stamped envelope.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+          "Check your answer to \"On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+          "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope.",
+          "Signature and date — HCJDC 159(b) application, signature block.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "An HCJDC application fee applies at stage 2, paid by money order.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 831-3.2",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 happens in the underlying court. Stage 2: submit HCJDC 159(b) with identification, money order and a stamped envelope.",
+        "fees": "An HCJDC application fee applies at stage 2, paid by money order.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "HCJDC decides on the stage-2 application.",
+        "service": "none",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "deferredPleaType",
+          "question": "Did you enter a deferred acceptance of a guilty plea or a no contest plea?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Certified disposition showing discharge and dismissal",
+          "obtainedFrom": "The clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the discharge and dismissal.",
+          "confirms": "dischargeAndDismissalDate"
+        },
+        {
+          "name": "Photo identification, money order, and stamped self-addressed envelope",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Enclose a copy of your photo identification, a money order for the fee, and a stamped self-addressed envelope."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC 159(b) application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The deferred plea was not discharged and dismissed.",
+        "The record is federal, military, or from another jurisdiction.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Generate the HCJDC application only after the waiting period has run.",
+        "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites."
+      ],
+      "participantQuestions": [
+        "Calculate the one-year waiting period from discharge and dismissal, not from the plea."
+      ],
+      "scopeRestrictions": [
+        "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b) after the participant confirms the qualifying disposition and wait."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Current source currency for the HCJDC application and submission instructions remains a release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "Current source currency for the HCJDC application and submission instructions remains a release gate."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The deferred plea was not discharged and dismissed.",
+        "The record is federal, military, or from another jurisdiction.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current source currency for the HCJDC application and submission instructions remains a release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "Current source currency for the HCJDC application and submission instructions remains a release gate."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b) after the participant confirms the qualifying disposition and wait.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Staged routes clarified",
+            "sourceStatement": "HI-2 and HI-3 | Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is `official_pdf_fill` on HCJDC 159(b) after the participant confirms the qualifying disposition and wait."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Calculate the one-year waiting period from discharge and dismissal, not from the plea.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 2 / limitations",
+            "sourceStatement": "Calculate the one-year waiting period from discharge and dismissal, not from the plea; stage one remains process guidance and stage two uses HCJDC 159(b).",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Generate the HCJDC application only after the waiting period has run.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 2 / required follow up",
+            "sourceStatement": "Generate the HCJDC application only after the waiting period has run.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "required_before_filing",
+          "statement": "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "Photo identification, money order, stamped envelope, certified disposition, and other submission materials are participant actions. They are not generation prerequisites."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (correct_form): Current source currency for the HCJDC application and submission instructions remains a release gate."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_712_1200_deferred_expungement",
+      "legalName": "Expungement after a Deferred Plea on a § 712-1200 Charge",
+      "publicName": "Deferred plea on a § 712-1200 charge, three-year wait",
+      "mechanism": "Staged, as for the ordinary deferred-plea route, but the form applies a three-year waiting period. The statutory authority for that period and the current status of § 712-1200 are unresolved.",
+      "authority": [
+        "HRS § 712-1200",
+        "HCJDC application form"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "charge"
+      ],
+      "dispositions": [
+        "deferred plea on a § 712-1200 charge, discharged and dismissed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "Per the HCJDC form, for a § 712-1200 charge",
+          "duration": "Three years. The statutory authority for this period is unresolved."
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: disposition and discharge in the underlying court, then HCJDC application.",
+      "destination": {
+        "kind": "agency",
+        "name": "Hawaii Criminal Justice Data Center, after discharge in the underlying court",
+        "detail": "Stage 1 happens inside the criminal case. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_712_1200_deferred_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_712_1200_deferred_expungement-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_712_1200_deferred_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159B",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+            "obtainedFrom": "The clerk of the court that handled the case",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"On what date was the case discharged and dismissed?\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature and date — HCJDC application, signature block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "An HCJDC application fee applies at stage 2, paid by money order.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1 happens in the underlying court. Stage 2: submit the HCJDC application with identification, money order and a stamped envelope.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Certified disposition showing discharge and dismissal. Ask the clerk for a certified copy of the discharge and dismissal.",
+          "Check your answer to \"On what date was the case discharged and dismissed?\" against Certified disposition showing discharge and dismissal, and correct the packet if they disagree.",
+          "Signature and date — HCJDC application, signature block.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "An HCJDC application fee applies at stage 2, paid by money order.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 712-1200",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0712/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 happens in the underlying court. Stage 2: submit the HCJDC application with identification, money order and a stamped envelope.",
+        "fees": "An HCJDC application fee applies at stage 2, paid by money order.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "HCJDC decides on the stage-2 application.",
+        "service": "none",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "chargeSection",
+          "question": "Was the charge under HRS § 712-1200?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Certified disposition showing discharge and dismissal",
+          "obtainedFrom": "The clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the discharge and dismissal.",
+          "confirms": "dischargeAndDismissalDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The deferred plea was not discharged and dismissed.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not generate the stage-two application until the three-year rule is confirmed."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b)."
+      ],
+      "buildBlockers": [
+        {
+          "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          }
+        },
+        {
+          "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          }
+        }
+      ],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The deferred plea was not discharged and dismissed.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          }
+        },
+        {
+          "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+          "undeterminedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b).",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Staged routes clarified",
+            "sourceStatement": "HI-2 and HI-3 | Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is `official_pdf_fill` on HCJDC 159(b) after the participant confirms the qualifying disposition and wait."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate the stage-two application until the three-year rule is confirmed.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / required follow up",
+            "sourceStatement": "Do not generate the stage-two application until the three-year rule is confirmed.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)",
+        "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+        "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "legalName": "Conviction Expungement, first-time drug offender, HRS § 706-622.5(4)",
+      "publicName": "Conviction expungement, first-time drug offender",
+      "mechanism": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The stage-one filing vehicle is unresolved.",
+      "authority": [
+        "HRS § 706-622.5(4)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "first-time drug offender conviction within § 706-622.5(4)"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, then the Hawaii Criminal Justice Data Center",
+        "detail": "Stage 1 obtains a court order. Stage 2 is the HCJDC application, which cannot be submitted until the participant obtains and attaches the court order."
+      },
+      "packetSet": {
+        "packetSetId": "hi_first_time_drug_offender_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_first_time_drug_offender_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+            "obtainedFrom": "The sentencing court, at stage 1",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+            "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Court-order number and date — HCJDC application, order reference fields.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature and date — HCJDC application, signature block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+          "Court-order number and date — HCJDC application, order reference fields.",
+          "Signature and date — HCJDC application, signature block.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 706-622.5",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, expungement application",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Court order granting expungement",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "confirms": "convictionDetails"
+        },
+        {
+          "name": "Photo identification, money order, and stamped self-addressed envelope",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Enclose these with the HCJDC application."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "HCJDC application, signature block",
+          "why": "The applicant signs their own application."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter.",
+        "The participant wants to attack the underlying conviction."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not write a custom-pleading specification until the form question is resolved.",
+        "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [
+        {
+          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        }
+      ],
+      "releaseBlockers": [
+        {
+          "question": "Any court filing fee at stage one is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 4 / unresolved questions",
+            "sourceStatement": "Any court filing fee at stage one is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter.",
+        "The participant wants to attack the underlying conviction."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        },
+        {
+          "question": "Any court filing fee at stage one is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 4 / unresolved questions",
+            "sourceStatement": "Any court filing fee at stage one is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate.",
+          "undeterminedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "classification": "required_before_filing",
+          "statement": "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Superseded operational statements",
+            "sourceStatement": "Any statement requiring LegalEase to obtain, inspect, or approve the court order before preparing the HCJDC application is superseded. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not write a custom-pleading specification until the form question is resolved.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 4 / required follow up",
+            "sourceStatement": "Do not write a custom-pleading specification until the form question is resolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
+        "Open question blocks the build (correct_form): Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. (undetermined: correct_form)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (filing_process): Any court filing fee at stage one is unresolved."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "legalName": "Conviction Expungement, marijuana three grams or less, HRS § 706-622.5(5)",
+      "publicName": "Conviction expungement, marijuana three grams or less",
+      "mechanism": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The stage-one filing vehicle is unresolved.",
+      "authority": [
+        "HRS § 706-622.5(5)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "conviction for possession of three grams or less of marijuana within § 706-622.5(5)"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, then the Hawaii Criminal Justice Data Center",
+        "detail": "Stage 1 obtains a court order. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_marijuana_three_grams_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_marijuana_three_grams_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+            "obtainedFrom": "The sentencing court, at stage 1",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Court-order number and date — HCJDC application, order reference fields.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Blocked pending confirmation.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "Court-order number and date — HCJDC application, order reference fields.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 706-622.5",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantity",
+          "question": "Was the amount three grams or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Court order granting expungement",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [
+        {
+          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        }
+      ],
+      "releaseBlockers": [
+        {
+          "question": "Any court filing fee at stage one is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / unresolved questions",
+            "sourceStatement": "Any court filing fee at stage one is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Any court filing fee at stage one is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / unresolved questions",
+            "sourceStatement": "Any court filing fee at stage one is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
+          "undeterminedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+          }
+        },
+        {
+          "classification": "required_before_filing",
+          "statement": "The participant obtains the order; the packet carries clear do-not-submit instructions until it is available.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Superseded operational statements",
+            "sourceStatement": "The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers. (undetermined: correct_form)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (filing_process): Any court filing fee at stage one is unresolved."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "legalName": "Conviction Expungement, first-time drug offender sentenced before July 1, 2004, HRS § 706-622.8",
+      "publicName": "Conviction expungement, first-time drug offender sentenced before July 1, 2004",
+      "mechanism": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, court standard, count limit and stage-one filing vehicle are unresolved.",
+      "authority": [
+        "HRS § 706-622.8"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "first-time drug offender conviction sentenced before July 1, 2004, within § 706-622.8"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, then the Hawaii Criminal Justice Data Center",
+        "detail": "Stage 1 obtains a court order. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_pre_2004_drug_offender_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+            "obtainedFrom": "The sentencing court, at stage 1",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Court-order number and date — HCJDC application, order reference fields.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Blocked pending confirmation.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "Court-order number and date — HCJDC application, order reference fields.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 706-622.8",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Court order granting expungement",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [
+        {
+          "question": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 706-622.8 has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / required follow up",
+            "sourceStatement": "Read § 706-622.8 in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 706-622.8 has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / required follow up",
+            "sourceStatement": "Read § 706-622.8 in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+          "undeterminedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not build until the stage-one procedure is established.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / required follow up",
+            "sourceStatement": "Do not build until the stage-one procedure is established.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+        "Open question blocks the build (governing_mechanism): Full official text of § 706-622.8 has not been read."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved. (undetermined: correct_form)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (governing_mechanism): Full official text of § 706-622.8 has not been read."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "legalName": "Conviction Expungement, first-time property offender, HRS § 706-622.9",
+      "publicName": "Conviction expungement, first-time property offender",
+      "mechanism": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, eligibility standard, court discretion, count limit and stage-one filing vehicle are unresolved.",
+      "authority": [
+        "HRS § 706-622.9"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "first-time property offender conviction within § 706-622.9"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, then the Hawaii Criminal Justice Data Center",
+        "detail": "Stage 1 obtains a court order. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_first_time_property_offender_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_first_time_property_offender_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+            "obtainedFrom": "The sentencing court, at stage 1",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Court-order number and date — HCJDC application, order reference fields.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Blocked pending confirmation.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "Court-order number and date — HCJDC application, order reference fields.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 706-622.9",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimePropertyOffender",
+          "question": "Was this your first property offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Court order granting expungement",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [
+        {
+          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 706-622.9 has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 7 / required follow up",
+            "sourceStatement": "Read § 706-622.9 in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 706-622.9 has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 7 / required follow up",
+            "sourceStatement": "Read § 706-622.9 in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+          "undeterminedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not build until the stage-one procedure is established.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 7 / required follow up",
+            "sourceStatement": "Do not build until the stage-one procedure is established.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+        "Open question blocks the build (eligibility_branch): Full official text of § 706-622.9 has not been read."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved. (undetermined: correct_form)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (eligibility_branch): Full official text of § 706-622.9 has not been read."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_under_21_dui_expungement",
+      "legalName": "Conviction Expungement, DUI under 21, HRS § 291E-64(e)",
+      "publicName": "Conviction expungement, DUI under 21",
+      "mechanism": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, eligibility standard, court discretion, count limit and stage-one filing vehicle are unresolved.",
+      "authority": [
+        "HRS § 291E-64(e)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "conviction for operating a vehicle after consuming a measurable amount of alcohol while under 21, within § 291E-64(e)"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, then the Hawaii Criminal Justice Data Center",
+        "detail": "Stage 1 obtains a court order. Stage 2 is the HCJDC application."
+      },
+      "packetSet": {
+        "packetSetId": "hi_under_21_dui_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_under_21_dui_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "hi_under_21_dui_expungement-primary-filing-2",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "HCJDC-159",
+            "officialSourceUrl": null,
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+            "obtainedFrom": "The sentencing court, at stage 1",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Court-order number and date — HCJDC application, order reference fields.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The applicant signs their own application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "The source review does not state a notarization requirement.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "The source review does not address a fee waiver.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Blocked pending confirmation.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "Court-order number and date — HCJDC application, order reference fields.",
+          "The applicant signs their own application.",
+          "The source review does not state a notarization requirement.",
+          "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "The source review does not address a fee waiver."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "HRS § 291E-64",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0291E/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
+        "service": "Blocked pending confirmation.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time of the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Court order granting expungement",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Court-order number and date",
+          "whereInPacket": "HCJDC application, order reference fields",
+          "why": "Not available until the sentencing court signs the stage-one order."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not build until the stage-one procedure is established."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [
+        {
+          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 291E-64(e) has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / required follow up",
+            "sourceStatement": "Read § 291E-64(e) in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The sentencing court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+          }
+        },
+        {
+          "question": "Full official text of § 291E-64(e) has not been read.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / required follow up",
+            "sourceStatement": "Read § 291E-64(e) in full and acquire or rule out a statewide Judiciary form.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "legal_design_blocker",
+          "statement": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+          "undeterminedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / True blockers retained",
+            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+            "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not build until the stage-one procedure is established.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / required follow up",
+            "sourceStatement": "Do not build until the stage-one procedure is established.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [
+        "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+        "Open question blocks the build (eligibility_branch): Full official text of § 291E-64(e) has not been read."
+      ],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Design undetermined: The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved. (undetermined: correct_form)"
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (correct_form): The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved."
+        },
+        {
+          "kind": "legal_design_blocker",
+          "statement": "Open question blocks the build (eligibility_branch): Full official text of § 291E-64(e) has not been read."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_state_initiated_marijuana_pilot",
+      "legalName": "State-Initiated Marijuana Expungement Pilot, Act 62 (2024), as amended in 2025",
+      "publicName": "State-initiated marijuana expungement pilot",
+      "mechanism": "The state initiates the pilot and no participant filing was identified. Originally limited to Hawaii County records.",
+      "authority": [
+        "Act 62, Session Laws of Hawaii 2024, as amended in 2025"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2024-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction"
+      ],
+      "dispositions": [
+        "marijuana convictions within the pilot's scope"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "geographicScope": "county",
+      "geographyKeys": [
+        "hawaii"
+      ],
+      "venue": "Originally limited to Hawaii County records; current continuation, geographic reach, and operating status remain unresolved.",
+      "destination": {
+        "kind": "automatic",
+        "name": "State of Hawaii, under the Act 62 pilot",
+        "detail": "The state initiates the pilot; no participant filing was identified."
+      },
+      "packetSet": {
+        "packetSetId": "hi_state_initiated_marijuana_pilot-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "hi_state_initiated_marijuana_pilot-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "file",
+            "description": "none. The state initiates the pilot.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": []
+      },
+      "officialSources": [
+        {
+          "title": "Act 62, Session Laws of Hawaii 2024",
+          "url": "https://www.capitol.hawaii.gov/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "none. The state initiates the pilot.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which county was the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear on a background check?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "Any immigration matter.",
+        "The participant needs relief the pilot does not reach and should be routed to a filing track."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Do not tell any user their record will be cleared automatically."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "Remains process_guidance; the state initiates the pilot and no participant filing was identified."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. The 2025 continuation/amendment to Act 62 and the Attorney General's report to the 2026 Legislature have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / limitations",
+            "sourceStatement": "Do not tell any user their record will be cleared automatically. Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. See open question 1.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "Any immigration matter.",
+        "The participant needs relief the pilot does not reach and should be routed to a filing track."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. The 2025 continuation/amendment to Act 62 and the Attorney General's report to the 2026 Legislature have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / limitations",
+            "sourceStatement": "Do not tell any user their record will be cleared automatically. Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. See open question 1.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "Remains process_guidance; the state initiates the pilot and no participant filing was identified.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "Hawaii operational amendments / Staged routes clarified",
+            "sourceStatement": "HI-9 | Remains `process_guidance`; the state initiates the pilot and no participant filing was identified."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not tell any user their record will be cleared automatically.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / limitations",
+            "sourceStatement": "Do not tell any user their record will be cleared automatically.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "E_local_variant",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (legal_effect_or_warning): Verify whether the pilot is still operating, whether it now extends beyond Hawaii County, and what the 2026 report recommended. The 2025 continuation/amendment to Act 62 and the Attorney General's report to the 2026 Legislature have not been acquired."
         },
         {
           "kind": "source_gate",
