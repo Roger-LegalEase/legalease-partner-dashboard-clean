@@ -1,17 +1,15 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 2,
-  "jurisdictionsOutstanding": 49,
+  "jurisdictionsReceived": 4,
+  "jurisdictionsOutstanding": 47,
   "outstandingJurisdictions": [
     "AK",
     "AL",
     "AR",
-    "AZ",
     "CA",
     "CO",
     "CT",
-    "DC",
     "FL",
     "GA",
     "HI",
@@ -72,8 +70,349 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 2,
+      "trackCount": 9,
       "tracks": [
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_wrongful_arrest_clearance",
+          "publicName": "Clearing a Wrongful Arrest or Charge",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "custom_pleading, subject to legal-output approval and a scope decision. The prior process_guidance label remains appropriate only as a product-scope choice, not because the packet is unknowable."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track. The addendum makes the prior process_guidance label a product-scope choice rather than an output-identity problem, and leaves the scope decision open, subject to legal-output approval."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_innocence_expungement",
+          "publicName": "Expungement by motion, actual innocence",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "custom_pleading is technically available because § 16-803 creates a motion. Whether LegalEase enables it is a scope_restriction, not an output-identity problem."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Current Criminal Division sealing page and any standing order, rule, or practice guidance issued since March 1, 2025."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track at all, given that the relief turns on an evidentiary showing the movant must carry. The addendum makes this a scope_restriction rather than an output-identity problem, and leaves the scope decision open."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_seal_nonconviction",
+          "publicName": "Sealing by motion, non-conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): What expires on September 11, 2026. The current codification of § 16-806 carries temporary amendments with that expiration date, and the permanent codification omits the § 16-806(a)(1)(B)(i) route that lets a person move to seal a non-conviction for an offense not listed in § 16-805(b) before October 1, 2027. Confirm which subsections revert on September 11, 2026, and whether § 16-806(i)(7) is the only temporary piece."
+          ],
+          "scopeRestrictions": [
+            "The motion must be filed before October 1, 2027 when the offense is not on the § 16-805(b) list. If the offense is on that list, there is no deadline."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): What expires on September 11, 2026. The current codification of § 16-806 carries temporary amendments with that expiration date, and the permanent codification omits the § 16-806(a)(1)(B)(i) route that lets a person move to seal a non-conviction for an offense not listed in § 16-805(b) before October 1, 2027. Confirm which subsections revert on September 11, 2026, and whether § 16-806(i)(7) is the only temporary piece."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Filing channel: whether the Seal Team email is now the exclusive or preferred channel, whether e-filing is available for these motions, and whether the original-plus-one-copy requirement still applies to in-person filings."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Filing fee. The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Section 16-808 and § 16-809 were not read in this review. Confirm the applicability and savings provisions, particularly for records predating March 1, 2025."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_seal_fugitive",
+          "publicName": "Sealing by motion, fugitive-from-justice arrest",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): What expires on September 11, 2026, and which subsections of § 16-806 revert."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): What expires on September 11, 2026, and which subsections of § 16-806 revert."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_seal_conviction",
+          "publicName": "Sealing by motion, conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Master Grid mapping. An authoritative, machine-usable source for Offense Severity Groups 1, 2, and 3 as of March 10, 2023.",
+            "Open question blocks the build (eligibility_branch): What expires on September 11, 2026, and which subsections of § 16-806 revert."
+          ],
+          "scopeRestrictions": [
+            "Map the felony to the March 10, 2023 Master Grid; Offense Severity Group 1, 2, or 3 felonies are excluded."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Master Grid mapping. An authoritative, machine-usable source for Offense Severity Groups 1, 2, and 3 as of March 10, 2023."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): What expires on September 11, 2026, and which subsections of § 16-806 revert."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_correct_misattributed_arrest",
+          "publicName": "Motion to correct a misattributed arrest record",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_yra_set_aside",
+          "publicName": "Youth Act Set-Aside",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential. (undetermined: packet_components)",
+            "Open question blocks the build (packet_components): Section 24-903(c)(2) factors and current Superior Court practice for YRA set-aside motions.",
+            "Open question blocks the build (notice_or_service): Service and response mechanics for a YRA set-aside motion.",
+            "Open question blocks the build (packet_components): Whether the set-aside and the sealing motion are filed together or in sequence.",
+            "Open question blocks the build (correct_form): Whether the Superior Court has any form or standing practice for these motions."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential. (undetermined: packet_components)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Section 24-903(c)(2) factors and current Superior Court practice for YRA set-aside motions."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (notice_or_service): Service and response mechanics for a YRA set-aside motion."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Whether the set-aside and the sealing motion are filed together or in sequence."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Whether the Superior Court has any form or standing practice for these motions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
         {
           "jurisdiction": "ID",
           "trackId": "id_set_aside_dismissal",
@@ -187,8 +526,85 @@
     {
       "batch": "D_staged_or_process_guidance",
       "label": "Staged and process-guidance tracks",
-      "trackCount": 2,
+      "trackCount": 4,
       "tracks": [
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_auto_expungement",
+          "publicName": "Automatic Expungement",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remain process_guidance; there is no participant filing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Superior Court Administrative Order 25-11 (May 30, 2025), on reports and lists substituting for individual orders in high-volume sealing, expungement, and set-aside cases, has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "DC",
+          "trackId": "dc_auto_sealing",
+          "publicName": "Automatic sealing, non-convictions and 10-year misdemeanor convictions",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remain process_guidance; there is no participant filing.",
+            "The § 16-805(b) exclusion list applies to automatic sealing, not to motion sealing of convictions. The routing logic should not treat the (b) list as a bar on motion sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Superior Court Administrative Order 25-11 (May 30, 2025) and current materials governing high-volume automatic relief have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
         {
           "jurisdiction": "DE",
           "trackId": "de_auto_expungement",
@@ -272,8 +688,344 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 6,
+      "trackCount": 14,
       "tracks": [
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_marijuana_expungement_limited_jurisdiction",
+          "publicName": "Marijuana Record Expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not automate quantity, plant-count, paraphernalia-character, or conduct-date determinations when the record is ambiguous.",
+            "Use the correct court-level AOC form and one petition per case number."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Appeal timing after denial was unresolved in the review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_marijuana_expungement_superior_court",
+          "publicName": "Marijuana Record Expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not automate quantity, plant-count, paraphernalia-character, or conduct-date determinations when the record is ambiguous."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Appeal timing after denial was unresolved in the review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_marijuana_expungement_arrest_no_charges",
+          "publicName": "Marijuana Record Expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "county",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Local intake varies. Maricopa County directs arrest-only petitions to a civil petition form and civil case number; confirm intake practice for the county before filing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County intake practice for arrest-only filings is not uniform; Maricopa County uses a civil petition route."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Appeal timing after denial was unresolved in the review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_record_sealing_conviction",
+          "publicName": "Sealing Criminal Case Records",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Any unresolved offense-class mapping that changes which form or statutory branch applies remains a route-selection blocker. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Any unresolved offense-class mapping that changes which form or statutory branch applies remains a route-selection blocker."
+          ],
+          "scopeRestrictions": [
+            "Offense-class mapping and the A.R.S. § 13-911(O) exclusion screen must not be automated where ambiguous; sentence completion, restitution, prior sealing, stacking, and pending-charge questions are hard gates."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Any unresolved offense-class mapping that changes which form or statutory branch applies remains a route-selection blocker. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Any unresolved offense-class mapping that changes which form or statutory branch applies remains a route-selection blocker."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The status of Arizona rule petition R-25-0046 and the operative prosecutor-response deadline remain unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Statewide filing-fee treatment is unresolved and must be confirmed per court."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether the petitioner is expected to lodge the AOCCRSL2F-050825 order, which varies per court."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_record_sealing_dismissal_not_guilty",
+          "publicName": "Sealing Criminal Case Records",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Confirm the correct filing court from the disposition or initial-appearance record."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The status of Arizona rule petition R-25-0046 and the operative prosecutor-response deadline remain unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Statewide filing-fee treatment is unresolved and must be confirmed per court."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_record_sealing_arrest_no_charges",
+          "publicName": "Sealing Criminal Case Records",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Confirm the correct filing court from the disposition or initial-appearance record."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The status of Arizona rule petition R-25-0046 and the operative prosecutor-response deadline remain unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Statewide filing-fee treatment is unresolved and must be confirmed per court."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_set_aside",
+          "publicName": "Set Aside a Conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not automate the discretionary narrative, dangerous-offense, sexual-motivation, victim-age, serious-offense, or firearm-restoration determinations."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The method expected for delivering the application to the prosecutor remains to be confirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AZ",
+          "trackId": "az_certificate_second_chance",
+          "publicName": "Certificate of Second Chance",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Confirm the current AOCCRSA3F and AOCCRSA4F revisions on azcourts.gov before building. Until then, route these participants through the set-aside track and have them request the certificate on the set-aside application."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current form currency for the standalone certificate-of-second-chance forms AOCCRSA3F and AOCCRSA4F must be confirmed on azcourts.gov before runtime release. Both predate the 2024 rule amendments and neither was verified against the AOC forms page in this review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
         {
           "jurisdiction": "DE",
           "trackId": "de_mandatory_expungement",

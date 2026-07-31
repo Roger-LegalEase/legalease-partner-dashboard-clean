@@ -2,6 +2,868 @@
   "schemaVersion": 1,
   "customPleadingSpecs": [
     {
+      "jurisdiction": "AZ",
+      "trackId": "az_wrongful_arrest_clearance",
+      "componentId": "az_wrongful_arrest_clearance-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Statewide Arizona law; petition in superior court.",
+      "authority": [
+        "A.R.S. § 13-4051"
+      ],
+      "rules": {
+        "filing": "Petition in the superior court.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "A hearing is contemplated by the statute.",
+        "service": "The source review does not state a service requirement for this petition.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "generationRequirements": [
+        {
+          "key": "arrestOrChargeIdentifiers",
+          "question": "What was the arrest, indictment or charge, and which agency and court were involved?",
+          "requirement": "required"
+        },
+        {
+          "key": "wrongfulnessFacts",
+          "question": "In your own words, why was the arrest or charge wrongful?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsToAnnotate",
+          "question": "Which court, police or agency records do you want the notation entered on?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Explain that this remedy is different from sealing. A person with notice of the order who fails to comply is liable in damages."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Petition in the superior court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature and date — Petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "Any evidentiary dispute or contested hearing.",
+        "The merits burden about wrongfulness, which is on the petitioner and is not a checklist.",
+        "A denial the person wants to challenge.",
+        "Immigration consequences are in play.",
+        "Any evidentiary dispute or contested hearing triggers handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_innocence_expungement",
+      "componentId": "dc_innocence_expungement-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 16-803"
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division. Filing window: any time.",
+        "fees": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The court may dismiss or deny on initial review; if not, it decides whether a hearing is required and may order a prosecutor response with a deadline.",
+        "service": "The motion and any amended motion are served on the prosecutor. The prosecutor need not respond unless the court orders it.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "generationRequirements": [
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the case number, and what were you charged with?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseOutcome",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "innocenceFacts",
+          "question": "In your own words, why did the offence not occur, or why were you not the person who committed it?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorMotions",
+          "question": "Have you filed a motion like this before, and when was it resolved?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Statutory warning to carry into product copy: an acquittal or dismissal does not establish a presumption of innocence, § 16-803(e).",
+        "Repeat motions: a second motion no sooner than one year after the first is resolved, a third and final no sooner than one year after the second, except that a motion on different grounds may be filed at any time.",
+        "LegalEase can explain the remedy, assemble the record set, and refer to the Public Defender Service duty day attorney for seal cases, Legal Aid DC, Neighborhood Legal Services Program, Rising for Justice, or Christian Legal Society."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Attachments to the motion",
+          "why": "The movant carries the burden and supplies the supporting material. LegalEase does not judge whether the showing is sufficient."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Statement of points and authorities, exhibits, affidavits and supporting documents — Attachments to the motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The motion and any amended motion are served on the prosecutor. The prosecutor need not respond unless the court orders it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the Criminal Division. Filing window: any time.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Statement of points and authorities, exhibits, affidavits and supporting documents — Attachments to the motion.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement for this motion.",
+        "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing, at which both sides may present witnesses or proceed by proffer.",
+        "The relief turns on an affirmative evidentiary showing of innocence on disputed facts.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "A prior motion was denied inside the one-year window.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "Participant facts can populate the initial motion; contested evidence and the merits proceeding trigger handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_seal_nonconviction",
+      "componentId": "dc_seal_nonconviction-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 16-806(a)(1), as amended by D.C. Law 24-284 (applicable March 1, 2025), D.C. Law 26-52 (October 28, 2025), and D.C. Law 26-81 (temporary, January 29, 2026)"
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team. One motion per case number in the case being addressed.",
+        "fees": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response. Written order with reasons, final for appeal, due within 180 days absent good cause.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "generationRequirements": [
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the case number, and what were you charged with?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseOutcome",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "fullKnownHistory",
+          "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceOn805bList",
+          "question": "What was the offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeFacts",
+          "question": "In your own words, why is sealing this record in the interests of justice — what does it stop you doing now?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsToSeal",
+          "question": "Which of your records do you want sealed? You do not have to ask for all of them.",
+          "requirement": "required"
+        },
+        {
+          "key": "priorMotions",
+          "question": "Have you filed a sealing motion before, and when was it resolved?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Note the October 1, 2027 gate in product copy from day one.",
+        "Motion content, § 16-806(c)(1): the motion must state all of the movant's unsealed and unexpunged citations, arrests, charges, and convictions as reasonably known, the grounds for eligibility, and facts in support. If the motion does not comply, the movant has 30 days after notice to amend, or the motion is dismissed without prejudice.",
+        "Scope relief, § 16-806(h): the movant need not satisfy the waiting periods for all records and need not seek relief for every eligible record. Packets can be scoped to what the person actually wants cleared.",
+        "The prosecutor is not required to respond. Under § 16-806(d) the motion is served on the prosecutor, but the prosecutor need not respond unless the court orders it. Do not tell users to expect an opposition by default.",
+        "Repeat-motion limits: under § 16-806(i)(6), after a denial the court entertains a second motion no sooner than one year, and a third and final motion no sooner than one year after that. A temporary provision, § 16-806(i)(7), exempts motions dismissed between March 1, 2025 and July 14, 2025 from the one-year wait.",
+        "Completion of the sentence, § 16-801(2), is unconditional discharge from incarceration, commitment, probation, parole, or supervised release, whichever is latest, and nonpayment of fines, restitution, or other monetary assessments does not prevent completion."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Optional attachments to the motion",
+          "why": "§ 16-806(c)(1) permits them. The movant supplies them; LegalEase does not judge sufficiency."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Statement of points and authorities, exhibits, affidavits and supporting documents — Optional attachments to the motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the Criminal Division; clerk intake through the Seal Team. One motion per case number in the case being addressed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Statement of points and authorities, exhibits, affidavits and supporting documents — Optional attachments to the motion.",
+        "Signature and date — Motion, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement for this motion.",
+        "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The case has co-defendants and redaction is at issue.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "The person is asking to attack the conviction rather than seal it.",
+        "The person needs the prosecutor to waive a waiting period in writing.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window.",
+        "The person is at the third and final motion.",
+        "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_seal_fugitive",
+      "componentId": "dc_seal_fugitive-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 16-806(a)(2)"
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "generationRequirements": [
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the DC case number for the fugitive arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "extraditionWaived",
+          "question": "Did you waive extradition?",
+          "requirement": "required"
+        },
+        {
+          "key": "appearedInOriginatingJurisdiction",
+          "question": "Have you appeared before the proper official in the jurisdiction that wanted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "fullKnownHistory",
+          "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeFacts",
+          "question": "In your own words, why is sealing this record in the interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Sealed-record access nuance: records sealed as fugitive-from-justice arrests are not available to the § 16-801(5)(D), (E), (F) licensing, school and childcare, and senior government employer entities.",
+        "The movant must establish appearance before the proper official in the originating jurisdiction."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the movant appeared before the proper official in the originating jurisdiction. Ask the court or official in the originating jurisdiction for confirmation of your appearance.",
+          "obtainedFrom": "The court or official in the jurisdiction that issued the warrant",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you appeared before the proper official in the jurisdiction that wanted you?\" against Proof that the movant appeared before the proper official in the originating jurisdiction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the Criminal Division; clerk intake through the Seal Team.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Proof that the movant appeared before the proper official in the originating jurisdiction. Ask the court or official in the originating jurisdiction for confirmation of your appearance.",
+        "Check your answer to \"Have you appeared before the proper official in the jurisdiction that wanted you?\" against Proof that the movant appeared before the proper official in the originating jurisdiction, and correct the packet if they disagree.",
+        "Signature and date — Motion, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement for this motion.",
+        "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window.",
+        "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_seal_conviction",
+      "componentId": "dc_seal_conviction-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 16-806(a)(3)"
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "generationRequirements": [
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the case number, and what were you convicted of?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceLevelAndSection",
+          "question": "Was the conviction a misdemeanor or a felony, and what was the statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the sentence — the latest of discharge from incarceration, commitment, probation, parole or supervised release?",
+          "requirement": "required"
+        },
+        {
+          "key": "fullKnownHistory",
+          "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeFacts",
+          "question": "In your own words, why is sealing this record in the interests of justice — what does it stop you doing now?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsToSeal",
+          "question": "Which of your records do you want sealed? You do not have to ask for all of them.",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not generate individualized interests-of-justice advocacy.",
+        "The conviction waiting periods may be waived by the prosecutor in writing, § 16-806(e)."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Optional attachments to the motion",
+          "why": "§ 16-806(c)(1) permits them. The movant supplies them; LegalEase does not judge sufficiency."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Statement of points and authorities, exhibits, affidavits and supporting documents — Optional attachments to the motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the Criminal Division; clerk intake through the Seal Team.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Statement of points and authorities, exhibits, affidavits and supporting documents — Optional attachments to the motion.",
+        "Signature and date — Motion, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement for this motion.",
+        "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The felony Offense Severity Group cannot be established from the record.",
+        "The case has co-defendants and redaction is at issue.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "The person is asking to attack the conviction rather than seal it.",
+        "The person needs the prosecutor to waive a waiting period in writing.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window.",
+        "The person is at the third and final motion.",
+        "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_correct_misattributed_arrest",
+      "componentId": "dc_correct_misattributed_arrest-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 16-806(g)"
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs and attests under oath.",
+        "notarization": "The motion carries a sworn attestation. The source review does not state whether a notary is required in addition."
+      },
+      "generationRequirements": [
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the case number of the arrest wrongly attributed to you?",
+          "requirement": "required"
+        },
+        {
+          "key": "misidentificationFacts",
+          "question": "In your own words, why was this arrest wrongly attributed to you?",
+          "requirement": "required"
+        },
+        {
+          "key": "noFingerprintsTaken",
+          "question": "As far as you know, did the agency take fingerprints at that arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "noOtherIdentification",
+          "question": "As far as you know, did the person arrested present any other reliable identification?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "This route corrects publicly available records rather than sealing them."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Sworn attestation of misidentification",
+          "whereInPacket": "Motion, attestation block",
+          "why": "The statute requires the movant to attest under oath that they were incorrectly identified or named."
+        },
+        {
+          "item": "Requires a sworn misidentification attestation, no fingerprints at arrest, and no other reliable identification.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Sworn attestation of misidentification — Motion, attestation block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs and attests under oath.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The motion carries a sworn attestation. The source review does not state whether a notary is required in addition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the Criminal Division; clerk intake through the Seal Team.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Sworn attestation of misidentification — Motion, attestation block.",
+        "The movant signs and attests under oath.",
+        "The motion carries a sworn attestation. The source review does not state whether a notary is required in addition.",
+        "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_yra_set_aside",
+      "componentId": "dc_yra_set_aside-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.",
+      "authority": [
+        "D.C. Code § 24-906(e-1)",
+        "D.C. Code § 24-903(c)(2)",
+        "D.C. Code § 24-906(e-2)"
+      ],
+      "rules": {
+        "filing": "Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+        "service": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+        "participantSignature": "The youth offender signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "generationRequirements": [
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you when the offence happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisionCompletionDate",
+          "question": "On what date did you finish probation, incarceration, supervised release or parole, whichever came last?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseIdentifiers",
+          "question": "What is the case number, and what were you convicted of?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationFacts",
+          "question": "In your own words, what have you done since, and why should the court set this conviction aside?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "A set-aside is not sealing. The person still needs a § 16-806 motion to seal the associated arrest and case records.",
+        "A certificate issues in any case where the conviction is set aside, § 24-906(e-2).",
+        "Related automatic relief: under § 24-906(a) an unconditional discharge of a committed youth offender before expiration of the sentence automatically sets aside the conviction, and under § 24-906(c) automatic set-aside follows early termination of supervised release by the Parole Commission."
+      ],
+      "manualCompletionItems": [],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "The youth offender signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The youth offender signs their own motion.",
+        "The source review does not state a notarization requirement for this motion.",
+        "The source review does not state a filing fee for this motion.",
+        "The source review does not address a fee waiver."
+      ],
+      "stopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
       "jurisdiction": "DE",
       "trackId": "de_discretionary_superior_court",
       "componentId": "de_discretionary_superior_court-cover-sheet-4",
@@ -712,6 +1574,1853 @@
     }
   ],
   "officialFormAssignments": [
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "componentId": "az_marijuana_expungement_limited_jurisdiction-primary-filing-1",
+      "officialFormId": "AOC-CREM2F-071221",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumber",
+          "question": "What is the case number, and which court concluded the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeAndConduct",
+          "question": "What was the charge, and what was the conduct — possessing, consuming or transporting marijuana, growing plants at home, or paraphernalia?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantityOrPlantCount",
+          "question": "How much marijuana, or how many plants, did the case involve?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductDate",
+          "question": "On what date did the conduct happen? Conduct on or after 12 July 2021 is not eligible.",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signed perjury declaration",
+          "whereInPacket": "Petition, declaration block",
+          "why": "The petitioner signs under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract. Request copies from the court that concluded the case, or a criminal history extract from DPS.",
+          "obtainedFrom": "The court that concluded the case, or the Arizona Department of Public Safety",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signed perjury declaration — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Petitioner signs under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Rule 36(a)(4) bars a filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. No fee waiver form is applicable because there is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Rule 36(b)(2) puts transmittal to the prosecuting agency on the court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in person, by mail, or by e-filing where the court accepts it. If the petition lacks enough information to identify the records, the court should refer the petitioner to the instructions and warn that it will be dismissed if the information is not filed within 45 days.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+        "Signed perjury declaration — Petition, declaration block.",
+        "Petitioner signs under penalty of perjury.",
+        "none. Rule 36(a)(4) bars a filing fee.",
+        "none. No fee waiver form is applicable because there is no filing fee."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "componentId": "az_marijuana_expungement_limited_jurisdiction-continuation-2",
+      "officialFormId": "AOC-CREM2F-071221-CONT",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumber",
+          "question": "What is the case number, and which court concluded the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeAndConduct",
+          "question": "What was the charge, and what was the conduct — possessing, consuming or transporting marijuana, growing plants at home, or paraphernalia?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantityOrPlantCount",
+          "question": "How much marijuana, or how many plants, did the case involve?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductDate",
+          "question": "On what date did the conduct happen? Conduct on or after 12 July 2021 is not eligible.",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signed perjury declaration",
+          "whereInPacket": "Petition, declaration block",
+          "why": "The petitioner signs under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract. Request copies from the court that concluded the case, or a criminal history extract from DPS.",
+          "obtainedFrom": "The court that concluded the case, or the Arizona Department of Public Safety",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signed perjury declaration — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Petitioner signs under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Rule 36(a)(4) bars a filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. No fee waiver form is applicable because there is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Rule 36(b)(2) puts transmittal to the prosecuting agency on the court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in person, by mail, or by e-filing where the court accepts it. If the petition lacks enough information to identify the records, the court should refer the petitioner to the instructions and warn that it will be dismissed if the information is not filed within 45 days.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+        "Signed perjury declaration — Petition, declaration block.",
+        "Petitioner signs under penalty of perjury.",
+        "none. Rule 36(a)(4) bars a filing fee.",
+        "none. No fee waiver form is applicable because there is no filing fee."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_superior_court",
+      "componentId": "az_marijuana_expungement_superior_court-primary-filing-1",
+      "officialFormId": "AOC-CREM3F-071221",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumber",
+          "question": "What is the case number, and which superior court concluded the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeAndConduct",
+          "question": "What was the charge, and what was the conduct?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantityOrPlantCount",
+          "question": "How much marijuana, or how many plants, did the case involve?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductDate",
+          "question": "On what date did the conduct happen? Conduct on or after 12 July 2021 is not eligible.",
+          "requirement": "required"
+        },
+        {
+          "key": "civilRightsRestoration",
+          "question": "Do you also want your civil rights, including firearm rights, restored?",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signed perjury declaration",
+          "whereInPacket": "Petition, declaration block",
+          "why": "The petitioner signs under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract. Request copies from the court that concluded the case, or a criminal history extract from DPS.",
+          "obtainedFrom": "The court that concluded the case, or the Arizona Department of Public Safety",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists these as useful examples.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signed perjury declaration — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Petitioner signs under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Rule 36(a)(4) bars a filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Rule 36(b)(2) puts transmittal on the court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in person, by mail, or by e-filing where the court accepts it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How much marijuana, or how many plants, did the case involve?\" against Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+        "Signed perjury declaration — Petition, declaration block.",
+        "Petitioner signs under penalty of perjury.",
+        "none. Rule 36(a)(4) bars a filing fee."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_arrest_no_charges",
+      "componentId": "az_marijuana_expungement_arrest_no_charges-primary-filing-1",
+      "officialFormId": "AOC-CREM3F-071221",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfArrest",
+          "question": "In which county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "conduct",
+          "question": "What was the conduct that led to the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantityOrPlantCount",
+          "question": "How much marijuana, or how many plants, did the arrest involve?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductDate",
+          "question": "On what date did the conduct happen? Conduct on or after 12 July 2021 is not eligible.",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Case number, left blank for the court to assign",
+          "whereInPacket": "Petition, caption",
+          "why": "There is no existing case number on an arrest-only petition. The court assigns one on filing, unless local practice requires otherwise."
+        },
+        {
+          "item": "Signed perjury declaration",
+          "whereInPacket": "Petition, declaration block",
+          "why": "The petitioner signs under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Leave the case number blank for the court to assign unless local practice requires otherwise.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Supporting exhibits: police report, lab report showing weight, DPS or FBI extract. Request a copy of the police report from the arresting agency, or a criminal history extract from DPS.",
+          "obtainedFrom": "The arresting agency or the Arizona Department of Public Safety",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists useful examples.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How much marijuana, or how many plants, did the arrest involve?\" against Supporting exhibits: police report, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. The form lists useful examples.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number, left blank for the court to assign — Petition, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signed perjury declaration — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Petitioner signs under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Rule 36(a)(4) bars a filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Rule 36(b)(2) puts transmittal on the court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the superior court in the county of arrest. Confirm the county-specific intake route before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How much marijuana, or how many plants, did the arrest involve?\" against Supporting exhibits: police report, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.",
+        "Case number, left blank for the court to assign — Petition, caption.",
+        "Signed perjury declaration — Petition, declaration block.",
+        "Petitioner signs under penalty of perjury.",
+        "none. Rule 36(a)(4) bars a filing fee."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-primary-filing-1",
+      "officialFormId": "AOCCRSL1F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClassAndSection",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "monetaryObligationsPaid",
+          "question": "Have all fines, fees and victim restitution been paid?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSealing",
+          "question": "Have you had records sealed in Arizona before?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Notice of new charges after filing",
+          "whereInPacket": "Ongoing duty stated on the form",
+          "why": "The form imposes a continuing duty to notify the court of new charges after filing."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+          "obtainedFrom": "The court that placed you on probation",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of new charges after filing — Ongoing duty stated on the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C) for the situation — here, the court of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Notice of new charges after filing — Ongoing duty stated on the form.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+        "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-proposed-order-2",
+      "officialFormId": "AOCCRSL2F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClassAndSection",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "monetaryObligationsPaid",
+          "question": "Have all fines, fees and victim restitution been paid?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSealing",
+          "question": "Have you had records sealed in Arizona before?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Notice of new charges after filing",
+          "whereInPacket": "Ongoing duty stated on the form",
+          "why": "The form imposes a continuing duty to notify the court of new charges after filing."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+          "obtainedFrom": "The court that placed you on probation",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of new charges after filing — Ongoing duty stated on the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C) for the situation — here, the court of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Notice of new charges after filing — Ongoing duty stated on the form.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+        "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-continuation-3",
+      "officialFormId": "AOCCRSL1F-050825-CONT",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClassAndSection",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "monetaryObligationsPaid",
+          "question": "Have all fines, fees and victim restitution been paid?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSealing",
+          "question": "Have you had records sealed in Arizona before?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Notice of new charges after filing",
+          "whereInPacket": "Ongoing duty stated on the form",
+          "why": "The form imposes a continuing duty to notify the court of new charges after filing."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+          "obtainedFrom": "The court that placed you on probation",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Strongly encouraged by the form where applicable.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of new charges after filing — Ongoing duty stated on the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C) for the situation — here, the court of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Order of discharge from probation. Ask the clerk of the court that placed you on probation for the order of discharge.",
+        "Check your answer to \"On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?\" against Order of discharge from probation, and correct the packet if they disagree.",
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Notice of new charges after filing — Ongoing duty stated on the form.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified, and multiple municipal courts publish that they charge none for this petition. Confirm per court. Unresolved statewide. Under § 13-911(H) the DPS director may charge an investigation fee, and under § 13-911(I)(3) DPS may charge a successful petitioner a record-correction fee.",
+        "DPS fees are waived for an indigent petitioner and for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "componentId": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
+      "officialFormId": "AOCCRSL1F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court was the charge filed in?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "Was the charge dismissed, or did a trial end in a not guilty verdict?",
+          "requirement": "required"
+        },
+        {
+          "key": "proceededByInformation",
+          "question": "If the complaint started in a justice court, did an information follow in superior court?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked to select the correct filing court."
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C)(2) for the situation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+        "DPS fees are waived for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "componentId": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
+      "officialFormId": "AOCCRSL2F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court was the charge filed in?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "Was the charge dismissed, or did a trial end in a not guilty verdict?",
+          "requirement": "required"
+        },
+        {
+          "key": "proceededByInformation",
+          "question": "If the complaint started in a justice court, did an information follow in superior court?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked to select the correct filing court."
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C)(2) for the situation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+        "DPS fees are waived for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "componentId": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "officialFormId": "AOCCRSL1F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfArrest",
+          "question": "In which county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "initialAppearanceCourt",
+          "question": "Did you have an initial appearance, and if so in which court?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for an indigent petitioner and where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C)(3) for the situation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+        "DPS fees are waived for an indigent petitioner and where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "componentId": "az_record_sealing_arrest_no_charges-proposed-order-2",
+      "officialFormId": "AOCCRSL2F-050825",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfArrest",
+          "question": "In which county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "initialAppearanceCourt",
+          "question": "Did you have an initial appearance, and if so in which court?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndReport",
+          "question": "Which agency arrested you, and what is the incident or report number?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a sealing petition of yours been denied in the last three years?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any charge pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Petition, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Petition, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "DPS fees are waived for an indigent petitioner and where the petition is filed under § 13-911(C)(2) or (C)(3).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the petitioner. The court provides the copy to the prosecuting agency.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court identified by § 13-911(C)(3) for the situation.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury — Petition, declaration block.",
+        "Signature under penalty of perjury.",
+        "No statutory filing fee identified. Confirm per court. Unresolved statewide.",
+        "DPS fees are waived for an indigent petitioner and where the petition is filed under § 13-911(C)(2) or (C)(3)."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-primary-filing-1",
+      "officialFormId": "AOCCR41FORM31A-082224",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndClass",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilled",
+          "question": "Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionPaid",
+          "question": "Is any victim restitution still outstanding?",
+          "requirement": "required"
+        },
+        {
+          "key": "openCases",
+          "question": "Do you have any open cases?",
+          "requirement": "required"
+        },
+        {
+          "key": "certificateRequested",
+          "question": "Do you also want to request a certificate of second chance?",
+          "requirement": "required"
+        },
+        {
+          "key": "considerationNarrative",
+          "question": "Is there anything you would like the court to take into consideration?",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Application, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Authorization block",
+          "whereInPacket": "Application, authorization section",
+          "why": "Used only when an attorney or probation officer applies on the defendant's behalf."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+          "obtainedFrom": "The prosecuting agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Application, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Authorization block — Application, authorization section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Section 13-905(B).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. No filing fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy of the application goes to the prosecutor; the order includes a finding that the prosecutor received it. The delivery method the court expects is not yet confirmed. The state or the victim must file any objection within 30 days after the application is filed, § 13-905(H).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court where the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+        "Signature under penalty of perjury — Application, declaration block.",
+        "Authorization block — Application, authorization section.",
+        "Signature under penalty of perjury.",
+        "none. Section 13-905(B).",
+        "none. No filing fee applies."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-proposed-order-2",
+      "officialFormId": "AOCCR41FORM31B-082224",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndClass",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilled",
+          "question": "Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionPaid",
+          "question": "Is any victim restitution still outstanding?",
+          "requirement": "required"
+        },
+        {
+          "key": "openCases",
+          "question": "Do you have any open cases?",
+          "requirement": "required"
+        },
+        {
+          "key": "certificateRequested",
+          "question": "Do you also want to request a certificate of second chance?",
+          "requirement": "required"
+        },
+        {
+          "key": "considerationNarrative",
+          "question": "Is there anything you would like the court to take into consideration?",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Application, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Authorization block",
+          "whereInPacket": "Application, authorization section",
+          "why": "Used only when an attorney or probation officer applies on the defendant's behalf."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+          "obtainedFrom": "The prosecuting agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Application, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Authorization block — Application, authorization section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Section 13-905(B).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. No filing fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy of the application goes to the prosecutor; the order includes a finding that the prosecutor received it. The delivery method the court expects is not yet confirmed. The state or the victim must file any objection within 30 days after the application is filed, § 13-905(H).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court where the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+        "Signature under penalty of perjury — Application, declaration block.",
+        "Authorization block — Application, authorization section.",
+        "Signature under penalty of perjury.",
+        "none. Section 13-905(B).",
+        "none. No filing fee applies."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-continuation-3",
+      "officialFormId": "AOCCR41FORM31A-082224-CONT",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court convicted you?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndClass",
+          "question": "What was the offence, its statute section, and its class?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilled",
+          "question": "Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionPaid",
+          "question": "Is any victim restitution still outstanding?",
+          "requirement": "required"
+        },
+        {
+          "key": "openCases",
+          "question": "Do you have any open cases?",
+          "requirement": "required"
+        },
+        {
+          "key": "certificateRequested",
+          "question": "Do you also want to request a certificate of second chance?",
+          "requirement": "required"
+        },
+        {
+          "key": "considerationNarrative",
+          "question": "Is there anything you would like the court to take into consideration?",
+          "requirement": "required"
+        },
+        {
+          "key": "hearingRequested",
+          "question": "Do you want to ask the court for a hearing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury",
+          "whereInPacket": "Application, declaration block",
+          "why": "Signature under penalty of perjury. No notarization."
+        },
+        {
+          "item": "Authorization block",
+          "whereInPacket": "Application, authorization section",
+          "why": "Used only when an attorney or probation officer applies on the defendant's behalf."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+          "obtainedFrom": "Arizona Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the person was in ADOC custody.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+          "obtainedFrom": "The prosecuting agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury — Application, declaration block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Authorization block — Application, authorization section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Section 13-905(B).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. No filing fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy of the application goes to the prosecutor; the order includes a finding that the prosecutor received it. The delivery method the court expects is not yet confirmed. The state or the victim must file any objection within 30 days after the application is filed, § 13-905(H).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court where the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certificate of absolute discharge from ADOC. Request the certificate of absolute discharge from ADOC.",
+        "Check your answer to \"Have you fulfilled the conditions of probation or sentence and been discharged by the court, and on what date?\" against Certificate of absolute discharge from ADOC, and correct the packet if they disagree.",
+        "Obtain Copy of the application delivered to the prosecutor. Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+        "Signature under penalty of perjury — Application, declaration block.",
+        "Authorization block — Application, authorization section.",
+        "Signature under penalty of perjury.",
+        "none. Section 13-905(B).",
+        "none. No filing fee applies."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_certificate_second_chance",
+      "componentId": "az_certificate_second_chance-primary-filing-1",
+      "officialFormId": "AOCCRSA3F-010122",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "setAsideGranted",
+          "question": "Has your conviction already been set aside, and did the order include a certificate?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClass",
+          "question": "What class was the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilledDate",
+          "question": "On what date did you fulfil the conditions of probation or sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorCertificate",
+          "question": "Have you already been granted a certificate of second chance on a felony set-aside?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature",
+          "whereInPacket": "Application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature — Application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for the standalone certificate application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for the standalone application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature — Application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for the standalone certificate application.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_certificate_second_chance",
+      "componentId": "az_certificate_second_chance-proposed-order-2",
+      "officialFormId": "AOCCRSA4F-010122",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "setAsideGranted",
+          "question": "Has your conviction already been set aside, and did the order include a certificate?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClass",
+          "question": "What class was the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilledDate",
+          "question": "On what date did you fulfil the conditions of probation or sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorCertificate",
+          "question": "Have you already been granted a certificate of second chance on a felony set-aside?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature",
+          "whereInPacket": "Application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature — Application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for the standalone certificate application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for the standalone application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature — Application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for the standalone certificate application.",
+        "The source review does not address a fee waiver."
+      ],
+      "mappingStatus": "not_mapped"
+    },
     {
       "jurisdiction": "DE",
       "trackId": "de_mandatory_expungement",
@@ -2070,6 +4779,118 @@
   ],
   "processGuidanceSpecs": [
     {
+      "jurisdiction": "DC",
+      "trackId": "dc_auto_expungement",
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court of the District of Columbia and relevant agencies",
+        "detail": "There is nothing to file. LegalEase verifies whether the record is still publicly visible, tracks the statutory deadline, and routes to a motion track or legal aid if relief does not arrive."
+      },
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No motion, no prosecutor or victim objection step for the participant.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "offenceDecriminalized",
+          "question": "Was the offence later decriminalized, legalized, or held unconstitutional?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaPossessionPre2015",
+          "question": "Was this simple possession of marijuana before 15 February 2015?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked on the pre-2015 marijuana branch."
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear when you or an employer look you up?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The D.C. Courts page says no cases are presently being automatically sealed or expunged. The product must not promise completed automatic relief and should route eligible participants to verification and available motion-based alternatives.",
+        "The Court's deadline is expungement by October 1, 2027, or within 90 days after termination or final disposition, whichever is later."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none. Nothing is filed by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [],
+      "stopConditions": [
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "guidanceStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_auto_sealing",
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court of the District of Columbia and relevant agencies",
+        "detail": "There is nothing to file. LegalEase verifies whether the record is still publicly visible, tracks the statutory deadline, and routes to a motion track or legal aid if relief does not arrive."
+      },
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No motion, no prosecutor or victim objection step.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "caseOutcome",
+          "question": "Did the case end without a conviction, or were you convicted of a misdemeanor?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceOnExclusionList",
+          "question": "What was the offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the sentence?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked on the misdemeanor-conviction branch, where the 10-year clock runs from completion."
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear when you or an employer look you up?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The statutes authorize automatic relief, but the court's current public guidance states that no cases are presently being automatically sealed or expunged. This determines that the current automatic track is guidance/verification, not a packet."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "file",
+          "description": "none. Nothing is filed by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [],
+      "stopConditions": [
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "guidanceStatus": "not_drafted"
+    },
+    {
       "jurisdiction": "DE",
       "trackId": "de_auto_expungement",
       "destination": {
@@ -2188,6 +5009,115 @@
     }
   ],
   "participantFilingRequirements": [
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "name": "Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract",
+      "obtainedFrom": "The court that concluded the case, or the Arizona Department of Public Safety",
+      "requirement": "conditional",
+      "conditionDescription": "Optional. The form lists these as useful examples.",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Request copies from the court that concluded the case, or a criminal history extract from DPS.",
+      "confirms": "quantityOrPlantCount",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_superior_court",
+      "name": "Supporting exhibits: complaint, judgment and sentencing order, payment plan, lab report showing weight, DPS or FBI extract",
+      "obtainedFrom": "The court that concluded the case, or the Arizona Department of Public Safety",
+      "requirement": "conditional",
+      "conditionDescription": "Optional. The form lists these as useful examples.",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Request copies from the court that concluded the case, or a criminal history extract from DPS.",
+      "confirms": "quantityOrPlantCount",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_marijuana_expungement_arrest_no_charges",
+      "name": "Supporting exhibits: police report, lab report showing weight, DPS or FBI extract",
+      "obtainedFrom": "The arresting agency or the Arizona Department of Public Safety",
+      "requirement": "conditional",
+      "conditionDescription": "Optional. The form lists useful examples.",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Request a copy of the police report from the arresting agency, or a criminal history extract from DPS.",
+      "confirms": "quantityOrPlantCount",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "name": "Certificate of absolute discharge from ADOC",
+      "obtainedFrom": "Arizona Department of Corrections",
+      "requirement": "conditional",
+      "conditionDescription": "Strongly encouraged by the form where applicable.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request the certificate of absolute discharge from ADOC.",
+      "confirms": "sentenceCompletionDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "name": "Order of discharge from probation",
+      "obtainedFrom": "The court that placed you on probation",
+      "requirement": "conditional",
+      "conditionDescription": "Strongly encouraged by the form where applicable.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk of the court that placed you on probation for the order of discharge.",
+      "confirms": "sentenceCompletionDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_set_aside",
+      "name": "Certificate of absolute discharge from ADOC",
+      "obtainedFrom": "Arizona Department of Corrections",
+      "requirement": "conditional",
+      "conditionDescription": "Where the person was in ADOC custody.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request the certificate of absolute discharge from ADOC.",
+      "confirms": "conditionsFulfilled",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "AZ",
+      "trackId": "az_set_aside",
+      "name": "Copy of the application delivered to the prosecutor",
+      "obtainedFrom": "The prosecuting agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Deliver a copy of the application to the prosecutor. The delivery method the court expects is not yet confirmed.",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_seal_fugitive",
+      "name": "Proof that the movant appeared before the proper official in the originating jurisdiction",
+      "obtainedFrom": "The court or official in the jurisdiction that issued the warrant",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the court or official in the originating jurisdiction for confirmation of your appearance.",
+      "confirms": "appearedInOriginatingJurisdiction",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
     {
       "jurisdiction": "DE",
       "trackId": "de_auto_expungement",
