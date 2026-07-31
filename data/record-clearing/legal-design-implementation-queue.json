@@ -1,13 +1,11 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 7,
-  "jurisdictionsOutstanding": 44,
+  "jurisdictionsReceived": 9,
+  "jurisdictionsOutstanding": 42,
   "outstandingJurisdictions": [
-    "AL",
     "AR",
     "CA",
-    "CO",
     "CT",
     "GA",
     "IA",
@@ -62,6 +60,18 @@
     {
       "jurisdiction": "AK",
       "trackId": "ak-correct-record"
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-olr"
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-uncharged-arrest"
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_mistaken_identity_expungement"
     }
   ],
   "batches": [
@@ -536,7 +546,7 @@
     {
       "batch": "D_staged_or_process_guidance",
       "label": "Staged and process-guidance tracks",
-      "trackCount": 9,
+      "trackCount": 11,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -679,6 +689,82 @@
             {
               "kind": "technical_proof_gate",
               "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_auto_seal_arrest",
+          "publicName": "Automatic Sealing, Arrest With No Charges Filed",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remain process_guidance; no participant form exists. Include verification and official petition backstops."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_auto_seal_nonconviction",
+          "publicName": "Automatic Sealing At Disposition, Non-Convictions",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remain process_guidance; no participant form exists. Include verification and official petition backstops."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, has not been acquired."
             },
             {
               "kind": "source_gate",
@@ -923,7 +1009,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 34,
+      "trackCount": 51,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1064,6 +1150,404 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Confirmation that the DPS seal-request form remains current. The earlier reviewed copy was dated 2-04."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-misd-nonconviction-90",
+          "publicName": "Misdemeanor-Level Non-Conviction, 90-Day Bases",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "If the participant cannot identify the disposition, fail closed on route selection and explain what must be confirmed."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read; the original review records that the Legislature's site was not read."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): ALEA criminal-history request instructions and current fee have not been acquired."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Authoritative publication/source for CR-65A and confirmation whether any granting-order form exists."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any circuit adds local requirements. No local form variation was identified, but local circuit practice remains unverified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-felony-nonconviction-90",
+          "publicName": "Felony Non-Conviction, 90-Day Bases",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Whether \"any felony offense\" survived the most recent amendments to § 15-27-2(a), given that the archive and internal reference both carry the older non-violent framing. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Verify against the current § 15-27-2(a) text that \"any felony offense\" survived the most recent amendments, because the archive and the internal reference both carry the older non-violent framing."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Whether \"any felony offense\" survived the most recent amendments to § 15-27-2(a), given that the archive and internal reference both carry the older non-violent framing. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Verify against the current § 15-27-2(a) text that \"any felony offense\" survived the most recent amendments, because the archive and the internal reference both carry the older non-violent framing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-misd-dwop",
+          "publicName": "Misdemeanor-Level Dismissed Without Prejudice",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-felony-dwop",
+          "publicName": "Felony Dismissed Without Prejudice",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-diversion",
+          "publicName": "Diversion And Accountability Court Completion",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This track shares a two-expungement cap with the misdemeanor conviction route, so sequencing advice matters more here than anywhere else."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-misd-conviction",
+          "publicName": "Expunge a misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "An unclear answer is a route-selection stop, not a record-review task for LegalEase."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Maintained official offense lists for violent offenses, moral-turpitude offenses and serious traffic offenses have not been acquired. Each classification screen turns on a list built for another purpose."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-pardoned-felony",
+          "publicName": "Pardoned Felony Conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships. Alabama pardons are commonly granted with restrictions, and after State ex rel. Sokira v. Burr it became common for the Board to expressly exclude firearm rights from the restoration of civil rights."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships. Alabama pardons are commonly granted with restrictions, and after State ex rel. Sokira v. Burr it became common for the Board to expressly exclude firearm rights from the restoration of civil rights."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-trafficking",
+          "publicName": "Human Trafficking Survivor",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "official_pdf_fill on CR-65, with a scope_restriction and post_generation_handoff for opposition, contested evidence, or individualized advocacy."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AL",
+          "trackId": "al-pardon",
+          "publicName": "Pardon",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "official_pdf_fill on Board form ABPP-3, as a separate pardon product if included in scope."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Board of Pardons and Paroles form ABPP-3, revised June 2025, has not been acquired. The archived October 2020 revision is obsolete and must not be used as the live source."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether the pardon product is included in scope as a separate product."
             },
             {
               "kind": "source_gate",
@@ -1400,6 +1884,369 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Current form currency for the standalone certificate-of-second-chance forms AOCCRSA3F and AOCCRSA4F must be confirmed on azcourts.gov before runtime release. Both predate the 2024 rule amendments and neither was verified against the AOC forms page in this review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_petition_seal_arrest",
+          "publicName": "Sealing an Arrest With No Charges",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "district",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for this petition remains unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Order-set revision drift noted at section 0.3 item 12 of the original review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_motion_seal_nonconviction",
+          "publicName": "Motion To Seal Non-Conviction Records, Simplified Backstop",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 477, 478, 491, 492 and 493, the non-conviction simplified set, have not been acquired. None are in the current replica archive."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_clean_slate",
+          "publicName": "Clean Slate Automatic Sealing",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Staged: process guidance and verification initially; official_pdf_fill on JDF 2363 when the participant must request a hearing after a district attorney objection or other qualifying notice. The automatic stage is guidance-only, but the response stage is a real packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The state court administrator was required by July 1, 2024 to develop a website where a defendant can confidentially determine whether a conviction has been sealed and how to obtain a copy of the order. Whether it exists and where has not been confirmed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 2363, the person-facing request for hearing on automatic sealing, and JDF 2361 for reference, have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_motion_seal_conviction",
+          "publicName": "Motion To Seal Conviction Records, County Or District Court",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Gate on the three hard gates identified in the original review, and acquire JDF 615 before the track can produce a complete packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_municipal_conviction_seal",
+          "publicName": "Petition To Seal Municipal Conviction Records",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "court_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Municipal form coverage and current municipal-court procedure. (undetermined: filing_process)",
+            "Open question blocks the build (filing_process): Municipal form coverage and current municipal-court procedure.",
+            "Open question blocks the build (eligibility_branch): Section 24-72-708 was not read in full. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building."
+          ],
+          "scopeRestrictions": [
+            "Municipal courts are not part of the state e-filing system, so local intake practice will vary. Do not present this route as statewide."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Municipal form coverage and current municipal-court procedure. (undetermined: filing_process)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (filing_process): Municipal form coverage and current municipal-court procedure."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Section 24-72-708 was not read in full. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 683 with 682, 684, 685 and 686, the municipal set, have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_multiple_conviction_seal",
+          "publicName": "Motion To Seal Multiple Conviction Records",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "district",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Current multiple-case statute/form interaction and filing mechanics. (undetermined: filing_process)",
+            "Open question blocks the build (filing_process): Current multiple-case statute/form interaction and filing mechanics.",
+            "Open question blocks the build (eligibility_branch): Read § 24-72-709 in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases, before building."
+          ],
+          "scopeRestrictions": [
+            "Limited to multiple cases within the same judicial district."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Current multiple-case statute/form interaction and filing mechanics. (undetermined: filing_process)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (filing_process): Current multiple-case statute/form interaction and filing mechanics."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Read § 24-72-709 in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases, before building."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 641 with 640 and 642, the multiple-case set, have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_decriminalized_conduct_seal",
+          "publicName": "Sealing a Conviction for Conduct That Is No Longer a Crime",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The list of qualifying offense categories under § 24-72-711 must be confirmed; the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The list of qualifying offense categories under § 24-72-711 must be confirmed; the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 2370, 2371 and 2374, the conduct-no-longer-prohibited set, have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CO",
+          "trackId": "co_pardoned_conviction_seal",
+          "publicName": "Motion To Seal A Pardoned Conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Pardon route form and statute requirements. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Pardon route form and statute requirements.",
+            "Open question blocks the build (waiting_period): Read § 24-72-710 and confirm whether any waiting period or exclusion applies before building."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Pardon route form and statute requirements. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Pardon route form and statute requirements."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (waiting_period): Read § 24-72-710 and confirm whether any waiting period or exclusion applies before building."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): JDF 680 and 681, the pardon set, have not been acquired."
             },
             {
               "kind": "source_gate",

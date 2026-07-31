@@ -1,0 +1,1364 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "CO",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "co_auto_seal_arrest",
+      "legalName": "Automatic Sealing, Arrest With No Charges Filed, C.R.S. § 24-72-704(1.5) and (2)",
+      "publicName": "Automatic Sealing, Arrest With No Charges Filed",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-704(1.5) and (2)"],
+        "summary": "Automatic sealing of an arrest where no charges were filed. Nothing to file unless the automatic process fails."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": ["arrest with no charges filed"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado automatic process administered by CBI, the state court administrator, district attorneys, and the courts; local case verification may still be required."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Colorado Bureau of Investigation, the state court administrator, district attorneys and the courts",
+        "detail": "No participant form exists. Verification and the official petition backstop are the product's job."
+      },
+      "components": [
+        { "role": "process_guidance", "requirement": "required", "outputStrategy": "process_guidance", "notes": "Verification guidance, with the JDF 417 petition backstop where the automatic process fails." }
+      ],
+      "participantInputs": [
+        { "key": "chargesFiled", "question": "Were any charges ever filed after the arrest?", "requirement": "required" },
+        { "key": "recordStillVisible", "question": "Does the arrest still appear on a background check?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal-history report from CBI. It is a participant reference material; LegalEase does not verify it.",
+          "confirms": "recordStillVisible"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "none. Nothing to file unless the automatic process fails, in which case route to the JDF 417 petition.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-1 / missing source requirements",
+            "sourceStatement": "The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, which is the court's own current walkthrough.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains it: \"CO-1 and CO-3, automatic sealing | Remain process_guidance; no participant form exists. Include verification and official petition backstops.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Remain process_guidance; no participant form exists. Include verification and official petition backstops.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CO-1 and CO-3, automatic sealing | Remain `process_guidance`; no participant form exists. Include verification and official petition backstops."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Criminal-history reports, restitution information, discharge records, conviction dates, and other supporting records are participant reference materials or filing attachments. LegalEase does not verify those records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Criminal-history reports, restitution information, discharge records, conviction dates, and other supporting records are participant reference materials or filing attachments. Ask whether a later conviction exists, whether restitution remains outstanding, and whether all sentence conditions are complete. LegalEase does not verify those records."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_petition_seal_arrest",
+      "legalName": "Petition to Seal Arrest Records, No Charges Filed, C.R.S. § 24-72-704(1)",
+      "publicName": "Sealing an Arrest With No Charges",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-704(1)"],
+        "summary": "JDF 417 is the statewide petition and there is no reason to draft around it."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": ["arrest with no charges filed"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "district",
+        "keys": ["co-district-1", "co-district-2", "co-district-3", "co-district-4", "co-district-5", "co-district-6", "co-district-7", "co-district-8", "co-district-9", "co-district-10", "co-district-11", "co-district-12", "co-district-13", "co-district-14", "co-district-15", "co-district-16", "co-district-17", "co-district-18", "co-district-19", "co-district-20", "co-district-21", "co-district-22"],
+        "venue": "Statewide Colorado track; district court of the district where the arrest and criminal-record information is located."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "District court of the district where the arrest and criminal-record information is located",
+        "detail": "Court-controlled with a district attorney response opportunity."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-417", "notes": "Statewide petition." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-417-ORDER", "notes": "Order set. Revision drift noted in the original review at section 0.3 item 12." }
+      ],
+      "participantInputs": [
+        { "key": "arrestDetails", "question": "What was the arrest — which agency, what date, and what were you accused of?", "requirement": "required" },
+        { "key": "chargesFiled", "question": "Were any charges ever filed?", "requirement": "required" },
+        { "key": "districtOfArrest", "question": "In which judicial district is the arrest record located?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "arrestDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 417, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "JDF 417, Petition to Seal Arrest Records", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File JDF 417 in the district court of the district where the arrest and criminal-record information is located.",
+        "fees": "The filing fee for this petition remains unresolved.",
+        "feeWaiver": "The source review does not address a fee waiver for this petition.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement beyond the court's process.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The filing fee for this petition remains unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-2 / unresolved questions",
+            "sourceStatement": "The filing fee for this petition remains unresolved.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Order-set revision drift noted at section 0.3 item 12 of the original review.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-2 / limitations",
+            "sourceStatement": "The one caution is the order-set revision drift in section 0.3 item 12.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved",
+        "rationale": "Original review: \"Approved. The one caution is the order-set revision drift in section 0.3 item 12.\" The amendment changes the operational treatment of supporting records and routine hearings.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Where an official form requires a history or exhibit, the packet checklist must identify it as `required_before_filing`."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_auto_seal_nonconviction",
+      "legalName": "Automatic Sealing At Disposition, Non-Convictions, C.R.S. § 24-72-705(1)",
+      "publicName": "Automatic Sealing At Disposition, Non-Convictions",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-705(1)"],
+        "summary": "Automatic sealing at disposition for non-convictions. The product's job is to verify whether sealing actually happened and route to the simplified motion if it did not."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["charge"],
+      "eligibleDispositions": ["non-conviction dispositions within § 24-72-705(1)"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado automatic process administered by CBI, the state court administrator, district attorneys, and the courts; local case verification may still be required."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Colorado Bureau of Investigation, the state court administrator, district attorneys and the courts",
+        "detail": "No participant form exists. Verification and the simplified-motion backstop are the product's job."
+      },
+      "components": [
+        { "role": "process_guidance", "requirement": "required", "outputStrategy": "process_guidance", "notes": "Verification guidance, routing to the simplified non-conviction motion where sealing did not happen." }
+      ],
+      "participantInputs": [
+        { "key": "disposition", "question": "How did the case end?", "requirement": "required" },
+        { "key": "recordStillVisible", "question": "Does the case still appear on a background check?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal-history report from CBI.",
+          "confirms": "recordStillVisible"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "none. Nothing to file unless the automatic process fails.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-3 / missing source requirements",
+            "sourceStatement": "The Colorado Judicial Branch \"Sealing Criminal Records\" bench and self-help guide, revised August 2025, which is the court's own current walkthrough.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only. In practice the product's job here is to verify whether sealing actually happened and route to track 4 if it did not.\" The amendment expressly retains it as guidance.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Remain process_guidance; no participant form exists. Include verification and official petition backstops.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CO-1 and CO-3, automatic sealing | Remain `process_guidance`; no participant form exists. Include verification and official petition backstops."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The product's job here is to verify whether sealing actually happened and route to the simplified non-conviction motion if it did not.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-3 / limitations",
+              "sourceStatement": "In practice the product's job here is to verify whether sealing actually happened and route to track 4 if it did not.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_motion_seal_nonconviction",
+      "legalName": "Motion to Seal Non-Conviction Records, Simplified Backstop, C.R.S. § 24-72-705(2) and (3)",
+      "publicName": "Motion To Seal Non-Conviction Records, Simplified Backstop",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-705(2) and (3)"],
+        "summary": "The simplified motion backstop where automatic sealing at disposition did not reach the record."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["charge"],
+      "eligibleDispositions": ["non-conviction dispositions within § 24-72-705(2) and (3)"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado track; motion in the court that handled the underlying case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court that handled the underlying case",
+        "detail": "Court-controlled with a district attorney response opportunity."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-477", "notes": "Simplified non-conviction motion. Not in the current replica archive." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-478", "notes": "Part of the JDF 477/478/491/492/493 non-conviction simplified set." }
+      ],
+      "participantInputs": [
+        { "key": "disposition", "question": "How did the case end?", "requirement": "required" },
+        { "key": "caseNumberAndCourt", "question": "What is the case number, and which court handled the case?", "requirement": "required" },
+        { "key": "recordStillVisible", "question": "Does the case still appear on a background check?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "disposition"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 477, signature block", "why": "The movant signs their own motion." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File the motion in the court that handled the underlying case.",
+        "fees": "The source review does not state a filing fee for the simplified motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement beyond the court's process.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "JDF 477, 478, 491, 492 and 493, the non-conviction simplified set, have not been acquired. None are in the current replica archive.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-4 / missing source requirements",
+            "sourceStatement": "JDF 477, 478, 491, 492, 493, the non-conviction simplified set.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved",
+        "rationale": "Original review: \"Approved. Acquire JDF 477 and its order set. None of these are in the current replica archive.\" The packet identity is known; the missing forms are a source gate.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Where an official form requires a history or exhibit, the packet checklist must identify it as `required_before_filing`."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_clean_slate",
+      "legalName": "Clean Slate Automatic Conviction Sealing and Hearing Request, C.R.S. § 13-3-117",
+      "publicName": "Clean Slate Automatic Sealing",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 13-3-117, created by SB22-099 and expanded by HB24-1133"],
+        "summary": "Staged. The person files nothing to obtain Clean Slate relief, but when the district attorney objects on public-interest grounds the person's response is a real packet on JDF 2363. Colorado publishes a person-facing hearing request."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["convictions eligible for automatic sealing under § 13-3-117"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado automatic process administered by CBI, the state court administrator, district attorneys, and the courts; local case verification may still be required."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court handling the automatic sealing, on a hearing request",
+        "detail": "The automatic stage is guidance-only. The response stage, after a district attorney objection or other qualifying notice, is a real packet."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: tracking and verification. The person files nothing to obtain Clean Slate relief. Do not promise a date."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant must request a hearing after a district attorney objection or other qualifying notice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2363",
+          "notes": "Person-facing request for hearing on automatic sealing. JDF 2361 is reference only."
+        }
+      ],
+      "participantInputs": [
+        { "key": "convictionDetails", "question": "What conviction are you expecting to be sealed automatically — which court, what offence, and when?", "requirement": "required" },
+        { "key": "objectionReceived", "question": "Has the district attorney objected, or have you received any notice about the sealing?", "requirement": "required" },
+        { "key": "recordStillVisible", "question": "Does the conviction still appear on a background check?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal-history report from CBI.",
+          "confirms": "recordStillVisible"
+        },
+        {
+          "name": "District attorney objection or court notice",
+          "obtainedFrom": "The district attorney or the court",
+          "requirement": "conditional",
+          "conditionDescription": "Where the response stage is triggered.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "The objection or notice is served on the participant; attach it to the hearing request.",
+          "confirms": "objectionReceived"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 2363, signature block", "why": "The participant signs their own hearing request." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "Stage 1: nothing is filed. Stage 2: file JDF 2363 to request a hearing after a district attorney objection or other qualifying notice.",
+        "fees": "The source review does not state a fee for the hearing request.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney may object on public-interest grounds. The state court administrator was required by July 1, 2024 to develop a website where a defendant can confidentially determine whether a conviction has been sealed.",
+        "service": "The source review does not state a separate service requirement.",
+        "participantSignature": "The participant signs their own hearing request.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects and the hearing is contested.",
+        "Individualized discretionary advocacy is needed at the hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The state court administrator was required by July 1, 2024 to develop a website where a defendant can confidentially determine whether a conviction has been sealed and how to obtain a copy of the order. Whether it exists and where has not been confirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-5 / unresolved questions",
+            "sourceStatement": "Lookup: the state court administrator was required by July 1, 2024 to develop a website where a defendant can confidentially determine whether a conviction has been sealed and how to obtain a copy of the order. See open question 1.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "JDF 2363, the person-facing request for hearing on automatic sealing, and JDF 2361 for reference, have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-5 / missing source requirements",
+            "sourceStatement": "JDF 2363, the person-facing request for hearing on automatic sealing, and JDF 2361 for reference only.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. Build the tracking and verification experience plus the JDF 2363 response. Do not promise a date.\" The amendment expressly requires the staged representation: \"CO-5 must be represented as a staged route with a packet-capable objection/hearing-response branch.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Staged: process guidance and verification initially; official_pdf_fill on JDF 2363 when the participant must request a hearing after a district attorney objection or other qualifying notice. The automatic stage is guidance-only, but the response stage is a real packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CO-5, Clean Slate automatic conviction sealing | `staged`: process guidance and verification initially; `official_pdf_fill` on JDF 2363 when the participant must request a hearing after a district attorney objection or other qualifying notice | Colorado publishes a person-facing hearing request. The automatic stage is guidance-only, but the response stage is a real packet."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build the tracking and verification experience plus the JDF 2363 response. Do not promise a date.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-5 / limitations",
+              "sourceStatement": "Build the tracking and verification experience plus the JDF 2363 response. Do not promise a date.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_motion_seal_conviction",
+      "legalName": "Motion to Seal Conviction Records, County or District Court, C.R.S. § 24-72-706",
+      "publicName": "Motion To Seal Conviction Records, County Or District Court",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-706, as amended effective July 1, 2025"],
+        "summary": "JDF 612 is the statewide motion and reproduces the exclusion list verbatim in section 8."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["convictions eligible under § 24-72-706"],
+      "exclusions": ["The exclusion list reproduced verbatim in JDF 612 section 8."],
+      "waitingPeriods": [
+        { "condition": "As set by § 24-72-706, running from completion of the sentence", "duration": "Per the statutory schedule" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado track; filed in the existing criminal case in the court where the conviction records are located."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court where the conviction records are located, in the existing criminal case",
+        "detail": "Court-controlled with a district attorney response opportunity."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-612", "notes": "Statewide motion; reproduces the exclusion list verbatim in section 8." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-615", "notes": "Order to Seal Conviction Records. The missing grant order on the highest-value track." }
+      ],
+      "participantInputs": [
+        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, statute section, and when?", "requirement": "required" },
+        { "key": "sentenceComplete", "question": "Have you completed all sentence conditions?", "requirement": "required" },
+        { "key": "restitutionOutstanding", "question": "Is any restitution still outstanding?", "requirement": "required" },
+        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" },
+        { "key": "onExclusionList", "question": "Is the offence on the exclusion list in section 8 of the form?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "convictionDetails"
+        },
+        {
+          "name": "Discharge or restitution records",
+          "obtainedFrom": "The court or supervising agency",
+          "requirement": "conditional",
+          "conditionDescription": "Where the form requires evidence of sentence completion or restitution status.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the court or supervising agency for discharge and restitution records.",
+          "confirms": "sentenceComplete"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 612, signature block", "why": "The movant signs their own motion." }
+      ],
+      "officialSources": [
+        { "title": "JDF 612, Motion to Seal Conviction Records", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File JDF 612 in the existing criminal case in the court where the conviction records are located.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement beyond the court's process.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "Whether the offence is on the section 8 exclusion list is unclear.",
+        "Restitution or court debt is unpaid or disputed.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-6 / missing source requirements",
+            "sourceStatement": "JDF 615, Order to Seal Conviction Records. This is the missing grant order on the highest-value track.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. Gate on the three hard gates above, and acquire JDF 615 before the track can produce a complete packet.\" The packet identity is known; the missing order is a source gate.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether a later conviction exists, whether restitution remains outstanding, and whether all sentence conditions are complete. LegalEase does not verify those records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Ask whether a later conviction exists, whether restitution remains outstanding, and whether all sentence conditions are complete. LegalEase does not verify those records."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Where an official form requires a history or exhibit, the packet checklist must identify it as `required_before_filing`."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Gate on the three hard gates identified in the original review, and acquire JDF 615 before the track can produce a complete packet.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-6 / limitations",
+              "sourceStatement": "Gate on the three hard gates above, and acquire JDF 615 before the track can produce a complete packet.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_municipal_conviction_seal",
+      "legalName": "Petition to Seal Municipal Conviction Records, C.R.S. § 24-72-708",
+      "publicName": "Petition To Seal Municipal Conviction Records",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-708"],
+        "summary": "Municipal conviction sealing. Section 24-72-708 was not read in full in this review."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["municipal conviction"],
+      "eligibleDispositions": ["municipal convictions within § 24-72-708"],
+      "exclusions": ["The exclusion set has not been confirmed."],
+      "waitingPeriods": [
+        { "condition": "As set by § 24-72-708", "duration": "Not confirmed; the section was not read in full" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "court_specific",
+        "keys": ["co-municipal-courts"],
+        "venue": "Municipal-court-specific Colorado track; file in the municipal court that heard the case. Local intake practice varies."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The municipal court that heard the case",
+        "detail": "Municipal courts are not part of the state e-filing system, so local intake practice will vary."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-683", "notes": "The municipal set is JDF 683 with 682, 684, 685 and 686. Not yet acquired." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-684" }
+      ],
+      "participantInputs": [
+        { "key": "municipalCourt", "question": "Which municipal court heard the case?", "requirement": "required" },
+        { "key": "convictionDetails", "question": "What was the municipal conviction, and when?", "requirement": "required" },
+        { "key": "sentenceComplete", "question": "Have you completed all sentence conditions?", "requirement": "required" },
+        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 683, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File in the municipal court that heard the case. Municipal courts are not part of the state e-filing system, so local intake practice will vary.",
+        "fees": "Unconfirmed. The fee must be confirmed before building.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Objection mechanics have not been confirmed.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting authority objects.",
+        "The municipal court sets a contested hearing.",
+        "Local intake practice is unclear.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Municipal form coverage and current municipal-court procedure.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-7:** municipal form coverage and current municipal-court procedure."
+          }
+        },
+        {
+          "question": "Section 24-72-708 was not read in full. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-7 / limitations",
+            "sourceStatement": "Section 24-72-708 was not read in full in this review. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "JDF 683 with 682, 684, 685 and 686, the municipal set, have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-7 / missing source requirements",
+            "sourceStatement": "JDF 683 with 682, 684, 685, 686, the municipal set.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains CO-7 as a true blocker on municipal form coverage and current municipal-court procedure. The output strategy is known — official_pdf_fill on the municipal JDF set — so the known design is imported and the blockers preserved.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Municipal form coverage and current municipal-court procedure.",
+            "undeterminedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / True blockers retained",
+              "sourceStatement": "**CO-7:** municipal form coverage and current municipal-court procedure."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Municipal courts are not part of the state e-filing system, so local intake practice will vary. Do not present this route as statewide.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-7 / limitations",
+              "sourceStatement": "Note also that municipal courts are not part of the state e-filing system, so local intake practice will vary.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_multiple_conviction_seal",
+      "legalName": "Motion to Seal Multiple Conviction Records, C.R.S. § 24-72-709",
+      "publicName": "Motion To Seal Multiple Conviction Records",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-709"],
+        "summary": "The only way to clear several cases in one filing. Section 24-72-709 was not read in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["multiple convictions within § 24-72-709"],
+      "exclusions": ["The eligibility formula for multiple convictions has not been confirmed."],
+      "waitingPeriods": [
+        { "condition": "Waiting-period calculation across cases, as set by § 24-72-709", "duration": "Not confirmed; the section was not read in full" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "district",
+        "keys": ["co-district-1", "co-district-2", "co-district-3", "co-district-4", "co-district-5", "co-district-6", "co-district-7", "co-district-8", "co-district-9", "co-district-10", "co-district-11", "co-district-12", "co-district-13", "co-district-14", "co-district-15", "co-district-16", "co-district-17", "co-district-18", "co-district-19", "co-district-20", "co-district-21", "co-district-22"],
+        "venue": "Colorado track limited to multiple cases within the same judicial district."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The district court for the judicial district containing the cases",
+        "detail": "Limited to multiple cases within the same judicial district."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-641", "notes": "The multiple-case set is JDF 641 with 640 and 642. Not yet acquired." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-642" }
+      ],
+      "participantInputs": [
+        { "key": "casesToSeal", "question": "Which cases do you want sealed — case numbers, courts and offences?", "requirement": "required" },
+        { "key": "sameDistrict", "question": "Are all of those cases in the same judicial district?", "requirement": "required" },
+        { "key": "sentencesComplete", "question": "Have you completed all sentence conditions on each case?", "requirement": "required" },
+        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "casesToSeal"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 641, signature block", "why": "The movant signs their own motion." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File in the district court for the judicial district containing the cases. Limited to multiple cases within the same judicial district.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "The cases span more than one judicial district.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current multiple-case statute/form interaction and filing mechanics.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-8:** current multiple-case statute/form interaction and filing mechanics."
+          }
+        },
+        {
+          "question": "Read § 24-72-709 in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases, before building.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-8 / limitations",
+            "sourceStatement": "Read § 24-72-709 in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases, before building.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "JDF 641 with 640 and 642, the multiple-case set, have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-8 / missing source requirements",
+            "sourceStatement": "JDF 641 with 640 and 642, the multiple-case set.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains CO-8 as a true blocker on the multiple-case statute/form interaction and filing mechanics. The output strategy is known, so the known design is imported and the blockers preserved.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Current multiple-case statute/form interaction and filing mechanics.",
+            "undeterminedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / True blockers retained",
+              "sourceStatement": "**CO-8:** current multiple-case statute/form interaction and filing mechanics."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Limited to multiple cases within the same judicial district.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-8 / geographic scope",
+              "sourceStatement": "Colorado track limited to multiple cases within the same judicial district.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_decriminalized_conduct_seal",
+      "legalName": "Motion to Seal, Conduct No Longer Prohibited, C.R.S. § 24-72-711",
+      "publicName": "Sealing a Conviction for Conduct That Is No Longer a Crime",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-711, effective July 1, 2025, added by HB24-1133"],
+        "summary": "Sealing where the conduct is no longer prohibited. The statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["convictions for conduct that is no longer prohibited, within § 24-72-711"],
+      "exclusions": ["The list of qualifying offense categories has not been confirmed."],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado track; filed in the existing criminal case in the court where the conviction records are located."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court where the conviction records are located, in the existing criminal case",
+        "detail": "Court-controlled with a district attorney response opportunity."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-2370", "notes": "The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374. Not yet acquired." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-2374" }
+      ],
+      "participantInputs": [
+        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, statute section, and when?", "requirement": "required" },
+        { "key": "conductNoLongerCrime", "question": "Is the conduct you were convicted of no longer a crime in Colorado?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Colorado criminal-history report",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 2370, signature block", "why": "The movant signs their own motion." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File in the existing criminal case in the court where the conviction records are located.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "Whether the conduct falls in a qualifying category is unclear.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-9 / limitations",
+            "sourceStatement": "Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "JDF 2370, 2371 and 2374, the conduct-no-longer-prohibited set, have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-9 / missing source requirements",
+            "sourceStatement": "JDF 2370, 2371, 2374, the conduct-no-longer-prohibited set.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories.\" The packet identity is known; the offence-category question is a build blocker on the eligibility branch.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The list of qualifying offense categories under § 24-72-711 must be confirmed; the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "TRACK CO-9 / limitations",
+              "sourceStatement": "Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_pardoned_conviction_seal",
+      "legalName": "Motion to Seal a Pardoned Conviction, C.R.S. § 24-72-710",
+      "publicName": "Motion To Seal A Pardoned Conviction",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-710"],
+        "summary": "Sealing a conviction after a pardon. Low volume. The section has not been read and any waiting period or exclusion is unconfirmed."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["a conviction for which a pardon has been granted"],
+      "exclusions": ["Whether any exclusion applies has not been confirmed."],
+      "waitingPeriods": [
+        { "condition": "Whether any waiting period applies", "duration": "Not confirmed; the section has not been read" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado track; filed in the existing criminal case in the court where the conviction records are located."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court where the conviction records are located, in the existing criminal case",
+        "detail": "Court-controlled with a district attorney response opportunity."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-680", "notes": "The pardon set is JDF 680 and 681. Not yet acquired." },
+        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-681" }
+      ],
+      "participantInputs": [
+        { "key": "pardonGranted", "question": "Has a pardon been granted for this conviction, and on what date?", "requirement": "required" },
+        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and when?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Pardon documentation",
+          "obtainedFrom": "The granting authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Attach the pardon documentation to the motion. LegalEase does not verify it.",
+          "confirms": "pardonGranted"
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "JDF 680, signature block", "why": "The movant signs their own motion." }
+      ],
+      "officialSources": [
+        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File in the existing criminal case in the court where the conviction records are located.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The district attorney has an opportunity to respond.",
+        "service": "The source review does not state a separate service requirement.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The district attorney objects.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Pardon route form and statute requirements.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-10:** pardon route form and statute requirements."
+          }
+        },
+        {
+          "question": "Read § 24-72-710 and confirm whether any waiting period or exclusion applies before building.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-10 / limitations",
+            "sourceStatement": "Low volume. Read the section and confirm whether any waiting period or exclusion applies before building.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "JDF 680 and 681, the pardon set, have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-10 / missing source requirements",
+            "sourceStatement": "JDF 680 and 681, the pardon set.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required. Low volume.\" The amendment retains CO-10 as a true blocker on the pardon route form and statute requirements. The output strategy is known, so the known design is imported and the blockers preserved.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Pardon route form and statute requirements.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / True blockers retained",
+              "sourceStatement": "**CO-10:** pardon route form and statute requirements."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Pardon documentation is a filing attachment. LegalEase does not verify it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Criminal-history reports, restitution information, discharge records, conviction dates, and other supporting records are participant reference materials or filing attachments. ... LegalEase does not verify those records."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "co_mistaken_identity_expungement",
+      "legalName": "Expungement of Records Created by Mistaken Identity, C.R.S. § 24-72-702",
+      "publicName": "Expungement Of Records Created By Mistaken Identity",
+      "controllingAuthority": {
+        "citations": ["C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record"],
+        "summary": "The governing mistaken-identity mechanism and output vehicle remain unresolved. Whether this is a self-help track or an attorney referral has not been determined."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleDispositions": ["records created as a result of mistaken identity"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Colorado statute; forum, form, and self-help suitability remain unresolved."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The forum, the form and whether this is a self-help track at all remain unresolved."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Provisional and inert: the track is deferred. Counsel recorded the output strategy as \"unresolved\" and named no candidate. This placeholder reaches no runtime artifact and asserts nothing about the vehicle."
+        }
+      ],
+      "participantInputs": [
+        { "key": "mistakenIdentityFacts", "question": "In your own words, how was this record created by someone using your identity or by a mix-up?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        { "title": "C.R.S. § 24-72-702, as amended by HB24-1133", "url": "https://leg.colorado.gov/", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "Unresolved. The forum and vehicle have not been established.",
+        "fees": "Unresolved. § 24-72-702 addresses the costs associated with expunging the record but the section has not been read in full.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved.",
+        "service": "Unresolved.",
+        "participantSignature": "Unresolved, pending the vehicle.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Whether this is a self-help track or an attorney referral has not been determined.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Governing mistaken-identity mechanism and output vehicle.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-11:** governing mistaken-identity mechanism and output vehicle."
+          }
+        },
+        {
+          "question": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-11 / limitations",
+            "sourceStatement": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains CO-11 as a true blocker on the governing mechanism and output vehicle. Counsel recorded the output strategy as unresolved and named no candidate; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Governing mistaken-identity mechanism and output vehicle.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+              "sourceHeading": "Colorado operational amendments / True blockers retained",
+              "sourceStatement": "**CO-11:** governing mistaken-identity mechanism and output vehicle."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

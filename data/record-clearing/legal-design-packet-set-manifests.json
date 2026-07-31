@@ -504,6 +504,983 @@
       "requiredBeforeFiling": []
     },
     {
+      "jurisdiction": "AL",
+      "trackId": "al-misd-nonconviction-90",
+      "packetSetId": "al-misd-nonconviction-90-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-misd-nonconviction-90-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-misd-nonconviction-90-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-misd-nonconviction-90-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed instead of the $500 fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "al-misd-nonconviction-90-continuation-4",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "For the required-information block where it overflows.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA. The current request instructions and fee are not yet source-approved.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served. CR-65 page 7 tells attorneys they are not required to use the certificate of service page but that the petition must include a compliant certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 pages 1 through 6 in the criminal division of the circuit court in the county where the charges were filed. One petition per offense; multi-count matters fan out into separate petitions with a single fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+        "Check your answer to \"How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA. The current request instructions and fee are not yet source-approved.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-felony-nonconviction-90",
+      "packetSetId": "al-felony-nonconviction-90-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-felony-nonconviction-90-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-felony-nonconviction-90-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-felony-nonconviction-90-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+        "Check your answer to \"How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-misd-dwop",
+      "packetSetId": "al-misd-dwop-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-misd-dwop-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-misd-dwop-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-misd-dwop-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the disposition.",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the case dismissed without prejudice?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the disposition.",
+        "Check your answer to \"Was the case dismissed without prejudice?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-felony-dwop",
+      "packetSetId": "al-felony-dwop-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-felony-dwop-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-felony-dwop-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-felony-dwop-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the disposition.",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the case dismissed without prejudice?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record — arrest record, disposition, or case action summary. Ask the clerk for a certified copy of the disposition.",
+        "Check your answer to \"Was the case dismissed without prejudice?\" against Certified local record — arrest record, disposition, or case action summary, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-diversion",
+      "packetSetId": "al-diversion-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-diversion-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-diversion-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-diversion-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record showing the dismissal was entered. Ask the clerk for a certified copy of the dismissal.",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the programme end in a dismissal of the charge?\" against Certified local record showing the dismissal was entered, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record showing the dismissal was entered. Ask the clerk for a certified copy of the dismissal.",
+        "Check your answer to \"Did the programme end in a dismissal of the charge?\" against Certified local record showing the dismissal was entered, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-misd-conviction",
+      "packetSetId": "al-misd-conviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-misd-conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-misd-conviction-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-misd-conviction-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified local record — conviction and evidence of completion. Ask the clerk or supervising agency for certified evidence that all probation or parole requirements and court-ordered amounts are satisfied.",
+          "obtainedFrom": "The clerk of the court where the charges were filed, or the supervising agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you completed all probation or parole requirements, including paying all fines, costs, restitution and other court-ordered amounts?\" against Certified local record — conviction and evidence of completion, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 Section II in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified local record — conviction and evidence of completion. Ask the clerk or supervising agency for certified evidence that all probation or parole requirements and court-ordered amounts are satisfied.",
+        "Check your answer to \"Have you completed all probation or parole requirements, including paying all fines, costs, restitution and other court-ordered amounts?\" against Certified local record — conviction and evidence of completion, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-pardoned-felony",
+      "packetSetId": "al-pardoned-felony-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-pardoned-felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-pardoned-felony-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-pardoned-felony-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pardon certificate. Attach the pardon certificate to the petition. It is a filing attachment and reference document; LegalEase does not approve it.",
+          "obtainedFrom": "Alabama Board of Pardons and Paroles",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What does the pardon certificate say about restoration of your civil and political rights?\" against Pardon certificate, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pardon certificate. Attach the pardon certificate to the petition. It is a filing attachment and reference document; LegalEase does not approve it.",
+        "Check your answer to \"What does the pardon certificate say about restoration of your civil and political rights?\" against Pardon certificate, and correct the packet if they disagree.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-trafficking",
+      "packetSetId": "al-trafficking-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-trafficking-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "al-trafficking-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "al-trafficking-fee-waiver-3",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Supporting evidence of trafficking. The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it.",
+          "obtainedFrom": "The participant's own records, service providers, or law enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-65, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-65.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$500, or C-10-Criminal where indigency is claimed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A certificate of service page per entity served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Supporting evidence of trafficking. The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it.",
+        "Obtain Certified ALEA criminal record. Request a certified criminal record from ALEA.",
+        "Signature and date — CR-65, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement for CR-65.",
+        "$500, or C-10-Criminal where indigency is claimed.",
+        "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-pardon",
+      "packetSetId": "al-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-pardon-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ABPP-3",
+          "officialSourceUrl": "https://paroles.alabama.gov/resources/forms/",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ABPP-3, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for the pardon application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for the application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The application begins through the local probation office and goes to the Board of Pardons and Paroles.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature and date — ABPP-3, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for the pardon application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
       "jurisdiction": "AZ",
       "trackId": "az_marijuana_expungement_limited_jurisdiction",
       "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",
@@ -1273,6 +2250,901 @@
         "The petitioner signs their own petition.",
         "The source review does not state a notarization requirement.",
         "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_auto_seal_arrest",
+      "packetSetId": "co_auto_seal_arrest-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_auto_seal_arrest-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI. It is a participant reference material; LegalEase does not verify it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the arrest still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none. Nothing to file unless the automatic process fails, in which case route to the JDF 417 petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the arrest still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_petition_seal_arrest",
+      "packetSetId": "co_petition_seal_arrest-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_petition_seal_arrest-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-417",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_petition_seal_arrest-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-417-ORDER",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 417, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The filing fee for this petition remains unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for this petition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement beyond the court's process.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File JDF 417 in the district court of the district where the arrest and criminal-record information is located.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Signature and date — JDF 417, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The filing fee for this petition remains unresolved.",
+        "The source review does not address a fee waiver for this petition."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_auto_seal_nonconviction",
+      "packetSetId": "co_auto_seal_nonconviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_auto_seal_nonconviction-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the case still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none. Nothing to file unless the automatic process fails.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the case still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_motion_seal_nonconviction",
+      "packetSetId": "co_motion_seal_nonconviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_motion_seal_nonconviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-477",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_motion_seal_nonconviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-478",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 477, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for the simplified motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement beyond the court's process.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the motion in the court that handled the underlying case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Signature and date — JDF 477, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for the simplified motion.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_clean_slate",
+      "packetSetId": "co_clean_slate-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_clean_slate-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_clean_slate-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant must request a hearing after a district attorney objection or other qualifying notice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2363",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the conviction still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain District attorney objection or court notice. The objection or notice is served on the participant; attach it to the hearing request.",
+          "obtainedFrom": "The district attorney or the court",
+          "requirement": "conditional",
+          "conditionDescription": "Where the response stage is triggered.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the district attorney objected, or have you received any notice about the sealing?\" against District attorney objection or court notice, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the response stage is triggered.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 2363, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs their own hearing request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for the hearing request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: nothing is filed. Stage 2: file JDF 2363 to request a hearing after a district attorney objection or other qualifying notice.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the conviction still appear on a background check?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Obtain District attorney objection or court notice. The objection or notice is served on the participant; attach it to the hearing request.",
+        "Check your answer to \"Has the district attorney objected, or have you received any notice about the sealing?\" against District attorney objection or court notice, and correct the packet if they disagree.",
+        "Signature and date — JDF 2363, signature block.",
+        "The participant signs their own hearing request.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for the hearing request.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_motion_seal_conviction",
+      "packetSetId": "co_motion_seal_conviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_motion_seal_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-612",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_motion_seal_conviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-615",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, statute section, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Discharge or restitution records. Ask the court or supervising agency for discharge and restitution records.",
+          "obtainedFrom": "The court or supervising agency",
+          "requirement": "conditional",
+          "conditionDescription": "Where the form requires evidence of sentence completion or restitution status.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you completed all sentence conditions?\" against Discharge or restitution records, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the form requires evidence of sentence completion or restitution status.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 612, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement beyond the court's process.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File JDF 612 in the existing criminal case in the court where the conviction records are located.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"What was the conviction — which court, what offence, statute section, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Obtain Discharge or restitution records. Ask the court or supervising agency for discharge and restitution records.",
+        "Check your answer to \"Have you completed all sentence conditions?\" against Discharge or restitution records, and correct the packet if they disagree.",
+        "Signature and date — JDF 612, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this motion.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_municipal_conviction_seal",
+      "packetSetId": "co_municipal_conviction_seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_municipal_conviction_seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-683",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_municipal_conviction_seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-684",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the municipal conviction, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 683, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unconfirmed. The fee must be confirmed before building.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the municipal court that heard the case. Municipal courts are not part of the state e-filing system, so local intake practice will vary.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"What was the municipal conviction, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Signature and date — JDF 683, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "Unconfirmed. The fee must be confirmed before building.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_multiple_conviction_seal",
+      "packetSetId": "co_multiple_conviction_seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_multiple_conviction_seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-641",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_multiple_conviction_seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-642",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which cases do you want sealed — case numbers, courts and offences?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 641, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the district court for the judicial district containing the cases. Limited to multiple cases within the same judicial district.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"Which cases do you want sealed — case numbers, courts and offences?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Signature and date — JDF 641, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this motion.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_decriminalized_conduct_seal",
+      "packetSetId": "co_decriminalized_conduct_seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_decriminalized_conduct_seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2370",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_decriminalized_conduct_seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2374",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+          "obtainedFrom": "Colorado Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, statute section, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the official form requires a history or exhibit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 2370, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the existing criminal case in the court where the conviction records are located.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "Check your answer to \"What was the conviction — which court, what offence, statute section, and when?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "Signature and date — JDF 2370, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this motion.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_pardoned_conviction_seal",
+      "packetSetId": "co_pardoned_conviction_seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "co_pardoned_conviction_seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-680",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "co_pardoned_conviction_seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-681",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pardon documentation. Attach the pardon documentation to the motion. LegalEase does not verify it.",
+          "obtainedFrom": "The granting authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has a pardon been granted for this conviction, and on what date?\" against Pardon documentation, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — JDF 680, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs their own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the existing criminal case in the court where the conviction records are located.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pardon documentation. Attach the pardon documentation to the motion. LegalEase does not verify it.",
+        "Check your answer to \"Has a pardon been granted for this conviction, and on what date?\" against Pardon documentation, and correct the packet if they disagree.",
+        "Signature and date — JDF 680, signature block.",
+        "The movant signs their own motion.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this motion.",
         "The source review does not address a fee waiver."
       ]
     },

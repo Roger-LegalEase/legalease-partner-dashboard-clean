@@ -1,0 +1,1659 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "AL",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "al-misd-nonconviction-90",
+      "legalName": "Petition to Expunge Misdemeanor-Level Non-Conviction Records, Ala. Code § 15-27-1(a)(1)-(a)(5)",
+      "publicName": "Misdemeanor-Level Non-Conviction, 90-Day Bases",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-1(a)(1) through (a)(5)", "Ala. Code § 15-27-3", "Ala. Code § 15-27-5(b)"],
+        "summary": "Five 90-day bases for misdemeanor-level non-conviction records. Discretionary on the merits under § 15-27-5(b), but with no objection the court is directed to grant if reasonably satisfied of compliance. CR-65 Section I, first five checkboxes."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["misdemeanor offense", "violation", "traffic violation", "municipal ordinance violation"],
+      "eligibleDispositions": [
+        "Dismissed with prejudice, more than 90 days passed",
+        "No billed by a grand jury, more than 90 days passed",
+        "Found not guilty, more than 90 days passed",
+        "Nolle prossed without conditions, more than 90 days passed, not refiled",
+        "Indictment quashed and the limitations period for refiling has expired, or the prosecuting agency confirms the charges will not be refiled"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        { "condition": "From the disposition. None of these bases carries a conviction-free interim requirement.", "duration": "90 days" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed. One petition per offense; local circuit practice remains unverified."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window. One petition per offense."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "notes": "CR-65 pages 1 through 6. Statewide-approved and effectively required: ALEA directs petitioners to it, § 15-27-3 prescribes the petition's content, and CR-65A is the court's checklist for rejecting a non-conforming filing."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65",
+          "notes": "Certificate of service page per entity served. Additional pages as conditional."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where indigency is claimed instead of the $500 fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "C-10-CRIMINAL"
+        },
+        {
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "For the required-information block where it overflows.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-65"
+        }
+      ],
+      "participantInputs": [
+        { "key": "howMatterEnded", "question": "How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?", "requirement": "required" },
+        { "key": "dismissalWithPrejudice", "question": "Was the dismissal with prejudice or without prejudice?", "requirement": "conditional", "conditionDescription": "Asked on the dismissal basis, where it decides which track applies." },
+        { "key": "nolleWithoutConditions", "question": "Was the nolle prosse entered without conditions?", "requirement": "conditional", "conditionDescription": "Asked on the nolle basis." },
+        { "key": "dispositionDate", "question": "On what date did the matter end? More than 90 days must have passed.", "requirement": "required" },
+        { "key": "refiled", "question": "Have the charges been refiled?", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" },
+        { "key": "offenceLevel", "question": "Was this a misdemeanor, a violation, a traffic violation, or a municipal ordinance violation?", "requirement": "required" },
+        { "key": "courtOrderedAmounts", "question": "Have you paid everything the court ordered in the case?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record — arrest record, disposition, or case action summary",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+          "confirms": "howMatterEnded"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA. The current request instructions and fee are not yet source-approved."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-65, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records, Alabama Administrative Office of Courts", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-1", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 pages 1 through 6 in the criminal division of the circuit court in the county where the charges were filed. One petition per offense; multi-count matters fan out into separate petitions with a single fee.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Court-controlled with a prosecutor and victim objection window. With no objection the court is directed to grant if reasonably satisfied of compliance, § 15-27-5(b).",
+        "service": "A certificate of service page per entity served. CR-65 page 7 tells attorneys they are not required to use the certificate of service page but that the petition must include a compliant certificate of service.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Whether a dismissal was with or without prejudice cannot be determined.",
+        "Whether a nolle prosse was without conditions cannot be determined.",
+        "Whether the limitations period has run on a quashed indictment is unclear.",
+        "The prosecuting agency must be contacted to confirm non-refiling.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read; the original review records that the Legislature's site was not read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        },
+        {
+          "question": "ALEA criminal-history request instructions and current fee have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-1 / missing source requirements",
+            "sourceStatement": "ALEA criminal-history request instructions and current fee.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Authoritative publication/source for CR-65A and confirmation whether any granting-order form exists.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-1 / missing source requirements",
+            "sourceStatement": "Authoritative publication/source for CR-65A and confirmation whether any granting-order form exists.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether any circuit adds local requirements. No local form variation was identified, but local circuit practice remains unverified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-1 / GEOGRAPHY AND VENUE",
+            "sourceStatement": "No local form variation identified. Unresolved whether any circuit adds local requirements.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment supersedes the original instruction to require the certified disposition before generating: the certified local record and the ALEA record are required_before_filing, not preconditions to generation.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask how the matter ended and explain the CR-65 disposition choices. Generate from the participant's selected answer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-1 and AL-2 | Ask how the matter ended and explain the CR-65 disposition choices. Generate from the participant's selected answer. Certified local records and the ALEA record are `required_before_filing`, not preconditions to generation. If the participant cannot identify the disposition, fail closed on route selection and explain what must be confirmed."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Certified local records and the ALEA record are required_before_filing, not preconditions to generation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Certified local records and the ALEA record are `required_before_filing`, not preconditions to generation."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "If the participant cannot identify the disposition, fail closed on route selection and explain what must be confirmed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "If the participant cannot identify the disposition, fail closed on route selection and explain what must be confirmed."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build the multi-count fan-out into separate petitions with a single fee. One petition per offense.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-1 / limitations",
+              "sourceStatement": "Build the multi-count fan-out into separate petitions with a single fee.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Warn the participant to confirm the disposition before signing and filing. The case action summary does not always make the with-prejudice question obvious.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "First-Batch Changes by Jurisdiction / Alabama / AL-1 and AL-2",
+              "sourceStatement": "warn the participant to confirm the disposition before signing and filing."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Case-count limitation: unlimited on these bases, § 15-27-2.1(a)(1).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-1",
+              "sourceStatement": "Case-count limitation: **unlimited.** § 15-27-2.1(a)(1).",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-felony-nonconviction-90",
+      "legalName": "Petition to Expunge Felony Non-Conviction Records, Ala. Code § 15-27-2(a)(1)-(a)(5)",
+      "publicName": "Felony Non-Conviction, 90-Day Bases",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-2(a)(1) through (a)(5)", "Ala. Code § 15-27-3", "Ala. Code § 15-27-5(b)"],
+        "summary": "The felony counterpart of the five 90-day non-conviction bases, on the same CR-65 petition."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["felony charge"],
+      "eligibleDispositions": [
+        "Dismissed with prejudice, more than 90 days passed",
+        "No billed by a grand jury, more than 90 days passed",
+        "Found not guilty, more than 90 days passed",
+        "Nolle prossed without conditions, more than 90 days passed, not refiled",
+        "Indictment quashed and the limitations period for refiling has expired, or the prosecuting agency confirms the charges will not be refiled"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        { "condition": "From the disposition", "duration": "90 days" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed. One petition per offense; local circuit practice remains unverified."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65", "notes": "CR-65 pages 1 through 6." },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "howMatterEnded", "question": "How did the matter end — dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?", "requirement": "required" },
+        { "key": "dismissalWithPrejudice", "question": "Was the dismissal with prejudice or without prejudice?", "requirement": "conditional", "conditionDescription": "Asked on the dismissal basis." },
+        { "key": "dispositionDate", "question": "On what date did the matter end? More than 90 days must have passed.", "requirement": "required" },
+        { "key": "refiled", "question": "Have the charges been refiled?", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" },
+        { "key": "courtOrderedAmounts", "question": "Have you paid everything the court ordered in the case?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record — arrest record, disposition, or case action summary",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+          "confirms": "howMatterEnded"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records, Alabama Administrative Office of Courts", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-2", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Whether a dismissal was with or without prejudice cannot be determined.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Verify against the current § 15-27-2(a) text that \"any felony offense\" survived the most recent amendments, because the archive and the internal reference both carry the older non-violent framing.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-2 / limitations",
+            "sourceStatement": "verify against the current § 15-27-2(a) text that \"any felony offense\" survived the most recent amendments, because the archive and the internal reference both carry the older non-violent framing.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below,\" same as AL-1 plus the felony-scope verification. The amendment supersedes any requirement to inspect a record before generating.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask how the matter ended and explain the CR-65 disposition choices. Generate from the participant's selected answer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-1 and AL-2 | Ask how the matter ended and explain the CR-65 disposition choices. Generate from the participant's selected answer."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Certified local records and the ALEA record are required_before_filing, not preconditions to generation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Certified local records and the ALEA record are `required_before_filing`, not preconditions to generation."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Whether \"any felony offense\" survived the most recent amendments to § 15-27-2(a), given that the archive and internal reference both carry the older non-violent framing.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-2 / limitations",
+              "sourceStatement": "verify against the current § 15-27-2(a) text that \"any felony offense\" survived the most recent amendments, because the archive and the internal reference both carry the older non-violent framing.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-misd-dwop",
+      "legalName": "Petition to Expunge Misdemeanor-Level Charges Dismissed Without Prejudice, Ala. Code § 15-27-1(a)(7)",
+      "publicName": "Misdemeanor-Level Dismissed Without Prejudice",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-1(a)(7)"],
+        "summary": "Two statutory clocks run on different measures: one forward from the dismissal, one backward from filing. Both must be modelled."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["misdemeanor offense", "violation", "traffic violation", "municipal ordinance violation"],
+      "eligibleDispositions": ["Dismissed without prejudice"],
+      "exclusions": [
+        "The \"excluding minor traffic violations\" carve-out on the backward-looking clock. The definition is unresolved."
+      ],
+      "waitingPeriods": [
+        { "condition": "Forward from the dismissal", "duration": "As set by § 15-27-1(a)(7)" },
+        { "condition": "Backward from filing: conviction-free period, excluding minor traffic violations", "duration": "As set by § 15-27-1(a)(7)" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "dismissedWithoutPrejudice", "question": "Was the case dismissed without prejudice?", "requirement": "required" },
+        { "key": "dismissalDate", "question": "On what date was the case dismissed?", "requirement": "required" },
+        { "key": "interveningConvictions", "question": "Have you been convicted of anything since then, or in the years before you file?", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record — arrest record, disposition, or case action summary",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the disposition.",
+          "confirms": "dismissedWithoutPrejudice"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-1", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Whether a prior offence is a \"minor traffic violation\" is unclear.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-3/AL-4:** the meaning of “minor traffic violations” remains a legal-design blocker wherever that definition changes eligibility or the clock."
+          }
+        },
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment keeps the two clocks and the intervening-conviction question as participant screening questions and retains the \"minor traffic violations\" definition as a true blocker.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "The two statutory clocks and intervening-conviction question remain screening questions answered by the participant. LegalEase does not inspect a criminal history.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-3 and AL-4 | The two statutory clocks and intervening-conviction question remain screening questions answered by the participant. LegalEase does not inspect a criminal history."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / True blockers retained",
+              "sourceStatement": "**AL-3/AL-4:** the meaning of “minor traffic violations” remains a legal-design blocker wherever that definition changes eligibility or the clock."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The two clocks run on different measures, one from the dismissal and one backward from filing. Build both.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-3 / limitations",
+              "sourceStatement": "the two clocks run on different measures, one from the dismissal and one backward from filing. Build both.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-felony-dwop",
+      "legalName": "Petition to Expunge Felony Charges Dismissed Without Prejudice, Ala. Code § 15-27-2(a)(7)",
+      "publicName": "Felony Dismissed Without Prejudice",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-2(a)(7)"],
+        "summary": "The felony counterpart of the dismissed-without-prejudice route, with the same two clocks."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["felony charge"],
+      "eligibleDispositions": ["Dismissed without prejudice"],
+      "exclusions": [
+        "The \"excluding minor traffic violations\" carve-out on the backward-looking clock. The definition is unresolved."
+      ],
+      "waitingPeriods": [
+        { "condition": "Forward from the dismissal", "duration": "As set by § 15-27-2(a)(7)" },
+        { "condition": "Backward from filing: conviction-free period, excluding minor traffic violations", "duration": "As set by § 15-27-2(a)(7)" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "dismissedWithoutPrejudice", "question": "Was the case dismissed without prejudice?", "requirement": "required" },
+        { "key": "dismissalDate", "question": "On what date was the case dismissed?", "requirement": "required" },
+        { "key": "interveningConvictions", "question": "Have you been convicted of anything since then, or in the years before you file?", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record — arrest record, disposition, or case action summary",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the disposition.",
+          "confirms": "dismissedWithoutPrejudice"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-2", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Whether a prior offence is a \"minor traffic violation\" is unclear.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-3/AL-4:** the meaning of “minor traffic violations” remains a legal-design blocker wherever that definition changes eligibility or the clock."
+          }
+        },
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the same limitations as AL-3.\" The amendment keeps the clocks and the intervening-conviction question as participant screening questions.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "The two statutory clocks and intervening-conviction question remain screening questions answered by the participant. LegalEase does not inspect a criminal history.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-3 and AL-4 | The two statutory clocks and intervening-conviction question remain screening questions answered by the participant. LegalEase does not inspect a criminal history."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / True blockers retained",
+              "sourceStatement": "**AL-3/AL-4:** the meaning of “minor traffic violations” remains a legal-design blocker wherever that definition changes eligibility or the clock."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The dismissal clock and the backward-looking conviction-free clock must both be modelled.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-4 / limitations",
+              "sourceStatement": "Same limitations as AL-3: the dismissal clock and the backward-looking conviction-free clock must both be modeled; the meaning of “minor traffic violations” remains unresolved.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-diversion",
+      "legalName": "Petition to Expunge After Diversion or Accountability Court Completion, Ala. Code § 15-27-1(a)(6) and § 15-27-2(a)(6)",
+      "publicName": "Diversion And Accountability Court Completion",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-1(a)(6)", "Ala. Code § 15-27-2(a)(6)", "Ala. Code § 15-27-2.1(a)(3)"],
+        "summary": "Expungement after successful completion of a diversion or accountability court programme. Case-count limitation: two, shared with the misdemeanor conviction route at § 15-27-1(b)."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["misdemeanor charge", "felony charge"],
+      "eligibleDispositions": ["successful completion of a diversion or accountability court programme ending in dismissal"],
+      "exclusions": [
+        "Case-count limitation: two, shared with the misdemeanor conviction route at § 15-27-1(b). CR-65 carries this on the face of the checkbox: \"more than two expungements have not been granted for the successful completion of these program(s).\""
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "programEndedInDismissal", "question": "Did the programme end in a dismissal of the charge?", "requirement": "required" },
+        { "key": "withheldAdjudication", "question": "Or did it end in a withheld adjudication rather than a dismissal?", "requirement": "required" },
+        { "key": "programType", "question": "Which programme did you complete — diversion, drug court, mental health court, veterans court, or another accountability court?", "requirement": "required" },
+        { "key": "priorProgramExpungements", "question": "Have you already had two expungements granted for completing programmes like this? The cap is two.", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record showing the dismissal was entered",
+          "obtainedFrom": "The clerk of the court where the charges were filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the dismissal.",
+          "confirms": "programEndedInDismissal"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-2.1", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "The programme ended in a withheld adjudication rather than a dismissal.",
+        "The participant is choosing which record to spend one of the two capped expungements on.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment supersedes any requirement for an uploaded dismissal order: ask whether the programme ended in dismissal, generate from the answer, and instruct the participant to confirm before signing.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the program ended in dismissal. Generate from the answer and instruct the participant to confirm the disposition before signing. Do not require an uploaded dismissal order.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-5 | Ask whether the program ended in dismissal. Generate from the answer and instruct the participant to confirm the disposition before signing. Do not require an uploaded dismissal order."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Confirm the dismissal was actually entered, since some programmes end in a withheld adjudication rather than a dismissal, and withheld adjudications are treated as convictions for certain purposes.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-5 / limitations",
+              "sourceStatement": "Confirm the dismissal was actually entered, since some programs end in a withheld adjudication rather than a dismissal, and withheld adjudications are treated as convictions for certain licensing",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This track shares a two-expungement cap with the misdemeanor conviction route, so sequencing advice matters more here than anywhere else.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-5 / limitations",
+              "sourceStatement": "this track shares a two-expungement cap with AL-6, so sequencing advice matters more here than anywhere else.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "CR-65 carries the cap on the face of the checkbox: \"more than two expungements have not been granted for the successful completion of these program(s).\"",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-5 / required follow up",
+              "sourceStatement": "Case-count limitation: two. § 15-27-2.1(a)(3), shared with the misdemeanor conviction route at § 15-27-1(b). CR-65 carries this on the face of the checkbox: \"more than two expungements have not been granted for the successful completion of these program(s).\"",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-misd-conviction",
+      "legalName": "Petition to Expunge a Misdemeanor-Level Conviction or Youthful Offender Adjudication, Ala. Code § 15-27-1(b)",
+      "publicName": "Expunge a misdemeanor conviction",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-1(b), as amended by Act 2024-407 (SB 153), effective 1 October 2024"],
+        "summary": "All seven statutory conditions must be met. Discretionary on the § 15-27-5(b) factors. CR-65 Section II. Reaches a youthful offender adjudication where the underlying charge is a misdemeanor, violation, traffic violation or municipal ordinance violation."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": [
+        "conviction for a misdemeanor offense, violation, traffic violation, or municipal ordinance violation",
+        "youthful offender adjudication where the underlying charge is one of those"
+      ],
+      "eligibleDispositions": ["conviction", "youthful offender adjudication"],
+      "exclusions": [
+        "A violent offense as provided in § 12-25-32.",
+        "A sex offense as provided in § 15-20A-5.",
+        "An offense involving moral turpitude as provided in § 17-3-30.1, unless the crime was classified as a felony at conviction but has been reclassified as a misdemeanor under Act 2015-185 and the person has not been arrested for any offense, excluding minor traffic violations, in the 15 years before filing.",
+        "A serious traffic offense as provided in Article 9 of Chapter 5A of Title 32, which is where DUI sits.",
+        "If the conviction is for an offense enumerated in 49 C.F.R. § 383.51, the person must not have been operating a commercial motor vehicle and must not have held a CDL or CLP at the time of the offense.",
+        "Case-count limitation: two, shared with the diversion route."
+      ],
+      "waitingPeriods": [
+        { "condition": "From the date of conviction", "duration": "Three years" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Discretionary on the § 15-27-5(b) factors, plus the court's discretion over volume."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65", "notes": "CR-65 Section II." },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "convictionDate", "question": "On what date were you convicted? Three years must have passed.", "requirement": "required" },
+        { "key": "youthfulOffender", "question": "Was this a youthful offender adjudication rather than a conviction?", "requirement": "required" },
+        { "key": "allAmountsPaid", "question": "Have you completed all probation or parole requirements, including paying all fines, costs, restitution and other court-ordered amounts?", "requirement": "required" },
+        { "key": "violentOffence", "question": "Is the offence on the § 12-25-32 violent offense list?", "requirement": "required" },
+        { "key": "sexOffence", "question": "Is the offence a sex offense under § 15-20A-5?", "requirement": "required" },
+        { "key": "moralTurpitude", "question": "Is the offence a crime of moral turpitude under § 17-3-30.1?", "requirement": "required" },
+        { "key": "seriousTrafficOffence", "question": "Is the offence a serious traffic offense under Article 9 of Chapter 5A of Title 32? DUI sits there.", "requirement": "required" },
+        { "key": "cdlStatus", "question": "At the time of the offence, were you operating a commercial motor vehicle or holding a CDL or CLP?", "requirement": "required" },
+        { "key": "act2015185Reclassification", "question": "Was the crime a felony at conviction but reclassified as a misdemeanor under Act 2015-185?", "requirement": "conditional", "conditionDescription": "Asked on the moral-turpitude branch, where the reclassification carve-out applies." },
+        { "key": "priorCappedExpungements", "question": "Have you already had two expungements granted under the capped routes?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified local record — conviction and evidence of completion",
+          "obtainedFrom": "The clerk of the court where the charges were filed, or the supervising agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk or supervising agency for certified evidence that all probation or parole requirements and court-ordered amounts are satisfied.",
+          "confirms": "allAmountsPaid"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-1, as amended by Act 2024-407 (SB 153)", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 Section II in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window. Discretionary on the § 15-27-5(b) factors.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Whether the offence is on the § 12-25-32 violent offense list is unclear.",
+        "Whether the offence is a crime of moral turpitude under § 17-3-30.1 is unclear.",
+        "Whether the offence is a serious traffic offense under Title 32 is unclear.",
+        "Whether an Act 2015-185 reclassification applies is unclear.",
+        "Whether all court-ordered amounts including interest are satisfied is unclear.",
+        "The participant is choosing which record to spend one of the two capped expungements on.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Maintained official offense lists for violent offenses, moral-turpitude offenses and serious traffic offenses have not been acquired. Each classification screen turns on a list built for another purpose.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-6 / missing source requirements",
+            "sourceStatement": "Maintained official offense lists for violent offenses,",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment makes the classification screens participant questions rather than record-review tasks, and makes an unclear answer a route-selection stop.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Offense classification, serious-traffic status, moral-turpitude status, violent-offense status, youthful-offender status, and CDL/CLP facts are participant questions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-6 | Offense classification, serious-traffic status, moral-turpitude status, violent-offense status, youthful-offender status, and CDL/CLP facts are participant questions. An unclear answer is a route-selection stop, not a record-review task for LegalEase."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "An unclear answer is a route-selection stop, not a record-review task for LegalEase.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "An unclear answer is a route-selection stop, not a record-review task for LegalEase."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not automate the three classification screens. Present them as questions the participant answers from the record, with an attorney referral wherever the answer is unclear. Build the youthful offender path explicitly.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-6 / limitations",
+              "sourceStatement": "do not automate the three classification screens. The product should present them as questions the participant answers from the record, with an attorney referral wherever the answer is unclear. Build the youthful offender path explicitly.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build a sequencing tool that shows the participant what the two-expungement cap means before they spend one.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-6 / limitations",
+              "sourceStatement": "Build a sequencing tool that shows the participant what the two-expungemen",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-pardoned-felony",
+      "legalName": "Petition to Expunge a Pardoned Felony Conviction, Ala. Code § 15-27-2(c)",
+      "publicName": "Pardoned Felony Conviction",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-2(c)"],
+        "summary": "Expungement of a felony conviction after a pardon. Both statutory conditions require restoration of civil and political rights."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["felony conviction"],
+      "eligibleDispositions": ["a felony conviction for which a pardon has been granted"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled with a prosecutor and victim objection window."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "pardonDate", "question": "On what date was the pardon granted?", "requirement": "required" },
+        { "key": "restorationLanguage", "question": "What does the pardon certificate say about restoration of your civil and political rights?", "requirement": "required" },
+        { "key": "firearmRightsExcluded", "question": "Does the pardon expressly exclude firearm rights from the restoration?", "requirement": "required" },
+        { "key": "countyOfFiling", "question": "In which county were the charges filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Pardon certificate",
+          "obtainedFrom": "Alabama Board of Pardons and Paroles",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Attach the pardon certificate to the petition. It is a filing attachment and reference document; LegalEase does not approve it.",
+          "confirms": "restorationLanguage"
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-2", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "The pardon withholds firearm rights and the restoration question controls.",
+        "The prosecutor or a victim files an objection.",
+        "The court sets a hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships. Alabama pardons are commonly granted with restrictions, and after State ex rel. Sokira v. Burr it became common for the Board to expressly exclude firearm rights from the restoration of civil rights.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-7:** whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships."
+          }
+        },
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required.\" The amendment gives the track packet treatment — pardon date, restoration language and certificate terms are participant-entered facts, and the certificate is a filing attachment rather than something LegalEase approves — while expressly retaining the firearm-restoration question as dispositive. The output strategy, mechanism, venue and filing vehicle are all known, so the known design is imported and the blocker preserved.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Pardon date, restoration language, and certificate terms are participant-entered facts.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AL-7 | Pardon date, restoration language, and certificate terms are participant-entered facts. The pardon certificate is a filing attachment/reference document, not something LegalEase must approve."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The pardon certificate is a filing attachment/reference document, not something LegalEase must approve.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The pardon certificate is a filing attachment/reference document, not something LegalEase must approve."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / True blockers retained",
+              "sourceStatement": "**AL-7:** whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A prosecutor or victim objection, or a hearing, ends automated assistance.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-trafficking",
+      "legalName": "Petition to Expunge Records of a Human Trafficking Survivor, Ala. Code § 15-27-1(a)(8), § 15-27-2(a)(8), § 15-27-2(b)",
+      "publicName": "Human Trafficking Survivor",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 15-27-1(a)(8)", "Ala. Code § 15-27-2(a)(8)", "Ala. Code § 15-27-2(b)"],
+        "summary": "The route uses the same official CR-65 petition as the other Alabama tracks. The participant supplies the trafficking facts and supporting evidence. The evidentiary standard affects adjudication, not which form to generate."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["misdemeanor charge", "felony charge", "conviction"],
+      "eligibleDispositions": ["charges or convictions arising from conduct committed as a victim of human trafficking"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama track; criminal division of the circuit court in the county where the charges were filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Criminal division of the circuit court, county where the charges were filed",
+        "detail": "Court-controlled. The showing is made by a preponderance standard, likely at a hearing."
+      },
+      "components": [
+        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65", "notes": "The same official petition as the other Alabama tracks." },
+        { "role": "certificate_of_service", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "CR-65" },
+        { "role": "fee_waiver", "requirement": "conditional", "conditionDescription": "Where indigency is claimed.", "outputStrategy": "official_pdf_fill", "officialFormId": "C-10-CRIMINAL" }
+      ],
+      "participantInputs": [
+        { "key": "traffickingFacts", "question": "In your own words, and only as much as you wish to share, how were the charges connected to your being trafficked?", "requirement": "required" },
+        { "key": "chargesToExpunge", "question": "Which charges or convictions do you want expunged, and in which county were they filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Supporting evidence of trafficking",
+          "obtainedFrom": "The participant's own records, service providers, or law enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it."
+        },
+        {
+          "name": "Certified ALEA criminal record",
+          "obtainedFrom": "Alabama Law Enforcement Agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a certified criminal record from ALEA."
+        }
+      ],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "CR-65, signature block", "why": "The petitioner signs their own petition." }
+      ],
+      "officialSources": [
+        { "title": "CR-65, Petition for Expungement of Records", "url": "https://judicial.alabama.gov/library/criminal_forms", "retrievedOn": "2026-07-30" },
+        { "title": "Ala. Code § 15-27-1 and § 15-27-2", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "File CR-65 in the criminal division of the circuit court in the county where the charges were filed.",
+        "fees": "$500, or C-10-Criminal where indigency is claimed.",
+        "feeWaiver": "C-10-Criminal, Affidavit of Substantial Hardship and Order.",
+        "notice": "Prosecutor and victim objection window.",
+        "service": "A certificate of service page per entity served.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement for CR-65."
+      },
+      "selfHelpStopConditions": [
+        "Opposition to the petition.",
+        "Contested evidence about the participant's own victimisation.",
+        "A hearing at which the preponderance showing must be made.",
+        "Any individualized advocacy.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "Current authoritative text for the cited Alabama sections remains a source-release gate where the original review says the Legislature's site was not read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance and supersedes the guidance-only reasoning: the evidentiary standard affects adjudication, not whether LegalEase knows which form to generate. The original review's \"Outside the current LegalEase self-help scope\" is preserved as a scope restriction rather than an output-identity conclusion.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "official_pdf_fill on CR-65, with a scope_restriction and post_generation_handoff for opposition, contested evidence, or individualized advocacy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "AL-8, human-trafficking survivor | `official_pdf_fill` on CR-65, with a `scope_restriction` and `post_generation_handoff` for opposition, contested evidence, or individualized advocacy | The route uses the same official petition as the other Alabama tracks. The participant supplies the trafficking facts and supporting evidence. The evidentiary standard affects adjudication, not whether LegalEase knows which form to generate."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Handoff for opposition, contested evidence, or individualized advocacy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "with a `scope_restriction` and `post_generation_handoff` for opposition, contested evidence, or individualized advocacy"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the trafficking facts and supporting evidence.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The participant supplies the trafficking facts and supporting evidence."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Identify the pathway and tell the participant it exists and that it beats every other Alabama route on eligibility, then hand off where the showing is contested.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-8 / required follow up",
+              "sourceStatement": "The right product behaviour is to identify the pathway, tell the participant it exists and that it beats every o",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-olr",
+      "legalName": "Petition for an Order of Limited Relief, Ala. Code § 12-26-1 et seq.",
+      "publicName": "Order of Limited Relief from licensing bars",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 12-26-1 et seq., enacted by SB 163 (2019), substantially strengthened by SB 138 (2025)", "Ala. Code § 12-26-7"],
+        "summary": "A civil petition for relief from licensing bars. The governing output strategy and complete filing requirements remain unresolved."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-01-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["convictions creating a collateral licensing bar within § 12-26-1 et seq."],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama civil track; circuit civil court in the county of conviction. Multiple-circuit convictions may be filed in a county that imposed one of the convictions; special venue rules apply to federal or out-of-state convictions."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit civil court in the county of conviction",
+        "detail": "Special venue rules apply to federal or out-of-state convictions. Hearing mechanics under § 12-26-7 have not been read."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Provisional and inert: the track is deferred. Counsel recorded the output strategy as unresolved — likely official_pdf_fill if the AOC publishes a form, otherwise custom_pleading."
+        }
+      ],
+      "participantInputs": [
+        { "key": "convictionDetails", "question": "What conviction is creating the licensing bar, and in which county was it imposed?", "requirement": "required" },
+        { "key": "licensingBar", "question": "Which licence or occupational bar are you seeking relief from?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        { "title": "Ala. Code § 12-26-1 et seq.", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "Unresolved. Whether an AOC form exists for a § 12-26 petition was not established; it was not found on the criminal forms index and may sit elsewhere.",
+        "fees": "The source review does not state a filing fee for this civil petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved. The § 12-26-7 hearing procedure has not been read.",
+        "service": "Unresolved.",
+        "participantSignature": "The petitioner would sign their own petition. The signature block is part of the unresolved specification.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Any contested proceeding.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-9:** the governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed."
+          }
+        },
+        {
+          "question": "Whether an AOC form exists for a § 12-26 petition, and the full § 12-26-7 procedure and required documents.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-9 / required follow up",
+            "sourceStatement": "Determine whether an AOC form exists; otherwise prepare a custom-pleading specification. Read § 12-26-7 hearing procedure and required documents.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the Order of Limited Relief belongs in the LegalEase catalogue at all.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-9 / required follow up",
+            "sourceStatement": "Decide whether the Order of Limited Relief belongs in the LegalEase catalogue.",
+            "counselQuestion": "Should the § 12-26 Order of Limited Relief be offered at all? It is a civil licensing-relief petition rather than a record-clearing route, and the review leaves the catalogue decision open without stating whether it is build-blocking or release-blocking."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains AL-9 as a true blocker and expressly records that the governing output strategy is unresolved. Counsel named two candidate strategies without choosing; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved.",
+            "undeterminedElement": "output_strategy",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / True blockers retained",
+              "sourceStatement": "**AL-9:** the governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-pardon",
+      "legalName": "Application for Pardon, Alabama Board of Pardons and Paroles, Ala. Code §§ 15-22-20 to 15-22-40",
+      "publicName": "Pardon",
+      "controllingAuthority": {
+        "citations": [
+          "Ala. Code §§ 15-22-20 to 15-22-40",
+          "Ala. Admin. Code ch. 640-X-6 and 640-X-7",
+          "Board of Pardons and Paroles form ABPP-3, revised June 2025"
+        ],
+        "summary": "Alabama has a participant-filed application. Investigation and Board decision occur after submission; those outside decisions do not turn the application into guidance-only."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-06-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["convictions eligible for pardon under the Board's rules"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama Board of Pardons and Paroles process; application begins through the local probation office."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Alabama Board of Pardons and Paroles",
+        "detail": "The application begins through the local probation office. Investigation and Board decision occur after submission."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ABPP-3",
+          "officialSourceUrl": "https://paroles.alabama.gov/resources/forms/",
+          "notes": "Board form ABPP-3, revised June 2025. The legal review calls for the June 2025 revision; an October 2020 copy in the archive is marked obsolete and must not be used as the live source."
+        }
+      ],
+      "participantInputs": [
+        { "key": "convictionDetails", "question": "Which conviction do you want pardoned — which court, what offence, and when?", "requirement": "required" },
+        { "key": "sentenceCompletion", "question": "Have you completed the sentence, and on what date?", "requirement": "required" },
+        { "key": "localProbationOffice", "question": "Which local probation office serves the county you live in?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        { "item": "Signature and date", "whereInPacket": "ABPP-3, signature block", "why": "The applicant signs their own application." }
+      ],
+      "officialSources": [
+        { "title": "Alabama Board of Pardons and Paroles, forms", "url": "https://paroles.alabama.gov/resources/forms/", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "The application begins through the local probation office and goes to the Board of Pardons and Paroles.",
+        "fees": "The source review does not state a fee for the pardon application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Investigation and Board decision occur after submission.",
+        "service": "The source review does not state a service requirement for the application.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The participant needs individualized advocacy before the Board.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Board of Pardons and Paroles form ABPP-3, revised June 2025, has not been acquired. The archived October 2020 revision is obsolete and must not be used as the live source.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-10 / missing source requirements",
+            "sourceStatement": "Board of Pardons and Paroles form ABPP-3, revised June 2025.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the pardon product is included in scope as a separate product.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+            "sourceStatement": "AL-10, pardon | `official_pdf_fill` on Board form ABPP-3, as a separate pardon product if included in scope",
+            "counselQuestion": "Is the Alabama pardon application included in product scope as a separate pardon product? The addendum resolves the packet identity as official_pdf_fill on ABPP-3 and conditions it on scope inclusion, without stating whether that scope decision is build-blocking or release-blocking."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance: \"AL-10, pardon | official_pdf_fill on Board form ABPP-3, as a separate pardon product if included in scope | Alabama has a participant-filed application. Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "official_pdf_fill on Board form ABPP-3, as a separate pardon product if included in scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "AL-10, pardon | `official_pdf_fill` on Board form ABPP-3, as a separate pardon product if included in scope | Alabama has a participant-filed application. Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only. Official source confirmed: https://paroles.alabama.gov/resources/forms/"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Use the June 2025 ABPP-3 revision. The October 2020 copy in the archive is obsolete and must not be used as the live source.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "TRACK AL-10 / missing source requirements",
+              "sourceStatement": "Board of Pardons and Paroles form ABPP-3, revised June 2025.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "al-uncharged-arrest",
+      "legalName": "Uncharged Arrest Records",
+      "publicName": "Uncharged Arrest Records",
+      "controllingAuthority": {
+        "citations": ["Ala. Code § 41-9-645", "Ala. Code § 41-9-646"],
+        "summary": "Chapter 27 is written around a person \"who has been charged.\" Nothing in it plainly addresses an arrest that never produced a charge. Whether a person arrested and released without charges has any route to clear the arrest record is unresolved."
+      },
+      "effectiveDates": { "effectiveFrom": "2024-10-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": ["arrested and released without charges"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Alabama record-correction question; forum and practical use of §§ 41-9-645 and 41-9-646 remain unresolved."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Unresolved",
+        "detail": "The forum and the practical use of §§ 41-9-645 and 41-9-646 remain unresolved."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Provisional and inert: the track is deferred. Counsel recorded the strategy as \"process_guidance at best\" and did not establish that any route exists."
+        }
+      ],
+      "participantInputs": [
+        { "key": "arrestedWithoutCharges", "question": "Were you arrested and released without any charge being filed?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        { "title": "Ala. Code §§ 41-9-645 and 41-9-646", "url": "https://alison.legislature.state.al.us/code-of-alabama", "retrievedOn": "2026-07-30" }
+      ],
+      "rules": {
+        "filing": "Unresolved. No route has been established.",
+        "fees": "The source review does not state a fee.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved.",
+        "service": "Unresolved.",
+        "participantSignature": "Unresolved.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "No route has been established for an uncharged arrest; refer the participant rather than promise relief."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-11:** the review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker."
+          }
+        },
+        {
+          "question": "Chapter 27 is written around a person \"who has been charged.\" Whether a person arrested and released without charges has any route to clear the arrest record is unresolved, as is the forum and practical use of §§ 41-9-645 and 41-9-646.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-11 / unresolved questions",
+            "sourceStatement": "The problem: Chapter 27 is written around a person \"who has been charged.\" Nothing in it plainly addresses an arrest that never produced a charge. Whether a person arrested and released without charges has any route to clear the arrest record is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains AL-11 as a true route-existence blocker: the review did not establish that an independent record-clearing route for an uncharged arrest exists. The track is deferred rather than imported.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+              "sourceHeading": "Alabama operational amendments / True blockers retained",
+              "sourceStatement": "**AL-11:** the review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

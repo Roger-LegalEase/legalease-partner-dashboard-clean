@@ -17,22 +17,11 @@
   "reconciliation_model": {
     "fixtureMode": false,
     "expectedTracks": 117,
-    "importedTracks": 53,
-    "deferredLegalResearchTracks": 3,
-    "totalAccountedTracks": 56,
-    "unaccountedTracks": 61,
+    "importedTracks": 72,
+    "deferredLegalResearchTracks": 6,
+    "totalAccountedTracks": 78,
+    "unaccountedTracks": 39,
     "unaccountedTrackIds": [
-      "AL:al-misd-nonconviction-90",
-      "AL:al-felony-nonconviction-90",
-      "AL:al-misd-dwop",
-      "AL:al-felony-dwop",
-      "AL:al-diversion",
-      "AL:al-misd-conviction",
-      "AL:al-pardoned-felony",
-      "AL:al-trafficking",
-      "AL:al-olr",
-      "AL:al-pardon",
-      "AL:al-uncharged-arrest",
       "AR:ar-misdemeanor-seal",
       "AR:ar-misdemeanor-dwi-seal",
       "AR:ar-felony-seal",
@@ -58,17 +47,6 @@
       "CA:ca-prop64",
       "CA:ca-1203-4b",
       "CA:ca-851-8",
-      "CO:co_auto_seal_arrest",
-      "CO:co_petition_seal_arrest",
-      "CO:co_auto_seal_nonconviction",
-      "CO:co_motion_seal_nonconviction",
-      "CO:co_clean_slate",
-      "CO:co_motion_seal_conviction",
-      "CO:co_municipal_conviction_seal",
-      "CO:co_multiple_conviction_seal",
-      "CO:co_decriminalized_conduct_seal",
-      "CO:co_pardoned_conviction_seal",
-      "CO:co_mistaken_identity_expungement",
       "CT:ct-nonconviction-auto",
       "CT:ct-nolle-auto",
       "CT:ct-diversion",
@@ -88,8 +66,8 @@
     "byJurisdiction": {
       "AL": {
         "expected": 11,
-        "imported": 0,
-        "deferred": 0
+        "imported": 9,
+        "deferred": 2
       },
       "AK": {
         "expected": 11,
@@ -113,8 +91,8 @@
       },
       "CO": {
         "expected": 11,
-        "imported": 0,
-        "deferred": 0
+        "imported": 10,
+        "deferred": 1
       },
       "CT": {
         "expected": 14,
@@ -151,17 +129,180 @@
   },
   "statusLanguage": "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable.",
   "jurisdictionsExpected": 12,
-  "jurisdictionsPresent": 7,
+  "jurisdictionsPresent": 9,
   "memosMissing": [
-    "AL",
     "AR",
     "CA",
-    "CO",
     "CT"
   ],
   "memosRejected": [],
-  "totalTracksProcessed": 53,
+  "totalTracksProcessed": 72,
   "deferredTracks": [
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-olr",
+      "publicName": "Order of Limited Relief from licensing bars",
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Original review: \"Additional research required.\" The amendment retains AL-9 as a true blocker and expressly records that the governing output strategy is unresolved. Counsel named two candidate strategies without choosing; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+      "authority": [
+        "Ala. Code § 12-26-1 et seq., enacted by SB 163 (2019), substantially strengthened by SB 138 (2025)",
+        "Ala. Code § 12-26-7"
+      ],
+      "mechanism": "A civil petition for relief from licensing bars. The governing output strategy and complete filing requirements remain unresolved.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit civil court in the county of conviction",
+        "detail": "Special venue rules apply to federal or out-of-state convictions. Hearing mechanics under § 12-26-7 have not been read."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "The governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-9:** the governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed."
+          }
+        },
+        {
+          "question": "Whether an AOC form exists for a § 12-26 petition, and the full § 12-26-7 procedure and required documents.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-9 / required follow up",
+            "sourceStatement": "Determine whether an AOC form exists; otherwise prepare a custom-pleading specification. Read § 12-26-7 hearing procedure and required documents.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the Order of Limited Relief belongs in the LegalEase catalogue at all.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-9 / required follow up",
+            "sourceStatement": "Decide whether the Order of Limited Relief belongs in the LegalEase catalogue.",
+            "counselQuestion": "Should the § 12-26 Order of Limited Relief be offered at all? It is a civil licensing-relief petition rather than a record-clearing route, and the review leaves the catalogue decision open without stating whether it is build-blocking or release-blocking."
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved.",
+          "affectedElement": "output_strategy"
+        }
+      ],
+      "requiredLegalResearch": [
+        "The governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed.",
+        "Whether an AOC form exists for a § 12-26 petition, and the full § 12-26-7 procedure and required documents."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / True blockers retained",
+          "sourceStatement": "**AL-9:** the governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / True blockers retained",
+          "sourceStatement": "**AL-9:** the governing output strategy and complete filing requirements for an Order of Limited Relief remain unresolved. The absence of an official form alone would not block a custom pleading, but the required pleading contents, supporting materials, hearing mechanics, and current authoritative source must be confirmed."
+        },
+        {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-9 / required follow up",
+          "sourceStatement": "Determine whether an AOC form exists; otherwise prepare a custom-pleading specification. Read § 12-26-7 hearing procedure and required documents.",
+          "normalizerInferred": true
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-9 / required follow up",
+          "sourceStatement": "Decide whether the Order of Limited Relief belongs in the LegalEase catalogue.",
+          "counselQuestion": "Should the § 12-26 Order of Limited Relief be offered at all? It is a civil licensing-relief petition rather than a record-clearing route, and the review leaves the catalogue decision open without stating whether it is build-blocking or release-blocking."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-uncharged-arrest",
+      "publicName": "Uncharged Arrest Records",
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Original review: \"Additional research required.\" The amendment retains AL-11 as a true route-existence blocker: the review did not establish that an independent record-clearing route for an uncharged arrest exists. The track is deferred rather than imported.",
+      "authority": [
+        "Ala. Code § 41-9-645",
+        "Ala. Code § 41-9-646"
+      ],
+      "mechanism": "Chapter 27 is written around a person \"who has been charged.\" Nothing in it plainly addresses an arrest that never produced a charge. Whether a person arrested and released without charges has any route to clear the arrest record is unresolved.",
+      "destination": {
+        "kind": "agency",
+        "name": "Unresolved",
+        "detail": "The forum and the practical use of §§ 41-9-645 and 41-9-646 remain unresolved."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "The review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "Alabama operational amendments / True blockers retained",
+            "sourceStatement": "**AL-11:** the review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker."
+          }
+        },
+        {
+          "question": "Chapter 27 is written around a person \"who has been charged.\" Whether a person arrested and released without charges has any route to clear the arrest record is unresolved, as is the forum and practical use of §§ 41-9-645 and 41-9-646.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+            "sourceHeading": "TRACK AL-11 / unresolved questions",
+            "sourceStatement": "The problem: Chapter 27 is written around a person \"who has been charged.\" Nothing in it plainly addresses an arrest that never produced a charge. Whether a person arrested and released without charges has any route to clear the arrest record is unresolved.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker.",
+          "affectedElement": "governing_mechanism"
+        }
+      ],
+      "requiredLegalResearch": [
+        "The review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker.",
+        "Chapter 27 is written around a person \"who has been charged.\" Whether a person arrested and released without charges has any route to clear the arrest record is unresolved, as is the forum and practical use of §§ 41-9-645 and 41-9-646."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / True blockers retained",
+          "sourceStatement": "**AL-11:** the review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / True blockers retained",
+          "sourceStatement": "**AL-11:** the review did not establish that an independent record-clearing route for an uncharged arrest exists. This is a true route-existence blocker."
+        },
+        {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-11 / unresolved questions",
+          "sourceStatement": "The problem: Chapter 27 is written around a person \"who has been charged.\" Nothing in it plainly addresses an arrest that never produced a charge. Whether a person arrested and released without charges has any route to clear the arrest record is unresolved.",
+          "normalizerInferred": true
+        }
+      ]
+    },
     {
       "jurisdiction": "AK",
       "trackId": "ak-set-aside",
@@ -378,95 +519,167 @@
           "normalizerInferred": true
         }
       ]
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_mistaken_identity_expungement",
+      "publicName": "Expungement Of Records Created By Mistaken Identity",
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Original review: \"Additional research required.\" The amendment retains CO-11 as a true blocker on the governing mechanism and output vehicle. Counsel recorded the output strategy as unresolved and named no candidate; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+      "authority": [
+        "C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record"
+      ],
+      "mechanism": "The governing mistaken-identity mechanism and output vehicle remain unresolved. Whether this is a self-help track or an attorney referral has not been determined.",
+      "destination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The forum, the form and whether this is a self-help track at all remain unresolved."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "Governing mistaken-identity mechanism and output vehicle.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-11:** governing mistaken-identity mechanism and output vehicle."
+          }
+        },
+        {
+          "question": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-11 / limitations",
+            "sourceStatement": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "Governing mistaken-identity mechanism and output vehicle.",
+          "affectedElement": "governing_mechanism"
+        }
+      ],
+      "requiredLegalResearch": [
+        "Governing mistaken-identity mechanism and output vehicle.",
+        "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+          "sourceHeading": "Colorado operational amendments / True blockers retained",
+          "sourceStatement": "**CO-11:** governing mistaken-identity mechanism and output vehicle."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+          "sourceHeading": "Colorado operational amendments / True blockers retained",
+          "sourceStatement": "**CO-11:** governing mistaken-identity mechanism and output vehicle."
+        },
+        {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+          "sourceHeading": "TRACK CO-11 / limitations",
+          "sourceStatement": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
+          "normalizerInferred": true
+        }
+      ]
     }
   ],
   "generationRequirements": {
-    "items": 218,
-    "tracksAffected": 53
+    "items": 294,
+    "tracksAffected": 72
   },
   "limitationsByClassification": {
     "packet_instruction": {
-      "limitations": 65,
-      "tracksAffected": 37
+      "limitations": 78,
+      "tracksAffected": 46
     },
     "participant_question": {
-      "limitations": 25,
-      "tracksAffected": 25
+      "limitations": 35,
+      "tracksAffected": 35
     },
     "required_before_filing": {
-      "limitations": 19,
-      "tracksAffected": 19
+      "limitations": 26,
+      "tracksAffected": 26
     },
     "scope_restriction": {
-      "limitations": 43,
-      "tracksAffected": 37
+      "limitations": 54,
+      "tracksAffected": 48
     },
     "manual_completion_item": {
       "limitations": 14,
       "tracksAffected": 14
     },
     "post_generation_handoff": {
-      "limitations": 25,
-      "tracksAffected": 25
+      "limitations": 42,
+      "tracksAffected": 42
     },
     "self_help_boundary": {
       "limitations": 0,
       "tracksAffected": 0
     },
     "legal_design_blocker": {
-      "limitations": 12,
-      "tracksAffected": 12
+      "limitations": 20,
+      "tracksAffected": 20
     }
   },
   "participantFilingRequirements": {
-    "items": 55,
-    "tracksAffected": 32
+    "items": 83,
+    "tracksAffected": 50
   },
   "manualCompletionItems": {
-    "items": 72,
-    "tracksAffected": 39
+    "items": 89,
+    "tracksAffected": 56
   },
   "packetInstructions": {
-    "items": 84,
-    "tracksAffected": 44
+    "items": 104,
+    "tracksAffected": 59
   },
   "participantQuestions": {
-    "items": 25,
-    "tracksAffected": 25
+    "items": 35,
+    "tracksAffected": 35
   },
   "scopeRestrictions": {
-    "items": 43,
-    "tracksAffected": 37
+    "items": 54,
+    "tracksAffected": 48
   },
   "selfHelpBoundaries": {
-    "items": 273,
-    "tracksAffected": 53
+    "items": 365,
+    "tracksAffected": 72
   },
   "unresolvedQuestionsByImpact": {
     "build_blocker": {
-      "questions": 27,
-      "tracksAffected": 16
+      "questions": 38,
+      "tracksAffected": 24
     },
     "release_blocker": {
-      "questions": 70,
-      "tracksAffected": 45
+      "questions": 95,
+      "tracksAffected": 64
     },
     "nonblocking_research_note": {
       "questions": 1,
       "tracksAffected": 1
     },
     "counsel_classification_required": {
-      "questions": 5,
-      "tracksAffected": 5
+      "questions": 6,
+      "tracksAffected": 6
     }
   },
   "buildBlockers": {
-    "questions": 27,
-    "tracksAffected": 16
+    "questions": 38,
+    "tracksAffected": 24
   },
   "releaseBlockers": {
-    "questions": 70,
-    "tracksAffected": 45
+    "questions": 95,
+    "tracksAffected": 64
   },
   "nonblockingResearchNotes": {
     "questions": 1,
@@ -485,7 +698,7 @@
     ]
   },
   "processGuidanceTracksPreserved": {
-    "count": 9,
+    "count": 11,
     "tracks": [
       {
         "jurisdiction": "AK",
@@ -504,6 +717,20 @@
       {
         "jurisdiction": "AK",
         "trackId": "ak-juvenile",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CO",
+        "trackId": "co_auto_seal_arrest",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CO",
+        "trackId": "co_auto_seal_nonconviction",
         "guidanceRationales": [
           "no_participant_filing_exists"
         ]
@@ -553,14 +780,14 @@
       }
     ]
   },
-  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 53,
+  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 72,
   "tracksWhoseSubstantiveLegalDecisionChanged": [],
   "reconciliation": {
-    "tracksWithBuildBlockers": 16,
-    "tracksWithReleaseBlockersOnly": 34,
+    "tracksWithBuildBlockers": 24,
+    "tracksWithReleaseBlockersOnly": 45,
     "tracksClearOfLegalBlockers": 3,
-    "partitionTotal": 53,
-    "totalTracksProcessed": 53,
+    "partitionTotal": 72,
+    "totalTracksProcessed": 72,
     "reconciles": true
   },
   "releaseBlockerCeilingViolations": [],
