@@ -9,16 +9,28 @@
       "legalName": "Automatic Sealing, Arrest With No Charges Filed, C.R.S. § 24-72-704(1.5) and (2)",
       "publicName": "Automatic Sealing, Arrest With No Charges Filed",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-704(1.5) and (2)"],
+        "citations": [
+          "C.R.S. § 24-72-704(1.5) and (2)"
+        ],
         "summary": "Automatic sealing of an arrest where no charges were filed. Nothing to file unless the automatic process fails."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["arrest"],
-      "eligibleDispositions": ["arrest with no charges filed"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "arrest with no charges filed"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "process_guidance",
-      "guidanceRationales": ["no_participant_filing_exists"],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -30,11 +42,24 @@
         "detail": "No participant form exists. Verification and the official petition backstop are the product's job."
       },
       "components": [
-        { "role": "process_guidance", "requirement": "required", "outputStrategy": "process_guidance", "notes": "Verification guidance, with the JDF 417 petition backstop where the automatic process fails." }
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification guidance, with the JDF 417 petition backstop where the automatic process fails."
+        }
       ],
       "participantInputs": [
-        { "key": "chargesFiled", "question": "Were any charges ever filed after the arrest?", "requirement": "required" },
-        { "key": "recordStillVisible", "question": "Does the arrest still appear on a background check?", "requirement": "required" }
+        {
+          "key": "chargesFiled",
+          "question": "Were any charges ever filed after the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the arrest still appear on a background check?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -49,7 +74,11 @@
       ],
       "manualCompletionItems": [],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "none. Nothing to file unless the automatic process fails, in which case route to the JDF 417 petition.",
@@ -109,18 +138,51 @@
       "legalName": "Petition to Seal Arrest Records, No Charges Filed, C.R.S. § 24-72-704(1)",
       "publicName": "Sealing an Arrest With No Charges",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-704(1)"],
+        "citations": [
+          "C.R.S. § 24-72-704(1)"
+        ],
         "summary": "JDF 417 is the statewide petition and there is no reason to draft around it."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["arrest"],
-      "eligibleDispositions": ["arrest with no charges filed"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "arrest with no charges filed"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "district",
-        "keys": ["co-district-1", "co-district-2", "co-district-3", "co-district-4", "co-district-5", "co-district-6", "co-district-7", "co-district-8", "co-district-9", "co-district-10", "co-district-11", "co-district-12", "co-district-13", "co-district-14", "co-district-15", "co-district-16", "co-district-17", "co-district-18", "co-district-19", "co-district-20", "co-district-21", "co-district-22"],
+        "keys": [
+          "co-district-1",
+          "co-district-2",
+          "co-district-3",
+          "co-district-4",
+          "co-district-5",
+          "co-district-6",
+          "co-district-7",
+          "co-district-8",
+          "co-district-9",
+          "co-district-10",
+          "co-district-11",
+          "co-district-12",
+          "co-district-13",
+          "co-district-14",
+          "co-district-15",
+          "co-district-16",
+          "co-district-17",
+          "co-district-18",
+          "co-district-19",
+          "co-district-20",
+          "co-district-21",
+          "co-district-22"
+        ],
         "venue": "Statewide Colorado track; district court of the district where the arrest and criminal-record information is located."
       },
       "destination": {
@@ -129,13 +191,37 @@
         "detail": "Court-controlled with a district attorney response opportunity."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-417", "notes": "Statewide petition." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-417-ORDER", "notes": "Order set. Revision drift noted in the original review at section 0.3 item 12." }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-417",
+          "notes": "Statewide petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-417-ORDER",
+          "notes": "Order set. Revision drift noted in the original review at section 0.3 item 12."
+        }
       ],
       "participantInputs": [
-        { "key": "arrestDetails", "question": "What was the arrest — which agency, what date, and what were you accused of?", "requirement": "required" },
-        { "key": "chargesFiled", "question": "Were any charges ever filed?", "requirement": "required" },
-        { "key": "districtOfArrest", "question": "In which judicial district is the arrest record located?", "requirement": "required" }
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesFiled",
+          "question": "Were any charges ever filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "districtOfArrest",
+          "question": "In which judicial district is the arrest record located?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -149,10 +235,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 417, signature block", "why": "The petitioner signs their own petition." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 417, signature block",
+          "why": "The petitioner signs their own petition."
+        }
       ],
       "officialSources": [
-        { "title": "JDF 417, Petition to Seal Arrest Records", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "JDF 417, Petition to Seal Arrest Records",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File JDF 417 in the district court of the district where the arrest and criminal-record information is located.",
@@ -226,16 +320,28 @@
       "legalName": "Automatic Sealing At Disposition, Non-Convictions, C.R.S. § 24-72-705(1)",
       "publicName": "Automatic Sealing At Disposition, Non-Convictions",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-705(1)"],
+        "citations": [
+          "C.R.S. § 24-72-705(1)"
+        ],
         "summary": "Automatic sealing at disposition for non-convictions. The product's job is to verify whether sealing actually happened and route to the simplified motion if it did not."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["charge"],
-      "eligibleDispositions": ["non-conviction dispositions within § 24-72-705(1)"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "non-conviction dispositions within § 24-72-705(1)"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "process_guidance",
-      "guidanceRationales": ["no_participant_filing_exists"],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -247,11 +353,24 @@
         "detail": "No participant form exists. Verification and the simplified-motion backstop are the product's job."
       },
       "components": [
-        { "role": "process_guidance", "requirement": "required", "outputStrategy": "process_guidance", "notes": "Verification guidance, routing to the simplified non-conviction motion where sealing did not happen." }
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification guidance, routing to the simplified non-conviction motion where sealing did not happen."
+        }
       ],
       "participantInputs": [
-        { "key": "disposition", "question": "How did the case end?", "requirement": "required" },
-        { "key": "recordStillVisible", "question": "Does the case still appear on a background check?", "requirement": "required" }
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the case still appear on a background check?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -266,7 +385,11 @@
       ],
       "manualCompletionItems": [],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "none. Nothing to file unless the automatic process fails.",
@@ -327,12 +450,22 @@
       "legalName": "Motion to Seal Non-Conviction Records, Simplified Backstop, C.R.S. § 24-72-705(2) and (3)",
       "publicName": "Motion To Seal Non-Conviction Records, Simplified Backstop",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-705(2) and (3)"],
+        "citations": [
+          "C.R.S. § 24-72-705(2) and (3)"
+        ],
         "summary": "The simplified motion backstop where automatic sealing at disposition did not reach the record."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["charge"],
-      "eligibleDispositions": ["non-conviction dispositions within § 24-72-705(2) and (3)"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "non-conviction dispositions within § 24-72-705(2) and (3)"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
@@ -347,13 +480,37 @@
         "detail": "Court-controlled with a district attorney response opportunity."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-477", "notes": "Simplified non-conviction motion. Not in the current replica archive." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-478", "notes": "Part of the JDF 477/478/491/492/493 non-conviction simplified set." }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-477",
+          "notes": "Simplified non-conviction motion. Not in the current replica archive."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-478",
+          "notes": "Part of the JDF 477/478/491/492/493 non-conviction simplified set."
+        }
       ],
       "participantInputs": [
-        { "key": "disposition", "question": "How did the case end?", "requirement": "required" },
-        { "key": "caseNumberAndCourt", "question": "What is the case number, and which court handled the case?", "requirement": "required" },
-        { "key": "recordStillVisible", "question": "Does the case still appear on a background check?", "requirement": "required" }
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCourt",
+          "question": "What is the case number, and which court handled the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the case still appear on a background check?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -367,10 +524,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 477, signature block", "why": "The movant signs their own motion." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 477, signature block",
+          "why": "The movant signs their own motion."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File the motion in the court that handled the underlying case.",
@@ -432,12 +597,22 @@
       "legalName": "Clean Slate Automatic Conviction Sealing and Hearing Request, C.R.S. § 13-3-117",
       "publicName": "Clean Slate Automatic Sealing",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 13-3-117, created by SB22-099 and expanded by HB24-1133"],
+        "citations": [
+          "C.R.S. § 13-3-117, created by SB22-099 and expanded by HB24-1133"
+        ],
         "summary": "Staged. The person files nothing to obtain Clean Slate relief, but when the district attorney objects on public-interest grounds the person's response is a real packet on JDF 2363. Colorado publishes a person-facing hearing request."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["convictions eligible for automatic sealing under § 13-3-117"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convictions eligible for automatic sealing under § 13-3-117"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
@@ -468,9 +643,21 @@
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What conviction are you expecting to be sealed automatically — which court, what offence, and when?", "requirement": "required" },
-        { "key": "objectionReceived", "question": "Has the district attorney objected, or have you received any notice about the sealing?", "requirement": "required" },
-        { "key": "recordStillVisible", "question": "Does the conviction still appear on a background check?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What conviction are you expecting to be sealed automatically — which court, what offence, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "objectionReceived",
+          "question": "Has the district attorney objected, or have you received any notice about the sealing?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the conviction still appear on a background check?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -493,10 +680,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 2363, signature block", "why": "The participant signs their own hearing request." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 2363, signature block",
+          "why": "The participant signs their own hearing request."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "Stage 1: nothing is filed. Stage 2: file JDF 2363 to request a hearing after a district attorney objection or other qualifying notice.",
@@ -581,15 +776,30 @@
       "legalName": "Motion to Seal Conviction Records, County or District Court, C.R.S. § 24-72-706",
       "publicName": "Motion To Seal Conviction Records, County Or District Court",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-706, as amended effective July 1, 2025"],
+        "citations": [
+          "C.R.S. § 24-72-706, as amended effective July 1, 2025"
+        ],
         "summary": "JDF 612 is the statewide motion and reproduces the exclusion list verbatim in section 8."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["convictions eligible under § 24-72-706"],
-      "exclusions": ["The exclusion list reproduced verbatim in JDF 612 section 8."],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convictions eligible under § 24-72-706"
+      ],
+      "exclusions": [
+        "The exclusion list reproduced verbatim in JDF 612 section 8."
+      ],
       "waitingPeriods": [
-        { "condition": "As set by § 24-72-706, running from completion of the sentence", "duration": "Per the statutory schedule" }
+        {
+          "condition": "As set by § 24-72-706, running from completion of the sentence",
+          "duration": "Per the statutory schedule"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -603,15 +813,47 @@
         "detail": "Court-controlled with a district attorney response opportunity."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-612", "notes": "Statewide motion; reproduces the exclusion list verbatim in section 8." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-615", "notes": "Order to Seal Conviction Records. The missing grant order on the highest-value track." }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-612",
+          "notes": "Statewide motion; reproduces the exclusion list verbatim in section 8."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-615",
+          "notes": "Order to Seal Conviction Records. The missing grant order on the highest-value track."
+        }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, statute section, and when?", "requirement": "required" },
-        { "key": "sentenceComplete", "question": "Have you completed all sentence conditions?", "requirement": "required" },
-        { "key": "restitutionOutstanding", "question": "Is any restitution still outstanding?", "requirement": "required" },
-        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" },
-        { "key": "onExclusionList", "question": "Is the offence on the exclusion list in section 8 of the form?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, statute section, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed all sentence conditions?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution still outstanding?",
+          "requirement": "required"
+        },
+        {
+          "key": "laterConviction",
+          "question": "Have you been convicted of anything since?",
+          "requirement": "required"
+        },
+        {
+          "key": "onExclusionList",
+          "question": "Is the offence on the exclusion list in section 8 of the form?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -634,10 +876,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 612, signature block", "why": "The movant signs their own motion." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 612, signature block",
+          "why": "The movant signs their own motion."
+        }
       ],
       "officialSources": [
-        { "title": "JDF 612, Motion to Seal Conviction Records", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "JDF 612, Motion to Seal Conviction Records",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File JDF 612 in the existing criminal case in the court where the conviction records are located.",
@@ -722,20 +972,37 @@
       "legalName": "Petition to Seal Municipal Conviction Records, C.R.S. § 24-72-708",
       "publicName": "Petition To Seal Municipal Conviction Records",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-708"],
+        "citations": [
+          "C.R.S. § 24-72-708"
+        ],
         "summary": "Municipal conviction sealing. Section 24-72-708 was not read in full in this review."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["municipal conviction"],
-      "eligibleDispositions": ["municipal convictions within § 24-72-708"],
-      "exclusions": ["The exclusion set has not been confirmed."],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "municipal conviction"
+      ],
+      "eligibleDispositions": [
+        "municipal convictions within § 24-72-708"
+      ],
+      "exclusions": [
+        "The exclusion set has not been confirmed."
+      ],
       "waitingPeriods": [
-        { "condition": "As set by § 24-72-708", "duration": "Not confirmed; the section was not read in full" }
+        {
+          "condition": "As set by § 24-72-708",
+          "duration": "Not confirmed; the section was not read in full"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "court_specific",
-        "keys": ["co-municipal-courts"],
+        "keys": [
+          "co-municipal-courts"
+        ],
         "venue": "Municipal-court-specific Colorado track; file in the municipal court that heard the case. Local intake practice varies."
       },
       "destination": {
@@ -744,14 +1011,41 @@
         "detail": "Municipal courts are not part of the state e-filing system, so local intake practice will vary."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-683", "notes": "The municipal set is JDF 683 with 682, 684, 685 and 686. Not yet acquired." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-684" }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-683",
+          "notes": "The municipal set is JDF 683 with 682, 684, 685 and 686. Not yet acquired."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-684"
+        }
       ],
       "participantInputs": [
-        { "key": "municipalCourt", "question": "Which municipal court heard the case?", "requirement": "required" },
-        { "key": "convictionDetails", "question": "What was the municipal conviction, and when?", "requirement": "required" },
-        { "key": "sentenceComplete", "question": "Have you completed all sentence conditions?", "requirement": "required" },
-        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" }
+        {
+          "key": "municipalCourt",
+          "question": "Which municipal court heard the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDetails",
+          "question": "What was the municipal conviction, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed all sentence conditions?",
+          "requirement": "required"
+        },
+        {
+          "key": "laterConviction",
+          "question": "Have you been convicted of anything since?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -765,10 +1059,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 683, signature block", "why": "The petitioner signs their own petition." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 683, signature block",
+          "why": "The petitioner signs their own petition."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File in the municipal court that heard the case. Municipal courts are not part of the state e-filing system, so local intake practice will vary.",
@@ -866,20 +1168,58 @@
       "legalName": "Motion to Seal Multiple Conviction Records, C.R.S. § 24-72-709",
       "publicName": "Motion To Seal Multiple Conviction Records",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-709"],
+        "citations": [
+          "C.R.S. § 24-72-709"
+        ],
         "summary": "The only way to clear several cases in one filing. Section 24-72-709 was not read in full, including the eligibility formula for multiple convictions and the waiting-period calculation across cases."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["multiple convictions within § 24-72-709"],
-      "exclusions": ["The eligibility formula for multiple convictions has not been confirmed."],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "multiple convictions within § 24-72-709"
+      ],
+      "exclusions": [
+        "The eligibility formula for multiple convictions has not been confirmed."
+      ],
       "waitingPeriods": [
-        { "condition": "Waiting-period calculation across cases, as set by § 24-72-709", "duration": "Not confirmed; the section was not read in full" }
+        {
+          "condition": "Waiting-period calculation across cases, as set by § 24-72-709",
+          "duration": "Not confirmed; the section was not read in full"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "district",
-        "keys": ["co-district-1", "co-district-2", "co-district-3", "co-district-4", "co-district-5", "co-district-6", "co-district-7", "co-district-8", "co-district-9", "co-district-10", "co-district-11", "co-district-12", "co-district-13", "co-district-14", "co-district-15", "co-district-16", "co-district-17", "co-district-18", "co-district-19", "co-district-20", "co-district-21", "co-district-22"],
+        "keys": [
+          "co-district-1",
+          "co-district-2",
+          "co-district-3",
+          "co-district-4",
+          "co-district-5",
+          "co-district-6",
+          "co-district-7",
+          "co-district-8",
+          "co-district-9",
+          "co-district-10",
+          "co-district-11",
+          "co-district-12",
+          "co-district-13",
+          "co-district-14",
+          "co-district-15",
+          "co-district-16",
+          "co-district-17",
+          "co-district-18",
+          "co-district-19",
+          "co-district-20",
+          "co-district-21",
+          "co-district-22"
+        ],
         "venue": "Colorado track limited to multiple cases within the same judicial district."
       },
       "destination": {
@@ -888,14 +1228,41 @@
         "detail": "Limited to multiple cases within the same judicial district."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-641", "notes": "The multiple-case set is JDF 641 with 640 and 642. Not yet acquired." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-642" }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-641",
+          "notes": "The multiple-case set is JDF 641 with 640 and 642. Not yet acquired."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-642"
+        }
       ],
       "participantInputs": [
-        { "key": "casesToSeal", "question": "Which cases do you want sealed — case numbers, courts and offences?", "requirement": "required" },
-        { "key": "sameDistrict", "question": "Are all of those cases in the same judicial district?", "requirement": "required" },
-        { "key": "sentencesComplete", "question": "Have you completed all sentence conditions on each case?", "requirement": "required" },
-        { "key": "laterConviction", "question": "Have you been convicted of anything since?", "requirement": "required" }
+        {
+          "key": "casesToSeal",
+          "question": "Which cases do you want sealed — case numbers, courts and offences?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameDistrict",
+          "question": "Are all of those cases in the same judicial district?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencesComplete",
+          "question": "Have you completed all sentence conditions on each case?",
+          "requirement": "required"
+        },
+        {
+          "key": "laterConviction",
+          "question": "Have you been convicted of anything since?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -909,10 +1276,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 641, signature block", "why": "The movant signs their own motion." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 641, signature block",
+          "why": "The movant signs their own motion."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File in the district court for the judicial district containing the cases. Limited to multiple cases within the same judicial district.",
@@ -1010,13 +1385,25 @@
       "legalName": "Motion to Seal, Conduct No Longer Prohibited, C.R.S. § 24-72-711",
       "publicName": "Sealing a Conviction for Conduct That Is No Longer a Crime",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-711, effective July 1, 2025, added by HB24-1133"],
+        "citations": [
+          "C.R.S. § 24-72-711, effective July 1, 2025, added by HB24-1133"
+        ],
         "summary": "Sealing where the conduct is no longer prohibited. The statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["convictions for conduct that is no longer prohibited, within § 24-72-711"],
-      "exclusions": ["The list of qualifying offense categories has not been confirmed."],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convictions for conduct that is no longer prohibited, within § 24-72-711"
+      ],
+      "exclusions": [
+        "The list of qualifying offense categories has not been confirmed."
+      ],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -1030,12 +1417,31 @@
         "detail": "Court-controlled with a district attorney response opportunity."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-2370", "notes": "The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374. Not yet acquired." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-2374" }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2370",
+          "notes": "The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374. Not yet acquired."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-2374"
+        }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, statute section, and when?", "requirement": "required" },
-        { "key": "conductNoLongerCrime", "question": "Is the conduct you were convicted of no longer a crime in Colorado?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, statute section, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductNoLongerCrime",
+          "question": "Is the conduct you were convicted of no longer a crime in Colorado?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -1049,10 +1455,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 2370, signature block", "why": "The movant signs their own motion." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 2370, signature block",
+          "why": "The movant signs their own motion."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File in the existing criminal case in the court where the conviction records are located.",
@@ -1129,15 +1543,30 @@
       "legalName": "Motion to Seal a Pardoned Conviction, C.R.S. § 24-72-710",
       "publicName": "Motion To Seal A Pardoned Conviction",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-710"],
+        "citations": [
+          "C.R.S. § 24-72-710"
+        ],
         "summary": "Sealing a conviction after a pardon. Low volume. The section has not been read and any waiting period or exclusion is unconfirmed."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["a conviction for which a pardon has been granted"],
-      "exclusions": ["Whether any exclusion applies has not been confirmed."],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a conviction for which a pardon has been granted"
+      ],
+      "exclusions": [
+        "Whether any exclusion applies has not been confirmed."
+      ],
       "waitingPeriods": [
-        { "condition": "Whether any waiting period applies", "duration": "Not confirmed; the section has not been read" }
+        {
+          "condition": "Whether any waiting period applies",
+          "duration": "Not confirmed; the section has not been read"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -1151,12 +1580,31 @@
         "detail": "Court-controlled with a district attorney response opportunity."
       },
       "components": [
-        { "role": "primary_filing", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-680", "notes": "The pardon set is JDF 680 and 681. Not yet acquired." },
-        { "role": "proposed_order", "requirement": "required", "outputStrategy": "official_pdf_fill", "officialFormId": "JDF-681" }
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-680",
+          "notes": "The pardon set is JDF 680 and 681. Not yet acquired."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-681"
+        }
       ],
       "participantInputs": [
-        { "key": "pardonGranted", "question": "Has a pardon been granted for this conviction, and on what date?", "requirement": "required" },
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and when?", "requirement": "required" }
+        {
+          "key": "pardonGranted",
+          "question": "Has a pardon been granted for this conviction, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and when?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -1169,10 +1617,18 @@
         }
       ],
       "manualCompletionItems": [
-        { "item": "Signature and date", "whereInPacket": "JDF 680, signature block", "why": "The movant signs their own motion." }
+        {
+          "item": "Signature and date",
+          "whereInPacket": "JDF 680, signature block",
+          "why": "The movant signs their own motion."
+        }
       ],
       "officialSources": [
-        { "title": "Colorado Judicial Branch, Seal My Case", "url": "https://www.coloradojudicial.gov/self-help/seal-my-case", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Colorado Judicial Branch, Seal My Case",
+          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "File in the existing criminal case in the court where the conviction records are located.",
@@ -1268,16 +1724,26 @@
       "legalName": "Expungement of Records Created by Mistaken Identity, C.R.S. § 24-72-702",
       "publicName": "Expungement Of Records Created By Mistaken Identity",
       "controllingAuthority": {
-        "citations": ["C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record"],
+        "citations": [
+          "C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record"
+        ],
         "summary": "The governing mistaken-identity mechanism and output vehicle remain unresolved. Whether this is a self-help track or an attorney referral has not been determined."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
-      "eligibleDispositions": ["records created as a result of mistaken identity"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "records created as a result of mistaken identity"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "process_guidance",
-      "guidanceRationales": ["no_participant_filing_exists"],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -1286,23 +1752,24 @@
       "destination": {
         "kind": "court",
         "name": "Unresolved",
-        "detail": "The forum, the form and whether this is a self-help track at all remain unresolved."
+        "detail": "The governing mistaken-identity mechanism and the participant-facing output vehicle are both unresolved. Counsel named no approved form, pleading or guidance strategy. This track is not registered at runtime and is unreachable."
       },
-      "components": [
-        {
-          "role": "process_guidance",
-          "requirement": "required",
-          "outputStrategy": "process_guidance",
-          "notes": "Provisional and inert: the track is deferred. Counsel recorded the output strategy as \"unresolved\" and named no candidate. This placeholder reaches no runtime artifact and asserts nothing about the vehicle."
-        }
-      ],
+      "components": [],
       "participantInputs": [
-        { "key": "mistakenIdentityFacts", "question": "In your own words, how was this record created by someone using your identity or by a mix-up?", "requirement": "required" }
+        {
+          "key": "mistakenIdentityFacts",
+          "question": "In your own words, how was this record created by someone using your identity or by a mix-up?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [],
       "manualCompletionItems": [],
       "officialSources": [
-        { "title": "C.R.S. § 24-72-702, as amended by HB24-1133", "url": "https://leg.colorado.gov/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "C.R.S. § 24-72-702, as amended by HB24-1133",
+          "url": "https://leg.colorado.gov/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "Unresolved. The forum and vehicle have not been established.",
@@ -1344,7 +1811,7 @@
       ],
       "legalDesignDecision": {
         "status": "legal_research_required",
-        "rationale": "Original review: \"Additional research required.\" The amendment retains CO-11 as a true blocker on the governing mechanism and output vehicle. Counsel recorded the output strategy as unresolved and named no candidate; the track is deferred rather than imported, and no strategy is asserted on their behalf.",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains CO-11 as a true blocker on the governing mechanism and output vehicle. Counsel named no approved form, pleading or guidance strategy, so the output strategy is omitted rather than filled with a concrete value: process_guidance is a substantive conclusion that the relief is not a participant filing, and counsel did not reach it. The track is deferred, unregistered and unreachable.",
         "limitations": [
           {
             "classification": "legal_design_blocker",
@@ -1358,7 +1825,9 @@
             }
           }
         ]
-      }
+      },
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved"
     }
   ]
 }

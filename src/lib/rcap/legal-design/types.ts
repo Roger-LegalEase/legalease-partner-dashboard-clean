@@ -277,6 +277,22 @@ export const RELEASE_WITHHOLDING_IMPACTS: readonly UnresolvedQuestionImpact[] = 
   "counsel_classification_required"
 ];
 
+/**
+ * Whether counsel settled the output strategy, and on what footing.
+ *
+ * `unresolved` exists so that "counsel has not decided" can be said without
+ * inventing a renderer strategy to say it with. It is a *status about* the
+ * strategy, never a strategy: nothing renders from it, the resolver never sees
+ * it, and a track carrying it is deferred and unreachable.
+ */
+export type OutputStrategyStatus = "resolved" | "provisional" | "unresolved";
+
+export const OUTPUT_STRATEGY_STATUSES: readonly OutputStrategyStatus[] = [
+  "resolved",
+  "provisional",
+  "unresolved"
+];
+
 export type LegalDesignLimitation = {
   classification: LimitationClassification;
   /** What counsel said, in their words. Preserved exactly, never paraphrased. */
@@ -438,7 +454,33 @@ export type ProposedReliefTrack = {
   eligibleDispositions: readonly string[];
   exclusions: readonly string[];
   waitingPeriods: readonly { condition: string; duration: string }[];
-  outputStrategy: "custom_pleading" | "official_pdf_fill" | "process_guidance";
+  /**
+   * One of the three approved strategies, or omitted entirely.
+   *
+   * Omitted is only legal on a `legal_research_required` track whose
+   * `outputStrategyStatus` is `unresolved`. There is no fourth strategy and no
+   * "unknown" member: naming one would make it addressable by the renderer and
+   * the resolver, which is the opposite of what an unresolved strategy means.
+   * A deferred track is absent from runtime resolution, so it has nothing to
+   * name.
+   *
+   * A concrete strategy must never stand in for "unknown". `process_guidance`
+   * in particular is a substantive conclusion — it says the relief is not a
+   * participant filing — and is not a placeholder.
+   */
+  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance";
+  /**
+   * Whether counsel settled the output strategy.
+   *
+   * `resolved` is the default and requires `outputStrategy`.
+   * `provisional` requires `outputStrategy` and is legal only where the
+   * controlling legal source expressly authorises the provisional
+   * classification, as the Idaho addendum did for ID-3 and ID-4.
+   * `unresolved` forbids `outputStrategy` and forces deferral.
+   */
+  outputStrategyStatus?: OutputStrategyStatus;
+  /** Whether the packet counsel would produce is identified. */
+  packetIdentity?: "identified" | "unresolved";
   geography: {
     scope: "statewide" | "county" | "circuit" | "district" | "court_specific" | "agency_specific";
     /** Normalized keys when narrower than statewide. Empty for statewide. */

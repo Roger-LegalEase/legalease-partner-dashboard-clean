@@ -19,6 +19,8 @@
 import {
   AFFECTED_ELEMENTS,
   CLASSIFICATION_BASES,
+  COUNSEL_AUTHORED_BASES,
+  OUTPUT_STRATEGY_STATUSES,
   FORBIDDEN_FULFILLMENT_KEYS,
   FORBIDDEN_MEMO_KEYS,
   GUIDANCE_RATIONALES,
@@ -223,9 +225,65 @@ function validateTrack(
     }
   }
 
-  // 7. Output strategy.
-  if (!OUTPUT_STRATEGIES.includes(String(track.outputStrategy))) {
+  // 7. Output strategy, and whether counsel actually settled one.
+  //
+  //    A concrete strategy is a substantive conclusion. `process_guidance` says
+  //    the relief is not a participant filing; `custom_pleading` says we draft
+  //    the document. Neither may stand in for "counsel has not decided". So an
+  //    unresolved strategy is said by omitting the field and marking the status,
+  //    which forces deferral and keeps the track out of runtime resolution.
+  const strategyStatus = track.outputStrategyStatus ?? "resolved";
+  if (!OUTPUT_STRATEGY_STATUSES.includes(strategyStatus)) {
+    push(
+      "outputStrategyStatus",
+      `outputStrategyStatus must be one of ${OUTPUT_STRATEGY_STATUSES.join(", ")}.`,
+      label
+    );
+  }
+
+  if (strategyStatus === "unresolved") {
+    if (track.outputStrategy !== undefined) {
+      push(
+        "outputStrategy",
+        "An unresolved output strategy must omit outputStrategy. A concrete strategy is a substantive conclusion and may never be a placeholder for what counsel has not decided.",
+        label
+      );
+    }
+    if (track.legalDesignDecision?.status !== "legal_research_required") {
+      push(
+        "outputStrategyStatus",
+        "An unresolved output strategy forces deferral: legalDesignDecision.status must be legal_research_required, so the track stays out of runtime resolution.",
+        label
+      );
+    }
+    if (track.packetIdentity !== "unresolved") {
+      push(
+        "packetIdentity",
+        "An unresolved output strategy means the packet identity is unresolved too. Say so explicitly.",
+        label
+      );
+    }
+  } else if (!OUTPUT_STRATEGIES.includes(String(track.outputStrategy))) {
     push("outputStrategy", `outputStrategy must be one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
+  }
+
+  // A provisional strategy is only legal where the controlling source says so.
+  // Idaho's addendum expressly authorised `custom_pleading, legal-design
+  // blocked` for ID-3 and ID-4; without such a statement, provisional is a
+  // guess wearing counsel's approval.
+  if (strategyStatus === "provisional") {
+    const authorised = (track.legalDesignDecision?.limitations ?? []).some(
+      (limitation) =>
+        limitation?.provenance &&
+        COUNSEL_AUTHORED_BASES.includes(limitation.provenance.classificationBasis)
+    );
+    if (!authorised) {
+      push(
+        "outputStrategyStatus",
+        "A provisional output strategy needs a limitation whose provenance is explicit_state_addendum, batch_decision_matrix or general_packet_only_rule, showing the controlling source expressly authorised it.",
+        label
+      );
+    }
   }
 
   // 8. Geography and venue.
@@ -263,7 +321,17 @@ function validateTrack(
   }
 
   // 10. Packet or process components.
-  if (!nonEmptyArray(track.components)) {
+  //     A track whose packet identity is unresolved has no components to name.
+  //     Requiring one would force a strategy to be invented for it.
+  if (strategyStatus === "unresolved") {
+    if (nonEmptyArray(track.components)) {
+      push(
+        "components",
+        "A track with an unresolved output strategy has no identified packet, so it must carry no components.",
+        label
+      );
+    }
+  } else if (!nonEmptyArray(track.components)) {
     push("components", "At least one packet or process component is required.", label);
   } else {
     for (const [i, component] of track.components.entries()) {

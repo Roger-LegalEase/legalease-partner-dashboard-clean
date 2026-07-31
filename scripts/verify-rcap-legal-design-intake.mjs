@@ -24,6 +24,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { validateLegalDesignMemo } = await import("@/lib/rcap/legal-design/validate");
 const {
+  sourceRelationships,
   normalizeMemo,
   legalStatusFor,
   queueFor,
@@ -736,6 +737,160 @@ check("an unclassified impact withholds release without asserting why", () => {
   assert.equal(readinessCeilingFor(track), "runtime_disabled");
 });
 
+// --- an unresolved output strategy is said by omission ----------------------
+//
+// A concrete strategy is a substantive conclusion. process_guidance says the
+// relief is not a participant filing; custom_pleading says we draft it. Neither
+// may stand in for "counsel has not decided", and there is no fourth strategy
+// to name, because naming one would make it addressable by the renderer.
+
+check("a deferred legal-research track may omit its output strategy", () => {
+  const memo = validMemo({
+    outputStrategy: undefined,
+    outputStrategyStatus: "unresolved",
+    packetIdentity: "unresolved",
+    components: [],
+    legalDesignDecision: {
+      status: "legal_research_required",
+      rationale: "Counsel named no approved form, pleading or guidance strategy.",
+      limitations: []
+    }
+  });
+  delete memo.tracks[0].outputStrategy;
+  const result = validateLegalDesignMemo(memo);
+  assert.equal(result.ok, true, JSON.stringify(result.issues));
+
+  const normalized = normalizeMemo(memo);
+  assert.equal(normalized.tracks.length, 0, "a deferred track was imported");
+  assert.equal(normalized.deferredTracks.length, 1);
+  assert.equal(normalized.deferredTracks[0].outputStrategy, null);
+  assert.equal(normalized.deferredTracks[0].outputStrategyStatus, "unresolved");
+  assert.equal(normalized.deferredTracks[0].packetIdentity, "unresolved");
+});
+
+check("a deferred track with no source-authorized strategy cannot carry one", () => {
+  // Every concrete strategy is refused alongside an unresolved status.
+  for (const strategy of ["process_guidance", "custom_pleading", "official_pdf_fill"]) {
+    const result = validateLegalDesignMemo(
+      validMemo({
+        outputStrategy: strategy,
+        outputStrategyStatus: "unresolved",
+        packetIdentity: "unresolved",
+        components: [],
+        legalDesignDecision: { status: "legal_research_required", rationale: "x", limitations: [] }
+      })
+    );
+    assert.equal(result.ok, false, `${strategy} was accepted as a placeholder for unknown`);
+  }
+
+  // And an unresolved strategy cannot sit on an importable track: it forces
+  // deferral, which is what keeps it out of runtime resolution.
+  const importable = validMemo({
+    outputStrategyStatus: "unresolved",
+    packetIdentity: "unresolved",
+    components: [],
+    legalDesignDecision: { status: "legal_design_approved", rationale: "x", limitations: [] }
+  });
+  delete importable.tracks[0].outputStrategy;
+  assert.equal(
+    validateLegalDesignMemo(importable).ok,
+    false,
+    "an unresolved strategy was accepted on a non-deferred track"
+  );
+});
+
+check("a provisional strategy is legal only where a controlling source authorizes it", () => {
+  // Idaho's addendum expressly authorised "custom_pleading, legal-design
+  // blocked" for ID-3 and ID-4. Without such a statement it is a guess.
+  const unauthorised = validateLegalDesignMemo(
+    validMemo({
+      outputStrategy: "custom_pleading",
+      outputStrategyStatus: "provisional",
+      legalDesignDecision: {
+        status: "legal_design_approved_with_limitations",
+        rationale: "x",
+        limitations: [
+          {
+            classification: "packet_instruction",
+            statement: "Something the normalizer restructured.",
+            provenance: { ...FIXTURE_PROVENANCE }
+          }
+        ]
+      }
+    })
+  );
+  assert.equal(unauthorised.ok, false, "an unauthorised provisional strategy was accepted");
+
+  const authorised = validateLegalDesignMemo(
+    validMemo({
+      outputStrategy: "custom_pleading",
+      outputStrategyStatus: "provisional",
+      legalDesignDecision: {
+        status: "legal_design_approved_with_limitations",
+        rationale: "x",
+        limitations: [
+          {
+            classification: "legal_design_blocker",
+            statement: "Accepted filing vehicle unresolved; provisional custom pleading authorised.",
+            undeterminedElement: "correct_form",
+            provenance: {
+              classificationBasis: "explicit_state_addendum",
+              sourceFile: "review.md",
+              sourceHeading: "Provisional custom-pleading routes",
+              sourceStatement: "Amended status: custom_pleading, legal-design blocked pending filing confirmation."
+            }
+          }
+        ]
+      }
+    })
+  );
+  assert.equal(authorised.ok, true, JSON.stringify(authorised.issues));
+});
+
+check("deferred tracks are absent from runtime resolution and unreachable", () => {
+  const memo = validMemo({
+    outputStrategyStatus: "unresolved",
+    packetIdentity: "unresolved",
+    components: [],
+    legalDesignDecision: { status: "legal_research_required", rationale: "x", limitations: [] }
+  });
+  delete memo.tracks[0].outputStrategy;
+  const normalized = normalizeMemo(memo);
+  const deferred = normalized.deferredTracks[0];
+
+  assert.equal(deferred.runtimeRegistration, "none");
+  assert.equal(deferred.runtimeReachable, false);
+
+  // Nothing the resolver reads contains it.
+  const ids = normalized.tracks.map((t) => t.trackId);
+  assert.ok(!ids.includes(deferred.trackId), "a deferred track reached the imported registry");
+  assert.equal(sourceRelationships(normalized).length, 0, "a deferred track produced a source relationship");
+});
+
+check("every real Batch 1 deferral omits its strategy unless a source authorized it", () => {
+  // Drives the committed corpus, not a fixture: no deferred track may carry a
+  // concrete strategy that counsel did not settle.
+  const intake = path.join(process.cwd(), "data/record-clearing/legal-design-intake");
+  for (const file of fs.readdirSync(intake).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n))) {
+    const memo = JSON.parse(fs.readFileSync(path.join(intake, file), "utf8"));
+    for (const track of memo.tracks) {
+      if (track.legalDesignDecision.status !== "legal_research_required") continue;
+      const status = track.outputStrategyStatus ?? "resolved";
+      assert.ok(
+        status !== "resolved" || track.outputStrategy === undefined,
+        `${memo.jurisdiction}:${track.trackId} is deferred but carries a settled strategy ${track.outputStrategy}`
+      );
+      if (status === "unresolved") {
+        assert.equal(
+          track.outputStrategy,
+          undefined,
+          `${memo.jurisdiction}:${track.trackId} carries a placeholder strategy`
+        );
+      }
+    }
+  }
+});
+
 check("self-help ends at an objection without unwinding the packet", () => {
   const track = normalizeMemo(
     validMemo({
@@ -1049,3 +1204,5 @@ console.log("14. A build blocker stops the build; a release blocker permits it a
 console.log("15. A record that corroborates an answer asks the participant to check their own answer.");
 console.log("16. Guidance tracks state why; external-dependency ones are queued for counsel, never reclassified.");
 console.log("17. normalizerInferred is refused on any basis that asserts counsel decided the point.");
+console.log("18. A deferred track omits its output strategy; no concrete strategy may stand in for unknown.");
+console.log("19. A provisional strategy needs a controlling source that authorized it.");

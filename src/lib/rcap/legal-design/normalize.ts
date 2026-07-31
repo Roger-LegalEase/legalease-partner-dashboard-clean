@@ -226,6 +226,13 @@ export type DeferredTrack = {
   jurisdiction: string;
   trackId: string;
   publicName: string;
+  /** Absent when counsel never settled one. Never a placeholder. */
+  outputStrategy: OutputStrategy | null;
+  outputStrategyStatus: "resolved" | "provisional" | "unresolved";
+  packetIdentity: "identified" | "unresolved";
+  /** Deferred tracks are never registered, so there is nothing to disable. */
+  runtimeRegistration: "none";
+  runtimeReachable: false;
   legalDesignStatus: LegalDesignStatus;
   legalDesignRationale: string;
   authority: readonly string[];
@@ -316,6 +323,11 @@ function deferTrack(jurisdiction: string, track: ProposedReliefTrack): DeferredT
     jurisdiction,
     trackId: track.trackId,
     publicName: track.publicName,
+    outputStrategy: track.outputStrategy ?? null,
+    outputStrategyStatus: track.outputStrategyStatus ?? "resolved",
+    packetIdentity: track.packetIdentity ?? (track.outputStrategy ? "identified" : "unresolved"),
+    runtimeRegistration: "none",
+    runtimeReachable: false,
     legalDesignStatus: track.legalDesignDecision.status,
     legalDesignRationale: track.legalDesignDecision.rationale,
     authority: track.controllingAuthority.citations,
@@ -555,6 +567,16 @@ export function participantActionsFor(track: ProposedReliefTrack): ParticipantAc
 }
 
 function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): NormalizedTrack {
+  // Only an implementable track reaches here, and the validator refuses an
+  // implementable track without a concrete strategy. The narrowing is stated
+  // rather than assumed so the type carries the guarantee.
+  if (!track.outputStrategy) {
+    throw new Error(
+      `${jurisdiction}:${track.trackId} reached normalization without an output strategy. Only deferred tracks may omit one.`
+    );
+  }
+  const outputStrategy: OutputStrategy = track.outputStrategy;
+
   const components: NormalizedComponent[] = track.components.map((component, index) => ({
     componentId: `${track.trackId}-${slug(component.role)}-${index + 1}`,
     role: component.role,
@@ -585,7 +607,7 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
     dispositions: track.eligibleDispositions,
     exclusions: track.exclusions,
     waitingPeriods: track.waitingPeriods,
-    outputStrategy: track.outputStrategy,
+    outputStrategy,
     geographicScope: track.geography.scope,
     geographyKeys: track.geography.keys,
     venue: track.geography.venue,
