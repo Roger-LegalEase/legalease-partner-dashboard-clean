@@ -10480,7 +10480,7 @@
       ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "custom_pleading",
+      "outputStrategy": "official_pdf_fill",
       "geographicScope": "circuit",
       "geographyKeys": [
         "fl-circuit-1",
@@ -10519,20 +10519,50 @@
             "role": "primary_filing",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "custom_pleading",
-            "officialFormId": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "FL-RULE-3.989-PETITION",
             "officialSourceUrl": null,
             "order": 1
           },
           {
-            "componentId": "fl-trafficking-proposed-order-2",
+            "componentId": "fl-trafficking-affidavit-2",
+            "role": "affidavit",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "fl-trafficking-proposed-order-3",
             "role": "proposed_order",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "FL-RULE-3.989-ORDER",
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "fl-trafficking-certificate-of-service-4",
+            "role": "certificate_of_service",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "custom_pleading",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 2
+            "order": 4
+          },
+          {
+            "componentId": "fl-trafficking-instructions-5",
+            "role": "instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 5
           }
         ],
         "participantActionRequired": [
@@ -10649,21 +10679,22 @@
         }
       ],
       "selfHelpBoundaries": [
-        "Contested victim-status findings.",
-        "Any individualized advocacy.",
-        "A contested evidentiary showing about the participant's own victimization.",
+        "Disputed victim status.",
+        "Prosecutor opposition.",
+        "A contested or evidentiary hearing.",
+        "Individualized advocacy.",
         "Any immigration matter.",
-        "Contested victim-status or individualized advocacy triggers handoff."
+        "Handoff on any of: disputed victim status; prosecutor opposition; a contested or evidentiary hearing; individualized advocacy."
       ],
       "postGenerationHandoffs": [
-        "Contested victim-status or individualized advocacy triggers handoff."
+        "Handoff on any of: disputed victim status; prosecutor opposition; a contested or evidentiary hearing; individualized advocacy."
       ],
       "packetInstructions": [
         "Recognise the pathway and say clearly that it beats every other Florida route on eligibility and cost. The trauma-informed intake language in the reference should be carried into the product verbatim."
       ],
       "participantQuestions": [],
       "scopeRestrictions": [
-        "Packet-capable under the Rule 3.989 petition/order structure, but subject to a scope_restriction and handoff for contested victim-status or individualized advocacy. Outside-scope does not mean the petition is unknowable. LegalEase may disable runtime pending counsel's scope decision."
+        "LegalEase may keep the route runtime-disabled pending the company's decision whether trafficking-survivor relief is inside the supported self-help scope. Packet capability is settled: the route is packet-capable under the Rule 3.989 petition/order structure. Outside-scope does not mean the petition is unknowable."
       ],
       "buildBlockers": [],
       "releaseBlockers": [
@@ -10680,44 +10711,18 @@
           }
         }
       ],
-      "awaitingCounselClassification": [
-        {
-          "question": "Whether product scope should enable this track. The addendum makes the packet capability known and the scope decision separate, and states that LegalEase may disable runtime pending counsel's scope decision.",
-          "impact": "counsel_classification_required",
-          "affectedElement": "output_strategy",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "LegalEase-Florida-Legal-Review.md",
-            "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
-            "sourceStatement": "FL-7, human-trafficking victim expunction | Packet-capable under the Rule 3.989 petition/order structure, but subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy | Outside-scope does not mean the petition is unknowable. The participant supplies facts and documentation; LegalEase may disable runtime pending counsel's scope decision.",
-            "counselQuestion": "Does LegalEase enable the § 943.0583 trafficking-victim expunction as a self-help track, or keep it disabled at runtime pending a scope decision? The addendum records packet capability and expressly leaves the scope decision to counsel, without stating whether it is build-blocking or release-blocking."
-          }
-        }
-      ],
+      "awaitingCounselClassification": [],
       "openLegalQuestions": [],
-      "counselConfirmationRequired": true,
-      "counselQuestions": [
-        "Does LegalEase enable the § 943.0583 trafficking-victim expunction as a self-help track, or keep it disabled at runtime pending a scope decision? The addendum records packet capability and expressly leaves the scope decision to counsel, without stating whether it is build-blocking or release-blocking."
-      ],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
       "selfHelpStopConditions": [
-        "Contested victim-status findings.",
-        "Any individualized advocacy.",
-        "A contested evidentiary showing about the participant's own victimization.",
+        "Disputed victim status.",
+        "Prosecutor opposition.",
+        "A contested or evidentiary hearing.",
+        "Individualized advocacy.",
         "Any immigration matter."
       ],
       "unresolvedQuestions": [
-        {
-          "question": "Whether product scope should enable this track. The addendum makes the packet capability known and the scope decision separate, and states that LegalEase may disable runtime pending counsel's scope decision.",
-          "impact": "counsel_classification_required",
-          "affectedElement": "output_strategy",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "LegalEase-Florida-Legal-Review.md",
-            "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
-            "sourceStatement": "FL-7, human-trafficking victim expunction | Packet-capable under the Rule 3.989 petition/order structure, but subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy | Outside-scope does not mean the petition is unknowable. The participant supplies facts and documentation; LegalEase may disable runtime pending counsel's scope decision.",
-            "counselQuestion": "Does LegalEase enable the § 943.0583 trafficking-victim expunction as a self-help track, or keep it disabled at runtime pending a scope decision? The addendum records packet capability and expressly leaves the scope decision to counsel, without stating whether it is build-blocking or release-blocking."
-          }
-        },
         {
           "question": "Full current official statutory text for § 943.0583 has not been acquired.",
           "impact": "release_blocker",
@@ -10737,7 +10742,7 @@
       "legalDesignLimitations": [
         {
           "classification": "scope_restriction",
-          "statement": "Packet-capable under the Rule 3.989 petition/order structure, but subject to a scope_restriction and handoff for contested victim-status or individualized advocacy. Outside-scope does not mean the petition is unknowable. LegalEase may disable runtime pending counsel's scope decision.",
+          "statement": "LegalEase may keep the route runtime-disabled pending the company's decision whether trafficking-survivor relief is inside the supported self-help scope. Packet capability is settled: the route is packet-capable under the Rule 3.989 petition/order structure. Outside-scope does not mean the petition is unknowable.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Florida-Legal-Review.md",
@@ -10747,12 +10752,12 @@
         },
         {
           "classification": "post_generation_handoff",
-          "statement": "Contested victim-status or individualized advocacy triggers handoff.",
+          "statement": "Handoff on any of: disputed victim status; prosecutor opposition; a contested or evidentiary hearing; individualized advocacy.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Florida-Legal-Review.md",
             "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
-            "sourceStatement": "subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy"
+            "sourceStatement": "FL-7, human-trafficking victim expunction | Packet-capable under the Rule 3.989 petition/order structure, but subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy | Outside-scope does not mean the petition is unknowable. The participant supplies facts and documentation; LegalEase may disable runtime pending counsel's scope decision."
           }
         },
         {
@@ -10769,7 +10774,7 @@
       ],
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
-      "implementationQueue": "E_local_variant",
+      "implementationQueue": "F_source_problem",
       "legalDesignBlockers": [],
       "blockers": [
         {
@@ -10787,10 +10792,6 @@
         {
           "kind": "release_blocker",
           "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0583 has not been acquired."
-        },
-        {
-          "kind": "release_blocker",
-          "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track. The addendum makes the packet capability known and the scope decision separate, and states that LegalEase may disable runtime pending counsel's scope decision."
         },
         {
           "kind": "source_gate",

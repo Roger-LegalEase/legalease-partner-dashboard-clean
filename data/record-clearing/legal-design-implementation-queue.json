@@ -718,50 +718,8 @@
     {
       "batch": "E_local_variant",
       "label": "Local, county, circuit, district and court-specific variants",
-      "trackCount": 2,
+      "trackCount": 1,
       "tracks": [
-        {
-          "jurisdiction": "FL",
-          "trackId": "fl-trafficking",
-          "publicName": "Human Trafficking Victim Expunction",
-          "outputStrategy": "custom_pleading",
-          "geographicScope": "circuit",
-          "legalDesignStatus": "legal_design_approved_with_limitations",
-          "legalStatus": "legal_review_pending",
-          "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [],
-          "scopeRestrictions": [
-            "Packet-capable under the Rule 3.989 petition/order structure, but subject to a scope_restriction and handoff for contested victim-status or individualized advocacy. Outside-scope does not mean the petition is unknowable. LegalEase may disable runtime pending counsel's scope decision."
-          ],
-          "openLegalQuestions": [],
-          "participantActionCount": 8,
-          "blockers": [
-            {
-              "kind": "output_review_gate",
-              "statement": "Output review pending: counsel approved the design, not the produced document."
-            },
-            {
-              "kind": "visual_review_gate",
-              "statement": "Visual review not started."
-            },
-            {
-              "kind": "technical_proof_gate",
-              "statement": "Technical proof not started."
-            },
-            {
-              "kind": "release_blocker",
-              "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0583 has not been acquired."
-            },
-            {
-              "kind": "release_blocker",
-              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track. The addendum makes the packet capability known and the scope decision separate, and states that LegalEase may disable runtime pending counsel's scope decision."
-            },
-            {
-              "kind": "source_gate",
-              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
-            }
-          ]
-        },
         {
           "jurisdiction": "HI",
           "trackId": "hi_state_initiated_marijuana_pilot",
@@ -805,7 +763,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 29,
+      "trackCount": 30,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1527,6 +1485,44 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-trafficking",
+          "publicName": "Human Trafficking Victim Expunction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "circuit",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase may keep the route runtime-disabled pending the company's decision whether trafficking-survivor relief is inside the supported self-help scope. Packet capability is settled: the route is packet-capable under the Rule 3.989 petition/order structure. Outside-scope does not mean the petition is unknowable."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0583 has not been acquired."
             },
             {
               "kind": "source_gate",
