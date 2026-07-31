@@ -91,9 +91,7 @@ for (const code of batchCodes) {
 // ---------------------------------------------------------------------------
 
 const tracks = normalized.flatMap((entry) => entry.normalized.tracks);
-const deferred = normalized.flatMap((entry) =>
-  entry.normalized.deferredTrackIds.map((trackId) => ({ jurisdiction: entry.code, trackId }))
-);
+const deferred = normalized.flatMap((entry) => entry.normalized.deferredTracks);
 
 /** Counsel's own words, keyed by track, so the pipeline can be held to them. */
 const asSubmitted = new Map();
@@ -210,9 +208,60 @@ const ceilingViolations = tracks.filter(
   (track) => track.releaseBlockers.length > 0 && readinessCeilingFor(track) !== "runtime_disabled"
 );
 
+// The reconciliation model. Deferred is a disposition, not an absence: a track
+// counsel could not settle is accounted for, and only an expected ID that
+// appears in neither list is unaccounted.
+const EXPECTED = JSON.parse(
+  fs.readFileSync(
+    "/workspaces/legalease-legal-review-import/batch-1-amended/expected/expected-track-ids.json",
+    "utf8"
+  )
+).expected_track_ids_by_jurisdiction;
+
+// Expected IDs describe the real Batch 1 corpus. A fixture directory has no
+// relationship to it, so in fixture mode the batch is its own expectation and
+// the reconciliation still proves the arithmetic without asserting a false gap.
+const fixtureMode = Boolean(intakeArg);
+const expectedIds = fixtureMode
+  ? [...tracks.map((t) => `${t.jurisdiction}:${t.trackId}`), ...deferred.map((d) => `${d.jurisdiction}:${d.trackId}`)]
+  : batchCodes.flatMap((code) => (EXPECTED[code] ?? []).map((id) => `${code}:${id}`));
+const importedIds = tracks.map((track) => `${track.jurisdiction}:${track.trackId}`);
+const deferredIds = deferred.map((entry) => `${entry.jurisdiction}:${entry.trackId}`);
+const accountedIds = new Set([...importedIds, ...deferredIds]);
+const unaccountedIds = expectedIds.filter((id) => !accountedIds.has(id));
+const unexpectedIds = [...accountedIds].filter((id) => !expectedIds.includes(id));
+
+const byJurisdiction = Object.fromEntries(
+  batchCodes.map((code) => [
+    code,
+    {
+      expected: (EXPECTED[code] ?? []).length,
+      imported: importedIds.filter((id) => id.startsWith(`${code}:`)).length,
+      deferred: deferredIds.filter((id) => id.startsWith(`${code}:`)).length
+    }
+  ])
+);
+
 const report = {
   schemaVersion: 1,
   batch: batchCodes,
+  reconciliation_model: {
+    fixtureMode,
+    expectedTracks: expectedIds.length,
+    importedTracks: importedIds.length,
+    deferredLegalResearchTracks: deferredIds.length,
+    totalAccountedTracks: importedIds.length + deferredIds.length,
+    unaccountedTracks: unaccountedIds.length,
+    unaccountedTrackIds: unaccountedIds,
+    unexpectedTrackIds: unexpectedIds,
+    byJurisdiction,
+    reconciles:
+      importedIds.length + deferredIds.length === expectedIds.length &&
+      unaccountedIds.length === 0 &&
+      unexpectedIds.length === 0
+  },
+  statusLanguage:
+    "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable.",
   jurisdictionsExpected: batchCodes.length,
   jurisdictionsPresent: normalized.length,
   memosMissing: missingMemos,
@@ -262,7 +311,7 @@ const report = {
     trackId: track.trackId
   })),
   runtimeNote:
-    "Every track in this report is runtime_disabled. No track is packet_ready, no jurisdiction is enabled, and the launch gate stays red."
+    "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable. No track is packet_ready, no jurisdiction is enabled, and the launch gate stays red."
 };
 
 fs.writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`);
@@ -280,7 +329,7 @@ if (jsonOnly) {
     `   Jurisdictions: ${normalized.length} of ${batchCodes.length} present. Missing: ${missingMemos.length > 0 ? missingMemos.join(", ") : "none"}. Rejected: ${rejectedMemos.length}.`
   );
   console.log("");
-  console.log(`1.  Total tracks processed: ${tracks.length}. Deferred, not imported: ${deferred.length}.`);
+  console.log(`1.  Imported tracks: ${tracks.length}. Deferred under legal_research_required: ${deferred.length}. Total accounted: ${tracks.length + deferred.length}.`);
   console.log("2.  Limitations by classification:");
   for (const [classification, counts] of Object.entries(limitationsByClassification)) {
     console.log(`      ${classification.padEnd(24)} ${String(counts.limitations).padStart(4)} across ${counts.tracksAffected} track(s)`);
@@ -300,7 +349,16 @@ if (jsonOnly) {
     `    Reconciliation: ${withBuildBlockers.length} build-blocked + ${withReleaseBlockersOnly.length} release-blocked only + ${clearOfLegalBlockers.length} clear = ${partitionTotal}, against ${tracks.length} processed. ${reconciles ? "Reconciles." : "DOES NOT RECONCILE."}`
   );
   console.log("");
-  console.log("    Every track is runtime_disabled. None is packet_ready. The launch gate stays red.");
+  console.log("");
+  console.log("    Reconciliation model:");
+  console.log(`      expectedTracks              ${expectedIds.length}`);
+  console.log(`      importedTracks              ${importedIds.length}`);
+  console.log(`      deferredLegalResearchTracks ${deferredIds.length}`);
+  console.log(`      totalAccountedTracks        ${importedIds.length + deferredIds.length}`);
+  console.log(`      unaccountedTracks           ${unaccountedIds.length}${unaccountedIds.length ? " — " + unaccountedIds.join(", ") : ""}`);
+  console.log("");
+  console.log("    All imported tracks are runtime_disabled. Tracks deferred under legal_research_required");
+  console.log("    are absent from runtime resolution and unreachable. None is packet_ready; launch gate red.");
   console.log(`    Written to ${path.relative(root, OUT_PATH)}`);
 }
 
@@ -322,6 +380,18 @@ if (ceilingViolations.length > 0) {
 }
 if (rejectedMemos.length > 0) {
   failures.push(`${rejectedMemos.length} memo(s) failed validation and were not counted.`);
+}
+// An unaccounted ID while memos are still outstanding is progress, not a
+// defect: the jurisdiction has not been imported yet. Once every batch memo is
+// present the batch claims to be complete, and an unaccounted ID is then a real
+// hole — a track that was dropped rather than imported or deferred.
+if (unaccountedIds.length > 0 && missingMemos.length === 0) {
+  failures.push(
+    `${unaccountedIds.length} expected track ID(s) are neither imported nor deferred, with every batch memo present: ${unaccountedIds.join(", ")}.`
+  );
+}
+if (unexpectedIds.length > 0) {
+  failures.push(`${unexpectedIds.length} track ID(s) are not in the expected list: ${unexpectedIds.join(", ")}.`);
 }
 
 if (failures.length > 0) {

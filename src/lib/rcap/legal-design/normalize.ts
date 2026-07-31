@@ -42,6 +42,8 @@ import {
   IMPLEMENTABLE_DESIGN_STATUSES,
   PRESERVED_GUIDANCE_RATIONALES,
   REREVIEWABLE_GUIDANCE_RATIONALES,
+  type AffectedElement,
+  type ClassificationProvenance,
   type GuidanceRationale,
   type LegalDesignLimitation,
   type LegalDesignMemo,
@@ -205,6 +207,38 @@ export type NormalizedTrack = {
   blockers: readonly TrackBlocker[];
 };
 
+/**
+ * A track counsel marked `legal_research_required`.
+ *
+ * Deferred is not missing. Counsel has not identified the governing mechanism,
+ * whether the route exists, the correct output strategy, or the legally
+ * accepted filing vehicle — so there is nothing to build, and inventing a
+ * strategy to make the record importable would be the exact failure this
+ * pipeline exists to prevent.
+ *
+ * The track keeps everything counsel did establish, stays visible in the
+ * legal-research queue and the final reconciliation, and is absent from every
+ * runtime artifact: no registry record, no packet-set manifest, no
+ * specification, no implementation batch. It is unreachable rather than
+ * disabled, because it was never registered.
+ */
+export type DeferredTrack = {
+  jurisdiction: string;
+  trackId: string;
+  publicName: string;
+  legalDesignStatus: LegalDesignStatus;
+  legalDesignRationale: string;
+  authority: readonly string[];
+  mechanism: string;
+  destination: { kind: string; name: string; detail: string };
+  unresolvedQuestions: readonly UnresolvedQuestion[];
+  /** Why counsel could not settle the design, in their words. */
+  deferralReasons: readonly { statement: string; affectedElement: AffectedElement }[];
+  /** What must be researched before the track can be built. */
+  requiredLegalResearch: readonly string[];
+  provenance: readonly ClassificationProvenance[];
+};
+
 export type NormalizedMemo = {
   jurisdiction: string;
   memoVersion: string;
@@ -212,6 +246,8 @@ export type NormalizedMemo = {
   tracks: readonly NormalizedTrack[];
   /** Tracks counsel returned that are not yet implementable. */
   deferredTrackIds: readonly string[];
+  /** The same tracks, with everything counsel did establish preserved. */
+  deferredTracks: readonly DeferredTrack[];
 };
 
 export type TrackSourceRelationship = {
@@ -250,11 +286,11 @@ export function legalStatusFor(status: LegalDesignStatus): LegalStatus {
 
 export function normalizeMemo(memo: LegalDesignMemo): NormalizedMemo {
   const tracks: NormalizedTrack[] = [];
-  const deferred: string[] = [];
+  const deferred: DeferredTrack[] = [];
 
   for (const track of memo.tracks) {
     if (!IMPLEMENTABLE_DESIGN_STATUSES.includes(track.legalDesignDecision.status)) {
-      deferred.push(track.trackId);
+      deferred.push(deferTrack(memo.jurisdiction, track));
       continue;
     }
     tracks.push(normalizeTrack(memo.jurisdiction, track));
@@ -265,7 +301,39 @@ export function normalizeMemo(memo: LegalDesignMemo): NormalizedMemo {
     memoVersion: memo.memoVersion,
     submittedAt: memo.submittedAt,
     tracks,
-    deferredTrackIds: deferred
+    deferredTrackIds: deferred.map((entry) => entry.trackId),
+    deferredTracks: deferred
+  };
+}
+
+/** Preserves what counsel established on a track that cannot yet be built. */
+function deferTrack(jurisdiction: string, track: ProposedReliefTrack): DeferredTrack {
+  const blockers = track.legalDesignDecision.limitations.filter(
+    (limitation) => limitation.classification === "legal_design_blocker"
+  );
+
+  return {
+    jurisdiction,
+    trackId: track.trackId,
+    publicName: track.publicName,
+    legalDesignStatus: track.legalDesignDecision.status,
+    legalDesignRationale: track.legalDesignDecision.rationale,
+    authority: track.controllingAuthority.citations,
+    mechanism: track.controllingAuthority.summary,
+    destination: track.destination,
+    unresolvedQuestions: track.unresolvedQuestions,
+    deferralReasons: blockers.map((limitation) => ({
+      statement: limitation.statement,
+      // A blocker always names its element; the validator refuses one without.
+      affectedElement: limitation.undeterminedElement ?? "governing_mechanism"
+    })),
+    requiredLegalResearch: track.unresolvedQuestions
+      .filter((question) => question.impact === "build_blocker")
+      .map((question) => question.question),
+    provenance: [
+      ...blockers.map((limitation) => limitation.provenance),
+      ...track.unresolvedQuestions.map((question) => question.provenance)
+    ]
   };
 }
 

@@ -274,7 +274,27 @@ for (const track of allTracks) {
 }
 guidanceRereviewQueue.candidateCount = guidanceRereviewQueue.candidates.length;
 
+// ---------------------------------------------------------------------------
+// Legal-research queue
+//
+// Tracks counsel marked legal_research_required. They are absent from every
+// runtime artifact above — no registry record, no packet set, no specification,
+// no implementation batch — so they are unreachable rather than disabled. This
+// queue is where they stay visible, with everything counsel did establish.
+// ---------------------------------------------------------------------------
+
+const allDeferred = normalizedMemos.flatMap((memo) => memo.deferredTracks);
+
+const legalResearchQueue = {
+  schemaVersion: 1,
+  note:
+    "Deferred, not missing. Counsel has not identified the governing mechanism, whether the route exists, the correct output strategy, or the legally accepted filing vehicle. No strategy is invented to make the record importable. These tracks are absent from runtime resolution and unreachable; they are not runtime_disabled, because they were never registered.",
+  deferredTrackCount: allDeferred.length,
+  deferredTracks: allDeferred
+};
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
+write("legal-design-legal-research-queue.json", legalResearchQueue);
 write("legal-design-guidance-rereview-queue.json", guidanceRereviewQueue);
 write("legal-design-track-registry.json", registryRecords);
 write("legal-design-packet-set-manifests.json", packetSetManifests);
@@ -289,7 +309,9 @@ write("legal-design-implementation-queue.json", implementationQueue);
 console.log("RCAP legal-design intake");
 console.log(`1. Memos found: ${memoFiles.length}. Accepted: ${validated.length}. Rejected: ${rejected.length}.`);
 console.log(`2. Jurisdictions outstanding: ${outstanding.length} of ${ALL_JURISDICTION_CODES.length}.`);
-console.log(`3. Tracks imported: ${allTracks.length}. Deferred (not implementable yet): ${implementationQueue.deferredTracks.length}.`);
+console.log(
+  `3. Tracks imported: ${allTracks.length}. Deferred under legal_research_required: ${implementationQueue.deferredTracks.length}. Total accounted: ${allTracks.length + implementationQueue.deferredTracks.length}.`
+);
 console.log("4. Implementation batches:");
 for (const batch of implementationQueue.batches) {
   console.log(`     ${batch.batch}: ${batch.trackCount} — ${batch.label}`);
@@ -306,7 +328,10 @@ console.log(
   `6. Legal-design blockers: ${legalDesignBlockerCount}. Participant actions recorded: ${participantActionCount}, of which ${supportingDocumentCount} are documents the participant obtains and attaches.`
 );
 console.log("   None of those participant actions gates generation. LegalEase names them; the participant does them.");
-console.log("7. Tracks packet_ready: 0. Importing a memo enables nothing.");
+console.log(
+  `7. Deferred under legal_research_required: ${allDeferred.length}. Absent from runtime resolution and unreachable.`
+);
+console.log("8. Tracks packet_ready: 0. Importing a memo enables nothing.");
 
 if (rejected.length > 0) {
   console.error("");
