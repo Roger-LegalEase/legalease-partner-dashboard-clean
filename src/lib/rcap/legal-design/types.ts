@@ -285,6 +285,34 @@ export const RELEASE_WITHHOLDING_IMPACTS: readonly UnresolvedQuestionImpact[] = 
  * strategy, never a strategy: nothing renders from it, the resolver never sees
  * it, and a track carrying it is deferred and unreachable.
  */
+/**
+ * One stage of a staged route.
+ *
+ * Counsel sometimes settles a route whose first step is guidance and whose
+ * second step is a real packet — Arkansas AR-7 through AR-11, Colorado CO-5,
+ * Hawaii HI-2 through HI-8. Composing that from component ordering alone loses
+ * the fact that the stages are sequential and independently gated, which is the
+ * thing counsel actually decided.
+ *
+ * A stage's `outputStrategy` is one of the three renderer strategies, or is
+ * omitted where counsel left that branch unresolved. An omitted stage strategy
+ * makes the stage unavailable; it never makes the whole track unresolved, and a
+ * concrete strategy is never invented to fill it.
+ */
+export type TrackStage = {
+  stage: number;
+  label: string;
+  /** Omitted only where counsel left this branch's vehicle unresolved. */
+  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance";
+  outputStrategyStatus?: OutputStrategyStatus;
+  /** What this stage produces or explains. */
+  description: string;
+  /** False while a blocker keeps the stage from being offered. */
+  available: boolean;
+  /** Why the stage is unavailable, when it is. */
+  unavailableReason?: string;
+};
+
 export type OutputStrategyStatus = "resolved" | "provisional" | "unresolved";
 
 export const OUTPUT_STRATEGY_STATUSES: readonly OutputStrategyStatus[] = [
@@ -468,7 +496,7 @@ export type ProposedReliefTrack = {
    * in particular is a substantive conclusion — it says the relief is not a
    * participant filing — and is not a placeholder.
    */
-  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance";
+  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance" | "staged";
   /**
    * Whether counsel settled the output strategy.
    *
@@ -481,6 +509,17 @@ export type ProposedReliefTrack = {
   outputStrategyStatus?: OutputStrategyStatus;
   /** Whether the packet counsel would produce is identified. */
   packetIdentity?: "identified" | "unresolved";
+  /**
+   * The ordered stages of a `staged` route. Required when, and only when,
+   * `outputStrategy` is `staged`.
+   *
+   * Each stage carries one of the three renderer strategies, or omits it when
+   * counsel left that branch unresolved. `staged` is never itself rendered:
+   * `renderableStrategyFor` resolves a track to the concrete strategy of the
+   * stage being produced, and the verifier proves no renderer or resolver path
+   * receives `staged`.
+   */
+  stages?: readonly TrackStage[];
   geography: {
     scope: "statewide" | "county" | "circuit" | "district" | "court_specific" | "agency_specific";
     /** Normalized keys when narrower than statewide. Empty for statewide. */

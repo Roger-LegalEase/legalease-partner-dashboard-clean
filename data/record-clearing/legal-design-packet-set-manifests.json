@@ -1481,6 +1481,1284 @@
       ]
     },
     {
+      "jurisdiction": "AR",
+      "trackId": "ar-misdemeanor-seal",
+      "packetSetId": "ar-misdemeanor-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-misdemeanor-seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-PETITION-TO-SEAL",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-misdemeanor-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-ORDER-TO-SEAL",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC uniform petition and order pair in the circuit or district court in the county where the offense was committed and the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-misdemeanor-dwi-seal",
+      "packetSetId": "ar-misdemeanor-dwi-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-misdemeanor-dwi-seal-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-misdemeanor-dwi-seal-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only once the Coleman/statutory waiting-period conflict is resolved.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ar-misdemeanor-dwi-seal-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Only once the waiting-period conflict is resolved.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the DWI or BWI conviction — which court, county, and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 explains the two readings and hands off. Stage 2 files the ACIC misdemeanor DWI/BWI petition and order pair in the circuit or district court in the county of conviction, once the waiting-period conflict is resolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the DWI or BWI conviction — which court, county, and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-felony-seal",
+      "packetSetId": "ar-felony-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-felony-seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-PETITION-TO-SEAL",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-felony-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-ORDER-TO-SEAL",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the felony conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC uniform petition and order pair in the circuit court in the county where the offense was committed and the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the felony conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-cs-possession-seal",
+      "packetSetId": "ar-cs-possession-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-cs-possession-seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-cs-possession-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Sentencing order or an equivalent record. Ask the clerk for a copy of the sentencing order. It is a participant reference or attachment, not a record LegalEase reviews.",
+          "obtainedFrom": "The clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the court make the pre-sentencing findings this route requires? Tell us what the sentencing order says.\" against Sentencing order or an equivalent record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC controlled-substance petition and order pair in the circuit court in the county where the offense was committed and the person was convicted.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Obtain Sentencing order or an equivalent record. Ask the clerk for a copy of the sentencing order. It is a participant reference or attachment, not a record LegalEase reviews.",
+        "Check your answer to \"Did the court make the pre-sentencing findings this route requires? Tell us what the sentencing order says.\" against Sentencing order or an equivalent record, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-nonconviction-seal",
+      "packetSetId": "ar-nonconviction-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-nonconviction-seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-NONCONVICTION",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-nonconviction-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-NONCONVICTION",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end — nolle prosequi, dismissal, acquittal, or were charges never filed?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC non-conviction petition and order pair in the court where the nolle prosequi or dismissal order was entered.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"How did the case end — nolle prosequi, dismissal, acquittal, or were charges never filed?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-arrest-seal",
+      "packetSetId": "ar-arrest-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-arrest-seal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-ARREST",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-arrest-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-ARREST",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC arrest petition and order pair in the circuit or district court in the county of arrest.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the arrest — which agency, what date, and what were you accused of?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-pardon-seal",
+      "packetSetId": "ar-pardon-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-pardon-seal-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-pardon-seal-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ar-pardon-seal-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pardon documentation. Attach the pardon documentation to the petition. LegalEase does not review it.",
+          "obtainedFrom": "The granting authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has a pardon been granted, and on what date?\" against Pardon documentation, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 explains how to seek the pardon. Stage 2 files the ACIC pardoned-offender petition and order pair.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Obtain Pardon documentation. Attach the pardon documentation to the petition. LegalEase does not review it.",
+        "Check your answer to \"Has a pardon been granted, and on what date?\" against Pardon documentation, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-act346",
+      "packetSetId": "ar-act346-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-act346-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-act346-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ar-act346-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 explains Act 346 placement. Stage 2 files the post-completion dismiss-and-seal petition and order in the underlying criminal court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-preadjudication-probation",
+      "packetSetId": "ar-preadjudication-probation-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-preadjudication-probation-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none by the participant through LegalEase. Placement is negotiated inside the active case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The source review does not state a notarization requirement.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-drug-court",
+      "packetSetId": "ar-drug-court-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-drug-court-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-drug-court-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-DRUG-COURT",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ar-drug-court-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-DRUG-COURT",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 explains admission and completion. Stage 2 files the applicable ACIC pre- or post-adjudication petition and order pair.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-veterans-court",
+      "packetSetId": "ar-veterans-court-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-veterans-court-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-veterans-court-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-VETERANS-COURT",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ar-veterans-court-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-VETERANS-COURT",
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 explains participation and completion. Stage 2 files the ACIC veterans treatment court petition and order pair.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-act531",
+      "packetSetId": "ar-act531-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ar-act531-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ar-act531-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — ACIC petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the ACIC Act 531 / Act 1460 petition and order pair in the underlying criminal court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+        "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+        "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+        "Signature and date — ACIC petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
       "jurisdiction": "AZ",
       "trackId": "az_marijuana_expungement_limited_jurisdiction",
       "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",

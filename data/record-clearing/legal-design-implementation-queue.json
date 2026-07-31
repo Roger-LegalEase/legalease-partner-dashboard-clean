@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 9,
-  "jurisdictionsOutstanding": 42,
+  "jurisdictionsReceived": 10,
+  "jurisdictionsOutstanding": 41,
   "outstandingJurisdictions": [
-    "AR",
     "CA",
     "CT",
     "GA",
@@ -546,7 +545,7 @@
     {
       "batch": "D_staged_or_process_guidance",
       "label": "Staged and process-guidance tracks",
-      "trackCount": 11,
+      "trackCount": 12,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -689,6 +688,44 @@
             {
               "kind": "technical_proof_gate",
               "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-preadjudication-probation",
+          "publicName": "Pre-Adjudication Probation",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Keep as guidance unless counsel confirms an independent participant-initiated post-completion filing and the current ACIC form pair applicable to that route. Prosecutor concurrence inside an active disposition is not itself a participant packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (governing_mechanism): Whether an independent participant-initiated post-completion filing exists, and the current ACIC form pair applicable to that route, is unconfirmed."
             },
             {
               "kind": "source_gate",
@@ -1009,7 +1046,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 51,
+      "trackCount": 62,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1548,6 +1585,482 @@
             {
               "kind": "release_blocker",
               "statement": "Impact unclassified, returned to counsel (output_strategy): Whether the pardon product is included in scope as a separate product."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-misdemeanor-seal",
+          "publicName": "Seal a misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Route the six listed offenses and DWI/BWI out of this track. Do not auto-complete the CDL, registration, or excused-obligation questions."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Authorization for Review of Criminal History Information has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether local courts require additional forms is unresolved."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-misdemeanor-dwi-seal",
+          "publicName": "Seal a DWI or BWI misdemeanor",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The Coleman/statutory waiting-period conflict prevents reliable routing. (undetermined: waiting_period)",
+            "Open question blocks the build (waiting_period): The DWI/BWI waiting-period conflict between the 2026 appellate reading, statutory text, and existing forms/practice is dispositive and prevents reliable routing.",
+            "Open question blocks the build (waiting_period): Confirm whether a petition for review or rehearing was filed in Coleman and whether the Arkansas Supreme Court has acted."
+          ],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The Coleman/statutory waiting-period conflict prevents reliable routing. (undetermined: waiting_period)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (waiting_period): The DWI/BWI waiting-period conflict between the 2026 appellate reading, statutory text, and existing forms/practice is dispositive and prevents reliable routing."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (waiting_period): Confirm whether a petition for review or rehearing was filed in Coleman and whether the Arkansas Supreme Court has acted."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Seal Misdemeanor DWI/BWI has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-felony-seal",
+          "publicName": "Seal an eligible felony conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Do not automate the violence determination or the same-episode count."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Authorization for Review of Criminal History Information has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Confirm the current posted felony petition and order revisions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-cs-possession-seal",
+          "publicName": "Seal a drug possession felony (treatment path)",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "If any predicate is unclear, route to the ordinary felony track or to an attorney."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Seal Conviction for Possession of Controlled or Counterfeit Substance has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-nonconviction-seal",
+          "publicName": "Seal a dismissed, dropped, or acquitted case",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (venue): Venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b)."
+          ],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Resolve venue for acquittals and uncharged matters before shipping those two dispositions; ship dismissal and nolle prosequi first."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (venue): Venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b)."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): ACIC links a 2023 revision of the companion order while the petition is a 2020 revision. Pull both."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-arrest-seal",
+          "publicName": "Seal an arrest record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Implement the county-of-arrest venue rule separately from the general venue rule."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Seal Arrest has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-pardon-seal",
+          "publicName": "Sealing After A Pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "The existence of an official pair means the sealing stage is not guidance-only."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-act346",
+          "publicName": "Act 346 First Offender Dismiss And Seal",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-drug-court",
+          "publicName": "Drug Court",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Prosecutor concurrence or program completion is a prerequisite, not a reason to suppress the participant-facing filing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC drug court pre-adjudication and post-adjudication petition and order pairs has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-veterans-court",
+          "publicName": "Veterans Treatment Court",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Current § 16-101-106 text must be confirmed before participant-facing eligibility language is released, although the post-completion packet strategy is now identified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC veterans treatment court petition and order pair has not been acquired. Any missing current ACIC form pair is a source-release gate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "AR",
+          "trackId": "ar-act531",
+          "publicName": "Act 531 Community Punishment Act",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "Release-gated on current eligibility-source review. The packet identity is known even though the eligible historical population still needs legal confirmation."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Current Act 531 statutory criteria and covered historical dispositions must be confirmed. This blocks opening the route, not identifying the ACIC packet."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Section 16-93-1201 et seq. was not reviewed in this pass."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The ACIC Petition and Order to Seal Pursuant to Act 531 and Act 1460 has not been acquired. Any missing current ACIC form pair is a source-release gate."
             },
             {
               "kind": "source_gate",

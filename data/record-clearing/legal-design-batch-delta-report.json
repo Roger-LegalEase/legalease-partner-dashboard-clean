@@ -17,23 +17,11 @@
   "reconciliation_model": {
     "fixtureMode": false,
     "expectedTracks": 117,
-    "importedTracks": 72,
+    "importedTracks": 84,
     "deferredLegalResearchTracks": 6,
-    "totalAccountedTracks": 78,
-    "unaccountedTracks": 39,
+    "totalAccountedTracks": 90,
+    "unaccountedTracks": 27,
     "unaccountedTrackIds": [
-      "AR:ar-misdemeanor-seal",
-      "AR:ar-misdemeanor-dwi-seal",
-      "AR:ar-felony-seal",
-      "AR:ar-cs-possession-seal",
-      "AR:ar-nonconviction-seal",
-      "AR:ar-arrest-seal",
-      "AR:ar-pardon-seal",
-      "AR:ar-act346",
-      "AR:ar-preadjudication-probation",
-      "AR:ar-drug-court",
-      "AR:ar-veterans-court",
-      "AR:ar-act531",
       "CA:ca-1203-4",
       "CA:ca-1203-4a",
       "CA:ca-1203-41",
@@ -81,7 +69,7 @@
       },
       "AR": {
         "expected": 12,
-        "imported": 0,
+        "imported": 12,
         "deferred": 0
       },
       "CA": {
@@ -129,14 +117,13 @@
   },
   "statusLanguage": "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable.",
   "jurisdictionsExpected": 12,
-  "jurisdictionsPresent": 9,
+  "jurisdictionsPresent": 10,
   "memosMissing": [
-    "AR",
     "CA",
     "CT"
   ],
   "memosRejected": [],
-  "totalTracksProcessed": 72,
+  "totalTracksProcessed": 84,
   "deferredTracks": [
     {
       "jurisdiction": "AL",
@@ -624,92 +611,92 @@
     }
   ],
   "generationRequirements": {
-    "items": 294,
-    "tracksAffected": 72
+    "items": 339,
+    "tracksAffected": 84
   },
   "limitationsByClassification": {
     "packet_instruction": {
-      "limitations": 78,
-      "tracksAffected": 46
+      "limitations": 93,
+      "tracksAffected": 57
     },
     "participant_question": {
-      "limitations": 35,
-      "tracksAffected": 35
+      "limitations": 41,
+      "tracksAffected": 40
     },
     "required_before_filing": {
-      "limitations": 26,
-      "tracksAffected": 26
+      "limitations": 27,
+      "tracksAffected": 27
     },
     "scope_restriction": {
-      "limitations": 54,
-      "tracksAffected": 48
+      "limitations": 82,
+      "tracksAffected": 60
     },
     "manual_completion_item": {
       "limitations": 14,
       "tracksAffected": 14
     },
     "post_generation_handoff": {
-      "limitations": 42,
-      "tracksAffected": 42
+      "limitations": 53,
+      "tracksAffected": 53
     },
     "self_help_boundary": {
       "limitations": 0,
       "tracksAffected": 0
     },
     "legal_design_blocker": {
-      "limitations": 20,
-      "tracksAffected": 20
+      "limitations": 21,
+      "tracksAffected": 21
     }
   },
   "participantFilingRequirements": {
-    "items": 83,
-    "tracksAffected": 50
+    "items": 107,
+    "tracksAffected": 61
   },
   "manualCompletionItems": {
-    "items": 89,
-    "tracksAffected": 56
+    "items": 100,
+    "tracksAffected": 67
   },
   "packetInstructions": {
-    "items": 104,
-    "tracksAffected": 59
+    "items": 120,
+    "tracksAffected": 70
   },
   "participantQuestions": {
-    "items": 35,
-    "tracksAffected": 35
+    "items": 41,
+    "tracksAffected": 40
   },
   "scopeRestrictions": {
-    "items": 54,
-    "tracksAffected": 48
+    "items": 82,
+    "tracksAffected": 60
   },
   "selfHelpBoundaries": {
-    "items": 365,
-    "tracksAffected": 72
+    "items": 428,
+    "tracksAffected": 84
   },
   "unresolvedQuestionsByImpact": {
     "build_blocker": {
-      "questions": 38,
-      "tracksAffected": 24
+      "questions": 41,
+      "tracksAffected": 26
     },
     "release_blocker": {
-      "questions": 95,
-      "tracksAffected": 64
+      "questions": 111,
+      "tracksAffected": 75
     },
     "nonblocking_research_note": {
       "questions": 1,
       "tracksAffected": 1
     },
     "counsel_classification_required": {
-      "questions": 6,
-      "tracksAffected": 6
+      "questions": 7,
+      "tracksAffected": 7
     }
   },
   "buildBlockers": {
-    "questions": 38,
-    "tracksAffected": 24
+    "questions": 41,
+    "tracksAffected": 26
   },
   "releaseBlockers": {
-    "questions": 95,
-    "tracksAffected": 64
+    "questions": 111,
+    "tracksAffected": 75
   },
   "nonblockingResearchNotes": {
     "questions": 1,
@@ -728,7 +715,7 @@
     ]
   },
   "processGuidanceTracksPreserved": {
-    "count": 11,
+    "count": 17,
     "tracks": [
       {
         "jurisdiction": "AK",
@@ -750,6 +737,39 @@
         "guidanceRationales": [
           "no_participant_filing_exists"
         ]
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-misdemeanor-dwi-seal",
+        "guidanceRationales": []
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-pardon-seal",
+        "guidanceRationales": []
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-act346",
+        "guidanceRationales": []
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-preadjudication-probation",
+        "guidanceRationales": [
+          "requires_negotiation",
+          "another_entity_decides"
+        ]
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-drug-court",
+        "guidanceRationales": []
+      },
+      {
+        "jurisdiction": "AR",
+        "trackId": "ar-veterans-court",
+        "guidanceRationales": []
       },
       {
         "jurisdiction": "CO",
@@ -810,14 +830,50 @@
       }
     ]
   },
-  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 72,
-  "tracksWhoseSubstantiveLegalDecisionChanged": [],
+  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 79,
+  "tracksWhoseSubstantiveLegalDecisionChanged": [
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-misdemeanor-dwi-seal",
+      "differences": [
+        "outputStrategy"
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-pardon-seal",
+      "differences": [
+        "outputStrategy"
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-act346",
+      "differences": [
+        "outputStrategy"
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-drug-court",
+      "differences": [
+        "outputStrategy"
+      ]
+    },
+    {
+      "jurisdiction": "AR",
+      "trackId": "ar-veterans-court",
+      "differences": [
+        "outputStrategy"
+      ]
+    }
+  ],
   "reconciliation": {
-    "tracksWithBuildBlockers": 24,
-    "tracksWithReleaseBlockersOnly": 45,
-    "tracksClearOfLegalBlockers": 3,
-    "partitionTotal": 72,
-    "totalTracksProcessed": 72,
+    "tracksWithBuildBlockers": 26,
+    "tracksWithReleaseBlockersOnly": 54,
+    "tracksClearOfLegalBlockers": 4,
+    "partitionTotal": 84,
+    "totalTracksProcessed": 84,
     "reconciles": true
   },
   "releaseBlockerCeilingViolations": [],

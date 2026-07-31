@@ -263,8 +263,50 @@ function validateTrack(
         label
       );
     }
+  } else if (track.outputStrategy === "staged") {
+    // `staged` is a composition, not a renderer strategy. It is legal only with
+    // ordered stages, each carrying one of the three real strategies or openly
+    // omitting it where counsel left that branch unresolved.
+    if (!nonEmptyArray(track.stages)) {
+      push("stages", "A staged route must list its ordered stages.", label);
+    } else {
+      for (const [i, stage] of track.stages.entries()) {
+        const field = `stages[${i}]`;
+        if (typeof stage?.stage !== "number") push(`${field}.stage`, "stage must be a number.", label);
+        if (!nonEmptyString(stage?.label)) push(`${field}.label`, "label is required.", label);
+        if (!nonEmptyString(stage?.description)) push(`${field}.description`, "description is required.", label);
+        if (typeof stage?.available !== "boolean") {
+          push(`${field}.available`, "available must be true or false.", label);
+        }
+        const stageStatus = stage?.outputStrategyStatus ?? "resolved";
+        if (stageStatus === "unresolved") {
+          if (stage?.outputStrategy !== undefined) {
+            push(
+              `${field}.outputStrategy`,
+              "An unresolved stage must omit outputStrategy. A concrete strategy may not stand in for a branch counsel has not settled.",
+              label
+            );
+          }
+          if (stage?.available !== false) {
+            push(`${field}.available`, "A stage with an unresolved vehicle cannot be available.", label);
+          }
+        } else if (!OUTPUT_STRATEGIES.includes(String(stage?.outputStrategy))) {
+          push(`${field}.outputStrategy`, `Each settled stage needs one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
+        }
+        if (stage?.available === false && !nonEmptyString(stage?.unavailableReason)) {
+          push(`${field}.unavailableReason`, "An unavailable stage must say why.", label);
+        }
+      }
+      if (!track.stages.some((stage) => stage?.available === true)) {
+        push("stages", "A staged route needs at least one available stage; otherwise it is deferred, not staged.", label);
+      }
+    }
   } else if (!OUTPUT_STRATEGIES.includes(String(track.outputStrategy))) {
     push("outputStrategy", `outputStrategy must be one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
+  }
+
+  if (track.outputStrategy !== "staged" && track.stages !== undefined) {
+    push("stages", "stages belongs only on a staged route.", label);
   }
 
   // A provisional strategy is only legal where the controlling source says so.

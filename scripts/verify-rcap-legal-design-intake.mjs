@@ -891,6 +891,87 @@ check("every real Batch 1 deferral omits its strategy unless a source authorized
   }
 });
 
+// --- staged is a composition, never a renderer strategy ---------------------
+
+check("a staged route resolves to a concrete strategy and never renders as staged", () => {
+  const staged = validMemo({
+    outputStrategy: "staged",
+    outputStrategyStatus: "resolved",
+    packetIdentity: "identified",
+    stages: [
+      { stage: 1, label: "Guidance", outputStrategy: "process_guidance", description: "Explain.", available: true },
+      {
+        stage: 2,
+        label: "Packet",
+        outputStrategy: "official_pdf_fill",
+        description: "Generate.",
+        available: false,
+        unavailableReason: "A blocker keeps this stage closed."
+      }
+    ]
+  });
+  const result = validateLegalDesignMemo(staged);
+  assert.equal(result.ok, true, JSON.stringify(result.issues));
+
+  const track = normalizeMemo(staged).tracks[0];
+  // The declared composition is kept, but what the renderer sees is concrete.
+  assert.equal(track.outputStrategyDeclared, "staged");
+  assert.equal(track.outputStrategy, "process_guidance", "staged reached the renderer");
+  assert.ok(["custom_pleading", "official_pdf_fill", "process_guidance"].includes(track.outputStrategy));
+  assert.equal(track.stages.length, 2);
+
+  // Every downstream consumer of a strategy sees a real one.
+  assert.notEqual(queueFor({ ...staged.tracks[0], outputStrategy: track.outputStrategy }), undefined);
+});
+
+check("no normalized track anywhere carries staged as its renderable strategy", () => {
+  const intake = path.join(process.cwd(), "data/record-clearing/legal-design-intake");
+  for (const file of fs.readdirSync(intake).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n))) {
+    const memo = JSON.parse(fs.readFileSync(path.join(intake, file), "utf8"));
+    for (const track of normalizeMemo(memo).tracks) {
+      assert.ok(
+        ["custom_pleading", "official_pdf_fill", "process_guidance"].includes(track.outputStrategy),
+        `${memo.jurisdiction}:${track.trackId} renders as ${track.outputStrategy}`
+      );
+    }
+  }
+});
+
+check("a staged route must declare stages, and a stage may not fake a strategy", () => {
+  const noStages = validateLegalDesignMemo(
+    validMemo({ outputStrategy: "staged", outputStrategyStatus: "resolved", packetIdentity: "identified" })
+  );
+  assert.equal(noStages.ok, false, "a staged route with no stages was accepted");
+
+  // An unresolved stage omits its strategy and cannot be available.
+  const faked = validateLegalDesignMemo(
+    validMemo({
+      outputStrategy: "staged",
+      outputStrategyStatus: "resolved",
+      packetIdentity: "identified",
+      stages: [
+        { stage: 1, label: "Guidance", outputStrategy: "process_guidance", description: "Explain.", available: true },
+        {
+          stage: 2,
+          label: "Unsettled branch",
+          outputStrategy: "custom_pleading",
+          outputStrategyStatus: "unresolved",
+          description: "Vehicle unknown.",
+          available: false,
+          unavailableReason: "Vehicle unresolved."
+        }
+      ]
+    })
+  );
+  assert.equal(faked.ok, false, "an unresolved stage kept a concrete strategy");
+
+  // stages belongs only on a staged route.
+  const misplaced = validateLegalDesignMemo(
+    validMemo({ stages: [{ stage: 1, label: "x", outputStrategy: "process_guidance", description: "y", available: true }] })
+  );
+  assert.equal(misplaced.ok, false, "stages was accepted on a non-staged route");
+});
+
 check("self-help ends at an objection without unwinding the packet", () => {
   const track = normalizeMemo(
     validMemo({
@@ -1206,3 +1287,4 @@ console.log("16. Guidance tracks state why; external-dependency ones are queued 
 console.log("17. normalizerInferred is refused on any basis that asserts counsel decided the point.");
 console.log("18. A deferred track omits its output strategy; no concrete strategy may stand in for unknown.");
 console.log("19. A provisional strategy needs a controlling source that authorized it.");
+console.log("20. staged is a composition: it resolves to a concrete strategy and never reaches a renderer.");

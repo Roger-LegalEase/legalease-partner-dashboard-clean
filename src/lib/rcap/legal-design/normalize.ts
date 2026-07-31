@@ -52,6 +52,7 @@ import {
   type ParticipantInput,
   type ProposedReliefTrack,
   type SupportingDocument,
+  type TrackStage,
   type UnresolvedQuestion
 } from "@/lib/rcap/legal-design/types";
 import {
@@ -143,7 +144,11 @@ export type NormalizedTrack = {
   dispositions: readonly string[];
   exclusions: readonly string[];
   waitingPeriods: readonly { condition: string; duration: string }[];
+  /** Always concrete. `staged` resolves to the active stage's strategy. */
   outputStrategy: OutputStrategy;
+  /** Counsel's declared composition, when the route is staged. */
+  outputStrategyDeclared: string;
+  stages: readonly TrackStage[];
   geographicScope: GeographicScope;
   geographyKeys: readonly string[];
   venue: string;
@@ -227,7 +232,7 @@ export type DeferredTrack = {
   trackId: string;
   publicName: string;
   /** Absent when counsel never settled one. Never a placeholder. */
-  outputStrategy: OutputStrategy | null;
+  outputStrategy: OutputStrategy | "staged" | null;
   outputStrategyStatus: "resolved" | "provisional" | "unresolved";
   packetIdentity: "identified" | "unresolved";
   /** Deferred tracks are never registered, so there is nothing to disable. */
@@ -566,6 +571,29 @@ export function participantActionsFor(track: ProposedReliefTrack): ParticipantAc
   return actions;
 }
 
+/**
+ * The concrete strategy a renderer would actually run for a track.
+ *
+ * `staged` is a composition marker and is never rendered. A staged track
+ * resolves to the strategy of its first available stage, which is what the
+ * participant is being handed right now. Nothing downstream of this function
+ * ever sees `staged`, which is what keeps the three-strategy plan of record
+ * intact while letting counsel's staging be recorded as counsel stated it.
+ */
+export function renderableStrategyFor(track: {
+  outputStrategy?: string;
+  stages?: readonly { outputStrategy?: string; available: boolean }[];
+}): OutputStrategy {
+  if (track.outputStrategy !== "staged") {
+    return track.outputStrategy as OutputStrategy;
+  }
+  const active = (track.stages ?? []).find((stage) => stage.available && stage.outputStrategy);
+  if (!active?.outputStrategy) {
+    throw new Error("A staged track has no available stage with a settled strategy.");
+  }
+  return active.outputStrategy as OutputStrategy;
+}
+
 function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): NormalizedTrack {
   // Only an implementable track reaches here, and the validator refuses an
   // implementable track without a concrete strategy. The narrowing is stated
@@ -575,7 +603,7 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
       `${jurisdiction}:${track.trackId} reached normalization without an output strategy. Only deferred tracks may omit one.`
     );
   }
-  const outputStrategy: OutputStrategy = track.outputStrategy;
+  const outputStrategy: OutputStrategy = renderableStrategyFor(track);
 
   const components: NormalizedComponent[] = track.components.map((component, index) => ({
     componentId: `${track.trackId}-${slug(component.role)}-${index + 1}`,
@@ -608,6 +636,8 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
     exclusions: track.exclusions,
     waitingPeriods: track.waitingPeriods,
     outputStrategy,
+    outputStrategyDeclared: track.outputStrategy ?? "unresolved",
+    stages: track.stages ?? [],
     geographicScope: track.geography.scope,
     geographyKeys: track.geography.keys,
     venue: track.geography.venue,
