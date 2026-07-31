@@ -111,7 +111,22 @@ for (const state of inventory.states) {
       revisionDate: "unknown",
       retrievalDate: file.mtime ?? null,
       currency: "unknown",
-      reliefTracksUsing: []
+      reliefTracksUsing: [],
+      // Batch 1 source-package treatment, carried from the inventory rather
+      // than inferred here. A file in the library is not a runtime artifact:
+      // reference_only may never be selected as a participant filing, and
+      // source_gated stays unavailable until its stated gate passes.
+      sourceTreatment: file.sourceTreatment ?? "unclassified_pre_batch_1_import",
+      packageTier: file.packageTier ?? null,
+      runtimeEligibility:
+        file.runtimeEligibility ?? "ineligible_pending_source_legal_technical_visual_approval",
+      declaredGeographicScope: file.declaredGeographicScope ?? null,
+      geographyNote: file.geographyNote ?? null,
+      officialTitle: file.officialTitle ?? null,
+      revision: file.revision ?? null,
+      role: file.role ?? null,
+      sizeBytes: file.sizeBytes ?? null,
+      provenance: file.provenance ?? null
     };
 
     if (!present) {
@@ -169,7 +184,9 @@ const sourceRegistry = {
     byTechnicalClass: tally(artifacts, "technicalClass"),
     byGeographicScope: tally(artifacts, "geographicScope"),
     byHashState: tally(artifacts, "hashState"),
-    byCurrency: tally(artifacts, "currency")
+    byCurrency: tally(artifacts, "currency"),
+    bySourceTreatment: tally(artifacts, "sourceTreatment"),
+    byRuntimeEligibility: tally(artifacts, "runtimeEligibility")
   },
   artifacts
 };
@@ -307,6 +324,8 @@ console.log(`2. Presence: ${fmt(sourceRegistry.totals.byPresence)} -> sums to ${
 console.log(`3. Technical class: ${fmt(sourceRegistry.totals.byTechnicalClass)} -> sums to ${classSum}.`);
 console.log(`4. Geographic scope: ${fmt(sourceRegistry.totals.byGeographicScope)}.`);
 console.log(`5. Currency: ${fmt(sourceRegistry.totals.byCurrency)}.`);
+console.log(`   Source treatment: ${fmt(sourceRegistry.totals.bySourceTreatment)}.`);
+console.log("   Presence in the source library is not runtime approval. No track is enabled by this build.");
 console.log(`6. Historical categories: ${fmt(trackRegistry.totals.byHistoricalCategory)}.`);
 console.log(`7. Relief tracks recorded: ${trackRegistry.reliefTrackCount}. Packet-ready: 0. Guidance-ready: 0.`);
 console.log(`8. Totals reconcile: ${reconciles ? "yes" : "NO"}.`);
