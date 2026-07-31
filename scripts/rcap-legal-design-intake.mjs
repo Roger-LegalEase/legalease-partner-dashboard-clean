@@ -10,6 +10,10 @@
 // worse than none.
 //
 // Importing enables nothing. Every normalized track is runtime_disabled.
+//
+// The specifications this writes separate what LegalEase must produce from what
+// the participant must do. `participantActionRequired` and `requiredBeforeFiling`
+// carry the second, and neither is a condition of generating the first.
 
 import { register } from "node:module";
 import fs from "node:fs";
@@ -18,7 +22,10 @@ import path from "node:path";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { validateLegalDesignMemo } = await import("@/lib/rcap/legal-design/validate");
-const { normalizeMemo, sourceRelationships } = await import("@/lib/rcap/legal-design/normalize");
+const { normalizeMemo, sourceRelationships, readinessCeilingFor } = await import(
+  "@/lib/rcap/legal-design/normalize"
+);
+const { GUIDANCE_REREVIEW_QUESTION } = await import("@/lib/rcap/legal-design/types");
 const { ALL_JURISDICTION_CODES } = await import("@/lib/rcap/jurisdictions/packet-capability");
 
 const root = process.cwd();
@@ -94,6 +101,8 @@ const registryRecords = {
   planOfRecord: "docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md",
   note:
     "Imported from legal-design memos. Every track is runtime_disabled: design approval is not output approval, and packet_ready additionally requires source approval, technical proof, visual review, a current source and runtime enablement.",
+  participantNote:
+    "participantActionRequired and requiredBeforeFiling describe what the participant does after LegalEase hands them the packet. LegalEase does not collect, inspect or authenticate any of it, and none of it gates generation or packet_ready.",
   jurisdictionsReceived: validated.length,
   jurisdictionsOutstanding: outstanding.length,
   trackCount: allTracks.length,
@@ -123,7 +132,12 @@ const specifications = {
         venue: track.venue,
         authority: track.authority,
         rules: track.rules,
-        stopConditions: track.selfHelpStopConditions,
+        generationRequirements: track.generationRequirements,
+        packetInstructions: track.packetInstructions,
+        manualCompletionItems: track.manualCompletionItems,
+        participantActionRequired: track.packetSet.participantActionRequired,
+        requiredBeforeFiling: track.packetSet.requiredBeforeFiling,
+        stopConditions: track.selfHelpBoundaries,
         templateStatus: "not_drafted"
       }))
   ),
@@ -136,6 +150,10 @@ const specifications = {
         componentId: component.componentId,
         officialFormId: component.officialFormId,
         officialSourceUrl: component.officialSourceUrl,
+        generationRequirements: track.generationRequirements,
+        manualCompletionItems: track.manualCompletionItems,
+        participantActionRequired: track.packetSet.participantActionRequired,
+        requiredBeforeFiling: track.packetSet.requiredBeforeFiling,
         mappingStatus: "not_mapped"
       }))
   ),
@@ -146,9 +164,25 @@ const specifications = {
       trackId: track.trackId,
       destination: track.destination,
       rules: track.rules,
-      stopConditions: track.selfHelpStopConditions,
+      generationRequirements: track.generationRequirements,
+      packetInstructions: track.packetInstructions,
+      participantActionRequired: track.packetSet.participantActionRequired,
+      requiredBeforeFiling: track.packetSet.requiredBeforeFiling,
+      stopConditions: track.selfHelpBoundaries,
       guidanceStatus: "not_drafted"
+    })),
+  // Named here so nobody has to infer it from the shape of the specs above: a
+  // document the participant obtains is listed, never demanded up front.
+  participantFilingRequirements: allTracks.flatMap((track) =>
+    track.participantFilingRequirements.map((document) => ({
+      jurisdiction: track.jurisdiction,
+      trackId: track.trackId,
+      ...document,
+      collectedByLegalEase: false,
+      inspectedByLegalEase: false,
+      blocksGeneration: false
     }))
+  )
 };
 
 const QUEUES = [
@@ -185,13 +219,63 @@ const implementationQueue = {
         legalDesignStatus: track.legalDesignStatus,
         legalStatus: track.legalStatus,
         runtimeStatus: "runtime_disabled",
+        legalDesignBlockers: track.legalDesignBlockers,
+        scopeRestrictions: track.scopeRestrictions,
+        openLegalQuestions: track.openLegalQuestions,
+        participantActionCount: track.packetSet.participantActionRequired.length,
         blockers: track.blockers
       }))
     };
   })
 };
 
+// ---------------------------------------------------------------------------
+// Legal re-review queue for guidance tracks
+//
+// A track is a candidate only when every reason counsel gave for choosing
+// guidance is an external dependency — someone else signs, an agency certifies,
+// the participant fetches a record, a certificate is attached later, another
+// body decides. None of those means we could not prepare the participant's part
+// of a form and tell them how to get the rest.
+//
+// This queue asks counsel. It does not answer. No track is reclassified here,
+// and a track carrying any preserved rationale is not listed at all.
+// ---------------------------------------------------------------------------
+
+const guidanceRereviewQueue = {
+  schemaVersion: 1,
+  question: GUIDANCE_REREVIEW_QUESTION,
+  note:
+    "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
+  candidateCount: 0,
+  candidates: [],
+  preserved: []
+};
+
+for (const track of allTracks) {
+  if (track.outputStrategy !== "process_guidance") continue;
+  const row = {
+    jurisdiction: track.jurisdiction,
+    trackId: track.trackId,
+    publicName: track.publicName,
+    guidanceRationales: track.guidanceRationales,
+    destination: track.destination,
+    participantFilingRequirements: track.participantFilingRequirements.map((document) => document.name),
+    manualCompletionItems: track.manualCompletionItems.map((item) => item.item)
+  };
+  if (track.guidanceRereviewCandidate) {
+    guidanceRereviewQueue.candidates.push({ ...row, question: GUIDANCE_REREVIEW_QUESTION, answer: null });
+  } else {
+    guidanceRereviewQueue.preserved.push({
+      ...row,
+      reason: "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    });
+  }
+}
+guidanceRereviewQueue.candidateCount = guidanceRereviewQueue.candidates.length;
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
+write("legal-design-guidance-rereview-queue.json", guidanceRereviewQueue);
 write("legal-design-track-registry.json", registryRecords);
 write("legal-design-packet-set-manifests.json", packetSetManifests);
 write("legal-design-track-source-relationships.json", { schemaVersion: 1, relationships: allRelationships });
@@ -211,7 +295,18 @@ for (const batch of implementationQueue.batches) {
   console.log(`     ${batch.batch}: ${batch.trackCount} — ${batch.label}`);
 }
 console.log(`5. Custom-pleading specs: ${specifications.customPleadingSpecs.length}. Official-form assignments: ${specifications.officialFormAssignments.length}. Guidance specs: ${specifications.processGuidanceSpecs.length}.`);
-console.log("6. Tracks packet_ready: 0. Importing a memo enables nothing.");
+
+const legalDesignBlockerCount = allTracks.reduce((total, track) => total + track.legalDesignBlockers.length, 0);
+const participantActionCount = allTracks.reduce(
+  (total, track) => total + track.packetSet.participantActionRequired.length,
+  0
+);
+const supportingDocumentCount = specifications.participantFilingRequirements.length;
+console.log(
+  `6. Legal-design blockers: ${legalDesignBlockerCount}. Participant actions recorded: ${participantActionCount}, of which ${supportingDocumentCount} are documents the participant obtains and attaches.`
+);
+console.log("   None of those participant actions gates generation. LegalEase names them; the participant does them.");
+console.log("7. Tracks packet_ready: 0. Importing a memo enables nothing.");
 
 if (rejected.length > 0) {
   console.error("");

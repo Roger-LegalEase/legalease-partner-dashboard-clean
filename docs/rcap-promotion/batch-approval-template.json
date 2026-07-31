@@ -1,8 +1,17 @@
 {
-  "batchName": "batch-1-legacy-live-states",
+  "batchName": "legacy-live-preserved-batch",
   "reviewer": "",
   "reviewDate": "",
   "channel": "partnerRcap",
+  "_limitationClassifications": [
+    "packet_instruction",
+    "participant_question",
+    "scope_restriction",
+    "manual_completion_item",
+    "self_help_boundary",
+    "legal_design_blocker"
+  ],
+  "_note": "Every limitation must carry one of the classifications above. Only legal_design_blocker withholds a track, and it must name the undetermined element: governing_mechanism, correct_form, venue, geographic_scope or output_strategy. A document the participant obtains and attaches is a packet_instruction, never a blocker: LegalEase asks the questions, generates from the answers, and prints what the participant must obtain, complete, sign, notarize, pay and serve before filing. It never collects or inspects any of it. See docs/RCAP_STATE_PROMOTION_BATCH_PLAN.md section 1a.",
   "states": [
     {
       "state": "MS",
@@ -10,7 +19,35 @@
       "attorneyReview": "passed",
       "sourceFreshnessReview": "passed",
       "visualReview": "not_required",
-      "notes": []
+      "notes": [],
+      "limitations": [
+        {
+          "id": "L1",
+          "classification": "scope_restriction",
+          "statement": "The preserved legacy live route must not be replaced until separately approved."
+        },
+        {
+          "id": "L10",
+          "classification": "packet_instruction",
+          "statement": "Certified-copy, record-retrieval and clerk charges vary by court; tell the participant to confirm with the clerk."
+        },
+        {
+          "id": "L14",
+          "classification": "participant_question",
+          "statement": "Ask which court and county the case was filed in before generating."
+        },
+        {
+          "id": "L16",
+          "classification": "packet_instruction",
+          "statement": "Felony-conviction petitions require district-attorney notice before any hearing."
+        },
+        {
+          "id": "L17",
+          "classification": "self_help_boundary",
+          "statement": "A prosecutor objection or a contested hearing ends automated assistance."
+        }
+      ]
     }
-  ]
+  ],
+  "_naming": "This is the legacy live-preserved batch (MS, IL, DC, PA, TX-Harris). It is not Batch 1 of the nationwide legal-design sprint, which is AL, AK, AZ, AR, CA, CO, CT, DC, DE, FL, HI, ID and 117 relief tracks."
 }

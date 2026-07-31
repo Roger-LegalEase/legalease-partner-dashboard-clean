@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+  "note": "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
+  "candidateCount": 0,
+  "candidates": [],
+  "preserved": [
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_auto_expungement",
+      "publicName": "Automatic Expungement",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "State Bureau of Identification",
+        "detail": "The SBI identifies eligible cases monthly. Nothing is filed by the participant and nothing is sent to the person when automatic expungement happens."
+      },
+      "participantFilingRequirements": [
+        "Certified Delaware criminal history"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_attorney_general_expungement",
+      "publicName": "Prosecutor-Initiated Expungement at Dismissal",
+      "guidanceRationales": [
+        "another_entity_decides",
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "prosecutor",
+        "name": "Attorney General, then the court",
+        "detail": "The participant does not file. The ask is made to the prosecutor, usually through defense counsel at disposition."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    }
+  ]
+}

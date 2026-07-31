@@ -432,6 +432,7 @@ export const PLATFORM_DOCUMENT_DELIVERY_FILES = [
   "src/lib/rcap/legal-design/normalize.ts",
   "scripts/rcap-legal-design-intake.mjs",
   "scripts/verify-rcap-legal-design-intake.mjs",
+  "scripts/rcap-legal-design-batch-delta.mjs",
   "scripts/rcap-build-attorney-review-packets.mjs",
   "scripts/verify-rcap-attorney-review-packets.mjs"
 ];

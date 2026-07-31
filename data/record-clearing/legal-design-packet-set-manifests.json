@@ -1,4 +1,864 @@
 {
   "schemaVersion": 1,
-  "packetSets": []
+  "packetSets": [
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_auto_expungement",
+      "packetSetId": "de_auto_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_auto_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the record still appear on your Delaware criminal history?\" against Certified Delaware criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none for the automatic process. The certified criminal history costs about $72 through IdentoGo.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none. Nothing is filed by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the record still appear on your Delaware criminal history?\" against Certified Delaware criminal history, and correct the packet if they disagree.",
+        "none for the automatic process. The certified criminal history costs about $72 through IdentoGo."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_mandatory_expungement",
+      "packetSetId": "de_mandatory_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_mandatory_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+          "officialSourceUrl": "https://dsp.delaware.gov/expungements/",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against Certified Delaware criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SBI eligibility letter. The SBI issues the letter after reviewing the certified criminal history.",
+          "obtainedFrom": "State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "The SBI sends a letter stating whether the person is mandatory-eligible or must file discretionary. It is the handoff to the discretionary track.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for the SBI application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for the SBI application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+        "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against Certified Delaware criminal history, and correct the packet if they disagree.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement for the SBI application.",
+        "The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.",
+        "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_discretionary_superior_court",
+      "packetSetId": "de_discretionary_superior_court-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_discretionary_superior_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "de_discretionary_superior_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_B",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "de_discretionary_superior_court-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_04_A",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "de_discretionary_superior_court-cover-sheet-4",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SBI eligibility letter. The SBI issues the letter after reviewing the certified criminal history.",
+          "obtainedFrom": "State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant first applied on the mandatory path and the SBI directed them to file discretionary.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is sworn and subscribed before a clerk of court or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The petitioner serves the Attorney General, who may object or answer within 120 days. The petition pre-prints the Attorney General's three county addresses, which is the service list. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Assemble the packet in the prescribed order: petition, proposed order, SBI cover letter, then the certified criminal history dated within 45 days. One original plus one copy. File in person at the Prothonotary with the petition unsigned and identification, signing before the notary, or by mail with the petition already notarized.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
+        "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+        "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
+        "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+        "The petition is sworn and subscribed before a clerk of court or notary.",
+        "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.",
+        "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
+        "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_discretionary_family_court",
+      "packetSetId": "de_discretionary_family_court-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_discretionary_family_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "de_discretionary_family_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281E",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "de_discretionary_family_court-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. The court shall summarily reject any petition without it.",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarized signature — Form 281, signature and jurat.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Manifest-injustice explanation — Form 281, manifest-injustice section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is sworn and subscribed before a clerk of court or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The petitioner serves the Attorney General, who may object or answer within 120 days. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in Family Court for the county where the most recent case was terminated. One original plus one copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. The court shall summarily reject any petition without it.",
+        "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+        "Notarized signature — Form 281, signature and jurat.",
+        "Manifest-injustice explanation — Form 281, manifest-injustice section.",
+        "The petition is sworn and subscribed before a clerk of court or notary.",
+        "Required.",
+        "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
+        "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_pardon_expungement",
+      "packetSetId": "de_pardon_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_pardon_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "de_pardon_expungement-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_08_A",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "de_pardon_expungement-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72.",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — the exact offence and statute section?\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Unconditional pardon from the Governor. The pardon itself is a separate process before the Board of Pardons and the Governor, and is outside this track's scope.",
+          "obtainedFrom": "Board of Pardons and the Governor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you been unconditionally pardoned by the Governor for this conviction?\" against Unconditional pardon from the Governor, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of the § 4375 basis in the body of the petition — Petition CIV_EXP_02_A, body.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is sworn and subscribed before a clerk of court or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$75, per the § 4374(j) fee schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Under § 4372(l), the court may waive fines or fees or convert them to a civil judgment where non-payment is not wilful.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The petitioner serves the Attorney General, who may object or answer within 120 days. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Same procedure as the § 4374 route: § 4374(c) through (h) and (j).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72.",
+        "Check your answer to \"What was the conviction — the exact offence and statute section?\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+        "Obtain Unconditional pardon from the Governor. The pardon itself is a separate process before the Board of Pardons and the Governor, and is outside this track's scope.",
+        "Check your answer to \"Have you been unconditionally pardoned by the Governor for this conviction?\" against Unconditional pardon from the Governor, and correct the packet if they disagree.",
+        "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
+        "Statement of the § 4375 basis in the body of the petition — Petition CIV_EXP_02_A, body.",
+        "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+        "The petition is sworn and subscribed before a clerk of court or notary.",
+        "Required.",
+        "$75, per the § 4374(j) fee schedule.",
+        "Under § 4372(l), the court may waive fines or fees or convert them to a civil judgment where non-payment is not wilful."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "trackId": "de_attorney_general_expungement",
+      "packetSetId": "de_attorney_general_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "de_attorney_general_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "pay_fee",
+          "description": "none to the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none by the participant. The prosecutor petitions.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "none to the participant."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_isp_expungement",
+      "packetSetId": "id_isp_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "id_isp_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified court order of acquittal stating not guilty of the charged crimes, or certified court order of dismissal showing which crimes were dismissed. Ask the clerk of the court that heard the case for a certified copy of the order of acquittal or dismissal.",
+          "obtainedFrom": "The court that heard the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end — were you never charged, acquitted of everything, or were all the charges dismissed?\" against Certified court order of acquittal stating not guilty of the charged crimes, or certified court order of dismissal showing which crimes were dismissed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain One charging document: criminal citation, or criminal complaint and summons showing service by the sheriff's office, or an indictment, or an information. Request a copy from the court that heard the case.",
+          "obtainedFrom": "The court that heard the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature of requestor and date — ISP BCI Expungement Application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Signature of requestor and date, required on the application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not stated on the form. Unresolved — see the open question on the ISP fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for this administrative application.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for this administrative application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Mail to Idaho State Police, 700 S. Stratford Dr., Ste. 120, Meridian, ID 83642, or fax to 208-884-7193. Allow about 30 days for processing. An incomplete application, or one missing the required documentation, is not processed and is returned to the applicant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified court order of acquittal stating not guilty of the charged crimes, or certified court order of dismissal showing which crimes were dismissed. Ask the clerk of the court that heard the case for a certified copy of the order of acquittal or dismissal.",
+        "Check your answer to \"How did the case end — were you never charged, acquitted of everything, or were all the charges dismissed?\" against Certified court order of acquittal stating not guilty of the charged crimes, or certified court order of dismissal showing which crimes were dismissed, and correct the packet if they disagree.",
+        "Obtain One charging document: criminal citation, or criminal complaint and summons showing service by the sheriff's office, or an indictment, or an information. Request a copy from the court that heard the case.",
+        "Signature of requestor and date — ISP BCI Expungement Application, signature block.",
+        "Signature of requestor and date, required on the application.",
+        "The source review does not state a notarization requirement for this application.",
+        "Not stated on the form. Unresolved — see the open question on the ISP fee.",
+        "The source review does not address a fee waiver for this administrative application."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_clean_slate_shield",
+      "packetSetId": "id_clean_slate_shield-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "id_clean_slate_shield-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ISC-PETITION-TO-SHIELD-67-3004-11",
+          "officialSourceUrl": "https://isc.idaho.gov/files/Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Criminal history report. Request a criminal history report from the Idaho State Police Bureau of Criminal Identification.",
+          "obtainedFrom": "Idaho State Police, Bureau of Criminal Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Not required as an attachment, but needed to build the petition accurately.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the exact charge and statute section, and was it a misdemeanor or a felony?\" against Criminal history report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Not required as an attachment, but needed to build the petition accurately.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case information from the iCourt Portal. Look the case up on the iCourt Portal at mycourts.idaho.gov, or ask the court where the case was filed.",
+          "obtainedFrom": "iCourt Portal at mycourts.idaho.gov, or the court where the case was filed",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant does not already know the case number, charges, statute sections, level, supervision end date, or completion date.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number, and which county was the case filed in?\" against Case information from the iCourt Portal, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant does not already know the case number, charges, statute sections, level, supervision end date, or completion date.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Checkbox election matching the person's situation — Petition to Shield Records from Public Disclosure, election section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition to Shield Records from Public Disclosure, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Service on the prosecutor is not the petitioner's job; the court notifies the prosecuting attorney of the hearing date.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the county court where the underlying criminal case was filed, or e-file through iCourt. Complete the petition in black ink or by typing. For paper filing, bring an original plus one copy; the clerk date-stamps the copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What was the exact charge and statute section, and was it a misdemeanor or a felony?\" against Criminal history report, and correct the packet if they disagree.",
+        "Check your answer to \"What is the case number, and which county was the case filed in?\" against Case information from the iCourt Portal, and correct the packet if they disagree.",
+        "Checkbox election matching the person's situation — Petition to Shield Records from Public Disclosure, election section.",
+        "Signature and date — Petition to Shield Records from Public Disclosure, signature block.",
+        "The petitioner signs the petition.",
+        "The source review does not state a notarization requirement for this petition."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_set_aside_dismissal",
+      "packetSetId": "id_set_aside_dismissal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "id_set_aside_dismissal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for this application.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation. The addendum lists service among the items counsel must confirm.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Blocked pending confirmation of the accepted statewide or county-specific filing vehicle. The statute contemplates an application to the sentencing court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+        "The source review does not state a notarization requirement for this application.",
+        "The source review does not state a filing fee for this application.",
+        "The source review does not address a fee waiver for this application."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_felony_reduction",
+      "packetSetId": "id_felony_reduction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "id_felony_reduction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for this application.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Blocked pending confirmation. The addendum lists service among the items counsel must confirm.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Blocked pending confirmation of the accepted statewide or county-specific filing vehicle.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+        "The source review does not state a notarization requirement for this application.",
+        "The source review does not state a filing fee for this application.",
+        "The source review does not address a fee waiver for this application."
+      ]
+    }
+  ]
 }

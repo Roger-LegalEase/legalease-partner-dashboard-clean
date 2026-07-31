@@ -95,13 +95,50 @@ for (const code of ALL_JURISDICTION_CODES) {
     `${code}: historical classification is not labelled as a non-conclusion.`
   );
 
-  // The memo template must carry the fourteen questions and the decision.
-  for (const marker of ["### 1. Track name", "### 6. How the document", "### 14. Your decision"]) {
+  // The memo template must carry the seventeen questions and the decision.
+  for (const marker of [
+    "### 1. Track name",
+    "### 6. How the document",
+    "### 10. What we should ask the person",
+    "### 11. What the person must obtain and attach",
+    "### 12. What the packet should leave blank",
+    "### 17. Your decision"
+  ]) {
     assert(memo.includes(marker), `${code}: memo template is missing "${marker}".`);
   }
   assert(
     /Do not include your name, firm, email, bar number/i.test(memo),
     `${code}: memo template does not tell counsel to withhold identifying details.`
+  );
+
+  // Counsel must be told what we are before they are asked to design for it,
+  // or "require the certified disposition first" is the natural thing to write.
+  assert(
+    /self-help packet generator/i.test(memo),
+    `${code}: memo template does not tell counsel what LegalEase is.`
+  );
+  assert(
+    /We do not collect, review or authenticate anyone's records/i.test(memo),
+    `${code}: memo template does not say that we hold no participant records.`
+  );
+  assert(
+    /Only the last one stops us building/i.test(memo),
+    `${code}: memo template does not distinguish a real blocker from a packet instruction.`
+  );
+
+  // An open question must be costed, or it survives as prose and expires
+  // silently the day runtime enablement arrives.
+  assert(
+    /Build it, but do not release it/i.test(memo),
+    `${code}: memo template does not ask counsel what an open question costs.`
+  );
+  assert(
+    /### 16b\. If you chose process guidance, why\?/.test(memo),
+    `${code}: memo template does not ask why a track is guidance.`
+  );
+  assert(
+    /could we prepare the person's portion of the form/i.test(memo),
+    `${code}: memo template does not put the guidance re-review question to counsel.`
   );
 
   // No engineering leakage in anything counsel reads.

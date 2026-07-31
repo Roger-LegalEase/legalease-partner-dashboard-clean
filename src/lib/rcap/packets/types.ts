@@ -55,12 +55,43 @@ export type LegalStatus =
   | "legal_approved"
   | "legal_rejected";
 
+/**
+ * What the platform can say about a track.
+ *
+ * `packet_ready` means LegalEase can reliably generate the correct forms and
+ * instructions. It does not mean the participant is ready to file. They may
+ * still need to obtain supporting records, complete fields left blank, sign,
+ * notarize, pay a fee and serve parties. Those are participant filing
+ * requirements, printed in the packet; none of them is an input to this status.
+ *
+ * There is deliberately no `filing_complete`. LegalEase never sees the
+ * participant's final assembled filing, so it has nothing to base such a status
+ * on, and claiming one would assert a fact about a court record we do not hold.
+ * `FORBIDDEN_RUNTIME_STATUSES` keeps that decision enforced rather than assumed.
+ */
 export type RuntimeStatus =
   | "runtime_disabled"
   | "guidance_ready"
   | "packet_ready"
   | "stale_blocked"
   | "temporarily_disabled";
+
+export const RUNTIME_STATUSES: readonly RuntimeStatus[] = [
+  "runtime_disabled",
+  "guidance_ready",
+  "packet_ready",
+  "stale_blocked",
+  "temporarily_disabled"
+];
+
+/** Statuses that must never be added. See the note on `RuntimeStatus`. */
+export const FORBIDDEN_RUNTIME_STATUSES: readonly string[] = [
+  "filing_complete",
+  "filed",
+  "documents_verified",
+  "eligibility_confirmed",
+  "approved_by_staff"
+];
 
 export type GeographicScope =
   | "statewide"
@@ -203,17 +234,31 @@ export type ReliefTrack = {
  * review passed, legal approved, source current, and runtime enabled. Any
  * expiry or source change drops the track out of readiness automatically,
  * because this is recomputed rather than stored.
+ *
+ * Note the argument list: it takes no participant facts, no supporting
+ * documents and no filing state. Readiness is a property of what LegalEase can
+ * generate, not of how far along any one participant is.
  */
 export function computeRuntimeStatus(track: {
   statuses: Omit<TrackStatuses, "runtime">;
   sourceCurrent: boolean;
   runtimeDisabled: boolean;
   outputStrategy: OutputStrategy;
+  /**
+   * Open legal questions counsel marked `release_blocker`.
+   *
+   * Engineering may build against them; the track may not ship while any is
+   * open, however complete the build and however green the other gates. Absent
+   * or zero means none are open — the parameter is optional so that existing
+   * callers keep their meaning rather than silently acquiring a new gate.
+   */
+  openReleaseBlockers?: number;
 }): RuntimeStatus {
   // Staleness is reported ahead of the disable switch: a changed source is a
   // withdrawal of readiness and is the more actionable answer.
   if (!track.sourceCurrent) return "stale_blocked";
   if (track.runtimeDisabled) return "runtime_disabled";
+  if ((track.openReleaseBlockers ?? 0) > 0) return "runtime_disabled";
 
   const { research, technical, visual, legal } = track.statuses;
 

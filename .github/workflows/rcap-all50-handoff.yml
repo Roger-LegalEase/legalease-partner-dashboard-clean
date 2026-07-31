@@ -106,12 +106,27 @@ jobs:
       - name: Validate and import legal-design memos
         run: npm run rcap:legal-design-intake
 
+      # Fails when the batch partition does not sum to the tracks processed, or
+      # when normalization has restated any legal conclusion counsel made.
+      - name: Batch delta report
+        run: npm run rcap:legal-design-batch-delta
+
       - name: Upload legal-design implementation queue
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: legal-design-implementation-queue
           path: data/record-clearing/legal-design-implementation-queue.json
+          if-no-files-found: warn
+
+      - name: Upload legal-design batch delta and guidance re-review queue
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-design-batch-delta
+          path: |
+            data/record-clearing/legal-design-batch-delta-report.json
+            data/record-clearing/legal-design-guidance-rereview-queue.json
           if-no-files-found: warn
 
       - name: Upload packet delivery capability matrix
