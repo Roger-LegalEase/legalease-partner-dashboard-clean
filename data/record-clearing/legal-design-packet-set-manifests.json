@@ -1817,6 +1817,976 @@
       ]
     },
     {
+      "jurisdiction": "FL",
+      "trackId": "fl-expunction",
+      "packetSetId": "fl-expunction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-expunction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "fl-expunction-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "fl-expunction-affidavit-3",
+          "role": "affidavit",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "fl-expunction-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "fl-expunction-certificate-of-service-5",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "fl-expunction-continuation-6",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "For multiple charges, and for local circuit cover sheets or packet forms.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-CONTINUATION",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge. Certified copies and certified dispositions are county-dependent in cost.",
+          "obtainedFrom": "The clerk of the court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?\" against Certified disposition for each charge, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain State Attorney or Statewide Prosecutor certified statement. Request the certified statement from the State Attorney's office for the circuit where the arrest occurred.",
+          "obtainedFrom": "The State Attorney or Statewide Prosecutor for the circuit",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Certificate number and issue date — Stage 2 petition, certificate reference.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Sworn affidavit signature — Stage 2 affidavit, jurat.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Notarised signature on the FDLE application; sworn affidavit at Stage 2, notarised or sworn before a deputy clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies and certified dispositions are county-dependent.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for the FDLE processing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certificate of service on three recipients at Stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1: submit the FDLE Application for Certificate of Eligibility with the certified dispositions, fingerprints, fee and prosecutor certified statement. Stage 2: file the petition, affidavit, certificate and proposed order with the circuit or county court in the circuit of arrest.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge. Certified copies and certified dispositions are county-dependent in cost.",
+        "Check your answer to \"How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?\" against Certified disposition for each charge, and correct the packet if they disagree.",
+        "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
+        "Obtain State Attorney or Statewide Prosecutor certified statement. Request the certified statement from the State Attorney's office for the circuit where the arrest occurred.",
+        "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
+        "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
+        "Certificate number and issue date — Stage 2 petition, certificate reference.",
+        "Sworn affidavit signature — Stage 2 affidavit, jurat.",
+        "Notarised signature on the FDLE application; sworn affidavit at Stage 2, notarised or sworn before a deputy clerk.",
+        "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
+        "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies and certified dispositions are county-dependent.",
+        "The source review does not address a fee waiver for the FDLE processing fee."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-sealing",
+      "packetSetId": "fl-sealing-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-sealing-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "fl-sealing-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "fl-sealing-affidavit-3",
+          "role": "affidavit",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "fl-sealing-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "fl-sealing-certificate-of-service-5",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge.",
+          "obtainedFrom": "The clerk of the court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and was adjudication withheld?\" against Certified disposition for each charge, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Certificate number and issue date — Stage 2 petition, certificate reference.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Notarised signature on the FDLE application; sworn affidavit at Stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies are county-dependent.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver for the FDLE processing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certificate of service at Stage 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 FDLE application, then Stage 2 court petition in the circuit of arrest.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge.",
+        "Check your answer to \"How did the case end, and was adjudication withheld?\" against Certified disposition for each charge, and correct the packet if they disagree.",
+        "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
+        "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
+        "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
+        "Certificate number and issue date — Stage 2 petition, certificate reference.",
+        "Notarised signature on the FDLE application; sworn affidavit at Stage 2.",
+        "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
+        "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies are county-dependent.",
+        "The source review does not address a fee waiver for the FDLE processing fee."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-10yr-bridge",
+      "packetSetId": "fl-10yr-bridge-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-10yr-bridge-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "fl-10yr-bridge-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "fl-10yr-bridge-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "fl-10yr-bridge-instructions-4",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the sealing order. Ask the clerk of the court that sealed the record for a certified copy of the order.",
+          "obtainedFrom": "The clerk of the court that ordered the seal",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the record sealed by court order?\" against Certified copy of the sealing order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of Eligibility. Apply again to FDLE at the ten-year point. Do not file the court packet until the valid certificate is obtained.",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Certificate number and issue date — Petition, certificate reference.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Notarised signature on the FDLE application; sworn affidavit at the court stage.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$75 nonrefundable FDLE processing fee on the new application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certificate of service at the court stage.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Fresh screening, a new FDLE certificate application, then the later court packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the sealing order. Ask the clerk of the court that sealed the record for a certified copy of the order.",
+        "Check your answer to \"On what date was the record sealed by court order?\" against Certified copy of the sealing order, and correct the packet if they disagree.",
+        "Obtain Certificate of Eligibility. Apply again to FDLE at the ten-year point. Do not file the court packet until the valid certificate is obtained.",
+        "Certificate number and issue date — Petition, certificate reference.",
+        "Notarised signature on the FDLE application; sworn affidavit at the court stage.",
+        "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk.",
+        "$75 nonrefundable FDLE processing fee on the new application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-auto-seal",
+      "packetSetId": "fl-auto-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-auto-seal-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain FDLE personal review criminal history. Request an FDLE personal review; FDLE charges no fee for a personal review.",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the record still appear on a background check?\" against FDLE personal review criminal history, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. FDLE charges no fee for a personal review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none. Nothing is filed by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the record still appear on a background check?\" against FDLE personal review criminal history, and correct the packet if they disagree.",
+        "none. FDLE charges no fee for a personal review."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-administrative",
+      "packetSetId": "fl-administrative-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-administrative-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Agency-head or prosecutor certification. Ask the head of the arresting agency, or the State Attorney, to complete the certification section of the application. LegalEase does not obtain or review it.",
+          "obtainedFrom": "The head of the arresting agency, or the State Attorney",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Agency-head or prosecutor certification fields — FDLE application, certification section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the FDLE administrative expunction application with the completed certification.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Agency-head or prosecutor certification. Ask the head of the arresting agency, or the State Attorney, to complete the certification section of the application. LegalEase does not obtain or review it.",
+        "Agency-head or prosecutor certification fields — FDLE application, certification section.",
+        "Signature — FDLE application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement for this application.",
+        "The source review does not state a fee for this application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-self-defense",
+      "packetSetId": "fl-self-defense-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-self-defense-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Prosecutor certification that the dismissal was because of lawful self-defense. Ask the State Attorney's office to complete the certification. It is obtained by persuasion rather than by form; LegalEase does not obtain or review it.",
+          "obtainedFrom": "The State Attorney for the circuit",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Prosecutor certification fields — FDLE application, certification section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the dedicated FDLE application with the prosecutor certification.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Prosecutor certification that the dismissal was because of lawful self-defense. Ask the State Attorney's office to complete the certification. It is obtained by persuasion rather than by form; LegalEase does not obtain or review it.",
+        "Prosecutor certification fields — FDLE application, certification section.",
+        "Signature — FDLE application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for this application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-trafficking",
+      "packetSetId": "fl-trafficking-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-trafficking-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "fl-trafficking-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Documentation supporting victim status. The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it.",
+          "obtainedFrom": "The participant's own records, service providers, or law enforcement",
+          "requirement": "conditional",
+          "conditionDescription": "As the statute and the court require.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in any court in the circuit of arrest that has jurisdiction over the offense class.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Documentation supporting victim status. The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it.",
+        "Signature and date — Petition, signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this petition.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-juvenile-diversion",
+      "packetSetId": "fl-juvenile-diversion-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-juvenile-diversion-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certification of successful diversion completion. Ask the State Attorney's office or the diversion program to complete the certification.",
+          "obtainedFrom": "The State Attorney or the diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which diversion program did you complete, and when?\" against Certification of successful diversion completion, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of program completion. Request written proof of completion from the program.",
+          "obtainedFrom": "The diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprints. Have fingerprints taken and submit them with the application.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Certification fields — FDLE application, certification section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the FDLE juvenile-diversion application with the certification, completion proof and fingerprints.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certification of successful diversion completion. Ask the State Attorney's office or the diversion program to complete the certification.",
+        "Check your answer to \"Which diversion program did you complete, and when?\" against Certification of successful diversion completion, and correct the packet if they disagree.",
+        "Obtain Proof of program completion. Request written proof of completion from the program.",
+        "Obtain Fingerprints. Have fingerprints taken and submit them with the application.",
+        "Certification fields — FDLE application, certification section.",
+        "Signature — FDLE application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for this application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-early-juvenile",
+      "packetSetId": "fl-early-juvenile-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "fl-early-juvenile-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified statement. Request the certified statement from the State Attorney's office.",
+          "obtainedFrom": "The State Attorney",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified dispositions. Ask the clerk for certified copies of the dispositions.",
+          "obtainedFrom": "The clerk of the court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each charge end?\" against Certified dispositions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprints. Have fingerprints taken and submit them with the application.",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Certified statement fields — FDLE application, certification section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — FDLE application, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A fee applies and is a later submission item. The source review does not state the amount.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the FDLE early-juvenile application with the certified statement, dispositions, fingerprints and fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified statement. Request the certified statement from the State Attorney's office.",
+        "Obtain Certified dispositions. Ask the clerk for certified copies of the dispositions.",
+        "Check your answer to \"How did each charge end?\" against Certified dispositions, and correct the packet if they disagree.",
+        "Obtain Fingerprints. Have fingerprints taken and submit them with the application.",
+        "Certified statement fields — FDLE application, certification section.",
+        "Signature — FDLE application, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "A fee applies and is a later submission item. The source review does not state the amount.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    {
       "jurisdiction": "ID",
       "trackId": "id_isp_expungement",
       "packetSetId": "id_isp_expungement-set",

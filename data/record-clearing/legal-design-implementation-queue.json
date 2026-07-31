@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 4,
-  "jurisdictionsOutstanding": 47,
+  "jurisdictionsReceived": 5,
+  "jurisdictionsOutstanding": 46,
   "outstandingJurisdictions": [
     "AK",
     "AL",
@@ -10,7 +10,6 @@
     "CA",
     "CO",
     "CT",
-    "FL",
     "GA",
     "HI",
     "IA",
@@ -526,7 +525,7 @@
     {
       "batch": "D_staged_or_process_guidance",
       "label": "Staged and process-guidance tracks",
-      "trackCount": 4,
+      "trackCount": 5,
       "tracks": [
         {
           "jurisdiction": "DC",
@@ -676,19 +675,100 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-auto-seal",
+          "publicName": "Automatic Sealing",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Automatic sealing remains guidance/verification because no participant filing is required."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0595 has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "E_local_variant",
       "label": "Local, county, circuit, district and court-specific variants",
-      "trackCount": 0,
-      "tracks": []
+      "trackCount": 1,
+      "tracks": [
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-trafficking",
+          "publicName": "Human Trafficking Victim Expunction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "circuit",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Packet-capable under the Rule 3.989 petition/order structure, but subject to a scope_restriction and handoff for contested victim-status or individualized advocacy. Outside-scope does not mean the petition is unknowable. LegalEase may disable runtime pending counsel's scope decision."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0583 has not been acquired."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track. The addendum makes the packet capability known and the scope decision separate, and states that LegalEase may disable runtime pending counsel's scope decision."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        }
+      ]
     },
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 14,
+      "trackCount": 21,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1207,6 +1287,283 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (governing_mechanism): What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-expunction",
+          "publicName": "Expunge a case that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "circuit",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Any unresolved specialty-route statutory criterion that changes which application applies remains a route-selection blocker."
+          ],
+          "scopeRestrictions": [
+            "Make the once-per-lifetime question a hard gate at intake, since spending it on the wrong record is irreversible.",
+            "Pull Rule 3.989 and build on the rule forms, not the Orange County packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Any unresolved specialty-route statutory criterion that changes which application applies remains a route-selection blocker."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Maintained § 943.0584 disqualifying-offense data has not been acquired. The screen must be built as a maintained data set, not a static list."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Circuit-level packet samples beyond Orange County have not been acquired. Local packet variation is confirmed across 20 circuits and 67 counties."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-sealing",
+          "publicName": "Seal a Florida case record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "circuit",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Make the once-per-lifetime question a hard gate at intake."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Maintained § 943.0584 disqualifying-offense data has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-10yr-bridge",
+          "publicName": "Expunge a record you sealed ten years ago",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "circuit",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-administrative",
+          "publicName": "Administrative Expunction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-self-defense",
+          "publicName": "Lawful Self-Defense Expunction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-juvenile-diversion",
+          "publicName": "Juvenile Diversion Expunction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "FL",
+          "trackId": "fl-early-juvenile",
+          "publicName": "Early Juvenile Expunction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The age deadline is a screening and warning rule, not a packet blocker."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
             },
             {
               "kind": "source_gate",
