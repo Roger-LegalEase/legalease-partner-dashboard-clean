@@ -286,31 +286,75 @@ export const RELEASE_WITHHOLDING_IMPACTS: readonly UnresolvedQuestionImpact[] = 
  * it, and a track carrying it is deferred and unreachable.
  */
 /**
- * One stage of a staged route.
+ * How the parts of a composed route relate to each other.
  *
- * Counsel sometimes settles a route whose first step is guidance and whose
- * second step is a real packet — Arkansas AR-7 through AR-11, Colorado CO-5,
- * Hawaii HI-2 through HI-8. Composing that from component ordering alone loses
- * the fact that the stages are sequential and independently gated, which is the
- * thing counsel actually decided.
+ * This is the legal shape of the route, and it is deliberately separate from
+ * renderer identity. There are still exactly three renderer strategies; a
+ * composition says how many outputs a route has and what picks between them,
+ * never what renders.
  *
- * A stage's `outputStrategy` is one of the three renderer strategies, or is
- * omitted where counsel left that branch unresolved. An omitted stage strategy
- * makes the stage unavailable; it never makes the whole track unresolved, and a
- * concrete strategy is never invented to fill it.
+ * `sequential` — one unit must occur before the next. Arkansas AR-7 through
+ * AR-11: obtain the pardon, complete the programme, *then* file the ACIC pair.
+ *
+ * `alternative` — exactly one unit applies, chosen by participant facts or by
+ * law. Connecticut CT-6 and CT-10: which branch governs turns on the offence
+ * date, and the branches are not steps toward each other.
+ *
+ * `mixed` — an alternative branch that itself contains sequential units. The
+ * child units name their parent through `parentUnitId`.
  */
-export type TrackStage = {
-  stage: number;
+export type CompositionMode = "sequential" | "alternative" | "mixed";
+
+export const COMPOSITION_MODES: readonly CompositionMode[] = [
+  "sequential",
+  "alternative",
+  "mixed"
+];
+
+/**
+ * One unit of a composed route: a sequential stage or an alternative branch.
+ *
+ * Counsel sometimes settles a route with more than one output — a guidance step
+ * and then a real packet, or two statutory branches only one of which applies.
+ * Composing that from component ordering alone loses the fact that the units are
+ * independently gated and independently resolved, which is the thing counsel
+ * actually decided.
+ *
+ * Every unit carries a stable `unitId`. That ID is how a unit is selected, and
+ * selection is always explicit: array order is not legal routing, and no caller
+ * may take the first available unit. See `strategyForSelectedUnit`.
+ *
+ * A unit's `outputStrategy` is one of the three renderer strategies, or is
+ * omitted where counsel left that branch unresolved. An omitted unit strategy
+ * makes the unit unavailable; it never makes the whole track unresolved, and a
+ * concrete strategy is never invented to fill it. In particular, a resolved unit
+ * standing beside an unresolved one does not lend it a strategy.
+ */
+export type TrackUnit = {
+  /** Stable within the track. The only way to select this unit. */
+  unitId: string;
+  /** Position within the composition. Ordering, never selection. */
+  order: number;
   label: string;
-  /** Omitted only where counsel left this branch's vehicle unresolved. */
+  /** Omitted only where counsel left this unit's vehicle unresolved. */
   outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance";
   outputStrategyStatus?: OutputStrategyStatus;
-  /** What this stage produces or explains. */
+  /** Whether the packet this unit would produce is identified. Per unit. */
+  packetIdentity?: "identified" | "unresolved";
+  /** What this unit produces or explains. */
   description: string;
-  /** False while a blocker keeps the stage from being offered. */
+  /** False while a blocker keeps the unit from being offered. */
   available: boolean;
-  /** Why the stage is unavailable, when it is. */
+  /** Why the unit is unavailable, when it is. */
   unavailableReason?: string;
+  /**
+   * The alternative branch this unit sits inside. `mixed` compositions only.
+   *
+   * One level deep: a parent may not itself have a parent. Deeper nesting has
+   * not been asked for by any controlling source, and inventing it would be
+   * schema we cannot point at a legal reason for.
+   */
+  parentUnitId?: string;
 };
 
 export type OutputStrategyStatus = "resolved" | "provisional" | "unresolved";
@@ -496,7 +540,7 @@ export type ProposedReliefTrack = {
    * in particular is a substantive conclusion — it says the relief is not a
    * participant filing — and is not a placeholder.
    */
-  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance" | "staged";
+  outputStrategy?: "custom_pleading" | "official_pdf_fill" | "process_guidance" | "composed";
   /**
    * Whether counsel settled the output strategy.
    *
@@ -510,16 +554,29 @@ export type ProposedReliefTrack = {
   /** Whether the packet counsel would produce is identified. */
   packetIdentity?: "identified" | "unresolved";
   /**
-   * The ordered stages of a `staged` route. Required when, and only when,
-   * `outputStrategy` is `staged`.
+   * How the units of a composed route relate. Required when, and only when,
+   * `outputStrategy` is `composed`.
    *
-   * Each stage carries one of the three renderer strategies, or omits it when
-   * counsel left that branch unresolved. `staged` is never itself rendered:
-   * `renderableStrategyFor` resolves a track to the concrete strategy of the
-   * stage being produced, and the verifier proves no renderer or resolver path
-   * receives `staged`.
+   * Kept separate from `outputStrategy` on purpose: `sequential` and
+   * `alternative` are statements about the law, not about renderers. Collapsing
+   * them into the strategy field is what made a two-output route look like a
+   * one-output route in the first place.
    */
-  stages?: readonly TrackStage[];
+  compositionMode?: CompositionMode;
+  /**
+   * The units of a `composed` route. Required when, and only when,
+   * `outputStrategy` is `composed`.
+   *
+   * Each unit carries one of the three renderer strategies, or omits it when
+   * counsel left that branch unresolved. `composed` is never itself rendered
+   * and is never a fourth strategy: it survives only as provenance on the
+   * normalized record. A renderer strategy comes from
+   * `strategyForSelectedUnit`, which requires an explicitly selected unit and
+   * fails closed otherwise. The verifier proves no renderer or resolver path
+   * receives `composed`, and that no caller resolves a route by taking the
+   * first available unit.
+   */
+  units?: readonly TrackUnit[];
   geography: {
     scope: "statewide" | "county" | "circuit" | "district" | "court_specific" | "agency_specific";
     /** Normalized keys when narrower than statewide. Empty for statewide. */

@@ -284,26 +284,9 @@
           "duration": "Unresolved"
         }
       ],
-      "outputStrategy": "staged",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "stages": [
-        {
-          "stage": 1,
-          "label": "Explain the two live waiting-period readings",
-          "outputStrategy": "process_guidance",
-          "description": "Explain both readings in plain English, tell the participant what the ACIC DWI form asks, do not select an eligibility date, and hand off to an Arkansas attorney or legal-aid provider.",
-          "available": true
-        },
-        {
-          "stage": 2,
-          "label": "ACIC misdemeanor DWI/BWI petition and order",
-          "outputStrategy": "official_pdf_fill",
-          "description": "Generate the ACIC misdemeanor DWI/BWI petition and order pair once the waiting-period conflict is resolved.",
-          "available": false,
-          "unavailableReason": "The Coleman/statutory waiting-period conflict prevents reliable routing and keeps this stage unavailable."
-        }
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -509,7 +492,27 @@
             }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-misdemeanor-dwi-seal-stage-1",
+          "order": 1,
+          "label": "Explain the two live waiting-period readings",
+          "outputStrategy": "process_guidance",
+          "description": "Explain both readings in plain English, tell the participant what the ACIC DWI form asks, do not select an eligibility date, and hand off to an Arkansas attorney or legal-aid provider.",
+          "available": true
+        },
+        {
+          "unitId": "ar-misdemeanor-dwi-seal-stage-2",
+          "order": 2,
+          "label": "ACIC misdemeanor DWI/BWI petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC misdemeanor DWI/BWI petition and order pair once the waiting-period conflict is resolved.",
+          "available": false,
+          "unavailableReason": "The Coleman/statutory waiting-period conflict prevents reliable routing and keeps this stage unavailable."
+        }
+      ]
     },
     {
       "trackId": "ar-felony-seal",
@@ -1412,25 +1415,9 @@
       ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "staged",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "stages": [
-        {
-          "stage": 1,
-          "label": "Obtaining the pardon",
-          "outputStrategy": "process_guidance",
-          "description": "Explain how to seek a pardon. LegalEase does not generate the pardon application on this track.",
-          "available": true
-        },
-        {
-          "stage": 2,
-          "label": "ACIC pardoned-offender petition and order",
-          "outputStrategy": "official_pdf_fill",
-          "description": "Generate the ACIC pardoned-offender petition and order pair where a participant filing is accepted.",
-          "available": true
-        }
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -1620,7 +1607,26 @@
             }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-pardon-seal-stage-1",
+          "order": 1,
+          "label": "Obtaining the pardon",
+          "outputStrategy": "process_guidance",
+          "description": "Explain how to seek a pardon. LegalEase does not generate the pardon application on this track.",
+          "available": true
+        },
+        {
+          "unitId": "ar-pardon-seal-stage-2",
+          "order": 2,
+          "label": "ACIC pardoned-offender petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC pardoned-offender petition and order pair where a participant filing is accepted.",
+          "available": true
+        }
+      ]
     },
     {
       "trackId": "ar-act346",
@@ -1646,25 +1652,9 @@
       ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "staged",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "stages": [
-        {
-          "stage": 1,
-          "label": "Plea-stage placement under Act 346",
-          "outputStrategy": "process_guidance",
-          "description": "Explain Act 346 placement. LegalEase does not recreate the plea election.",
-          "available": true
-        },
-        {
-          "stage": 2,
-          "label": "Post-completion dismiss-and-seal filing",
-          "outputStrategy": "official_pdf_fill",
-          "description": "Generate the ACIC Petition and Order to Dismiss and Seal First Offenders after the participant confirms Act 346 placement and completion.",
-          "available": true
-        }
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -1847,7 +1837,26 @@
             }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-act346-stage-1",
+          "order": 1,
+          "label": "Plea-stage placement under Act 346",
+          "outputStrategy": "process_guidance",
+          "description": "Explain Act 346 placement. LegalEase does not recreate the plea election.",
+          "available": true
+        },
+        {
+          "unitId": "ar-act346-stage-2",
+          "order": 2,
+          "label": "Post-completion dismiss-and-seal filing",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC Petition and Order to Dismiss and Seal First Offenders after the participant confirms Act 346 placement and completion.",
+          "available": true
+        }
+      ]
     },
     {
       "trackId": "ar-preadjudication-probation",
@@ -1985,25 +1994,9 @@
       ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "staged",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "stages": [
-        {
-          "stage": 1,
-          "label": "Program admission and completion",
-          "outputStrategy": "process_guidance",
-          "description": "Explain admission to drug court and what completion requires. Prosecutor concurrence is a prerequisite event.",
-          "available": true
-        },
-        {
-          "stage": 2,
-          "label": "ACIC pre- or post-adjudication petition and order",
-          "outputStrategy": "official_pdf_fill",
-          "description": "Generate the applicable ACIC pre- or post-adjudication petition and order pair after completion.",
-          "available": true
-        }
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -2186,7 +2179,26 @@
             }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-drug-court-stage-1",
+          "order": 1,
+          "label": "Program admission and completion",
+          "outputStrategy": "process_guidance",
+          "description": "Explain admission to drug court and what completion requires. Prosecutor concurrence is a prerequisite event.",
+          "available": true
+        },
+        {
+          "unitId": "ar-drug-court-stage-2",
+          "order": 2,
+          "label": "ACIC pre- or post-adjudication petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the applicable ACIC pre- or post-adjudication petition and order pair after completion.",
+          "available": true
+        }
+      ]
     },
     {
       "trackId": "ar-veterans-court",
@@ -2214,25 +2226,9 @@
       ],
       "exclusions": [],
       "waitingPeriods": [],
-      "outputStrategy": "staged",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "stages": [
-        {
-          "stage": 1,
-          "label": "Program participation and completion",
-          "outputStrategy": "process_guidance",
-          "description": "Explain admission to veterans treatment court and what completion requires. Program participation is not generated.",
-          "available": true
-        },
-        {
-          "stage": 2,
-          "label": "ACIC post-completion petition and order",
-          "outputStrategy": "official_pdf_fill",
-          "description": "Generate the ACIC veterans treatment court petition and order pair after completion, once current § 16-101-106 text is confirmed.",
-          "available": true
-        }
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -2421,7 +2417,26 @@
             }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-veterans-court-stage-1",
+          "order": 1,
+          "label": "Program participation and completion",
+          "outputStrategy": "process_guidance",
+          "description": "Explain admission to veterans treatment court and what completion requires. Program participation is not generated.",
+          "available": true
+        },
+        {
+          "unitId": "ar-veterans-court-stage-2",
+          "order": 2,
+          "label": "ACIC post-completion petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC veterans treatment court petition and order pair after completion, once current § 16-101-106 text is confirmed.",
+          "available": true
+        }
+      ]
     },
     {
       "trackId": "ar-act531",

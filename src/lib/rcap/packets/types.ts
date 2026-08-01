@@ -20,6 +20,20 @@ export const PLAN_OF_RECORD_VERSION = "1.0.0";
 /** The three approved output strategies. There is no fourth and no default. */
 export type OutputStrategy = "custom_pleading" | "official_pdf_fill" | "process_guidance";
 
+/**
+ * The same three, at runtime.
+ *
+ * Exported so that every guard which asks "is this a renderer strategy?" asks it
+ * of one list. A composition marker, an unresolved status and an omitted
+ * strategy all fail this test, which is the only way they are meant to be
+ * distinguished from the real three.
+ */
+export const OUTPUT_STRATEGIES: readonly OutputStrategy[] = [
+  "custom_pleading",
+  "official_pdf_fill",
+  "process_guidance"
+];
+
 export type RendererStrategy =
   | "custom_pleading"
   | "acroform_fill"

@@ -32,7 +32,8 @@ const {
   splitUnresolvedQuestions,
   participantActionsFor,
   isGuidanceRereviewCandidate,
-  readinessCeilingFor
+  readinessCeilingFor,
+  strategyForSelectedUnit
 } = await import("@/lib/rcap/legal-design/normalize");
 const { computeRuntimeStatus, RUNTIME_STATUSES, FORBIDDEN_RUNTIME_STATUSES } = await import(
   "@/lib/rcap/packets/types"
@@ -891,68 +892,238 @@ check("every real Batch 1 deferral omits its strategy unless a source authorized
   }
 });
 
-// --- staged is a composition, never a renderer strategy ---------------------
+// --- composed routes: explicit selection, never first-available -------------
+//
+// Array order is not legal routing. Which unit of a composed route applies is a
+// legal question — the offence date, which statutory branch governs, whether the
+// prerequisite event has happened — and the answer is supplied by the caller,
+// never inferred from position. Every check below is a fail-closed proof.
 
-check("a staged route resolves to a concrete strategy and never renders as staged", () => {
-  const staged = validMemo({
-    outputStrategy: "staged",
+/** A composed route whose second unit is the real filing. */
+function composedMemo(overrides = {}) {
+  return validMemo({
+    outputStrategy: "composed",
     outputStrategyStatus: "resolved",
     packetIdentity: "identified",
-    stages: [
-      { stage: 1, label: "Guidance", outputStrategy: "process_guidance", description: "Explain.", available: true },
+    compositionMode: "sequential",
+    units: [
       {
-        stage: 2,
+        unitId: "example-stage-1",
+        order: 1,
+        label: "Guidance",
+        outputStrategy: "process_guidance",
+        description: "Explain the prerequisite event.",
+        available: true
+      },
+      {
+        unitId: "example-stage-2",
+        order: 2,
         label: "Packet",
         outputStrategy: "official_pdf_fill",
-        description: "Generate.",
-        available: false,
-        unavailableReason: "A blocker keeps this stage closed."
+        description: "Generate the official pair.",
+        available: true
       }
-    ]
+    ],
+    ...overrides
   });
-  const result = validateLegalDesignMemo(staged);
+}
+
+check("a composed route keeps no track-level renderer strategy", () => {
+  const memo = composedMemo();
+  const result = validateLegalDesignMemo(memo);
   assert.equal(result.ok, true, JSON.stringify(result.issues));
 
-  const track = normalizeMemo(staged).tracks[0];
-  // The declared composition is kept, but what the renderer sees is concrete.
-  assert.equal(track.outputStrategyDeclared, "staged");
-  assert.equal(track.outputStrategy, "process_guidance", "staged reached the renderer");
-  assert.ok(["custom_pleading", "official_pdf_fill", "process_guidance"].includes(track.outputStrategy));
-  assert.equal(track.stages.length, 2);
-
-  // Every downstream consumer of a strategy sees a real one.
-  assert.notEqual(queueFor({ ...staged.tracks[0], outputStrategy: track.outputStrategy }), undefined);
+  const track = normalizeMemo(memo).tracks[0];
+  // The declared composition survives as provenance and nothing else.
+  assert.equal(track.outputStrategyDeclared, "composed");
+  assert.equal(track.compositionMode, "sequential");
+  assert.equal(track.units.length, 2);
+  // There is no single strategy to state, so none is stated. This is the field
+  // that used to carry the first available unit's strategy.
+  assert.equal(track.outputStrategy, null, "a composed route invented a track-level strategy");
+  // And with no strategy, nothing about it can be ready.
+  assert.equal(readinessCeilingFor(track), "runtime_disabled");
 });
 
-check("no normalized track anywhere carries staged as its renderable strategy", () => {
+check("no normalized track anywhere carries a composition marker as a strategy", () => {
   const intake = path.join(process.cwd(), "data/record-clearing/legal-design-intake");
   for (const file of fs.readdirSync(intake).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n))) {
     const memo = JSON.parse(fs.readFileSync(path.join(intake, file), "utf8"));
     for (const track of normalizeMemo(memo).tracks) {
       assert.ok(
-        ["custom_pleading", "official_pdf_fill", "process_guidance"].includes(track.outputStrategy),
+        track.outputStrategy === null ||
+          ["custom_pleading", "official_pdf_fill", "process_guidance"].includes(track.outputStrategy),
         `${memo.jurisdiction}:${track.trackId} renders as ${track.outputStrategy}`
       );
+      // Every unit that is offered carries one of the three, and every unit that
+      // is not offered carries none.
+      for (const unit of track.units) {
+        if (unit.available) {
+          assert.ok(
+            ["custom_pleading", "official_pdf_fill", "process_guidance"].includes(unit.outputStrategy),
+            `${memo.jurisdiction}:${track.trackId}:${unit.unitId} is available with ${unit.outputStrategy}`
+          );
+        }
+      }
     }
   }
 });
 
-check("a staged route must declare stages, and a stage may not fake a strategy", () => {
-  const noStages = validateLegalDesignMemo(
-    validMemo({ outputStrategy: "staged", outputStrategyStatus: "resolved", packetIdentity: "identified" })
-  );
-  assert.equal(noStages.ok, false, "a staged route with no stages was accepted");
+// 4. A composed track with no selected unit has no renderer.
+check("a composed route with no selected unit yields no renderer strategy", () => {
+  const track = composedMemo().tracks[0];
+  const selection = strategyForSelectedUnit(track);
+  assert.equal(selection.ok, false, "a composed route resolved without a selection");
+  assert.equal(selection.reason, "no_unit_selected");
+  assert.equal(selection.outputStrategy, undefined, "a strategy leaked from a failed selection");
 
-  // An unresolved stage omits its strategy and cannot be available.
-  const faked = validateLegalDesignMemo(
+  // Null and empty string are refusals too, not "unset, so pick one".
+  assert.equal(strategyForSelectedUnit(track, null).reason, "no_unit_selected");
+  assert.equal(strategyForSelectedUnit(track, "").reason, "no_unit_selected");
+});
+
+// 2. Unknown selectedUnitId fails closed.
+check("an unknown unit ID fails closed rather than falling back", () => {
+  const track = composedMemo().tracks[0];
+  const selection = strategyForSelectedUnit(track, "example-stage-99");
+  assert.equal(selection.ok, false);
+  assert.equal(selection.reason, "unknown_unit");
+  assert.equal(selection.outputStrategy, undefined);
+});
+
+// 5. An unresolved unit has no renderer.
+check("an unresolved unit borrows no strategy from its resolved sibling", () => {
+  const memo = composedMemo({
+    compositionMode: "alternative",
+    units: [
+      {
+        unitId: "example-automatic",
+        order: 1,
+        label: "Automatic branch",
+        outputStrategy: "process_guidance",
+        description: "Relief occurs without a participant filing.",
+        available: true
+      },
+      {
+        unitId: "example-petition",
+        order: 2,
+        label: "Petition branch",
+        outputStrategyStatus: "unresolved",
+        packetIdentity: "unresolved",
+        description: "The accepted filing vehicle is unresolved.",
+        available: false,
+        unavailableReason: "Counsel has not settled the accepted form."
+      }
+    ]
+  });
+  assert.equal(validateLegalDesignMemo(memo).ok, true);
+  const track = memo.tracks[0];
+
+  const selection = strategyForSelectedUnit(track, "example-petition");
+  assert.equal(selection.ok, false, "an unresolved unit produced a renderer strategy");
+  assert.equal(selection.reason, "unresolved_unit");
+  assert.equal(selection.outputStrategy, undefined);
+
+  // The resolved sibling still answers for itself, and only for itself.
+  assert.deepEqual(strategyForSelectedUnit(track, "example-automatic"), {
+    ok: true,
+    unitId: "example-automatic",
+    outputStrategy: "process_guidance"
+  });
+});
+
+// 6. Two applicable units produce an error rather than a first-match result.
+check("two units answering to one selection is an error, not a first match", () => {
+  // The validator refuses duplicate unit IDs at intake.
+  const duplicated = composedMemo({
+    units: [
+      {
+        unitId: "example-stage-1",
+        order: 1,
+        label: "Guidance",
+        outputStrategy: "process_guidance",
+        description: "Explain.",
+        available: true
+      },
+      {
+        unitId: "example-stage-1",
+        order: 2,
+        label: "Packet",
+        outputStrategy: "official_pdf_fill",
+        description: "Generate.",
+        available: true
+      }
+    ]
+  });
+  assert.equal(validateLegalDesignMemo(duplicated).ok, false, "duplicate unit IDs were accepted");
+
+  // And the selector refuses them at runtime, so the guarantee does not rest on
+  // validation alone. Both units are available and both carry a real strategy:
+  // the old helper would have returned the first one.
+  const selection = strategyForSelectedUnit(duplicated.tracks[0], "example-stage-1");
+  assert.equal(selection.ok, false, "an ambiguous selection resolved by first match");
+  assert.equal(selection.reason, "ambiguous_unit_selection");
+  assert.equal(selection.outputStrategy, undefined);
+});
+
+check("an unavailable unit produces nothing, however settled its strategy", () => {
+  const memo = composedMemo({
+    units: [
+      {
+        unitId: "example-stage-1",
+        order: 1,
+        label: "Guidance",
+        outputStrategy: "process_guidance",
+        description: "Explain.",
+        available: true
+      },
+      {
+        unitId: "example-stage-2",
+        order: 2,
+        label: "Packet",
+        outputStrategy: "official_pdf_fill",
+        description: "Generate.",
+        available: false,
+        unavailableReason: "A blocker keeps this unit closed."
+      }
+    ]
+  });
+  const selection = strategyForSelectedUnit(memo.tracks[0], "example-stage-2");
+  assert.equal(selection.ok, false);
+  assert.equal(selection.reason, "unavailable_unit");
+  assert.equal(selection.outputStrategy, undefined);
+});
+
+check("a composed route must declare its mode and units, and a unit may not fake a strategy", () => {
+  const noUnits = validateLegalDesignMemo(
     validMemo({
-      outputStrategy: "staged",
+      outputStrategy: "composed",
       outputStrategyStatus: "resolved",
       packetIdentity: "identified",
-      stages: [
-        { stage: 1, label: "Guidance", outputStrategy: "process_guidance", description: "Explain.", available: true },
+      compositionMode: "sequential"
+    })
+  );
+  assert.equal(noUnits.ok, false, "a composed route with no units was accepted");
+
+  const noMode = composedMemo();
+  delete noMode.tracks[0].compositionMode;
+  assert.equal(validateLegalDesignMemo(noMode).ok, false, "a composed route with no mode was accepted");
+
+  // An unresolved unit omits its strategy and cannot be available.
+  const faked = validateLegalDesignMemo(
+    composedMemo({
+      units: [
         {
-          stage: 2,
+          unitId: "example-stage-1",
+          order: 1,
+          label: "Guidance",
+          outputStrategy: "process_guidance",
+          description: "Explain.",
+          available: true
+        },
+        {
+          unitId: "example-stage-2",
+          order: 2,
           label: "Unsettled branch",
           outputStrategy: "custom_pleading",
           outputStrategyStatus: "unresolved",
@@ -963,13 +1134,234 @@ check("a staged route must declare stages, and a stage may not fake a strategy",
       ]
     })
   );
-  assert.equal(faked.ok, false, "an unresolved stage kept a concrete strategy");
+  assert.equal(faked.ok, false, "an unresolved unit kept a concrete strategy");
 
-  // stages belongs only on a staged route.
-  const misplaced = validateLegalDesignMemo(
-    validMemo({ stages: [{ stage: 1, label: "x", outputStrategy: "process_guidance", description: "y", available: true }] })
+  // A unit without a stable ID cannot be selected, so it is not a unit.
+  const anonymous = composedMemo();
+  delete anonymous.tracks[0].units[0].unitId;
+  assert.equal(validateLegalDesignMemo(anonymous).ok, false, "a unit with no unitId was accepted");
+
+  // units and compositionMode belong only on a composed route.
+  assert.equal(
+    validateLegalDesignMemo(
+      validMemo({
+        units: [
+          {
+            unitId: "x-1",
+            order: 1,
+            label: "x",
+            outputStrategy: "process_guidance",
+            description: "y",
+            available: true
+          }
+        ]
+      })
+    ).ok,
+    false,
+    "units was accepted on a single-output route"
   );
-  assert.equal(misplaced.ok, false, "stages was accepted on a non-staged route");
+  assert.equal(
+    validateLegalDesignMemo(validMemo({ compositionMode: "sequential" })).ok,
+    false,
+    "compositionMode was accepted on a single-output route"
+  );
+});
+
+check("a single-output track answers for itself and rejects a selection it cannot honour", () => {
+  const track = validMemo().tracks[0];
+  assert.deepEqual(strategyForSelectedUnit(track), {
+    ok: true,
+    unitId: null,
+    outputStrategy: "official_pdf_fill"
+  });
+  // A selection against a track with no units is a caller error, not a no-op.
+  assert.equal(strategyForSelectedUnit(track, "example-stage-1").reason, "unknown_unit");
+});
+
+check("mixed nesting is one level deep and names a real parent", () => {
+  const mixed = (units) =>
+    validateLegalDesignMemo(composedMemo({ compositionMode: "mixed", units }));
+
+  const branch = {
+    unitId: "example-branch-a",
+    order: 1,
+    label: "Branch A",
+    outputStrategy: "process_guidance",
+    description: "The branch itself.",
+    available: true
+  };
+  const child = {
+    unitId: "example-branch-a-stage-2",
+    order: 2,
+    label: "Branch A, second step",
+    outputStrategy: "official_pdf_fill",
+    description: "The filing inside the branch.",
+    available: true,
+    parentUnitId: "example-branch-a"
+  };
+
+  assert.equal(mixed([branch, child]).ok, true, "a valid mixed composition was refused");
+  assert.equal(
+    mixed([branch, { ...child, parentUnitId: "example-nonexistent" }]).ok,
+    false,
+    "a parentUnitId naming no unit was accepted"
+  );
+  assert.equal(
+    mixed([branch, { ...child, parentUnitId: child.unitId }]).ok,
+    false,
+    "a unit was accepted as its own parent"
+  );
+  assert.equal(
+    mixed([
+      { ...branch, parentUnitId: "example-branch-a-stage-2" },
+      child
+    ]).ok,
+    false,
+    "two levels of nesting were accepted"
+  );
+  // parentUnitId is meaningless outside a mixed composition.
+  assert.equal(
+    validateLegalDesignMemo(
+      composedMemo({
+        compositionMode: "sequential",
+        units: [branch, child]
+      })
+    ).ok,
+    false,
+    "parentUnitId was accepted on a sequential composition"
+  );
+});
+
+// --- the Arkansas composed routes, against the committed corpus -------------
+//
+// These are the cases the correction exists for. AR-7's guidance unit sits ahead
+// of its official filing unit in the array, and both are available.
+
+const AR_MEMO = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-intake/AR.memo.json"), "utf8")
+);
+const arTrack = (trackId) => {
+  const track = AR_MEMO.tracks.find((candidate) => candidate.trackId === trackId);
+  assert.ok(track, `${trackId} is missing from the Arkansas memo`);
+  return track;
+};
+
+// 1. AR-2 stage 1 explicitly selected: process_guidance.
+check("AR-2 stage 1, explicitly selected, is process guidance", () => {
+  const track = arTrack("ar-misdemeanor-dwi-seal");
+  assert.equal(track.compositionMode, "sequential");
+  assert.deepEqual(strategyForSelectedUnit(track, "ar-misdemeanor-dwi-seal-stage-1"), {
+    ok: true,
+    unitId: "ar-misdemeanor-dwi-seal-stage-1",
+    outputStrategy: "process_guidance"
+  });
+});
+
+// 2. AR-2 stage 2 explicitly selected while the waiting-period blocker remains:
+//    unavailable, no renderer.
+check("AR-2 stage 2 stays unavailable while the waiting-period conflict is open", () => {
+  const track = arTrack("ar-misdemeanor-dwi-seal");
+  const unit = track.units.find((candidate) => candidate.unitId === "ar-misdemeanor-dwi-seal-stage-2");
+  assert.equal(unit.available, false);
+  assert.match(unit.unavailableReason, /Coleman/);
+
+  const selection = strategyForSelectedUnit(track, "ar-misdemeanor-dwi-seal-stage-2");
+  assert.equal(selection.ok, false, "the blocked ACIC DWI pair produced a renderer strategy");
+  assert.equal(selection.reason, "unavailable_unit");
+  assert.equal(selection.outputStrategy, undefined);
+});
+
+// 3. AR-7's guidance stage cannot shadow the official filing stage after the
+//    filing stage is explicitly selected.
+check("AR-7's guidance stage cannot shadow its official filing stage", () => {
+  const track = arTrack("ar-pardon-seal");
+  const [first, second] = track.units;
+
+  // The shape that produced the bug: guidance first in the array, both available.
+  assert.equal(first.outputStrategy, "process_guidance");
+  assert.equal(first.available, true);
+  assert.equal(second.outputStrategy, "official_pdf_fill");
+  assert.equal(second.available, true);
+
+  // Selecting the filing stage returns the filing stage.
+  assert.deepEqual(strategyForSelectedUnit(track, "ar-pardon-seal-stage-2"), {
+    ok: true,
+    unitId: "ar-pardon-seal-stage-2",
+    outputStrategy: "official_pdf_fill"
+  });
+  // And selecting nothing returns nothing, rather than the guidance stage that
+  // happens to be first.
+  assert.equal(strategyForSelectedUnit(track).ok, false);
+});
+
+check("a composed route's guidance units still produce guidance specs", () => {
+  // Treating a composed route as a single-output track used to file it under
+  // whichever strategy came first. Correcting that must not silently drop the
+  // guidance work: the guidance stage of a staged route is still drafted, and
+  // its filing stage is still assigned a form.
+  const specs = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-specifications.json"), "utf8")
+  );
+  const registry = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-track-registry.json"), "utf8")
+  );
+  const specified = new Set(
+    specs.processGuidanceSpecs.filter((spec) => spec.unitId).map((spec) => `${spec.trackId}:${spec.unitId}`)
+  );
+  const assigned = new Set(specs.officialFormAssignments.map((assignment) => assignment.trackId));
+
+  for (const track of registry.tracks.filter((candidate) => candidate.outputStrategyDeclared === "composed")) {
+    for (const unit of track.units) {
+      if (unit.outputStrategy === "process_guidance") {
+        assert.ok(
+          specified.has(`${track.trackId}:${unit.unitId}`),
+          `${track.trackId}:${unit.unitId} is guidance with no guidance spec`
+        );
+      }
+      if (unit.outputStrategy === "official_pdf_fill") {
+        assert.ok(assigned.has(track.trackId), `${track.trackId} has a filing unit with no official form assignment`);
+      }
+    }
+  }
+});
+
+// 7. All composed Batch 1 tracks remain runtime_disabled in the committed corpus.
+check("every composed track in the committed corpus is runtime_disabled and unreachable", () => {
+  const registry = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-track-registry.json"), "utf8")
+  );
+  const queue = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-implementation-queue.json"), "utf8")
+  );
+  const queued = new Map(
+    queue.batches.flatMap((batch) => batch.tracks.map((track) => [`${track.jurisdiction}:${track.trackId}`, track]))
+  );
+
+  const composed = registry.tracks.filter((track) => track.outputStrategyDeclared === "composed");
+  assert.ok(composed.length > 0, "the corpus has no composed tracks to check");
+
+  for (const track of composed) {
+    const key = `${track.jurisdiction}:${track.trackId}`;
+    // Registered, and registered disabled.
+    assert.ok(track.runtimeDisabledReason, `${key} records no reason for being disabled`);
+    assert.equal(queued.get(key)?.runtimeStatus, "runtime_disabled", `${key} is not runtime_disabled`);
+    assert.notEqual(track.legalStatus, "legal_approved", `${key} claims legal approval`);
+
+    // No track-level strategy, and every unit individually selectable.
+    assert.equal(track.outputStrategy, null, `${key} carries a track-level strategy`);
+    assert.ok(["sequential", "alternative", "mixed"].includes(track.compositionMode), `${key} declares no mode`);
+    assert.ok(track.units.length > 0, `${key} declares no units`);
+
+    const ids = new Set();
+    for (const unit of track.units) {
+      assert.ok(unit.unitId, `${key} has a unit with no ID`);
+      assert.equal(ids.has(unit.unitId), false, `${key} repeats unit ID ${unit.unitId}`);
+      ids.add(unit.unitId);
+    }
+
+    // And selecting nothing still yields nothing, straight off the corpus.
+    assert.equal(strategyForSelectedUnit(track).ok, false, `${key} resolved without a selection`);
+  }
 });
 
 check("self-help ends at an objection without unwinding the packet", () => {
@@ -1067,7 +1459,7 @@ check("tracks route to the correct implementation batch", () => {
   );
   assert.equal(
     queueFor(validTrack({ outputStrategy: "process_guidance" })),
-    "D_staged_or_process_guidance"
+    "D_composed_or_process_guidance"
   );
   assert.equal(
     queueFor(validTrack({ geography: { scope: "county", keys: ["polk"], venue: "x" } })),
@@ -1287,4 +1679,9 @@ console.log("16. Guidance tracks state why; external-dependency ones are queued 
 console.log("17. normalizerInferred is refused on any basis that asserts counsel decided the point.");
 console.log("18. A deferred track omits its output strategy; no concrete strategy may stand in for unknown.");
 console.log("19. A provisional strategy needs a controlling source that authorized it.");
-console.log("20. staged is a composition: it resolves to a concrete strategy and never reaches a renderer.");
+console.log(
+  "20. A composed route keeps no track-level strategy; a renderer strategy comes only from an explicitly selected unit."
+);
+console.log(
+  "21. Selection fails closed on no selection, an unknown, unresolved, unavailable or ambiguous unit. Never first-available."
+);

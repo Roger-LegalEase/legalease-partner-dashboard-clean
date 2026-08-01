@@ -157,9 +157,16 @@ const specifications = {
         mappingStatus: "not_mapped"
       }))
   ),
-  processGuidanceSpecs: allTracks
-    .filter((track) => track.outputStrategy === "process_guidance")
-    .map((track) => ({
+  // Guidance is specified per output, not per track.
+  //
+  // A single-output guidance track contributes one spec. A composed route
+  // contributes one spec per guidance unit, carrying that unit's ID: the
+  // guidance stage of a staged route is real work that must be drafted, and it
+  // does not stop being real because the route also has a filing stage. The
+  // unitId is recorded because the guidance is only ever produced for an
+  // explicitly selected unit.
+  processGuidanceSpecs: allTracks.flatMap((track) => {
+    const base = {
       jurisdiction: track.jurisdiction,
       trackId: track.trackId,
       destination: track.destination,
@@ -170,7 +177,24 @@ const specifications = {
       requiredBeforeFiling: track.packetSet.requiredBeforeFiling,
       stopConditions: track.selfHelpBoundaries,
       guidanceStatus: "not_drafted"
-    })),
+    };
+    if (track.outputStrategy === "process_guidance") {
+      return [{ ...base, unitId: null, compositionMode: null, unitAvailable: true }];
+    }
+    return track.units
+      .filter((unit) => unit.outputStrategy === "process_guidance")
+      .map((unit) => ({
+        ...base,
+        unitId: unit.unitId,
+        unitLabel: unit.label,
+        unitDescription: unit.description,
+        compositionMode: track.compositionMode,
+        // An unavailable unit is still specified, so the blocker is visible
+        // rather than the work simply being absent.
+        unitAvailable: unit.available,
+        unavailableReason: unit.unavailableReason ?? null
+      }));
+  }),
   // Named here so nobody has to infer it from the shape of the specs above: a
   // document the participant obtains is listed, never demanded up front.
   participantFilingRequirements: allTracks.flatMap((track) =>
@@ -189,7 +213,7 @@ const QUEUES = [
   ["A_official_pdf_acroform", "Official PDF fill, backed by a verified AcroForm"],
   ["B_official_pdf_overlay", "Official PDF fill, requiring a coordinate overlay"],
   ["C_custom_pleading", "Custom pleading"],
-  ["D_staged_or_process_guidance", "Staged and process-guidance tracks"],
+  ["D_composed_or_process_guidance", "Composed and process-guidance tracks"],
   ["E_local_variant", "Local, county, circuit, district and court-specific variants"],
   ["F_source_problem", "Missing, encrypted, XFA, stale or conflicting sources"]
 ];

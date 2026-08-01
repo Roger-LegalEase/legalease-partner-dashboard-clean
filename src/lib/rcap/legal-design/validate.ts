@@ -19,6 +19,7 @@
 import {
   AFFECTED_ELEMENTS,
   CLASSIFICATION_BASES,
+  COMPOSITION_MODES,
   COUNSEL_AUTHORED_BASES,
   OUTPUT_STRATEGY_STATUSES,
   FORBIDDEN_FULFILLMENT_KEYS,
@@ -32,6 +33,7 @@ import {
   type ProposedReliefTrack
 } from "@/lib/rcap/legal-design/types";
 import { canonicalJurisdictionCode } from "@/lib/rcap/jurisdictions/packet-capability";
+import { OUTPUT_STRATEGIES } from "@/lib/rcap/packets/types";
 
 export type ValidationIssue = {
   severity: "error" | "warning";
@@ -55,7 +57,6 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 // crosswalk is how 117 tracks are reconciled. Renaming them here to satisfy a
 // style preference would break the only completeness check we have.
 const TRACK_ID = /^[a-z0-9][a-z0-9_-]{2,80}$/;
-const OUTPUT_STRATEGIES = ["custom_pleading", "official_pdf_fill", "process_guidance"];
 const GEO_SCOPES = ["statewide", "county", "circuit", "district", "court_specific", "agency_specific"];
 const DESTINATION_KINDS = ["court", "agency", "prosecutor", "portal", "automatic", "clerk"];
 const COMPONENT_REQUIREMENTS = ["required", "conditional"];
@@ -263,50 +264,116 @@ function validateTrack(
         label
       );
     }
-  } else if (track.outputStrategy === "staged") {
-    // `staged` is a composition, not a renderer strategy. It is legal only with
-    // ordered stages, each carrying one of the three real strategies or openly
-    // omitting it where counsel left that branch unresolved.
-    if (!nonEmptyArray(track.stages)) {
-      push("stages", "A staged route must list its ordered stages.", label);
+  } else if (track.outputStrategy === "composed") {
+    // `composed` is a composition, not a renderer strategy. It is legal only
+    // with a declared composition mode and units, each carrying one of the three
+    // real strategies or openly omitting it where counsel left that branch
+    // unresolved.
+    if (!COMPOSITION_MODES.includes(track.compositionMode as never)) {
+      push(
+        "compositionMode",
+        `A composed route must say how its units relate: ${COMPOSITION_MODES.join(", ")}.`,
+        label
+      );
+    }
+    if (!nonEmptyArray(track.units)) {
+      push("units", "A composed route must list its units.", label);
     } else {
-      for (const [i, stage] of track.stages.entries()) {
-        const field = `stages[${i}]`;
-        if (typeof stage?.stage !== "number") push(`${field}.stage`, "stage must be a number.", label);
-        if (!nonEmptyString(stage?.label)) push(`${field}.label`, "label is required.", label);
-        if (!nonEmptyString(stage?.description)) push(`${field}.description`, "description is required.", label);
-        if (typeof stage?.available !== "boolean") {
+      const seenUnitIds = new Set<string>();
+      for (const [i, unit] of track.units.entries()) {
+        const field = `units[${i}]`;
+        // A stable unit ID is the whole basis of explicit selection. Without
+        // one, the only way to name a unit is its position, and position is not
+        // legal routing.
+        if (!nonEmptyString(unit?.unitId)) {
+          push(`${field}.unitId`, "Every unit needs a stable unitId; it is how the unit is selected.", label);
+        } else if (seenUnitIds.has(unit.unitId)) {
+          push(
+            `${field}.unitId`,
+            `Duplicate unitId ${unit.unitId}. Two units answering to one selection would force a first-match choice.`,
+            label
+          );
+        } else {
+          seenUnitIds.add(unit.unitId);
+        }
+        if (typeof unit?.order !== "number") push(`${field}.order`, "order must be a number.", label);
+        if (!nonEmptyString(unit?.label)) push(`${field}.label`, "label is required.", label);
+        if (!nonEmptyString(unit?.description)) push(`${field}.description`, "description is required.", label);
+        if (typeof unit?.available !== "boolean") {
           push(`${field}.available`, "available must be true or false.", label);
         }
-        const stageStatus = stage?.outputStrategyStatus ?? "resolved";
-        if (stageStatus === "unresolved") {
-          if (stage?.outputStrategy !== undefined) {
+        const unitStatus = unit?.outputStrategyStatus ?? "resolved";
+        if (unitStatus === "unresolved") {
+          if (unit?.outputStrategy !== undefined) {
             push(
               `${field}.outputStrategy`,
-              "An unresolved stage must omit outputStrategy. A concrete strategy may not stand in for a branch counsel has not settled.",
+              "An unresolved unit must omit outputStrategy. A concrete strategy may not stand in for a branch counsel has not settled.",
               label
             );
           }
-          if (stage?.available !== false) {
-            push(`${field}.available`, "A stage with an unresolved vehicle cannot be available.", label);
+          if (unit?.available !== false) {
+            push(`${field}.available`, "A unit with an unresolved vehicle cannot be available.", label);
           }
-        } else if (!OUTPUT_STRATEGIES.includes(String(stage?.outputStrategy))) {
-          push(`${field}.outputStrategy`, `Each settled stage needs one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
+          if (unit?.packetIdentity !== undefined && unit.packetIdentity !== "unresolved") {
+            push(
+              `${field}.packetIdentity`,
+              "An unresolved unit cannot claim an identified packet.",
+              label
+            );
+          }
+        } else if (!OUTPUT_STRATEGIES.includes(unit?.outputStrategy as never)) {
+          push(`${field}.outputStrategy`, `Each settled unit needs one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
         }
-        if (stage?.available === false && !nonEmptyString(stage?.unavailableReason)) {
-          push(`${field}.unavailableReason`, "An unavailable stage must say why.", label);
+        if (unit?.available === false && !nonEmptyString(unit?.unavailableReason)) {
+          push(`${field}.unavailableReason`, "An unavailable unit must say why.", label);
         }
       }
-      if (!track.stages.some((stage) => stage?.available === true)) {
-        push("stages", "A staged route needs at least one available stage; otherwise it is deferred, not staged.", label);
+
+      // Nesting exists only for `mixed`, and only one level deep: an
+      // alternative branch containing sequential units. Anything else is schema
+      // no controlling source has asked for.
+      for (const [i, unit] of track.units.entries()) {
+        if (unit?.parentUnitId === undefined) continue;
+        const field = `units[${i}].parentUnitId`;
+        if (track.compositionMode !== "mixed") {
+          push(field, "parentUnitId belongs only on a mixed composition.", label);
+          continue;
+        }
+        if (unit.parentUnitId === unit.unitId) {
+          push(field, "A unit cannot be its own parent.", label);
+          continue;
+        }
+        const parent = track.units.find((candidate) => candidate?.unitId === unit.parentUnitId);
+        if (!parent) {
+          push(field, `parentUnitId ${unit.parentUnitId} names no unit on this track.`, label);
+        } else if (parent.parentUnitId !== undefined) {
+          push(field, "Nesting is one level deep: a parent unit may not itself have a parent.", label);
+        }
+      }
+
+      if (track.compositionMode === "mixed" && !track.units.some((unit) => unit?.parentUnitId !== undefined)) {
+        push(
+          "compositionMode",
+          "A mixed composition must have at least one unit nested inside a branch; otherwise it is sequential or alternative.",
+          label
+        );
+      }
+
+      if (!track.units.some((unit) => unit?.available === true)) {
+        push("units", "A composed route needs at least one available unit; otherwise it is deferred, not composed.", label);
       }
     }
-  } else if (!OUTPUT_STRATEGIES.includes(String(track.outputStrategy))) {
+  } else if (!OUTPUT_STRATEGIES.includes(track.outputStrategy as never)) {
     push("outputStrategy", `outputStrategy must be one of ${OUTPUT_STRATEGIES.join(", ")}.`, label);
   }
 
-  if (track.outputStrategy !== "staged" && track.stages !== undefined) {
-    push("stages", "stages belongs only on a staged route.", label);
+  if (track.outputStrategy !== "composed") {
+    if (track.units !== undefined) {
+      push("units", "units belongs only on a composed route.", label);
+    }
+    if (track.compositionMode !== undefined) {
+      push("compositionMode", "compositionMode belongs only on a composed route.", label);
+    }
   }
 
   // A provisional strategy is only legal where the controlling source says so.
@@ -388,7 +455,7 @@ function validateTrack(
           label
         );
       }
-      if (!OUTPUT_STRATEGIES.includes(String(component?.outputStrategy))) {
+      if (!OUTPUT_STRATEGIES.includes(component?.outputStrategy as never)) {
         push(`components[${i}].outputStrategy`, "Each component needs an output strategy.", label);
       }
       if (component?.outputStrategy === "official_pdf_fill" && !nonEmptyString(component?.officialFormId)) {

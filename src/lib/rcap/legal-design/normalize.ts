@@ -51,11 +51,13 @@ import {
   type ManualCompletionItem,
   type ParticipantInput,
   type ProposedReliefTrack,
+  type CompositionMode,
   type SupportingDocument,
-  type TrackStage,
+  type TrackUnit,
   type UnresolvedQuestion
 } from "@/lib/rcap/legal-design/types";
 import {
+  OUTPUT_STRATEGIES,
   computeRuntimeStatus,
   type GeographicScope,
   type LegalStatus,
@@ -67,7 +69,7 @@ export type ImplementationStrategyQueue =
   | "A_official_pdf_acroform"
   | "B_official_pdf_overlay"
   | "C_custom_pleading"
-  | "D_staged_or_process_guidance"
+  | "D_composed_or_process_guidance"
   | "E_local_variant"
   | "F_source_problem";
 
@@ -144,11 +146,29 @@ export type NormalizedTrack = {
   dispositions: readonly string[];
   exclusions: readonly string[];
   waitingPeriods: readonly { condition: string; duration: string }[];
-  /** Always concrete. `staged` resolves to the active stage's strategy. */
-  outputStrategy: OutputStrategy;
-  /** Counsel's declared composition, when the route is staged. */
+  /**
+   * The one concrete strategy of a single-output track, or `null` on a composed
+   * route.
+   *
+   * `null` is not a gap to be filled. A composed route has more than one output
+   * and no track-level strategy to state; the strategy comes from
+   * `strategyForSelectedUnit` once a caller names a unit. Writing a unit's
+   * strategy here is precisely how a composed route came to look like a
+   * single-output one.
+   */
+  outputStrategy: OutputStrategy | null;
+  /**
+   * What counsel declared, including `composed`. Provenance only.
+   *
+   * Never read as a renderer strategy. It exists so the record says the route is
+   * composed rather than leaving that to be inferred from `outputStrategy` being
+   * null.
+   */
   outputStrategyDeclared: string;
-  stages: readonly TrackStage[];
+  /** How the units relate. Null on a single-output track. */
+  compositionMode: CompositionMode | null;
+  /** The units of a composed route. Empty on a single-output track. */
+  units: readonly TrackUnit[];
   geographicScope: GeographicScope;
   geographyKeys: readonly string[];
   venue: string;
@@ -232,7 +252,7 @@ export type DeferredTrack = {
   trackId: string;
   publicName: string;
   /** Absent when counsel never settled one. Never a placeholder. */
-  outputStrategy: OutputStrategy | "staged" | null;
+  outputStrategy: OutputStrategy | "composed" | null;
   outputStrategyStatus: "resolved" | "provisional" | "unresolved";
   packetIdentity: "identified" | "unresolved";
   /** Deferred tracks are never registered, so there is nothing to disable. */
@@ -571,27 +591,133 @@ export function participantActionsFor(track: ProposedReliefTrack): ParticipantAc
   return actions;
 }
 
-/**
- * The concrete strategy a renderer would actually run for a track.
- *
- * `staged` is a composition marker and is never rendered. A staged track
- * resolves to the strategy of its first available stage, which is what the
- * participant is being handed right now. Nothing downstream of this function
- * ever sees `staged`, which is what keeps the three-strategy plan of record
- * intact while letting counsel's staging be recorded as counsel stated it.
- */
-export function renderableStrategyFor(track: {
+/** Why a composed route yielded no renderer strategy. Every value fails closed. */
+export type ComposedSelectionFailure =
+  | "no_unit_selected"
+  | "unknown_unit"
+  | "unresolved_unit"
+  | "unavailable_unit"
+  | "ambiguous_unit_selection";
+
+export type SelectedUnitStrategy =
+  | { ok: true; unitId: string | null; outputStrategy: OutputStrategy }
+  | { ok: false; reason: ComposedSelectionFailure; message: string };
+
+type SelectableUnit = {
+  unitId?: string;
   outputStrategy?: string;
-  stages?: readonly { outputStrategy?: string; available: boolean }[];
-}): OutputStrategy {
-  if (track.outputStrategy !== "staged") {
-    return track.outputStrategy as OutputStrategy;
+  outputStrategyStatus?: string;
+  available?: boolean;
+};
+
+/**
+ * The concrete strategy a renderer would run for an explicitly selected unit.
+ *
+ * A composed route has more than one output, and which one applies is a legal
+ * question — the participant's facts, the offence date, which statutory branch
+ * governs, whether the prerequisite event has happened. Array order answers none
+ * of those. So this function never scans for an applicable unit and never takes
+ * the first available one: the caller says which unit, or gets nothing.
+ *
+ * Failing closed is the whole point. Every path that cannot name exactly one
+ * explicitly selected, resolved, available unit returns no strategy, and the
+ * three renderer strategies are the only values that can come back. `composed`,
+ * `unresolved` and an omitted strategy never leave here.
+ *
+ * A single-output track has nothing to select between; it answers with its own
+ * strategy, and rejects a selection it cannot honour rather than ignoring it.
+ */
+export function strategyForSelectedUnit(
+  track: {
+    outputStrategy?: string;
+    units?: readonly SelectableUnit[];
+  },
+  selectedUnitId?: string | null
+): SelectedUnitStrategy {
+  const units = track.units ?? [];
+
+  if (track.outputStrategy !== "composed") {
+    // Not a composed route. A selection here refers to a unit that does not
+    // exist, and silently ignoring it would hand back a strategy the caller did
+    // not ask for.
+    if (selectedUnitId != null) {
+      return {
+        ok: false,
+        reason: "unknown_unit",
+        message: `A unit was selected on a track that has no units: ${selectedUnitId}.`
+      };
+    }
+    if (!OUTPUT_STRATEGIES.includes(track.outputStrategy as OutputStrategy)) {
+      return {
+        ok: false,
+        reason: "unresolved_unit",
+        message: "The track has no settled renderer strategy."
+      };
+    }
+    return { ok: true, unitId: null, outputStrategy: track.outputStrategy as OutputStrategy };
   }
-  const active = (track.stages ?? []).find((stage) => stage.available && stage.outputStrategy);
-  if (!active?.outputStrategy) {
-    throw new Error("A staged track has no available stage with a settled strategy.");
+
+  // Rule 1. No selection is not an invitation to choose.
+  if (selectedUnitId == null || selectedUnitId === "") {
+    return {
+      ok: false,
+      reason: "no_unit_selected",
+      message:
+        "A composed route requires an explicitly selected unit. There is no default unit and no first-available unit."
+    };
   }
-  return active.outputStrategy as OutputStrategy;
+
+  const matches = units.filter((unit) => unit.unitId === selectedUnitId);
+
+  // Rule 6. Two units answering to one selection is an error, not a race the
+  // earlier one wins. The validator rejects duplicate unit IDs at intake; this
+  // is the runtime half of that guarantee.
+  if (matches.length > 1) {
+    return {
+      ok: false,
+      reason: "ambiguous_unit_selection",
+      message: `${matches.length} units answer to ${selectedUnitId}. A composed route may not resolve by first match.`
+    };
+  }
+
+  // Rule 2.
+  const unit = matches[0];
+  if (!unit) {
+    return {
+      ok: false,
+      reason: "unknown_unit",
+      message: `No unit on this track has the ID ${selectedUnitId}.`
+    };
+  }
+
+  // Rule 3. An unresolved unit borrows nothing from its resolved siblings.
+  if ((unit.outputStrategyStatus ?? "resolved") === "unresolved" || !unit.outputStrategy) {
+    return {
+      ok: false,
+      reason: "unresolved_unit",
+      message: `Unit ${selectedUnitId} has no settled output strategy. Counsel has not decided it, and no sibling unit may supply one.`
+    };
+  }
+
+  // Rule 4.
+  if (unit.available !== true) {
+    return {
+      ok: false,
+      reason: "unavailable_unit",
+      message: `Unit ${selectedUnitId} is unavailable, so it produces nothing.`
+    };
+  }
+
+  // Rule 5. Exactly one explicitly selected, resolved, available unit.
+  if (!OUTPUT_STRATEGIES.includes(unit.outputStrategy as OutputStrategy)) {
+    return {
+      ok: false,
+      reason: "unresolved_unit",
+      message: `Unit ${selectedUnitId} carries ${unit.outputStrategy}, which is not a renderer strategy.`
+    };
+  }
+
+  return { ok: true, unitId: selectedUnitId, outputStrategy: unit.outputStrategy as OutputStrategy };
 }
 
 function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): NormalizedTrack {
@@ -603,7 +729,11 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
       `${jurisdiction}:${track.trackId} reached normalization without an output strategy. Only deferred tracks may omit one.`
     );
   }
-  const outputStrategy: OutputStrategy = renderableStrategyFor(track);
+  // A composed route keeps no track-level strategy. Nothing here picks a unit:
+  // that is the caller's explicit decision, made through
+  // `strategyForSelectedUnit`, and made per participant rather than per import.
+  const composed = track.outputStrategy === "composed";
+  const outputStrategy: OutputStrategy | null = composed ? null : (track.outputStrategy as OutputStrategy);
 
   const components: NormalizedComponent[] = track.components.map((component, index) => ({
     componentId: `${track.trackId}-${slug(component.role)}-${index + 1}`,
@@ -637,7 +767,8 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
     waitingPeriods: track.waitingPeriods,
     outputStrategy,
     outputStrategyDeclared: track.outputStrategy ?? "unresolved",
-    stages: track.stages ?? [],
+    compositionMode: track.compositionMode ?? null,
+    units: track.units ?? [],
     geographicScope: track.geography.scope,
     geographyKeys: track.geography.keys,
     venue: track.geography.venue,
@@ -719,6 +850,11 @@ function normalizeTrack(jurisdiction: string, track: ProposedReliefTrack): Norma
  * with one open cannot reach `packet_ready` however green everything else is.
  */
 export function readinessCeilingFor(track: NormalizedTrack): RuntimeStatus {
+  // A composed route has no track-level strategy, so it has no track-level
+  // readiness either. Readiness belongs to a selected unit, and until a unit is
+  // selected there is nothing that could be ready. Answering anything other than
+  // disabled here would be the first-available-unit mistake wearing a new name.
+  if (track.outputStrategy === null) return "runtime_disabled";
   return computeRuntimeStatus({
     statuses: {
       research: "research_draft_complete",
@@ -744,8 +880,8 @@ export function queueFor(track: ProposedReliefTrack): ImplementationStrategyQueu
   if (["county", "circuit", "district", "court_specific"].includes(track.geography.scope)) {
     return "E_local_variant";
   }
-  if (track.outputStrategy === "process_guidance") {
-    return "D_staged_or_process_guidance";
+  if (track.outputStrategy === "process_guidance" || track.outputStrategy === "composed") {
+    return "D_composed_or_process_guidance";
   }
   if (track.outputStrategy === "custom_pleading") {
     return "C_custom_pleading";
