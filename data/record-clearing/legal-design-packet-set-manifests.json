@@ -5823,6 +5823,1261 @@
       ]
     },
     {
+      "jurisdiction": "CT",
+      "trackId": "ct-nonconviction-auto",
+      "packetSetId": "ct-nonconviction-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-nonconviction-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up on the Judicial Branch case look-up. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the charge end — dismissed, or found not guilty?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Of limited value on this track. The SPBI result contains conviction history only, so it cannot confirm whether a non-conviction was erased.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No court fee. § 54-142a(k) bars any fee on a petition under that section, and this branch needs no petition at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. Erasure follows the disposition by operation of law.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the charge end — dismissed, or found not guilty?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No court fee. § 54-142a(k) bars any fee on a petition under that section, and this branch needs no petition at all.",
+        "Not applicable. There is no fee."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-nolle-auto",
+      "packetSetId": "ct-nolle-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-nolle-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up on the Judicial Branch case look-up to confirm the nolle date or the continuance. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the charge nolled?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature on the automatic branch. Unresolved on the motion branch, pending the vehicle.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No court fee is charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No fee is charged.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Unresolved on the motion branch. No service requirement was established.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The automatic branch requires no filing. The motion branch would be a motion to nolle filed in the Superior Court, but the accepted vehicle, caption and clerk practice are unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date was the charge nolled?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature on the automatic branch. Unresolved on the motion branch, pending the vehicle.",
+        "The source review does not state a notarization requirement.",
+        "No court fee is charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "Not applicable. No fee is charged."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-diversion",
+      "packetSetId": "ct-diversion-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-diversion-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up on the Judicial Branch case look-up to confirm the dismissal was entered. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the court enter a dismissal after you completed it?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No court fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. Erasure follows the dismissal.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did the court enter a dismissal after you completed it?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No court fee.",
+        "Not applicable."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cleanslate-auto",
+      "packetSetId": "ct-cleanslate-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-cleanslate-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order payable to \"Treasurer-State of CT\" to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. The result is conviction history only. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the date of your most recent judgment of conviction for any crime?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the disposition, the counts on the docket and the sentencing location. An erased case will not appear.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How many counts are on this docket, and did every one of them end the same way?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. The real cost is the SPBI record.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. Erasure happens by operation of law.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What is the date of your most recent judgment of conviction for any crime?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+        "Check your answer to \"How many counts are on this docket, and did every one of them end the same way?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No fee.",
+        "Not applicable. The real cost is the SPBI record."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cleanslate-petition",
+      "packetSetId": "ct-cleanslate-petition-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-cleanslate-petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JD-CR-202",
+          "officialSourceUrl": "https://portal.ct.gov/cleanslate/petition-for-clean-slate-erasure",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. Gather it; it is not filed with the petition. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the date of your most recent judgment of conviction for any crime?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the docket number, the counts and the sentencing location. Gather it; it is not filed with the petition.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number for the case you want erased?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Sentencing information sufficient to establish the offense class under then-current law. Ask the clerk for the sentencing record. For a pre-2000 offense the class must be established under the law in effect at the time, which may mean repealed or superseded versions.",
+          "obtainedFrom": "Superior Court clerk at the sentencing location",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the offense class and maximum sentence under the law in effect when the offense happened?\" against Sentencing information sufficient to establish the offense class under then-current law, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer — JD-CR-202, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The crimes the defendant asks the court to erase — JD-CR-202, crimes block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Item 1b eligibility class and item 1c not-blocked certification — JD-CR-202, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Item 2 waiting period and item 3 sentence completion — JD-CR-202, items 2 and 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs JD-CR-202, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The form must be signed before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer. LegalEase cannot notarize.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee. No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No fee is charged.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review identifies no service document for this petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the completed, sworn and notarized JD-CR-202 in the Superior Court G.A. location where you were sentenced, applying the closed-court redirect chart. One docket number per form; the court cannot process a form covering more than one case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What is the date of your most recent judgment of conviction for any crime?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+        "Check your answer to \"What is the docket number for the case you want erased?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "Check your answer to \"What was the offense class and maximum sentence under the law in effect when the offense happened?\" against Sentencing information sufficient to establish the offense class under then-current law, and correct the packet if they disagree.",
+        "Signature, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer — JD-CR-202, verification block.",
+        "The crimes the defendant asks the court to erase — JD-CR-202, crimes block.",
+        "Item 1b eligibility class and item 1c not-blocked certification — JD-CR-202, item 1.",
+        "Item 2 waiting period and item 3 sentence completion — JD-CR-202, items 2 and 3.",
+        "The petitioner signs JD-CR-202, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer.",
+        "Required. The form must be signed before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer. LegalEase cannot notarize.",
+        "No fee. No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "Not applicable. No fee is charged."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-under18-misdemeanor",
+      "packetSetId": "ct-under18-misdemeanor-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-under18-misdemeanor-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the offense date, the charges on the information and the conviction location. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did the offense happen?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature on the automatic branch. Unresolved on the petition branch, pending the vehicle.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for the (f)(2) petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee. § 54-142a(k).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No fee is charged.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The automatic branch requires no filing. On the petition branch the person may file a petition with the Superior Court at the location where the conviction was effected, but the accepted form or pleading is unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date did the offense happen?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature on the automatic branch. Unresolved on the petition branch, pending the vehicle.",
+        "The source review does not state a notarization requirement for the (f)(2) petition.",
+        "No fee. § 54-142a(k).",
+        "Not applicable. No fee is charged."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cannabis-auto",
+      "packetSetId": "ct-cannabis-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-cannabis-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the conviction date and the counts. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the cannabis possession conviction entered?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. Erasure happens by operation of law.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date was the cannabis possession conviction entered?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No fee.",
+        "Not applicable."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cannabis-petition",
+      "packetSetId": "ct-cannabis-petition-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-cannabis-petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ct-cannabis-petition-supporting-affidavit-2",
+          "role": "supporting_affidavit",
+          "requirement": "conditional",
+          "conditionDescription": "Where the arrest record does not establish the quantity or paraphernalia-use fact. The statute requires either a copy of the arrest record or an affidavit.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the arrest record. Ask the arresting police department or the clerk of the court where the conviction was effected for a copy of the arrest record. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "The arresting police department or the Superior Court clerk",
+          "requirement": "conditional",
+          "conditionDescription": "The statute requires either a copy of the arrest record or an affidavit. Where the arrest record does not establish the quantity, the affidavit is the vehicle.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What quantity was involved, or how many plants were grown in your own primary residence for personal use?\" against Copy of the arrest record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "The statute requires either a copy of the arrest record or an affidavit. Where the arrest record does not establish the quantity, the affidavit is the vehicle.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the docket number, the conviction date and the full count list.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The quantity or paraphernalia-use fact, sworn by the petitioner — Supporting affidavit, factual allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and verification — Petition and affidavit signature blocks.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Confirmation that all counts on the docket are erasable — Petition, factual allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition, and swears the affidavit where the affidavit route is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The affidavit is sworn. The source review does not state whether a notary or another proper officer is required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee. § 54-142v(a)(4).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No fee is charged.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Unresolved. No service requirement was found in § 54-142v. Local practice must be confirmed before shipping.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition, with the arrest record or the sworn affidavit attached, in the Superior Court at the location where the conviction was effected, at the location having custody of the records, or for older courts the Superior Court where venue would currently exist for criminal prosecution. Because there is no statewide form, call the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the arrest record. Ask the arresting police department or the clerk of the court where the conviction was effected for a copy of the arrest record. LegalEase does not obtain, receive or inspect it.",
+        "Check your answer to \"What quantity was involved, or how many plants were grown in your own primary residence for personal use?\" against Copy of the arrest record, and correct the packet if they disagree.",
+        "Check your answer to \"How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "The quantity or paraphernalia-use fact, sworn by the petitioner — Supporting affidavit, factual allegations.",
+        "Signature and verification — Petition and affidavit signature blocks.",
+        "Confirmation that all counts on the docket are erasable — Petition, factual allegations.",
+        "The petitioner signs the petition, and swears the affidavit where the affidavit route is used.",
+        "The affidavit is sworn. The source review does not state whether a notary or another proper officer is required.",
+        "No fee. § 54-142v(a)(4).",
+        "Not applicable. No fee is charged."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-decriminalized",
+      "packetSetId": "ct-decriminalized-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-decriminalized-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the docket number, the conviction date and the statute of conviction. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court, docket number and date of conviction?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The decriminalization allegation — Petition, factual and legal allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — Petition signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs their own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved. § 54-142a(k) bars a fee on petitions under that section; § 54-142d is a different section and whether the bar reaches it has not been established.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved along with the fee question.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition in the Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Which court, docket number and date of conviction?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "The decriminalization allegation — Petition, factual and legal allegations.",
+        "Signature — Petition signature block.",
+        "The petitioner signs their own petition.",
+        "The source review does not state a notarization requirement.",
+        "Unresolved. § 54-142a(k) bars a fee on petitions under that section; § 54-142d is a different section and whether the bar reaches it has not been established.",
+        "Unresolved along with the fee question."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-pardon-erasure",
+      "packetSetId": "ct-pardon-erasure-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-pardon-erasure-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the pre-1 October 1974 branch, where a petition is required.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ct-pardon-erasure-process-guidance-2",
+          "role": "process_guidance",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the on-or-after 1 October 1974 branch, where erasure happens without a petition.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The absolute pardon decision from the Board of Pardons and Paroles. Ask the Board of Pardons and Paroles for a copy of the pardon decision showing the date it was granted. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Board of Pardons and Paroles",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you receive the absolute pardon?\" against The absolute pardon decision from the Board of Pardons and Paroles, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the docket number and conviction details. An erased case will not appear.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court, docket number and date of conviction was pardoned?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature — Petition signature block, on the pre-1974 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition on the pre-1974 branch. No participant signature on the automatic branch.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No fee is charged.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "On the pre-1 October 1974 branch, file a petition in the Superior Court. On the on-or-after 1 October 1974 branch there is no filing; such records shall be erased.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The absolute pardon decision from the Board of Pardons and Paroles. Ask the Board of Pardons and Paroles for a copy of the pardon decision showing the date it was granted. LegalEase does not obtain, receive or inspect it.",
+        "Check your answer to \"On what date did you receive the absolute pardon?\" against The absolute pardon decision from the Board of Pardons and Paroles, and correct the packet if they disagree.",
+        "Check your answer to \"Which court, docket number and date of conviction was pardoned?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "Signature — Petition signature block, on the pre-1974 branch only.",
+        "The petitioner signs the petition on the pre-1974 branch. No participant signature on the automatic branch.",
+        "The source review does not state a notarization requirement.",
+        "No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "Not applicable. No fee is charged."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-absolute-pardon",
+      "packetSetId": "ct-absolute-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-absolute-pardon-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which convictions do you want pardoned — court, docket number and date?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs their own application in the Board's portal.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Claimed to be none by the internal reference. Not verified.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable if no fee is charged, which is unverified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. This is an executive-branch application, not a court filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Application is made online through the Board's ePardon portal. LegalEase does not generate or submit it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Which convictions do you want pardoned — court, docket number and date?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+        "The participant signs their own application in the Board's portal.",
+        "The source review does not state a notarization requirement.",
+        "Claimed to be none by the internal reference. Not verified.",
+        "Not applicable if no fee is charged, which is unverified."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-provisional-pardon",
+      "packetSetId": "ct-provisional-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-provisional-pardon-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant needs to establish what is on their record.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which convictions are creating the barrier — court, docket number and date?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant needs to establish what is on their record.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not established in this pass.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not established in this pass.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. This is an executive-branch application, not a court filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Which convictions are creating the barrier — court, docket number and date?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+        "The participant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "Not established in this pass.",
+        "Not established in this pass."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-missed-erasure",
+      "packetSetId": "ct-missed-erasure-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-missed-erasure-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order payable to \"Treasurer-State of CT\" to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. The statute requires a copy of this search demonstrating that the information has not been marked as erased. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the record show the information marked as erased?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Unresolved on the submission, pending DESPP's form and manner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is stated for the § 54-142t(g) submission. The real cost is the SPBI record: $36 for a name and date of birth search showing only the existence of a record, $75 for a conviction history record search by name and date of birth, or $75 by fingerprint plus $15 for fingerprinting at a Connecticut State Police location, all as printed on a form dated 12/01/17 and requiring verification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not state a fee waiver for the SPBI record.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The submission goes to DESPP, not to a court, in a form and manner the department determines. That form and manner has not been located, so no submission document is generated.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain SPBI criminal history record search, form DPS-0846-C. Mail form DPS-0846-C with a check or money order payable to \"Treasurer-State of CT\" to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. The statute requires a copy of this search demonstrating that the information has not been marked as erased. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+        "Check your answer to \"Does the record show the information marked as erased?\" against SPBI criminal history record search, form DPS-0846-C, and correct the packet if they disagree.",
+        "Unresolved on the submission, pending DESPP's form and manner.",
+        "The source review does not state a notarization requirement.",
+        "No fee is stated for the § 54-142t(g) submission. The real cost is the SPBI record: $36 for a name and date of birth search showing only the existence of a record, $75 for a conviction history record search by name and date of birth, or $75 by fingerprint plus $15 for fingerprinting at a Connecticut State Police location, all as printed on a form dated 12/01/17 and requiring verification.",
+        "The source review does not state a fee waiver for the SPBI record."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-destruction-request",
+      "packetSetId": "ct-destruction-request-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ct-destruction-request-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the final disposition date and the court location. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "conditional",
+          "conditionDescription": "To establish the final disposition date. An erased case will not appear, which is itself information.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the case finally disposed of?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "To establish the final disposition date. An erased case will not appear, which is itself information.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The accused makes the request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable on the record reviewed.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The request is made to the clerk holding the records. No official form was located and the accepted destination and format for a written request have not been confirmed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date was the case finally disposed of?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+        "The accused makes the request.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for this request.",
+        "Not applicable on the record reviewed."
+      ]
+    },
+    {
       "jurisdiction": "DC",
       "trackId": "dc_auto_expungement",
       "packetSetId": "dc_auto_expungement-set",

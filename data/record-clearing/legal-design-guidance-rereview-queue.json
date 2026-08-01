@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
   "note": "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
-  "candidateCount": 1,
+  "candidateCount": 4,
   "candidates": [
     {
       "jurisdiction": "AK",
@@ -17,6 +17,63 @@
         "detail": "Remains guidance-only unless LegalEase separately approves and confirms the current Governor's pardon application as a packet product."
       },
       "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-absolute-pardon",
+      "publicName": "Apply for an absolute pardon",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "portal",
+        "name": "Connecticut Board of Pardons and Paroles, ePardon portal",
+        "detail": "An online application through the Board's portal. No stable participant application document has been identified that LegalEase could lawfully generate and submit; an intake worksheet is not the legal filing packet."
+      },
+      "participantFilingRequirements": [
+        "SPBI criminal history record search, form DPS-0846-C"
+      ],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-provisional-pardon",
+      "publicName": "Relief from employment and licensing barriers, without erasure",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "portal",
+        "name": "Connecticut Board of Pardons and Paroles",
+        "detail": "The Board grants the provisional pardon or certificate of employability. No stable participant application document has been identified that LegalEase could lawfully generate and submit."
+      },
+      "participantFilingRequirements": [
+        "SPBI criminal history record search, form DPS-0846-C"
+      ],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-destruction-request",
+      "publicName": "Ask the clerk to destroy records that were already erased",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "clerk",
+        "name": "Superior Court clerk",
+        "detail": "The clerk acts on the request of the accused. No official form was located, and the accepted destination and format for a written request have not been confirmed."
+      },
+      "participantFilingRequirements": [
+        "Judicial Branch case look-up printout"
+      ],
       "manualCompletionItems": [],
       "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
       "answer": null
@@ -176,6 +233,80 @@
       },
       "participantFilingRequirements": [
         "Colorado criminal-history report"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-nonconviction-auto",
+      "publicName": "Records erased after a dismissal or a not guilty finding",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court and the State Police Bureau of Identification",
+        "detail": "Records are erased by operation of law. There is no participant filing to generate on this track."
+      },
+      "participantFilingRequirements": [
+        "Judicial Branch case look-up printout",
+        "SPBI criminal history record search, form DPS-0846-C"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-diversion",
+      "publicName": "Records erased after finishing a diversionary program",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court and the State Police Bureau of Identification",
+        "detail": "There is no participant filing. The dismissal does the work and erasure follows it."
+      },
+      "participantFilingRequirements": [
+        "Judicial Branch case look-up printout"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cleanslate-auto",
+      "publicName": "Clean Slate erasure for offenses from 2000 onward",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Department of Emergency Services and Public Protection, and the Judicial Branch",
+        "detail": "Erasure runs on a rolling basis. As of 15 July 2026 the state reported the backlog cleared: roughly 170,000 people and nearly 350,000 cases. The state does not currently notify people that their records were erased."
+      },
+      "participantFilingRequirements": [
+        "SPBI criminal history record search, form DPS-0846-C",
+        "Judicial Branch case look-up printout"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-cannabis-auto",
+      "publicName": "Cannabis possession records erased automatically",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Judicial Branch and the State Police Bureau of Identification",
+        "detail": "There is no participant filing. Records are erased if electronic, or deemed erased by operation of law if not."
+      },
+      "participantFilingRequirements": [
+        "Judicial Branch case look-up printout"
       ],
       "manualCompletionItems": [],
       "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."

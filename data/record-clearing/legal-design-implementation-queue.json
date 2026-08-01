@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 11,
-  "jurisdictionsOutstanding": 40,
+  "jurisdictionsReceived": 12,
+  "jurisdictionsOutstanding": 39,
   "outstandingJurisdictions": [
-    "CT",
     "GA",
     "IA",
     "IL",
@@ -92,7 +91,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 9,
+      "trackCount": 11,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -125,6 +124,105 @@
             {
               "kind": "release_blocker",
               "statement": "Impact unclassified, returned to counsel (output_strategy): Whether product scope should enable this track. The addendum makes the prior process_guidance label a product-scope choice rather than an output-identity problem, and leaves the scope decision open, subject to legal-output approval."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-cannabis-petition",
+          "publicName": "Petition to erase an older or larger cannabis conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase must not generate the quantity possessed, distributed or grown; any characterization of what the paraphernalia was used for; any assertion that all counts on the docket are erasable unless the participant has confirmed the count list from the record; or any assertion that the offense has been decriminalized, which is the § 54-142d question and carries case law.",
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Service and proposed order on a § 54-142v petition. Nothing was found in the statute; local practice must be confirmed. A short proposed order is recommended but no form exists and clerk acceptance is unconfirmed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Because there is no statewide form, G.A. clerks may have local expectations about caption and format. Confirm with a Connecticut practitioner what caption and format the G.A. clerks actually accept."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-decriminalized",
+          "publicName": "Ask the court to destroy records of an offense that is no longer a crime",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The current scope of \"decriminalized\", the fee rule, and the accepted filing practice remain unresolved where those issues determine whether and what to file. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): The current scope of \"decriminalized\" after State v. Menditto, which determines whether and what to file.",
+            "Open question blocks the build (filing_process): Whether the § 54-142a(k) fee bar reaches § 54-142d. It is a different section.",
+            "Open question blocks the build (filing_process): The accepted filing practice for a § 54-142d petition, and whether the Judicial Branch has any form or practice note."
+          ],
+          "scopeRestrictions": [
+            "The remedy here is physical destruction, not erasure. It is a stronger outcome and it is separate from the cannabis erasure petition.",
+            "LegalEase must not assert that an offense has been decriminalized. That is the § 54-142d question and it carries case law."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The current scope of \"decriminalized\", the fee rule, and the accepted filing practice remain unresolved where those issues determine whether and what to file. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The current scope of \"decriminalized\" after State v. Menditto, which determines whether and what to file."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (filing_process): Whether the § 54-142a(k) fee bar reaches § 54-142d. It is a different section."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (filing_process): The accepted filing practice for a § 54-142d petition, and whether the Judicial Branch has any form or practice note."
             },
             {
               "kind": "source_gate",
@@ -548,7 +646,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 15,
+      "trackCount": 26,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -948,6 +1046,495 @@
           ]
         },
         {
+          "jurisdiction": "CT",
+          "trackId": "ct-nonconviction-auto",
+          "publicName": "Records erased after a dismissal or a not guilty finding",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing. Participant-facing copy must use the statutory term."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Pre-1 October 1969 cases are erased by operation of law and the arrested person or an heir may still file a petition for erasure. No official form was located for that petition.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "TRACK CT-1 / Pre-1 October 1969 cases",
+                "sourceStatement": "erased by operation of law, and the arrested person or an heir may still file a petition for erasure. § 54-142a(b). No official form located.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a. FindLaw's text is marked current as of 1 January 2025."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-nolle-auto",
+          "publicName": "Records erased after a case was nolled",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The § 54-142a(c)(2) motion branch has no settled filing vehicle. The current caption, venue, service and clerk practice must be approved first. (undetermined: output_strategy)",
+            "Open question blocks the build (output_strategy): The current filing vehicle and clerk practice for the § 54-142a(c)(2) motion, before a statewide custom pleading can be enabled. No form was located."
+          ],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The § 54-142a(c)(2) motion branch has no settled filing vehicle. The current caption, venue, service and clerk practice must be approved first. (undetermined: output_strategy)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (output_strategy): The current filing vehicle and clerk practice for the § 54-142a(c)(2) motion, before a statewide custom pleading can be enabled. No form was located."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-diversion",
+          "publicName": "Records erased after finishing a diversionary program",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The diversionary program statutes were not read, and not every program necessarily ends in dismissal. Verify each one before publishing any participant-facing list of qualifying programs."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-cleanslate-auto",
+          "publicName": "Clean Slate erasure for offenses from 2000 onward",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says both in different places. This decides who is routed to the petition track and who is told to wait, and needs a ruling before intake logic is written.",
+            "Open question blocks the build (eligibility_branch): The DESPP § 54-142t(b) list of erasable statute sections. The URL was not located. This should be a consumed data source, not a hand-maintained list."
+          ],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says both in different places. This decides who is routed to the petition track and who is told to wait, and needs a ruling before intake logic is written."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The DESPP § 54-142t(b) list of erasable statute sections. The URL was not located. This should be a consumed data source, not a hand-maintained list."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): How erasure interacts with a pending Clean Slate clock when a later conviction is itself later erased. Whether an erased later conviction still sets the most-recent-conviction date is not answered by the text read here, other than the narrow § 21a-279(c) carve-out at (e)(4)."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-under18-misdemeanor",
+          "publicName": "Erase a misdemeanor from something that happened before you turned 18",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The § 54-142a(f)(2) petition branch has no identified form and no approved custom pleading, and the historical offense-date and classification rule is unresolved. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice. JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form.",
+            "Open question blocks the build (output_strategy): The current form or accepted custom pleading for the CT-6 petition branch, and the historical offense-date and classification rule."
+          ],
+          "scopeRestrictions": [
+            "This is an adult record: an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief.",
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The § 54-142a(f)(2) petition branch has no identified form and no approved custom pleading, and the historical offense-date and classification rule is unresolved. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice. JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (output_strategy): The current form or accepted custom pleading for the CT-6 petition branch, and the historical offense-date and classification rule."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-cannabis-auto",
+          "publicName": "Cannabis possession records erased automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-pardon-erasure",
+          "publicName": "Records erased after an absolute pardon",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The original track must be split because one branch requires a participant petition and the other does not. The post-1974 automatic branch does not supply a strategy for the pre-1974 petition branch, and the pre-1974 petition branch is not suppressed because the automatic branch exists.",
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): No official form was located for the pre-1 October 1974 petition, so the caption and format that G.A. clerks accept must be confirmed with a Connecticut practitioner."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): The Board of Pardons and Paroles governing statutes, C.G.S. §§ 54-130a to 54-130e, were not read in this pass."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-absolute-pardon",
+          "publicName": "Apply for an absolute pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "agency_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This is executive-branch clemency. It remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Board of Pardons and Paroles waiting periods and fees. The three-year and five-year figures and the no-fee claim in the internal reference are unverified. Verify every number before it appears in participant-facing copy."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Board of Pardons and Paroles ePardon application material and the governing statutes have not been pulled. Whether the Board exposes a stable participant application document that LegalEase could lawfully generate and submit is unresolved."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-provisional-pardon",
+          "publicName": "Relief from employment and licensing barriers, without erasure",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "agency_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether the Board exposes a stable participant application document that LegalEase could lawfully generate and submit. An intake worksheet is not the legal filing packet."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-missed-erasure",
+          "publicName": "Ask the state to fix a record that should have been erased",
+          "outputStrategy": null,
+          "geographicScope": "agency_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: DESPP's current form and manner for the missed-erasure submission is a true output blocker. Do not invent a DESPP filing form. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): DESPP's current form and manner for the missed-erasure submission. This is a true output blocker; it is not in the statute and the URL was not located."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: DESPP's current form and manner for the missed-erasure submission is a true output blocker. Do not invent a DESPP filing form. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): DESPP's current form and manner for the missed-erasure submission. This is a true output blocker; it is not in the statute and the URL was not located."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Current SPBI fees and process. DPS-0846-C is dated 12/01/17 and the form itself warns that information may change daily due to erasures, corrections, pardons or other modifications."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The \"dated on or after January 1, 2024\" SPBI rule in the internal reference looks like a misreading. That date is when the § 54-142t(g) remedy became available. Nothing found requires the report itself to bear a post-2024 date. Treat as unresolved rather than as a rule."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-destruction-request",
+          "publicName": "Ask the clerk to destroy records that were already erased",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "A generated written request to the clerk may be supported only once counsel confirms the accepted destination and format. Until then this stays guidance. The absence of a statewide form alone is not a blocker.",
+            "Connecticut says erasure. Not expungement, not sealing. This request goes further than erasure, to physical destruction."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether LegalEase may generate a written request to the clerk depends on counsel confirming the accepted destination and format. The absence of a statewide form alone is not a blocker, but the confirmation has not been given."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "DC",
           "trackId": "dc_auto_expungement",
           "publicName": "Automatic Expungement",
@@ -1184,7 +1771,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 71,
+      "trackCount": 72,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -3323,6 +3910,65 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): JDF 680 and 681, the pardon set, have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CT",
+          "trackId": "ct-cleanslate-petition",
+          "publicName": "Petition for Clean Slate erasure",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Resolve the offense-date versus conviction-date question before intake logic is written. Any unresolved pre-2000 date rule or historical offense-classification issue that changes the correct branch is a route-selection blocker. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says \"Happened before January 1, 2000\" in item 1a while its title says \"CONVICTIONS BEFORE 1/1/2000\". This must be resolved before intake logic is written, because it decides who is routed to the petition and who is told to wait.",
+            "Open question blocks the build (eligibility_branch): The offense classification and statutory maximum under the law in effect when the offense was committed, which for a pre-2000 offense means researching repealed or superseded versions.",
+            "Open question blocks the build (eligibility_branch): The DESPP § 54-142t(b) list of erasable statute sections. URL not located; it should be consumed rather than hand-maintained."
+          ],
+          "scopeRestrictions": [
+            "Connecticut says erasure. Not expungement, not sealing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Resolve the offense-date versus conviction-date question before intake logic is written. Any unresolved pre-2000 date rule or historical offense-classification issue that changes the correct branch is a route-selection blocker. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says \"Happened before January 1, 2000\" in item 1a while its title says \"CONVICTIONS BEFORE 1/1/2000\". This must be resolved before intake logic is written, because it decides who is routed to the petition and who is told to wait."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The offense classification and statutory maximum under the law in effect when the offense was committed, which for a pre-2000 offense means researching repealed or superseded versions."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The DESPP § 54-142t(b) list of erasable statute sections. URL not located; it should be consumed rather than hand-maintained."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official JD-CR-202 PDF has not been pulled from jud.ct.gov and the current revision is unconfirmed. Rev. 11-23 was reviewed from the archive copy."
             },
             {
               "kind": "source_gate",

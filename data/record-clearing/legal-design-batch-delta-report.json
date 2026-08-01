@@ -17,26 +17,11 @@
   "reconciliation_model": {
     "fixtureMode": false,
     "expectedTracks": 117,
-    "importedTracks": 96,
+    "importedTracks": 110,
     "deferredLegalResearchTracks": 7,
-    "totalAccountedTracks": 103,
-    "unaccountedTracks": 14,
-    "unaccountedTrackIds": [
-      "CT:ct-nonconviction-auto",
-      "CT:ct-nolle-auto",
-      "CT:ct-diversion",
-      "CT:ct-cleanslate-auto",
-      "CT:ct-cleanslate-petition",
-      "CT:ct-under18-misdemeanor",
-      "CT:ct-cannabis-auto",
-      "CT:ct-cannabis-petition",
-      "CT:ct-decriminalized",
-      "CT:ct-pardon-erasure",
-      "CT:ct-absolute-pardon",
-      "CT:ct-provisional-pardon",
-      "CT:ct-missed-erasure",
-      "CT:ct-destruction-request"
-    ],
+    "totalAccountedTracks": 117,
+    "unaccountedTracks": 0,
+    "unaccountedTrackIds": [],
     "unexpectedTrackIds": [],
     "byJurisdiction": {
       "AL": {
@@ -71,7 +56,7 @@
       },
       "CT": {
         "expected": 14,
-        "imported": 0,
+        "imported": 14,
         "deferred": 0
       },
       "DC": {
@@ -100,16 +85,14 @@
         "deferred": 0
       }
     },
-    "reconciles": false
+    "reconciles": true
   },
   "statusLanguage": "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable.",
   "jurisdictionsExpected": 12,
-  "jurisdictionsPresent": 11,
-  "memosMissing": [
-    "CT"
-  ],
+  "jurisdictionsPresent": 12,
+  "memosMissing": [],
   "memosRejected": [],
-  "totalTracksProcessed": 96,
+  "totalTracksProcessed": 110,
   "deferredTracks": [
     {
       "jurisdiction": "AL",
@@ -717,79 +700,79 @@
     }
   ],
   "generationRequirements": {
-    "items": 413,
-    "tracksAffected": 96
+    "items": 476,
+    "tracksAffected": 110
   },
   "limitationsByClassification": {
     "packet_instruction": {
-      "limitations": 109,
-      "tracksAffected": 67
+      "limitations": 129,
+      "tracksAffected": 79
     },
     "participant_question": {
-      "limitations": 47,
-      "tracksAffected": 45
+      "limitations": 49,
+      "tracksAffected": 47
     },
     "required_before_filing": {
-      "limitations": 29,
-      "tracksAffected": 29
+      "limitations": 31,
+      "tracksAffected": 31
     },
     "scope_restriction": {
-      "limitations": 94,
-      "tracksAffected": 70
+      "limitations": 112,
+      "tracksAffected": 83
     },
     "manual_completion_item": {
-      "limitations": 15,
-      "tracksAffected": 15
+      "limitations": 16,
+      "tracksAffected": 16
     },
     "post_generation_handoff": {
-      "limitations": 62,
-      "tracksAffected": 62
+      "limitations": 68,
+      "tracksAffected": 68
     },
     "self_help_boundary": {
-      "limitations": 2,
-      "tracksAffected": 2
+      "limitations": 6,
+      "tracksAffected": 6
     },
     "legal_design_blocker": {
-      "limitations": 22,
-      "tracksAffected": 22
+      "limitations": 27,
+      "tracksAffected": 27
     }
   },
   "participantFilingRequirements": {
-    "items": 128,
-    "tracksAffected": 73
+    "items": 148,
+    "tracksAffected": 87
   },
   "manualCompletionItems": {
-    "items": 120,
-    "tracksAffected": 76
-  },
-  "packetInstructions": {
-    "items": 138,
+    "items": 131,
     "tracksAffected": 80
   },
+  "packetInstructions": {
+    "items": 160,
+    "tracksAffected": 92
+  },
   "participantQuestions": {
-    "items": 47,
-    "tracksAffected": 45
+    "items": 49,
+    "tracksAffected": 47
   },
   "scopeRestrictions": {
-    "items": 94,
-    "tracksAffected": 70
+    "items": 112,
+    "tracksAffected": 83
   },
   "selfHelpBoundaries": {
-    "items": 491,
-    "tracksAffected": 96
+    "items": 561,
+    "tracksAffected": 110
   },
   "unresolvedQuestionsByImpact": {
     "build_blocker": {
-      "questions": 48,
-      "tracksAffected": 31
+      "questions": 60,
+      "tracksAffected": 37
     },
     "release_blocker": {
-      "questions": 135,
-      "tracksAffected": 85
+      "questions": 151,
+      "tracksAffected": 96
     },
     "nonblocking_research_note": {
-      "questions": 2,
-      "tracksAffected": 2
+      "questions": 3,
+      "tracksAffected": 3
     },
     "counsel_classification_required": {
       "questions": 7,
@@ -797,19 +780,19 @@
     }
   },
   "buildBlockers": {
-    "questions": 48,
-    "tracksAffected": 31
+    "questions": 60,
+    "tracksAffected": 37
   },
   "releaseBlockers": {
-    "questions": 135,
-    "tracksAffected": 85
+    "questions": 151,
+    "tracksAffected": 96
   },
   "nonblockingResearchNotes": {
-    "questions": 2,
-    "tracksAffected": 2
+    "questions": 3,
+    "tracksAffected": 3
   },
   "processGuidanceTracksRequiringLegalReReview": {
-    "count": 1,
+    "count": 4,
     "tracks": [
       {
         "jurisdiction": "AK",
@@ -817,11 +800,32 @@
         "guidanceRationales": [
           "another_entity_decides"
         ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-absolute-pardon",
+        "guidanceRationales": [
+          "another_entity_decides"
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-provisional-pardon",
+        "guidanceRationales": [
+          "another_entity_decides"
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-destruction-request",
+        "guidanceRationales": [
+          "another_entity_decides"
+        ]
       }
     ]
   },
   "processGuidanceTracksPreserved": {
-    "count": 15,
+    "count": 19,
     "tracks": [
       {
         "jurisdiction": "AK",
@@ -889,6 +893,34 @@
         ]
       },
       {
+        "jurisdiction": "CT",
+        "trackId": "ct-nonconviction-auto",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-diversion",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-cleanslate-auto",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "trackId": "ct-cannabis-auto",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
         "jurisdiction": "DC",
         "trackId": "dc_auto_expungement",
         "guidanceRationales": [
@@ -933,14 +965,14 @@
       }
     ]
   },
-  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 96,
+  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 110,
   "tracksWhoseSubstantiveLegalDecisionChanged": [],
   "reconciliation": {
-    "tracksWithBuildBlockers": 31,
-    "tracksWithReleaseBlockersOnly": 60,
+    "tracksWithBuildBlockers": 37,
+    "tracksWithReleaseBlockersOnly": 68,
     "tracksClearOfLegalBlockers": 5,
-    "partitionTotal": 96,
-    "totalTracksProcessed": 96,
+    "partitionTotal": 110,
+    "totalTracksProcessed": 110,
     "reconciles": true
   },
   "releaseBlockerCeilingViolations": [],
