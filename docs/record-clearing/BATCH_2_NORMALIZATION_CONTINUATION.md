@@ -15,23 +15,67 @@ Last clean checkpoint: `2d787e7` — Batch 2 source-package import
   regenerated from the single canonical inventory. See
   `BATCH_2_SOURCE_IMPORT_RECORD.md` and `batch-2-source-gap-report.json`.
 
+## Source-slot reconciliation baseline — done
+
+`docs/record-clearing/batch-2-source-slot-reconciliation.json`
+
+**136 source slots counted from the corpus, reconciling exactly with the
+memorandum. Zero duplicates, zero dropped, zero extra.**
+
+| | |
+|---|---|
+| Source slots | **136** |
+| Split additions (IL +1, GA +2, KS +1) | **+4** |
+| Projected normalized nodes | **140** |
+| Non-relief nodes (IA, ME, MA, MD, MI) | **5** |
+| Projected substantive relief mechanisms | **135** |
+
+Per jurisdiction: GA 13, IL 16, IN 10, IA 7, KS 7, LA 10, MD 11, MI 11, MN 12,
+MT 6, ME 6, MA 8, MS 9, MO 10.
+
+Counting method: PART 1 relief-track headings. Indiana groups tracks 1–3 and
+4–7 under combined headings and is expanded to individual slots. Lower-case
+`Track N` headings in the custom-pleading and process-guidance specification
+parts are cross-references, not slot definitions, and are excluded — counting
+them inflates the total to 142.
+
+140/135 is **derived** from the counsel-approved splits and reclassifications,
+not hard-coded. The authoritative counts must still be generated from the
+normalized corpus once memos exist.
+
+**Use this file to check every memo on arrival**, so a dropped, extra or
+duplicate source ID is caught at the first jurisdiction rather than after all
+fourteen.
+
 ## Not started
 
 **B4–B9 legal-design normalization of all fourteen jurisdictions.**
 
 `GA IL IN IA KS LA ME MD MA MI MN MS MO MT` — **0 of 14 normalized.**
+No memo has been authored.
 
-Planned bounded groups, in the spec's order:
+Revised bounded groups (operational only; does not change legal precedence):
 
-| # | Group | Status |
-|---|---|---|
-| 1 | Illinois, Iowa | not started |
-| 2 | Maryland, Massachusetts | not started |
-| 3 | Indiana, Missouri | not started |
-| 4 | Louisiana, Minnesota | not started |
-| 5 | Montana, Georgia | not started |
-| 6 | Maine, Michigan | not started |
-| 7 | Mississippi, Kansas | not started |
+| # | Group | Slots | Status |
+|---|---|---|---|
+| 1 | Illinois, Iowa, Indiana | 16 + 7 + 10 | not started |
+| 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 | not started |
+| 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 | not started |
+| 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 | not started |
+
+### What authoring a memo requires
+
+Each `<CODE>.memo.json` must carry **all eighteen** required elements per
+proposed relief track. A memo missing any one is *rejected*, not partially
+imported — see `data/record-clearing/legal-design-intake/README.md`. Limitations
+are classified objects, not strings; unresolved questions carry an `impact` and
+an `affectedElement`; guidance tracks carry `guidanceRationales`. Batch 1 memos
+run 60–168 KB each.
+
+Do not infer legal substance. Where the controlling sources do not answer a
+substantive question, preserve the exact statement, create one precise counsel
+question, classify its impact only where the source supports it, and keep the
+affected unit disabled.
 
 Per group: exact source-slot reconciliation → report-only intake → strict
 intake → Batch 2 delta → composed-unit approvals guard → focused verifier →

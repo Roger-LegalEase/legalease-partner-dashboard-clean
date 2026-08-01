@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch_2_source_slot_reconciliation",
+  "status": "baseline_only_no_tracks_normalized",
+  "generatedOn": "2026-08-01",
+  "method": "Source slots counted from PART 1 relief-track headings in LEGALEASE_BATCH_2_COMBINED_SOURCE.md. Indiana groups tracks 1-3 and 4-7 under combined headings; those are expanded to individual slots. Lower-case 'Track N' headings in the custom-pleading and process-guidance specification parts are cross-references, not slot definitions, and are excluded.",
+  "counts": {
+    "sourceSlots": 136,
+    "expectedSourceSlotsPerMemorandum": 136,
+    "sourceSlotsReconcile": true,
+    "splitAdditions": 4,
+    "normalizedNodesProjected": 140,
+    "substantiveReliefMechanismsProjected": 135,
+    "nonReliefNodes": 5,
+    "nonReliefByType": {
+      "supporting_action": 1,
+      "routing_node": 2,
+      "local_variant": 1,
+      "completed_or_verification": 1
+    },
+    "duplicateSlotIds": 0,
+    "droppedSlotIds": 0,
+    "extraSlotIds": 0
+  },
+  "note": "Projected counts are derived here from the counsel-approved splits and reclassifications, not hard-coded. They are reconciliation expectations. The authoritative normalized-node and relief-mechanism counts must be generated from the normalized corpus once memos exist.",
+  "approvedSplits": [
+    {
+      "jurisdiction": "IL",
+      "sourceSlot": "TRACK P",
+      "addedNodes": 1,
+      "memoSection": "Priority issue 4",
+      "reason": "Split into P-A automatic cannabis expungement (process_guidance) and P-B participant motion to vacate and expunge (official_pdf_fill). Different actors, triggers, forms and outcomes; must not share one runtime ID."
+    },
+    {
+      "jurisdiction": "GA",
+      "sourceSlot": "TRACK L",
+      "addedNodes": 2,
+      "memoSection": "Priority issue 5",
+      "reason": "Split into GA-FO-SENTENCING-POST2026, GA-FO-ACTIVE-PRE2026 and GA-FO-DISCHARGED-PRE2026. GA-RFO (Track M) remains separate and unchanged; there is no old-M-to-new-L mapping."
+    },
+    {
+      "jurisdiction": "KS",
+      "sourceSlot": "TRACK A",
+      "addedNodes": 1,
+      "memoSection": "Priority issue 8",
+      "reason": "Split into conviction and diversion runtime tracks: triggering events and waiting-period logic differ even where the document suite overlaps."
+    }
+  ],
+  "nonReliefReclassifications": [
+    {
+      "jurisdiction": "IA",
+      "sourceSlot": "TRACK G",
+      "nodeType": "supporting_action",
+      "memoSection": "Priority issue 11",
+      "reason": "A DCI criminal-history check retrieves and verifies records; it does not alter, seal, expunge or correct one. Retained as a shared prerequisite/readiness action and post-relief verification step."
+    },
+    {
+      "jurisdiction": "ME",
+      "sourceSlot": "deferred disposition",
+      "nodeType": "routing_node",
+      "memoSection": "Additional issues resolved — Maine deferred disposition",
+      "reason": "Not a standalone sealing remedy. A disposition-status/routing node: a reduced conviction is evaluated under Maine's sealing statutes; a dismissal requires verifying the final docket and the 16 M.R.S. § 703 classification."
+    },
+    {
+      "jurisdiction": "MA",
+      "sourceSlot": "BMC consolidated procedure",
+      "nodeType": "local_variant",
+      "memoSection": "Additional issues resolved — Massachusetts BMC consolidated filing",
+      "reason": "Amended Standing Order 1-09 is a local packet variant of the ordinary G.L. c. 276, § 100C judicial-sealing track, not a separate statewide remedy."
+    },
+    {
+      "jurisdiction": "MD",
+      "sourceSlot": "one-time cannabis sweep",
+      "nodeType": "completed_or_verification",
+      "memoSection": "B6 node model / automatic relief runs first",
+      "reason": "A completed one-time statutory sweep. Verify status before offering a paid petition rather than modelling it as live participant relief."
+    },
+    {
+      "jurisdiction": "MI",
+      "sourceSlot": "completed-deferral status",
+      "nodeType": "routing_node",
+      "memoSection": "B6 node model",
+      "reason": "A completed deferral is a disposition-status routing input that selects which relief route applies, not itself a relief mechanism."
+    }
+  ],
+  "perJurisdiction": [
+    {
+      "jurisdiction": "GA",
+      "sourceFile": "LegalEase-Georgia-Legal-Review-2026-07-30.md",
+      "sourceSlots": 13,
+      "slotIds": [
+        "TRACK A",
+        "TRACK B",
+        "TRACK C",
+        "TRACK D",
+        "TRACK E",
+        "TRACK F",
+        "TRACK G",
+        "TRACK H",
+        "TRACK I",
+        "TRACK J",
+        "TRACK K",
+        "TRACK L",
+        "TRACK M"
+      ],
+      "splitAdditions": 2,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "IA",
+      "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+      "sourceSlots": 7,
+      "slotIds": [
+        "TRACK A",
+        "TRACK B",
+        "TRACK C",
+        "TRACK D",
+        "TRACK E",
+        "TRACK F",
+        "TRACK G"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 1,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "IL",
+      "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
+      "sourceSlots": 16,
+      "slotIds": [
+        "TRACK A",
+        "TRACK B",
+        "TRACK C",
+        "TRACK D",
+        "TRACK E",
+        "TRACK F",
+        "TRACK G",
+        "TRACK H",
+        "TRACK I",
+        "TRACK J",
+        "TRACK K",
+        "TRACK L",
+        "TRACK M",
+        "TRACK N",
+        "TRACK O",
+        "TRACK P"
+      ],
+      "splitAdditions": 1,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "IN",
+      "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+      "sourceSlots": 10,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9",
+        "TRACK 10"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "KS",
+      "sourceFile": "LegalEase-Kansas-Legal-Review-2026-07-30.md",
+      "sourceSlots": 7,
+      "slotIds": [
+        "TRACK A",
+        "TRACK B",
+        "TRACK C",
+        "TRACK D",
+        "TRACK E",
+        "TRACK F",
+        "TRACK G"
+      ],
+      "splitAdditions": 1,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "LA",
+      "sourceFile": "LegalEase-Louisiana-Legal-Review-2026-07-30.md",
+      "sourceSlots": 10,
+      "slotIds": [
+        "TRACK A",
+        "TRACK B",
+        "TRACK C",
+        "TRACK D",
+        "TRACK E",
+        "TRACK F",
+        "TRACK G",
+        "TRACK H",
+        "TRACK I",
+        "TRACK J"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MA",
+      "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 8,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 1,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MD",
+      "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 11,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9",
+        "TRACK 10",
+        "TRACK 11"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 1,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "ME",
+      "sourceFile": "Maine-LegalEase-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 6,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 1,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MI",
+      "sourceFile": "LegalEase-Michigan-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 11,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9",
+        "TRACK 10",
+        "TRACK 11"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 1,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MN",
+      "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+      "sourceSlots": 12,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9",
+        "TRACK 10",
+        "TRACK 11",
+        "TRACK 12"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MO",
+      "sourceFile": "Missouri-LegalEase-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 10,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9",
+        "TRACK 10"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MS",
+      "sourceFile": "Mississippi-LegalEase-Record-Clearing-Legal-Review.md",
+      "sourceSlots": 9,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6",
+        "TRACK 7",
+        "TRACK 8",
+        "TRACK 9"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    },
+    {
+      "jurisdiction": "MT",
+      "sourceFile": "MONTANA_LegalEase_Record_Clearing_Legal_Review.md",
+      "sourceSlots": 6,
+      "slotIds": [
+        "TRACK 1",
+        "TRACK 2",
+        "TRACK 3",
+        "TRACK 4",
+        "TRACK 5",
+        "TRACK 6"
+      ],
+      "splitAdditions": 0,
+      "nonReliefReclassifications": 0,
+      "normalizationStatus": "not_started"
+    }
+  ],
+  "normalizationProgress": {
+    "jurisdictionsTotal": 14,
+    "jurisdictionsNormalized": 0,
+    "remaining": [
+      "GA",
+      "IA",
+      "IL",
+      "IN",
+      "KS",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
+      "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT"
+    ],
+    "statement": "No jurisdiction memo has been authored yet. This artifact is the reconciliation baseline against which each memo is checked on arrival, so a dropped, extra or duplicate source ID is detected at the first jurisdiction rather than after all fourteen."
+  },
+  "runtimeEffect": {
+    "reliefTracksRecorded": 0,
+    "packetReady": 0,
+    "jurisdictionsEnabled": 0,
+    "launchGate": "red",
+    "statement": "This artifact normalizes nothing and enables nothing."
+  }
+}
