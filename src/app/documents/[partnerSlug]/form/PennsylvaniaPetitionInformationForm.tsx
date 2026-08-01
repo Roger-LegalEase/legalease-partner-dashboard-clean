@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Briefcase, FileText, Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import type { RcapIntakeSession } from "@/lib/rcap-intake/types";
@@ -84,7 +83,6 @@ export function PennsylvaniaPetitionInformationForm({ partnerSlug, session }: { 
     commonwealthServiceReady: false,
     feeWaiverRequested: false
   });
-  const router = useRouter();
   const [packet, setPacket] = useState<RcapDocumentPacket | undefined>();
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | undefined>();
@@ -107,13 +105,6 @@ export function PennsylvaniaPetitionInformationForm({ partnerSlug, session }: { 
     }
     setPacket(body.packet);
     setMessage(generate ? "Draft packet generated and saved to your Briefcase." : "Saved to your Briefcase. You can come back later.");
-
-    // A completed submission previously left the participant on the form with
-    // only a manual link, which read as a dead end. Navigate to the created
-    // document using the durable identifier the server returned.
-    if (generate && body.packet?.id) {
-      router.push(`/documents/${encodeURIComponent(partnerSlug)}/${encodeURIComponent(body.packet.id)}`);
-    }
   }
 
   return (
