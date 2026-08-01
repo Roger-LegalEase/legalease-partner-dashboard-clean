@@ -17,24 +17,11 @@
   "reconciliation_model": {
     "fixtureMode": false,
     "expectedTracks": 117,
-    "importedTracks": 84,
-    "deferredLegalResearchTracks": 6,
-    "totalAccountedTracks": 90,
-    "unaccountedTracks": 27,
+    "importedTracks": 96,
+    "deferredLegalResearchTracks": 7,
+    "totalAccountedTracks": 103,
+    "unaccountedTracks": 14,
     "unaccountedTrackIds": [
-      "CA:ca-1203-4",
-      "CA:ca-1203-4a",
-      "CA:ca-1203-41",
-      "CA:ca-1203-42",
-      "CA:ca-1203-43",
-      "CA:ca-17b-reduction",
-      "CA:ca-851-91",
-      "CA:ca-auto-conviction",
-      "CA:ca-auto-arrest",
-      "CA:ca-diversion-seal",
-      "CA:ca-prop64",
-      "CA:ca-1203-4b",
-      "CA:ca-851-8",
       "CT:ct-nonconviction-auto",
       "CT:ct-nolle-auto",
       "CT:ct-diversion",
@@ -74,8 +61,8 @@
       },
       "CA": {
         "expected": 13,
-        "imported": 0,
-        "deferred": 0
+        "imported": 12,
+        "deferred": 1
       },
       "CO": {
         "expected": 11,
@@ -117,13 +104,12 @@
   },
   "statusLanguage": "All imported tracks are runtime_disabled. Tracks deferred under legal_research_required are absent from runtime resolution and unreachable.",
   "jurisdictionsExpected": 12,
-  "jurisdictionsPresent": 10,
+  "jurisdictionsPresent": 11,
   "memosMissing": [
-    "CA",
     "CT"
   ],
   "memosRejected": [],
-  "totalTracksProcessed": 84,
+  "totalTracksProcessed": 96,
   "deferredTracks": [
     {
       "jurisdiction": "AL",
@@ -533,6 +519,126 @@
       ]
     },
     {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4b",
+      "publicName": "Dismiss a conviction after serving as an incarcerated firefighter or hand crew member",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Original review: \"Additional research required.\" The controlling addendum retains CA-12 as a true blocker: the current statutory route, the correct output vehicle and the form and local-practice requirements all remain unresolved. The original review's own note is \"unresolved, leaning process_guidance\" — a leaning is not a decision, and process guidance is a substantive conclusion that the relief is not a participant filing, which is exactly what has not been established here. No output strategy is recorded, no packet identity is claimed, and the track is absent from runtime resolution.",
+      "authority": [
+        "Cal. Penal Code § 1203.4b"
+      ],
+      "mechanism": "The current statutory route, the correct output vehicle and the accepted local practice all remain unresolved. A person who successfully participated as an incarcerated hand crew member, in a California Conservation Camp, or as an institutional firehouse participant may petition for dismissal, in some cases before completing probation, parole or supervised release. What form the courts now expect is not established: the Rev. 1 January 2024 CR-180 does not list § 1203.4b, although an older version of the form did, and Sacramento publishes a separate 1203.4b packet.",
+      "destination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The correct output vehicle is unresolved. Counsel named no approved form, no custom pleading and no guidance strategy for this track. It is not registered at runtime and is unreachable."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "Current statutory route, correct output vehicle, and form and local-practice requirements for PC 1203.4b.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "California operational amendments / True blockers retained",
+            "sourceStatement": "**CA-12:** current statutory route, correct output vehicle, and form/local-practice requirements remain unresolved."
+          }
+        },
+        {
+          "question": "What form the courts now expect for § 1203.4b. The Rev. 1 January 2024 CR-180 lists §§ 17(b), 17(d)(2), 1203.4, 1203.4a, 1203.41, 1203.42, 1203.43 and 1203.49 and does not include 1203.4b, although an older version of the form did.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "what form the courts now expect for 1203.4b"
+          }
+        },
+        {
+          "question": "The current statutory eligibility and exclusion list for § 1203.4b.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "the current statutory eligibility and exclusion list"
+          }
+        },
+        {
+          "question": "Whether this is a large enough population to justify a track.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "whether this is a large enough population to justify a track"
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "Current statutory route, correct output vehicle, and form and local-practice requirements remain unresolved.",
+          "affectedElement": "output_strategy"
+        },
+        {
+          "statement": "The form the courts now expect for § 1203.4b is not established. It is not on the current CR-180.",
+          "affectedElement": "correct_form"
+        }
+      ],
+      "requiredLegalResearch": [
+        "Current statutory route, correct output vehicle, and form and local-practice requirements for PC 1203.4b.",
+        "What form the courts now expect for § 1203.4b. The Rev. 1 January 2024 CR-180 lists §§ 17(b), 17(d)(2), 1203.4, 1203.4a, 1203.41, 1203.42, 1203.43 and 1203.49 and does not include 1203.4b, although an older version of the form did.",
+        "The current statutory eligibility and exclusion list for § 1203.4b."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "California operational amendments / True blockers retained",
+          "sourceStatement": "**CA-12:** current statutory route, correct output vehicle, and form/local-practice requirements remain unresolved."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "TRACK CA-12 / Forms",
+          "sourceStatement": "**not on the current CR-180.** The Rev. 1 January 2024 CR-180 lists §§ 17(b), 17(d)(2), 1203.4, 1203.4a, 1203.41, 1203.42, 1203.43, and 1203.49 and does not include 1203.4b, although an older version of the form did."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "California operational amendments / True blockers retained",
+          "sourceStatement": "**CA-12:** current statutory route, correct output vehicle, and form/local-practice requirements remain unresolved."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "TRACK CA-12 / Required research",
+          "sourceStatement": "what form the courts now expect for 1203.4b"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "TRACK CA-12 / Required research",
+          "sourceStatement": "the current statutory eligibility and exclusion list"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-California-Legal-Review.md",
+          "sourceHeading": "TRACK CA-12 / Required research",
+          "sourceStatement": "whether this is a large enough population to justify a track"
+        }
+      ]
+    },
+    {
       "jurisdiction": "CO",
       "trackId": "co_mistaken_identity_expungement",
       "publicName": "Expungement Of Records Created By Mistaken Identity",
@@ -611,79 +717,79 @@
     }
   ],
   "generationRequirements": {
-    "items": 339,
-    "tracksAffected": 84
+    "items": 413,
+    "tracksAffected": 96
   },
   "limitationsByClassification": {
     "packet_instruction": {
-      "limitations": 93,
-      "tracksAffected": 57
+      "limitations": 109,
+      "tracksAffected": 67
     },
     "participant_question": {
-      "limitations": 41,
-      "tracksAffected": 40
+      "limitations": 47,
+      "tracksAffected": 45
     },
     "required_before_filing": {
-      "limitations": 27,
-      "tracksAffected": 27
+      "limitations": 29,
+      "tracksAffected": 29
     },
     "scope_restriction": {
-      "limitations": 82,
-      "tracksAffected": 60
+      "limitations": 94,
+      "tracksAffected": 70
     },
     "manual_completion_item": {
-      "limitations": 14,
-      "tracksAffected": 14
+      "limitations": 15,
+      "tracksAffected": 15
     },
     "post_generation_handoff": {
-      "limitations": 53,
-      "tracksAffected": 53
+      "limitations": 62,
+      "tracksAffected": 62
     },
     "self_help_boundary": {
-      "limitations": 0,
-      "tracksAffected": 0
+      "limitations": 2,
+      "tracksAffected": 2
     },
     "legal_design_blocker": {
-      "limitations": 21,
-      "tracksAffected": 21
+      "limitations": 22,
+      "tracksAffected": 22
     }
   },
   "participantFilingRequirements": {
-    "items": 107,
-    "tracksAffected": 61
+    "items": 128,
+    "tracksAffected": 73
   },
   "manualCompletionItems": {
-    "items": 100,
-    "tracksAffected": 67
+    "items": 120,
+    "tracksAffected": 76
   },
   "packetInstructions": {
-    "items": 120,
-    "tracksAffected": 70
+    "items": 138,
+    "tracksAffected": 80
   },
   "participantQuestions": {
-    "items": 41,
-    "tracksAffected": 40
+    "items": 47,
+    "tracksAffected": 45
   },
   "scopeRestrictions": {
-    "items": 82,
-    "tracksAffected": 60
+    "items": 94,
+    "tracksAffected": 70
   },
   "selfHelpBoundaries": {
-    "items": 428,
-    "tracksAffected": 84
+    "items": 491,
+    "tracksAffected": 96
   },
   "unresolvedQuestionsByImpact": {
     "build_blocker": {
-      "questions": 41,
-      "tracksAffected": 26
+      "questions": 48,
+      "tracksAffected": 31
     },
     "release_blocker": {
-      "questions": 111,
-      "tracksAffected": 75
+      "questions": 135,
+      "tracksAffected": 85
     },
     "nonblocking_research_note": {
-      "questions": 1,
-      "tracksAffected": 1
+      "questions": 2,
+      "tracksAffected": 2
     },
     "counsel_classification_required": {
       "questions": 7,
@@ -691,16 +797,16 @@
     }
   },
   "buildBlockers": {
-    "questions": 41,
-    "tracksAffected": 26
+    "questions": 48,
+    "tracksAffected": 31
   },
   "releaseBlockers": {
-    "questions": 111,
-    "tracksAffected": 75
+    "questions": 135,
+    "tracksAffected": 85
   },
   "nonblockingResearchNotes": {
-    "questions": 1,
-    "tracksAffected": 1
+    "questions": 2,
+    "tracksAffected": 2
   },
   "processGuidanceTracksRequiringLegalReReview": {
     "count": 1,
@@ -715,7 +821,7 @@
     ]
   },
   "processGuidanceTracksPreserved": {
-    "count": 17,
+    "count": 15,
     "tracks": [
       {
         "jurisdiction": "AK",
@@ -740,21 +846,6 @@
       },
       {
         "jurisdiction": "AR",
-        "trackId": "ar-misdemeanor-dwi-seal",
-        "guidanceRationales": []
-      },
-      {
-        "jurisdiction": "AR",
-        "trackId": "ar-pardon-seal",
-        "guidanceRationales": []
-      },
-      {
-        "jurisdiction": "AR",
-        "trackId": "ar-act346",
-        "guidanceRationales": []
-      },
-      {
-        "jurisdiction": "AR",
         "trackId": "ar-preadjudication-probation",
         "guidanceRationales": [
           "requires_negotiation",
@@ -762,14 +853,26 @@
         ]
       },
       {
-        "jurisdiction": "AR",
-        "trackId": "ar-drug-court",
-        "guidanceRationales": []
+        "jurisdiction": "CA",
+        "trackId": "ca-auto-conviction",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
       },
       {
-        "jurisdiction": "AR",
-        "trackId": "ar-veterans-court",
-        "guidanceRationales": []
+        "jurisdiction": "CA",
+        "trackId": "ca-auto-arrest",
+        "guidanceRationales": [
+          "no_participant_filing_exists"
+        ]
+      },
+      {
+        "jurisdiction": "CA",
+        "trackId": "ca-851-8",
+        "guidanceRationales": [
+          "contested_evidentiary_showing",
+          "individualized_advocacy"
+        ]
       },
       {
         "jurisdiction": "CO",
@@ -830,50 +933,14 @@
       }
     ]
   },
-  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 79,
-  "tracksWhoseSubstantiveLegalDecisionChanged": [
-    {
-      "jurisdiction": "AR",
-      "trackId": "ar-misdemeanor-dwi-seal",
-      "differences": [
-        "outputStrategy"
-      ]
-    },
-    {
-      "jurisdiction": "AR",
-      "trackId": "ar-pardon-seal",
-      "differences": [
-        "outputStrategy"
-      ]
-    },
-    {
-      "jurisdiction": "AR",
-      "trackId": "ar-act346",
-      "differences": [
-        "outputStrategy"
-      ]
-    },
-    {
-      "jurisdiction": "AR",
-      "trackId": "ar-drug-court",
-      "differences": [
-        "outputStrategy"
-      ]
-    },
-    {
-      "jurisdiction": "AR",
-      "trackId": "ar-veterans-court",
-      "differences": [
-        "outputStrategy"
-      ]
-    }
-  ],
+  "tracksWhoseSubstantiveLegalDecisionDidNotChange": 96,
+  "tracksWhoseSubstantiveLegalDecisionChanged": [],
   "reconciliation": {
-    "tracksWithBuildBlockers": 26,
-    "tracksWithReleaseBlockersOnly": 54,
-    "tracksClearOfLegalBlockers": 4,
-    "partitionTotal": 84,
-    "totalTracksProcessed": 84,
+    "tracksWithBuildBlockers": 31,
+    "tracksWithReleaseBlockersOnly": 60,
+    "tracksClearOfLegalBlockers": 5,
+    "partitionTotal": 96,
+    "totalTracksProcessed": 96,
     "reconciles": true
   },
   "releaseBlockerCeilingViolations": [],

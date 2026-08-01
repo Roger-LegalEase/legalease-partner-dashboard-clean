@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 10,
-  "jurisdictionsOutstanding": 41,
+  "jurisdictionsReceived": 11,
+  "jurisdictionsOutstanding": 40,
   "outstandingJurisdictions": [
-    "CA",
     "CT",
     "GA",
     "IA",
@@ -67,6 +66,10 @@
     {
       "jurisdiction": "AL",
       "trackId": "al-uncharged-arrest"
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4b"
     },
     {
       "jurisdiction": "CO",
@@ -545,7 +548,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 12,
+      "trackCount": 15,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -726,6 +729,141 @@
             {
               "kind": "release_blocker",
               "statement": "Impact unclassified, returned to counsel (governing_mechanism): Whether an independent participant-initiated post-completion filing exists, and the current ACIC form pair applicable to that route, is unconfirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-auto-conviction",
+          "publicName": "Check whether your conviction was already relieved",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Route participants to CA-1 through CA-6 where a petition adds something the notation does not, most obviously a 17(b) reduction. The DOJ says a petition is still the route for resentencing, dismissal, sealing or reduction of charges."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): SB 1342 (Durazo) passed the Senate on 27 May 2026 and amends §§ 851.93 and 1203.425. Status must be checked before any participant-facing eligibility copy is published."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The DOJ and the Judicial Council describe automatic relief differently. The DOJ says it is not a dismissal, sealing or expungement; the CR-180 header says a conviction may already have been automatically dismissed. A house answer is needed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): DOJ record request cost and current process. The internal reference quotes about $25 plus the Live Scan rolling fee. Not verified in this pass."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-auto-arrest",
+          "publicName": "Check whether your arrest was already sealed",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "California arrest relief is sealing. Do not describe this route as dismissal, set-aside or expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): SB 1342 would remove the requirement that the arrest be for a misdemeanor offense in the dismissed-charge category, widening eligibility. Pending, and status must be checked."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): DOJ record request cost and current process are unverified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-851-8",
+          "publicName": "Ask the court to find you factually innocent and destroy the arrest record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Outside the current LegalEase self-help scope as a filing product. LegalEase names the route and hands off; it does not generate a factual-innocence petition."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The full text of PC 851.8, including its procedural and evidentiary conditions, was not read in this pass. It is not needed to explain and refer, and would be needed before any filing were ever generated.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LegalEase-California-Legal-Review.md",
+                "sourceHeading": "TRACK CA-13 / Standard",
+                "sourceStatement": "Standard: substantially higher than 851.91, and the petition is regularly contested.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
             },
             {
               "kind": "source_gate",
@@ -1046,7 +1184,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 62,
+      "trackCount": 71,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -2397,6 +2535,431 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Current form currency for the standalone certificate-of-second-chance forms AOCCRSA3F and AOCCRSA4F must be confirmed on azcourts.gov before runtime release. Both predate the 2024 rule amendments and neither was verified against the AOC forms page in this review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-1203-4",
+          "publicName": "Dismiss a conviction after probation",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): The full statutory list of offenses ineligible for § 1203.4 relief was not read. Required before build."
+          ],
+          "scopeRestrictions": [
+            "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement. Only arrests are sealed. Participant-facing copy must not call this route expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full statutory list of offenses ineligible for § 1203.4 relief was not read. Required before build."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any fee attaches to CR-180 and whether it varies by county."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180, CR-181, CR-106, MC-025 and MC-031 PDFs have not been pulled. The internal HTML replicas must never be filed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice survey. Four counties are confirmed to add requirements. The remaining 54 are unknown."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether most counties decide CR-180 petitions on the papers or set them, and whether appearance can be waived."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The DOJ and the Judicial Council describe automatic relief differently. The DOJ says it is not a dismissal, sealing or expungement; the CR-180 header says a conviction may already have been automatically dismissed. A house answer is needed before participant-facing copy is published."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-1203-4a",
+          "publicName": "Dismiss a misdemeanor or infraction where you were not on probation",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any court filing fee attaches to CR-180 and whether it varies by county."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180, CR-181 and CR-106 PDFs have not been pulled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-1203-41",
+          "publicName": "Dismiss a felony conviction after a county jail or prison sentence",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): The current PC 1203.41(b) conditions were read only as summarized on CR-180. Required before build."
+          ],
+          "scopeRestrictions": [
+            "There is no petition-based felony sealing under PC 1203.49 with a four-year conviction-free wait. PC 1203.49 is human trafficking relief for a PC 647(b) conviction; SB 731 expanded petition relief by amending PC 1203.41, not by creating a sealing section; and the petition waits are one or two years, not four.",
+            "This route dismisses and sets aside. It does not seal. Participant-facing copy must not call it sealing or expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The current PC 1203.41(b) conditions were read only as summarized on CR-180. Required before build."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): PC 1192.7(c), 667.5(c) and 290 offense lists are long, offense-specific and periodically amended. The product needs a maintained mapping, not a static list."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180, CR-181 and CR-106 PDFs have not been pulled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-1203-42",
+          "publicName": "Dismiss an older felony that would be a county jail sentence today",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The full text of PC 1203.42 was read only as summarized on CR-180 and CR-181."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180, CR-181 and CR-106 PDFs have not been pulled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-1203-43",
+          "publicName": "Dismiss a case that ended in a deferred entry of judgment programme",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): The full text of PC 1203.43 was read only as summarized on CR-180 and CR-181. Read the current text before build."
+          ],
+          "scopeRestrictions": [
+            "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of PC 1203.43 was read only as summarized on CR-180 and CR-181. Read the current text before build."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180, CR-181 and CR-106 PDFs have not been pulled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-17b-reduction",
+          "publicName": "Reduce a felony to a misdemeanor, or a misdemeanor to an infraction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The wobbler and PC 19.8(a) classification requires a maintained offense mapping, not a static list."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-180 and CR-181 PDFs have not been pulled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-851-91",
+          "publicName": "Seal an arrest that did not lead to a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This is arrest sealing. California conviction relief is a dismissal and set-aside; only arrests are sealed. Do not call this route expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any fee attaches to CR-409 and whether it varies by county."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official CR-409, CR-409-INFO and CR-410 PDFs have not been pulled."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): SB 1342 (Durazo) passed the Senate on 27 May 2026 and amends §§ 851.93 and 1203.425. Whether it cleared the Assembly, was signed, and its operative date must be checked before participant-facing eligibility copy is published."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): CR-410 is dated New 1 January 2019 and is older than the CR-409 petition it pairs with. Confirm the pairing is still current before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-diversion-seal",
+          "publicName": "Seal an arrest after completing diversion or a deferred entry of judgment programme",
+          "outputStrategy": null,
+          "geographicScope": "county",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: County-specific form and filing coverage where no approved local set has been sourced. (undetermined: correct_form)",
+            "Open question blocks the build (eligibility_branch): The current text of §§ 851.87, 1000.4 and 1001.9 has not been read in full. CA-10 cannot be fully specified without them.",
+            "Open question blocks the build (correct_form): Whether any statewide form exists that was missed.",
+            "Open question blocks the build (correct_form): A survey of local forms in the target counties has not been done. No approved county petition and order set has been collected."
+          ],
+          "scopeRestrictions": [
+            "County coverage is a scope restriction. Do not imply statewide official-form coverage: there is no statewide Judicial Council form for this route, and no approved local set has been sourced for any county.",
+            "This is arrest sealing. Do not describe it as dismissal, set-aside or expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: County-specific form and filing coverage where no approved local set has been sourced. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The current text of §§ 851.87, 1000.4 and 1001.9 has not been read in full. CA-10 cannot be fully specified without them."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Whether any statewide form exists that was missed."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): A survey of local forms in the target counties has not been done. No approved county petition and order set has been collected."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "CA",
+          "trackId": "ca-prop64",
+          "publicName": "Reduce, dismiss or seal an old cannabis conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (correct_form): The four CR-400 series forms were not reviewed. Pull them before build."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The four CR-400 series forms were not reviewed. Pull them before build."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether the CR-400 series is the right vehicle for any remaining Prop 64 population, given how much has been processed automatically."
             },
             {
               "kind": "source_gate",

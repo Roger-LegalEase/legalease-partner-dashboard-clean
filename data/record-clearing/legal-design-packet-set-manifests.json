@@ -3532,6 +3532,1402 @@
       ]
     },
     {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4",
+      "packetSetId": "ca-1203-4-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-1203-4-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-1203-4-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-1203-4-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        },
+        {
+          "componentId": "ca-1203-4-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Where the offense list overflows the space on CR-180.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-025",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 4
+        },
+        {
+          "componentId": "ca-1203-4-supporting-declaration-5",
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant elects the discretionary interests-of-justice route.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' process. It is fingerprint-based through Live Scan and a fee waiver process exists. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. CR-180 expressly says a RAP sheet is not required.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which offense code sections were you convicted of? Copy them from your record.\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. CR-180 expressly says a RAP sheet is not required.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket and disposition. Ask the clerk of the Superior Court in the county of conviction for the docket and disposition. It fixes the statute box.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure which statute box applies.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure which statute box applies.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Local cover or electronic consent form. Ask the clerk or the county self-help centre which local forms accompany a CR-180 petition.",
+          "obtainedFrom": "The Superior Court of the filing county",
+          "requirement": "conditional",
+          "conditionDescription": "Where the county publishes one. San Luis Obispo requires form ECS-1 electronic consent or a self-addressed stamped envelope.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Interests-of-justice explanation — CR-180 item 2b or 2c, and MC-031 where attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Offense classification and reduction-eligibility columns — CR-180 item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement for CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure. § 1203.4a(e) caps reimbursement at $60 to the county plus $60 to the city on the 1203.4a route; at least one Superior Court publishes no filing fee for CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney and file CR-106 proof of service. Notice is presumed received once proof of service is filed with the court. § 1203.4(d)(2).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-180 with the proposed CR-181 in the Superior Court of the county of conviction. One petition per case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Which offense code sections were you convicted of? Copy them from your record.\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+        "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+        "Obtain Local cover or electronic consent form. Ask the clerk or the county self-help centre which local forms accompany a CR-180 petition.",
+        "Signature and date — CR-180, petitioner signature block.",
+        "Interests-of-justice explanation — CR-180 item 2b or 2c, and MC-031 where attached.",
+        "Offense classification and reduction-eligibility columns — CR-180 item 1.",
+        "The petitioner signs CR-180.",
+        "The source review does not state a notarization requirement for CR-180.",
+        "Unresolved and county-specific. Do not publish a figure. § 1203.4a(e) caps reimbursement at $60 to the county plus $60 to the city on the 1203.4a route; at least one Superior Court publishes no filing fee for CR-180.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4a",
+      "packetSetId": "ca-1203-4a-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-1203-4a-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-1203-4a-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-1203-4a-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Required for an infraction, where dismissal shall not be granted unless the prosecuting attorney has had at least 15 days' notice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        },
+        {
+          "componentId": "ca-1203-4a-supporting-declaration-4",
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant elects the discretionary interests-of-justice route.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket and disposition. Ask the clerk of the Superior Court in the county of conviction. The docket is what settles the probation question and therefore the statute box.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure whether probation was granted.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure whether probation was granted.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Interests-of-justice explanation — CR-180 box 3 and MC-031 where attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney where notice is required and file CR-106 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-180 with box 3 elected, together with the proposed CR-181, in the Superior Court of the county of conviction. Petition for dismissal of an infraction is by written declaration except on a showing of compelling need.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+        "Signature and date — CR-180, petitioner signature block.",
+        "Interests-of-justice explanation — CR-180 box 3 and MC-031 where attached.",
+        "The petitioner signs CR-180.",
+        "The source review does not state a notarization requirement.",
+        "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+        "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-41",
+      "packetSetId": "ca-1203-41-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-1203-41-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-1203-41-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-1203-41-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        },
+        {
+          "componentId": "ca-1203-41-supporting-declaration-4",
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "For the interests-of-justice showing, which every route on this track requires.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket and disposition, including the sentence and any supervision term. Ask the clerk of the Superior Court in the county of conviction for the docket. It settles which of the three sub-routes applies.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot state the sentence type or completion date from memory.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was your sentence served in county jail with mandatory supervision, in county jail without mandatory supervision, or in state prison?\" against Court docket and disposition, including the sentence and any supervision term, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot state the sentence type or completion date from memory.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional supporting record.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish the sentence, including any supervision?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Optional supporting record.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Interests-of-justice explanation — CR-180 box 5 and MC-031 where attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Sub-route election — CR-180 box 5, sub-items a through c.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney and file CR-106 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-180 with box 5 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Was your sentence served in county jail with mandatory supervision, in county jail without mandatory supervision, or in state prison?\" against Court docket and disposition, including the sentence and any supervision term, and correct the packet if they disagree.",
+        "Check your answer to \"On what date did you finish the sentence, including any supervision?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+        "Signature and date — CR-180, petitioner signature block.",
+        "Interests-of-justice explanation — CR-180 box 5 and MC-031 where attached.",
+        "Sub-route election — CR-180 box 5, sub-items a through c.",
+        "The petitioner signs CR-180.",
+        "The source review does not state a notarization requirement.",
+        "Unresolved and county-specific. Do not publish a figure.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-42",
+      "packetSetId": "ca-1203-42-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-1203-42-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-1203-42-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-1203-42-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        },
+        {
+          "componentId": "ca-1203-42-supporting-declaration-4",
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "For the interests-of-justice showing.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket, abstract of judgment and disposition. Ask the clerk of the Superior Court in the county of conviction. The record is what the participant uses to confirm the realignment question, which LegalEase does not decide.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has a lawyer or your record confirmed that this offense would be served in county jail if sentenced today, after the 2011 realignment law?\" against Court docket, abstract of judgment and disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Realignment eligibility confirmation — CR-180 box 6.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Interests-of-justice explanation — CR-180 box 6 and MC-031 where attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney and file CR-106 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-180 with box 6 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Has a lawyer or your record confirmed that this offense would be served in county jail if sentenced today, after the 2011 realignment law?\" against Court docket, abstract of judgment and disposition, and correct the packet if they disagree.",
+        "Signature and date — CR-180, petitioner signature block.",
+        "Realignment eligibility confirmation — CR-180 box 6.",
+        "Interests-of-justice explanation — CR-180 box 6 and MC-031 where attached.",
+        "The petitioner signs CR-180.",
+        "The source review does not state a notarization requirement.",
+        "Unresolved and county-specific. Do not publish a figure.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-43",
+      "packetSetId": "ca-1203-43-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-1203-43-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-1203-43-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-1203-43-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court records showing the case resolution. Ask the clerk of the Superior Court for the docket showing the DEJ completion and dismissal. Where records are unavailable, the form permits a declaration under penalty of perjury instead.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "One of the two evidence routes on the form. The alternative is the petitioner's declaration under penalty of perjury.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did you complete a deferred entry of judgment programme and have the charges dismissed?\" against Court records showing the case resolution, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "One of the two evidence routes on the form. The alternative is the petitioner's declaration under penalty of perjury.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional attachment to the declaration route.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date, under penalty of perjury on the declaration route — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180, under penalty of perjury where the declaration route is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney and file CR-106 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-180 with box 7 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did you complete a deferred entry of judgment programme and have the charges dismissed?\" against Court records showing the case resolution, and correct the packet if they disagree.",
+        "Signature and date, under penalty of perjury on the declaration route — CR-180, petitioner signature block.",
+        "The petitioner signs CR-180, under penalty of perjury where the declaration route is used.",
+        "The source review does not state a notarization requirement.",
+        "Unresolved and county-specific. Do not publish a figure.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-17b-reduction",
+      "packetSetId": "ca-17b-reduction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-17b-reduction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-17b-reduction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-17b-reduction-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the offense code section as charged and convicted. Ask the clerk of the Superior Court in the county of conviction. The exact code section is what determines whether the offense is a wobbler or is listed in PC 19.8(a).",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which offense code sections were you convicted of? Copy them exactly from your record.\" against Court docket showing the offense code section as charged and convicted, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-180, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Offense classification and the two reduction-eligibility columns — CR-180 item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-180.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney and file CR-106 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Request the reduction at CR-180 item 8, filed with the dismissal petition in the Superior Court of the county of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Which offense code sections were you convicted of? Copy them exactly from your record.\" against Court docket showing the offense code section as charged and convicted, and correct the packet if they disagree.",
+        "Signature and date — CR-180, petitioner signature block.",
+        "Offense classification and the two reduction-eligibility columns — CR-180 item 1.",
+        "The petitioner signs CR-180.",
+        "The source review does not state a notarization requirement.",
+        "Unresolved and county-specific. Do not publish a figure.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-851-91",
+      "packetSetId": "ca-851-91-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-851-91-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-409",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-851-91-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-410",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-851-91-proof-of-service-3",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        },
+        {
+          "componentId": "ca-851-91-supporting-declaration-4",
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where a pattern offense applies and the petitioner must show sealing serves the interests of justice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arrest report or arresting agency record showing the report number. Ask the arresting agency for the report number and arrest record. The petition requires the arresting agency and report number, which most participants will not have to hand. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "The arresting law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the police report number?\" against Arrest report or arresting agency record showing the report number, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the disposition. Ask the clerk of the court where the pleading was filed for the docket showing how the charges ended.",
+          "obtainedFrom": "The court where the accusatory pleading was filed",
+          "requirement": "conditional",
+          "conditionDescription": "Where a case was filed.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — no charges filed, dismissed, acquitted, or a conviction vacated on appeal?\" against Court docket showing the disposition, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where a case was filed.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. Useful where the participant cannot identify the arrest details.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature under penalty of perjury — CR-409, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Matter-of-right versus interests-of-justice election — CR-409 item 3h.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of Court Hearing block — CR-409 item 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner verifies and signs CR-409 under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement; the petition is verified rather than notarized.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved and county-specific. Do not publish a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Arrest report or arresting agency record showing the report number. Ask the arresting agency for the report number and arrest record. The petition requires the arresting agency and report number, which most participants will not have to hand. LegalEase does not obtain, receive or inspect it.",
+        "Check your answer to \"What is the police report number?\" against Arrest report or arresting agency record showing the report number, and correct the packet if they disagree.",
+        "Check your answer to \"How did the matter end — no charges filed, dismissed, acquitted, or a conviction vacated on appeal?\" against Court docket showing the disposition, and correct the packet if they disagree.",
+        "Verification and signature under penalty of perjury — CR-409, petitioner signature block.",
+        "Matter-of-right versus interests-of-justice election — CR-409 item 3h.",
+        "Notice of Court Hearing block — CR-409 item 2.",
+        "The petitioner verifies and signs CR-409 under penalty of perjury.",
+        "The source review does not state a notarization requirement; the petition is verified rather than notarized.",
+        "Unresolved and county-specific. Do not publish a figure.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-auto-conviction",
+      "packetSetId": "ca-auto-conviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-auto-conviction-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' page. It is fingerprint-based through Live Scan and a fee waiver process exists. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If you have your record, does it show a notation of relief on this conviction?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain BCIA 8706 Claim of Alleged Inaccuracy or Incompleteness. The claim form ships with the record when the DOJ sends it.",
+          "obtainedFrom": "California Department of Justice, shipped with the record",
+          "requirement": "conditional",
+          "conditionDescription": "Where the record itself looks wrong.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee. The DOJ record request itself has a cost, quoted by the internal reference at about $25 plus the Live Scan rolling fee and not verified in this pass.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "A fee waiver process exists for the DOJ record request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. The DOJ acts on its own initiative.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"If you have your record, does it show a notation of relief on this conviction?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No filing fee. The DOJ record request itself has a cost, quoted by the internal reference at about $25 plus the Live Scan rolling fee and not verified in this pass.",
+        "A fee waiver process exists for the DOJ record request."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-auto-arrest",
+      "packetSetId": "ca-auto-arrest-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-auto-arrest-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' page. It is fingerprint-based through Live Scan. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — no conviction, diversion completed, or acquittal?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee. The DOJ record request has its own cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "A fee waiver process exists for the DOJ record request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no filing. Relief is applied without a petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the matter end — no conviction, diversion completed, or acquittal?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable.",
+        "No filing fee. The DOJ record request has its own cost.",
+        "A fee waiver process exists for the DOJ record request."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-diversion-seal",
+      "packetSetId": "ca-diversion-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-diversion-seal-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ca-diversion-seal-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "SDSC-CRM-307",
+          "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "The superior court that handled the case, or the diversion programme provider",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did you successfully complete the programme?\" against Proof of programme completion, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The county's own petition and order forms. Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route.",
+          "obtainedFrom": "The county superior court clerk or self-help centre",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — The county's own petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the county's own petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a separate service rule beyond notice to all parties. Within 30 days of the order the court forwards it to the arresting agency and other participating agencies.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the county's own petition in the superior court that handled the diversion or deferred entry of judgment. There is no statewide form. The judge may also act on oral motion of any party or on the court's own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
+        "Check your answer to \"Did you successfully complete the programme?\" against Proof of programme completion, and correct the packet if they disagree.",
+        "Obtain The county's own petition and order forms. Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route.",
+        "Signature and date — The county's own petition, signature block.",
+        "The petitioner signs the county's own petition.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for this route.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-prop64",
+      "packetSetId": "ca-prop64-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-prop64-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-400",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 1
+        },
+        {
+          "componentId": "ca-prop64-proof-of-service-2",
+          "role": "proof_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-401",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 2
+        },
+        {
+          "componentId": "ca-prop64-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-403",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' page to see whether the conviction was already processed automatically under AB 1793. LegalEase does not obtain, receive or inspect it.",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked your record to see whether the courts already processed this conviction automatically?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the cannabis conviction. Ask the clerk of the Superior Court in the county of conviction for the docket.",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the offense code section cannot be established from the DOJ record.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which cannabis offense code sections were you convicted of? Copy them from your record.\" against Court docket showing the cannabis conviction, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the offense code section cannot be established from the DOJ record.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — CR-400, petitioner signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-400.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for the CR-400 series.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the prosecuting agency and file CR-401 proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-400 in the Superior Court of the county of conviction, with CR-401 proof of service and the proposed CR-403 order.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you checked your record to see whether the courts already processed this conviction automatically?\" against California DOJ state summary criminal history, and correct the packet if they disagree.",
+        "Check your answer to \"Which cannabis offense code sections were you convicted of? Copy them from your record.\" against Court docket showing the cannabis conviction, and correct the packet if they disagree.",
+        "Signature and date — CR-400, petitioner signature block.",
+        "The petitioner signs CR-400.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a filing fee for the CR-400 series.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-851-8",
+      "packetSetId": "ca-851-8-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ca-851-8-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arrest report and any evidence bearing on innocence. An attorney will tell you what the court needs. LegalEase does not obtain, receive, inspect or assess any of it.",
+          "obtainedFrom": "The arresting law enforcement agency",
+          "requirement": "conditional",
+          "conditionDescription": "The attorney taking the referral will advise what is needed. LegalEase does not collect or assess it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "sign",
+          "description": "No LegalEase-generated document is signed on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a filing fee for a § 851.8 petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "FW-001 is the general California fee waiver form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state the service rule for § 851.8.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "LegalEase does not prepare this filing. The participant is referred to an attorney, who files the § 851.8 petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "No LegalEase-generated document is signed on this track.",
+        "Not applicable.",
+        "The source review does not state a filing fee for a § 851.8 petition.",
+        "FW-001 is the general California fee waiver form."
+      ]
+    },
+    {
       "jurisdiction": "CO",
       "trackId": "co_auto_seal_arrest",
       "packetSetId": "co_auto_seal_arrest-set",

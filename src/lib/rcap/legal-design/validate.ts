@@ -649,11 +649,30 @@ function validateTrack(
   // 17b. Why a track is guidance rather than a packet.
   //      Required for guidance tracks so the re-review queue can tell an
   //      external dependency from a route that genuinely has nothing to file.
-  if (track.outputStrategy === "process_guidance") {
-    if (!nonEmptyArray(track.guidanceRationales)) {
+  // Required on a guidance track, because the re-review queue needs to tell an
+  // external dependency from a route that genuinely has nothing to file.
+  //
+  // Permitted, but not required, on a composed route carrying a guidance unit.
+  // Counsel sometimes says why that unit is guidance and sometimes only says
+  // what the other unit files; demanding the rationale would mean inventing one
+  // where the source is silent, which is the failure this pipeline exists to
+  // prevent. Where it is stated it is recorded and checked.
+  const composedGuidance =
+    track.outputStrategy === "composed" &&
+    Array.isArray(track.units) &&
+    track.units.some((unit) => unit?.outputStrategy === "process_guidance");
+
+  if (track.outputStrategy === "process_guidance" && !nonEmptyArray(track.guidanceRationales)) {
+    push(
+      "guidanceRationales",
+      `A process_guidance track must say why: one or more of ${GUIDANCE_RATIONALES.join(", ")}.`,
+      label
+    );
+  } else if (track.guidanceRationales !== undefined) {
+    if (track.outputStrategy !== "process_guidance" && !composedGuidance) {
       push(
         "guidanceRationales",
-        `A process_guidance track must say why: one or more of ${GUIDANCE_RATIONALES.join(", ")}.`,
+        "guidanceRationales belongs only on a track with a process_guidance output.",
         label
       );
     } else {
@@ -663,12 +682,6 @@ function validateTrack(
         }
       }
     }
-  } else if (track.guidanceRationales !== undefined) {
-    push(
-      "guidanceRationales",
-      "guidanceRationales belongs only on a process_guidance track.",
-      label
-    );
   }
 
   // 18. Legal-design decision.

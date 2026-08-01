@@ -172,7 +172,20 @@ for (const track of tracks) {
   }
   const differences = [];
   if (submitted.legalDesignDecision.status !== track.legalDesignStatus) differences.push("legalDesignDecision.status");
-  if (submitted.outputStrategy !== track.outputStrategy) differences.push("outputStrategy");
+  // Compared against the declared strategy, which carries what counsel wrote
+  // verbatim — including "composed". On a single-output track the declared and
+  // concrete strategies are the same value, so this stays exactly as strict. On
+  // a composed route the concrete strategy is deliberately null, because the
+  // renderer strategy belongs to an explicitly selected unit rather than to the
+  // track; reading the concrete field here would report that absence as counsel's
+  // decision having been restated, which is the opposite of what happened.
+  if (submitted.outputStrategy !== track.outputStrategyDeclared) differences.push("outputStrategy");
+  // And the absence itself is checked rather than assumed: a composed route that
+  // acquired a track-level strategy would be the first-available-unit bug
+  // returning, so it is a substantive change too.
+  if (submitted.outputStrategy === "composed" && track.outputStrategy !== null) {
+    differences.push("composed route acquired a track-level strategy");
+  }
   if (submitted.geography.scope !== track.geographicScope) differences.push("geography.scope");
   if (submitted.geography.keys.join("|") !== track.geographyKeys.join("|")) differences.push("geography.keys");
   if (submitted.legalDesignDecision.limitations.length !== track.legalDesignLimitations.length) {
