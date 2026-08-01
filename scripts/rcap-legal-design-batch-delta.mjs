@@ -35,12 +35,21 @@ const root = process.cwd();
 // are the only ones the committed pipeline uses.
 const intakeArg = process.argv.find((arg) => arg.startsWith("--intake="));
 const outArg = process.argv.find((arg) => arg.startsWith("--out="));
+const approvalsArg = process.argv.find((arg) => arg.startsWith("--approvals="));
 const INTAKE_DIR = intakeArg
   ? path.resolve(root, intakeArg.slice("--intake=".length))
   : path.join(root, "data/record-clearing/legal-design-intake");
 const OUT_PATH = outArg
   ? path.resolve(root, outArg.slice("--out=".length))
   : path.join(root, "data/record-clearing/legal-design-batch-delta-report.json");
+const APPROVALS_PATH = approvalsArg
+  ? path.resolve(root, approvalsArg.slice("--approvals=".length))
+  : path.join(root, "data/record-clearing/legal-design-composed-unit-approvals.json");
+
+// Writing the approvals file is a deliberate act, never a side effect of a
+// normal run. Without this flag the file is only ever read, so a memo edit
+// cannot quietly re-approve itself.
+const approveComposedUnits = process.argv.includes("--approve-composed-units");
 
 /** The first legal-review batch. */
 const BATCH_1 = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "HI", "ID"];
@@ -199,6 +208,200 @@ for (const track of tracks) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Composed-unit approvals
+//
+// The check above compares counsel's memo against what normalization produced,
+// so it catches the normalizer overstepping. It cannot catch the memo itself
+// changing: edit a unit's strategy in the memo and normalization faithfully
+// follows, the two agree, and the track reports as unchanged. On a composed
+// route that is the whole legal substance — which vehicle each stage or branch
+// files, which are unresolved, what order the stages run in — so it needs a
+// baseline that does not move when the memo does.
+//
+// The approvals file is that baseline. It is committed, it is read on every
+// run, and it is only written when a human passes --approve-composed-units.
+// Any drift from it fails the report, which forces the change through a diff
+// somebody has to look at rather than through a silent edit.
+// ---------------------------------------------------------------------------
+
+/** The counsel-authored bases. A normalizer inference cannot resolve a unit. */
+const COUNSEL_AUTHORED = ["explicit_state_addendum", "batch_decision_matrix", "general_packet_only_rule"];
+
+function counselAuthoredProvenanceFor(submitted) {
+  return [...(submitted?.legalDesignDecision?.limitations ?? []), ...(submitted?.unresolvedQuestions ?? [])]
+    .map((entry) => entry?.provenance?.classificationBasis)
+    .filter((basis) => COUNSEL_AUTHORED.includes(basis));
+}
+
+/** The approved substance of one composed track, in a stable, comparable shape. */
+function composedShapeFor(track, submitted) {
+  return {
+    jurisdiction: track.jurisdiction,
+    trackId: track.trackId,
+    // Provenance only. A composed route has no concrete track-level strategy,
+    // and this pins that counsel's declared word has not been rewritten.
+    outputStrategyDeclared: track.outputStrategyDeclared,
+    compositionMode: track.compositionMode,
+    // Sequential order is substantive: stage 2 filing before stage 1 guidance
+    // is a different legal route. Alternative branches are selected by a
+    // predicate rather than by position, so their array order is not.
+    orderIsSubstantive: track.compositionMode === "sequential",
+    counselAuthoredProvenanceCount: counselAuthoredProvenanceFor(submitted).length,
+    units: track.units
+      .map((unit) => ({
+        unitId: unit.unitId,
+        order: unit.order,
+        outputStrategy: unit.outputStrategy ?? null,
+        outputStrategyStatus: unit.outputStrategyStatus ?? "resolved",
+        packetIdentity: unit.packetIdentity ?? null,
+        available: unit.available === true,
+        unresolved: !unit.outputStrategy || unit.outputStrategyStatus === "unresolved",
+        parentUnitId: unit.parentUnitId ?? null
+      }))
+      // Sorted by ID so that an alternative branch reordering is not reported as
+      // a change. Sequential order is still pinned, by the `order` field and by
+      // the explicit sequence below.
+      .sort((a, b) => a.unitId.localeCompare(b.unitId)),
+    sequence: track.compositionMode === "sequential"
+      ? [...track.units].sort((a, b) => a.order - b.order).map((unit) => unit.unitId)
+      : null
+  };
+}
+
+const composedTracks = tracks.filter((track) => track.outputStrategyDeclared === "composed");
+const composedShapes = composedTracks.map((track) =>
+  composedShapeFor(track, asSubmitted.get(`${track.jurisdiction}:${track.trackId}`))
+);
+const composedShapeByKey = new Map(composedShapes.map((shape) => [`${shape.jurisdiction}:${shape.trackId}`, shape]));
+
+const composedUnitDrift = [];
+let approvals = null;
+let approvalsPresent = fs.existsSync(APPROVALS_PATH);
+
+if (approveComposedUnits) {
+  // Resolving a unit is a legal conclusion about which vehicle counsel settled.
+  // It cannot be recorded on a normalizer inference or on a question that is
+  // still waiting for counsel to classify it.
+  const unsupported = [];
+  for (const shape of composedShapes) {
+    if (shape.counselAuthoredProvenanceCount > 0) continue;
+    const resolvedUnits = shape.units.filter((unit) => !unit.unresolved).map((unit) => unit.unitId);
+    if (resolvedUnits.length > 0) {
+      unsupported.push({
+        jurisdiction: shape.jurisdiction,
+        trackId: shape.trackId,
+        resolvedUnits,
+        reason: "resolved units with no counsel-authored provenance on the track"
+      });
+    }
+  }
+  if (unsupported.length > 0) {
+    console.error("\nCOMPOSED-UNIT APPROVAL REFUSED:");
+    for (const entry of unsupported) {
+      console.error(`  - ${entry.jurisdiction}:${entry.trackId} — ${entry.reason}: ${entry.resolvedUnits.join(", ")}`);
+    }
+    console.error(
+      "\n  A unit is resolved only where the controlling source says so. Record the\n" +
+        "  counsel-authored provenance in the memo first, then approve.\n"
+    );
+    process.exit(1);
+  }
+  fs.mkdirSync(path.dirname(APPROVALS_PATH), { recursive: true });
+  fs.writeFileSync(
+    APPROVALS_PATH,
+    `${JSON.stringify(
+      {
+        schemaVersion: 1,
+        note:
+          "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
+        approvedTracks: composedShapes.length,
+        tracks: [...composedShapes].sort((a, b) =>
+          `${a.jurisdiction}:${a.trackId}`.localeCompare(`${b.jurisdiction}:${b.trackId}`)
+        )
+      },
+      null,
+      2
+    )}\n`
+  );
+  console.log(`Approved composed-unit substance for ${composedShapes.length} track(s) → ${path.relative(root, APPROVALS_PATH)}`);
+  approvalsPresent = true;
+}
+
+if (approvalsPresent) {
+  approvals = JSON.parse(fs.readFileSync(APPROVALS_PATH, "utf8"));
+  const approvedByKey = new Map((approvals.tracks ?? []).map((entry) => [`${entry.jurisdiction}:${entry.trackId}`, entry]));
+
+  // Only the jurisdictions actually in this run are compared, so a partial
+  // --batch does not report every other jurisdiction as missing.
+  const codesInRun = new Set(normalized.map((entry) => entry.code));
+
+  for (const [key, approved] of approvedByKey) {
+    if (!codesInRun.has(approved.jurisdiction)) continue;
+    if (!composedShapeByKey.has(key)) {
+      composedUnitDrift.push({ track: key, differences: ["composed track missing from the batch"] });
+    }
+  }
+
+  for (const shape of composedShapes) {
+    const key = `${shape.jurisdiction}:${shape.trackId}`;
+    const approved = approvedByKey.get(key);
+    if (!approved) {
+      composedUnitDrift.push({ track: key, differences: ["composed track is not approved"] });
+      continue;
+    }
+
+    const differences = [];
+    if (approved.outputStrategyDeclared !== shape.outputStrategyDeclared) differences.push("outputStrategyDeclared");
+    if (approved.compositionMode !== shape.compositionMode) differences.push("compositionMode");
+
+    const approvedIds = (approved.units ?? []).map((unit) => unit.unitId);
+    const shapeIds = shape.units.map((unit) => unit.unitId);
+    for (const id of approvedIds.filter((id) => !shapeIds.includes(id))) {
+      differences.push(`unit removed: ${id}`);
+    }
+    for (const id of shapeIds.filter((id) => !approvedIds.includes(id))) {
+      differences.push(`unapproved unit added: ${id}`);
+    }
+
+    const approvedUnitById = new Map((approved.units ?? []).map((unit) => [unit.unitId, unit]));
+    for (const unit of shape.units) {
+      const before = approvedUnitById.get(unit.unitId);
+      if (!before) continue;
+      for (const field of [
+        "outputStrategy",
+        "outputStrategyStatus",
+        "packetIdentity",
+        "available",
+        "unresolved",
+        "parentUnitId"
+      ]) {
+        if (before[field] !== unit[field]) {
+          differences.push(`${unit.unitId}.${field}: ${JSON.stringify(before[field])} → ${JSON.stringify(unit[field])}`);
+        }
+      }
+      // `order` is only substantive on a sequential composition.
+      if (shape.orderIsSubstantive && before.order !== unit.order) {
+        differences.push(`${unit.unitId}.order: ${before.order} → ${unit.order}`);
+      }
+    }
+
+    if (shape.orderIsSubstantive && (approved.sequence ?? []).join(">") !== (shape.sequence ?? []).join(">")) {
+      differences.push(
+        `sequential stage order: ${(approved.sequence ?? []).join(" > ")} → ${(shape.sequence ?? []).join(" > ")}`
+      );
+    }
+
+    // Losing the counsel-authored provenance that supports the composition is
+    // itself a substantive change, whatever the units still say.
+    if (shape.counselAuthoredProvenanceCount === 0 && (approved.counselAuthoredProvenanceCount ?? 0) > 0) {
+      differences.push("counsel-authored provenance for the composition was removed");
+    }
+
+    if (differences.length > 0) composedUnitDrift.push({ track: key, differences });
+  }
+}
+
 // Mutually exclusive, and must cover every track.
 const withBuildBlockers = tracks.filter((track) => track.buildBlockers.length > 0 || track.legalDesignBlockers.length > 0);
 const withReleaseBlockersOnly = tracks.filter(
@@ -311,6 +514,18 @@ const report = {
   },
   tracksWhoseSubstantiveLegalDecisionDidNotChange: tracks.length - decisionChanged.length,
   tracksWhoseSubstantiveLegalDecisionChanged: decisionChanged,
+  composedUnits: {
+    approvalsFile: path.relative(root, APPROVALS_PATH),
+    approvalsPresent,
+    composedTracks: composedShapes.length,
+    approvedTracks: approvals ? (approvals.tracks ?? []).length : 0,
+    totalUnits: composedShapes.reduce((sum, shape) => sum + shape.units.length, 0),
+    unresolvedUnits: composedShapes.reduce(
+      (sum, shape) => sum + shape.units.filter((unit) => unit.unresolved).length,
+      0
+    ),
+    driftingTracks: composedUnitDrift
+  },
   reconciliation: {
     tracksWithBuildBlockers: withBuildBlockers.length,
     tracksWithReleaseBlockersOnly: withReleaseBlockersOnly.length,
@@ -357,6 +572,11 @@ if (jsonOnly) {
   console.log(`10. Nonblocking research notes: ${questionsByImpact.nonblocking_research_note.questions} across ${questionsByImpact.nonblocking_research_note.tracksAffected} track(s).`);
   console.log(`11. Process-guidance tracks requiring legal re-review: ${guidanceRereview.length}. Preserved as guidance: ${guidancePreserved.length}.`);
   console.log(`12. Tracks whose substantive legal decision did not change: ${tracks.length - decisionChanged.length} of ${tracks.length}.`);
+  console.log(
+    `13. Composed tracks matching approved unit substance: ${composedShapes.length - composedUnitDrift.length} of ${composedShapes.length}` +
+      `, ${composedShapes.reduce((sum, shape) => sum + shape.units.length, 0)} units` +
+      ` (${composedShapes.reduce((sum, shape) => sum + shape.units.filter((unit) => unit.unresolved).length, 0)} unresolved).`
+  );
   console.log("");
   console.log(
     `    Reconciliation: ${withBuildBlockers.length} build-blocked + ${withReleaseBlockersOnly.length} release-blocked only + ${clearOfLegalBlockers.length} clear = ${partitionTotal}, against ${tracks.length} processed. ${reconciles ? "Reconciles." : "DOES NOT RECONCILE."}`
@@ -390,6 +610,18 @@ if (decisionChanged.length > 0) {
 }
 if (ceilingViolations.length > 0) {
   failures.push(`${ceilingViolations.length} track(s) with an open release blocker could still reach packet_ready.`);
+}
+if (composedUnitDrift.length > 0) {
+  failures.push(
+    `${composedUnitDrift.length} composed track(s) drifted from the approved composed-unit substance: ` +
+      composedUnitDrift.map((entry) => `${entry.track} [${entry.differences.join("; ")}]`).join(" | ") +
+      ". A composed route's units are its legal substance. Re-approve deliberately with --approve-composed-units once the controlling source supports the change."
+  );
+}
+if (composedShapes.length > 0 && !approvalsPresent) {
+  failures.push(
+    `${composedShapes.length} composed track(s) have no approved composed-unit baseline. Run --approve-composed-units.`
+  );
 }
 if (rejectedMemos.length > 0) {
   failures.push(`${rejectedMemos.length} memo(s) failed validation and were not counted.`);

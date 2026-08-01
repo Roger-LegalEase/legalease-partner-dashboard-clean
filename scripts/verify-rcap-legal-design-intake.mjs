@@ -1659,6 +1659,333 @@ check("the batch delta report reconciles and refuses to restate counsel", () => 
   }
 });
 
+// --- composed-unit approvals -------------------------------------------------
+//
+// The decision-change check above compares counsel's memo against what
+// normalization produced. It cannot catch the memo itself changing: edit a
+// unit's strategy and normalization faithfully follows, so the two agree. On a
+// composed route the units *are* the legal substance, so they are pinned to a
+// committed approvals file that only moves when somebody deliberately re-approves.
+//
+// Each fixture below tampers with one composed track and asserts the batch
+// delta refuses the run. They exercise the real script, not a reimplementation
+// of its rules.
+
+/** Runs the batch delta over a fixture intake, returning its exit code and report. */
+function runBatchDelta({ memos, approvalsFrom, approve = false, batch }) {
+  const os = require("node:os");
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-composed-units-"));
+  try {
+    for (const [name, memo] of Object.entries(memos)) {
+      fs.writeFileSync(path.join(scratch, name), JSON.stringify(memo));
+    }
+    const approvalsPath = path.join(scratch, "approvals.json");
+    if (approvalsFrom) fs.copyFileSync(approvalsFrom, approvalsPath);
+
+    const args = [
+      "scripts/rcap-legal-design-batch-delta.mjs",
+      `--batch=${batch}`,
+      `--intake=${scratch}`,
+      `--out=${path.join(scratch, "report.json")}`,
+      `--approvals=${approvalsPath}`
+    ];
+    if (approve) args.push("--approve-composed-units");
+
+    let status = 0;
+    try {
+      execFileSync(process.execPath, args, { cwd: process.cwd(), stdio: "ignore" });
+    } catch (error) {
+      status = error.status ?? 1;
+    }
+    const reportPath = path.join(scratch, "report.json");
+    const report = fs.existsSync(reportPath) ? JSON.parse(fs.readFileSync(reportPath, "utf8")) : null;
+    return { status, report, approvalsPath: fs.existsSync(approvalsPath) ? approvalsPath : null, scratch };
+  } finally {
+    // Left for the caller to read before cleanup happens on process exit.
+  }
+}
+
+/** A two-unit sequential composed route: guidance, then the real filing. */
+function composedFixtureMemo(mutate = (memo) => memo) {
+  const template = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-intake/TEMPLATE.memo.json"), "utf8")
+  );
+  const base = template.tracks[0];
+  const memo = {
+    ...template,
+    jurisdiction: "AL",
+    tracks: [
+      {
+        ...base,
+        trackId: "example-composed",
+        outputStrategy: "composed",
+        outputStrategyStatus: "resolved",
+        packetIdentity: "identified",
+        compositionMode: "sequential",
+        guidanceRationales: ["another_entity_decides"],
+        units: [
+          {
+            unitId: "example-composed-stage-1",
+            order: 1,
+            label: "Guidance",
+            outputStrategy: "process_guidance",
+            outputStrategyStatus: "resolved",
+            packetIdentity: "identified",
+            description: "Explain the prerequisite event.",
+            available: true
+          },
+          {
+            unitId: "example-composed-stage-2",
+            order: 2,
+            label: "Official filing",
+            outputStrategy: "official_pdf_fill",
+            outputStrategyStatus: "resolved",
+            packetIdentity: "identified",
+            description: "Generate the official pair.",
+            available: true
+          }
+        ]
+      }
+    ]
+  };
+  return mutate(memo);
+}
+
+/** Approves the untampered fixture, then replays it with one mutation applied. */
+function composedDriftFixture(mutate) {
+  const approvedRun = runBatchDelta({
+    memos: { "AL.memo.json": composedFixtureMemo() },
+    approve: true,
+    batch: "AL"
+  });
+  assert.equal(approvedRun.status, 0, "the untampered composed fixture could not be approved");
+  return runBatchDelta({
+    memos: { "AL.memo.json": composedFixtureMemo(mutate) },
+    approvalsFrom: approvedRun.approvalsPath,
+    batch: "AL"
+  });
+}
+
+const composedDrift = (result) =>
+  (result.report?.composedUnits?.driftingTracks ?? []).flatMap((entry) => entry.differences).join(" | ");
+
+// 6. Unchanged composed routes pass.
+check("an unchanged composed route matches its approved unit substance", () => {
+  const approved = runBatchDelta({
+    memos: { "AL.memo.json": composedFixtureMemo() },
+    approve: true,
+    batch: "AL"
+  });
+  assert.equal(approved.status, 0);
+
+  const replay = runBatchDelta({
+    memos: { "AL.memo.json": composedFixtureMemo() },
+    approvalsFrom: approved.approvalsPath,
+    batch: "AL"
+  });
+  assert.equal(replay.status, 0, `an unchanged composed route drifted: ${composedDrift(replay)}`);
+  assert.deepEqual(replay.report.composedUnits.driftingTracks, []);
+  assert.equal(replay.report.composedUnits.composedTracks, 1);
+  assert.equal(replay.report.composedUnits.totalUnits, 2);
+});
+
+// 1. Changing a resolved unit strategy fails.
+check("changing a resolved unit's strategy fails the delta", () => {
+  const result = composedDriftFixture((memo) => {
+    memo.tracks[0].units[1].outputStrategy = "custom_pleading";
+    return memo;
+  });
+  assert.notEqual(result.status, 0, "a changed unit strategy passed the delta");
+  assert.match(composedDrift(result), /example-composed-stage-2\.outputStrategy/);
+});
+
+// 2. Deleting a unit fails.
+check("deleting a unit fails the delta", () => {
+  const result = composedDriftFixture((memo) => {
+    memo.tracks[0].units.splice(1, 1);
+    return memo;
+  });
+  assert.notEqual(result.status, 0, "a deleted unit passed the delta");
+  assert.match(composedDrift(result), /unit removed: example-composed-stage-2/);
+});
+
+// 3. Adding an unapproved unit fails.
+check("adding an unapproved unit fails the delta", () => {
+  const result = composedDriftFixture((memo) => {
+    memo.tracks[0].units.push({
+      unitId: "example-composed-stage-3",
+      order: 3,
+      label: "Invented",
+      outputStrategy: "custom_pleading",
+      outputStrategyStatus: "resolved",
+      packetIdentity: "identified",
+      description: "A stage nobody approved.",
+      available: true
+    });
+    return memo;
+  });
+  assert.notEqual(result.status, 0, "an unapproved unit passed the delta");
+  assert.match(composedDrift(result), /unapproved unit added: example-composed-stage-3/);
+});
+
+// 4. Changing sequential unit order fails.
+check("changing sequential stage order fails the delta", () => {
+  const result = composedDriftFixture((memo) => {
+    memo.tracks[0].units[0].order = 2;
+    memo.tracks[0].units[1].order = 1;
+    return memo;
+  });
+  assert.notEqual(result.status, 0, "a reordered sequential composition passed the delta");
+  assert.match(composedDrift(result), /sequential stage order|\.order:/);
+});
+
+// Alternative branches are selected by a predicate, not by position, so their
+// array order is deliberately not substantive. Proven so the sequential rule
+// above is not quietly over-broad.
+check("reordering alternative branches is not a substantive change", () => {
+  const alternative = (reversed) =>
+    composedFixtureMemo((memo) => {
+      const track = memo.tracks[0];
+      track.compositionMode = "alternative";
+      track.units = [
+        {
+          unitId: "example-composed-branch-a",
+          order: 1,
+          label: "Branch A",
+          outputStrategy: "process_guidance",
+          outputStrategyStatus: "resolved",
+          packetIdentity: "identified",
+          description: "Applies on one set of facts.",
+          available: true
+        },
+        {
+          unitId: "example-composed-branch-b",
+          order: 2,
+          label: "Branch B",
+          outputStrategy: "official_pdf_fill",
+          outputStrategyStatus: "resolved",
+          packetIdentity: "identified",
+          description: "Applies on the other.",
+          available: true
+        }
+      ];
+      if (reversed) {
+        track.units.reverse();
+        track.units.forEach((unit, index) => {
+          unit.order = index + 1;
+        });
+      }
+      return memo;
+    });
+
+  const approved = runBatchDelta({ memos: { "AL.memo.json": alternative(false) }, approve: true, batch: "AL" });
+  assert.equal(approved.status, 0);
+
+  const swapped = runBatchDelta({
+    memos: { "AL.memo.json": alternative(true) },
+    approvalsFrom: approved.approvalsPath,
+    batch: "AL"
+  });
+  assert.equal(swapped.status, 0, `alternative branch order was treated as substantive: ${composedDrift(swapped)}`);
+});
+
+// 5. Resolving an unresolved unit without controlling provenance fails.
+check("an unresolved unit cannot become resolved without controlling provenance", () => {
+  const withUnresolvedUnit = (resolved) =>
+    composedFixtureMemo((memo) => {
+      const unit = memo.tracks[0].units[1];
+      if (resolved) {
+        unit.outputStrategy = "official_pdf_fill";
+        unit.outputStrategyStatus = "resolved";
+        unit.packetIdentity = "identified";
+        unit.available = true;
+        delete unit.unavailableReason;
+      } else {
+        delete unit.outputStrategy;
+        unit.outputStrategyStatus = "unresolved";
+        unit.packetIdentity = "unresolved";
+        unit.available = false;
+        unit.unavailableReason = "Counsel has not settled the accepted vehicle.";
+      }
+      return memo;
+    });
+
+  const approved = runBatchDelta({
+    memos: { "AL.memo.json": withUnresolvedUnit(false) },
+    approve: true,
+    batch: "AL"
+  });
+  assert.equal(approved.status, 0);
+
+  // Flipping it to resolved drifts from the approved baseline, so the run fails
+  // rather than silently accepting a vehicle counsel never settled.
+  const flipped = runBatchDelta({
+    memos: { "AL.memo.json": withUnresolvedUnit(true) },
+    approvalsFrom: approved.approvalsPath,
+    batch: "AL"
+  });
+  assert.notEqual(flipped.status, 0, "an unresolved unit was resolved without re-approval");
+  assert.match(composedDrift(flipped), /\.unresolved|\.outputStrategyStatus|\.outputStrategy/);
+
+  // And re-approving is refused where the track carries no counsel-authored
+  // provenance, so the escape hatch cannot launder the change either.
+  const noProvenance = composedFixtureMemo((memo) => {
+    const track = memo.tracks[0];
+    const inferred = {
+      classificationBasis: "mechanical_translation",
+      sourceFile: "fixture.md",
+      sourceHeading: "fixture",
+      sourceStatement: "fixture",
+      normalizerInferred: true
+    };
+    for (const limitation of track.legalDesignDecision.limitations) limitation.provenance = { ...inferred };
+    for (const question of track.unresolvedQuestions ?? []) question.provenance = { ...inferred };
+    return memo;
+  });
+  const refused = runBatchDelta({ memos: { "AL.memo.json": noProvenance }, approve: true, batch: "AL" });
+  assert.notEqual(refused.status, 0, "a resolved unit was approved with no counsel-authored provenance");
+});
+
+// 7. All committed Batch 1 composed routes pass against the committed approvals.
+check("every committed Batch 1 composed route matches its approved unit substance", () => {
+  const report = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-batch-delta-report.json"), "utf8")
+  );
+  const composed = report.composedUnits;
+  assert.ok(composed, "the batch delta report carries no composed-unit section");
+  assert.equal(composed.approvalsPresent, true, "the committed corpus has no composed-unit approvals file");
+  assert.deepEqual(composed.driftingTracks, [], "a committed composed route drifted from its approved substance");
+  assert.equal(composed.composedTracks, composed.approvedTracks);
+  assert.equal(composed.composedTracks, 10);
+  assert.equal(composed.totalUnits, 20);
+  assert.equal(composed.unresolvedUnits, 3);
+
+  // And the approvals file itself still describes the committed corpus.
+  const approvals = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-composed-unit-approvals.json"), "utf8")
+  );
+  assert.equal(approvals.tracks.length, 10);
+  const modes = approvals.tracks.reduce((counts, track) => {
+    counts[track.compositionMode] = (counts[track.compositionMode] ?? 0) + 1;
+    return counts;
+  }, {});
+  assert.deepEqual(modes, { sequential: 7, alternative: 3 });
+  for (const track of approvals.tracks) {
+    assert.equal(track.outputStrategyDeclared, "composed");
+    assert.ok(track.counselAuthoredProvenanceCount > 0, `${track.trackId} has no counsel-authored provenance`);
+    for (const unit of track.units) {
+      assert.ok(unit.unitId, "an approved unit has no stable ID");
+      if (unit.unresolved) assert.equal(unit.available, false, `${unit.unitId} is unresolved but available`);
+      if (unit.available) {
+        assert.ok(
+          ["custom_pleading", "official_pdf_fill", "process_guidance"].includes(unit.outputStrategy),
+          `${unit.unitId} is available with ${unit.outputStrategy}`
+        );
+      }
+    }
+  }
+});
+
 console.log("RCAP legal-design intake verifier passed.");
 console.log(`1. ${checks} contract checks over validation, normalization and queueing.`);
 console.log("2. All eighteen required fields are enforced; a memo missing any one is rejected.");
@@ -1684,4 +2011,10 @@ console.log(
 );
 console.log(
   "21. Selection fails closed on no selection, an unknown, unresolved, unavailable or ambiguous unit. Never first-available."
+);
+console.log(
+  "22. Composed units are pinned to a committed approvals file: a changed strategy, a deleted or added unit, a reordered"
+);
+console.log(
+  "    sequential stage, or a silently resolved unit fails the batch delta. Alternative-branch array order does not."
 );
