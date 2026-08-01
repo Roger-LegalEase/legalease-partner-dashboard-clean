@@ -13,7 +13,8 @@ Audit performed against:
 > **Blocking finding — Phase 48 alone does not make #87 deployable.**
 > The live packet-generation path writes to two tables that no migration in
 > this repository creates. See [§3 Known risks](#3-known-risks-and-unresolved-questions),
-> risk R1. The staging sequence below must not begin until R1 is resolved.
+> risk R1. R1 is now **decided** (see R1 resolution); implementing it is blocked
+> in turn by **R7**, a capacity limit in the Phase 48 `kind` constraint.
 
 ---
 
@@ -278,9 +279,139 @@ exist. That is a correct thing for CI to do and a gap in release assurance.
 until R1 is resolved by an explicit decision. Phase 48 is necessary but not
 sufficient. Applying it changes nothing about R1 — it neither helps nor hurts.
 
-**Open question for Roger:** is the `artifact-service` lane or the
-`packets/store` lane the intended production path? One of the two should be
-retired, or they should be reconciled, before either migration is written.
+### R1 resolution — DECIDED
+
+**The canonical production persistence lane is the Phase 48 artifact-service
+model.** Authorized by Roger, 2026-08-01.
+
+```
+rcap_document_packets
+  → renderer
+  → private object storage
+  → rcap_document_artifacts
+  → authenticated artifact download
+```
+
+- `fulfillPacketArtifact` — or a clearly named replacement preserving the same
+  Phase 48 lifecycle and schema — is the canonical artifact write service.
+- `packets/store.ts` **adapts to this model**. It is treated as an unfinished or
+  superseded persistence abstraction.
+- `rcap_packet_fulfillments` and `rcap_packet_artifacts` **will not be created**.
+  The fact that `SupabasePacketRepository` currently writes to them is not
+  authorization to add a second database model.
+- **No second production persistence schema will be created.**
+- The authenticated download route stays on `rcap_document_artifacts` and will
+  not be rewritten around the nonexistent tables.
+- Local/in-memory storage may remain for renderer-focused unit tests, but must
+  not be the only HTTP acceptance proof and must never be selected in
+  production.
+
+Implementation belongs on the platform-core lane associated with #87, as one
+focused forward-only change. It must not be mixed into
+`feat/record-clearing-batch-2-legal-design`.
+
+**Implementation is currently blocked by R7.**
+
+### R7 — BLOCKING: the Phase 48 `kind` constraint cannot represent an approved packet
+
+Implementing the R1 decision requires a deterministic mapping from component
+identity to artifact `kind`. That mapping cannot be built against the current
+schema without violating one of its own required properties.
+
+**The constraint.** Phase 48 defines:
+
+```sql
+constraint rcap_document_artifacts_kind_check check (kind in ('court', 'full'))
+constraint rcap_document_artifacts_packet_kind_unique unique (document_packet_id, kind)
+```
+
+Two permitted values, unique per packet ⇒ **a packet can hold at most two
+artifacts.**
+
+**The packet that does not fit.** `technical-fixture-pleading-set`
+(`src/lib/rcap/packets/registry.ts:124`), reached through relief track
+`technical-fixture-pleading`, resolves to **four** distinct components:
+
+| # | `componentId` | `role` | order | requirement | Intended participant-visible download |
+|---|---|---|---|---|---|
+| 1 | `pleading-primary` | `primary_filing` | 1 | required | The petition the participant files with the court |
+| 2 | `pleading-proposed-order` | `proposed_order` | 2 | required | The order the judge signs — filed with, but distinct from, the petition |
+| 3 | `pleading-certificate-of-service` | `certificate_of_service` | 3 | required | Proof of service on the prosecutor; a separately filed document |
+| 4 | `pleading-fee-waiver` | `fee_waiver` | 4 | conditional (`requestsFeeWaiver`) | The fee-waiver application, filed only when the participant requests it |
+
+All four are separately rendered PDFs (`lifecycle.ts:141–219` renders, validates
+and stores each one independently) and all four are separately downloadable
+today at `/api/rcap/packets/{fulfillmentId}/components/{componentId}`.
+
+`technical-fixture-acroform-set` (registry.ts:66) is a second, smaller instance:
+`acroform-primary` (`primary_filing`) plus `acroform-instructions`
+(`instructions`). Its own source comment states the design intent directly —
+*"Mixed-strategy packet set: an official form plus generated instructions.
+**Proves a packet is not one PDF.**"* (registry.ts:85–86).
+
+**Why no mapping resolves this.** With four legitimately distinct components and
+two available kinds, any total mapping must either:
+
+- collapse three components onto one `kind`, which the unique constraint turns
+  into an overwrite — forbidden by the mapping requirement *"never overwrite two
+  legitimately distinct components under one kind"*; or
+- drop components, silently removing a participant-visible filing document —
+  which for `proposed_order` or `certificate_of_service` means the participant
+  files an incomplete set.
+
+Neither is acceptable. Merging all components into one assembled `full` PDF is
+also rejected: it destroys the per-component `sourceIdentity`, `sourceSha256`,
+`rendererStrategy` and `rendererVersion` provenance that Phase 48's own columns
+exist to record, and it contradicts the accepted "a packet is not one PDF"
+design.
+
+**Scope note.** All 10 tracks in `RELIEF_TRACKS` currently carry
+`technicalFixture: true` and `runtimeDisabled: true` (`registry.ts:261–274`) —
+consistent with zero enabled jurisdictions and zero `packet_ready` tracks. So no
+*legally* approved participant packet is affected today. The blocker is
+nonetheless real and must be resolved before implementation, for two reasons:
+the fixture packets are the only packets the required database-backed acceptance
+proof can exercise, and the four-component shape is the ordinary shape of a real
+expungement filing, not an artifact of the fixture.
+
+**Smallest schema extension required.** Move artifact identity from `kind` to
+the component, which the packet model already treats as the stable artifact key
+(`types.ts:147` — *"Stable across versions. Used as the artifact key."*):
+
+```sql
+alter table public.rcap_document_artifacts
+  add column if not exists component_id text not null;
+
+alter table public.rcap_document_artifacts
+  drop constraint if exists rcap_document_artifacts_packet_kind_unique;
+
+alter table public.rcap_document_artifacts
+  add constraint rcap_document_artifacts_packet_component_unique
+    unique (document_packet_id, component_id);
+```
+
+That is one added column, one dropped constraint, one added constraint.
+
+- `kind` is **retained unchanged**, as the coarse court-facing / participant-
+  facing classification its comment describes, but stops carrying uniqueness.
+- Idempotency identity becomes `(document_packet_id, component_id)`, preserving
+  the "a retry conflicts rather than fulfilling twice" guarantee at
+  per-component granularity.
+- Multiple artifacts per packet are preserved, with no component able to
+  overwrite another.
+- The authenticated download route continues to serve by `kind` for the
+  court/full rendition, and the per-component route continues to serve by
+  `componentId`. Both read the same canonical table.
+
+Because Phase 48 is unapplied everywhere, this is a **forward edit to #89**, not
+a follow-up migration. It stays additive, idempotent and transactional.
+
+**This is not a return to the second persistence model.** It extends the
+canonical Phase 48 model by exactly one column so that model can express the
+packets the platform already builds.
+
+**Decision required from Roger before implementation proceeds:** approve the
+three-statement extension to #89 above, or specify a different resolution.
 
 ### R2 — Whole-table validating scan under ACCESS EXCLUSIVE
 
@@ -325,10 +456,30 @@ The migration's own rollback notes (lines 189–203) require that rows in the
 three new statuses be moved back before the old constraint can be restored. No
 script does this. See §9.
 
+### PR #87 remains operationally blocked
+
+#87 must not be released until **all** of the following hold:
+
+1. The production generate route writes canonical artifacts through the Phase 48
+   artifact-service lane (R1 resolution) — **not done, blocked by R7**.
+2. R7 is resolved: the `kind`/uniqueness capacity limit is lifted so a
+   multi-component packet can be represented — **not done, awaiting decision**.
+3. The database-backed acceptance proof passes against a real Phase 48 schema
+   and the production repository selection — **not written, blocked by R7**.
+4. Phase 48 is validated on staging per §4–§6 — **not started**.
+5. The Phase 48 migration is applied **before** the new application code is
+   deployed (§2.5, §2.6 establish this ordering) — **not started**.
+
+Merging #87 is separately prohibited until it can merge with a merge commit
+after the release sequence is authorized.
+
 ### Unresolved questions
 
-1. R1's lane question — which path is production?
-2. Row count of `rcap_document_packets` in staging and production (R2).
+1. ~~R1's lane question — which path is production?~~ **Resolved**: the Phase 48
+   artifact-service model. See R1 resolution.
+2. R7: approve the three-statement extension to #89, or specify another
+   resolution.
+3. Row count of `rcap_document_packets` in staging and production (R2).
 3. Whether `rcap-document-packets-private` already exists in either environment
    from an earlier manual step — the `on conflict do update` would silently
    adopt and reconfigure it.
@@ -344,7 +495,8 @@ instruction, and not at all until R1 is resolved.**
 
 | # | Step | Gate before proceeding |
 |---|---|---|
-| 1 | Resolve R1; land whatever migration and wiring the decision requires | New migration reviewed and held like #89 |
+| 0 | Resolve R7 — extend #89 so a multi-component packet is representable | Extension reviewed; #89 still draft and unapplied |
+| 1 | Implement the R1 decision: generate route writes canonical artifacts | DB-backed acceptance proof green |
 | 2 | Take a verified staging database snapshot | Restore tested, not just taken |
 | 3 | Run §5 preflight | All checks pass |
 | 4 | Apply `phase-48-rcap-document-artifact-storage.sql` to staging in a single transaction | `commit` returns clean |
@@ -394,8 +546,16 @@ Runs **after** a future authorized migration application and #87 deploy. Every
 item exercises real behaviour over the real HTTP route against real Supabase —
 not the local driver, and not a unit assertion.
 
-> Blocked by R1 as written. Items 1–3 cannot pass while the generation path and
-> the download path use different artifact tables.
+> Blocked by R7. Items 1–3 cannot pass until the generate route writes canonical
+> artifacts (R1 resolution), which in turn requires a schema able to hold more
+> than two artifacts per packet.
+>
+> This section is the *staging* acceptance test, run against a real environment.
+> It does not replace the **database-backed acceptance proof** required before
+> staging — an ephemeral Postgres/PGlite database carrying the real Phase 48
+> schema, driving the production repository selection rather than
+> `RCAP_PACKET_STORE_DRIVER=local`. The existing local-driver HTTP test may
+> remain as a fast test, but it is not production-path proof.
 
 | # | Test | Pass condition |
 |---|---|---|
