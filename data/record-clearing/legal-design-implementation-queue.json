@@ -1,15 +1,14 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 15,
-  "jurisdictionsOutstanding": 36,
+  "jurisdictionsReceived": 16,
+  "jurisdictionsOutstanding": 35,
   "outstandingJurisdictions": [
     "GA",
     "KS",
     "KY",
     "LA",
     "MA",
-    "MD",
     "ME",
     "MI",
     "MN",
@@ -817,7 +816,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 33,
+      "trackCount": 38,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -2153,6 +2152,186 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10105_1_automatic",
+          "publicName": "Automatic clearing of a case that ended without a conviction",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists for this mechanism. The output is qualification confirmation, the automatic date, and an explicit instruction not to spend money."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10112_dpscs_cannabis",
+          "publicName": "Checking whether the one-time cannabis clearing already covered your case",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Classified as a completed_or_verification non-relief node. It is a completed statutory sweep, not a live participant remedy, and must not be counted as a paid packet mechanism.",
+            "No participant filing exists. DPSCS executed the sweep against the Central Repository."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether SB 315 (2026) was enacted. It would extend § 10-112 to the MDEC system and change 'issued' to 'disposed of'."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10103_1_automatic",
+          "publicName": "Automatic clearing of police records after you were released without being charged",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. The entitlement is automatic within 60 days and no application is made."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The statutory remedy where an agency fails to comply with § 10-103.1, as distinct from the § 10-103(f) court-application path, is not clearly identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10103_legacy_police",
+          "publicName": "Clearing police records from an arrest before October 2007",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant can enter this route. The 8-year request window for a pre-October-2007 incident closed no later than October 2015. The mechanism and forms are known; there are simply no eligible participants.",
+            "DC-CR-071 remains source-gated in the corpus and is not runtime-selectable while no participant can enter the route."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10104_pre_service",
+          "publicName": "Clearing a case the State dropped before you were ever served",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. The District Court may order expungement on the State's nolle prosequi before service; the statute describes court action, not a participant petition."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -2204,7 +2383,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 95,
+      "trackCount": 101,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -6424,6 +6603,237 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (output_strategy): Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10105_favorable",
+          "publicName": "Expungement of a case that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not generate a custom pleading for this route. The petition content is prescribed by Rules-approved forms and the clerk and MDEC systems are built around them."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the single incident block on CC-DC-CR-072A requires a continuation page for a multi-charge incident.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+                "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+                "sourceStatement": "Continuation page | Unresolved. The form has one incident block."
+              }
+            }
+          ],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): The waiting period for a case transferred to juvenile court under § 4-202 is not specified in § 10-105(c)."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether SB 315 (2026 session), which would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026, was enacted."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10105_early",
+          "publicName": "Ask the court to expunge now instead of waiting three years",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_10110_conviction",
+          "publicName": "Expungement of an eligible conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_cannabis_petition",
+          "publicName": "Expungement of a cannabis charge or conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_pardon_expungement",
+          "publicName": "Expungement after a pardon from the Governor",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "For most cannabis participants the dedicated cannabis route is the cleaner path and avoids the 'only one criminal act' question entirely. Prefer it."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether the June 2024 mass pardon of more than 175,000 cannabis and paraphernalia possession convictions satisfies § 10-105(a)(8), and in particular the 'only one criminal act' condition for people with other convictions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MD",
+          "trackId": "md_second_chance_shielding",
+          "publicName": "Shielding a conviction from public view",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Hard-block every multi-court and multi-county record. Generate only where the participant has eligible convictions in exactly one court in exactly one county. Do not ship an unrestricted shielding packet generator for Maryland.",
+            "The adopted memorandum controls the strategy: the narrow eligible-offence list, the lifetime petition rule and the court-of-conviction venue are scope and routing fields, not reasons to deny packet identity."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a shielding petition. The Judiciary shielding page and CC-DC-CR-148A state $0; verify at build time."
             },
             {
               "kind": "source_gate",

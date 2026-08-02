@@ -190,6 +190,36 @@ Two findings worth carrying forward:
 | Deferred | 0 | 0 | 0 | **0** |
 | Build blockers | 0 | 1 | 1 | **2** |
 
+## Maryland — done
+
+`data/record-clearing/legal-design-intake/MD.memo.json`
+
+11 source slots → **11 nodes**: 10 `relief_track` + 1 `completed_or_verification`
+(the DPSCS cannabis sweep, per the adopted memorandum). 0 deferred. Strategies:
+`official_pdf_fill` 6, `process_guidance` 5. **0 build blockers**, 7 release
+blockers across 6 tracks. Source-complete — the Batch 2 import already supplied
+all five forms the review flagged as missing.
+
+Three corrections to the source review, all recorded in the memo provenance:
+
+- **`md_second_chance_shielding` is packet-capable.** The review recommended
+  guidance-only; the adopted memorandum controls and directs
+  `official_pdf_fill` on CC-DC-CR-148 with MDJ-008, treating the
+  once-per-lifetime/one-court/one-county rules as scope and routing fields. The
+  review's multi-court hard block is retained as the scope restriction.
+- **`md_10103_legacy_police` is not composed.** The memorandum directs a staged
+  official-form route, but § 10-103 requires the request within 8 years of an
+  incident that must predate 1 October 2007, so the entry window closed no later
+  than October 2015 and neither stage is reachable. A composed route requires at
+  least one available unit, so it is `process_guidance` on a closed-window scope
+  restriction. The memorandum's actual correction is preserved: DC-CR-071 is the
+  **Maryland District Court** form, not a D.C. limitation.
+- **`md_10104_pre_service` resolved from primary authority.** The review left it
+  open ("full text not pulled"). § 10-104 empowers the **District Court** to
+  order expungement on the State's nolle prosequi before service unless the State
+  objects, and bars costs against the defendant. No participant filing exists, so
+  `process_guidance` now rests on a precise ground.
+
 ## Not started
 
 **B4–B9 legal-design normalization of the remaining eleven jurisdictions.**
@@ -201,7 +231,7 @@ Committed bounded groups (operational only; does not change legal precedence):
 | # | Group | Slots | Status |
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
-| 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | not started |
+| 2 | **Maryland done**, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | **1 of 4** |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 

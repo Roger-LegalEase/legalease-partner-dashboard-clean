@@ -3,9 +3,9 @@
   "planOfRecord": "docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md",
   "note": "Imported from legal-design memos. Every track is runtime_disabled: design approval is not output approval, and packet_ready additionally requires source approval, technical proof, visual review, a current source and runtime enablement.",
   "participantNote": "participantActionRequired and requiredBeforeFiling describe what the participant does after LegalEase hands them the packet. LegalEase does not collect, inspect or authenticate any of it, and none of it gates generation or packet_ready.",
-  "jurisdictionsReceived": 15,
-  "jurisdictionsOutstanding": 36,
-  "trackCount": 144,
+  "jurisdictionsReceived": 16,
+  "jurisdictionsOutstanding": 35,
+  "trackCount": 155,
   "packetReadyCount": 0,
   "tracks": [
     {
@@ -55447,6 +55447,3732 @@
         {
           "kind": "release_blocker",
           "statement": "Open question blocks release (correct_form): Whether a statewide form exists for an I.C. 34-28-5-15 infraction petition, and how counties handle the MC case-type assignment where no cause number was assigned."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10105_favorable",
+      "legalName": "Petition for Expungement of Records under Md. Code, Criminal Procedure § 10-105",
+      "publicName": "Expungement of a case that did not end in a conviction",
+      "mechanism": "Police, court and other State or local records may be expunged on petition for the § 10-105(a) favorable dispositions. Absent a timely State's Attorney objection § 10-105(d)(2) directs the court to pass the order; Maryland appellate law holds a court has no discretion to deny where statutory entitlement is shown. As amended by the Expungement Reform Act of 2025, effective October 1, 2025.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-105",
+        "Md. Code, Crim. Proc. § 10-107",
+        "Md. Code, Crim. Proc. § 10-105.4",
+        "Md. Rules Title 4 ch. 500",
+        "Md. Rule 4-504.1"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "police_record",
+        "court_record",
+        "state_or_local_record"
+      ],
+      "dispositions": [
+        "acquittal",
+        "dismissal",
+        "probation_before_judgment",
+        "nolle_prosequi",
+        "stet",
+        "compromise_criminal_law_3_207",
+        "transfer_to_juvenile_court",
+        "nuisance_crime_conviction",
+        "not_criminally_responsible",
+        "act_no_longer_a_crime",
+        "conviction_vacated_8_302"
+      ],
+      "exclusions": [
+        "A PBJ entered on a charge under Transportation § 21-902(c), (d), (h) or (i), Criminal Law Title 2 Subtitle 5, or Criminal Law § 3-211, is not eligible at all under § 10-105(a)(3).",
+        "The § 10-105(a-1) carve-out for a pre-October 1, 2020 sodomy conviction or a pre-October 1, 2023 § 3-322 violation committed without consent, with a minor under 16, with a person the individual could not marry under Family Law § 2-202, or with a mentally incapacitated, physically helpless or substantially cognitively impaired individual.",
+        "Non-incarcerable vehicle-law and traffic violations, per the form's own affirmation.",
+        "The unit rule under § 10-107(b)(1), subject to the minor-traffic and cannabis-possession carve-outs in § 10-107(a).",
+        "Ineligible while a defendant in a pending criminal proceeding, § 10-105(e)(4)(iii).",
+        "For a PBJ, a conviction within 3 years of the PBJ other than a minor traffic violation or an act no longer a crime, § 10-105(e)(4)(i); extended to 15 years for a § 21-902(a) or (b) PBJ under § 10-105(e)(4)(ii)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Acquittal, dismissal or nolle prosequi",
+          "duration": "3 years from disposition, or immediately with a General Waiver and Release"
+        },
+        {
+          "condition": "Probation before judgment",
+          "duration": "The later of discharge from probation or 3 years from the grant of PBJ"
+        },
+        {
+          "condition": "PBJ for Transportation § 21-902(a) or (b)",
+          "duration": "15 years from the date discharged from probation"
+        },
+        {
+          "condition": "Nolle prosequi with a drug or alcohol treatment requirement",
+          "duration": "On completion of the required treatment"
+        },
+        {
+          "condition": "Stet",
+          "duration": "3 years from the stet"
+        },
+        {
+          "condition": "Stet with a drug or alcohol treatment requirement",
+          "duration": "The later of treatment completion or 3 years from docket entry"
+        },
+        {
+          "condition": "Compromise under Criminal Law § 3-207",
+          "duration": "3 years"
+        },
+        {
+          "condition": "Nuisance-crime conviction under § 10-105(a)(9)",
+          "duration": "3 years from the later of conviction or satisfactory completion of sentence including probation"
+        },
+        {
+          "condition": "Not criminally responsible",
+          "duration": "3 years from the finding"
+        },
+        {
+          "condition": "Act no longer a crime, or conviction vacated under § 8-302",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-105(b). File in the court where the proceeding began; if transferred, the court to which it was transferred; if transferred to juvenile court under § 4-202 or § 4-202.2, the court of original jurisdiction that entered the transfer order; if appealed, the appellate court, which may remand. District Court of Maryland or circuit court, whichever heard the case, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing where the county is on MDEC. The court serves the State's Attorney under § 10-105(d)(1)."
+      },
+      "packetSet": {
+        "packetSetId": "md_10105_favorable-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10105_favorable-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-072A",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Unit determination for ambiguous charge groupings — Petition, offense block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required. The petitioner signs the affirmation under penalties of perjury. An attorney block is optional.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$0 on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable. There is no fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves. § 10-105(d)(1) places service on the court, not the participant.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court that heard the case, in person, by mail, or through MDEC e-filing where the county is on MDEC.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Unit determination for ambiguous charge groupings — Petition, offense block.",
+          "Required. The petitioner signs the affirmation under penalties of perjury. An attorney block is optional.",
+          "$0 on this track.",
+          "Not applicable. There is no fee."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 (Rules 4-501 through 4-512) and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File with the clerk of the court that heard the case, in person, by mail, or through MDEC e-filing where the county is on MDEC.",
+        "fees": "$0 on this track.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The State's Attorney is served by the court. The objection period is 30 days after the petition is served, § 10-105(d)(2). Absent a timely objection the court passes the order.",
+        "service": "The court serves. § 10-105(d)(1) places service on the court, not the participant.",
+        "participantSignature": "Required. The petitioner signs the affirmation under penalties of perjury. An attorney block is optional.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "treatmentRequirement",
+          "question": "Did the stet or nolle prosequi carry a drug or alcohol treatment requirement?",
+          "requirement": "required"
+        },
+        {
+          "key": "treatmentCompletionDate",
+          "question": "If so, when did you complete the treatment?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a treatment requirement applied, because it changes the clock entirely."
+        },
+        {
+          "key": "probationDischargeDate",
+          "question": "For a probation before judgment, when were you discharged from probation?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for a PBJ."
+        },
+        {
+          "key": "interveningConviction",
+          "question": "Have you been convicted of anything since, other than a minor traffic violation?",
+          "requirement": "required"
+        },
+        {
+          "key": "isDuiPbj",
+          "question": "Was the probation before judgment on a DUI or DWI charge under Transportation § 21-902?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn factual and legal assertion signed under penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Unit determination for ambiguous charge groupings",
+          "whereInPacket": "Petition, offense block",
+          "why": "Whether charges form a unit under § 10-107 is a legal judgment the review bars from automation."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The State's Attorney files a timely objection.",
+        "The court sets a hearing.",
+        "Charges in the incident form an ambiguous unit.",
+        "A PBJ may have been entered on an excluded Title 2 Subtitle 5 or § 3-211 charge.",
+        "The § 10-105(a-1) carve-out may apply.",
+        "The participant is deciding whether to file a General Waiver and Release, which waives tort claims.",
+        "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed."
+      ],
+      "postGenerationHandoffs": [
+        "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed."
+      ],
+      "packetInstructions": [
+        "The court serves the State's Attorney. The participant does not serve anyone and no certificate of service is filed.",
+        "Do not generate a proposed order. The Maryland court generates the order.",
+        "Explain the post-order sequence: custodians have 60 days to comply and to advise the court and the petitioner in writing, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+        "Tell the participant that although § 10-109 bars an employer, educational institution or State or local unit from requiring disclosure of expunged charges, the Judiciary's own brochure warns a person may still be required to disclose expunged cases in situations Maryland law does not govern."
+      ],
+      "participantQuestions": [
+        "Ask about every charge in the incident. The unit rule at § 10-107(b)(1) means one ineligible charge in a unit can defeat the whole unit, subject to the § 10-107(a) minor-traffic and cannabis-possession carve-outs. Whether ambiguous charges form a unit is a legal judgment and is not automated.",
+        "Ask whether a stet or nolle carried a drug or alcohol treatment requirement. It changes the clock entirely."
+      ],
+      "scopeRestrictions": [
+        "Do not generate a custom pleading for this route. The petition content is prescribed by Rules-approved forms and the clerk and MDEC systems are built around them."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "The waiting period for a case transferred to juvenile court under § 4-202 is not specified in § 10-105(c).",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1",
+            "sourceStatement": "Transfer to juvenile court under § 4-202 | (a)(7) | Not specified in (c) | See Open Questions"
+          }
+        },
+        {
+          "question": "Whether SB 315 (2026 session), which would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026, was enacted.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1",
+            "sourceStatement": "SB 315 (2026 session) would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026. Enactment status not confirmed in this pass."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [
+        {
+          "question": "Whether the single incident block on CC-DC-CR-072A requires a continuation page for a multi-charge incident.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Continuation page | Unresolved. The form has one incident block."
+          }
+        }
+      ],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The State's Attorney files a timely objection.",
+        "The court sets a hearing.",
+        "Charges in the incident form an ambiguous unit.",
+        "A PBJ may have been entered on an excluded Title 2 Subtitle 5 or § 3-211 charge.",
+        "The § 10-105(a-1) carve-out may apply.",
+        "The participant is deciding whether to file a General Waiver and Release, which waives tort claims."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The waiting period for a case transferred to juvenile court under § 4-202 is not specified in § 10-105(c).",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1",
+            "sourceStatement": "Transfer to juvenile court under § 4-202 | (a)(7) | Not specified in (c) | See Open Questions"
+          }
+        },
+        {
+          "question": "Whether SB 315 (2026 session), which would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026, was enacted.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1",
+            "sourceStatement": "SB 315 (2026 session) would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026. Enactment status not confirmed in this pass."
+          }
+        },
+        {
+          "question": "Whether the single incident block on CC-DC-CR-072A requires a continuation page for a multi-charge incident.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Continuation page | Unresolved. The form has one incident block."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the State's Attorney. The participant does not serve anyone and no certificate of service is filed.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Certificate or proof of service | Not applicable. § 10-105(d)(1) puts service on the court."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate a proposed order. The Maryland court generates the order.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Proposed order | Not applicable. Court-generated."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask about every charge in the incident. The unit rule at § 10-107(b)(1) means one ineligible charge in a unit can defeat the whole unit, subject to the § 10-107(a) minor-traffic and cannabis-possession carve-outs. Whether ambiguous charges form a unit is a legal judgment and is not automated.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+            "sourceStatement": "Whether two or more charges form a \"unit\" under § 10-107 where the charging documents or incident grouping are ambiguous."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Explain the post-order sequence: custodians have 60 days to comply and to advise the court and the petitioner in writing, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "Custodians have 60 days to comply and to advise the court and the petitioner in writing (§ 10-105(f)); each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant that although § 10-109 bars an employer, educational institution or State or local unit from requiring disclosure of expunged charges, the Judiciary's own brochure warns a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "Hearing: Only on timely State's Attorney objection (§ 10-105(e)(1))."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "Do not generate a custom pleading for this route. The petition content is prescribed by Rules-approved forms and the clerk and MDEC systems are built around them.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / Why this strategy is legally appropriate",
+            "sourceStatement": "Generating a custom pleading would provide no legal benefit, would create rejection risk at the counter, and would move sworn statutory recitals from an approved form into LegalEase-authored text. Do not do it."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask whether a stet or nolle carried a drug or alcohol treatment requirement. It changes the clock entirely.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+            "sourceStatement": "Whether a stet or nolle carried a drug or alcohol treatment requirement, which changes the clock entirely."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (waiting_period): The waiting period for a case transferred to juvenile court under § 4-202 is not specified in § 10-105(c)."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (governing_mechanism): Whether SB 315 (2026 session), which would amend §§ 10-109, 10-111 and 10-112 with a proposed effective date of October 1, 2026, was enacted."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10105_early",
+      "legalName": "Petition for Expungement with General Waiver and Release under § 10-105(c)(1)",
+      "publicName": "Ask the court to expunge now instead of waiting three years",
+      "mechanism": "Where a written general waiver and release of all tort claims arising from the charge is filed with the petition, the three-year wait does not apply. The eligible disposition set is narrower than the ordinary petition and does not include PBJ or stet.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-105(c)(1)",
+        "Md. Rule 4-503.2"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "police_record",
+        "court_record",
+        "state_or_local_record"
+      ],
+      "dispositions": [
+        "acquittal",
+        "not_guilty",
+        "dismissal",
+        "nolle_prosequi_without_treatment_requirement"
+      ],
+      "exclusions": [
+        "Probation before judgment and stet are outside this route; the form's checkbox list is narrower than CC-DC-CR-072A's.",
+        "A nolle prosequi entered with a drug or alcohol treatment requirement.",
+        "The unit rule under § 10-107."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A written general waiver and release of all tort claims arising from the charge is filed with the petition",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-105(b). File in the court where the proceeding began; if transferred, the court to which it was transferred; if transferred to juvenile court under § 4-202 or § 4-202.2, the court of original jurisdiction that entered the transfer order; if appealed, the appellate court, which may remand. District Court of Maryland or circuit court, whichever heard the case, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing where the county is on MDEC. The court serves the State's Attorney under § 10-105(d)(1)."
+      },
+      "packetSet": {
+        "packetSetId": "md_10105_early-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10105_early-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-072C",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "md_10105_early-attachment-2",
+            "role": "attachment",
+            "requirement": "conditional",
+            "conditionDescription": "Where the alternative route is used: CC-DC-CR-072A plus a standalone waiver.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-078",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-078__general-waiver-and-release__rev-2025-01.pdf",
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature on the General Waiver and Release — Waiver and release block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required on both the petition and the waiver.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$0.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable. There is no fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court that heard the case.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Signature on the General Waiver and Release — Waiver and release block.",
+          "Required on both the petition and the waiver.",
+          "$0.",
+          "Not applicable. There is no fee."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 (Rules 4-501 through 4-512) and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File with the clerk of the court that heard the case.",
+        "fees": "$0.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The State's Attorney is served by the court; 30-day objection period.",
+        "service": "The court serves.",
+        "participantSignature": "Required on both the petition and the waiver.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "understandsWaiverTradeoff",
+          "question": "Do you understand that filing the waiver gives up your right to sue the arresting agency and its officers over this charge, and that waiting three years costs nothing and keeps that right?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn factual and legal assertion signed under penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Signature on the General Waiver and Release",
+          "whereInPacket": "Waiver and release block",
+          "why": "The waiver extinguishes tort claims against the arresting agency and its officers. The participant signs it knowingly and on their own."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The participant is unsure whether to trade the tort claim for speed.",
+        "The State's Attorney objects.",
+        "Any indication of a viable claim against the arresting agency.",
+        "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed.",
+        "The waiver decision itself is a legal judgment about a potential claim. Route to counsel where the participant is unsure or where a claim may be viable."
+      ],
+      "postGenerationHandoffs": [
+        "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed.",
+        "The waiver decision itself is a legal judgment about a potential claim. Route to counsel where the participant is unsure or where a claim may be viable."
+      ],
+      "packetInstructions": [
+        "The court serves the State's Attorney. The participant does not serve anyone and no certificate of service is filed.",
+        "Do not generate a proposed order. The Maryland court generates the order.",
+        "Tell the participant that although § 10-109 bars an employer, educational institution or State or local unit from requiring disclosure of expunged charges, the Judiciary's own brochure warns a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Whenever this route is offered, tell the participant that waiting costs nothing and preserves their tort claim, and that filing now trades that claim for speed. Presenting this route without that comparison is a defect.",
+        "Where all charges ended in acquittal, dismissal, not guilty or nolle prosequi and the disposition was entered on or after October 1, 2021, the case expunges automatically at three years under § 10-105.1. Surface the automatic route before offering this one."
+      ],
+      "participantQuestions": [
+        "Ask about every charge in the incident. The unit rule at § 10-107(b)(1) means one ineligible charge in a unit can defeat the whole unit, subject to the § 10-107(a) minor-traffic and cannabis-possession carve-outs. Whether ambiguous charges form a unit is a legal judgment and is not automated."
+      ],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The participant is unsure whether to trade the tort claim for speed.",
+        "The State's Attorney objects.",
+        "Any indication of a viable claim against the arresting agency."
+      ],
+      "unresolvedQuestions": [],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the State's Attorney. The participant does not serve anyone and no certificate of service is filed.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Certificate or proof of service | Not applicable. § 10-105(d)(1) puts service on the court."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate a proposed order. The Maryland court generates the order.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Proposed order | Not applicable. Court-generated."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask about every charge in the incident. The unit rule at § 10-107(b)(1) means one ineligible charge in a unit can defeat the whole unit, subject to the § 10-107(a) minor-traffic and cannabis-possession carve-outs. Whether ambiguous charges form a unit is a legal judgment and is not automated.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+            "sourceStatement": "Whether two or more charges form a \"unit\" under § 10-107 where the charging documents or incident grouping are ambiguous."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant that although § 10-109 bars an employer, educational institution or State or local unit from requiring disclosure of expunged charges, the Judiciary's own brochure warns a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "A timely State's Attorney objection converts the matter into a contested hearing. Generate the initial packet; hand off when an objection is actually filed.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "Hearing: Only on timely State's Attorney objection (§ 10-105(e)(1))."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Whenever this route is offered, tell the participant that waiting costs nothing and preserves their tort claim, and that filing now trades that claim for speed. Presenting this route without that comparison is a defect.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 2 / Interaction with Track 7",
+            "sourceStatement": "Product rule: whenever Track 2 is offered, LegalEase must tell the participant that waiting costs nothing and preserves their tort claim, and that filing now trades that claim for speed. Presenting Track 2 without that comparison would be a defect."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Where all charges ended in acquittal, dismissal, not guilty or nolle prosequi and the disposition was entered on or after October 1, 2021, the case expunges automatically at three years under § 10-105.1. Surface the automatic route before offering this one.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 2 / Interaction with Track 7",
+            "sourceStatement": "For cases where all charges ended in acquittal, dismissal, not guilty or nolle prosequi and the disposition was entered on or after October 1, 2021, the case expunges automatically at three years under § 10-105.1."
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "The waiver decision itself is a legal judgment about a potential claim. Route to counsel where the participant is unsure or where a claim may be viable.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+            "sourceStatement": "Whether to file a General Waiver and Release, which is a knowing waiver of tort claims against the arresting agency and its officers."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10110_conviction",
+      "legalName": "Petition for Expungement of a Conviction under Md. Code, Criminal Procedure § 10-110",
+      "publicName": "Expungement of an eligible conviction",
+      "mechanism": "Convictions on the § 10-110(a) enumerated list may be expunged after the applicable period from completion of the sentence. Absent objection § 10-110(e)(3) makes the order mandatory. On a timely objection by the State's Attorney or a victim, § 10-110(f)(2) requires a hearing and five findings on the record. SB 432 (2025) overrode In re Expungement Petition of Abhishek I., so a probation violation no longer automatically disqualifies.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-110",
+        "Md. Code, Crim. Proc. § 10-105(a)(8)",
+        "Md. Code, Crim. Proc. § 10-105(a)(9)",
+        "Md. Code, Crim. Proc. § 10-105(a)(11)",
+        "Md. Code, Crim. Proc. § 10-107"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction_record"
+      ],
+      "dispositions": [
+        "eligible_misdemeanor_conviction",
+        "eligible_felony_conviction",
+        "nuisance_crime_conviction",
+        "act_no_longer_a_crime",
+        "pardoned_conviction"
+      ],
+      "exclusions": [
+        "Any conviction not on the § 10-110(a) enumerated list. Violent offenses, most serious felonies and registrable sex offenses are outside the list.",
+        "DUI and DWI convictions are not on the list; only a PBJ or other non-conviction outcome reaches the § 10-105 route.",
+        "Conviction of a new crime during the applicable waiting period, unless that new conviction is itself eligible for expungement, § 10-110(d).",
+        "Defendant in a pending criminal proceeding.",
+        "Unit rule under § 10-107, subject to the (a) carve-outs."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Default eligible misdemeanor, from completion of the sentence",
+          "duration": "5 years"
+        },
+        {
+          "condition": "Criminal Law § 3-203 second-degree assault or common law battery",
+          "duration": "7 years"
+        },
+        {
+          "condition": "Domestically related crime under Crim. Proc. § 6-233",
+          "duration": "15 years"
+        },
+        {
+          "condition": "Eligible felony, default",
+          "duration": "7 years"
+        },
+        {
+          "condition": "Possession with intent to distribute cannabis under Criminal Law § 5-602",
+          "duration": "3 years"
+        },
+        {
+          "condition": "Criminal Law § 6-202(a), § 6-203, or felony § 7-104",
+          "duration": "10 years"
+        },
+        {
+          "condition": "Nuisance crime under § 10-105(a)(9)",
+          "duration": "3 years from the later of conviction or satisfactory completion of sentence"
+        },
+        {
+          "condition": "Act no longer a crime under § 10-105(a)(11)",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-110(b), the same structure as § 10-105(b): the court where the proceeding began, or to which it was transferred. District Court of Maryland or circuit court, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+      },
+      "packetSet": {
+        "packetSetId": "md_10110_conviction-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10110_conviction-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-072B",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "md_10110_conviction-fee-waiver-2",
+            "role": "fee_waiver",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant cannot pay the $30 filing fee.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-089",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Proof of restitution payment, or documentation of inability to pay. Ask the clerk for the restitution balance. Where it cannot be paid, gather the financial documentation the court will expect at a hearing.",
+            "obtainedFrom": "Clerk of the sentencing court, or the participant's own financial records",
+            "requirement": "conditional",
+            "conditionDescription": "Where restitution was ordered in the original proceeding.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"Is any restitution from the original case still unpaid?\" against Proof of restitution payment, or documentation of inability to pay, and correct the packet if they disagree.",
+            "requirement": "conditional",
+            "conditionDescription": "Where restitution was ordered in the original proceeding.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Charge-to-statute mapping against the § 10-110(a) list — Petition, offense block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required, under penalties of perjury.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$30, non-refundable, per case rather than per charge in a unit. The fee attaches to the form, not the statute: a nuisance-crime expungement under § 10-105(a)(9) is a $30 filing because it is filed on CC-DC-CR-072B. Key the fee logic on the form selected, not the code section.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court that heard the case, in person, by mail, or through MDEC e-filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Obtain Proof of restitution payment, or documentation of inability to pay. Ask the clerk for the restitution balance. Where it cannot be paid, gather the financial documentation the court will expect at a hearing.",
+          "Check your answer to \"Is any restitution from the original case still unpaid?\" against Proof of restitution payment, or documentation of inability to pay, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Charge-to-statute mapping against the § 10-110(a) list — Petition, offense block.",
+          "Required, under penalties of perjury.",
+          "$30, non-refundable, per case rather than per charge in a unit. The fee attaches to the form, not the statute: a nuisance-crime expungement under § 10-105(a)(9) is a $30 filing because it is filed on CC-DC-CR-072B. Key the fee logic on the form selected, not the code section.",
+          "Request for Waiver of Prepaid Costs, CC-DC-089."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File with the clerk of the court that heard the case, in person, by mail, or through MDEC e-filing.",
+        "fees": "$30, non-refundable, per case rather than per charge in a unit. The fee attaches to the form, not the statute: a nuisance-crime expungement under § 10-105(a)(9) is a $30 filing because it is filed on CC-DC-CR-072B. Key the fee logic on the form selected, not the code section.",
+        "feeWaiver": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+        "notice": "The court serves the State's Attorney and gives written notice to each listed victim. Objection period is 30 days after service. Absent objection the order is mandatory under § 10-110(e)(3).",
+        "service": "The court serves.",
+        "participantSignature": "Required, under penalties of perjury.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the sentence, including any probation, parole or supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which exact Criminal Law article section was each conviction under?",
+          "requirement": "required"
+        },
+        {
+          "key": "domesticallyRelated",
+          "question": "Was the offence classified as a domestically related crime under Crim. Proc. § 6-233?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConviction",
+          "question": "Have you been convicted of any new crime during the waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution from the original case still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "cannotPayRestitution",
+          "question": "If restitution is unpaid, are you unable to pay it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where restitution is outstanding, because § 10-110(f)(2) allows the court to find that the person cannot pay."
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the $30 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        },
+        {
+          "name": "Proof of restitution payment, or documentation of inability to pay",
+          "obtainedFrom": "Clerk of the sentencing court, or the participant's own financial records",
+          "requirement": "conditional",
+          "conditionDescription": "Where restitution was ordered in the original proceeding.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the restitution balance. Where it cannot be paid, gather the financial documentation the court will expect at a hearing.",
+          "confirms": "restitutionOutstanding"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn assertion under penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Charge-to-statute mapping against the § 10-110(a) list",
+          "whereInPacket": "Petition, offense block",
+          "why": "Mapping every charge to a Criminal Law article section and testing it against the enumerated list is a legal judgment the review bars from automation."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The State's Attorney or a victim files a timely objection.",
+        "The court sets a hearing under § 10-110(f)(2).",
+        "Restitution is outstanding and disputed.",
+        "Charge classification against the § 10-110(a) list is unclear.",
+        "Whether an intervening conviction is itself eligible is unclear, which is a recursive eligibility question.",
+        "The offence may be domestically related under § 6-233.",
+        "On a timely objection by the State's Attorney or a victim, § 10-110(f)(2) requires a hearing at which the court must find, among other things, that the person is not a risk to public safety, that restitution has been paid or cannot be paid, and that expungement is in the interest of justice. Three of the five findings are discretionary judgments no template can satisfy. Generate the initial packet and hand off when an objection is actually filed."
+      ],
+      "postGenerationHandoffs": [
+        "On a timely objection by the State's Attorney or a victim, § 10-110(f)(2) requires a hearing at which the court must find, among other things, that the person is not a risk to public safety, that restitution has been paid or cannot be paid, and that expungement is in the interest of justice. Three of the five findings are discretionary judgments no template can satisfy. Generate the initial packet and hand off when an objection is actually filed."
+      ],
+      "packetInstructions": [
+        "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+        "Do not generate a proposed order. The Maryland court generates it.",
+        "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Key the fee on the form selected, not the code section. The $30 attaches to CC-DC-CR-072B, so a § 10-105(a)(9) nuisance-crime expungement is a paid filing even though it sits in the same statute as free dispositions.",
+        "Tell the participant that a probation violation no longer automatically disqualifies. SB 432 (2025) overrode In re Expungement Petition of Abhishek I., which is the single most consequential recent change for Maryland participants."
+      ],
+      "participantQuestions": [
+        "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs.",
+        "Ask whether restitution from the original case is outstanding, and where it is, whether the participant is unable to pay. Section 10-110(f)(2) allows the court to find either that restitution has been paid or that the person cannot pay it."
+      ],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The State's Attorney or a victim files a timely objection.",
+        "The court sets a hearing under § 10-110(f)(2).",
+        "Restitution is outstanding and disputed.",
+        "Charge classification against the § 10-110(a) list is unclear.",
+        "Whether an intervening conviction is itself eligible is unclear, which is a recursive eligibility question.",
+        "The offence may be domestically related under § 6-233."
+      ],
+      "unresolvedQuestions": [],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Notice recipients: State's Attorney, served by the court, plus written notice by the court to each listed victim at the address in the court file (§ 10-110(e)(1)-(2))."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate a proposed order. The Maryland court generates it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Proposed order | Not applicable. Court-generated."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Disqualifiers",
+            "sourceStatement": "Unit rule: ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Custodian compliance: 60 days, § 10-110(h), plus Certificate of Compliance under Md. Rule 4-510."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "On a timely objection by the State's Attorney or a victim, § 10-110(f)(2) requires a hearing at which the court must find, among other things, that the person is not a risk to public safety, that restitution has been paid or cannot be paid, and that expungement is in the interest of justice. Three of the five findings are discretionary judgments no template can satisfy. Generate the initial packet and hand off when an objection is actually filed.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Mandatory or discretionary",
+            "sourceStatement": "Three of those five findings are discretionary judgments no template can satisfy."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Key the fee on the form selected, not the code section. The $30 attaches to CC-DC-CR-072B, so a § 10-105(a)(9) nuisance-crime expungement is a paid filing even though it sits in the same statute as free dispositions.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Important structural finding",
+            "sourceStatement": "The $30 fee attaches to the form, not to the statute. ... The fee logic in the eligibility engine must key on the form selected, not on the code section."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask whether restitution from the original case is outstanding, and where it is, whether the participant is unable to pay. Section 10-110(f)(2) allows the court to find either that restitution has been paid or that the person cannot pay it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Mandatory or discretionary",
+            "sourceStatement": "that restitution ordered in the original proceeding has been paid or the person cannot pay it"
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant that a probation violation no longer automatically disqualifies. SB 432 (2025) overrode In re Expungement Petition of Abhishek I., which is the single most consequential recent change for Maryland participants.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Disqualifiers",
+            "sourceStatement": "A probation violation does not automatically disqualify. SB 432 (2025) overrode In re Expungement Petition of Abhishek I. (2022). This is the single most consequential recent change for Maryland participants."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_cannabis_petition",
+      "legalName": "Petition for Expungement of Cannabis Charges and Convictions",
+      "publicName": "Expungement of a cannabis charge or conviction",
+      "mechanism": "Cannabis possession under Criminal Law § 5-601 where the conduct is no longer a crime expunges with no waiting period; possession is filed after satisfactory completion of the sentence; possession with intent to distribute under § 5-602 is filed three years after completion of the sentence. Section 10-107(a) carves cannabis possession out of the ordinary unit rule.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-105(a)(12)",
+        "Md. Code, Crim. Proc. § 10-105(c)(8)",
+        "Md. Code, Crim. Proc. § 10-110(a)(2)(ii)",
+        "Md. Code, Crim. Proc. § 10-110(c)(5)",
+        "Md. Code, Crim. Proc. § 10-105(a)(11)",
+        "Md. Code, Crim. Proc. § 10-107(a)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "police_record",
+        "court_record",
+        "conviction_record"
+      ],
+      "dispositions": [
+        "cannabis_possession_no_longer_a_crime",
+        "cannabis_possession_5_601",
+        "cannabis_pwid_5_602"
+      ],
+      "exclusions": [
+        "Charges outside Criminal Law § 5-601 and § 5-602.",
+        "Where other offences from the same incident are ineligible, the unit interaction under § 10-107(a) must be worked through carefully."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Possession of a controlled dangerous substance (marijuana) under § 5-601 where the conduct is no longer a crime",
+          "duration": "None"
+        },
+        {
+          "condition": "Possession of cannabis under § 5-601",
+          "duration": "Filed after satisfactory completion of the sentence including probation, § 10-105(c)(8). No further wait."
+        },
+        {
+          "condition": "Possession with intent to distribute cannabis under § 5-602",
+          "duration": "3 years after completion of the sentence"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-110(b), the same structure as § 10-105(b): the court where the proceeding began, or to which it was transferred. District Court of Maryland or circuit court, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+      },
+      "packetSet": {
+        "packetSetId": "md_cannabis_petition-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_cannabis_petition-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-072D",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "md_cannabis_petition-fee-waiver-2",
+            "role": "fee_waiver",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant cannot pay the $30 filing fee.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-089",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Unit determination where other offences share the incident — Petition, fourth checkbox.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required, under penalties of perjury.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court that heard the case.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Unit determination where other offences share the incident — Petition, fourth checkbox.",
+          "Required, under penalties of perjury.",
+          "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+          "Request for Waiver of Prepaid Costs, CC-DC-089."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File with the clerk of the court that heard the case.",
+        "fees": "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+        "feeWaiver": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+        "notice": "The court serves the State's Attorney; 30-day objection period.",
+        "service": "The court serves.",
+        "participantSignature": "Required, under penalties of perjury.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "cannabisChargeType",
+          "question": "Was the charge simple possession under § 5-601, or possession with intent to distribute under § 5-602?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you complete the sentence, including probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherOffencesSameIncident",
+          "question": "Were you also charged with other offences from the same incident?",
+          "requirement": "required"
+        },
+        {
+          "key": "checkedCaseSearch",
+          "question": "Have you checked Maryland Judiciary Case Search to see whether the case has already been cleared?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn assertion under penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Unit determination where other offences share the incident",
+          "whereInPacket": "Petition, fourth checkbox",
+          "why": "The unit-rule trigger interacts with the § 10-107(a) cannabis carve-out and is a legal judgment."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The State's Attorney objects.",
+        "Other offences from the same incident complicate the unit analysis.",
+        "The case still appears on Case Search after the DPSCS sweep should have cleared it."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+        "Do not generate a proposed order. The Maryland court generates it.",
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+        "Check Maryland Judiciary Case Search before generating. Cases where cannabis possession was the only charge and the charge was issued before July 1, 2023 should already have been expunged by DPSCS under § 10-112, and the participant should not pay to expunge a case that no longer exists.",
+        "Handle the fourth checkbox carefully. It is the unit-rule trigger and it interacts with the § 10-107(a) cannabis carve-out."
+      ],
+      "participantQuestions": [
+        "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs."
+      ],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 4",
+            "sourceStatement": "Fee: $30 per the Judiciary self-help page. Note the tension: 072D covers dispositions the reference calls free. Confirm at build time. Listed as a release blocker."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The State's Attorney objects.",
+        "Other offences from the same incident complicate the unit analysis.",
+        "The case still appears on Case Search after the DPSCS sweep should have cleared it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 4",
+            "sourceStatement": "Fee: $30 per the Judiciary self-help page. Note the tension: 072D covers dispositions the reference calls free. Confirm at build time. Listed as a release blocker."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Notice recipients: State's Attorney, served by the court, plus written notice by the court to each listed victim at the address in the court file (§ 10-110(e)(1)-(2))."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate a proposed order. The Maryland court generates it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Proposed order | Not applicable. Court-generated."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3 / Disqualifiers",
+            "sourceStatement": "Unit rule: ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the § 10-107(a) minor-traffic and cannabis carve-outs."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Custodian compliance: 60 days, § 10-110(h), plus Certificate of Compliance under Md. Rule 4-510."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Check Maryland Judiciary Case Search before generating. Cases where cannabis possession was the only charge and the charge was issued before July 1, 2023 should already have been expunged by DPSCS under § 10-112, and the participant should not pay to expunge a case that no longer exists.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 4 / Interaction with Track 8",
+            "sourceStatement": "Check Case Search before generating a Track 4 packet, or the participant pays $30 to expunge a case that no longer exists."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Handle the fourth checkbox carefully. It is the unit-rule trigger and it interacts with the § 10-107(a) cannabis carve-out.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 4",
+            "sourceStatement": "This is the unit-rule trigger on the form and it interacts with the § 10-107(a) carve-out. Handle carefully."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (filing_process): The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_pardon_expungement",
+      "legalName": "Petition for Expungement After a Full and Unconditional Pardon",
+      "publicName": "Expungement after a pardon from the Governor",
+      "mechanism": "Where the person is convicted of only one criminal act, that act is not a crime of violence as defined in Criminal Law § 14-101(a), and the Governor grants a full and unconditional pardon, the record may be expunged. The petition may not be filed later than 10 years after the Governor signed the pardon.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-105(a)(8)",
+        "Md. Code, Crim. Proc. § 10-105(c)(4)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2025-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction_record"
+      ],
+      "dispositions": [
+        "pardoned_conviction"
+      ],
+      "exclusions": [
+        "Crimes of violence as defined in Criminal Law § 14-101(a).",
+        "Persons convicted of more than one criminal act.",
+        "Petitions filed more than 10 years after the Governor signed the pardon."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The Governor signs a full and unconditional pardon",
+          "duration": "None, but the petition may not be filed later than 10 years after the pardon signature. This is a deadline, not a waiting period."
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-110(b), the same structure as § 10-105(b): the court where the proceeding began, or to which it was transferred. District Court of Maryland or circuit court, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+      },
+      "packetSet": {
+        "packetSetId": "md_pardon_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_pardon_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-072B",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "md_pardon_expungement-fee-waiver-2",
+            "role": "fee_waiver",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant cannot pay the $30 filing fee.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-089",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Copy of the signed gubernatorial pardon. Obtain a copy of the executed pardon showing the signature date.",
+            "obtainedFrom": "Maryland Governor's Office or DPSCS",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"On what date did the Governor sign your pardon?\" against Copy of the signed gubernatorial pardon, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required, under penalties of perjury.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$30 (CC-DC-CR-072B).",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court that heard the case, on CC-DC-CR-072B with the pardon checkbox.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Obtain Copy of the signed gubernatorial pardon. Obtain a copy of the executed pardon showing the signature date.",
+          "Check your answer to \"On what date did the Governor sign your pardon?\" against Copy of the signed gubernatorial pardon, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Required, under penalties of perjury.",
+          "$30 (CC-DC-CR-072B).",
+          "Request for Waiver of Prepaid Costs, CC-DC-089."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File with the clerk of the court that heard the case, on CC-DC-CR-072B with the pardon checkbox.",
+        "fees": "$30 (CC-DC-CR-072B).",
+        "feeWaiver": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+        "notice": "The court serves the State's Attorney; 30-day objection period.",
+        "service": "The court serves.",
+        "participantSignature": "Required, under penalties of perjury.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonSignatureDate",
+          "question": "On what date did the Governor sign your pardon?",
+          "requirement": "required"
+        },
+        {
+          "key": "onlyOneCriminalAct",
+          "question": "Have you been convicted of only one criminal act?",
+          "requirement": "required"
+        },
+        {
+          "key": "isCrimeOfViolence",
+          "question": "Was the offence a crime of violence as defined in Criminal Law § 14-101(a)?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        },
+        {
+          "name": "Copy of the signed gubernatorial pardon",
+          "obtainedFrom": "Maryland Governor's Office or DPSCS",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a copy of the executed pardon showing the signature date.",
+          "confirms": "pardonSignatureDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn assertion under penalties of perjury. The participant signs their own petition."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The 10-year filing deadline is close or has passed.",
+        "The participant has more than one conviction, which puts the 'only one criminal act' condition in issue.",
+        "The State's Attorney objects."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+        "Do not generate a proposed order. The Maryland court generates it.",
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+        "Run a countdown against the 10-year deadline from the pardon signature date and warn the participant well before it expires."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "For most cannabis participants the dedicated cannabis route is the cleaner path and avoids the 'only one criminal act' question entirely. Prefer it."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Whether the June 2024 mass pardon of more than 175,000 cannabis and paraphernalia possession convictions satisfies § 10-105(a)(8), and in particular the 'only one criminal act' condition for people with other convictions.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / Practical context",
+            "sourceStatement": "Whether that mass pardon satisfies § 10-105(a)(8), and in particular the \"only one criminal act\" condition for people with other convictions, is an open legal question and is listed in Open Questions."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The 10-year filing deadline is close or has passed.",
+        "The participant has more than one conviction, which puts the 'only one criminal act' condition in issue.",
+        "The State's Attorney objects."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the June 2024 mass pardon of more than 175,000 cannabis and paraphernalia possession convictions satisfies § 10-105(a)(8), and in particular the 'only one criminal act' condition for people with other convictions.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / Practical context",
+            "sourceStatement": "Whether that mass pardon satisfies § 10-105(a)(8), and in particular the \"only one criminal act\" condition for people with other convictions, is an open legal question and is listed in Open Questions."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Notice recipients: State's Attorney, served by the court, plus written notice by the court to each listed victim at the address in the court file (§ 10-110(e)(1)-(2))."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Do not generate a proposed order. The Maryland court generates it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+            "sourceStatement": "Proposed order | Not applicable. Court-generated."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "Custodian compliance: 60 days, § 10-110(h), plus Certificate of Compliance under Md. Rule 4-510."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Run a countdown against the 10-year deadline from the pardon signature date and warn the participant well before it expires.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / Why this is its own track",
+            "sourceStatement": "It is the only Maryland track with a filing deadline rather than a waiting period. A late participant loses the remedy."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "For most cannabis participants the dedicated cannabis route is the cleaner path and avoids the 'only one criminal act' question entirely. Prefer it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 5 / Practical context",
+            "sourceStatement": "For most cannabis participants Track 4 is the cleaner route and does not require answering it."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (eligibility_branch): Whether the June 2024 mass pardon of more than 175,000 cannabis and paraphernalia possession convictions satisfies § 10-105(a)(8), and in particular the 'only one criminal act' condition for people with other convictions."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_second_chance_shielding",
+      "legalName": "Petition for Shielding Under the Maryland Second Chance Act",
+      "publicName": "Shielding a conviction from public view",
+      "mechanism": "Twelve enumerated convictions may be shielded from public view three years after the sentence for all convictions for which shielding is requested is satisfied, including parole, probation or mandatory supervision. One shielding petition will be granted per lifetime, in one court in one county, and must include every eligible conviction from that court. Under § 10-305 a shielded conviction is not a conviction for the subsequent-conviction rule.",
+      "authority": [
+        "Md. Code, Crim. Proc. §§ 10-301 through 10-306",
+        "Md. Rule 16-934"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2017-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "conviction_record"
+      ],
+      "dispositions": [
+        "disorderly_conduct",
+        "disturbing_the_peace",
+        "failure_to_obey_a_reasonable_and_lawful_order",
+        "malicious_destruction_of_property_lesser_degree",
+        "trespass_on_posted_property",
+        "possession_or_administering_cds",
+        "possession_or_administering_non_cds",
+        "use_or_possession_with_intent_to_use_drug_paraphernalia",
+        "driving_without_a_licence",
+        "driving_while_privilege_cancelled_suspended_refused_or_revoked",
+        "driving_while_uninsured",
+        "prostitution"
+      ],
+      "exclusions": [
+        "Any conviction outside the twelve enumerated offences.",
+        "Domestically related convictions.",
+        "A pending criminal matter.",
+        "The unit rule.",
+        "A new conviction during the three-year window, unless that conviction is itself shieldable.",
+        "A second shielding petition. One will be granted, ever."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Satisfaction of the sentence for all convictions for which shielding is requested, including parole, probation or mandatory supervision",
+          "duration": "3 years"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "Md. Code, Crim. Proc. § 10-110(b), the same structure as § 10-105(b): the court where the proceeding began, or to which it was transferred. District Court of Maryland or circuit court, in any of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+      },
+      "packetSet": {
+        "packetSetId": "md_second_chance_shielding-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_second_chance_shielding-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CC-DC-CR-148",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-148__petition-for-shielding-under-maryland-second-chance-act__rev-2026-07.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "md_second_chance_shielding-attachment-2",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "MDJ-008",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201.1__rev-2026-07.pdf",
+            "order": 2
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+            "obtainedFrom": "Maryland Judiciary Case Search",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Election of court and county, and which convictions to include — Petition, court and conviction blocks.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "Required.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable while no fee is identified.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "Per the statute and Rule 16-934.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File in the single chosen court, circuit or District, in a single county, including every eligible conviction from that court.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "Election of court and county, and which convictions to include — Petition, court and conviction blocks.",
+          "Required.",
+          "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+          "Not applicable while no fee is identified."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File in the single chosen court, circuit or District, in a single county, including every eligible conviction from that court.",
+        "fees": "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+        "feeWaiver": "Not applicable while no fee is identified.",
+        "notice": "Per §§ 10-301 through 10-306 and Md. Rule 16-934.",
+        "service": "Per the statute and Rule 16-934.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "allEligibleConvictionsAllCourts",
+          "question": "List every conviction you have that may be shieldable, in every Maryland court and county.",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceSatisfiedDate",
+          "question": "On what date did you satisfy the sentence, including any parole, probation or mandatory supervision, for all convictions you want shielded?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorShieldingPetition",
+          "question": "Have you ever filed a shielding petition before?",
+          "requirement": "required"
+        },
+        {
+          "key": "chosenCourtAndCounty",
+          "question": "Which single court, in which single county, do you want to file in?",
+          "requirement": "required"
+        },
+        {
+          "key": "domesticallyRelated",
+          "question": "Was any conviction domestically related?",
+          "requirement": "required"
+        },
+        {
+          "key": "understandsShieldingNotExpungement",
+          "question": "Do you understand that shielding removes the record from public view but generally does not let you deny the conviction happened?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Case record from Maryland Judiciary Case Search",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and affirmation",
+          "whereInPacket": "Petition, signature and affirmation block",
+          "why": "Each checked box is a sworn assertion under penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Election of court and county, and which convictions to include",
+          "whereInPacket": "Petition, court and conviction blocks",
+          "why": "Once-per-lifetime, one-court, one-county. The election is a strategic legal judgment about the participant's whole record and is unrecoverable if wrong."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The participant has eligible convictions in more than one court or more than one county.",
+        "The participant has already used their single shielding petition.",
+        "Any conviction may be domestically related.",
+        "The participant does not understand the difference between shielding and expungement.",
+        "Where the participant has eligible convictions across courts or counties, route to MVLS, Maryland Legal Aid or a Court Help Center for the election itself."
+      ],
+      "postGenerationHandoffs": [
+        "Where the participant has eligible convictions across courts or counties, route to MVLS, Maryland Legal Aid or a Court Help Center for the election itself."
+      ],
+      "packetInstructions": [
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Never call this sealing or expungement. Say shielding. State plainly that the participant generally cannot deny the conviction occurred, and that law enforcement, courts and certain agencies retain access.",
+        "Present the one-court, one-county trade-off explicitly, with a comparison of what each option forfeits, before the participant elects."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "Hard-block every multi-court and multi-county record. Generate only where the participant has eligible convictions in exactly one court in exactly one county. Do not ship an unrestricted shielding packet generator for Maryland.",
+        "The adopted memorandum controls the strategy: the narrow eligible-offence list, the lifetime petition rule and the court-of-conviction venue are scope and routing fields, not reasons to deny packet identity."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "The filing fee for a shielding petition. The Judiciary shielding page and CC-DC-CR-148A state $0; verify at build time.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6",
+            "sourceStatement": "Fee: $0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The participant has eligible convictions in more than one court or more than one county.",
+        "The participant has already used their single shielding petition.",
+        "Any conviction may be domestically related.",
+        "The participant does not understand the difference between shielding and expungement."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The filing fee for a shielding petition. The Judiciary shielding page and CC-DC-CR-148A state $0; verify at build time.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6",
+            "sourceStatement": "Fee: $0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "Hard-block every multi-court and multi-county record. Generate only where the participant has eligible convictions in exactly one court in exactly one county. Do not ship an unrestricted shielding packet generator for Maryland.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / Scope restriction",
+            "sourceStatement": "Option B: Ship as official_pdf_fill but only where the participant has eligible convictions in exactly one court in exactly one county, and hard-block every multi-court and multi-county record. Do not ship an unrestricted shielding packet generator for Maryland."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "The adopted memorandum controls the strategy: the narrow eligible-offence list, the lifetime petition rule and the court-of-conviction venue are scope and routing fields, not reasons to deny packet identity.",
+          "provenance": {
+            "classificationBasis": "batch_decision_matrix",
+            "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+            "sourceHeading": "Priority issue resolution matrix / 12. Maryland",
+            "sourceStatement": "TRACK 6: official statewide shielding packet using CC-DC-CR-148 with MDJ-008 and current instructions; the narrow eligible-offense list, lifetime petition rule, and court-of-conviction venue are scope/routing fields, not reasons to deny packet identity."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Never call this sealing or expungement. Say shielding. State plainly that the participant generally cannot deny the conviction occurred, and that law enforcement, courts and certain agencies retain access.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6",
+            "sourceStatement": "The participant generally cannot deny the conviction occurred. This must be stated plainly and must never be blurred with expungement."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Present the one-court, one-county trade-off explicitly, with a comparison of what each option forfeits, before the participant elects.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / Scope restriction",
+            "sourceStatement": "presents the one-court, one-county tradeoff explicitly with a comparison of what each option forfeits"
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "Where the participant has eligible convictions across courts or counties, route to MVLS, Maryland Legal Aid or a Court Help Center for the election itself.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 6 / Scope restriction",
+            "sourceStatement": "routes to MVLS, Maryland Legal Aid, or a Court Help Center for the election itself."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (filing_process): The filing fee for a shielding petition. The Judiciary shielding page and CC-DC-CR-148A state $0; verify at build time."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10105_1_automatic",
+      "legalName": "Automatic Expungement of Qualifying Non-Conviction Cases under § 10-105.1",
+      "publicName": "Automatic clearing of a case that ended without a conviction",
+      "mechanism": "For a civil offence under Criminal Law § 5-601(c)(2)(ii) or a crime other than a Transportation Article violation for which the defendant is not required to appear, where no charge in the case resulted in a disposition other than acquittal, dismissal, not guilty or nolle prosequi excluding nolle with a treatment requirement, the record shall be expunged three years after disposition, beginning October 1, 2021. No petition, no fee, no filing. The court notifies the Central Repository, custodians and the person, and under § 10-105.2 must notify the defendant of the right at disposition with a General Waiver and Release form.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-105.1",
+        "Md. Code, Crim. Proc. § 10-105.2"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2021-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "police_record",
+        "court_record"
+      ],
+      "dispositions": [
+        "acquittal",
+        "dismissal",
+        "not_guilty",
+        "nolle_prosequi_without_treatment_requirement"
+      ],
+      "exclusions": [
+        "Cases where any charge resulted in a disposition other than the four qualifying outcomes.",
+        "Nolle prosequi entered with a drug or alcohol treatment requirement.",
+        "Transportation Article violations for which the defendant is required to appear."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Disposition, for cases disposed on or after October 1, 2021",
+          "duration": "3 years, automatic"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyDeclared": "process_guidance",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "No venue. There is no participant filing on this track.",
+      "destination": {
+        "kind": "automatic",
+        "name": "The court and the Central Repository",
+        "detail": "The court sends notice of the disposition and the required expungement date to the Central Repository, each booking facility, law enforcement unit and other State or local unit that may hold a record, and to the person entitled to expungement. Nothing is filed by the participant."
+      },
+      "packetSet": {
+        "packetSetId": "md_10105_1_automatic-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10105_1_automatic-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "sign",
+            "description": "No participant signature. There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "No service. There is no petition to serve.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "No participant signature. There is no participant filing on this track.",
+          "Not applicable."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "disposition",
+          "question": "How did every charge in the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the case disposed?",
+          "requirement": "required"
+        },
+        {
+          "key": "treatmentRequirement",
+          "question": "Did a nolle prosequi carry a drug or alcohol treatment requirement?",
+          "requirement": "required"
+        },
+        {
+          "key": "needsReliefSooner",
+          "question": "Do you need the record cleared sooner than the automatic date?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "The automatic date has passed and the record still appears.",
+        "The participant needs relief sooner, in which case route to the early-filing waiver route."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Tell the participant plainly that no filing is required and no money should be spent. Selling a packet to someone whose case expunges itself in four months is the failure mode to design against.",
+        "Offer the early-filing waiver route as the alternative where the participant needs relief sooner, with the tort-claim trade-off stated."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "No participant filing exists for this mechanism. The output is qualification confirmation, the automatic date, and an explicit instruction not to spend money."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The automatic date has passed and the record still appears.",
+        "The participant needs relief sooner, in which case route to the early-filing waiver route."
+      ],
+      "unresolvedQuestions": [],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "No participant filing exists for this mechanism. The output is qualification confirmation, the automatic date, and an explicit instruction not to spend money.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 7",
+            "sourceStatement": "No petition. No fee. No filing."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant plainly that no filing is required and no money should be spent. Selling a packet to someone whose case expunges itself in four months is the failure mode to design against.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 7 / Why this matters commercially",
+            "sourceStatement": "Selling a $50 packet to someone whose case expunges itself in four months is the failure mode to design against."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Offer the early-filing waiver route as the alternative where the participant needs relief sooner, with the tort-claim trade-off stated.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 7",
+            "sourceStatement": "offers Track 2 as the paid-in-time-not-money alternative if they need it sooner."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10112_dpscs_cannabis",
+      "legalName": "DPSCS One-Time Cannabis Expungement Sweep under § 10-112",
+      "publicName": "Checking whether the one-time cannabis clearing already covered your case",
+      "mechanism": "On or before July 1, 2024, DPSCS was required to expunge all cases in which possession of cannabis under Criminal Law § 5-601 was the only charge and the charge was issued before July 1, 2023. Expunge in this section means removal of all references from the Central Repository. The deadline has passed; treat as executed and verify per participant.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-112"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2023-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "central_repository_record"
+      ],
+      "dispositions": [
+        "cannabis_possession_only_charge_issued_before_2023_07_01"
+      ],
+      "exclusions": [
+        "Cases with any charge other than cannabis possession under § 5-601.",
+        "Charges issued on or after July 1, 2023."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Statutory sweep completed on or before July 1, 2024",
+          "duration": "None. The deadline has passed."
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyDeclared": "process_guidance",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "No venue. There is no participant filing on this track.",
+      "destination": {
+        "kind": "agency",
+        "name": "Maryland Department of Public Safety and Correctional Services",
+        "detail": "DPSCS performed the sweep against the Central Repository. Nothing is filed by the participant."
+      },
+      "packetSet": {
+        "packetSetId": "md_10112_dpscs_cannabis-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10112_dpscs_cannabis-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "sign",
+            "description": "No participant signature. There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "No service. There is no petition to serve.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "No participant signature. There is no participant filing on this track.",
+          "Not applicable."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "cannabisOnlyCharge",
+          "question": "Was cannabis possession the only charge in the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeIssuedBefore2023",
+          "question": "Was the charge issued before July 1, 2023?",
+          "requirement": "required"
+        },
+        {
+          "key": "checkedCaseSearch",
+          "question": "Have you checked Maryland Judiciary Case Search to see whether the case still appears?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "The case still appears on Case Search, in which case route to the cannabis petition route."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Check Case Search first. If the case still appears, route to the cannabis petition route rather than assuming the sweep covered it."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "Classified as a completed_or_verification non-relief node. It is a completed statutory sweep, not a live participant remedy, and must not be counted as a paid packet mechanism.",
+        "No participant filing exists. DPSCS executed the sweep against the Central Repository."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Whether SB 315 (2026) was enacted. It would extend § 10-112 to the MDEC system and change 'issued' to 'disposed of'.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / Known limitation",
+            "sourceStatement": "As currently codified, § 10-112 reaches the Central Repository. SB 315 (2026) would extend it to the MDEC system and change \"issued\" to \"disposed of.\" Enactment unconfirmed."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The case still appears on Case Search, in which case route to the cannabis petition route."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether SB 315 (2026) was enacted. It would extend § 10-112 to the MDEC system and change 'issued' to 'disposed of'.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / Known limitation",
+            "sourceStatement": "As currently codified, § 10-112 reaches the Central Repository. SB 315 (2026) would extend it to the MDEC system and change \"issued\" to \"disposed of.\" Enactment unconfirmed."
+          }
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "Classified as a completed_or_verification non-relief node. It is a completed statutory sweep, not a live participant remedy, and must not be counted as a paid packet mechanism.",
+          "provenance": {
+            "classificationBasis": "batch_decision_matrix",
+            "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+            "sourceHeading": "Proposed registry reconciliation",
+            "sourceStatement": "Maryland one-time cannabis sweep: Retain as completed/verification node rather than live participant relief (retired/verification)."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "No participant filing exists. DPSCS executed the sweep against the Central Repository.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8",
+            "sourceStatement": "The deadline has passed. Treat as executed and verify per participant on Case Search rather than assuming."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Check Case Search first. If the case still appears, route to the cannabis petition route rather than assuming the sweep covered it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8",
+            "sourceStatement": "Check Case Search first. If the case still appears, route to Track 4 rather than assuming the sweep covered it."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (governing_mechanism): Whether SB 315 (2026) was enacted. It would extend § 10-112 to the MDEC system and change 'issued' to 'disposed of'."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10103_1_automatic",
+      "legalName": "Automatic Police-Record Expungement After Release Without Charge under § 10-103.1",
+      "publicName": "Automatic clearing of police records after you were released without being charged",
+      "mechanism": "For arrests, detentions or confinements occurring on or after October 1, 2007, a person arrested and released without being charged is entitled to expungement of all police records, including photographs and fingerprints, within 60 days. Automatic; no application.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-103.1"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2007-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "police_record",
+        "photographs",
+        "fingerprints"
+      ],
+      "dispositions": [
+        "arrested_and_released_without_charge"
+      ],
+      "exclusions": [
+        "Arrests, detentions or confinements occurring before October 1, 2007, which use the legacy law-enforcement request route."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Release without charge",
+          "duration": "60 days, automatic"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyDeclared": "process_guidance",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "No venue. There is no participant filing on this track.",
+      "destination": {
+        "kind": "agency",
+        "name": "The arresting law enforcement unit",
+        "detail": "The unit expunges all police records within 60 days. No application is made by the participant."
+      },
+      "packetSet": {
+        "packetSetId": "md_10103_1_automatic-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10103_1_automatic-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "sign",
+            "description": "No participant signature. There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "No service. There is no petition to serve.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "No participant signature. There is no participant filing on this track.",
+          "Not applicable."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested, detained or confined?",
+          "requirement": "required"
+        },
+        {
+          "key": "releasedWithoutCharge",
+          "question": "Were you released without being charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsStillAppear",
+          "question": "Do police records from that arrest still appear?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "The 60-day window has passed and records still appear, where the remedy for agency non-compliance is unresolved."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Where the 60-day window has passed and records still appear, do not invent a filing. The remedy for agency non-compliance under this section is unresolved."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "No participant filing exists. The entitlement is automatic within 60 days and no application is made."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "The statutory remedy where an agency fails to comply with § 10-103.1, as distinct from the § 10-103(f) court-application path, is not clearly identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / Open item",
+            "sourceStatement": "The statutory remedy where an agency fails to comply is not clearly identified for § 10-103.1 as distinct from the § 10-103(f) court-application path."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The 60-day window has passed and records still appear, where the remedy for agency non-compliance is unresolved."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The statutory remedy where an agency fails to comply with § 10-103.1, as distinct from the § 10-103(f) court-application path, is not clearly identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / Open item",
+            "sourceStatement": "The statutory remedy where an agency fails to comply is not clearly identified for § 10-103.1 as distinct from the § 10-103(f) court-application path."
+          }
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "No participant filing exists. The entitlement is automatic within 60 days and no application is made.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 9",
+            "sourceStatement": "Automatic. No application."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Where the 60-day window has passed and records still appear, do not invent a filing. The remedy for agency non-compliance under this section is unresolved.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 9 / Open item",
+            "sourceStatement": "The statutory remedy where an agency fails to comply is not clearly identified for § 10-103.1"
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (filing_process): The statutory remedy where an agency fails to comply with § 10-103.1, as distinct from the § 10-103(f) court-application path, is not clearly identified."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10103_legacy_police",
+      "legalName": "Request to a Law Enforcement Unit for Expungement of a Pre-2007 Arrest Record, with District Court Application on Denial",
+      "publicName": "Clearing police records from an arrest before October 2007",
+      "mechanism": "For arrests, detentions or confinements occurring before October 1, 2007, the person requests expungement directly from the law enforcement unit within 8 years after the incident. The unit investigates and, if the facts are verified, expunges within 60 days. On written denial, or on failure to act within 60 days, the person may apply to the District Court with proper venue within 30 days of the denial, on DC-CR-071, which prints Rules Forms 4-503.3 and 4-503.4. The agency has 30 days after service to answer with specific grounds.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-103",
+        "Md. Rule 4-503.3",
+        "Md. Rule 4-503.4"
+      ],
+      "reviewedAsOf": "2026-08-02",
+      "effectiveFrom": "1975-07-01",
+      "effectiveTo": "2015-10-01",
+      "recordTypes": [
+        "police_record"
+      ],
+      "dispositions": [
+        "pre_2007_arrest_detention_or_confinement"
+      ],
+      "exclusions": [
+        "Incidents occurring on or after October 1, 2007, which use the automatic police-record route.",
+        "Requests made more than 8 years after the incident. Because the incident must predate October 1, 2007, that window closed no later than October 2015."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The incident, which must predate October 1, 2007",
+          "duration": "The request must be made within 8 years of the incident. That window closed no later than October 2015."
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyDeclared": "process_guidance",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "No venue. There is no participant filing on this track.",
+      "destination": {
+        "kind": "agency",
+        "name": "The law enforcement unit holding the record, then the District Court on denial",
+        "detail": "Stage 1 is an agency request; stage 2 is a District Court application on DC-CR-071. Neither stage is enterable, because the statutory 8-year request window has closed."
+      },
+      "packetSet": {
+        "packetSetId": "md_10103_legacy_police-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10103_legacy_police-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "sign",
+            "description": "No participant signature. There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "No service. There is no petition to serve.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "No participant signature. There is no participant filing on this track.",
+          "Not applicable."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "incidentDate",
+          "question": "On what date did the arrest, detention or confinement happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "lawEnforcementUnit",
+          "question": "Which law enforcement unit made the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorRequestMade",
+          "question": "Did you already make a written request to that unit within 8 years of the incident?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsStillAppear",
+          "question": "Do police records from that arrest still appear?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "The 8-year request window has closed, which it has for every incident predating October 1, 2007.",
+        "A timely request was made and the agency answered with specific grounds, making the matter contested."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Preserve the adopted memorandum's identification: DC-CR-071 is the Maryland District Court form for the denial-stage application under Rules Forms 4-503.3 and 4-503.4. \"DC\" denotes the Maryland District Court, not a District of Columbia geographic limitation. The route is statewide in authority but District-Court and agency specific in venue.",
+        "Route a participant with a pre-2007 arrest to the automatic post-2007 police-record route where the incident actually falls on or after October 1, 2007, or to the ordinary petition routes where a court case exists."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "No participant can enter this route. The 8-year request window for a pre-October-2007 incident closed no later than October 2015. The mechanism and forms are known; there are simply no eligible participants.",
+        "DC-CR-071 remains source-gated in the corpus and is not runtime-selectable while no participant can enter the route."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The 8-year request window has closed, which it has for every incident predating October 1, 2007.",
+        "A timely request was made and the agency answered with specific grounds, making the matter contested."
+      ],
+      "unresolvedQuestions": [],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "No participant can enter this route. The 8-year request window for a pre-October-2007 incident closed no later than October 2015. The mechanism and forms are known; there are simply no eligible participants.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 10 / Reason",
+            "sourceStatement": "The 8-year request window for pre-October-2007 incidents closed no later than October 2015. No new participant can enter this track."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Preserve the adopted memorandum's identification: DC-CR-071 is the Maryland District Court form for the denial-stage application under Rules Forms 4-503.3 and 4-503.4. \"DC\" denotes the Maryland District Court, not a District of Columbia geographic limitation. The route is statewide in authority but District-Court and agency specific in venue.",
+          "provenance": {
+            "classificationBasis": "batch_decision_matrix",
+            "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+            "sourceHeading": "Priority issue resolution matrix / 12. Maryland",
+            "sourceStatement": "\"DC\" denotes Maryland District Court, not a District of Columbia geographic limitation. The route is statewide in authority but District-Court/agency specific in venue."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Route a participant with a pre-2007 arrest to the automatic post-2007 police-record route where the incident actually falls on or after October 1, 2007, or to the ordinary petition routes where a court case exists.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 9",
+            "sourceStatement": "For arrests, detentions or confinements occurring on or after October 1, 2007, a person arrested and released without being charged is entitled to expungement of all police records"
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "DC-CR-071 remains source-gated in the corpus and is not runtime-selectable while no participant can enter the route.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 10 / Reason",
+            "sourceStatement": "Retain the DC-CR-071 form in the archive as reference-only. Do not build."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "trackId": "md_10104_pre_service",
+      "legalName": "Expungement on Nolle Prosequi Before Service under § 10-104",
+      "publicName": "Clearing a case the State dropped before you were ever served",
+      "mechanism": "Where the State enters a nolle prosequi as to all charges in a District Court case with which the defendant has not been served, the District Court may order expungement of each court record, police record or other record the State or a political subdivision keeps as to the charges, unless the State objects and shows cause why the record should not be expunged. The District Court may not assess any costs against the defendant for a proceeding under this section.",
+      "authority": [
+        "Md. Code, Crim. Proc. § 10-104"
+      ],
+      "reviewedAsOf": "2026-08-02",
+      "effectiveFrom": "2001-10-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "court_record",
+        "police_record",
+        "state_or_local_record"
+      ],
+      "dispositions": [
+        "nolle_prosequi_all_charges_before_service"
+      ],
+      "exclusions": [
+        "Cases outside the jurisdiction of the District Court.",
+        "Cases where the defendant was served with the charging document.",
+        "Cases where the State objects and shows cause."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The State enters a nolle prosequi as to all charges before service",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyDeclared": "process_guidance",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "No venue. There is no participant filing on this track.",
+      "destination": {
+        "kind": "court",
+        "name": "District Court of Maryland",
+        "detail": "The District Court may order expungement on the State's nolle prosequi before service. No costs may be assessed against the defendant. Nothing is filed by the participant."
+      },
+      "packetSet": {
+        "packetSetId": "md_10104_pre_service-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "md_10104_pre_service-process-guidance-1",
+            "role": "process_guidance",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "sign",
+            "description": "No participant signature. There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "No service. There is no petition to serve.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "There is no participant filing on this track.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "No participant signature. There is no participant filing on this track.",
+          "Not applicable."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Md. Code, Criminal Procedure §§ 10-101 through 10-112 and 10-301 through 10-306",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+          "url": "https://mdcourts.gov/rules",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Maryland Judiciary expungement and shielding self-help forms",
+          "url": "https://mdcourts.gov/legalhelp/expungement",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "wasServed",
+          "question": "Were you ever served with the charging document?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesNolled",
+          "question": "Did the State drop all of the charges?",
+          "requirement": "required"
+        },
+        {
+          "key": "districtCourtCase",
+          "question": "Was the case in the District Court of Maryland?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the case still appear on Maryland Judiciary Case Search?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "selfHelpBoundaries": [
+        "The record still appears, in which case route to the ordinary petition routes.",
+        "The State objects and shows cause."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Tell the participant that no costs may be assessed against them for a proceeding under this section, and that if the record still appears the ordinary petition routes remain available.",
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [
+        "No participant filing exists. The District Court may order expungement on the State's nolle prosequi before service; the statute describes court action, not a participant petition."
+      ],
+      "buildBlockers": [],
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The record still appears, in which case route to the ordinary petition routes.",
+        "The State objects and shows cause."
+      ],
+      "unresolvedQuestions": [],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "scope_restriction",
+          "statement": "No participant filing exists. The District Court may order expungement on the State's nolle prosequi before service; the statute describes court action, not a participant petition.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 11",
+            "sourceStatement": "Mechanism: Expungement where a charging document is nolle prossed before it was served."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant that no costs may be assessed against them for a proceeding under this section, and that if the record still appears the ordinary petition routes remain available.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 11",
+            "sourceStatement": "Status: Full text not pulled in this pass. Low volume. Nonblocking research note."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+            "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
         },
         {
           "kind": "source_gate",
