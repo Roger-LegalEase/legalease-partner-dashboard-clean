@@ -11400,20 +11400,58 @@
       "version": "1.0.0",
       "components": [
         {
-          "componentId": "il-immediate-seal-process-guidance-1",
-          "role": "process_guidance",
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "process_guidance",
+          "outputStrategy": "custom_pleading",
           "officialFormId": null,
           "officialSourceUrl": null,
           "order": 1
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
         }
       ],
       "participantActionRequired": [
         {
+          "kind": "complete_field",
+          "description": "Counsel's review, adoption and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing during the disposition hearing — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
           "kind": "sign",
-          "description": "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
+          "description": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -11425,7 +11463,7 @@
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "Not applicable. No LegalEase packet is filed on this track.",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
@@ -11438,15 +11476,18 @@
         },
         {
           "kind": "file",
-          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot be in the courtroom and cannot file during a hearing.",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
       ],
       "requiredBeforeFiling": [
-        "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
+        "Counsel's review, adoption and signature — Petition, signature block.",
+        "Filing during the disposition hearing — Filing instruction sheet.",
+        "Verification — Petition, verification block.",
+        "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
         "The source review states no fee for this route.",
-        "Not applicable. No LegalEase packet is filed on this track."
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
       ]
     },
     {

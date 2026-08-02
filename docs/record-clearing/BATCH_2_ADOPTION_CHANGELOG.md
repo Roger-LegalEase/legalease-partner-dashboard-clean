@@ -63,6 +63,59 @@ from the completed corpus rather than hard-coded.
 
 No route becomes packet-ready or runtime-enabled by this correction.
 
+## Illinois guidance re-review under the packet-only model, 2 August 2026
+
+All five standalone Illinois `process_guidance` tracks, plus stage 1 of the
+composed PRB route, were re-reviewed against the controlling product rule: a
+route is **not** guidance merely because an agency decides, a third party signs
+or certifies, the court has discretion, the participant must author a
+rehabilitation or hardship narrative, supporting documents must be attached,
+notarization is required, or a hearing may occur. `process_guidance` applies only
+where there is genuinely no participant-facing filing for LegalEase to generate,
+or the filing vehicle is legally unresolved.
+
+| Track | Participant filing exists | Packet capability | Delivery restriction | Reason guidance retained | Fallback / later stage | Unresolved |
+|---|---|---|---|---|---|---|
+| `il-auto-seal-2029` | no | none | n/a | ISP and clerks execute § 5.2(k) sealing; nothing to file | `il-seal-2yr`, `il-seal-3yr`, `il-exp-nonconv` | whether ISP already auto-seals via Access and Review |
+| `il-auto-seal-2028` | no | none | n/a | Clerks execute § 5.2(l) sealing; nothing to file | `il-seal-2yr` | — |
+| `il-cannabis-auto` | no | none | n/a | Agency executes § 5.2(i)(1) expungement; nothing to file | `il-cannabis-vacate` | — |
+| `il-prostitution-j-auto` | no | none | n/a | ISP, police and clerks execute § 5.2(j)(1)–(2) sealing; nothing to file | `il-prostitution-j-vacate` | — |
+| `il-immediate-seal` | **yes** | **`custom_pleading`** *(was `process_guidance`)* | attorney-mediated, same-hearing filing only | **not retained** | ordinary sealing via `il-seal-nonconv` | no statewide or verified local form covers § 5.2(g) |
+| `il-prb-cert` stage 1 | expected yes | held as guidance | packet withheld pending a sourced form | **narrow**: no official PRB application has been sourced; the filing vehicle is unverified | stage 2 `official_pdf_fill` on the adult suite | whether the Board publishes distinct § 5.2(e-5) sealing and § 5.2(e-6) expungement applications |
+
+### `il-immediate-seal` — reclassified to packet-capable
+
+Section 5.2(g) requires a verified petition and proposed order filed during the
+disposition hearing, so a participant-facing filing exists. The prior
+classification conflated LegalEase's inability to appear in court with an absence
+of a packet. The generated artifact is an **attorney-handoff packet**: draft
+verified petition, draft proposed order, and a statutory timing and courtroom
+checklist built from participant-supplied case and arrest facts, delivered to
+retained counsel, appointed counsel or the public defender **before** the
+hearing. The participant is never told they may self-file it after leaving court.
+
+`custom_pleading` with `localFormOverride: true` is confirmed by source rather
+than assumed: the statewide adult suite governs *"A, B, C, D, E, F, G, H, J, and
+stage 2 of K"* and expressly not Track I, so no verified official form covers the
+same-day mechanism.
+
+### `il-prb-cert` stage 1 — rationale corrected, classification held
+
+The original reasoning — that the Board's discretion and the participant's
+rehabilitation showing make the stage unsuitable for automation — is **rejected**
+by the packet-only model. Under that model stage 1 is expected to be
+packet-capable.
+
+It is nonetheless **held as guidance on a narrower, factual ground**: no official
+Prisoner Review Board application form has been sourced. The Illinois private
+corpus holds only the adult, cannabis and juvenile suites. Mapping a form that has
+not been verified would fabricate a source mapping, so the stage fails closed and
+the exact gap is recorded as a release blocker. A § 5.2(e-5) Certificate of
+Sealing application and a § 5.2(e-6) Certificate of Eligibility for Expungement
+are legally distinct and neither may stand in for the other.
+
+Node count is unchanged at 17. No route becomes packet-ready or runtime-enabled.
+
 ## Runtime effect
 
 None. Every route remains disabled until source, completed-output legal review, technical proof, and visual approval pass.

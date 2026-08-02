@@ -52,9 +52,17 @@ fourteen.
 `data/record-clearing/legal-design-intake/IL.memo.json`
 
 16 source slots → **17 normalized nodes**, all `relief_track`, all
-runtime-disabled at `legal_review_pending`. 0 deferred. Strategies:
-`official_pdf_fill` 10, `process_guidance` 5, `custom_pleading` 1,
-`composed` 1 (`il-prb-cert`, sequential, 2 units, 0 unresolved).
+runtime-disabled at `legal_review_pending`. 0 deferred. Strategies after the
+packet-only re-review: `official_pdf_fill` 10, `process_guidance` 4,
+`custom_pleading` 2, `composed` 1 (`il-prb-cert`, sequential, 2 units,
+0 unresolved). 0 build blockers.
+
+`il-immediate-seal` was reclassified from `process_guidance` to
+`custom_pleading` with `localFormOverride: true` — a § 5.2(g) petition and
+proposed order exist, and the courtroom constraint is a delivery restriction,
+not an absent packet. `il-prb-cert` stage 1 stays guidance on the narrow ground
+that no Prisoner Review Board application form has been sourced. See the
+guidance re-review table in `BATCH_2_ADOPTION_CHANGELOG.md`.
 
 Source Track P split into `il-prostitution-j-auto` and
 `il-prostitution-j-vacate` under the counsel-approved crosswalk correction — see

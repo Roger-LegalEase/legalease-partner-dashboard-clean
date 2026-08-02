@@ -3381,6 +3381,402 @@
     },
     {
       "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "componentId": "il-immediate-seal-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+      "authority": [
+        "20 ILCS 2630/5.2(g)",
+        "20 ILCS 2630/5.2(g)(5)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(c)(3)(A)"
+      ],
+      "rules": {
+        "filing": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+        "fees": "The source review states no fee for this route.",
+        "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+        "notice": "The court is required to inform the defendant of the right to immediate sealing and of the procedure.",
+        "service": "A copy is served on the State's Attorney in open court and on no one else.",
+        "participantSignature": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "hasUpcomingDisposition",
+          "question": "Do you have a court date coming up where your case may be dismissed or you may be found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "isRepresented",
+          "question": "Do you have a lawyer or public defender on the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDateOnOrAfter2018",
+          "question": "Did the arrest or charge happen on or after January 1, 2018?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalWithPrejudice",
+          "question": "If the case is dismissed, will it be dismissed with prejudice?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because only acquittal or dismissal with prejudice is within the subsection."
+        }
+      ],
+      "packetInstructions": [
+        "State the fallback plainly: if the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv. Missing the window costs nothing permanent.",
+        "Tell the participant that missing the immediate-sealing window costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Counsel's review, adoption and signature",
+          "whereInPacket": "Petition, signature block",
+          "why": "Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf. LegalEase drafts it; counsel decides whether to file it."
+        },
+        {
+          "item": "Filing during the disposition hearing",
+          "whereInPacket": "Filing instruction sheet",
+          "why": "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot appear or file."
+        },
+        {
+          "item": "Verification",
+          "whereInPacket": "Petition, verification block",
+          "why": "The petition is verified. The participant signs their own verification."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Counsel's review, adoption and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing during the disposition hearing — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review states no fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy is served on the State's Attorney in open court and on no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Counsel's review, adoption and signature — Petition, signature block.",
+        "Filing during the disposition hearing — Filing instruction sheet.",
+        "Verification — Petition, verification block.",
+        "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "The source review states no fee for this route.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ],
+      "stopConditions": [
+        "The whole track is attorney-mediated: the participant must ask their attorney or public defender to file during the hearing.",
+        "LegalEase cannot appear, cannot file during a hearing, and does not generate a filing for this route.",
+        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+        "Refer to counsel by default; the route is attorney-mediated end to end."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "componentId": "il-immediate-seal-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+      "authority": [
+        "20 ILCS 2630/5.2(g)",
+        "20 ILCS 2630/5.2(g)(5)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(c)(3)(A)"
+      ],
+      "rules": {
+        "filing": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+        "fees": "The source review states no fee for this route.",
+        "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+        "notice": "The court is required to inform the defendant of the right to immediate sealing and of the procedure.",
+        "service": "A copy is served on the State's Attorney in open court and on no one else.",
+        "participantSignature": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "hasUpcomingDisposition",
+          "question": "Do you have a court date coming up where your case may be dismissed or you may be found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "isRepresented",
+          "question": "Do you have a lawyer or public defender on the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDateOnOrAfter2018",
+          "question": "Did the arrest or charge happen on or after January 1, 2018?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalWithPrejudice",
+          "question": "If the case is dismissed, will it be dismissed with prejudice?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because only acquittal or dismissal with prejudice is within the subsection."
+        }
+      ],
+      "packetInstructions": [
+        "State the fallback plainly: if the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv. Missing the window costs nothing permanent.",
+        "Tell the participant that missing the immediate-sealing window costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Counsel's review, adoption and signature",
+          "whereInPacket": "Petition, signature block",
+          "why": "Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf. LegalEase drafts it; counsel decides whether to file it."
+        },
+        {
+          "item": "Filing during the disposition hearing",
+          "whereInPacket": "Filing instruction sheet",
+          "why": "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot appear or file."
+        },
+        {
+          "item": "Verification",
+          "whereInPacket": "Petition, verification block",
+          "why": "The petition is verified. The participant signs their own verification."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Counsel's review, adoption and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing during the disposition hearing — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review states no fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy is served on the State's Attorney in open court and on no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Counsel's review, adoption and signature — Petition, signature block.",
+        "Filing during the disposition hearing — Filing instruction sheet.",
+        "Verification — Petition, verification block.",
+        "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "The source review states no fee for this route.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ],
+      "stopConditions": [
+        "The whole track is attorney-mediated: the participant must ask their attorney or public defender to file during the hearing.",
+        "LegalEase cannot appear, cannot file during a hearing, and does not generate a filing for this route.",
+        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+        "Refer to counsel by default; the route is attorney-mediated end to end."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "componentId": "il-immediate-seal-instructions-3",
+      "role": "instructions",
+      "venue": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+      "authority": [
+        "20 ILCS 2630/5.2(g)",
+        "20 ILCS 2630/5.2(g)(5)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(c)(3)(A)"
+      ],
+      "rules": {
+        "filing": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+        "fees": "The source review states no fee for this route.",
+        "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+        "notice": "The court is required to inform the defendant of the right to immediate sealing and of the procedure.",
+        "service": "A copy is served on the State's Attorney in open court and on no one else.",
+        "participantSignature": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "hasUpcomingDisposition",
+          "question": "Do you have a court date coming up where your case may be dismissed or you may be found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "isRepresented",
+          "question": "Do you have a lawyer or public defender on the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDateOnOrAfter2018",
+          "question": "Did the arrest or charge happen on or after January 1, 2018?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalWithPrejudice",
+          "question": "If the case is dismissed, will it be dismissed with prejudice?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because only acquittal or dismissal with prejudice is within the subsection."
+        }
+      ],
+      "packetInstructions": [
+        "State the fallback plainly: if the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv. Missing the window costs nothing permanent.",
+        "Tell the participant that missing the immediate-sealing window costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Counsel's review, adoption and signature",
+          "whereInPacket": "Petition, signature block",
+          "why": "Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf. LegalEase drafts it; counsel decides whether to file it."
+        },
+        {
+          "item": "Filing during the disposition hearing",
+          "whereInPacket": "Filing instruction sheet",
+          "why": "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot appear or file."
+        },
+        {
+          "item": "Verification",
+          "whereInPacket": "Petition, verification block",
+          "why": "The petition is verified. The participant signs their own verification."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Counsel's review, adoption and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing during the disposition hearing — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review states no fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy is served on the State's Attorney in open court and on no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Counsel's review, adoption and signature — Petition, signature block.",
+        "Filing during the disposition hearing — Filing instruction sheet.",
+        "Verification — Petition, verification block.",
+        "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "The source review states no fee for this route.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ],
+      "stopConditions": [
+        "The whole track is attorney-mediated: the participant must ask their attorney or public defender to file during the hearing.",
+        "LegalEase cannot appear, cannot file during a hearing, and does not generate a filing for this route.",
+        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+        "Refer to counsel by default; the route is attorney-mediated end to end."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "IL",
       "trackId": "il-prostitution-j-vacate",
       "componentId": "il-prostitution-j-vacate-primary-filing-1",
       "role": "primary_filing",
@@ -33473,98 +33869,6 @@
     },
     {
       "jurisdiction": "IL",
-      "trackId": "il-immediate-seal",
-      "destination": {
-        "kind": "court",
-        "name": "Presiding trial judge at the disposition hearing",
-        "detail": "A copy is served on the State's Attorney in open court and on no one else. The presiding trial judge enters an order granting or denying during the same hearing."
-      },
-      "rules": {
-        "filing": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot be in the courtroom and cannot file during a hearing.",
-        "fees": "The source review states no fee for this route.",
-        "feeWaiver": "Not applicable. No LegalEase packet is filed on this track.",
-        "notice": "The court is required to inform the defendant of the right to immediate sealing and of the procedure.",
-        "service": "A copy is served on the State's Attorney in open court and on no one else.",
-        "participantSignature": "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
-        "notarization": "none"
-      },
-      "generationRequirements": [
-        {
-          "key": "hasUpcomingDisposition",
-          "question": "Do you have a court date coming up where your case may be dismissed or you may be found not guilty?",
-          "requirement": "required"
-        },
-        {
-          "key": "isRepresented",
-          "question": "Do you have a lawyer or public defender on the case?",
-          "requirement": "required"
-        },
-        {
-          "key": "offenseDateOnOrAfter2018",
-          "question": "Did the arrest or charge happen on or after January 1, 2018?",
-          "requirement": "required"
-        },
-        {
-          "key": "dismissalWithPrejudice",
-          "question": "If the case is dismissed, will it be dismissed with prejudice?",
-          "requirement": "conditional",
-          "conditionDescription": "Asked because only acquittal or dismissal with prejudice is within the subsection."
-        }
-      ],
-      "packetInstructions": [
-        "Tell the participant that missing the immediate-sealing window costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time."
-      ],
-      "participantActionRequired": [
-        {
-          "kind": "sign",
-          "description": "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "pay_fee",
-          "description": "The source review states no fee for this route.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "apply_fee_waiver",
-          "description": "Not applicable. No LegalEase packet is filed on this track.",
-          "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "serve_party",
-          "description": "A copy is served on the State's Attorney in open court and on no one else.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        },
-        {
-          "kind": "file",
-          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot be in the courtroom and cannot file during a hearing.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        }
-      ],
-      "requiredBeforeFiling": [
-        "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
-        "The source review states no fee for this route.",
-        "Not applicable. No LegalEase packet is filed on this track."
-      ],
-      "stopConditions": [
-        "The whole track is attorney-mediated: the participant must ask their attorney or public defender to file during the hearing.",
-        "LegalEase cannot appear, cannot file during a hearing, and does not generate a filing for this route.",
-        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
-        "Refer to counsel by default; the route is attorney-mediated end to end."
-      ],
-      "guidanceStatus": "not_drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true
-    },
-    {
-      "jurisdiction": "IL",
       "trackId": "il-prb-cert",
       "destination": {
         "kind": "agency",
@@ -33609,6 +33913,7 @@
         }
       ],
       "packetInstructions": [
+        "Notarization, supporting documents, acknowledgements and a possible Board hearing are filing instructions and post-generation handoff conditions. None of them is a generation blocker.",
         "The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.",
         "Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.",
         "Where an offense is on the § 5.2(a)(3) exclusion list, present this route and the certificates under 730 ILCS 5/5-5.5 as the next answer rather than telling the participant there is no remedy."
@@ -33734,7 +34039,7 @@
       "guidanceStatus": "not_drafted",
       "unitId": "il-prb-cert-stage-1",
       "unitLabel": "Prisoner Review Board certificate of eligibility application",
-      "unitDescription": "Explain the Board's certificate process, what it decides, and that it is discretionary agency relief on an individualized rehabilitation showing. LegalEase does not draft the rehabilitation case and does not predict the outcome.",
+      "unitDescription": "Explain the Prisoner Review Board certificate route and prepare the participant's own facts. Under the packet-only model this stage is expected to be packet-capable, because a participant-facing application to the Board is what the statute contemplates. It is held as guidance only because no official PRB application form has been sourced into the corpus, so the filing vehicle is unverified. LegalEase does not compose the rehabilitation showing; participant narratives are participant-authored through structured prompts.",
       "compositionMode": "sequential",
       "unitAvailable": true,
       "unavailableReason": null
@@ -33779,6 +34084,8 @@
         }
       ],
       "packetInstructions": [
+        "Verification through ISP Access and Review, or another verification process, is an instruction and a separate workflow. It is not a filing packet for this automatic track.",
+        "Petition-based fallback remains a separate normalized track: The petition tracks, principally il-seal-2yr and il-seal-3yr, and il-exp-nonconv where expungement rather than sealing is wanted.",
         "State that automatic sealing begins January 1, 2029, is phased to 2034, is subject to appropriations, and seals rather than expunges. Never say a record will be cleared automatically before then.",
         "Give the two reasons to file anyway: the automatic system seals but never expunges, and it does not touch records excluded by (k)(3) even where petition sealing remains available."
       ],
@@ -33879,6 +34186,8 @@
         }
       ],
       "packetInstructions": [
+        "Verification through ISP Access and Review, or another verification process, is an instruction and a separate workflow. It is not a filing packet for this automatic track.",
+        "Petition-based fallback remains a separate normalized track: The petition tracks, principally il-seal-2yr, where relief is needed before January 1, 2028.",
         "Deliver the January 1, 2028 ordinance and Class C misdemeanor date together with the January 1, 2029 general date, the phase-in to 2034 and the appropriations condition.",
         "Never say a record will be cleared automatically before the operative date."
       ],
@@ -33983,6 +34292,8 @@
         }
       ],
       "packetInstructions": [
+        "Verification through ISP Access and Review, or another verification process, is an instruction and a separate workflow. It is not a filing packet for this automatic track.",
+        "Petition-based fallback remains a separate normalized track: il-cannabis-vacate, the § 5.2(i)(3) participant motion, for a cannabis conviction rather than an arrest record.",
         "Run Access and Review first. Do not let a participant pay to petition for something that has already been expunged.",
         "Verify cannabis status before offering the paid conviction-vacatur route.",
         "Do not state that an individual record has already been expunged without verification through Access and Review."
@@ -34089,6 +34400,8 @@
         }
       ],
       "packetInstructions": [
+        "Verification through ISP Access and Review, or another verification process, is an instruction and a separate workflow. It is not a filing packet for this automatic track.",
+        "Petition-based fallback remains a separate normalized track: il-prostitution-j-vacate, the § 5.2(j)(3) participant motion.",
         "Do not state that an individual record has already been sealed without verification through Access and Review under § 5.2(j)(6)."
       ],
       "participantActionRequired": [

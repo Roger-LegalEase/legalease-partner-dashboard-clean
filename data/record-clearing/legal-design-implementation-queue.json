@@ -90,7 +90,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 12,
+      "trackCount": 13,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -642,6 +642,51 @@
         },
         {
           "jurisdiction": "IL",
+          "trackId": "il-immediate-seal",
+          "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Reclassified from process_guidance to custom_pleading on packet-only re-review. A participant-facing petition and proposed order exist under § 5.2(g); the prior classification conflated LegalEase's inability to appear in court with an absence of a packet.",
+            "Delivery is attorney-mediated. The packet is prepared for retained counsel, appointed counsel or the public defender to file during the disposition hearing. Do not tell the participant they may self-file it after leaving court.",
+            "No verified statewide form covers the § 5.2(g) same-day, same-hearing mechanism. The statewide adult suite governs Tracks A, B, C, D, E, F, G, H, J and stage 2 of K, and expressly not this track, so the route stays custom_pleading with a local-form override.",
+            "LegalEase does not generate a filing for this route. The product is telling the participant the right exists and to ask counsel to file it that day."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether any Illinois court publishes a local form for the § 5.2(g) same-day immediate-sealing petition. No statewide form covers it and the local-form override is therefore unverified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether an attorney-handoff packet is the accepted delivery model for this route, given that § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney. Counsel should confirm the participant-facing framing before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
           "trackId": "il-prostitution-j-vacate",
           "publicName": "Vacating and expunging a Class 4 felony prostitution conviction",
           "outputStrategy": "custom_pleading",
@@ -693,7 +738,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 31,
+      "trackCount": 30,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1770,40 +1815,6 @@
         },
         {
           "jurisdiction": "IL",
-          "trackId": "il-immediate-seal",
-          "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
-          "outputStrategy": "process_guidance",
-          "geographicScope": "statewide",
-          "legalDesignStatus": "legal_design_approved_with_limitations",
-          "legalStatus": "legal_review_pending",
-          "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [],
-          "scopeRestrictions": [
-            "LegalEase does not generate a filing for this route. The product is telling the participant the right exists and to ask counsel to file it that day."
-          ],
-          "openLegalQuestions": [],
-          "participantActionCount": 5,
-          "blockers": [
-            {
-              "kind": "output_review_gate",
-              "statement": "Output review pending: counsel approved the design, not the produced document."
-            },
-            {
-              "kind": "visual_review_gate",
-              "statement": "Visual review not started."
-            },
-            {
-              "kind": "technical_proof_gate",
-              "statement": "Technical proof not started."
-            },
-            {
-              "kind": "source_gate",
-              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
-            }
-          ]
-        },
-        {
-          "jurisdiction": "IL",
           "trackId": "il-auto-seal-2029",
           "publicName": "Automatic sealing starting in 2029, and why you may still want to file now",
           "outputStrategy": "process_guidance",
@@ -1813,6 +1824,7 @@
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
           "scopeRestrictions": [
+            "Retained as process_guidance on packet-only re-review. Clean Slate automatic sealing under § 5.2(k) is executed by the agency or clerk; no participant-facing petition, application or proposed order exists for the automatic mechanism, so there is nothing for LegalEase to generate. The output is timing, eligibility, verification and fallback instruction. This is not a guidance classification because an agency is involved; it is guidance because there is nothing to file.",
             "Keep the § 5.2(k)(3) automatic-sealing exclusion list separate from the § 5.2(a)(3) petition list in the rules engine."
           ],
           "openLegalQuestions": [],
@@ -1850,7 +1862,9 @@
           "legalStatus": "legal_review_pending",
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
-          "scopeRestrictions": [],
+          "scopeRestrictions": [
+            "Retained as process_guidance on packet-only re-review. Automatic sealing of ordinance violations and Class C misdemeanors under § 5.2(l) is executed by the agency or clerk; no participant-facing petition, application or proposed order exists for the automatic mechanism, so there is nothing for LegalEase to generate. The output is timing, eligibility, verification and fallback instruction. This is not a guidance classification because an agency is involved; it is guidance because there is nothing to file."
+          ],
           "openLegalQuestions": [],
           "participantActionCount": 7,
           "blockers": [
@@ -1882,7 +1896,9 @@
           "legalStatus": "legal_review_pending",
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
-          "scopeRestrictions": [],
+          "scopeRestrictions": [
+            "Retained as process_guidance on packet-only re-review. Automatic minor-cannabis expungement under § 5.2(i)(1) and § 5.2(a)(2.5) is executed by the agency or clerk; no participant-facing petition, application or proposed order exists for the automatic mechanism, so there is nothing for LegalEase to generate. The output is timing, eligibility, verification and fallback instruction. This is not a guidance classification because an agency is involved; it is guidance because there is nothing to file."
+          ],
           "openLegalQuestions": [],
           "participantActionCount": 7,
           "blockers": [
@@ -1915,6 +1931,7 @@
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
           "scopeRestrictions": [
+            "Retained as process_guidance on packet-only re-review. Automatic sealing of Class 4 felony prostitution records under § 5.2(j)(1)-(2) is executed by the agency or clerk; no participant-facing petition, application or proposed order exists for the automatic mechanism, so there is nothing for LegalEase to generate. The output is timing, eligibility, verification and fallback instruction. This is not a guidance classification because an agency is involved; it is guidance because there is nothing to file.",
             "This is not a general prostitution rule. Confirm the record was a Class 4 felony prostitution record before offering the branch."
           ],
           "openLegalQuestions": [],
@@ -5613,7 +5630,8 @@
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
           "scopeRestrictions": [
-            "LegalEase does not draft the rehabilitation showing for the Prisoner Review Board and does not predict whether a certificate will issue."
+            "Stage 1 re-reviewed under the packet-only model. The Board's discretion and the participant's rehabilitation showing do not make the stage guidance-only. It is held as guidance solely because no participant-facing Prisoner Review Board application form has been sourced into the corpus; the Illinois library holds only the adult, cannabis and juvenile suites.",
+            "A Certificate of Sealing application under § 5.2(e-5) and a Certificate of Eligibility for Expungement under § 5.2(e-6) are legally distinct. Do not treat a sourced sealing application as covering the expungement certificate. Neither is sourced today."
           ],
           "openLegalQuestions": [],
           "participantActionCount": 15,
@@ -5637,6 +5655,10 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped."
             },
             {
               "kind": "source_gate",
