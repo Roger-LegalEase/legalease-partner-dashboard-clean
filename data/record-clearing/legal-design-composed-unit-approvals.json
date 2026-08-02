@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 14,
+  "approvedTracks": 15,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -493,6 +493,57 @@
         "ma-expunge-time-commissioner-certification",
         "ma-expunge-time-court-determination"
       ]
+    },
+    {
+      "jurisdiction": "MN",
+      "trackId": "mn_prosecutor_agreed",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "mixed",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 8,
+      "units": [
+        {
+          "unitId": "mn_prosecutor_agreed-court-sealing",
+          "order": 4,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-portal-county",
+          "order": 2,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": "mn_prosecutor_agreed-request-stage"
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-request-stage",
+          "order": 1,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-written-request",
+          "order": 3,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": "mn_prosecutor_agreed-request-stage"
+        }
+      ],
+      "sequence": null
     }
   ]
 }

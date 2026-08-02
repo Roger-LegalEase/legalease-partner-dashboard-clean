@@ -1,15 +1,14 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 18,
-  "jurisdictionsOutstanding": 33,
+  "jurisdictionsReceived": 19,
+  "jurisdictionsOutstanding": 32,
   "outstandingJurisdictions": [
     "GA",
     "KS",
     "KY",
     "LA",
     "ME",
-    "MN",
     "MO",
     "MS",
     "MT",
@@ -85,7 +84,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 15,
+      "trackCount": 16,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -808,13 +807,52 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_299c11_arrest_demand",
+          "publicName": "Arrest record destruction request (no court case)",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Use the Minnesota Judicial Branch's six sample letters as authoritative drafting references, not as mandatory fillable forms. The Judicial Branch states they are only examples and must be edited to add case-specific information.",
+            "Generate a demand letter only for a custodian that may actually hold the participant's record. The six candidates are the BCA, the police department, the county sheriff, the city attorney, the county attorney and the county department of corrections."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The six Minnesota Judicial Branch sample § 299C.11 demand letters are not held in the corpus. They are official samples rather than approved forms, and the generated letters are drafted against the statute using them as references, so their absence does not prevent generation."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 46,
+      "trackCount": 53,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -2620,13 +2658,271 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_auto_clean_slate",
+          "publicName": "Records that clear automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. There is no application, petition, motion or demand, and no filing destination. The BCA identifies and the court seals."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The operative date of Laws 2026, chapter 70, section 5 must be confirmed before participant-facing instructions state it. The session law was retrieved on 2026-08-02: section 5 adds a new paragraph (f) to § 609A.015, subd. 5, under which the Bureau of Criminal Apprehension unseals a record and notifies the judicial branch if it later determines the record did not qualify for automatic relief, making that determination only from a record stored in its criminal history system, and the following paragraphs are renumbered (g) through (j). It does not alter the BCA's identification duty, the court-sealing window or victim notice. Chapter 70 states an effective date only for section 4 (1 January 2027), so section 5 falls to the default in Minn. Stat. § 645.02. Packet identity is unaffected because this route has no packet; the participant-facing warning that a Clean Slate grant may later be unsealed is an instruction change."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The current manual-review completion timeline and the current participant verification process for Clean Slate, and whether any correction or challenge submission exists when an eligible record was not processed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_auto_cannabis_nonfelony",
+          "publicName": "Cannabis records that clear automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. The BCA identifies and expunges qualifying non-felony cannabis records without any participant submission."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_ceb_felony_cannabis",
+          "publicName": "Cannabis Expungement Board review of a felony cannabis record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. The Board reviews felony cannabis records on its own initiative; there is nothing to apply for."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_mistaken_identity_court",
+          "publicName": "Clearing a record created when someone used your identity",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists. The court expunges on the mistaken-identity determination without a petition."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_mistaken_identity_iddata",
+          "publicName": "Destroying fingerprints and photographs taken under someone else's identity",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant filing exists for the mistaken-identity destruction mechanism itself."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_pardon_auto_expungement",
+          "publicName": "Records that clear automatically after a pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant expungement filing exists. Expungement follows the grant of a pardon extraordinary automatically.",
+            "The pardon application itself is a clemency process before the pardon body and is not generated on this track."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_inherent_authority",
+          "publicName": "Petition to seal court records only",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "A participant-facing official packet framework exists — EXP102, EXP104 and EXP107 — but direct LegalEase delivery is outside current scope. Do not record this track as having no packet: packet identity is preserved and direct self-help filing is disabled.",
+            "The intake schema cannot express an attorney-handoff packet capability with legal-analysis fields left blank. It has no packet-capability or delivery-scope field, and an official_pdf_fill component is normalized into a generation target and a track-source relationship. Delivery is recorded as process_guidance and the packet framework is recorded in the component notes instead. Revisit if the schema later carries a delivery-scope distinction.",
+            "LegalEase must not generate EXP107 or a supporting memorandum. The specific fields that prevent a completed self-help packet are EXP107 paragraphs 2 and 3, which require case-specific conclusions of law, and paragraphs 6, 8 and 9, which are open-ended legal-argument fields including the clear-and-convincing balancing.",
+            "There is no statutory fee waiver on this route, and a county law library fee applies in addition to the filing fee."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The current revision status of EXP107. The copy held in the corpus is Rev 01/15 and no newer revision has been confirmed. The track is disabled for direct delivery, so this is a release matter rather than a legal-design blocker."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether § 609A.02, subd. 4 formally binds an inherent-authority order. The review treats the registration bar as excluded as a matter of policy."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "E_local_variant",
       "label": "Local, county, circuit, district and court-specific variants",
-      "trackCount": 2,
+      "trackCount": 3,
       "tracks": [
         {
           "jurisdiction": "HI",
@@ -2705,13 +3001,57 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_prosecutor_agreed",
+          "publicName": "Prosecutor-agreed record sealing",
+          "outputStrategy": null,
+          "geographicScope": "county",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase must not complete or submit a county portal application. It identifies the correct prosecuting authority, explains the mechanism and prepares the participant's factual summary.",
+            "LegalEase does not obtain prosecutor agreement, does not negotiate, and does not advise whether making the request is strategically preferable to petitioning.",
+            "Flag to counsel where Department of Human Services records matter: § 609A.03, subd. 7a(b)(4) permits a background-study opening unless the order is directed specifically to the commissioner of human services following § 609A.025 proceedings upon service of an order on the commissioner. That conditional is narrow."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any county charges a fee for the prosecutor application."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether the Hennepin, Ramsey and Washington County programmes publish a downloadable application form, or are portal-only. The corpus holds no county prosecutor application, so the written-request branch is generated against the statute and the portal branch routes the participant to the county system."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 111,
+      "trackCount": 114,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -7545,6 +7885,107 @@
           ],
           "openLegalQuestions": [],
           "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_petition_15218",
+          "publicName": "Expunging a case discharged under the controlled-substance statute",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_petition_juvenile_as_adult",
+          "publicName": "Expunging an adult conviction from a case you were certified into as a juvenile",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not collapse this into juvenile delinquency relief. It is an adult conviction resulting from certification for adult prosecution."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MN",
+          "trackId": "mn_petition_609a02_subd3",
+          "publicName": "Petition to clear your record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The adopted memorandum classifies this expressly as a statewide official-form packet with EXP102, EXP104 and EXP105 as the core packet. A custom pleading would create service and order-content risk without adding value.",
+            "The crime-victim nexus is a branch inside this track. Do not create a separate trafficking-survivor relief node; Minnesota has no distinct remedy identified."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
           "blockers": [
             {
               "kind": "output_review_gate",

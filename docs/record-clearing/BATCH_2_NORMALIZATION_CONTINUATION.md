@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 1 August 2026
+Last updated: 2 August 2026
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -287,20 +287,125 @@ process runs by telephone or email to Michigan State Police and corrections must
 be routed to the reporting agency, so no correction packet or supporting-action
 node is asserted.
 
+## Minnesota — done
+
+`data/record-clearing/legal-design-intake/MN.memo.json`
+
+12 source slots → **12 nodes**, all `relief_track`. 0 deferred. Strategies:
+`official_pdf_fill` 3, `process_guidance` 7, `custom_pleading` 1, `composed` 1
+(4 units, mixed). **0 build blockers**, 7 release blockers across 4 tracks.
+Guidance re-review queue: 0 of the 7 guidance routes require re-review.
+
+**Track 6 `mn_299c11_arrest_demand` is reclassified from guidance to
+`custom_pleading`.** § 299C.11 relief runs on written demands the participant
+submits, and the Judicial Branch publishes six sample letters. The packet
+generates the participant-signed demands for the custodians that may hold the
+arrest data — BCA, police department, county sheriff, city attorney, county
+attorney and county department of corrections. Agency addresses are
+manual-completion items; signature, disposition documentation, mailing and the
+certified-mail recommendation are participant actions; refusal or nonresponse is
+a post-generation handoff. Correspondence rather than a court filing is not a
+reason to withhold a packet.
+
+**Track 7 `mn_prosecutor_agreed` is one statewide mechanism with county
+implementation**, modelled `composed` / `mixed` with four units and
+`localFormOverride: true`, scoped `county` over Hennepin, Ramsey and Washington.
+The request stage is a `custom_pleading` parent with two nested children — a
+portal-or-contact-only county route as `process_guidance` and a supported
+written request to the county or city attorney as `custom_pleading` — and the
+court-sealing stage is `process_guidance` because the participant files no
+petition once the prosecutor agrees. No per-county relief nodes were created,
+and nothing represents that LegalEase obtains agreement, negotiates, or advises
+whether approaching the prosecutor is strategically preferable.
+
+**Track 11 `mn_petition_609a02_subd3` follows the adopted memorandum**:
+`official_pdf_fill` on EXP102 + EXP104 + EXP105 as a statewide packet. A custom
+pleading would create service and order-content risk without adding value. The
+eight statutory disposition clauses and their waiting periods live inside the
+one track, and the crime-victim nexus is a branch — **no separate
+trafficking-survivor node**. Handoff is preserved for objections, contested
+hearings, disputed dispositions, registration, violence or firearm issues,
+crime-victim nexus theories, immigration, specially protected agencies and
+requests for individualized advocacy.
+
+**Track 12 `mn_inherent_authority` separates packet framework from delivery
+scope.** The intake schema has no field for a packet that is identified but not
+delivered: it carries no packet-capability or delivery-scope property, and any
+component declared `official_pdf_fill` is normalized into a track-source
+relationship and an official-form generation target, which would assert that
+LegalEase fills EXP107. Delivery is therefore recorded as `process_guidance`
+with rationale `individualized_advocacy`, and the packet framework — EXP102 as
+the petition vehicle whose item 9 final checkbox routes to inherent authority,
+EXP104 as proof of service, EXP107 as the published proposed order — is recorded
+in the component notes and the scope restrictions. **The record does not say no
+packet exists.** The exact fields that prevent a completed self-help packet are
+named: EXP107 ¶¶ 2 and 3 require case-specific conclusions of law, and ¶¶ 6, 8
+and 9 are open-ended legal-argument fields including the clear-and-convincing
+balancing.
+
+Tracks 9 and 10 are preserved as `official_pdf_fill` on EXP102 + EXP104 +
+EXP106, with Track 10 kept distinct from juvenile delinquency relief: it is an
+adult conviction following certification for adult prosecution. Hearing date,
+time, Zoom credentials, courthouse information, agency addresses and
+proof-of-service dates are manual-completion items across all petition routes,
+not packet gaps — the packet is generated before the court supplies them.
+
+Seven guidance routes are retained on a precise no-filing ground rather than
+"agency controlled": Clean Slate, automatic cannabis, the Cannabis Expungement
+Board route, both mistaken-identity routes and pardon-triggered expungement have
+no application, petition, motion or demand and no participant filing
+destination; Track 12 is a scope decision, stated as such.
+
+**EXP103 is not generated.** It is a prosecutor- and court-side victim-notice
+form, not a participant packet component, and its absence from the corpus is
+correct.
+
+Corrections and source resolutions recorded this pass:
+
+- **Laws 2026, ch. 70, § 5 resolved on the merits.** Retrieved from the Revisor
+  on 2 August 2026: section 5 adds § 609A.015, subd. 5(f), under which the BCA
+  unseals a record and notifies the judicial branch if it later determines the
+  record did not qualify, deciding **only** from a record in its criminal history
+  system; following paragraphs are renumbered (g)–(j). It does **not** alter BCA
+  identification duties, the court-sealing window or victim notice. Chapter 70
+  states an effective date only for section 4 (1 January 2027), so section 5
+  falls to the default in Minn. Stat. § 645.02. This changes a participant-facing
+  warning, not packet identity, so it stays a **release blocker** on Track 1 and
+  is now stated as a packet instruction.
+- **EXP107 currency is unresolved and stays a release blocker.** The corpus copy
+  is Rev 01/15. `mncourts.gov` returns HTTP 403 to automated retrieval, so the
+  revision cannot be re-confirmed from the publisher here. Minnesota is not held
+  for it: Track 12 is outside direct self-help delivery either way.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining eleven jurisdictions.**
+**B4–B9 legal-design normalization of the remaining seven jurisdictions.**
 
-`GA KS LA ME MD MA MI MN MS MO MT` — **3 of 14 normalized** (IL, IA, IN).
+`GA KS LA ME MS MO MT` — **7 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN).
+Group 2 is complete. **Group 3 (Georgia, Kansas, Louisiana, Maine) is the next
+unstarted group.**
 
 Committed bounded groups (operational only; does not change legal precedence):
 
 | # | Group | Slots | Status |
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
-| 2 | **Maryland, Massachusetts and Michigan done**, Minnesota | 11 + 8 + 11 + 12 = 42 | **3 of 4** |
+| 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
+
+### Batch 2 running totals after Minnesota
+
+7 of 14 jurisdictions. 75 source slots → **76 normalized nodes**: 72
+`relief_track`, 1 `supporting_action`, 1 `completed_or_verification`, 1
+`local_variant`, 1 `routing_node`. 0 deferred. Strategies: `official_pdf_fill`
+39, `process_guidance` 25, `custom_pleading` 7, `composed` 5. **1 build blocker**
+(Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
+**89 release blockers**, measured as unresolved questions of impact
+`release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
+MD 7, MA 4, MI 10, MN 7. The pre-Minnesota total on the same measure is 82, not
+the 78 carried in the Group 2 brief; nothing prior changed, the earlier figure
+was simply low.
 
 ### Measured size of Group 1, for the next session's planning
 

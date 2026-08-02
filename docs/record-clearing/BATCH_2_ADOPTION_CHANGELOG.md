@@ -212,6 +212,66 @@ legal-design build blocker is the Iowa pre-July-2013 `ia-9079` deferred-judgment
 application unit, which has no form, no rule and thin statutory mechanics and was
 not independently resolved in this pass.
 
+## Minnesota under the packet-only model, 2 August 2026
+
+### `mn_299c11_arrest_demand` — reclassified to packet-capable
+
+The review treats § 299C.11 arrest-data relief as a process. It is not. The
+statute runs on **written demands the participant submits** to the custodians,
+and the Judicial Branch publishes six sample letters for exactly that purpose.
+Reclassified `process_guidance` → **`custom_pleading`**, generating the
+participant-signed demands for the BCA, police department, county sheriff, city
+attorney, county attorney and county department of corrections.
+
+Correspondence rather than a court pleading is not a reason to withhold a
+packet. Agency addresses are manual-completion items, signature and mailing are
+participant actions, the certified-mail recommendation and retained receipts are
+instructions, and agency refusal or nonresponse is a post-generation handoff.
+
+### `mn_inherent_authority` — packet framework recorded, delivery held
+
+The schema was examined for a way to carry an attorney-handoff packet capability
+— neutral participant and case fields completable, legal-analysis fields left
+blank — and it has none. There is no packet-capability or delivery-scope
+property, and a component declared `official_pdf_fill` is normalized into a
+track-source relationship and an official-form generation target, which would
+assert that LegalEase fills EXP107.
+
+Delivery is therefore held at `process_guidance` with rationale
+`individualized_advocacy`, and the packet framework is recorded in the component
+notes and scope restrictions rather than dropped: **EXP102** is the petition
+vehicle and its item 9 final checkbox routes to inherent authority, **EXP104** is
+proof of service, **EXP107** is the published proposed order. The record does not
+say that no packet exists.
+
+What prevents a completed self-help packet is named precisely, not asserted
+generally: EXP107 ¶¶ 2 and 3 require case-specific conclusions of law, and
+¶¶ 6, 8 and 9 are open-ended legal-argument fields including the
+clear-and-convincing balancing. Under *Schultz* the relief reaches judicial
+branch records only, so police, sheriff, prosecutor and BCA records stay public —
+which the official instructions state expressly.
+
+### Laws 2026, ch. 70, § 5 — resolved on the merits
+
+Retrieved from the Revisor on 2 August 2026. Section 5 adds § 609A.015,
+subd. 5(f): the BCA unseals a record and notifies the judicial branch if it later
+determines the record did not qualify for automatic relief, deciding **only**
+from a record in its criminal history system; following paragraphs are
+renumbered (g)–(j). It does **not** alter BCA identification duties, the
+court-sealing window or victim notice. Chapter 70 gives an effective date only
+for section 4 (1 January 2027), so section 5 falls to the default in Minn. Stat.
+§ 645.02.
+
+Effect: a participant-facing warning that Clean Slate relief is not final in the
+way a court order is. Packet identity is unaffected — Track 1 has no packet — so
+this stays a **release blocker**, now stated as a packet instruction rather than
+an open question about the amendment's content.
+
+### EXP103 is not a participant component
+
+EXP103 is completed by the prosecutor or the court as a victim-notice form. It is
+not generated, and its absence from the corpus is correct rather than a gap.
+
 ## Runtime effect
 
 None. Every route remains disabled until source, completed-output legal review, technical proof, and visual approval pass.
