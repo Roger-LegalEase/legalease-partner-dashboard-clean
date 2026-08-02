@@ -11,11 +11,22 @@
 --
 -- This migration makes "ready" mean "stored bytes exist":
 --
---   * `rcap_document_artifacts` records one stored object per (packet, kind),
+--   * `rcap_document_artifacts` records one stored object per packet component,
 --     with the byte size, SHA-256 checksum, renderer version and source template
 --     identity needed to prove which document was served and from what.
---   * The unique constraint on (document_packet_id, kind) is what makes
---     generation idempotent: a retry cannot create a second fulfilled artifact.
+--   * The unique constraint on (document_packet_id, component_id) is what makes
+--     generation idempotent: a retry cannot create a second fulfilled artifact
+--     for the same component.
+--
+--     Identity is the component, not the kind. A packet is not one PDF: an
+--     ordinary expungement filing is a petition, a proposed order, a certificate
+--     of service and - conditionally - a fee-waiver application. Those are
+--     separately rendered, separately filed, separately downloadable documents,
+--     and several of them are legitimately `court`. Keying uniqueness on
+--     (document_packet_id, kind) capped a packet at one court artifact and would
+--     have forced distinct components to overwrite one another. `kind` is
+--     retained unchanged as coarse court-facing / participant-facing metadata
+--     and carries no uniqueness.
 --   * Three new packet statuses distinguish "rendering", "a document exists" and
 --     "generation failed recoverably" from the old `preview_generated`, which
 --     asserted readiness without evidence.
@@ -32,8 +43,15 @@ create table if not exists public.rcap_document_artifacts (
   id uuid primary key default gen_random_uuid(),
   document_packet_id uuid not null
     references public.rcap_document_packets(id) on delete cascade,
-  -- Which rendition. A packet may have a court-facing filing document and a
-  -- fuller participant-facing packet; they are separate stored objects.
+  -- Stable identity of the rendered component within the packet, taken verbatim
+  -- from the resolved packet-set definition. Never derived from a display label,
+  -- file name, array position, insertion order or kind. `packet-full` is the one
+  -- reserved identity for a combined participant packet, which may coexist
+  -- alongside the individual component artifacts.
+  component_id text not null,
+  -- Coarse classification of the rendition: court-facing filing document, or the
+  -- fuller participant-facing packet. Deliberately NOT unique per packet -
+  -- several distinct components of one packet are legitimately `court`.
   kind text not null,
   storage_bucket text not null,
   -- Server-canonical object path. Never a public URL and never returned to a
@@ -59,24 +77,37 @@ create table if not exists public.rcap_document_artifacts (
     check (checksum_sha256 ~ '^[0-9a-f]{64}$'),
   constraint rcap_document_artifacts_page_count_check
     check (page_count is null or page_count > 0),
-  -- One stored artifact per rendition. This is the idempotency guarantee:
-  -- a duplicate generation attempt conflicts here instead of fulfilling twice.
-  constraint rcap_document_artifacts_packet_kind_unique
-    unique (document_packet_id, kind)
+  constraint rcap_document_artifacts_component_id_check
+    check (component_id <> ''),
+  -- One stored artifact per component. This is the idempotency guarantee: a
+  -- duplicate generation attempt for the same component conflicts here instead
+  -- of fulfilling twice, and two distinct components of one packet can no
+  -- longer overwrite each other.
+  constraint rcap_document_artifacts_packet_component_unique
+    unique (document_packet_id, component_id)
 );
 
-create index if not exists rcap_document_artifacts_packet_idx
-  on public.rcap_document_artifacts(document_packet_id);
+-- Non-unique. Supports listing and filtering a packet's renditions by class,
+-- and proving whether exactly one artifact of a kind exists before any
+-- kind-based lookup is permitted to return one. The unique constraint above
+-- already indexes document_packet_id as its left prefix, so no separate
+-- single-column packet index is needed.
+create index if not exists rcap_document_artifacts_packet_kind_idx
+  on public.rcap_document_artifacts(document_packet_id, kind);
 create index if not exists rcap_document_artifacts_jurisdiction_idx
   on public.rcap_document_artifacts(jurisdiction, created_at);
 
 comment on table public.rcap_document_artifacts is
-  'One durably stored PDF per packet rendition. A packet is only ready when a row exists here.';
+  'One durably stored PDF per rendered packet component. A packet is ready only when a row exists here for every required component.';
 comment on column public.rcap_document_artifacts.object_path is
   'Server-canonical storage path. Never a public URL; the download route streams bytes.';
-comment on constraint rcap_document_artifacts_packet_kind_unique
+comment on column public.rcap_document_artifacts.component_id is
+  'Stable component identity from the resolved packet-set definition. Never derived from a display label, file name, array position, insertion order or kind. Reserved: packet-full for a combined participant packet.';
+comment on column public.rcap_document_artifacts.kind is
+  'Coarse court-facing / participant-facing classification. Not artifact identity and not unique per packet: several distinct components are legitimately court.';
+comment on constraint rcap_document_artifacts_packet_component_unique
   on public.rcap_document_artifacts is
-  'Idempotency: a retried generation conflicts rather than producing a second artifact.';
+  'Idempotency: a retried generation for the same packet and component conflicts rather than producing a second artifact. Distinct components may share a kind.';
 
 -------------------------------------------------------------------------------
 -- 2. Packet statuses that distinguish a stored document from a status flip.
