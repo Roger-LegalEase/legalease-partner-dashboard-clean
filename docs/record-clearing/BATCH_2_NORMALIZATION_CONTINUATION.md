@@ -377,13 +377,86 @@ Corrections and source resolutions recorded this pass:
   revision cannot be re-confirmed from the publisher here. Minnesota is not held
   for it: Track 12 is outside direct self-help delivery either way.
 
+## Georgia — done
+
+`data/record-clearing/legal-design-intake/GA.memo.json`
+
+13 source slots → **15 normalized nodes**, all `relief_track`. 0 deferred.
+Strategies: `custom_pleading` 10, `process_guidance` 3, `official_pdf_fill` 1,
+`composed` 1 (2 units, sequential). **0 build blockers**, 21 release blockers
+across 13 tracks. Guidance re-review queue: 0 Georgia candidates, 3 preserved.
+
+Track L splits into `ga-fo-sentencing-post2026`, `ga-fo-active-pre2026` and
+`ga-fo-discharged-pre2026`; `ga-rfo` stays separate. Every source slot is counted
+once, and the one slot mapping to three approved nodes is counted once in source
+reconciliation.
+
+**HB 162 was read from the signed Act, closing the review's two Track L gates.**
+Retrieved from the Governor's official signed-legislation library and confirmed
+by the Office of Legislative Counsel's 2026 summary — Act 403, effective
+1 July 2026, in force. Three findings the review could not have made:
+
+- § 42-8-62.1(b)(1) is now **mandatory**: the defendant's "may seek to" and the
+  court's discretion were struck, and the written-findings paragraph (b)(2) is
+  struck and reads *Reserved*.
+- The **preponderance findings in § 42-8-62.1(d) were struck**, and new
+  § 42-8-62.2(d) requires no findings at all. Both petition routes are mandatory
+  within 90 days of filing, so neither needs a privacy-harm or
+  interests-of-justice narrative. § 42-8-62.1(f) changed "may" to **shall**, so
+  the companion order to law enforcement, jails and detention centres is
+  mandatory.
+- The **discharged-person petition moved** out of § 42-8-62.1(c) into new
+  § 42-8-62.2(c). § 42-8-62.1(c) as rewritten reaches anyone *sentenced* before
+  1 July 2026 whose sentence was not revoked, which textually overlaps the
+  discharged population; the adopted allocation is preserved and the overlap is
+  recorded as a nonblocking note on both tracks, not as a departure.
+
+**Three guidance routes reclassified on re-review**, each on a precise ground:
+`ga-jail-k2` to `custom_pleading` because § 35-3-37(k)(2) authorises a
+participant-signed written request to a named recipient and correspondence is
+not a reason to withhold a packet; `ga-fugitive-j5` to `custom_pleading` because
+§ 35-3-37(j)(5) supplies venue, notice recipients, contents, standard and relief,
+and low volume and interstate facts are scope restrictions; `ga-vacated-j2` to
+`custom_pleading` because the conviction is already vacated, so the petition is
+not post-conviction litigation and its elements are objective. **Track A is the
+one composed route** — the automatic § 35-3-37(h) unit has nothing to file, and
+the request letter to the prosecuting attorney that the review itself lists as a
+LegalEase deliverable is a second, distinct submission with `localFormOverride`.
+
+**Three guidance routes retained**, none on a conclusory ground: `ga-time-expired`
+is performed by the centre without any request; `ga-fo-sentencing-post2026` is a
+court act at sentencing whose defendant-request language was struck, and GJP
+publishes only a template order at plea for judges and attorneys; `ga-rfo`
+requires the prosecuting attorney's advance written consent, which is negotiation
+with an opposing party.
+
+**`ga-rfo` records the packet framework rather than its absence** — venue,
+statutory grounds, requested relief, hearing rule, the § 42-8-66(h) no-fee rule
+and order distribution to the petitioner, prosecuting attorney, GCIC and DDS are
+all on the track. Delivery stays disabled because the adopted memorandum makes a
+distinct post-consent packet stage conditional on counsel's later approval; that
+is the track's one release blocker. `packetIdentity` is derived from the presence
+of a strategy, so the schema cannot store capability apart from delivery scope.
+
+**Track B is not a staged hybrid.** The review's stages two and three are the
+arresting agency's Section Two and the prosecutor's Section Three on the same GBI
+form — third-party blocks, left blank. It is a single `official_pdf_fill` route.
+
+Source currency: the corpus copy of the GBI *Request to Restrict Arrest Record*
+is **byte-identical** to the copy GBI publishes today, and § 35-3-37 was not
+amended in 2026. No statewide judiciary form exists for any Georgia court
+petition, so every petition route carries `localFormOverride`. **One new official
+artifact** — GBI/GCIC *Georgia Law Regarding Time Expired Restrictions*, imported
+`reference_only`, which supplies the Track C consumer warning from the issuing
+agency's own document. Corpus 567 → **568**.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining seven jurisdictions.**
+**B4–B9 legal-design normalization of the remaining six jurisdictions.**
 
-`GA KS LA ME MS MO MT` — **7 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN).
-Group 2 is complete. **Group 3 (Georgia, Kansas, Louisiana, Maine) is the next
-unstarted group.**
+`KS LA ME MS MO MT` — **8 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA).
+Groups 1 and 2 are complete and Georgia is done. **Kansas, Louisiana and Maine
+are the rest of Group 3.**
 
 Committed bounded groups (operational only; does not change legal precedence):
 
@@ -391,21 +464,20 @@ Committed bounded groups (operational only; does not change legal precedence):
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
 | 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
-| 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
+| 3 | Georgia done; Kansas, Louisiana, Maine outstanding | 13 + 7 + 10 + 6 = 36 | Georgia complete |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 
-### Batch 2 running totals after Minnesota
+### Batch 2 running totals after Georgia
 
-7 of 14 jurisdictions. 75 source slots → **76 normalized nodes**: 72
+8 of 14 jurisdictions. 88 source slots → **91 normalized nodes**: 87
 `relief_track`, 1 `supporting_action`, 1 `completed_or_verification`, 1
 `local_variant`, 1 `routing_node`. 0 deferred. Strategies: `official_pdf_fill`
-39, `process_guidance` 25, `custom_pleading` 7, `composed` 5. **1 build blocker**
+40, `process_guidance` 28, `custom_pleading` 17, `composed` 6. **1 build blocker**
 (Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
-**89 release blockers**, measured as unresolved questions of impact
+**110 release blockers**, measured as unresolved questions of impact
 `release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
-MD 7, MA 4, MI 10, MN 7. The pre-Minnesota total on the same measure is 82, not
-the 78 carried in the Group 2 brief; nothing prior changed, the earlier figure
-was simply low.
+MD 7, MA 4, MI 10, MN 7, GA 21. Guidance re-review candidates across Batch 2
+remain 5; Georgia added none.
 
 ### Measured size of Group 1, for the next session's planning
 
@@ -457,11 +529,13 @@ clean commit and push.
 - 136 source slots; ~140 normalized nodes and ~135 substantive relief mechanisms
   expected. **Generate actual counts from the corpus — these are expectations,
   not constants.**
-- Georgia correction is controlling: `GA-FO-SENTENCING-POST2026`,
-  `GA-FO-ACTIVE-PRE2026`, `GA-FO-DISCHARGED-PRE2026`; `GA-RFO` separate and
-  unchanged. L-2 and L-3 are notice-based, no prosecutor consent, not
-  opposition/hearing branches. `GA-RFO` under § 42-8-66 requires advance
-  prosecuting-attorney consent. **No old-M-to-new-L mapping.**
+- Georgia is done and the correction was applied exactly:
+  `ga-fo-sentencing-post2026`, `ga-fo-active-pre2026`,
+  `ga-fo-discharged-pre2026`; `ga-rfo` separate and unchanged. L-2 and L-3 are
+  notice-based, no prosecutor consent, no opposition/hearing branch. `ga-rfo`
+  under § 42-8-66 requires advance prosecuting-attorney consent. **No
+  old-M-to-new-L mapping.** Track IDs are lowercased because the schema requires
+  it; nothing else about the memorandum's IDs changed.
 - Renderer strategies are only `custom_pleading`, `official_pdf_fill`,
   `process_guidance`. Sequential/alternative/mixed are composition modes.
 - Import when mechanism and packet identity are known, even with a missing form,
@@ -471,8 +545,11 @@ clean commit and push.
   questions. A deferred item gets no invented strategy.
 - Do not infer legal substance. Preserve exact source statements and raise one
   precise counsel question.
-- Georgia and Mississippi received zero source files; absent forms are **open
-  source questions**, not "not required".
+- Mississippi received zero source files; absent forms are **open source
+  questions**, not "not required". Georgia also received none, and the answer
+  there was that only one mandatory official form exists — the GBI Request to
+  Restrict Arrest Record, already in the corpus and confirmed current — while
+  every court petition is a statutory custom pleading with a local-form override.
 
 ## Invariants that must still hold at every checkpoint
 

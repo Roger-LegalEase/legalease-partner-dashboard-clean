@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 19,
-  "jurisdictionsOutstanding": 32,
+  "jurisdictionsReceived": 20,
+  "jurisdictionsOutstanding": 31,
   "outstandingJurisdictions": [
-    "GA",
     "KS",
     "KY",
     "LA",
@@ -84,7 +83,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 16,
+      "trackCount": 26,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -527,6 +526,453 @@
           ]
         },
         {
+          "jurisdiction": "GA",
+          "trackId": "ga-misd-j4",
+          "publicName": "Restricting a misdemeanour conviction (Second Chance Act)",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "No Georgia route ships with an eligibility engine that models the four-year period as a post-sentence waiting period. The statute measures four conviction-free years backward from the filing date and separately requires sentence completion.",
+            "LegalEase never asserts a count of prior restrictions the participant has not confirmed, and never asserts that a dismissal was not part of a plea agreement where the participant has not confirmed it."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether an out-of-state conviction inside the four-year window breaks the clock. The statute says \"any crime in any jurisdiction,\" which reads yes, but this has practical proof problems.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Georgia-Legal-Review-2026-07-30.md",
+                "sourceHeading": "OPEN QUESTIONS / 13",
+                "sourceStatement": "**Whether an out-of-state conviction inside the four-year window** breaks the Track D clock. The statute says \"any crime in any jurisdiction,\" which reads yes, but this has practical proof problems. Flagged rather than unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether any Georgia court treats a combined § 35-3-37(j)(4) and § 35-3-37(m) motion as premature, given that (m)(1) applies on its face to \"an individual who has a record restricted pursuant to this Code section\" and so reads as sequential. No adverse decision was found and the leading pro se practice combines them, but counsel is asked to ratify the combined instrument expressly."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (geographic_scope): Whether restriction under § 35-3-37 reaches Municipal Court records where a state-law offence was tried in a court that is not a court of record. The definition of prosecuting attorney at § 35-3-37(a)(5) addresses this partly, but the clerk-sealing venue formula is untested there."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-seal-m",
+          "publicName": "Sealing the court file",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "The order may not reach parallel online records some counties maintain. Say so rather than promising a clean public search result."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (venue): Whether the § 35-3-37(m) clerk-sealing venue formula reaches a Municipal Court file where a state-law offence was tried in a court that is not a court of record."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-pardon-j7",
+          "publicName": "Restricting a conviction after a pardon",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "The pardon application to the State Board of Pardons and Paroles is outside scope. LegalEase's in-scope work begins once a pardon exists."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-felony-j1",
+          "publicName": "Restricting a felony charge where you were convicted only of a separate misdemeanour",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "LegalEase must not generate the conclusion that a misdemeanour of conviction was not a lesser included offence of a felony charge. The participant or counsel asserts it, and the engine routes to attorney review by default."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-deaddocket-j3",
+          "publicName": "Restricting a charge that has been on the dead docket for more than a year",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-vacated-j2",
+          "publicName": "Restricting a conviction that was thrown out and never retried",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "LegalEase does not analyse or argue why the conviction was vacated or reversed, why the prosecuting attorney has not retried the case, or how the public interest should be weighed. It pleads the participant's own statement of the procedural history and attaches the order.",
+            "Attorney review is recommended before filing wherever the finality of the appellate process, the reason for the vacatur, or the prosecuting attorney's retrial posture is unclear. The recommendation is a participant-facing instruction and creates no upload, staff review, proof-of-review field or generation gate."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-fugitive-j5",
+          "publicName": "Restricting an arrest made on an out-of-state fugitive warrant",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase prompts for and formats the participant's own account of what has changed and how the record has been a barrier. It does not write the interests-of-justice or privacy-harm narrative, does not assert that the participant is eligible or likely to succeed, and does not assert that a record will be erased, destroyed, deleted or expunged.",
+            "Low volume and interstate facts narrow where this route is offered; they do not remove packet identity. LegalEase does not analyse the extradition posture, does not advise on the demanding state's case, and does not act on out-of-state records.",
+            "Attorney review is recommended before filing where the underlying extradition posture is unresolved. The recommendation is a participant-facing instruction and creates no upload, staff review, proof-of-review field or generation gate."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-jail-k2",
+          "publicName": "Asking the jail to restrict its booking records",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The request reaches county and municipal jail and detention center records only. It does not reach private mugshot publishers or background-check vendors that already hold the data."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether the § 35-3-37(k)(2) written request may be sent as soon as the criminal history record information is restricted, or only after the 30-day period in § 35-3-37(k)(1) for the center to notify the arresting agency has run. The text of (k)(2) imposes no waiting period; county prosecutor guidance describes sending the request 30 days after the record has been restricted."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether any Georgia county or municipal jail or detention center publishes its own required form or intake route for a § 35-3-37(k)(2) restriction request, which would govern over the generated letter."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-fo-active-pre2026",
+          "publicName": "Restricting and sealing an active First Offender case",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No objection-triggered statutory hearing branch is modelled, because current law does not create one. A prosecutor objection may trigger the general LegalEase handoff policy, but it does not create a different statutory relief track or an opposition branch.",
+            "No privacy-harm or interests-of-justice narrative is generated or requested for this route. Act 403 struck the preponderance findings from § 42-8-62.1(d), so relief on a properly filed petition is mandatory and no balancing showing is pleaded.",
+            "The Georgia Justice Project model petitions are a structural reference only. LegalEase drafts its own instrument, does not copy the documents wholesale, and does not represent them as official forms."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "As amended, § 42-8-62.1(c) reads on its face on anyone sentenced under the article before July 1, 2026 whose sentence was not revoked and adjudicated guilty, which textually includes a person already exonerated and discharged, while § 42-8-62.2(c) provides a petition specifically for a person exonerated and discharged before that date. The adopted memorandum allocates the discharged population to § 42-8-62.2 and the active or not-yet-discharged population to § 42-8-62.1(c), and the Georgia Justice Project publishes two separate model petitions on exactly that split.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "2026 Ga. Laws Act 403 (HB 162)",
+                "sourceHeading": "2026 Ga. Laws Act 403 (HB 162), § 3, amending O.C.G.A. § 42-8-62.1(c), read against § 4 enacting § 42-8-62.2(c)",
+                "sourceStatement": "An individual who was sentenced pursuant to this article prior to July 1, 2026, and has not had their sentence revoked and adjudicated guilty, may petition the court that ordered such sentence to limit public access to his or her case information pursuant to subsection (b) of this Code section.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-fo-discharged-pre2026",
+          "publicName": "Restricting and sealing a completed First Offender case",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No objection-triggered statutory hearing branch is modelled, because current law does not create one. A prosecutor objection may trigger the general LegalEase handoff policy, but it does not create a different statutory relief track or an opposition branch.",
+            "No privacy-harm or interests-of-justice narrative is generated or requested for this route. Section 42-8-62.2(d) requires no findings; the order is mandatory within 90 days of a properly filed petition.",
+            "The Georgia Justice Project model petitions are a structural reference only. LegalEase drafts its own instrument, does not copy the documents wholesale, and does not represent them as official forms."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "As amended, § 42-8-62.1(c) reads on its face on anyone sentenced under the article before July 1, 2026 whose sentence was not revoked and adjudicated guilty, which textually includes a person already exonerated and discharged, while § 42-8-62.2(c) provides a petition specifically for a person exonerated and discharged before that date. The adopted memorandum allocates the discharged population to § 42-8-62.2 and the active or not-yet-discharged population to § 42-8-62.1(c), and the Georgia Justice Project publishes two separate model petitions on exactly that split.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "2026 Ga. Laws Act 403 (HB 162)",
+                "sourceHeading": "2026 Ga. Laws Act 403 (HB 162), § 4, enacting O.C.G.A. § 42-8-62.2(c), read against § 3 amending § 42-8-62.1(c)",
+                "sourceStatement": "An individual who has been exonerated of guilt and discharged without court adjudication of guilt as a matter of law or pursuant to a court order pursuant to this article prior to July 1, 2026, may petition the court that granted such discharge for an order to seal and make unavailable to the public the criminal file, docket books, criminal minutes, final record, all other records of the court, and the defendant's criminal history record information in the custody of the clerk of court, including within any index.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether a Georgia clerk charges a filing fee for a motion or petition filed in an existing criminal case, whether the O.C.G.A. § 9-15-2 pauper's affidavit practice reaches such a filing, and whether e-filing is available for a filing in a closed or pending criminal case. All three are county-specific and unresolved, and no figure may be quoted until they close."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "ID",
           "trackId": "id_set_aside_dismissal",
           "publicName": "Set aside your conviction and have the case dismissed",
@@ -852,7 +1298,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 53,
+      "trackCount": 57,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1920,6 +2366,168 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (governing_mechanism): Full current official statutory text for § 943.0595 has not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-nonconv-post2013",
+          "publicName": "Restricting an arrest that did not end in a conviction (2013 or later)",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase does not enter anything in the GCIC CCH interface, does not obtain the prosecuting attorney's decision, and does not complete a county prosecutor's own intake form."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether a reduction to a local ordinance violation qualifies as a restrictable disposition in a given county's charging practice."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Which county prosecuting attorney offices require their own local intake form for a restriction request, and what those forms require. No statewide form exists for this route and georgia.gov directs participants to ask for the form provided by the prosecuting attorney's office."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-time-expired",
+          "publicName": "Arrests where charges were never filed",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Offer this route as a diagnostic and expectation-setting explanation only. There is no application, no petition and no form, and none may be offered."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The Attorney General's memorandum of 20 August 2013 on time-expired restrictions has not been obtained in its primary form. The operative determination is now sourced from the Georgia Bureau of Investigation's own published statement of it rather than from county prosecutor materials.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Georgia-Legal-Review-2026-07-30.md",
+                "sourceHeading": "OPEN QUESTIONS / 7",
+                "sourceStatement": "**The Attorney General's August 20, 2013 memorandum** on time-expired restrictions and federal dissemination was described only through county prosecutor materials. Primary text not obtained. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-fo-sentencing-post2026",
+          "publicName": "First Offender records restricted and sealed when you are sentenced",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This occurs inside the active criminal case and belongs to defence counsel. It is outside the ordinary LegalEase self-help packet scope and no packet is offered for it."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-rfo",
+          "publicName": "Asking for First Offender treatment you should have been given",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Advance written prosecuting-attorney consent is a threshold requirement to file. LegalEase does not obtain consent, does not request it on the participant's behalf, and does not negotiate with the prosecuting attorney. Prosecutor silence is not consent.",
+            "A post-consent § 42-8-66 petition is legally identifiable and its framework is recorded on this track, but no petition is generated and direct self-help delivery remains disabled pending counsel's approval of a distinct post-consent packet stage. The record does not say that no packet exists.",
+            "This route remains separate from the three First Offender restriction and sealing mechanisms and is not superseded by or mapped to any of them. There is no old-M-to-new-L mapping."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether counsel approves a distinct post-consent packet stage for the § 42-8-66 petition — that is, a custom_pleading unit that generates the petition only after the participant has obtained the prosecuting attorney's written consent. The petition itself is legally identifiable and the framework is recorded on this track. The adopted memorandum makes the stage conditional on counsel's later approval, which has not been given, so direct delivery remains disabled."
             },
             {
               "kind": "source_gate",
@@ -3051,7 +3659,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 114,
+      "trackCount": 115,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -5752,6 +6360,57 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (correct_form): Current FDLE application and instructions specific to this track have not been acquired."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "GA",
+          "trackId": "ga-nonconv-pre2013",
+          "publicName": "Applying to restrict an older arrest (before July 1, 2013)",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase completes Section One only. Section Two is completed by the arresting agency and Section Three by the prosecuting attorney. Neither may be prefilled, pre-checked or pre-answered, including SID, OTN and ORI numbers, arrest charge tracking numbers, the disposition, the yes/no criminal history questions and all five prosecutor action checkboxes.",
+            "Custom drafting is unlawful as a substitute for the center-approved form. No custom pleading may be offered for this route."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any fee waiver exists for the $25.00 GCIC record restriction processing fee or the arresting agency's processing fee. None is identified in the statute or the agency instructions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The conflict between georgia.gov, which says an applicant may appeal a prosecutor's denial to the Superior Court of that county within 30 days, and § 35-3-37(n)(3), which authorises a civil action in the superior court where the entity is located, states no deadline, and sets a clear and convincing evidence standard. Follow 30 days conservatively until this closes."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The correct GCIC mailing department line: \"Record Restrictions\" per the form and the agency instructions, against \"CCH/Identification\" per the GBI site. The P.O. Box is the same on both."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): How the Social Security number that Section One of the GBI form requests is collected, stored and transmitted. A product and data-protection decision rather than a legal one, but it must be made before this track ships."
             },
             {
               "kind": "source_gate",

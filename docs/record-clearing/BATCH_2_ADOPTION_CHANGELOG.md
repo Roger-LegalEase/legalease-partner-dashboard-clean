@@ -272,6 +272,111 @@ an open question about the amendment's content.
 EXP103 is completed by the prosecutor or the court as a victim-notice form. It is
 not generated, and its absence from the corpus is correct rather than a gap.
 
+## Georgia under the packet-only model, 2 August 2026
+
+13 source slots → **15 normalized nodes**, all `relief_track`, 0 deferred.
+Track L splits into three mechanisms under the adopted memorandum; Track M stays
+separate. Strategies: `custom_pleading` 10, `process_guidance` 3,
+`official_pdf_fill` 1, `composed` 1. **0 build blockers**, 21 release blockers
+across 13 tracks. Guidance re-review queue: 0 Georgia candidates, 3 preserved.
+
+### HB 162 read from the signed Act — two open questions closed
+
+The review rested Track L on the Legislative Counsel summary, the bill caption
+and Georgia Justice Project implementation materials, and made reading the
+enrolled text a gate on shipping. The signed Act was retrieved from the
+Governor's official signed-legislation library and read in full, and the Office
+of Legislative Counsel's 2026 summary confirms **Act 403; HB 162 … Effective
+July 1, 2026**, amending §§ 35-3-34, 35-3-35 and 42-8-62.1 and enacting
+§ 42-8-62.2. That closes open questions 1 and 2 and produces three corrections
+the review could not have made:
+
+- **§ 42-8-62.1(b)(1) is now mandatory and has no findings requirement.** The
+  defendant's "may seek to" and the court's "may, in its discretion" were struck;
+  the court **shall** limit public access at sentencing. The written-findings
+  paragraph (b)(2) is struck and now reads *Reserved*.
+- **The preponderance findings in § 42-8-62.1(d) were struck.** On a properly
+  filed petition the court **shall** order restriction and sealing within 90
+  days, with no balancing. The same is true of new § 42-8-62.2(d), which requires
+  no findings at all. Neither First Offender petition route needs a
+  privacy-harm or interests-of-justice narrative, so there is no advocacy for
+  LegalEase to invent or withhold on either.
+- **The discharged-person petition moved.** Act 403 struck the exonerated-and-
+  discharged language out of § 42-8-62.1(c) and rewrote it to reach anyone
+  *sentenced* under the article before 1 July 2026 whose sentence was not revoked
+  and adjudicated guilty; the discharged-person petition is now new
+  § 42-8-62.2(c). § 42-8-62.1(f) also changed "may" to **shall**, so the
+  companion order to law enforcement agencies, jails and detention centres is
+  mandatory.
+
+§ 42-8-62.1(c) as amended is textually broad enough to include a discharged
+person, which overlaps § 42-8-62.2(c). The adopted memorandum allocates the
+discharged population to § 42-8-62.2 and the active or not-yet-discharged
+population to § 42-8-62.1(c), and GJP publishes two model petitions on exactly
+that split. The overlap is recorded on both tracks as a nonblocking research
+note, not as a reason to depart from the adopted structure.
+
+### Guidance re-review — three reclassified, three retained
+
+| Track | Was | Now | Ground |
+|---|---|---|---|
+| K `ga-jail-k2` | `process_guidance` "with a prepared request letter" | **`custom_pleading`** | § 35-3-37(k)(2) authorises a written request by the participant to a named recipient with definite contents and relief. Correspondence rather than a court filing is not a reason to withhold a packet. |
+| J `ga-fugitive-j5` | `process_guidance` for v1 | **`custom_pleading`** | § 35-3-37(j)(5) supplies venue (superior court of the county of arrest), notice recipients, contents, standard and relief. Low volume and interstate facts are scope restrictions. |
+| I `ga-vacated-j2` | `process_guidance` with mandatory handoff | **`custom_pleading`** | The conviction has already been vacated, so the petition is not post-conviction litigation and attacks nothing. Its elements are objective and participant-knowable. A discretionary standard is a scope and handoff matter under the packet-only amendment. |
+| A `ga-nonconv-post2013` | `process_guidance` | **`composed` / sequential** | The automatic unit is genuinely guidance, but the review itself lists a request letter to the prosecuting attorney among the things LegalEase can prepare. That is a distinct participant submission to a distinct actor, so it is modelled as a second unit. |
+| C `ga-time-expired` | `process_guidance` | **retained** | § 35-3-37(h)(1)(A)(ii) is performed by the centre without any request. No participant submission and no recipient exists. |
+| L-1 `ga-fo-sentencing-post2026` | `process_guidance` | **retained** | § 42-8-62.1(b) as amended is a court act at sentencing. The defendant's request language was struck; GJP publishes only a template order at plea for judges and attorneys. |
+| M `ga-rfo` | `process_guidance` | **retained** | § 42-8-66(a) permits filing only with the prosecuting attorney's advance consent. Obtaining it is negotiation with an opposing party. |
+
+### Track M records the packet, not its absence
+
+The post-consent § 42-8-66 petition is legally identifiable and its framework is
+recorded on the track: venue in the convicting court, the two statutory
+eligibility grounds, the requested order retroactively granting first offender
+treatment with exoneration and discharge, the hearing rule, the § 42-8-66(h)
+no-fee rule, and distribution of the order to the petitioner, the prosecuting
+attorney, GCIC and the Department of Driver Services. **The record does not say
+no packet exists.** Delivery stays disabled because the adopted memorandum makes
+a distinct post-consent packet stage conditional on counsel's later approval,
+which has not been given; that question is the track's single release blocker.
+The schema cannot store packet capability apart from delivery scope —
+`packetIdentity` is derived from the presence of a strategy — so the only
+structural alternative would be a composed route with an unavailable
+post-consent unit, which is the change counsel reserved to themselves.
+
+### Two further corrections to the source review
+
+- **Track B is not a staged hybrid.** The review's stages two and three are the
+  arresting agency completing Section Two and the prosecuting attorney
+  completing Section Three of the same GBI form. Those are third-party blocks,
+  which the packet-only amendment leaves blank; filing, waiting and an agency
+  decision are workflow stages, not legally distinct participant submissions. It
+  is a single `official_pdf_fill` route.
+- **Track A's request letter is packet-capable.** GBI and georgia.gov both direct
+  the participant to contact the prosecuting attorney where restriction was not
+  entered, and county offices may publish their own intake form, so
+  `localFormOverride` is set on that unit.
+
+### Source currency
+
+The corpus copy of the GBI *Request to Restrict Arrest Record* is **byte-identical**
+to the copy GBI publishes today (sha256 `5fe841de…`), so the one mandatory
+Georgia form is current. § 35-3-37 was **not** amended in 2026: the Office of
+Legislative Counsel's index lists only §§ 35-3-34, 35-3-34.2 and 35-3-35 in
+Chapter 3, confirming the review's finding. No statewide judiciary form exists
+for any Georgia court petition in this area, so every petition route carries
+`localFormOverride`.
+
+**One new official artifact.** GBI/GCIC *Georgia Law Regarding Time Expired
+Restrictions*, 2 pages, flat PDF, sha256 `0e2f1170…`, imported as
+`reference_only`. It is the issuing agency's own published statement of the
+Attorney General's 20 August 2013 determination that time-expired restrictions
+do not meet the federal definition of sealed records, so GCIC still provides
+those records to the FBI and other states for employment and licensing. That
+moves the Track C consumer warning off county prosecutor materials and onto the
+agency's own document, and downgrades open question 7 to a nonblocking note.
+Corpus 567 → **568**; `reference_only` 34 → 35.
+
 ## Runtime effect
 
 None. Every route remains disabled until source, completed-output legal review, technical proof, and visual approval pass.
