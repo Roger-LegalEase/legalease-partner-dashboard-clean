@@ -54,14 +54,28 @@ fourteen.
 `GA IL IN IA KS LA ME MD MA MI MN MS MO MT` — **0 of 14 normalized.**
 No memo has been authored.
 
-Revised bounded groups (operational only; does not change legal precedence):
+Committed bounded groups (operational only; does not change legal precedence):
 
 | # | Group | Slots | Status |
 |---|---|---|---|
-| 1 | Illinois, Iowa, Indiana | 16 + 7 + 10 | not started |
-| 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 | not started |
-| 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 | not started |
-| 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 | not started |
+| 1 | Illinois, Iowa, Indiana | 16 + 7 + 10 = 33 | **not started** |
+| 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | not started |
+| 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
+| 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
+
+### Measured size of Group 1, for the next session's planning
+
+| Jurisdiction | Review source | Slots | Projected memo |
+|---|---|---|---|
+| Illinois | 692 lines / 10,756 words | 16 (+1 split = 17 nodes) | ~135 KB |
+| Iowa | 537 lines / 8,094 words | 7 | ~55 KB |
+| Indiana | 350 lines / 6,214 words | 10 | ~80 KB |
+
+Batch 1 memos average roughly 8 KB of validated JSON per track (Alabama: 11
+tracks, 88 KB). Budget accordingly: a single jurisdiction is a substantial
+authoring pass, and the schema rejects an incomplete memo outright rather than
+importing it partially. **Author one jurisdiction per pass and commit it before
+starting the next.**
 
 ### What authoring a memo requires
 
@@ -124,7 +138,21 @@ deferred route unregistered and unreachable · zero Batch 2 tracks
 unmerged · #89 draft · Phase 48 unapplied · nothing deployed · no Batch 1
 promotion branch · no Batch 2 PR to main before #87 merges with a merge commit.
 
+## Platform lane status — for awareness only, do not act on it here
+
+R7 is resolved and committed on the held Phase 48 branch, `e5a0d46`:
+artifact identity is now `unique (document_packet_id, component_id)`, with
+`kind` retained as coarse non-unique metadata so several `court` artifacts may
+coexist in one packet. PR #89 remains a held draft and Phase 48 remains
+unapplied.
+
+Still not started on the platform lane: canonical write-path rewiring,
+component-to-artifact application mapping, download-route identity, the
+`packets/store` production treatment, correcting the repository that references
+`rcap_packet_fulfillments` and `rcap_packet_artifacts`, and the database-backed
+acceptance proof.
+
 ## Out of scope for this branch
 
-The platform storage-unification correction (R1 decision, blocked by R7) belongs
-on the PR #87 platform-core lane. **Do not edit platform storage code here.**
+The platform storage-unification correction belongs on the PR #87 platform-core
+lane. **Do not edit platform storage code or the Phase 48 migration here.**
