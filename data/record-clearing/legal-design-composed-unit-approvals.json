@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 13,
+  "approvedTracks": 14,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -458,6 +458,40 @@
       "sequence": [
         "in_infraction_nondisclosure-stage-1",
         "in_infraction_nondisclosure-stage-2"
+      ]
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-time",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 6,
+      "units": [
+        {
+          "unitId": "ma-expunge-time-commissioner-certification",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ma-expunge-time-court-determination",
+          "order": 2,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ma-expunge-time-commissioner-certification",
+        "ma-expunge-time-court-determination"
       ]
     }
   ]

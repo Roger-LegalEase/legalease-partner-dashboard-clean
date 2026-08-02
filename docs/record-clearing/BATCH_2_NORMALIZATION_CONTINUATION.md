@@ -220,6 +220,36 @@ Three corrections to the source review, all recorded in the memo provenance:
   objects, and bars costs against the defendant. No participant filing exists, so
   `process_guidance` now rests on a precise ground.
 
+## Massachusetts — done
+
+`data/record-clearing/legal-design-intake/MA.memo.json`
+
+8 source slots → **8 nodes**: 7 `relief_track` + 1 `local_variant` (the Boston
+Municipal Court consolidated procedure, per the adopted memorandum). 0 deferred.
+Strategies: `official_pdf_fill` 5, `process_guidance` 1, `composed` 1,
+`custom_pleading` 1. **0 build blockers**, 4 release blockers across 4 tracks.
+
+Two corrections to the source review, recorded with provenance:
+
+- **Three of the four "staged or hybrid" tracks are not composed.** Tracks 4, 6
+  and 8 stage a *product workflow*, not legally distinct units: the review's
+  stage 2 is the participant's own narrative, which the product model permits
+  through structured prompts, and stage 3 is filing and hearing attendance, a
+  `post_generation_handoff`. Tracks 4 and 6 are single `official_pdf_fill`
+  routes; Track 8 is a single `custom_pleading`. **Only Track 5 is genuinely
+  composed** — the Commissioner of Probation certifies eligibility under
+  §§ 100I/100J before the matter reaches a judge, so agency and court stages have
+  different destinations.
+- **Track 8 has no published BMC form.** The review left it unresolved; the
+  adopted memorandum authorises the fallback directly, so it is `custom_pleading`
+  with `localFormOverride: true` against the Standing Order's required contents,
+  scope-restricted to three or more records across two or more BMC divisions.
+  Recorded as a release blocker, not a build blocker.
+
+`ma-autoseal` is the only retained guidance route, on a precise ground: § 100C ¶1
+seals by operation of law and the sole participant-facing form, OCPS004, exists
+only to **decline** the relief.
+
 ## Not started
 
 **B4–B9 legal-design normalization of the remaining eleven jurisdictions.**
@@ -231,7 +261,7 @@ Committed bounded groups (operational only; does not change legal precedence):
 | # | Group | Slots | Status |
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
-| 2 | **Maryland done**, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | **1 of 4** |
+| 2 | **Maryland and Massachusetts done**, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | **2 of 4** |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 

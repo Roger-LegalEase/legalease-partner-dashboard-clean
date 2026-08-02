@@ -6286,6 +6286,306 @@
         "The county's MC case-type handling is unclear."
       ],
       "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-bmc-multi",
+      "componentId": "ma-bmc-multi-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Boston Municipal Court Department only, keyed by the Standing Order to the division in whose territorial jurisdiction the person resides, read with the general BMC rule that a person no longer residing in BMC territory files in the division where the most recent eligible record is from.",
+      "authority": [
+        "G.L. c. 276, § 100C",
+        "Boston Municipal Court Department Amended Standing Order No. 1-09",
+        "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+      ],
+      "rules": {
+        "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "Preliminary hearing, public notice and final hearing per the Standing Order.",
+        "service": "Per the Standing Order.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "bmcRecords",
+          "question": "List every Boston Municipal Court case you want sealed, with the division and docket number for each.",
+          "requirement": "required"
+        },
+        {
+          "key": "bmcDivisionCount",
+          "question": "How many different BMC divisions do those cases come from?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentResidence",
+          "question": "Do you currently live in Boston Municipal Court territory, and in which division?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentEligibleRecordDivision",
+          "question": "If you no longer live in BMC territory, which division is your most recent eligible record from?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant has moved out of BMC territory, because it sets the venue."
+        },
+        {
+          "key": "dispositions",
+          "question": "How did each of those cases end?",
+          "requirement": "required"
+        },
+        {
+          "key": "disadvantagesFromRecord",
+          "question": "In your own words, what specific problems have these records caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationEvidence",
+          "question": "In your own words, what have you done since the cases ended?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+        "The consolidated petition supplements rather than replaces the statewide form in BMC."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "Consolidated petition signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The good-cause narrative across all listed records",
+          "whereInPacket": "Consolidated petition narrative",
+          "why": "Participant-authored through structured prompts against the Pon factors."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every Boston Municipal Court case you want sealed, with the division and docket number for each.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature — Consolidated petition signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The good-cause narrative across all listed records — Consolidated petition narrative.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the Standing Order.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"List every Boston Municipal Court case you want sealed, with the division and docket number for each.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature — Consolidated petition signature block.",
+        "The good-cause narrative across all listed records — Consolidated petition narrative.",
+        "Required.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "stopConditions": [
+        "The threshold of three or more records from two or more BMC divisions is not met, in which case the ordinary route applies with one form per case.",
+        "Records fall outside the Boston Municipal Court Department.",
+        "The judge requests additional information about the listed cases.",
+        "A hearing is set.",
+        "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-bmc-multi",
+      "componentId": "ma-bmc-multi-instructions-2",
+      "role": "instructions",
+      "venue": "Boston Municipal Court Department only, keyed by the Standing Order to the division in whose territorial jurisdiction the person resides, read with the general BMC rule that a person no longer residing in BMC territory files in the division where the most recent eligible record is from.",
+      "authority": [
+        "G.L. c. 276, § 100C",
+        "Boston Municipal Court Department Amended Standing Order No. 1-09",
+        "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+      ],
+      "rules": {
+        "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "Preliminary hearing, public notice and final hearing per the Standing Order.",
+        "service": "Per the Standing Order.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "bmcRecords",
+          "question": "List every Boston Municipal Court case you want sealed, with the division and docket number for each.",
+          "requirement": "required"
+        },
+        {
+          "key": "bmcDivisionCount",
+          "question": "How many different BMC divisions do those cases come from?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentResidence",
+          "question": "Do you currently live in Boston Municipal Court territory, and in which division?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentEligibleRecordDivision",
+          "question": "If you no longer live in BMC territory, which division is your most recent eligible record from?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant has moved out of BMC territory, because it sets the venue."
+        },
+        {
+          "key": "dispositions",
+          "question": "How did each of those cases end?",
+          "requirement": "required"
+        },
+        {
+          "key": "disadvantagesFromRecord",
+          "question": "In your own words, what specific problems have these records caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationEvidence",
+          "question": "In your own words, what have you done since the cases ended?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+        "The consolidated petition supplements rather than replaces the statewide form in BMC."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "Consolidated petition signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The good-cause narrative across all listed records",
+          "whereInPacket": "Consolidated petition narrative",
+          "why": "Participant-authored through structured prompts against the Pon factors."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every Boston Municipal Court case you want sealed, with the division and docket number for each.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature — Consolidated petition signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The good-cause narrative across all listed records — Consolidated petition narrative.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the Standing Order.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"List every Boston Municipal Court case you want sealed, with the division and docket number for each.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature — Consolidated petition signature block.",
+        "The good-cause narrative across all listed records — Consolidated petition narrative.",
+        "Required.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "stopConditions": [
+        "The threshold of three or more records from two or more BMC divisions is not met, in which case the ordinary route applies with one form per case.",
+        "Records fall outside the Boston Municipal Court Department.",
+        "The judge requests additional information about the listed cases.",
+        "A hearing is set.",
+        "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+      ],
+      "templateStatus": "not_drafted"
     }
   ],
   "officialFormAssignments": [
@@ -41885,6 +42185,835 @@
       "mappingStatus": "not_mapped"
     },
     {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-admin",
+      "componentId": "ma-seal-admin-primary-filing-1",
+      "officialFormId": "Petition to Seal (Office of the Commissioner of Probation)",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+      "generationRequirements": [
+        {
+          "key": "allDispositions",
+          "question": "List every Massachusetts court appearance and disposition on your record, including dismissals and continuances without a finding.",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentDispositionDate",
+          "question": "What is the date of your most recent disposition, including any release from jail or prison?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceLevels",
+          "question": "For each entry, was the offence a misdemeanour or a felony when it was committed?",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedOffenceCategories",
+          "question": "Do any entries involve firearms under c. 140 §§ 121 to 131H, or offences under c. 268 or c. 268A other than resisting arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "sexOffenceOrRegistration",
+          "question": "Do any entries involve a sex offence under c. 6 § 178C, and are you under a duty to register anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "everClassifiedLevel2Or3",
+          "question": "Have you at any time been classified as a level 2 or level 3 sex offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "outOfStateConvictions",
+          "question": "Have you been convicted or imprisoned in another state, a United States possession, or a federal court within the lookback period?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under the penalties of perjury",
+          "whereInPacket": "Petition to Seal, signature block",
+          "why": "Section 100A requires the form to be signed under the penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Felony or misdemeanour characterisation where it cannot be ascertained",
+          "whereInPacket": "Part A box selection",
+          "why": "Section 100A(4) treats an unascertainable offence as a misdemeanour, which the review bars the product from applying without checking."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every Massachusetts court appearance and disposition on your record, including dismissals and continuances without a finding.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under the penalties of perjury — Petition to Seal, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Felony or misdemeanour characterisation where it cannot be ascertained — Part A box selection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under the penalties of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. This is an agency filing, not a pleading.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the Petition to Seal to the Office of the Commissioner of Probation. There is no court, no caption and no pleading.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+        "Check your answer to \"List every Massachusetts court appearance and disposition on your record, including dismissals and continuances without a finding.\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Signature under the penalties of perjury — Petition to Seal, signature block.",
+        "Felony or misdemeanour characterisation where it cannot be ascertained — Part A box selection.",
+        "Required, under the penalties of perjury.",
+        "None identified in the review.",
+        "Not applicable."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-decrim",
+      "componentId": "ma-seal-decrim-primary-filing-1",
+      "officialFormId": "Petition to Seal (Office of the Commissioner of Probation), Part A box 4",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+      "generationRequirements": [
+        {
+          "key": "offenceCharged",
+          "question": "What exactly were you charged with, and under which statute?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceDate",
+          "question": "When did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "believesNoLongerCrime",
+          "question": "Do you believe the conduct is no longer a crime in Massachusetts?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffence",
+          "question": "Was the charge a marijuana offence?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under the penalties of perjury",
+          "whereInPacket": "Petition to Seal, signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The no-longer-a-crime determination and the different-designation analysis",
+          "whereInPacket": "Part A box 4",
+          "why": "Whether the conduct is no longer a crime, and whether its elements continue to be a crime under a different designation, is a statutory comparison across time and an element-by-element analysis."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What exactly were you charged with, and under which statute?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under the penalties of perjury — Petition to Seal, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The no-longer-a-crime determination and the different-designation analysis — Part A box 4.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under the penalties of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit to the Office of the Commissioner of Probation on the Petition to Seal, box 4.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+        "Check your answer to \"What exactly were you charged with, and under which statute?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Signature under the penalties of perjury — Petition to Seal, signature block.",
+        "The no-longer-a-crime determination and the different-designation analysis — Part A box 4.",
+        "Required, under the penalties of perjury.",
+        "None identified.",
+        "Not applicable."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-court",
+      "componentId": "ma-seal-court-primary-filing-1",
+      "officialFormId": "TC0057",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+      "generationRequirements": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "disadvantagesFromRecord",
+          "question": "In your own words, what specific problems has this record caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationEvidence",
+          "question": "In your own words, what have you done since the case ended?",
+          "requirement": "required"
+        },
+        {
+          "key": "circumstancesAtOffence",
+          "question": "In your own words, what were the circumstances at the time?",
+          "requirement": "required"
+        },
+        {
+          "key": "reasonsForDisposition",
+          "question": "As far as you know, why was the case dismissed or nolle prossed?",
+          "requirement": "required"
+        },
+        {
+          "key": "nearlyEligibleForAdminSealing",
+          "question": "Is your case nearly old enough for the ministerial Probation sealing route instead?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "TC0057 signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The nine narrative answers",
+          "whereInPacket": "TC0057 page 2",
+          "why": "Participant-authored through structured prompts. LegalEase formats the participant's own facts and does not compose the good-cause showing."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature — TC0057 signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The nine narrative answers — TC0057 page 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the court's practice on the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File TC0057 at the clerk's office of the court identified by the venue rule. Use a separate form for each case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature — TC0057 signature block.",
+        "The nine narrative answers — TC0057 page 2.",
+        "Required.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-time",
+      "componentId": "ma-expunge-time-primary-filing-1",
+      "officialFormId": "Massachusetts Probation Service Petition to Expunge",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
+      "generationRequirements": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "allOffencesBefore21",
+          "question": "Did every offence on your whole record happen before your 21st birthday?",
+          "requirement": "required"
+        },
+        {
+          "key": "totalRecordCount",
+          "question": "How many separate records do you have, counting offences from one incident as one?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyFelony",
+          "question": "Does any record involve a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "custodyCompletionDate",
+          "question": "When did you complete any incarceration, custody or probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "section100JCategories",
+          "question": "Did any offence involve death or serious bodily injury, intent to cause it, a dangerous weapon, an elderly or disabled person, a sex offence, OUI, firearms, an abuse or harassment prevention order violation, or domestic assault and battery?",
+          "requirement": "required"
+        },
+        {
+          "key": "activeInvestigation",
+          "question": "Are you currently the subject of an active criminal investigation?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherJurisdictionRecords",
+          "question": "Do you have any out-of-state, United States possession or federal appearances or dispositions?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why would expungement be in the best interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and certification",
+          "whereInPacket": "Petition to Expunge signature block",
+          "why": "The participant certifies they are not the subject of an active criminal investigation and signs their own petition."
+        },
+        {
+          "item": "Best-interests narrative",
+          "whereInPacket": "Petition narrative",
+          "why": "Participant-authored through structured prompts."
+        },
+        {
+          "item": "Commissioner's eligibility certification",
+          "whereInPacket": "Agency section",
+          "why": "Agency-completed. The Commissioner certifies eligibility under §§ 100I and 100J; LegalEase leaves it blank."
+        },
+        {
+          "item": "The Commissioner's eligibility certification is agency-completed and is left blank.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature and certification — Petition to Expunge signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Best-interests narrative — Petition narrative.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Commissioner's eligibility certification — Agency section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, with certification as to active investigation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the statute and the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the Petition to Expunge to the Commissioner of Probation. The court determination follows certification.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature and certification — Petition to Expunge signature block.",
+        "Best-interests narrative — Petition narrative.",
+        "Commissioner's eligibility certification — Agency section.",
+        "Required, with certification as to active investigation.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-k",
+      "componentId": "ma-expunge-k-primary-filing-1",
+      "officialFormId": "Petition for Expungement, G.L. c. 276, § 100K",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+      "generationRequirements": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "groundSelected",
+          "question": "Which applies: false identification or identity theft; the offence is no longer a crime; a demonstrable error by law enforcement; by a civilian or expert witness; by a court employee; or fraud on the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "howRecordCameToExist",
+          "question": "In your own words, describe specifically how this record came to exist.",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsHearing",
+          "question": "Do you want to request a hearing?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffence",
+          "question": "Was the charge a marijuana offence?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "Petition signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The 'Specifically' narrative",
+          "whereInPacket": "Petition narrative section",
+          "why": "Participant-authored through structured prompts. The clear and convincing showing about how the record came to exist is the participant's own account."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature — Petition signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The 'Specifically' narrative — Petition narrative section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the form's service block.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the clerk's office in the court where the case was heard. Include all charges connected to the case and file separate petitions for different cases.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature — Petition signature block.",
+        "The 'Specifically' narrative — Petition narrative section.",
+        "Required.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-mj",
+      "componentId": "ma-expunge-mj-primary-filing-1",
+      "officialFormId": "TC0021",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+      "generationRequirements": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffenceCategory",
+          "question": "Was the charge possession or cultivation, possession with intent to distribute, or distribution?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargedAmount",
+          "question": "What amount was charged, as stated on the complaint?",
+          "requirement": "required"
+        },
+        {
+          "key": "nonMarijuanaCharges",
+          "question": "Did the case include any charges that were not marijuana charges?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "TC0021 signature block",
+          "why": "The participant signs their own petition."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The complaint or charging document showing the charged amount. Ask the clerk for a copy of the complaint. The eligibility question turns on the charged amount, which the CORI does not show.",
+          "obtainedFrom": "Clerk's office of the court connected to the record",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What amount was charged, as stated on the complaint?\" against The complaint or charging document showing the charged amount, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature — TC0021 signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File TC0021 in the court connected to the record.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Obtain The complaint or charging document showing the charged amount. Ask the clerk for a copy of the complaint. The eligibility question turns on the charged amount, which the CORI does not show.",
+        "Check your answer to \"What amount was charged, as stated on the complaint?\" against The complaint or charging document showing the charged amount, and correct the packet if they disagree.",
+        "Petitioner signature — TC0021 signature block.",
+        "Required.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
       "jurisdiction": "MD",
       "trackId": "md_10105_favorable",
       "componentId": "md_10105_favorable-primary-filing-1",
@@ -47443,6 +48572,287 @@
       "unavailableReason": null
     },
     {
+      "jurisdiction": "MA",
+      "trackId": "ma-autoseal",
+      "destination": {
+        "kind": "automatic",
+        "name": "Office of the Commissioner of Probation",
+        "detail": "The Commissioner seals by operation of law. For records entered on or after March 11, 2024 the sealing happens automatically; for older records the correct action is a request to OCP that the statutory duty be carried out."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "None.",
+        "service": "No service.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "disposition",
+          "question": "Did the case end in a not guilty finding, a no bill from the grand jury, or a finding of no probable cause?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was that entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "mixedCase",
+          "question": "Did some counts end differently, for example in a dismissal, nolle prosequi or conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the record still appear on your CORI?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+        "Never generate a § 100C ¶2 court petition for a not guilty finding. That wastes a filing and a hearing on relief the participant already has.",
+        "Where the record was entered before March 11, 2024 and still appears, the correct action is a written request to OCP that the statutory duty be carried out, which is correspondence rather than a pleading."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the record still appear on your CORI?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+        "Check your answer to \"Does the record still appear on your CORI?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "The record was entered before March 11, 2024 and still appears, where the correct action is a request to OCP rather than a petition.",
+        "The case is mixed, with some counts reachable here and others not."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-time",
+      "destination": {
+        "kind": "agency",
+        "name": "Commissioner of Probation, then the court",
+        "detail": "Certificate-dependent at stage 1, prosecutor-noticed and court-controlled at stage 2."
+      },
+      "rules": {
+        "filing": "Submit the Petition to Expunge to the Commissioner of Probation. The court determination follows certification.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "The district attorney receives notice and may object. Petition materials are confidential under § 100N.",
+        "service": "Per the statute and the form.",
+        "participantSignature": "Required, with certification as to active investigation.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "allOffencesBefore21",
+          "question": "Did every offence on your whole record happen before your 21st birthday?",
+          "requirement": "required"
+        },
+        {
+          "key": "totalRecordCount",
+          "question": "How many separate records do you have, counting offences from one incident as one?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyFelony",
+          "question": "Does any record involve a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "custodyCompletionDate",
+          "question": "When did you complete any incarceration, custody or probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "section100JCategories",
+          "question": "Did any offence involve death or serious bodily injury, intent to cause it, a dangerous weapon, an elderly or disabled person, a sex offence, OUI, firearms, an abuse or harassment prevention order violation, or domestic assault and battery?",
+          "requirement": "required"
+        },
+        {
+          "key": "activeInvestigation",
+          "question": "Are you currently the subject of an active criminal investigation?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherJurisdictionRecords",
+          "question": "Do you have any out-of-state, United States possession or federal appearances or dispositions?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why would expungement be in the best interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature and certification — Petition to Expunge signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Best-interests narrative — Petition narrative.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Commissioner's eligibility certification — Agency section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, with certification as to active investigation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified in the review.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the statute and the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Submit the Petition to Expunge to the Commissioner of Probation. The court determination follows certification.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the docket number?\" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.",
+        "Petitioner signature and certification — Petition to Expunge signature block.",
+        "Best-interests narrative — Petition narrative.",
+        "Commissioner's eligibility certification — Agency section.",
+        "Required, with certification as to active investigation.",
+        "None identified in the review.",
+        "None identified."
+      ],
+      "stopConditions": [
+        "Any offence may fall on the § 100J list, several entries of which turn on facts rather than charge titles.",
+        "Whether every offence occurred before the 21st birthday is unclear.",
+        "Whether offences arose from a single incident for counting purposes is unclear.",
+        "The district attorney objects.",
+        "The court sets a hearing on the best interests of justice.",
+        "The district attorney's objection and the court's best-interests determination follow certification. Hand off when an objection is actually filed."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": "ma-expunge-time-court-determination",
+      "unitLabel": "District attorney notice and court determination",
+      "unitDescription": "After certification the district attorney receives notice and may object, and the court grants or denies on the best interests of justice. The review identifies no separate participant-facing filing at this stage, so the output is instruction on the objection window, the hearing and what to expect, not a second packet.",
+      "compositionMode": "sequential",
+      "unitAvailable": true,
+      "unavailableReason": null
+    },
+    {
       "jurisdiction": "MD",
       "trackId": "md_10105_1_automatic",
       "destination": {
@@ -50659,6 +52069,123 @@
       "requiredBeforeFiling": false,
       "howToObtain": "Ask the clerk whether the court entered an order under I.C. 34-28-5-15 in the cause.",
       "confirms": "courtAlreadyOrdered",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-admin",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+      "confirms": "allDispositions",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-decrim",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+      "confirms": "offenceCharged",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-autoseal",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+      "confirms": "recordStillAppears",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-seal-court",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "caseNumber",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-time",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "caseNumber",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-k",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "caseNumber",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-mj",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "caseNumber",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-expunge-mj",
+      "name": "The complaint or charging document showing the charged amount",
+      "obtainedFrom": "Clerk's office of the court connected to the record",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a copy of the complaint. The eligibility question turns on the charged amount, which the CORI does not show.",
+      "confirms": "chargedAmount",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MA",
+      "trackId": "ma-bmc-multi",
+      "name": "Your own CORI from the Department of Criminal Justice Information Services",
+      "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "bmcRecords",
       "collectedByLegalEase": false,
       "inspectedByLegalEase": false,
       "blocksGeneration": false
