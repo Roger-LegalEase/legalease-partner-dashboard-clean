@@ -44569,6 +44569,1152 @@
         "Not applicable while no fee is identified."
       ],
       "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_application",
+      "componentId": "mi_setaside_application-primary-filing-1",
+      "officialFormId": "MC 227",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Michigan/mc227.pdf",
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction, and is it a district or circuit court?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge, as the court records it?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsInOtherCourts",
+          "question": "Do you have convictions in any other Michigan court?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceMilestones",
+          "question": "When were you sentenced, and when did you complete probation, parole or imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsDuringPeriod",
+          "question": "Have you been convicted of any criminal offence during the waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "completedDeferrals",
+          "question": "Have you ever had a case deferred and dismissed, for example under 7411, HYTA, 769.4a, drug court or DWI court?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSetAsideApplications",
+          "question": "Have you applied for a set-aside before, and was it granted?",
+          "requirement": "required"
+        },
+        {
+          "key": "assaultiveOrSeriousMisdemeanour",
+          "question": "Was any conviction an assaultive crime or a serious misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameTransaction24Hours",
+          "question": "Did any of the convictions arise from the same incident within a 24-hour period?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification, subscribed and sworn before a deputy clerk or notary",
+          "whereInPacket": "MC 227 verification block",
+          "why": "MCL 780.621d(7) requires the application to be signed under oath. The participant swears it themselves."
+        },
+        {
+          "item": "Proof of Service",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Signed by the participant under penalty of perjury after mailing to MSP, the Attorney General and the prosecuting official."
+        },
+        {
+          "item": "Notice of Hearing",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Completed by the clerk if a hearing date is set at filing, which depends on local practice."
+        },
+        {
+          "item": "Assaultive-crime and serious-misdemeanour characterisation",
+          "whereInPacket": "Eligibility screening",
+          "why": "Whether an offence is an assaultive crime under MCL 780.621(4)(a) or a serious misdemeanour under MCL 780.811 is a legal judgment the review bars from automation."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+          "obtainedFrom": "A local law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Proof of Service — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of Hearing — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+        "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+        "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+        "Proof of Service — MC 227 page 3.",
+        "Notice of Hearing — MC 227 page 3.",
+        "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_application",
+      "componentId": "mi_setaside_application-certificate-of-service-2",
+      "officialFormId": "MC 227 page 3 Proof of Service",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction, and is it a district or circuit court?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge, as the court records it?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsInOtherCourts",
+          "question": "Do you have convictions in any other Michigan court?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceMilestones",
+          "question": "When were you sentenced, and when did you complete probation, parole or imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsDuringPeriod",
+          "question": "Have you been convicted of any criminal offence during the waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "completedDeferrals",
+          "question": "Have you ever had a case deferred and dismissed, for example under 7411, HYTA, 769.4a, drug court or DWI court?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSetAsideApplications",
+          "question": "Have you applied for a set-aside before, and was it granted?",
+          "requirement": "required"
+        },
+        {
+          "key": "assaultiveOrSeriousMisdemeanour",
+          "question": "Was any conviction an assaultive crime or a serious misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameTransaction24Hours",
+          "question": "Did any of the convictions arise from the same incident within a 24-hour period?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification, subscribed and sworn before a deputy clerk or notary",
+          "whereInPacket": "MC 227 verification block",
+          "why": "MCL 780.621d(7) requires the application to be signed under oath. The participant swears it themselves."
+        },
+        {
+          "item": "Proof of Service",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Signed by the participant under penalty of perjury after mailing to MSP, the Attorney General and the prosecuting official."
+        },
+        {
+          "item": "Notice of Hearing",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Completed by the clerk if a hearing date is set at filing, which depends on local practice."
+        },
+        {
+          "item": "Assaultive-crime and serious-misdemeanour characterisation",
+          "whereInPacket": "Eligibility screening",
+          "why": "Whether an offence is an assaultive crime under MCL 780.621(4)(a) or a serious misdemeanour under MCL 780.811 is a legal judgment the review bars from automation."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+          "obtainedFrom": "A local law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Proof of Service — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of Hearing — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+        "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+        "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+        "Proof of Service — MC 227 page 3.",
+        "Notice of Hearing — MC 227 page 3.",
+        "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_marihuana",
+      "componentId": "mi_setaside_marihuana-primary-filing-1",
+      "officialFormId": "MC 227a",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Michigan/forms/MC-227a__application-to-set-aside-misdemeanor-marihuana-convictions__rev-2024-07.pdf",
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "marihuanaStatuteSection",
+          "question": "Was the conviction under MCL 333.7403(2)(d), MCL 333.7404(2)(d), MCL 333.7453 or a matching local ordinance?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentAddress",
+          "question": "What is your current address?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAgency",
+          "question": "Which agency prosecuted the offence?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Applicant signature",
+          "whereInPacket": "MC 227a signature block",
+          "why": "The participant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Applicant signature — MC 227a signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not required by MCL 780.621e.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "MCL 780.621e imposes no fee and no fingerprint requirement. Confirm against the current MC 227a form and with MSP before quoting $0.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "On the prosecuting agency that prosecuted the offence.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File MC 227a in the convicting court and serve the prosecuting agency that prosecuted the offence. Do not serve the Attorney General.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Applicant signature — MC 227a signature block.",
+        "Required.",
+        "Not required by MCL 780.621e.",
+        "MCL 780.621e imposes no fee and no fingerprint requirement. Confirm against the current MC 227a form and with MSP before quoting $0.",
+        "Not applicable while no fee is identified."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_first_owi",
+      "componentId": "mi_setaside_first_owi-primary-filing-1",
+      "officialFormId": "MC 227 item 2.c",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Michigan/mc227.pdf",
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction, and is it a district or circuit court?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge, as the court records it?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsInOtherCourts",
+          "question": "Do you have convictions in any other Michigan court?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceMilestones",
+          "question": "When were you sentenced, and when did you complete probation, parole or imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsDuringPeriod",
+          "question": "Have you been convicted of any criminal offence during the waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "completedDeferrals",
+          "question": "Have you ever had a case deferred and dismissed, for example under 7411, HYTA, 769.4a, drug court or DWI court?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSetAsideApplications",
+          "question": "Have you applied for a set-aside before, and was it granted?",
+          "requirement": "required"
+        },
+        {
+          "key": "assaultiveOrSeriousMisdemeanour",
+          "question": "Was any conviction an assaultive crime or a serious misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameTransaction24Hours",
+          "question": "Did any of the convictions arise from the same incident within a 24-hour period?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorOwiAtTimeOfViolation",
+          "question": "At the time of this offence, had you ever been convicted under MCL 257.625 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFirstOwiSetAside",
+          "question": "Have you previously applied for and received a set-aside of a first-violation operating-while-intoxicated conviction?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification, subscribed and sworn before a deputy clerk or notary",
+          "whereInPacket": "MC 227 verification block",
+          "why": "MCL 780.621d(7) requires the application to be signed under oath. The participant swears it themselves."
+        },
+        {
+          "item": "Proof of Service",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Signed by the participant under penalty of perjury after mailing to MSP, the Attorney General and the prosecuting official."
+        },
+        {
+          "item": "Notice of Hearing",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Completed by the clerk if a hearing date is set at filing, which depends on local practice."
+        },
+        {
+          "item": "Assaultive-crime and serious-misdemeanour characterisation",
+          "whereInPacket": "Eligibility screening",
+          "why": "Whether an offence is an assaultive crime under MCL 780.621(4)(a) or a serious misdemeanour under MCL 780.811 is a legal judgment the review bars from automation."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+          "obtainedFrom": "A local law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Proof of Service — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of Hearing — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+        "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+        "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+        "Proof of Service — MC 227 page 3.",
+        "Notice of Hearing — MC 227 page 3.",
+        "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_first_owi",
+      "componentId": "mi_setaside_first_owi-certificate-of-service-2",
+      "officialFormId": "MC 227 page 3 Proof of Service",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction, and is it a district or circuit court?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge, as the court records it?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsInOtherCourts",
+          "question": "Do you have convictions in any other Michigan court?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceMilestones",
+          "question": "When were you sentenced, and when did you complete probation, parole or imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsDuringPeriod",
+          "question": "Have you been convicted of any criminal offence during the waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "completedDeferrals",
+          "question": "Have you ever had a case deferred and dismissed, for example under 7411, HYTA, 769.4a, drug court or DWI court?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSetAsideApplications",
+          "question": "Have you applied for a set-aside before, and was it granted?",
+          "requirement": "required"
+        },
+        {
+          "key": "assaultiveOrSeriousMisdemeanour",
+          "question": "Was any conviction an assaultive crime or a serious misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameTransaction24Hours",
+          "question": "Did any of the convictions arise from the same incident within a 24-hour period?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorOwiAtTimeOfViolation",
+          "question": "At the time of this offence, had you ever been convicted under MCL 257.625 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFirstOwiSetAside",
+          "question": "Have you previously applied for and received a set-aside of a first-violation operating-while-intoxicated conviction?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification, subscribed and sworn before a deputy clerk or notary",
+          "whereInPacket": "MC 227 verification block",
+          "why": "MCL 780.621d(7) requires the application to be signed under oath. The participant swears it themselves."
+        },
+        {
+          "item": "Proof of Service",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Signed by the participant under penalty of perjury after mailing to MSP, the Attorney General and the prosecuting official."
+        },
+        {
+          "item": "Notice of Hearing",
+          "whereInPacket": "MC 227 page 3",
+          "why": "Completed by the clerk if a hearing date is set at filing, which depends on local practice."
+        },
+        {
+          "item": "Assaultive-crime and serious-misdemeanour characterisation",
+          "whereInPacket": "Eligibility screening",
+          "why": "Whether an offence is an assaultive crime under MCL 780.621(4)(a) or a serious misdemeanour under MCL 780.811 is a legal judgment the review bars from automation."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+          "obtainedFrom": "A local law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Proof of Service — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice of Hearing — MC 227 page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge, as the court records it?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+        "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
+        "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
+        "Proof of Service — MC 227 page 3.",
+        "Notice of Hearing — MC 227 page 3.",
+        "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_trafficking",
+      "componentId": "mi_setaside_trafficking-primary-filing-1",
+      "officialFormId": "MC 227b",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Michigan/forms/MC-227b__application-by-human-trafficking-victim-to-set-aside-convictions__rev-2024-07.pdf",
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "traffickingStatuteSection",
+          "question": "Was the conviction under MCL 750.448, 750.449 or 750.450, or a matching local ordinance?",
+          "requirement": "required"
+        },
+        {
+          "key": "traffickingFactsStatement",
+          "question": "In your own words, describe the facts you want the court to consider about how this conviction came about.",
+          "requirement": "required"
+        },
+        {
+          "key": "wantsAdvocateReview",
+          "question": "Would you like information about attorneys and advocates who review trafficking-related statements before filing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Applicant signature",
+          "whereInPacket": "MC 227b signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Statement of the facts supporting the trafficking contention",
+          "whereInPacket": "MC 227b factual statement",
+          "why": "Participant-authored through structured prompts. MCL 780.621d(7)(g) requires the statement; LegalEase formats the participant's own words and never composes the nexus or the burden-of-proof argument."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Applicant signature — MC 227b signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of the facts supporting the trafficking contention — MC 227b factual statement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Applicant signature — MC 227b signature block.",
+        "Statement of the facts supporting the trafficking contention — MC 227b factual statement.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_trafficking",
+      "componentId": "mi_setaside_trafficking-certificate-of-service-2",
+      "officialFormId": "Proof of Service",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "convictingCourt",
+          "question": "Which Michigan court entered the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDateAndCharge",
+          "question": "What is the exact conviction date and charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "traffickingStatuteSection",
+          "question": "Was the conviction under MCL 750.448, 750.449 or 750.450, or a matching local ordinance?",
+          "requirement": "required"
+        },
+        {
+          "key": "traffickingFactsStatement",
+          "question": "In your own words, describe the facts you want the court to consider about how this conviction came about.",
+          "requirement": "required"
+        },
+        {
+          "key": "wantsAdvocateReview",
+          "question": "Would you like information about attorneys and advocates who review trafficking-related statements before filing?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Applicant signature",
+          "whereInPacket": "MC 227b signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Statement of the facts supporting the trafficking contention",
+          "whereInPacket": "MC 227b factual statement",
+          "why": "Participant-authored through structured prompts. MCL 780.621d(7)(g) requires the statement; LegalEase formats the participant's own words and never composes the nexus or the burden-of-proof argument."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Applicant signature — MC 227b signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of the facts supporting the trafficking contention — MC 227b factual statement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required. Subscribed and sworn before a deputy clerk or notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required, unless sworn before a deputy court clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None found in MCL 780.621d(9). Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The participant serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the convicting court. A separate application is required for each court; convictions may be combined on one application only if all are in the same court. Make five copies of the application and all attachments and take them to the clerk. Then mail the packet, fee and fingerprint card to Michigan State Police, Criminal Justice Information Center, Criminal History, PO Box 30266, Lansing MI 48909; a copy to the Office of the Attorney General, Assistance with Convictions and Expungements Division, PO Box 30212, Lansing MI 48909; and a copy to the correct prosecuting official.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified record of each conviction. Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+        "Check your answer to \"What is the exact conviction date and charge?\" against Certified record of each conviction, and correct the packet if they disagree.",
+        "Applicant signature — MC 227b signature block.",
+        "Statement of the facts supporting the trafficking contention — MC 227b factual statement.",
+        "Required. Subscribed and sworn before a deputy clerk or notary.",
+        "Required, unless sworn before a deputy court clerk.",
+        "$50 to the State of Michigan, sent to Michigan State Police. A fee may also apply for certified conviction records and for fingerprinting.",
+        "None found in MCL 780.621d(9). Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
     }
   ],
   "processGuidanceSpecs": [
@@ -49252,6 +50398,750 @@
       "unitId": null,
       "compositionMode": null,
       "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_csc4_pre2015",
+      "destination": {
+        "kind": "court",
+        "name": "The convicting court",
+        "detail": "Not offered as a packet. The participant is routed to counsel."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "offenceDate",
+          "question": "On what date was the offence committed?",
+          "requirement": "required"
+        },
+        {
+          "key": "isCsc4",
+          "question": "Was the conviction under MCL 750.520e, fourth-degree criminal sexual conduct?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherConvictions",
+          "question": "Have you been convicted of any other offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sorRegistration",
+          "question": "Are you currently required to register under SORA?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "State that SORA registration and reporting obligations continue regardless of the outcome of a set-aside."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "The route is outside current product scope: route to counsel in every case.",
+        "SORA obligations continue regardless of outcome and need legal advice.",
+        "Whether the bespoke prior-record test is met, including the age-at-offence element, is a legal judgment."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_felony",
+      "destination": {
+        "kind": "automatic",
+        "name": "By operation of law",
+        "detail": "No application and no court order. MCL 780.621g(5) sets a combined lifetime limit of not more than 2 felonies and 4 qualifying misdemeanours."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionType",
+          "question": "Was the conviction a felony, a misdemeanour punishable by 93 days or more, or a misdemeanour punishable by 92 days or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceImpositionDate",
+          "question": "When was sentence imposed, and when did you complete any term of imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsSince",
+          "question": "Have you been convicted of any criminal offence since?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedCategory",
+          "question": "Was the offence assaultive, a serious misdemeanour, a crime of dishonesty, punishable by 10 or more years, involving a minor, vulnerable adult, injury, serious impairment or death, human trafficking, or a traffic offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any court-ordered restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "checkedRecord",
+          "question": "Have you checked your criminal history to see whether the conviction has already been set aside?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "Explain reversibility under MCL 780.621h: the court must reinstate on its own motion if the conviction was not eligible, and must reinstate on the motion of a person owed restitution, or on its own motion, where the individual has not made a good-faith effort to pay ordered restitution.",
+        "Where an eligible conviction has not been set aside, route the participant to the application-based set-aside track. No participant-facing mechanism has been identified for compelling automatic relief, and none is invented.",
+        "Explain the cap: MCL 780.621g(5) sets a combined lifetime limit of not more than two felonies and four qualifying misdemeanours."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "An eligible conviction has not been set aside, in which case route to the application-based set-aside track.",
+        "The court reinstates a conviction under MCL 780.621h.",
+        "Court-ordered restitution is unpaid, which is a ground for reinstatement."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd93",
+      "destination": {
+        "kind": "agency",
+        "name": "Michigan State Police",
+        "detail": "MSP performs the set-aside. No application and no court order."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionType",
+          "question": "Was the conviction a felony, a misdemeanour punishable by 93 days or more, or a misdemeanour punishable by 92 days or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceImpositionDate",
+          "question": "When was sentence imposed, and when did you complete any term of imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsSince",
+          "question": "Have you been convicted of any criminal offence since?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedCategory",
+          "question": "Was the offence assaultive, a serious misdemeanour, a crime of dishonesty, punishable by 10 or more years, involving a minor, vulnerable adult, injury, serious impairment or death, human trafficking, or a traffic offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any court-ordered restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "checkedRecord",
+          "question": "Have you checked your criminal history to see whether the conviction has already been set aside?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "Explain reversibility under MCL 780.621h: the court must reinstate on its own motion if the conviction was not eligible, and must reinstate on the motion of a person owed restitution, or on its own motion, where the individual has not made a good-faith effort to pay ordered restitution.",
+        "Where an eligible conviction has not been set aside, route the participant to the application-based set-aside track. No participant-facing mechanism has been identified for compelling automatic relief, and none is invented.",
+        "Explain the shared cap: not more than four such misdemeanours, within a combined lifetime limit of two felonies and four misdemeanours under MCL 780.621g(5)."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "An eligible conviction has not been set aside, in which case route to the application-based set-aside track.",
+        "The court reinstates a conviction under MCL 780.621h.",
+        "Court-ordered restitution is unpaid, which is a ground for reinstatement."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "destination": {
+        "kind": "automatic",
+        "name": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+        "detail": "Different actor depending on where the record lives. No application and no court order."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionType",
+          "question": "Was the conviction a felony, a misdemeanour punishable by 93 days or more, or a misdemeanour punishable by 92 days or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceImpositionDate",
+          "question": "When was sentence imposed, and when did you complete any term of imprisonment?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsSince",
+          "question": "Have you been convicted of any criminal offence since?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedCategory",
+          "question": "Was the offence assaultive, a serious misdemeanour, a crime of dishonesty, punishable by 10 or more years, involving a minor, vulnerable adult, injury, serious impairment or death, human trafficking, or a traffic offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any court-ordered restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "checkedRecord",
+          "question": "Have you checked your criminal history to see whether the conviction has already been set aside?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "Explain reversibility under MCL 780.621h: the court must reinstate on its own motion if the conviction was not eligible, and must reinstate on the motion of a person owed restitution, or on its own motion, where the individual has not made a good-faith effort to pay ordered restitution.",
+        "Where an eligible conviction has not been set aside, route the participant to the application-based set-aside track. No participant-facing mechanism has been identified for compelling automatic relief, and none is invented.",
+        "Where the participant's only record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, checking ICHAT proves nothing. Tell them to check with the convicting court. A blanket instruction to lead with the MSP Clean Slate check is wrong for this population.",
+        "This route has no numerical limit, unlike the felony and 93-day misdemeanour routes."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you checked your criminal history to see whether the conviction has already been set aside?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "An eligible conviction has not been set aside, in which case route to the application-based set-aside track.",
+        "The court reinstates a conviction under MCL 780.621h.",
+        "Court-ordered restitution is unpaid, which is a ground for reinstatement."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_no_charge",
+      "destination": {
+        "kind": "agency",
+        "name": "The official holding the biometric data and arrest card",
+        "detail": "Destruction is by the holding official, with written notice to Michigan State Police if the data had already been forwarded. No application."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "wasFingerprinted",
+          "question": "Were you fingerprinted when you were arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "releasedWithoutCharge",
+          "question": "Were you released without being charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested you?",
+          "requirement": "required"
+        },
+        {
+          "key": "dataStillAppears",
+          "question": "Does the arrest still appear on your criminal history?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "This is arrest-only relief. It reaches biometric data and the arrest card, not a conviction record.",
+        "Where the data still appears, raise it with the arresting agency holding the record. No participant-facing application form exists and none is invented."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the arrest still appear on your criminal history?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the arrest still appear on your criminal history?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "The biometric data or arrest card still appears after release without charge, which must be raised with the holding agency.",
+        "A charge was in fact filed, which routes to the acquittal-or-dismissal destruction rule instead."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "destination": {
+        "kind": "court",
+        "name": "The court entering the order, then Michigan State Police",
+        "detail": "MC 262 is a court order rather than a participant filing. The clerk advises the MSP Criminal Justice Information Center of the disposition; MSP acts on receipt of an appropriate district or circuit court order."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "dispositionType",
+          "question": "Did the case end in an acquittal or a dismissal?",
+          "requirement": "required"
+        },
+        {
+          "key": "orderDate",
+          "question": "On what date was the order of acquittal or dismissal entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorNonTrafficConviction",
+          "question": "Do you have any prior conviction other than a misdemeanour traffic offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "arraignedEnumeratedOffence",
+          "question": "Were you arraigned for an offence involving a child under 16, or another enumerated offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "dataStillAppears",
+          "question": "Do the fingerprints or arrest still appear on your criminal history?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "Help the participant confirm from the disposition order whether destruction was triggered, and identify when to ask the court or Michigan State Police for a records correction. Corrections must be raised with the agency that reported the information."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Do the fingerprints or arrest still appear on your criminal history?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The court's order of acquittal or dismissal. Ask the clerk for a copy of the disposition order. MC 262 carries the destruction notice on its face, which is how the participant confirms whether destruction was triggered.",
+          "obtainedFrom": "Clerk of the court that entered the order",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the order of acquittal or dismissal entered?\" against The court's order of acquittal or dismissal, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Do the fingerprints or arrest still appear on your criminal history?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "Check your answer to \"On what date was the order of acquittal or dismissal entered?\" against The court's order of acquittal or dismissal, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "The participant has a prior conviction other than a misdemeanour traffic offence, which defeats automatic destruction under MCL 28.243(14).",
+        "The prosecutor or judge objects within 60 days of a dismissal order.",
+        "The data still appears after 60 days and a records correction must be raised with the court or Michigan State Police."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_deferral_status",
+      "destination": {
+        "kind": "court",
+        "name": "Not applicable",
+        "detail": "No relief is granted by this node. It routes the participant to the correct mechanism and drives eligibility counting on the application routes."
+      },
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is no application to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "deferralStatute",
+          "question": "Under which law was your case deferred, for example 7411, HYTA, 769.4a, drug court, DWI court or liquor control?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferralCompleted",
+          "question": "Did you complete the deferral and was the case dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestRecordExists",
+          "question": "Does an arrest record from that case still exist?",
+          "requirement": "required"
+        },
+        {
+          "key": "seekingSetAsideElsewhere",
+          "question": "Are you also seeking to set aside a different conviction?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Michigan says set aside, not expunge. Do not use expungement in generated documents.",
+        "Route the arrest record to the biometric-destruction routes. The set-aside act does not reach it.",
+        "Surface item 5 on the application as a required disclosure. MCL 780.621d(7)(d) requires every deferred-and-dismissed action to be listed, and omitting it makes the application facially deficient."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Michigan criminal history record. Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+          "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does an arrest record from that case still exist?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no application to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does an arrest record from that case still exist?\" against Your own Michigan criminal history record, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "Whether a prior deferred-and-dismissed disposition falls within MCL 780.621(2), including the catch-all at (2)(f), is unclear.",
+        "An arrest record from the deferred case still exists, which routes to the biometric-destruction tracks.",
+        "The participant is uncertain which deferral statute applied, which changes the eligibility counting."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     }
   ],
   "participantFilingRequirements": [
@@ -52291,6 +54181,175 @@
       "requiredBeforeFiling": false,
       "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
       "confirms": "caseNumber",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_application",
+      "name": "Certified record of each conviction",
+      "obtainedFrom": "Clerk of the convicting court",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+      "confirms": "convictionDateAndCharge",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_application",
+      "name": "Applicant fingerprint card RI-008",
+      "obtainedFrom": "A local law enforcement agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+      "confirms": "convictingCourt",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_marihuana",
+      "name": "Certified record of each conviction",
+      "obtainedFrom": "Clerk of the convicting court",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+      "confirms": "convictionDateAndCharge",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_first_owi",
+      "name": "Certified record of each conviction",
+      "obtainedFrom": "Clerk of the convicting court",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+      "confirms": "convictionDateAndCharge",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_first_owi",
+      "name": "Applicant fingerprint card RI-008",
+      "obtainedFrom": "A local law enforcement agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
+      "confirms": "convictingCourt",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_trafficking",
+      "name": "Certified record of each conviction",
+      "obtainedFrom": "Clerk of the convicting court",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the convicting court clerk for a certified copy of each conviction and the exact conviction date and charge. A fee may apply. MCL 780.621d(7)(b) requires it.",
+      "confirms": "convictionDateAndCharge",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_felony",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "checkedRecord",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd93",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "checkedRecord",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "checkedRecord",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_no_charge",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "dataStillAppears",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "dataStillAppears",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "name": "The court's order of acquittal or dismissal",
+      "obtainedFrom": "Clerk of the court that entered the order",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Ask the clerk for a copy of the disposition order. MC 262 carries the destruction notice on its face, which is how the participant confirms whether destruction was triggered.",
+      "confirms": "orderDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_deferral_status",
+      "name": "Your own Michigan criminal history record",
+      "obtainedFrom": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Check your Michigan State Police criminal history. Where the record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, an ICHAT check proves nothing and you must ask the convicting court instead.",
+      "confirms": "arrestRecordExists",
       "collectedByLegalEase": false,
       "inspectedByLegalEase": false,
       "blocksGeneration": false

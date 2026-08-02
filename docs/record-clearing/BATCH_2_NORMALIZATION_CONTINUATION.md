@@ -250,6 +250,43 @@ Two corrections to the source review, recorded with provenance:
 seals by operation of law and the sole participant-facing form, OCPS004, exists
 only to **decline** the relief.
 
+## Michigan — done
+
+`data/record-clearing/legal-design-intake/MI.memo.json`
+
+11 source slots → **11 nodes**: 10 `relief_track` + 1 `routing_node` (completed
+deferrals, per the adopted memorandum). 0 deferred. Strategies:
+`official_pdf_fill` 4, `process_guidance` 7. **0 build blockers**, 10 release
+blockers across 6 tracks. No composed tracks.
+
+Two corrections to the source review, recorded with provenance:
+
+- **`mi_setaside_trafficking` is packet-capable.** The review classified it
+  `process_guidance` with attorney handoff; the adopted memorandum controls and
+  directs `official_pdf_fill` on MC 227b. LegalEase completes neutral
+  identifiers, conviction data and contact information and formats the
+  participant's own factual statement; attorney review is a *packet instruction*
+  that expressly creates no upload, staff-review, proof-of-review or generation
+  gate.
+- **Four "missing" forms are already in the corpus.** The review's section 2.8
+  lists MC 227a, MC 227b, MC 228 and MC 262 as missing and marks their currency
+  a **build blocker** (open question 8). The Batch 2 import supplied all four —
+  MC 227a and MC 227b at rev 07/2024, MC 228 at rev 03/2023, MC 262 at rev
+  06/2019. This unblocks the marihuana route, which the review calls "the single
+  best relief in Michigan" while noting "we do not have the form." Only RI-008
+  remains unavailable, and that is inherent: it is taken in person.
+
+Seven guidance routes retained, each on a precise ground rather than a
+conclusory one — the three automatic set-aside routes and the two
+biometric-destruction routes have no participant-facing submission at all; the
+pre-2015 CSC-4 route is an express product-scope decision, not a legal gap; and
+the deferral node is a `routing_node` whose court record is already nonpublic.
+
+**No participant-facing MSP record-correction form exists.** The challenge
+process runs by telephone or email to Michigan State Police and corrections must
+be routed to the reporting agency, so no correction packet or supporting-action
+node is asserted.
+
 ## Not started
 
 **B4–B9 legal-design normalization of the remaining eleven jurisdictions.**
@@ -261,7 +298,7 @@ Committed bounded groups (operational only; does not change legal precedence):
 | # | Group | Slots | Status |
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
-| 2 | **Maryland and Massachusetts done**, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | **2 of 4** |
+| 2 | **Maryland, Massachusetts and Michigan done**, Minnesota | 11 + 8 + 11 + 12 = 42 | **3 of 4** |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 

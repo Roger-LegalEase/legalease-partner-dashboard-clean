@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
   "note": "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
-  "candidateCount": 4,
+  "candidateCount": 5,
   "candidates": [
     {
       "jurisdiction": "AK",
@@ -74,6 +74,23 @@
       "participantFilingRequirements": [
         "Judicial Branch case look-up printout"
       ],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_csc4_pre2015",
+      "publicName": "Clearing a fourth-degree criminal sexual conduct conviction from before 2015",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "court",
+        "name": "The convicting court",
+        "detail": "Not offered as a packet. The participant is routed to counsel."
+      },
+      "participantFilingRequirements": [],
       "manualCompletionItems": [],
       "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
       "answer": null
@@ -597,6 +614,115 @@
         "detail": "The District Court may order expungement on the State's nolle prosequi before service. No costs may be assessed against the defendant. Nothing is filed by the participant."
       },
       "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_felony",
+      "publicName": "Felony convictions that clear on their own",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "By operation of law",
+        "detail": "No application and no court order. MCL 780.621g(5) sets a combined lifetime limit of not more than 2 felonies and 4 qualifying misdemeanours."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd93",
+      "publicName": "Higher-level misdemeanours that clear on their own",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "agency",
+        "name": "Michigan State Police",
+        "detail": "MSP performs the set-aside. No application and no court order."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "publicName": "Lower-level misdemeanours that clear on their own",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Michigan State Police, or the convicting court where the record was never fingerprinted to MSP",
+        "detail": "Different actor depending on where the record lives. No application and no court order."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_no_charge",
+      "publicName": "Clearing fingerprints and an arrest card when you were never charged",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "agency",
+        "name": "The official holding the biometric data and arrest card",
+        "detail": "Destruction is by the holding official, with written notice to Michigan State Police if the data had already been forwarded. No application."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "publicName": "Clearing fingerprints and an arrest card after a case ended in your favour",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "court",
+        "name": "The court entering the order, then Michigan State Police",
+        "detail": "MC 262 is a court order rather than a participant filing. The clerk advises the MSP Criminal Justice Information Center of the disposition; MSP acts on receipt of an appropriate district or circuit court order."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record",
+        "The court's order of acquittal or dismissal"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_deferral_status",
+      "publicName": "What a completed deferral means for clearing your record",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "court",
+        "name": "Not applicable",
+        "detail": "No relief is granted by this node. It routes the participant to the correct mechanism and drives eligibility counting on the application routes."
+      },
+      "participantFilingRequirements": [
+        "Your own Michigan criminal history record"
+      ],
       "manualCompletionItems": [],
       "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
     }
